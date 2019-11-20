@@ -1,0 +1,161 @@
+apply plugin: 'kotlin-multiplatform'
+apply plugin: 'kotlinx-serialization'
+
+group '{{groupId}}'
+version '{{artifactVersion}}'
+
+ext {
+    kotlin_version = '1.3.50'
+    kotlinx_version = '1.1.0'
+    coroutines_version = '1.3.1'
+    serialization_version = '0.12.0'
+    ktor_version = '1.2.4'
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50" // $kotlin_version
+        classpath "org.jetbrains.kotlin:kotlin-serialization:1.3.50" // $kotlin_version
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+kotlin {
+    jvm()
+    iosArm64() { binaries { framework { freeCompilerArgs.add("-Xobjc-generics") } } }
+    iosX64() { binaries { framework { freeCompilerArgs.add("-Xobjc-generics") } } }
+    js()
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutines_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization_version"
+                api "io.ktor:ktor-client-core:$ktor_version"
+                api "io.ktor:ktor-client-json:$ktor_version"
+                api "io.ktor:ktor-client-serialization:$ktor_version"
+            }
+        }
+
+        commonTest {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-test-common"
+                implementation "org.jetbrains.kotlin:kotlin-test-annotations-common"
+                implementation "io.ktor:ktor-client-mock:$ktor_version"
+            }
+        }
+
+        jvmMain {
+            dependsOn commonMain
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
+                api "io.ktor:ktor-client-core-jvm:$ktor_version"
+                api "io.ktor:ktor-client-json-jvm:$ktor_version"
+                api "io.ktor:ktor-client-serialization-jvm:$ktor_version"
+            }
+        }
+
+        jvmTest {
+            dependsOn commonTest
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-test"
+                implementation "org.jetbrains.kotlin:kotlin-test-junit"
+                implementation "io.ktor:ktor-client-mock-jvm:$ktor_version"
+            }
+        }
+
+        iosMain {
+            dependsOn commonMain
+            dependencies {
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutines_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serialization_version"
+                api "io.ktor:ktor-client-ios:$ktor_version"
+            }
+        }
+
+        iosTest {
+            dependsOn commonTest
+            dependencies {
+                implementation "io.ktor:ktor-client-mock-native:$ktor_version"
+            }
+        }
+
+        iosArm64().compilations.main.defaultSourceSet {
+            dependsOn iosMain
+            dependencies {
+                api "io.ktor:ktor-client-ios-iosarm64:$ktor_version"
+                api "io.ktor:ktor-client-json-iosarm64:$ktor_version"
+                api "io.ktor:ktor-client-serialization-iosarm64:$ktor_version"
+            }
+        }
+
+        iosArm64().compilations.test.defaultSourceSet {
+            dependsOn iosTest
+        }
+
+        iosX64().compilations.main.defaultSourceSet {
+            dependsOn iosMain
+            dependencies {
+                api "io.ktor:ktor-client-ios-iosx64:$ktor_version"
+                api "io.ktor:ktor-client-json-iosx64:$ktor_version"
+                api "io.ktor:ktor-client-serialization-iosx64:$ktor_version"
+            }
+        }
+
+        jsMain {
+            dependsOn commonMain
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines_version"
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$serialization_version"
+                api "io.ktor:ktor-client-js:$ktor_version"
+                api "io.ktor:ktor-client-json-js:$ktor_version"
+                api "io.ktor:ktor-client-serialization-js:$ktor_version"
+            }
+        }
+
+        jsTest {
+            dependsOn commonTest
+            dependencies {
+                implementation "io.ktor:ktor-client-mock-js:$ktor_version"
+                implementation "io.ktor:ktor-client-js:$ktor_version"
+                implementation "io.ktor:ktor-client-json:$ktor_version"
+                implementation "io.ktor:ktor-client-serialization-js:$ktor_version"
+            }
+        }
+
+        iosX64().compilations.test.defaultSourceSet {
+            dependsOn iosTest
+        }
+
+        all {
+            languageSettings {
+                useExperimentalAnnotation('kotlin.Experimental')
+            }
+        }
+    }
+}
+
+task iosTest {
+    def device = project.findProperty("device")?.toString() ?: "iPhone 8"
+    dependsOn 'linkDebugTestIosX64'
+    group = JavaBasePlugin.VERIFICATION_GROUP
+    description = "Execute unit tests on ${device} simulator"
+    doLast {
+        def binary = kotlin.targets.iosX64.binaries.getTest('DEBUG')
+        exec { commandLine 'xcrun', 'simctl', 'spawn', device, binary.outputFile }
+    }
+}
+
+configurations { // workaround for https://youtrack.jetbrains.com/issue/KT-27170
+    compileClasspath
+}

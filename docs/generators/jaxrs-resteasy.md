@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-jaxrs-resteasy
 title: Config Options for jaxrs-resteasy
 sidebar_label: jaxrs-resteasy
 ---

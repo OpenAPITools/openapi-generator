@@ -1,4 +1,5 @@
 // tslint:disable
+// eslint-disable
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -60,7 +61,7 @@ export class BaseAPI {
             // do not handle correctly sometimes.
             url += '?' + this.configuration.queryParamsStringify(context.query);
         }
-        const body = (context.body instanceof FormData || isBlob(context.body))
+        const body = (context.body instanceof FormData || context.body instanceof URLSearchParams || isBlob(context.body))
 	    ? context.body
 	    : JSON.stringify(context.body);
 
@@ -195,7 +196,7 @@ export type Json = any;
 export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | HTTPQuery };
-export type HTTPBody = Json | FormData;
+export type HTTPBody = Json | FormData | URLSearchParams;
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
 export interface FetchParams {
@@ -240,6 +241,19 @@ export function mapValues(data: any, fn: (item: any) => any) {
     (acc, key) => ({ ...acc, [key]: fn(data[key]) }),
     {}
   );
+}
+
+export function canConsumeForm(consumes: Consume[]): boolean {
+    for (const consume of consumes) {
+        if ('multipart/form-data' === consume.contentType) {
+            return true;
+        }
+    }
+    return false;
+}
+
+export interface Consume {
+    contentType: string
 }
 
 export interface RequestContext {

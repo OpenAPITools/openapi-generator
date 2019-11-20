@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-bash
 title: Config Options for bash
 sidebar_label: bash
 ---

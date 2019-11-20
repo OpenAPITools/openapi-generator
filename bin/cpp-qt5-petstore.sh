@@ -27,6 +27,10 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/cpp-qt5-client -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g cpp-qt5-client -o samples/client/petstore/cpp-qt5 $@"
+args="generate -t modules/openapi-generator/src/main/resources/cpp-qt5-client \
+      -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
+      -g cpp-qt5-client \
+      -c bin/cpp-qt5-petstore.json \
+      $@"
 
-java $JAVA_OPTS -jar $executable $ags
+java $JAVA_OPTS -jar $executable $args

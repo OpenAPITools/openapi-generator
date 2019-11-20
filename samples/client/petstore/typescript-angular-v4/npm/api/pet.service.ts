@@ -26,6 +26,7 @@ import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables'
 import { Configuration }                                     from '../configuration';
 
 
+
 @Injectable()
 export class PetService {
 
@@ -35,13 +36,14 @@ export class PetService {
     public encoder: QueryEncoder;
 
     constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-
         if (configuration) {
             this.configuration = configuration;
-            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
-
-        } else {
-            this.configuration.basePath = basePath || this.basePath;
+        }
+        if (typeof this.configuration.basePath !== 'string') {
+            if (typeof basePath !== 'string') {
+                basePath = this.basePath;
+            }
+            this.configuration.basePath = basePath;
         }
         this.encoder = this.configuration.encoder || new CustomQueryEncoderHelper();
     }
@@ -63,6 +65,7 @@ export class PetService {
     /**
      * 
      * @summary Add a new pet to the store
+     
      * @param body Pet object that needs to be added to the store
      */
     public addPet(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
@@ -79,6 +82,7 @@ export class PetService {
     /**
      * 
      * @summary Deletes a pet
+     
      * @param petId Pet id to delete
      * @param apiKey 
      */
@@ -96,6 +100,7 @@ export class PetService {
     /**
      * Multiple status values can be provided with comma separated strings
      * @summary Finds Pets by status
+     
      * @param status Status values that need to be considered for filter
      */
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Array<Pet>> {
@@ -112,6 +117,7 @@ export class PetService {
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @summary Finds Pets by tags
+     
      * @param tags Tags to filter by
      */
     public findPetsByTags(tags: Array<string>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Array<Pet>> {
@@ -128,6 +134,7 @@ export class PetService {
     /**
      * Returns a single pet
      * @summary Find pet by ID
+     
      * @param petId ID of pet to return
      */
     public getPetById(petId: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Pet> {
@@ -144,6 +151,7 @@ export class PetService {
     /**
      * 
      * @summary Update an existing pet
+     
      * @param body Pet object that needs to be added to the store
      */
     public updatePet(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
@@ -160,6 +168,7 @@ export class PetService {
     /**
      * 
      * @summary Updates a pet in the store with form data
+     
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
@@ -178,6 +187,7 @@ export class PetService {
     /**
      * 
      * @summary uploads an image
+     
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
@@ -197,7 +207,6 @@ export class PetService {
     /**
      * Add a new pet to the store
      * @param body Pet object that needs to be added to the store
-     
      */
     public addPetWithHttpInfo(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (body === null || body === undefined) {
@@ -251,7 +260,6 @@ export class PetService {
      * Deletes a pet
      * @param petId Pet id to delete
      * @param apiKey 
-     
      */
     public deletePetWithHttpInfo(petId: number, apiKey?: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (petId === null || petId === undefined) {
@@ -297,7 +305,6 @@ export class PetService {
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
-     
      */
     public findPetsByStatusWithHttpInfo(status: Array<'available' | 'pending' | 'sold'>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (status === null || status === undefined) {
@@ -348,7 +355,6 @@ export class PetService {
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
-     
      */
     public findPetsByTagsWithHttpInfo(tags: Array<string>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (tags === null || tags === undefined) {
@@ -399,7 +405,6 @@ export class PetService {
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
-     
      */
     public getPetByIdWithHttpInfo(petId: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (petId === null || petId === undefined) {
@@ -440,7 +445,6 @@ export class PetService {
     /**
      * Update an existing pet
      * @param body Pet object that needs to be added to the store
-     
      */
     public updatePetWithHttpInfo(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (body === null || body === undefined) {
@@ -495,7 +499,6 @@ export class PetService {
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
-     
      */
     public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (petId === null || petId === undefined) {
@@ -566,7 +569,6 @@ export class PetService {
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
-     
      */
     public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: Blob, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (petId === null || petId === undefined) {

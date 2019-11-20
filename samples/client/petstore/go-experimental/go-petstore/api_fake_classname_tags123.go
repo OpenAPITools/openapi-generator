@@ -69,14 +69,16 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context, bod
 	localVarPostBody = &body
 	if ctx != nil {
 		// API Key Authentication
-		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
-			var key string
-			if auth.Prefix != "" {
-				key = auth.Prefix + " " + auth.Key
-			} else {
-				key = auth.Key
+		if auth, ok := ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if auth, ok := auth["api_key_query"]; ok {
+				var key string
+				if auth.Prefix != "" {
+					key = auth.Prefix + " " + auth.Key
+				} else {
+					key = auth.Key
+				}
+				localVarQueryParams.Add("api_key_query", key)
 			}
-			localVarQueryParams.Add("api_key_query", key)
 		}
 	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
@@ -108,7 +110,6 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context, bod
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

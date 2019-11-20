@@ -169,6 +169,12 @@ func (c *APIClient) ChangeBasePath(path string) {
 	c.cfg.BasePath = path
 }
 
+// Allow modification of underlying config for alternate implementations and testing
+// Caution: modifying the configuration while live can cause data races and potentially unwanted behavior
+func (c *APIClient) GetConfig() *Configuration {
+	return c.cfg
+}
+
 // prepareRequest build the request
 func (c *APIClient) prepareRequest(
 	ctx context.Context,
@@ -333,6 +339,9 @@ func (c *APIClient) prepareRequest(
 }
 
 func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err error) {
+	if len(b) == 0 {
+		return nil
+	}
 	if s, ok := v.(*string); ok {
 		*s = string(b)
 		return nil

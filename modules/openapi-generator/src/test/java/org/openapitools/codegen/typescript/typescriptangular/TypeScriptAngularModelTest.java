@@ -196,6 +196,69 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(cm.vars.size(), 0);
     }
 
+    @Test(description = "convert an array oneof model")
+    public void arrayOneOfModelTest() {
+        final Schema schema = new ArraySchema()
+                .items(new ComposedSchema()
+                        .addOneOfItem(new StringSchema())
+                        .addOneOfItem(new IntegerSchema().format("int64")))
+                .description("an array oneof model");
+        final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "an array oneof model");
+        Assert.assertEquals(cm.arrayModelType, "string | number");
+        Assert.assertEquals(cm.vars.size(), 0);
+    }
+
+    @Test(description = "convert an any of with array oneof model")
+    public void objectPropertyAnyOfWithArrayOneOfModelTest() {
+        final Schema schema = new ObjectSchema().addProperties("value",
+                new ComposedSchema().addAnyOfItem(new StringSchema()).addAnyOfItem(new ArraySchema()
+                        .items(new ComposedSchema()
+                                .addOneOfItem(new StringSchema())
+                                .addOneOfItem(new IntegerSchema().format("int64")))))
+                .description("an any of with array oneof model");
+        final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        String s = codegen.getSchemaType((Schema)schema.getProperties().get("value"));
+
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "an any of with array oneof model");
+        Assert.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(s, "string | Array<string | number>");
+    }
+
+    @Test(description = "import a typemapping")
+    public void importTypeMappingModelTest() {
+        final Schema schema = new ArraySchema()
+                .items(new Schema().$ref("Children"))
+                .description("a typemapping array model");
+        final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        codegen.typeMapping().put("Children", "Test");
+        codegen.importMapping().put("Test", "@myTest/package");
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a typemapping array model");
+        Assert.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Test")).size(), 1);
+    }
+
     @Test(description = "convert a map model")
     public void mapModelTest() {
         final Schema schema = new Schema()

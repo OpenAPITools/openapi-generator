@@ -25,6 +25,7 @@ import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables'
 import { Configuration }                                     from '../configuration';
 
 
+
 @Injectable()
 export class StoreService {
 
@@ -34,13 +35,14 @@ export class StoreService {
     public encoder: QueryEncoder;
 
     constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-
         if (configuration) {
             this.configuration = configuration;
-            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
-
-        } else {
-            this.configuration.basePath = basePath || this.basePath;
+        }
+        if (typeof this.configuration.basePath !== 'string') {
+            if (typeof basePath !== 'string') {
+                basePath = this.basePath;
+            }
+            this.configuration.basePath = basePath;
         }
         this.encoder = this.configuration.encoder || new CustomQueryEncoderHelper();
     }
@@ -49,6 +51,7 @@ export class StoreService {
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * @summary Delete purchase order by ID
+     
      * @param orderId ID of the order that needs to be deleted
      */
     public deleteOrder(orderId: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
@@ -65,6 +68,7 @@ export class StoreService {
     /**
      * Returns a map of status codes to quantities
      * @summary Returns pet inventories by status
+     
      */
     public getInventory(extraHttpRequestParams?: RequestOptionsArgs): Observable<{ [key: string]: number; }> {
         return this.getInventoryWithHttpInfo(extraHttpRequestParams)
@@ -80,6 +84,7 @@ export class StoreService {
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * @summary Find purchase order by ID
+     
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderById(orderId: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Order> {
@@ -96,6 +101,7 @@ export class StoreService {
     /**
      * 
      * @summary Place an order for a pet
+     
      * @param body order placed for purchasing the pet
      */
     public placeOrder(body: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Order> {
@@ -114,7 +120,6 @@ export class StoreService {
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
-     
      */
     public deleteOrderWithHttpInfo(orderId: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (orderId === null || orderId === undefined) {
@@ -148,7 +153,6 @@ export class StoreService {
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     
      */
     public getInventoryWithHttpInfo(extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
 
@@ -186,7 +190,6 @@ export class StoreService {
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
-     
      */
     public getOrderByIdWithHttpInfo(orderId: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (orderId === null || orderId === undefined) {
@@ -222,7 +225,6 @@ export class StoreService {
     /**
      * Place an order for a pet
      * @param body order placed for purchasing the pet
-     
      */
     public placeOrderWithHttpInfo(body: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (body === null || body === undefined) {

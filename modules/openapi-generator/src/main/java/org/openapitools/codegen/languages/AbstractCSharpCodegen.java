@@ -52,6 +52,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean optionalAssemblyInfoFlag = true;
+    protected boolean optionalEmitDefaultValuesFlag = false;
     protected boolean optionalProjectFileFlag = true;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
@@ -193,6 +194,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("long", "long?");
         typeMapping.put("double", "double?");
         typeMapping.put("number", "decimal?");
+        typeMapping.put("BigDecimal", "decimal?");
         typeMapping.put("DateTime", "DateTime?");
         typeMapping.put("date", "DateTime?");
         typeMapping.put("file", "System.IO.Stream");

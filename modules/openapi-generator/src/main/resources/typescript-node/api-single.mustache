@@ -9,18 +9,10 @@ import { {{classname}} } from '../{{filename}}';
 
 import { ObjectSerializer, Authentication, VoidAuth } from '../model/models';
 {{#hasAuthMethods}}
-{{#authMethods}}
-{{#isBasic}}
-import { HttpBasicAuth } from '../model/models';
-{{/isBasic}}
-{{#isApiKey}}
-import { ApiKeyAuth } from '../model/models';
-{{/isApiKey}}
-{{#isOAuth}}
-import { OAuth } from '../model/models';
-{{/isOAuth}}
-{{/authMethods}}
+import { HttpBasicAuth, ApiKeyAuth, OAuth } from '../model/models';
 {{/hasAuthMethods}}
+
+import { HttpError, RequestFile } from './apis';
 
 let defaultBasePath = '{{{basePath}}}';
 
@@ -55,7 +47,7 @@ export class {{classname}} {
         '{{name}}': new HttpBasicAuth(),
 {{/isBasic}}
 {{#isApiKey}}
-        '{{name}}': new ApiKeyAuth({{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{^isKeyInHeader}}'query'{{/isKeyInHeader}}, '{{keyParamName}}'),
+        '{{name}}': new ApiKeyAuth({{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{#isKeyInQuery}}'query'{{/isKeyInQuery}}{{#isKeyInCookie}}'cookie'{{/isKeyInCookie}}, '{{keyParamName}}'),
 {{/isApiKey}}
 {{#isOAuth}}
         '{{name}}': new OAuth(),
@@ -142,6 +134,15 @@ export class {{classname}} {
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+{{#hasProduces}}
+        const produces = [{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}];
+        // give precedence to 'application/json'
+        if (produces.indexOf('application/json') >= 0) {
+            localVarHeaderParams.Accept = 'application/json';
+        } else {
+            localVarHeaderParams.Accept = produces.join(',');
+        }
+{{/hasProduces}}
         let localVarFormParams: any = {};
 
 {{#allParams}}
@@ -222,7 +223,7 @@ export class {{classname}} {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });

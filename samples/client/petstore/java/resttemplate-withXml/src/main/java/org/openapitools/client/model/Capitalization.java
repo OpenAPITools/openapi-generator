@@ -41,28 +41,28 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Capitalization")
 public class Capitalization {
-  @XmlElement(name = "smallCamel")
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
+  @XmlElement(name = "smallCamel")
   private String smallCamel;
 
-  @XmlElement(name = "CapitalCamel")
   public static final String JSON_PROPERTY_CAPITAL_CAMEL = "CapitalCamel";
+  @XmlElement(name = "CapitalCamel")
   private String capitalCamel;
 
-  @XmlElement(name = "small_Snake")
   public static final String JSON_PROPERTY_SMALL_SNAKE = "small_Snake";
+  @XmlElement(name = "small_Snake")
   private String smallSnake;
 
-  @XmlElement(name = "Capital_Snake")
   public static final String JSON_PROPERTY_CAPITAL_SNAKE = "Capital_Snake";
+  @XmlElement(name = "Capital_Snake")
   private String capitalSnake;
 
-  @XmlElement(name = "SCA_ETH_Flow_Points")
   public static final String JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
+  @XmlElement(name = "SCA_ETH_Flow_Points")
   private String scAETHFlowPoints;
 
-  @XmlElement(name = "ATT_NAME")
   public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
+  @XmlElement(name = "ATT_NAME")
   private String ATT_NAME;
 
 
@@ -85,7 +85,6 @@ public class Capitalization {
   public String getSmallCamel() {
     return smallCamel;
   }
-
 
 
   public void setSmallCamel(String smallCamel) {
@@ -114,7 +113,6 @@ public class Capitalization {
   }
 
 
-
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
@@ -139,7 +137,6 @@ public class Capitalization {
   public String getSmallSnake() {
     return smallSnake;
   }
-
 
 
   public void setSmallSnake(String smallSnake) {
@@ -168,7 +165,6 @@ public class Capitalization {
   }
 
 
-
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
@@ -195,7 +191,6 @@ public class Capitalization {
   }
 
 
-
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
@@ -220,7 +215,6 @@ public class Capitalization {
   public String getATTNAME() {
     return ATT_NAME;
   }
-
 
 
   public void setATTNAME(String ATT_NAME) {

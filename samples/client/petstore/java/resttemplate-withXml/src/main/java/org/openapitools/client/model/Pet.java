@@ -45,32 +45,32 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Pet")
 public class Pet {
-  @XmlElement(name = "id")
   public static final String JSON_PROPERTY_ID = "id";
+  @XmlElement(name = "id")
   private Long id;
 
-  @XmlElement(name = "category")
   public static final String JSON_PROPERTY_CATEGORY = "category";
+  @XmlElement(name = "category")
   private Category category;
 
-  @XmlElement(name = "name")
   public static final String JSON_PROPERTY_NAME = "name";
+  @XmlElement(name = "name")
   private String name;
 
+  public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   // Is a container wrapped=true
   // items.name=photoUrls items.baseName=photoUrls items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "photoUrls")
   @XmlElementWrapper(name = "photoUrl")
-  public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   private List<String> photoUrls = new ArrayList<String>();
 
+  public static final String JSON_PROPERTY_TAGS = "tags";
   // Is a container wrapped=true
   // items.name=tags items.baseName=tags items.xmlName= items.xmlNamespace=
   // items.example= items.type=Tag
   @XmlElement(name = "tags")
   @XmlElementWrapper(name = "tag")
-  public static final String JSON_PROPERTY_TAGS = "tags";
   private List<Tag> tags = null;
 
   /**
@@ -110,8 +110,8 @@ public class Pet {
     }
   }
 
-  @XmlElement(name = "status")
   public static final String JSON_PROPERTY_STATUS = "status";
+  @XmlElement(name = "status")
   private StatusEnum status;
 
 
@@ -134,7 +134,6 @@ public class Pet {
   public Long getId() {
     return id;
   }
-
 
 
   public void setId(Long id) {
@@ -163,7 +162,6 @@ public class Pet {
   }
 
 
-
   public void setCategory(Category category) {
     this.category = category;
   }
@@ -187,7 +185,6 @@ public class Pet {
   public String getName() {
     return name;
   }
-
 
 
   public void setName(String name) {
@@ -219,7 +216,6 @@ public class Pet {
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
-
 
 
   public void setPhotoUrls(List<String> photoUrls) {
@@ -257,7 +253,6 @@ public class Pet {
   }
 
 
-
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
@@ -282,7 +277,6 @@ public class Pet {
   public StatusEnum getStatus() {
     return status;
   }
-
 
 
   public void setStatus(StatusEnum status) {

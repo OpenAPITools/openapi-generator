@@ -32,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   TypeHolderExample.JSON_PROPERTY_STRING_ITEM,
   TypeHolderExample.JSON_PROPERTY_NUMBER_ITEM,
+  TypeHolderExample.JSON_PROPERTY_FLOAT_ITEM,
   TypeHolderExample.JSON_PROPERTY_INTEGER_ITEM,
   TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
@@ -43,6 +44,9 @@ public class TypeHolderExample {
 
   public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
   private BigDecimal numberItem;
+
+  public static final String JSON_PROPERTY_FLOAT_ITEM = "float_item";
+  private Float floatItem;
 
   public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
   private Integer integerItem;
@@ -73,7 +77,6 @@ public class TypeHolderExample {
   }
 
 
-
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
@@ -98,9 +101,32 @@ public class TypeHolderExample {
   }
 
 
-
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
+  }
+
+
+  public TypeHolderExample floatItem(Float floatItem) {
+    
+    this.floatItem = floatItem;
+    return this;
+  }
+
+   /**
+   * Get floatItem
+   * @return floatItem
+  **/
+  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public Float getFloatItem() {
+    return floatItem;
+  }
+
+
+  public void setFloatItem(Float floatItem) {
+    this.floatItem = floatItem;
   }
 
 
@@ -121,7 +147,6 @@ public class TypeHolderExample {
   public Integer getIntegerItem() {
     return integerItem;
   }
-
 
 
   public void setIntegerItem(Integer integerItem) {
@@ -146,7 +171,6 @@ public class TypeHolderExample {
   public Boolean getBoolItem() {
     return boolItem;
   }
-
 
 
   public void setBoolItem(Boolean boolItem) {
@@ -178,7 +202,6 @@ public class TypeHolderExample {
   }
 
 
-
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
@@ -195,6 +218,7 @@ public class TypeHolderExample {
     TypeHolderExample typeHolderExample = (TypeHolderExample) o;
     return Objects.equals(this.stringItem, typeHolderExample.stringItem) &&
         Objects.equals(this.numberItem, typeHolderExample.numberItem) &&
+        Objects.equals(this.floatItem, typeHolderExample.floatItem) &&
         Objects.equals(this.integerItem, typeHolderExample.integerItem) &&
         Objects.equals(this.boolItem, typeHolderExample.boolItem) &&
         Objects.equals(this.arrayItem, typeHolderExample.arrayItem);
@@ -202,7 +226,7 @@ public class TypeHolderExample {
 
   @Override
   public int hashCode() {
-    return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
+    return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
   }
 
 
@@ -212,6 +236,7 @@ public class TypeHolderExample {
     sb.append("class TypeHolderExample {\n");
     sb.append("    stringItem: ").append(toIndentedString(stringItem)).append("\n");
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
+    sb.append("    floatItem: ").append(toIndentedString(floatItem)).append("\n");
     sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
     sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
     sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");

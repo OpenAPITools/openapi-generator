@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**my_number** | **float** |  | [optional] 
+**my_number** | [**OuterNumber**](OuterNumber.md) |  | [optional] 
 **my_string** | **str** |  | [optional] 
 **my_boolean** | **bool** |  | [optional] 
 

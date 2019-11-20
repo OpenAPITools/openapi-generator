@@ -1038,7 +1038,6 @@ impl Order {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
-
 pub struct OuterBoolean(bool);
 
 impl ::std::convert::From<bool> for OuterBoolean {
@@ -1162,7 +1161,6 @@ impl OuterEnum {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
-
 pub struct OuterNumber(f64);
 
 impl ::std::convert::From<f64> for OuterNumber {
@@ -1203,7 +1201,6 @@ impl OuterNumber {
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
-
 pub struct OuterString(String);
 
 impl ::std::convert::From<String> for OuterString {

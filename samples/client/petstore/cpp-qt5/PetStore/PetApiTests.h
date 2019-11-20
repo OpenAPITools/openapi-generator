@@ -1,14 +1,13 @@
 #pragma once
 
-#include "../client/OAIPetApi.h"
+#include "../client/PFXPetApi.h"
 
-using namespace OpenAPI;
+using namespace test_namespace;
 
 class PetApiTests: public QObject {
     Q_OBJECT
 
-    OAIPetApi* getApi();
-    OAIPet createRandomPet();
+    PFXPet createRandomPet();
 
 private slots:
     void findPetsByStatusTest();

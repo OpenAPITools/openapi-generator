@@ -17,6 +17,7 @@
 #include "{{prefix}}Object.h"
 #include "{{prefix}}Enum.h"
 
+
 {{#models}}
 {{#model}}
 {{#cppNamespaceDeclarations}}
@@ -58,7 +59,7 @@ public:
     virtual bool isValid() const override;
 
 private:
-    void init();
+    void initializeModel();
     {{^isEnum}}{{#vars}}
     {{{dataType}}} {{name}};
     bool m_{{name}}_isSet;

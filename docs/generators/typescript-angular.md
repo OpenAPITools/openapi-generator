@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-typescript-angular
 title: Config Options for typescript-angular
 sidebar_label: typescript-angular
 ---
@@ -18,9 +16,11 @@ sidebar_label: typescript-angular
 |snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
+|useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
 |taggedUnions|Use discriminators to create tagged unions instead of extending interfaces.| |false|
 |providedInRoot|Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).| |false|
-|ngVersion|The version of Angular.| |7.0.0|
+|ngVersion|The version of Angular.| |8.0.0|
+|apiModulePrefix|The prefix of the generated ApiModule.| |null|
 |serviceSuffix|The suffix of the generated service.| |Service|
 |serviceFileSuffix|The suffix of the file of the generated service (service&lt;suffix&gt;.ts).| |.service|
 |modelSuffix|The suffix of the generated model.| |null|

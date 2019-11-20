@@ -45,12 +45,12 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Animal")
 public class Animal {
-  @XmlElement(name = "className")
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @XmlElement(name = "className")
   private String className;
 
-  @XmlElement(name = "color")
   public static final String JSON_PROPERTY_COLOR = "color";
+  @XmlElement(name = "color")
   private String color = "red";
 
 
@@ -72,7 +72,6 @@ public class Animal {
   public String getClassName() {
     return className;
   }
-
 
 
   public void setClassName(String className) {
@@ -99,7 +98,6 @@ public class Animal {
   public String getColor() {
     return color;
   }
-
 
 
   public void setColor(String color) {

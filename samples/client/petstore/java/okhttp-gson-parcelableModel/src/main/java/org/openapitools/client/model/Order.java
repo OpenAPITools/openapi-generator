@@ -91,7 +91,7 @@ public class Order implements Parcelable {
 
       @Override
       public StatusEnum read(final JsonReader jsonReader) throws IOException {
-        String value = jsonReader.nextString();
+        String value =  jsonReader.nextString();
         return StatusEnum.fromValue(value);
       }
     }
@@ -126,7 +126,6 @@ public class Order implements Parcelable {
   }
 
 
-
   public void setId(Long id) {
     this.id = id;
   }
@@ -148,7 +147,6 @@ public class Order implements Parcelable {
   public Long getPetId() {
     return petId;
   }
-
 
 
   public void setPetId(Long petId) {
@@ -174,7 +172,6 @@ public class Order implements Parcelable {
   }
 
 
-
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
@@ -196,7 +193,6 @@ public class Order implements Parcelable {
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
-
 
 
   public void setShipDate(OffsetDateTime shipDate) {
@@ -222,7 +218,6 @@ public class Order implements Parcelable {
   }
 
 
-
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
@@ -244,7 +239,6 @@ public class Order implements Parcelable {
   public Boolean getComplete() {
     return complete;
   }
-
 
 
   public void setComplete(Boolean complete) {

@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-typescript-node
 title: Config Options for typescript-node
 sidebar_label: typescript-node
 ---

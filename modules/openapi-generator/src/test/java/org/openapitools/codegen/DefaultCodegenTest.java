@@ -58,8 +58,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 import java.util.stream.Collectors;
 
@@ -609,6 +607,25 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testDefaultResponseShouldBeLast() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Operation myOperation = new Operation().operationId("myOperation").responses(
+            new ApiResponses()
+            .addApiResponse(
+                "default", new ApiResponse().description("Default"))
+            .addApiResponse(
+                "422", new ApiResponse().description("Error"))
+            );
+        openAPI.path("/here", new PathItem().get(myOperation));
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenOperation co = codegen.fromOperation("/here", "get", myOperation, null);
+        Assert.assertEquals(co.responses.get(0).message, "Error");
+        Assert.assertEquals(co.responses.get(1).message, "Default");
+    }
+
+    @Test
     public void testResponseWithNoSchemaInHeaders() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         ApiResponse response2XX = new ApiResponse()
@@ -927,24 +944,59 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void arrayInnerReferencedSchemaMarkedAsModel_20() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/arrayRefBody.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Set<String> imports = new HashSet<>();
+
+        RequestBody body = openAPI.getPaths().get("/examples").getPost().getRequestBody();
+
+        CodegenParameter codegenParameter = codegen.fromRequestBody(body, imports, "");
+
+        Assert.assertTrue(codegenParameter.isContainer);
+        Assert.assertTrue(codegenParameter.items.isModel);
+        Assert.assertFalse(codegenParameter.items.isContainer);
+    }
+
+    @Test
+    public void arrayInnerReferencedSchemaMarkedAsModel_30() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/arrayRefBody.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Set<String> imports = new HashSet<>();
+
+        RequestBody body = openAPI.getPaths().get("/examples").getPost().getRequestBody();
+
+        CodegenParameter codegenParameter = codegen.fromRequestBody(body, imports, "");
+
+        Assert.assertTrue(codegenParameter.isContainer);
+        Assert.assertTrue(codegenParameter.items.isModel);
+        Assert.assertFalse(codegenParameter.items.isContainer);
+    }
+
+    @Test
     @SuppressWarnings("unchecked")
     public void commonLambdasRegistrationTest() {
 
         DefaultCodegen codegen = new DefaultCodegen();
         Object lambdasObj = codegen.additionalProperties.get("lambda");
 
-        assertNotNull(lambdasObj, "Expecting lambda in additionalProperties");
+        Assert.assertNotNull(lambdasObj, "Expecting lambda in additionalProperties");
 
         Map<String, Lambda> lambdas = (Map<String, Lambda>) lambdasObj;
 
-        assertTrue(lambdas.get("lowercase") instanceof LowercaseLambda, "Expecting LowercaseLambda class");
-        assertTrue(lambdas.get("uppercase") instanceof UppercaseLambda, "Expecting UppercaseLambda class");
-        assertTrue(lambdas.get("titlecase") instanceof TitlecaseLambda, "Expecting TitlecaseLambda class");
-        assertTrue(lambdas.get("camelcase") instanceof CamelCaseLambda, "Expecting CamelCaseLambda class");
-        assertTrue(lambdas.get("indented") instanceof IndentedLambda, "Expecting IndentedLambda class");
-        assertTrue(lambdas.get("indented_8") instanceof IndentedLambda, "Expecting IndentedLambda class");
-        assertTrue(lambdas.get("indented_12") instanceof IndentedLambda, "Expecting IndentedLambda class");
-        assertTrue(lambdas.get("indented_16") instanceof IndentedLambda, "Expecting IndentedLambda class");
+        Assert.assertTrue(lambdas.get("lowercase") instanceof LowercaseLambda, "Expecting LowercaseLambda class");
+        Assert.assertTrue(lambdas.get("uppercase") instanceof UppercaseLambda, "Expecting UppercaseLambda class");
+        Assert.assertTrue(lambdas.get("titlecase") instanceof TitlecaseLambda, "Expecting TitlecaseLambda class");
+        Assert.assertTrue(lambdas.get("camelcase") instanceof CamelCaseLambda, "Expecting CamelCaseLambda class");
+        Assert.assertTrue(lambdas.get("indented") instanceof IndentedLambda, "Expecting IndentedLambda class");
+        Assert.assertTrue(lambdas.get("indented_8") instanceof IndentedLambda, "Expecting IndentedLambda class");
+        Assert.assertTrue(lambdas.get("indented_12") instanceof IndentedLambda, "Expecting IndentedLambda class");
+        Assert.assertTrue(lambdas.get("indented_16") instanceof IndentedLambda, "Expecting IndentedLambda class");
     }
 
     @Test
@@ -979,5 +1031,96 @@ public class DefaultCodegenTest {
         // Not in the list test
         Assert.assertFalse(codegen.isReservedWord("DoesNotExist"));
         Assert.assertFalse(codegen.isReservedWord(null));
+    }
+    @Test
+    public void convertApiNameWithEmptySuffix() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        Assert.assertEquals(codegen.toApiName("Fake"), "FakeApi");
+        Assert.assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    @Test
+    public void convertApiNameWithSuffix() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setApiNameSuffix("Test");
+        Assert.assertEquals(codegen.toApiName("Fake"), "FakeTest");
+        Assert.assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    public static class FromParameter {
+        private CodegenParameter codegenParameter(String path) {
+            final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/fromParameter.yaml");
+            new InlineModelResolver().flatten(openAPI);
+            final DefaultCodegen codegen = new DefaultCodegen();
+            codegen.setOpenAPI(openAPI);
+
+            return codegen
+                    .fromParameter(
+                            openAPI
+                                    .getPaths()
+                                    .get(path)
+                                    .getGet()
+                                    .getParameters()
+                                    .get(0),
+                            new HashSet<>()
+                    );
+        }
+
+        @Test
+        public void setStyle() {
+            CodegenParameter parameter = codegenParameter("/set_style");
+            Assert.assertEquals("form", parameter.style);
+        }
+
+        @Test
+        public void setShouldExplode() {
+            CodegenParameter parameter = codegenParameter("/set_should_explode");
+            Assert.assertTrue(parameter.isExplode);
+        }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_Boolean_true() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, true);
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertTrue(result);
+        }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_Boolean_false() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, false);
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertFalse(result);
+        }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_String_true() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, "true");
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertTrue(result);
+        }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_String_false() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, "false");
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertFalse(result);
+        }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_String_blibb() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, "blibb");
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertFalse(result);
+        }
     }
 }

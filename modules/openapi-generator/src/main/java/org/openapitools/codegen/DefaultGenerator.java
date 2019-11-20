@@ -35,6 +35,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+import org.openapitools.codegen.languages.PythonClientExperimentalCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.serializer.SerializerUtils;
@@ -490,10 +491,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
                 Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
-                // Special handling of aliases only applies to Java
                 if (modelTemplate != null && modelTemplate.containsKey("model")) {
                     CodegenModel m = (CodegenModel) modelTemplate.get("model");
-                    if (m.isAlias) {
+                    if (m.isAlias && !(config instanceof PythonClientExperimentalCodegen))  {
+                        // alias to number, string, enum, etc, which should not be generated as model
+                        // for PythonClientExperimentalCodegen, all aliases are generated as models
                         continue;  // Don't create user-defined classes for aliases
                     }
                 }
@@ -943,7 +945,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
      * Returns the path of a template, allowing access to the template where consuming literal contents aren't desirable or possible.
      *
      * @param name the template name (e.g. model.mustache)
-     *
      * @return The {@link Path} to the template
      */
     @Override
@@ -1056,55 +1057,21 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
 
                 Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
-                if (authMethods == null || authMethods.isEmpty()) {
-                    authMethods = getAuthMethods(globalSecurities, securitySchemes);
-                }
 
                 if (authMethods != null && !authMethods.isEmpty()) {
-                    codegenOperation.authMethods = config.fromSecurity(authMethods);
-                    List<Map<String, Object>> scopes = new ArrayList<Map<String, Object>>();
-                    if (codegenOperation.authMethods != null){
-                        for (CodegenSecurity security : codegenOperation.authMethods){
-                            if (security != null && security.isBasicBearer != null && security.isBasicBearer &&
-                               securities != null){
-                                for (SecurityRequirement req : securities){
-                                    if (req == null) continue;
-                                    for (String key : req.keySet()){
-                                        if (security.name != null && key.equals(security.name)){
-                                            int count = 0;
-                                            for (String sc : req.get(key)){
-                                                Map<String, Object> scope = new HashMap<String, Object>();
-                                                scope.put("scope", sc);
-                                                scope.put("description", "");
-                                                count++;
-                                                if (req.get(key) != null && count < req.get(key).size()){
-                                                    scope.put("hasMore", "true");
-                                                } else {
-                                                    scope.put("hasMore", null);
-                                                }
-                                                scopes.add(scope);
-                                            }
-                                            //end this inner for 
-                                            break;
-                                        }
-                                    }
+                    List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
+                    codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, securities);
+                    codegenOperation.hasAuthMethods = true;
+                } else {
+                    authMethods = getAuthMethods(globalSecurities, securitySchemes);
 
-                                }
-                                security.hasScopes = scopes.size() > 0;
-                                security.scopes = scopes;
-                            }
-                        }
+                    if (authMethods != null && !authMethods.isEmpty()) {
+                        List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
+                        codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, globalSecurities);
+                        codegenOperation.hasAuthMethods = true;
                     }
-                    codegenOperation.hasAuthMethods = true;
                 }
 
-                /* TODO need to revise the logic below
-                Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents().getSecuritySchemes();
-                if (securitySchemeMap != null && !securitySchemeMap.isEmpty()) {
-                    codegenOperation.authMethods = config.fromSecurity(securitySchemeMap);
-                    codegenOperation.hasAuthMethods = true;
-                }
-                */
             } catch (Exception ex) {
                 String msg = "Could not process operation:\n" //
                         + "  Tag: " + tag + "\n"//
@@ -1308,6 +1275,40 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 .refreshUrl(originFlow.getRefreshUrl())
                 .extensions(originFlow.getExtensions())
                 .scopes(newScopes);
+    }
+
+    private List<CodegenSecurity> filterAuthMethods(List<CodegenSecurity> authMethods, List<SecurityRequirement> securities) {
+        if (securities == null || securities.isEmpty() || authMethods == null) {
+            return authMethods;
+        }
+
+        List<CodegenSecurity> result = new ArrayList<CodegenSecurity>();
+
+        for (CodegenSecurity security : authMethods) {
+            boolean filtered = false;
+            if (security != null && security.scopes != null) {
+                for (SecurityRequirement requirement : securities) {
+                    List<String> opScopes = requirement.get(security.name);
+                    if (opScopes != null) {
+                        // We have operation-level scopes for this method, so filter the auth method to
+                        // describe the operation auth method with only the scopes that it requires.
+                        // We have to create a new auth method instance because the original object must
+                        // not be modified.
+                        CodegenSecurity opSecurity = security.filterByScopeNames(opScopes);
+                        result.add(opSecurity);
+                        filtered = true;
+                        break;
+                    }
+                }
+            }
+
+            // If we didn't get a filtered version, then we can keep the original auth method.
+            if (!filtered) {
+                result.add(security);
+            }
+        }
+
+        return result;
     }
 
     private boolean hasOAuthMethods(List<CodegenSecurity> authMethods) {

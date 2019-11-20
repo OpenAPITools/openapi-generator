@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-flash
 title: Config Options for flash
 sidebar_label: flash
 ---

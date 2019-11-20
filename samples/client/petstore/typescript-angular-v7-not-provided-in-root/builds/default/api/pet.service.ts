@@ -24,6 +24,7 @@ import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables'
 import { Configuration }                                     from '../configuration';
 
 
+
 @Injectable()
 export class PetService {
 
@@ -33,13 +34,14 @@ export class PetService {
     public encoder: HttpParameterCodec;
 
     constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-
         if (configuration) {
             this.configuration = configuration;
-            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
-
-        } else {
-            this.configuration.basePath = basePath || this.basePath;
+        }
+        if (typeof this.configuration.basePath !== 'string') {
+            if (typeof basePath !== 'string') {
+                basePath = this.basePath;
+            }
+            this.configuration.basePath = basePath;
         }
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }

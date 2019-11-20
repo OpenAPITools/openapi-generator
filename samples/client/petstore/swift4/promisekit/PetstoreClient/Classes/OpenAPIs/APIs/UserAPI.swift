@@ -18,11 +18,11 @@ open class UserAPI {
      */
     open class func createUser( body: User) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUserWithRequestBuilder(body: body).execute { (response, error) -> Void in
+        createUserWithRequestBuilder(body: body).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -55,11 +55,11 @@ open class UserAPI {
      */
     open class func createUsersWithArrayInput( body: [User]) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUsersWithArrayInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
+        createUsersWithArrayInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -91,11 +91,11 @@ open class UserAPI {
      */
     open class func createUsersWithListInput( body: [User]) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUsersWithListInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
+        createUsersWithListInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -127,11 +127,11 @@ open class UserAPI {
      */
     open class func deleteUser( username: String) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
+        deleteUserWithRequestBuilder(username: username).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -169,9 +169,9 @@ open class UserAPI {
         let deferred = Promise<User>.pending()
         getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }
@@ -211,9 +211,9 @@ open class UserAPI {
         let deferred = Promise<String>.pending()
         loginUserWithRequestBuilder(username: username, password: password).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }
@@ -252,11 +252,11 @@ open class UserAPI {
      */
     open class func logoutUser() -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        logoutUserWithRequestBuilder().execute { (response, error) -> Void in
+        logoutUserWithRequestBuilder().execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise
@@ -288,11 +288,11 @@ open class UserAPI {
      */
     open class func updateUser( username: String, body: User) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updateUserWithRequestBuilder(username: username, body: body).execute { (response, error) -> Void in
+        updateUserWithRequestBuilder(username: username, body: body).execute { (_, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else {
-                deferred.fulfill(())
+                deferred.resolver.fulfill(())
             }
         }
         return deferred.promise

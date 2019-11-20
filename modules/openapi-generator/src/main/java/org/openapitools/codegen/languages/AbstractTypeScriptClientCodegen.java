@@ -49,6 +49,7 @@ import java.util.Map;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -450,12 +451,16 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(openAPIType)) {
+        if (ModelUtils.isComposedSchema(p)) {
+            return openAPIType;
+        } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type))
+            if (languageSpecificPrimitives.contains(type)) {
                 return type;
-        } else
+            }
+        } else {
             type = openAPIType;
+        }
         return toModelName(type);
     }
 
@@ -566,6 +571,20 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return "_" + enumName;
         } else {
             return enumName;
+        }
+    }
+
+    @Override
+    protected void addImport(CodegenModel m, String type) {
+        if (type == null) {
+            return;
+        }
+
+        String[] parts = type.split("( [|&] )|[<>]");
+        for (String s : parts) {
+            if (needToImport(s)) {
+                m.imports.add(s);
+            }
         }
     }
 
@@ -710,11 +729,43 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
-        return String.join(" | ", names);
+        List<String> types = composedSchema.getAnyOf().stream().map(schema -> {
+            String schemaType = getSchemaType(schema);
+            if (ModelUtils.isArraySchema(schema)) {
+                ArraySchema ap = (ArraySchema) schema;
+                Schema inner = ap.getItems();
+                schemaType = schemaType + "<" + getSchemaType(inner) + ">";
+            }
+            return schemaType;
+        }).distinct().collect(Collectors.toList());
+        return String.join(" | ", types);
     }
 
     @Override
     public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
-        return String.join(" | ", names);
+        List<String> types = composedSchema.getOneOf().stream().map(schema -> {
+            String schemaType = getSchemaType(schema);
+            if (ModelUtils.isArraySchema(schema)) {
+                ArraySchema ap = (ArraySchema) schema;
+                Schema inner = ap.getItems();
+                schemaType = schemaType + "<" + getSchemaType(inner) + ">";
+            }
+            return schemaType;
+        }).distinct().collect(Collectors.toList());
+        return String.join(" | ", types);
+    }
+
+    @Override
+    public String toAllOfName(List<String> names, ComposedSchema composedSchema) {
+        List<String> types = composedSchema.getAllOf().stream().map(schema -> {
+            String schemaType = getSchemaType(schema);
+            if (ModelUtils.isArraySchema(schema)) {
+                ArraySchema ap = (ArraySchema) schema;
+                Schema inner = ap.getItems();
+                schemaType = schemaType + "<" + getSchemaType(inner) + ">";
+            }
+            return schemaType;
+        }).distinct().collect(Collectors.toList());
+        return String.join(" & ", types);
     }
 }

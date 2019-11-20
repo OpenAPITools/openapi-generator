@@ -504,31 +504,31 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
-    boolean isMimetypeXml(String mimetype) {
+    private boolean isMimetypeXml(String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith("application/xml");
     }
 
-    boolean isMimetypePlainText(String mimetype) {
+    private boolean isMimetypePlainText(String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith("text/plain");
     }
 
-    boolean isMimetypeHtmlText(String mimetype) {
+    private boolean isMimetypeHtmlText(String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith("text/html");
     }
 
-    boolean isMimetypeWwwFormUrlEncoded(String mimetype) {
+    private boolean isMimetypeWwwFormUrlEncoded(String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded");
     }
 
-    boolean isMimetypeMultipartFormData(String mimetype) {
+    private boolean isMimetypeMultipartFormData(String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith("multipart/form-data");
     }
 
-    boolean isMimetypeOctetStream(String mimetype) {
+    private boolean isMimetypeOctetStream(String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith("application/octet-stream");
     }
 
-    boolean isMimetypePlain(String mimetype) {
+    private boolean isMimetypePlain(String mimetype) {
       return isMimetypePlainText(mimetype) || isMimetypeHtmlText(mimetype) || isMimetypeOctetStream(mimetype);
     }
 
@@ -838,9 +838,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             String innerType = getTypeDeclaration(inner);
-            StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("array")).append("<");
-            typeDeclaration.append(innerType).append(">");
-            return typeDeclaration.toString();
+            return typeMapping.get("array") + "<" + innerType + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             String innerType = getTypeDeclaration(inner);
@@ -927,6 +925,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (mdl.xmlNamespace != null) {
             additionalProperties.put("usesXmlNamespaces", true);
+        }
+
+        Schema additionalProperties = ModelUtils.getAdditionalProperties(model);
+
+        if (additionalProperties != null) {
+            mdl.additionalPropertiesType = getSchemaType(additionalProperties);
         }
 
         return mdl;
@@ -1091,7 +1095,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    static long requiredBits(Long bound, boolean unsigned) {
+    private long requiredBits(Long bound, boolean unsigned) {
         if (bound == null) return 0;
 
         if (unsigned) {
@@ -1106,7 +1110,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 bound < 0 ? Math.abs(bound) - 1 : bound);
     }
 
-    static String matchingIntType(boolean unsigned, Long inclusiveMin, Long inclusiveMax) {
+    private String matchingIntType(boolean unsigned, Long inclusiveMin, Long inclusiveMax) {
         long requiredMinBits = requiredBits(inclusiveMin, unsigned);
         long requiredMaxBits = requiredBits(inclusiveMax, unsigned);
         long requiredBits = Math.max(requiredMinBits, requiredMaxBits);
@@ -1143,20 +1147,34 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 // 'null'. This ensures that we treat this model as a struct
                 // with multiple parameters.
                 cm.dataType = null;
-            } else if (cm.dataType != null) {
-                if (cm.dataType.equals("map")) {
-                    // We don't yet support `additionalProperties`. We ignore
-                    // the `additionalProperties` type ('map') and warn the
-                    // user. This will produce code that compiles, but won't
-                    // feature the `additionalProperties`.
+            } else if (cm.dataType != null && cm.dataType.equals("map")) {
+                if (!cm.allVars.isEmpty() || cm.additionalPropertiesType == null) {
+                    // We don't yet support `additionalProperties` that also have
+                    // properties. If we see variables, we ignore the
+                    // `additionalProperties` type ('map') and warn the user. This
+                    // will produce code that compiles, but won't feature the
+                    // `additionalProperties` - but that's likely more useful to
+                    // the user than the alternative.
+                    LOGGER.warn("Ignoring additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318) alongside defined properties");
                     cm.dataType = null;
-                    LOGGER.warn("Ignoring unsupported additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318)");
-                } else {
-                    // We need to hack about with single-parameter models to
-                    // get them recognised correctly.
-                    cm.isAlias = false;
-                    cm.dataType = typeMapping.get(cm.dataType);
                 }
+                else
+                {
+                    String type;
+
+                    if (typeMapping.containsKey(cm.additionalPropertiesType)) {
+                        type = typeMapping.get(cm.additionalPropertiesType);
+                    } else {
+                        type = toModelName(cm.additionalPropertiesType);
+                    }
+
+                    cm.dataType = "HashMap<String, " + type + ">";
+                }
+            } else if (cm.dataType != null) {
+                // We need to hack about with single-parameter models to
+                // get them recognised correctly.
+                cm.isAlias = false;
+                cm.dataType = typeMapping.get(cm.dataType);
             }
 
             cm.vendorExtensions.put("isString", "String".equals(cm.dataType));

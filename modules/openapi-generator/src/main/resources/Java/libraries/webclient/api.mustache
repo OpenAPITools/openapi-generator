@@ -67,25 +67,28 @@ public class {{classname}} {
         if ({{paramName}} == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
         }
-        {{/required}}{{/allParams}}{{#hasPathParams}}
+        {{/required}}{{/allParams}}
         // create path and map variables
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();{{#pathParams}}
-        uriVariables.put("{{baseName}}", {{{paramName}}});{{/pathParams}}{{/hasPathParams}}
-        String path = UriComponentsBuilder.fromPath("{{{path}}}"){{#hasPathParams}}.buildAndExpand(uriVariables){{/hasPathParams}}{{^hasPathParams}}.build(){{/hasPathParams}}.toUriString();
-        
+        final Map<String, Object> pathParams = new HashMap<String, Object>();{{#hasPathParams}}{{#pathParams}}
+        pathParams.put("{{baseName}}", {{{paramName}}});{{/pathParams}}{{/hasPathParams}}
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();{{#hasQueryParams}}
-        
+
         {{#queryParams}}queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));{{#hasMore}}
         {{/hasMore}}{{/queryParams}}{{/hasQueryParams}}{{#hasHeaderParams}}
-        
+
         {{#headerParams}}if ({{paramName}} != null)
         headerParams.add("{{baseName}}", apiClient.parameterToString({{paramName}}));{{#hasMore}}
-        {{/hasMore}}{{/headerParams}}{{/hasHeaderParams}}{{#hasFormParams}}
-        
+        {{/hasMore}}{{/headerParams}}{{/hasHeaderParams}}{{#hasCookieParams}}
+
+        {{#cookieParams}}cookieParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));{{#hasMore}}
+        {{/hasMore}}{{/cookieParams}}{{/hasCookieParams}}{{#hasFormParams}}
+
         {{#formParams}}if ({{paramName}} != null)
-            formParams.add("{{baseName}}", {{#isFile}}new FileSystemResource({{paramName}}){{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});{{#hasMore}}
+            formParams.add{{#collectionFormat}}All{{/collectionFormat}}("{{baseName}}", {{#isFile}}new FileSystemResource({{paramName}}){{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});{{#hasMore}}
         {{/hasMore}}{{/formParams}}{{/hasFormParams}}
 
         final String[] accepts = { {{#hasProduces}}
@@ -100,7 +103,7 @@ public class {{classname}} {
         String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
 
         {{#returnType}}ParameterizedTypeReference<{{#isListContainer}}{{{returnBaseType}}}{{/isListContainer}}{{^isListContainer}}{{{returnType}}}{{/isListContainer}}> returnType = new ParameterizedTypeReference<{{#isListContainer}}{{{returnBaseType}}}{{/isListContainer}}{{^isListContainer}}{{{returnType}}}{{/isListContainer}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
-        return apiClient.{{#isListContainer}}invokeFluxAPI{{/isListContainer}}{{^isListContainer}}invokeAPI{{/isListContainer}}(path, HttpMethod.{{httpMethod}}, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.{{#isListContainer}}invokeFluxAPI{{/isListContainer}}{{^isListContainer}}invokeAPI{{/isListContainer}}("{{{path}}}", HttpMethod.{{httpMethod}}, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     {{/operation}}
 }

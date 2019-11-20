@@ -512,7 +512,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     /**
      * Return the default value of the property
-     * @param p Swagger property object
+     * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
     @Override

@@ -52,8 +52,8 @@ namespace Org.OpenAPITools.Client
             if (status >= 400)
             {
                 return new ApiException(status,
-                    string.Format("Error calling {0}: {1}", methodName, response.Content),
-                    response.Content);
+                    string.Format("Error calling {0}: {1}", methodName, response.RawContent),
+                    response.RawContent);
             }
             
             return null;
@@ -395,7 +395,7 @@ namespace Org.OpenAPITools.Client
             {
                 ApiKey = apiKey,
                 ApiKeyPrefix = apiKeyPrefix,
-                DefaultHeader = defaultHeaders,
+                DefaultHeaders = defaultHeaders,
                 BasePath = second.BasePath ?? first.BasePath,
                 Timeout = second.Timeout,
                 UserAgent = second.UserAgent ?? first.UserAgent,

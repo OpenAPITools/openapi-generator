@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-php-lumen
 title: Config Options for php-lumen
 sidebar_label: php-lumen
 ---

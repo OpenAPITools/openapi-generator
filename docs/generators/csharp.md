@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-csharp
 title: Config Options for csharp
 sidebar_label: csharp
 ---
@@ -12,7 +10,7 @@ sidebar_label: csharp
 |sourceFolder|source folder for generated code| |src|
 |packageGuid|The GUID that will be associated with the C# project| |null|
 |interfacePrefix|Prefix interfaces with a community standard or widely accepted prefix.| |I|
-|targetFramework|The target .NET framework version.|<dl><dt>**v3.5**</dt><dd>.NET Framework 3.5 compatible</dd><dt>**v4.0**</dt><dd>.NET Framework 4.0 compatible</dd><dt>**v4.5**</dt><dd>.NET Framework 4.5+ compatible</dd><dt>**v5.0**</dt><dd>.NET Standard 1.3 compatible</dd><dt>**uwp**</dt><dd>Universal Windows Platform (IMPORTANT: this will be decommissioned and replaced by v5.0)</dd><dl>|v4.5|
+|targetFramework|The target .NET framework version.|<dl><dt>**v3.5**</dt><dd>.NET Framework 3.5 compatible</dd><dt>**v4.0**</dt><dd>.NET Framework 4.0 compatible</dd><dt>**v4.5**</dt><dd>.NET Framework 4.5+ compatible</dd><dt>**v5.0**</dt><dd>.NET Standard 1.3 compatible (DEPRECATED. Please use `csharp-netcore` generator instead)</dd><dt>**uwp**</dt><dd>Universal Windows Platform (DEPRECATED. Please use `csharp-netcore` generator instead)</dd><dl>|v4.5|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |PascalCase|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
@@ -21,6 +19,7 @@ sidebar_label: csharp
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |optionalMethodArgument|C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).| |true|
 |optionalAssemblyInfo|Generate AssemblyInfo.cs.| |true|
+|optionalEmitDefaultValues|Set DataMember's EmitDefaultValue.| |false|
 |optionalProjectFile|Generate {PackageName}.csproj.| |true|
 |generatePropertyChanged|Specifies a AssemblyDescription for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|

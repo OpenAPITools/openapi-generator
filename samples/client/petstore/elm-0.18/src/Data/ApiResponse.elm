@@ -10,7 +10,7 @@
 -}
 
 
-module Data.ApiResponse exposing (ApiResponse, decoder, encode)
+module Data.ApiResponse exposing (ApiResponse, decoder, encode, encodeWithTag, toString)
 
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
@@ -21,9 +21,9 @@ import Json.Encode as Encode
 {-| Describes the result of uploading an image resource
 -}
 type alias ApiResponse =
-    { code : Maybe (Int)
-    , type_ : Maybe (String)
-    , message : Maybe (String)
+    { code : Maybe Int
+    , type_ : Maybe String
+    , message : Maybe String
     }
 
 
@@ -35,14 +35,24 @@ decoder =
         |> optional "message" (Decode.nullable Decode.string) Nothing
 
 
-
 encode : ApiResponse -> Encode.Value
-encode model =
-    Encode.object
-        [ ( "code", Maybe.withDefault Encode.null (Maybe.map Encode.int model.code) )
-        , ( "type", Maybe.withDefault Encode.null (Maybe.map Encode.string model.type_) )
-        , ( "message", Maybe.withDefault Encode.null (Maybe.map Encode.string model.message) )
-
-        ]
+encode =
+    Encode.object << encodePairs
 
 
+encodeWithTag : ( String, String ) -> ApiResponse -> Encode.Value
+encodeWithTag ( tagField, tag ) model =
+    Encode.object <| encodePairs model ++ [ ( tagField, Encode.string tag ) ]
+
+
+encodePairs : ApiResponse -> List ( String, Encode.Value )
+encodePairs model =
+    [ ( "code", Maybe.withDefault Encode.null (Maybe.map Encode.int model.code) )
+    , ( "type", Maybe.withDefault Encode.null (Maybe.map Encode.string model.type_) )
+    , ( "message", Maybe.withDefault Encode.null (Maybe.map Encode.string model.message) )
+    ]
+
+
+toString : ApiResponse -> String
+toString =
+    Encode.encode 0 << encode

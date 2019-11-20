@@ -688,15 +688,17 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     var.getVendorExtensions().put("isJacksonOptionalNullable", isOptionalNullable);
                 }
                 if (addImports) {
-                    cm.imports.add("JsonNullable");
-                    Map<String, String> itemJsonNullable = new HashMap<String, String>();
-                    itemJsonNullable.put("import", "org.openapitools.jackson.nullable.JsonNullable");
-                    imports.add(itemJsonNullable);
-
-                    cm.imports.add("NoSuchElementException");
-                    Map<String, String> itemExc = new HashMap<String, String>();
-                    itemExc.put("import", "java.util.NoSuchElementException");
-                    imports.add(itemExc);
+                    Map<String, String> imports2Classnames = new HashMap<String, String>() {{
+                        put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
+                        put("NoSuchElementException", "java.util.NoSuchElementException");
+                        put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
+                    }};
+                    for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
+                        cm.imports.add(entry.getKey());
+                        Map<String, String> importsItem = new HashMap<String, String>();
+                        importsItem.put("import", entry.getValue());
+                        imports.add(importsItem);
+                    }
                 }
             }
         }

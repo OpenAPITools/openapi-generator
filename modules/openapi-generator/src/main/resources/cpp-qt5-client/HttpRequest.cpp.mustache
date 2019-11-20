@@ -1,10 +1,16 @@
 {{>licenseInfo}}
-#include "{{prefix}}HttpRequest.h"
+
+
 #include <QDateTime>
+#include <QDir>
+#include <QUuid>
 #include <QUrl>
 #include <QFileInfo>
 #include <QBuffer>
 #include <QtGlobal>
+#include <QTimer>
+
+#include "{{prefix}}HttpRequest.h"
 
 
 {{#cppNamespaceDeclarations}}
@@ -32,7 +38,7 @@ void {{prefix}}HttpRequestInput::add_var(QString key, QString value) {
 }
 
 void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type) {
-    {{prefix}}HttpRequestInputFileElement file;
+    {{prefix}}HttpFileElement file;
     file.variable_name = variable_name;
     file.local_filename = local_filename;
     file.request_filename = request_filename;
@@ -42,31 +48,58 @@ void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_f
 
 
 {{prefix}}HttpRequestWorker::{{prefix}}HttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr)
+    : QObject(parent), manager(nullptr), _timeOut(0)
 {
     qsrand(QDateTime::currentDateTime().toTime_t());
-    timeout = 0;
-    timer = new QTimer();
     manager = new QNetworkAccessManager(this);
+    workingDirectory = QDir::currentPath();    
     connect(manager, &QNetworkAccessManager::finished, this, &{{prefix}}HttpRequestWorker::on_manager_finished);
 }
 
 {{prefix}}HttpRequestWorker::~{{prefix}}HttpRequestWorker() {
-    if(timer != nullptr){
-        if(timer->isActive()){
-            timer->stop();
+    for (const auto & item: multiPartFields) {
+        if(item != nullptr) {
+            delete item;
         }
-        timer->deleteLater();
-    }
+    }  
 }
 
-QMap<QByteArray, QByteArray> {{prefix}}HttpRequestWorker::getResponseHeaders() const {
+QMap<QString, QString> {{prefix}}HttpRequestWorker::getResponseHeaders() const {
     return headers;
 }
 
-void {{prefix}}HttpRequestWorker::setTimeOut(int tout){
-    timeout = tout;
+{{prefix}}HttpFileElement {{prefix}}HttpRequestWorker::getHttpFileElement(const QString &fieldname){
+    if(!files.isEmpty()){
+        if(fieldname.isEmpty()){
+            return files.first();
+        }else if (files.contains(fieldname)){
+            return files[fieldname];
+        }
+    }
+    return {{prefix}}HttpFileElement();
 }
+
+QByteArray *{{prefix}}HttpRequestWorker::getMultiPartField(const QString &fieldname){
+    if(!multiPartFields.isEmpty()){
+        if(fieldname.isEmpty()){
+            return multiPartFields.first();
+        }else if (multiPartFields.contains(fieldname)){
+            return multiPartFields[fieldname];
+        }
+    }
+    return nullptr;
+}
+
+void {{prefix}}HttpRequestWorker::setTimeOut(int timeOut){
+    _timeOut = timeOut;
+}
+
+void {{prefix}}HttpRequestWorker::setWorkingDirectory(const QString &path){
+    if(!path.isEmpty()){
+        workingDirectory = path;
+    }
+}
+
 
 QString {{prefix}}HttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
     // result structure follows RFC 5987
@@ -196,7 +229,7 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
         }
 
         // add files
-        for (QList<{{prefix}}HttpRequestInputFileElement>::iterator file_info = input->files.begin(); file_info != input->files.end(); file_info++) {
+        for (QList<{{prefix}}HttpFileElement>::iterator file_info = input->files.begin(); file_info != input->files.end(); file_info++) {
             QFileInfo fi(file_info->local_filename);
 
             // ensure necessary variables are available
@@ -276,8 +309,13 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
         request.setRawHeader(key.toStdString().c_str(), input->headers.value(key).toStdString().c_str());
     }
 
-    if (request_content.size() > 0 && !isFormData) {
-        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    if (request_content.size() > 0 && !isFormData && (input->var_layout != MULTIPART)) {
+        if(!input->headers.contains("Content-Type")){
+            request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        }
+        else {
+            request.setHeader(QNetworkRequest::ContentTypeHeader, input->headers.value("Content-Type"));
+        }
     }
     else if (input->var_layout == URL_ENCODED) {
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
@@ -313,11 +351,8 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
         buffer->setParent(reply);
 #endif
     }
-    if(timeout > 0){
-        timer->setSingleShot(true);
-        timer->setInterval(timeout);
-        connect(timer, &QTimer::timeout, this, [=](){ on_manager_timeout(reply); });
-        timer->start();
+    if(_timeOut > 0){
+        QTimer::singleShot(_timeOut, [=](){ on_manager_timeout(reply); });
     }
 }
 
@@ -331,9 +366,10 @@ void {{prefix}}HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
         }
     }
     reply->deleteLater();
-
+    process_form_response();
     emit on_execution_finished(this);
 }
+
 void {{prefix}}HttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
     error_type = QNetworkReply::TimeoutError;
     response = "";
@@ -341,9 +377,37 @@ void {{prefix}}HttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
     disconnect(manager, nullptr, nullptr, nullptr);
     reply->abort();
     reply->deleteLater();
-
     emit on_execution_finished(this);
 }
+
+void {{prefix}}HttpRequestWorker::process_form_response() {
+    if(getResponseHeaders().contains(QString("Content-Disposition")) ) {
+        auto contentDisposition = getResponseHeaders().value(QString("Content-Disposition").toUtf8()).split(QString(";"), QString::SkipEmptyParts);
+        auto contentType = getResponseHeaders().contains(QString("Content-Type")) ? getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), QString::SkipEmptyParts).first() : QString();        
+        if((contentDisposition.count() > 0) && (contentDisposition.first() == QString("attachment"))){
+            QString filename = QUuid::createUuid().toString();
+            for(const auto &file : contentDisposition){                
+                if(file.contains(QString("filename"))){
+                    filename = file.split(QString("="), QString::SkipEmptyParts).at(1);
+                    break;
+                }
+            }
+            {{prefix}}HttpFileElement felement;
+            felement.saveToFile(QString(), workingDirectory + QDir::separator() + filename, filename, contentType, response.data());
+            files.insert(filename, felement);               
+        }
+
+    } else if(getResponseHeaders().contains(QString("Content-Type")) ) {
+        auto contentType = getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), QString::SkipEmptyParts);
+        if((contentType.count() > 0) && (contentType.first() == QString("multipart/form-data"))){
+
+        }
+        else {
+
+        }
+    }
+}
+
 QSslConfiguration* {{prefix}}HttpRequestWorker::sslDefaultConfiguration;
 
 

@@ -269,6 +269,13 @@ paths:
           description: file to upload
           required: false
           type: file
+        - name: files
+          in: formData
+          description: files to upload
+          required: false
+          type: array
+          items:
+            type: file
       responses:
         '200':
           description: successful operation
@@ -906,6 +913,23 @@ paths:
           description: Output composite
           schema:
             $ref: '#/definitions/OuterComposite'
+  /fake/outer/enum:
+    post:
+      tags:
+        - fake
+      description: Test serialization of outer enum
+      operationId: fakeOuterEnumSerialize
+      parameters:
+        - name: body
+          in: body
+          description: Input enum as post body
+          schema:
+            $ref: '#/definitions/OuterEnum'
+      responses:
+        '200':
+          description: Output enum
+          schema:
+            $ref: '#/definitions/OuterEnum'
   /fake/jsonFormData:
     get:
       tags:
@@ -1378,7 +1402,7 @@ definitions:
         minimum: 67.8
       string:
         type: string
-        pattern: /[a-z]/i
+        pattern: /^[a-z]+$/i
       byte:
         type: string
         format: byte
@@ -1721,6 +1745,8 @@ definitions:
         $ref: '#/definitions/OuterBoolean'
   OuterNumber:
     type: number
+    minimum: 10
+    maximum: 20
   OuterString:
     type: string
   OuterBoolean:
