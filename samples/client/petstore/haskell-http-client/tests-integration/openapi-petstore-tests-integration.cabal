@@ -1,0 +1,57 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 1de2469e3014acffdfb079309edd15dc88ec7f5acce21f1062b61a1b002418fd
+
+name:           openapi-petstore-tests-integration
+version:        0.1.0.0
+synopsis:       integration tests for auto-generated openapi-petstore API Client
+description:     integration tests for auto-generated openapi-petstore API Client 
+category:       Web
+homepage:       https://openapi-generator.tech
+author:         Author Name Here
+maintainer:     author.name@email.com
+copyright:      YEAR - AUTHOR
+license:        UnspecifiedLicense
+build-type:     Simple
+extra-source-files:
+    README.md
+
+test-suite tests
+  type: exitcode-stdio-1.0
+  main-is: Test.hs
+  other-modules:
+      Paths_openapi_petstore_tests_integration
+  hs-source-dirs:
+      tests
+  ghc-options: -Wall -fno-warn-orphans
+  build-depends:
+      HUnit >1.5.0
+    , QuickCheck
+    , aeson
+    , base >=4.7 && <5.0
+    , bytestring >=0.10.0 && <0.11
+    , case-insensitive
+    , containers
+    , exceptions >=0.4
+    , hspec >=1.8
+    , http-api-data >=0.3.4 && <0.5
+    , http-client >=0.5 && <0.7
+    , http-client-tls
+    , http-media >=0.4 && <0.9
+    , http-types >=0.8 && <0.13
+    , iso8601-time
+    , microlens >=0.4.3 && <0.5
+    , mtl >=2.2.1
+    , openapi-petstore
+    , safe-exceptions <0.2
+    , semigroups
+    , text
+    , time
+    , transformers >=0.4.0.0
+    , unordered-containers
+    , vector >=0.10.9 && <0.13
+  default-language: Haskell2010

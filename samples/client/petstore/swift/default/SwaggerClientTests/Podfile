@@ -1,0 +1,11 @@
+use_frameworks!
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'SwaggerClient' do
+    pod "PetstoreClient", :path => "../"
+
+    target 'SwaggerClientTests' do
+        inherit! :search_paths
+    end
+end
+
