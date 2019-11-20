@@ -31,10 +31,8 @@ class PetAPITests: XCTestCase {
         let tags = [Tag(id: 1234, name: "New York"), Tag(id: 124321, name: "Jose")]
         let newPet = Pet(id: 1000, category: category, name: "Fluffy", photoUrls: ["https://petstore.com/sample/photo1.jpg", "https://petstore.com/sample/photo2.jpg"], tags: tags, status: .available)
 
-        PetAPI.addPet(body: newPet).then {
+        PetAPI.addPet(body: newPet).done {
                 expectation.fulfill()
-            }.always {
-                // Noop for now
             }.catch { _ in
                 XCTFail("error creating pet")
         }
@@ -43,12 +41,10 @@ class PetAPITests: XCTestCase {
 
     func test2GetPet() {
         let expectation = self.expectation(description: "testGetPet")
-        PetAPI.getPetById(petId: 1000).then { pet -> Void in
+        PetAPI.getPetById(petId: 1000).done { pet in
                 XCTAssert(pet.id == 1000, "invalid id")
                 XCTAssert(pet.name == "Fluffy", "invalid name")
                 expectation.fulfill()
-            }.always {
-                // Noop for now
             }.catch { _ in
                 XCTFail("error creating pet")
         }
@@ -57,10 +53,8 @@ class PetAPITests: XCTestCase {
 
     func test3DeletePet() {
         let expectation = self.expectation(description: "testDeletePet")
-        PetAPI.deletePet(petId: 1000).then {
+        PetAPI.deletePet(petId: 1000).done {
             expectation.fulfill()
-            }.always {
-                // Noop for now
             }.catch { (_) in
                 XCTFail("error deleting pet")
         }

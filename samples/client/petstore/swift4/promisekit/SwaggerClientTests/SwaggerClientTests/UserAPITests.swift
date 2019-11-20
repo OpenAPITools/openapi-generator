@@ -17,11 +17,9 @@ class UserAPITests: XCTestCase {
 
     func testLogin() {
         let expectation = self.expectation(description: "testLogin")
-        UserAPI.loginUser(username: "swiftTester", password: "swift").then { _ -> Void in
+        UserAPI.loginUser(username: "swiftTester", password: "swift").done { _ in
             expectation.fulfill()
-            }.always {
-                // Noop for now
-            }.catch { (_) in
+        }.catch { _ in
                 XCTFail("login error")
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)
@@ -29,11 +27,9 @@ class UserAPITests: XCTestCase {
 
     func testLogout() {
         let expectation = self.expectation(description: "testLogout")
-        UserAPI.logoutUser().then {
+        UserAPI.logoutUser().done {
             expectation.fulfill()
-            }.always {
-                // Noop for now
-            }.catch { (_) in
+        }.catch { _ in
                 XCTFail("")
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)

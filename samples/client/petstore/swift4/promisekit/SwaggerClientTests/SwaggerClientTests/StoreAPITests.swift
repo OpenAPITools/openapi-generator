@@ -22,7 +22,7 @@ class StoreAPITests: XCTestCase {
         let shipDate = Date()
         let order = Order(id: 1000, petId: 1000, quantity: 10, shipDate: shipDate, status: .placed, complete: true)
         let expectation = self.expectation(description: "testPlaceOrder")
-        StoreAPI.placeOrder(body: order).then { order -> Void in
+        StoreAPI.placeOrder(body: order).done { order in
                 XCTAssert(order.id == 1000, "invalid id")
                 XCTAssert(order.quantity == 10, "invalid quantity")
                 XCTAssert(order.status == .placed, "invalid status")
@@ -30,8 +30,6 @@ class StoreAPITests: XCTestCase {
                           "Date should be idempotent")
 
                 expectation.fulfill()
-            }.always {
-                // Noop for now
             }.catch { _ in
                 XCTFail("error placing order")
         }
@@ -40,13 +38,11 @@ class StoreAPITests: XCTestCase {
 
     func test2GetOrder() {
         let expectation = self.expectation(description: "testGetOrder")
-        StoreAPI.getOrderById(orderId: 1000).then { order -> Void in
+        StoreAPI.getOrderById(orderId: 1000).done { order in
             XCTAssert(order.id == 1000, "invalid id")
             XCTAssert(order.quantity == 10, "invalid quantity")
             XCTAssert(order.status == .placed, "invalid status")
             expectation.fulfill()
-            }.always {
-                // Noop for now
             }.catch { _ in
                 XCTFail("error placing order")
         }
@@ -55,10 +51,8 @@ class StoreAPITests: XCTestCase {
 
     func test3DeleteOrder() {
         let expectation = self.expectation(description: "testDeleteOrder")
-        StoreAPI.deleteOrder(orderId: "1000").then {
+        StoreAPI.deleteOrder(orderId: "1000").done {
             expectation.fulfill()
-            }.always {
-                // Noop for now
             }.catch { (_) in
                 XCTFail("error deleting order")
         }
