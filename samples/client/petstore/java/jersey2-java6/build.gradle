@@ -6,9 +6,8 @@ version = '1.0.0'
 
 buildscript {
     repositories {
-        jcenter {
-            url "https://jcenter.bintray.com/"
-        }
+        mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.+'
@@ -17,9 +16,7 @@ buildscript {
 }
 
 repositories {
-    jcenter {
-        url "http://jcenter.bintray.com/"
-    }
+    jcenter()
 }
 
 
@@ -97,26 +94,34 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.20"
-    jackson_version = "2.9.6"
+    swagger_annotations_version = "1.5.22"
+    jackson_version = "2.9.10"
+    jackson_databind_version = "2.9.10.1"
+    jackson_databind_nullable_version = "0.2.0"
     jersey_version = "2.6"
     commons_io_version=2.5
     commons_lang3_version=3.6
     junit_version = "4.12"
-    threetenbp_version = "2.6.4"
+    threetenbp_version = "2.9.10"
 }
 
 dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "com.google.code.findbugs:jsr305:3.0.2"
     compile "org.glassfish.jersey.core:jersey-client:$jersey_version"
     compile "org.glassfish.jersey.media:jersey-media-multipart:$jersey_version"
     compile "org.glassfish.jersey.media:jersey-media-json-jackson:$jersey_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     compile "commons-io:commons-io:$commons_io_version"
     compile "org.apache.commons:commons-lang3:$commons_lang3_version"
     compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$threetenbp_version"
     compile "com.brsanthu:migbase64:2.2"
     testCompile "junit:junit:$junit_version"
+}
+
+javadoc {
+    options.tags = [ "http.response.details:a:Http Response Details" ]
 }
