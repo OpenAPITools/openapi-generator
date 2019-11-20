@@ -30,6 +30,8 @@ rm -r ${root}/samples/*
 
 # LIST OF SCRIPTS:
 declare -a samples=(
+# drone-io tests
+"${root}/bin/ocaml-petstore.sh"
 # referenced in pom.xml
 "${root}/bin/c-petstore.sh"
 "${root}/bin/elm-0.18-petstore.sh"
