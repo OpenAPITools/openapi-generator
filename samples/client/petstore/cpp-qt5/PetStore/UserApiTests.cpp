@@ -1,252 +1,185 @@
 #include "UserApiTests.h"
 
-#include <QJsonDocument>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
+#include <QTest>
+#include <QTimer>
 #include <QDebug>
-#include <QRandomGenerator>
-UserApiTests::UserApiTests () {}
-
-UserApiTests::~UserApiTests () {
-    exit(0);
-}
 
 OAIUserApi* UserApiTests::getApi() {
     auto api = new OAIUserApi();
-    api->host = "http://petstore.swagger.io";
-    api->basePath = "/v2";
+    api->setHost("http://petstore.swagger.io");
     return api;
-}
-
-void UserApiTests::runTests() {
-    UserApiTests* tests = new UserApiTests();
-    QTest::qExec(tests);
-    delete tests;
 }
 
 OAIUser UserApiTests::createRandomUser() {
     OAIUser user;
     user.setId(QDateTime::currentMSecsSinceEpoch());
-    user.setEmail(QString("Jane.Doe@openapitools.io"));
-    user.setFirstName(QString("Jane"));
-    user.setLastName(QString("Doe"));
-    user.setPhone(QString("123456789"));
-    user.setUsername(QString("janedoe"));
-    user.setPassword(QString("secretPassword"));
-    user.setUserStatus(static_cast<int>(QRandomGenerator::system()->generate()));
+    user.setEmail("Jane.Doe@openapitools.io");
+    user.setFirstName("Jane");
+    user.setLastName("Doe");
+    user.setPhone("123456789");
+    user.setUsername("janedoe");
+    user.setPassword("secretPassword");
+    user.setUserStatus(static_cast<int>(rand()));
     return user;
 }
 
 void UserApiTests::createUserTest(){
     auto api = getApi();
     QEventLoop loop;
-    QTimer timer;
-    timer.setInterval(14000);
-    timer.setSingleShot(true);
+    bool userCreated = false;
 
-    auto validator = [this]() {
-        emit quit();
-    };
-    auto finalizer = [&]() {
-        loop.quit();
-    };
-    connect(this, &UserApiTests::quit, finalizer);
-    connect(api, &OAIUserApi::createUserSignal, this, validator);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+    connect(api, &OAIUserApi::createUserSignal, [&](){
+            userCreated = true;
+            loop.quit();
+    });
 
     api->createUser(createRandomUser());
-    timer.start();
+    QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
-    disconnect(this, nullptr, nullptr, nullptr);
+    QVERIFY2(userCreated, "didn't finish within timeout");
+
     delete api;
 }
 
 void UserApiTests::createUsersWithArrayInputTest(){
     auto api = getApi();
     QEventLoop loop;
-    QTimer timer;
-    timer.setInterval(14000);
-    timer.setSingleShot(true);
+    bool usersCreated = false;
 
-    auto validator = [this]() {
-        emit quit();
-    };
-    auto finalizer = [&]() {
-        loop.quit();
-    };
-    connect(this, &UserApiTests::quit, finalizer);
-    connect(api, &OAIUserApi::createUsersWithArrayInputSignal, this, validator);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+    connect(api, &OAIUserApi::createUsersWithArrayInputSignal, [&](){
+            usersCreated = true;
+            loop.quit();
+    });
+
     QList<OAIUser> users;
     users.append(createRandomUser());
     users.append(createRandomUser());
     users.append(createRandomUser());
     api->createUsersWithArrayInput(users);
-    timer.start();
+    QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
-    disconnect(this, nullptr, nullptr, nullptr);
+    QVERIFY2(usersCreated, "didn't finish within timeout");
+
     delete api;
 }
 
 void UserApiTests::createUsersWithListInputTest(){
     auto api = getApi();
     QEventLoop loop;
-    QTimer timer;
-    timer.setInterval(14000);
-    timer.setSingleShot(true);
+    bool usersCreated = false;
 
-    auto validator = [this]() {
-        emit quit();
-    };
-    auto finalizer = [&]() {
-        loop.quit();
-    };
-    connect(this, &UserApiTests::quit, finalizer);
-    connect(api, &OAIUserApi::createUsersWithListInputSignal, this, validator);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+    connect(api, &OAIUserApi::createUsersWithListInputSignal, [&](){
+            usersCreated = true;
+            loop.quit();
+    });
+
     QList<OAIUser> users;
     auto johndoe = createRandomUser();
-    johndoe.setUsername(QString("johndoe"));
+    johndoe.setUsername("johndoe");
     auto rambo = createRandomUser();
-    rambo.setUsername(QString("rambo"));
+    rambo.setUsername("rambo");
     users.append(johndoe);
     users.append(rambo);
     users.append(createRandomUser());
     api->createUsersWithListInput(users);
-    timer.start();
+    QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
-    disconnect(this, nullptr, nullptr, nullptr);
+    QVERIFY2(usersCreated, "didn't finish within timeout");
+
     delete api;
 }
 
 void UserApiTests::deleteUserTest(){
     auto api = getApi();
     QEventLoop loop;
-    QTimer timer;
-    timer.setInterval(14000);
-    timer.setSingleShot(true);
+    bool userDeleted = false;
 
-    auto validator = [this]() {
-        emit quit();
-    };
-    auto finalizer = [&]() {
-        loop.quit();
-    };
-    connect(this, &UserApiTests::quit, finalizer);
-    connect(api, &OAIUserApi::deleteUserSignal, this, validator);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+    connect(api, &OAIUserApi::deleteUserSignal, [&](){
+            userDeleted = true;
+            loop.quit();
+    });
 
-    api->deleteUser(QString("rambo"));
-    timer.start();
+    api->deleteUser("rambo");
+    QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
-    disconnect(this, nullptr, nullptr, nullptr);
+    QVERIFY2(userDeleted, "didn't finish within timeout");
+
     delete api;
 }
 
 void UserApiTests::getUserByNameTest(){
     auto api = getApi();
     QEventLoop loop;
-    QTimer timer;
-    timer.setInterval(30000);
-    timer.setSingleShot(true);
+    bool userFetched = false;
 
-    auto validator = [this](OAIUser summary) {
+    connect(api, &OAIUserApi::getUserByNameSignal, [&](OAIUser summary) {
+        userFetched = true;
         qDebug() << summary.getUsername();
-        emit quit();
-    };
-    auto finalizer = [&]() {
+        QVERIFY(summary.getUsername() == "johndoe");
         loop.quit();
-    };
-    connect(this, &UserApiTests::quit, finalizer);
-    connect(api, &OAIUserApi::getUserByNameSignal, this, validator);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+    });
 
-    api->getUserByName(QString("johndoe"));
-    timer.start();
+    api->getUserByName("johndoe");
+    QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
-    disconnect(this, nullptr, nullptr, nullptr);
+    QVERIFY2(userFetched, "didn't finish within timeout");
+
     delete api;
 }
 
 void UserApiTests::loginUserTest(){
     auto api = getApi();
     QEventLoop loop;
-    QTimer timer;
-    timer.setInterval(30000);
-    timer.setSingleShot(true);
+    bool userLogged = false;
 
-    auto validator = [this](QString summary) {
+    connect(api, &OAIUserApi::loginUserSignal, [&](QString summary) {
+        userLogged = true;
         qDebug() << summary;
-        emit quit();
-    };
-    auto finalizer = [&]() {
         loop.quit();
-    };
-    connect(this, &UserApiTests::quit, finalizer);
-    connect(api, &OAIUserApi::loginUserSignal, this, validator);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+    });
 
-    api->loginUser(QString("johndoe"), QString("123456789"));
-    timer.start();
+    api->loginUser("johndoe", "123456789");
+    QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
-    disconnect(this, nullptr, nullptr, nullptr);
+    QVERIFY2(userLogged, "didn't finish within timeout");
+
     delete api;
 }
 
 void UserApiTests::logoutUserTest(){
     auto api = getApi();
     QEventLoop loop;
-    QTimer timer;
-    timer.setInterval(30000);
-    timer.setSingleShot(true);
+    bool userLoggedOut = false;
 
-    auto validator = [this]() {
-        emit quit();
-    };
-    auto finalizer = [&]() {
+    connect(api, &OAIUserApi::logoutUserSignal, [&](){
+        userLoggedOut = true;
         loop.quit();
-    };
-    connect(this, &UserApiTests::quit, finalizer);
-    connect(api, &OAIUserApi::logoutUserSignal, this, validator);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+    });
 
     api->logoutUser();
-    timer.start();
+    QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
-    disconnect(this, nullptr, nullptr, nullptr);
+    QVERIFY2(userLoggedOut, "didn't finish within timeout");
+
     delete api;
 }
 
 void UserApiTests::updateUserTest(){
     auto api = getApi();
     QEventLoop loop;
-    QTimer timer;
-    timer.setInterval(30000);
-    timer.setSingleShot(true);
+    bool userUpdated = false;
 
-    auto validator = [this]() {
-        emit quit();
-    };
-    auto finalizer = [&]() {
-        loop.quit();
-    };
-    connect(this, &UserApiTests::quit, finalizer);
-    connect(api, &OAIUserApi::updateUserSignal, this, validator);
-    connect(&timer, &QTimer::timeout, &loop, finalizer);
+    connect(api, &OAIUserApi::updateUserSignal, [&]() {
+            userUpdated = true;
+            loop.quit();
+    });
 
     auto johndoe = createRandomUser();
-    johndoe.setUsername(QString("johndoe"));
-    api->updateUser(QString("johndoe"), johndoe);
-    timer.start();
+    johndoe.setUsername("johndoe");
+    api->updateUser("johndoe", johndoe);
+    QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
-    QVERIFY2(timer.isActive(), "didn't finish within timeout");
-    disconnect(this, nullptr, nullptr, nullptr);
+    QVERIFY2(userUpdated, "didn't finish within timeout");
+
     delete api;
 }

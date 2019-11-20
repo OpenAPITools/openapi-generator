@@ -19,12 +19,12 @@ public final class SingleAssignmentDisposable : DisposeBase, Cancelable {
     }
 
     // state
-    private var _state = AtomicInt(0)
+    private let _state = AtomicInt(0)
     private var _disposable = nil as Disposable?
 
     /// - returns: A value that indicates whether the object is disposed.
     public var isDisposed: Bool {
-        return _state.isFlagSet(DisposeState.disposed.rawValue)
+        return isFlagSet(self._state, DisposeState.disposed.rawValue)
     }
 
     /// Initializes a new instance of the `SingleAssignmentDisposable`.
@@ -36,34 +36,34 @@ public final class SingleAssignmentDisposable : DisposeBase, Cancelable {
     ///
     /// **Throws exception if the `SingleAssignmentDisposable` has already been assigned to.**
     public func setDisposable(_ disposable: Disposable) {
-        _disposable = disposable
+        self._disposable = disposable
 
-        let previousState = _state.fetchOr(DisposeState.disposableSet.rawValue)
-        
+        let previousState = fetchOr(self._state, DisposeState.disposableSet.rawValue)
+
         if (previousState & DisposeState.disposableSet.rawValue) != 0 {
             rxFatalError("oldState.disposable != nil")
         }
 
         if (previousState & DisposeState.disposed.rawValue) != 0 {
             disposable.dispose()
-            _disposable = nil
+            self._disposable = nil
         }
     }
 
     /// Disposes the underlying disposable.
     public func dispose() {
-        let previousState = _state.fetchOr(DisposeState.disposed.rawValue)
+        let previousState = fetchOr(self._state, DisposeState.disposed.rawValue)
 
         if (previousState & DisposeState.disposed.rawValue) != 0 {
             return
         }
 
         if (previousState & DisposeState.disposableSet.rawValue) != 0 {
-            guard let disposable = _disposable else {
+            guard let disposable = self._disposable else {
                 rxFatalError("Disposable not set")
             }
             disposable.dispose()
-            _disposable = nil
+            self._disposable = nil
         }
     }
 

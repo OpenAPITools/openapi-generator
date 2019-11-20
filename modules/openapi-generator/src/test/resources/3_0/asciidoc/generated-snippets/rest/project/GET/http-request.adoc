@@ -1,0 +1,6 @@
+[source,http,options="nowrap"]
+----
+GET /rest/project/ HTTP/1.1
+Host: samplehost.timeatwork.manathome.org:8080
+
+----

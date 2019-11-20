@@ -247,10 +247,12 @@ use WWW::OpenAPIClient::Object::ArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayTest;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
+use WWW::OpenAPIClient::Object::CatAllOf;
 use WWW::OpenAPIClient::Object::Category;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
 use WWW::OpenAPIClient::Object::Dog;
+use WWW::OpenAPIClient::Object::DogAllOf;
 use WWW::OpenAPIClient::Object::EnumArrays;
 use WWW::OpenAPIClient::Object::EnumClass;
 use WWW::OpenAPIClient::Object::EnumTest;
@@ -310,10 +312,12 @@ use WWW::OpenAPIClient::Object::ArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayTest;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
+use WWW::OpenAPIClient::Object::CatAllOf;
 use WWW::OpenAPIClient::Object::Category;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
 use WWW::OpenAPIClient::Object::Dog;
+use WWW::OpenAPIClient::Object::DogAllOf;
 use WWW::OpenAPIClient::Object::EnumArrays;
 use WWW::OpenAPIClient::Object::EnumClass;
 use WWW::OpenAPIClient::Object::EnumTest;
@@ -379,6 +383,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -419,10 +424,12 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::ArrayTest](docs/ArrayTest.md)
  - [WWW::OpenAPIClient::Object::Capitalization](docs/Capitalization.md)
  - [WWW::OpenAPIClient::Object::Cat](docs/Cat.md)
+ - [WWW::OpenAPIClient::Object::CatAllOf](docs/CatAllOf.md)
  - [WWW::OpenAPIClient::Object::Category](docs/Category.md)
  - [WWW::OpenAPIClient::Object::ClassModel](docs/ClassModel.md)
  - [WWW::OpenAPIClient::Object::Client](docs/Client.md)
  - [WWW::OpenAPIClient::Object::Dog](docs/Dog.md)
+ - [WWW::OpenAPIClient::Object::DogAllOf](docs/DogAllOf.md)
  - [WWW::OpenAPIClient::Object::EnumArrays](docs/EnumArrays.md)
  - [WWW::OpenAPIClient::Object::EnumClass](docs/EnumClass.md)
  - [WWW::OpenAPIClient::Object::EnumTest](docs/EnumTest.md)

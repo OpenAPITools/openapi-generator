@@ -1,0 +1,12 @@
+{
+  "!include": "bin/java-petstore-jersey2.json",
+  "artifactId": "petstore-jersey2-java6",
+  "generatorName": "java",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/client/petstore/java/jersey2-java6",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true,
+    "supportJava6": true,
+    "booleanGetterPrefix": "is"
+  }
+}

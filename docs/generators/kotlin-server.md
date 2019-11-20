@@ -8,13 +8,16 @@ sidebar_label: kotlin-server
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |sourceFolder|source folder for generated code| |src/main/kotlin|
-|packageName|Generated artifact package name.| |org.openapitools|
+|packageName|Generated artifact package name.| |org.openapitools.server|
+|apiSuffix|suffix for api classes| |Api|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
-|artifactId|Generated artifact id (name of jar).| |null|
+|artifactId|Generated artifact id (name of jar).| |kotlin-server|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
+|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson'| |moshi|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
-|library|library template (sub-template) to use|<dl><dt>**ktor**</dt><dd>ktor framework</dd><dl>|ktor|
+|serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
+|library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd><dl>|ktor|
 |featureAutoHead|Automatically provide responses to HEAD requests for existing routes that have the GET verb defined.| |true|
 |featureConditionalHeaders|Avoid sending content if client already has same content, by checking ETag or LastModified properties.| |false|
 |featureHSTS|Avoid sending content if client already has same content, by checking ETag or LastModified properties.| |true|

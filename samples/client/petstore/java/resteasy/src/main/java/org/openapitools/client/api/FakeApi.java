@@ -374,7 +374,7 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'number' is set
     if (number == null) {
@@ -464,7 +464,7 @@ if (paramCallback != null)
    * @throws ApiException if fails to make API call
    */
   public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // create path and map variables
     String localVarPath = "/fake".replaceAll("\\{format\\}","json");
@@ -516,7 +516,7 @@ if (enumFormString != null)
    * @throws ApiException if fails to make API call
    */
   public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'requiredStringGroup' is set
     if (requiredStringGroup == null) {
@@ -615,7 +615,7 @@ if (booleanGroup != null)
    * @throws ApiException if fails to make API call
    */
   public void testJsonFormData(String param, String param2) throws ApiException {
-    Object localVarPostBody = new Object();
+    Object localVarPostBody = null;
     
     // verify the required parameter 'param' is set
     if (param == null) {
@@ -656,5 +656,74 @@ if (param2 != null)
 
 
     apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+  }
+  /**
+   * 
+   * To test the collection format in query parameters
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   * @throws ApiException if fails to make API call
+   */
+  public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'pipe' is set
+    if (pipe == null) {
+      throw new ApiException(400, "Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat");
+    }
+    
+    // verify the required parameter 'ioutil' is set
+    if (ioutil == null) {
+      throw new ApiException(400, "Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat");
+    }
+    
+    // verify the required parameter 'http' is set
+    if (http == null) {
+      throw new ApiException(400, "Missing the required parameter 'http' when calling testQueryParameterCollectionFormat");
+    }
+    
+    // verify the required parameter 'url' is set
+    if (url == null) {
+      throw new ApiException(400, "Missing the required parameter 'url' when calling testQueryParameterCollectionFormat");
+    }
+    
+    // verify the required parameter 'context' is set
+    if (context == null) {
+      throw new ApiException(400, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake/test-query-paramters".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "pipe", pipe));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "ioutil", ioutil));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("space", "http", http));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "url", url));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "context", context));
+
+    
+    
+    final String[] localVarAccepts = {
+      
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+
+    apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
 }

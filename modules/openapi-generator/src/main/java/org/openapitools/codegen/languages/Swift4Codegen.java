@@ -101,7 +101,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         "UUID",
                         "URL",
                         "AnyObject",
-                        "Any")
+                        "Any",
+                        "Decimal")
         );
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
@@ -115,7 +116,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         "Any",
                         "Empty",
                         "AnyObject",
-                        "Any")
+                        "Any",
+                        "Decimal")
         );
 
         objcReservedWords = new HashSet<>(
@@ -197,6 +199,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("binary", "URL");
         typeMapping.put("ByteArray", "Data");
         typeMapping.put("UUID", "UUID");
+        typeMapping.put("URI", "String");
+        typeMapping.put("BigDecimal", "Decimal");
 
         importMapping = new HashMap<>();
 
@@ -420,6 +424,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache",
                 "",
                 "README.md"));
+        supportingFiles.add(new SupportingFile("XcodeGen.mustache",
+                "",
+                "project.yml"));
 
     }
 

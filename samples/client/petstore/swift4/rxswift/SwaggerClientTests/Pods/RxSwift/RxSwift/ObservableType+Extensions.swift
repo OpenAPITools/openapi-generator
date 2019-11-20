@@ -86,7 +86,7 @@ extension ObservableType {
 import class Foundation.NSRecursiveLock
 
 extension Hooks {
-    public typealias DefaultErrorHandler = (_ subscriptionCallStack: [String], _ error: Error) -> ()
+    public typealias DefaultErrorHandler = (_ subscriptionCallStack: [String], _ error: Error) -> Void
     public typealias CustomCaptureSubscriptionCallstack = () -> [String]
 
     fileprivate static let _lock = RecursiveLock()

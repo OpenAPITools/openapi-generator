@@ -1,0 +1,15 @@
+{{>partial_header}}
+{{#operations}}
+{{#operation}}
+{{#description}}
+ * Schema {{{classname}}} : {{{description}}}
+{{/description}}
+{{/operation}}
+{{/operations}}
+ *)
+
+{{#operations}}
+{{#operation}}
+val {{{operationId}}} : {{^hasParams}}unit{{/hasParams}}{{#allParams}}{{#required}}{{{paramName}}}{{/required}}{{^required}}{{^isBodyParam}}?{{/isBodyParam}}{{{paramName}}}{{/required}}:{{#isEnum}}Enums.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#hasMore}} -> {{/hasMore}}{{#-last}}{{^required}} -> unit{{/required}}{{/-last}}{{/allParams}} -> {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}unit{{/returnType}} Lwt.t
+{{/operation}}
+{{/operations}}

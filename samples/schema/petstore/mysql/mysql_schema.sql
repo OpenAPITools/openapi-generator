@@ -166,6 +166,14 @@ CREATE TABLE IF NOT EXISTS `Cat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `Cat_allOf` generated from model 'CatUnderscoreallOf'
+--
+
+CREATE TABLE IF NOT EXISTS `Cat_allOf` (
+  `declawed` TINYINT(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `Category` generated from model 'Category'
 --
 
@@ -198,6 +206,14 @@ CREATE TABLE IF NOT EXISTS `Client` (
 CREATE TABLE IF NOT EXISTS `Dog` (
   `className` TEXT NOT NULL,
   `color` TEXT,
+  `breed` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `Dog_allOf` generated from model 'DogUnderscoreallOf'
+--
+
+CREATE TABLE IF NOT EXISTS `Dog_allOf` (
   `breed` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -257,7 +273,8 @@ CREATE TABLE IF NOT EXISTS `format_test` (
   `date` DATE NOT NULL,
   `dateTime` DATETIME DEFAULT NULL,
   `uuid` TEXT DEFAULT NULL,
-  `password` VARCHAR(64) NOT NULL
+  `password` VARCHAR(64) NOT NULL,
+  `BigDecimal` DECIMAL(20, 9) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -400,6 +417,7 @@ CREATE TABLE IF NOT EXISTS `TypeHolderDefault` (
 CREATE TABLE IF NOT EXISTS `TypeHolderExample` (
   `string_item` TEXT NOT NULL,
   `number_item` DECIMAL(20, 9) NOT NULL,
+  `float_item` DECIMAL(20, 9) NOT NULL,
   `integer_item` INT NOT NULL,
   `bool_item` TINYINT(1) NOT NULL,
   `array_item` JSON NOT NULL

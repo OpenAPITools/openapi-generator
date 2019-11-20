@@ -19,7 +19,7 @@ extension ObservableType {
      - parameter accumulator: An accumulator function to be invoked on each element.
      - returns: An observable sequence containing the accumulated values.
      */
-    public func scan<A>(into seed: A, accumulator: @escaping (inout A, E) throws -> ())
+    public func scan<A>(into seed: A, accumulator: @escaping (inout A, E) throws -> Void)
         -> Observable<A> {
         return Scan(source: self.asObservable(), seed: seed, accumulator: accumulator)
     }
@@ -44,7 +44,7 @@ extension ObservableType {
     }
 }
 
-final fileprivate class ScanSink<ElementType, O: ObserverType> : Sink<O>, ObserverType {
+final private class ScanSink<ElementType, O: ObserverType>: Sink<O>, ObserverType {
     typealias Accumulate = O.E
     typealias Parent = Scan<ElementType, Accumulate>
     typealias E = ElementType
@@ -53,8 +53,8 @@ final fileprivate class ScanSink<ElementType, O: ObserverType> : Sink<O>, Observ
     fileprivate var _accumulate: Accumulate
     
     init(parent: Parent, observer: O, cancel: Cancelable) {
-        _parent = parent
-        _accumulate = parent._seed
+        self._parent = parent
+        self._accumulate = parent._seed
         super.init(observer: observer, cancel: cancel)
     }
     
@@ -62,40 +62,40 @@ final fileprivate class ScanSink<ElementType, O: ObserverType> : Sink<O>, Observ
         switch event {
         case .next(let element):
             do {
-                try _parent._accumulator(&_accumulate, element)
-                forwardOn(.next(_accumulate))
+                try self._parent._accumulator(&self._accumulate, element)
+                self.forwardOn(.next(self._accumulate))
             }
             catch let error {
-                forwardOn(.error(error))
-                dispose()
+                self.forwardOn(.error(error))
+                self.dispose()
             }
         case .error(let error):
-            forwardOn(.error(error))
-            dispose()
+            self.forwardOn(.error(error))
+            self.dispose()
         case .completed:
-            forwardOn(.completed)
-            dispose()
+            self.forwardOn(.completed)
+            self.dispose()
         }
     }
     
 }
 
-final fileprivate class Scan<Element, Accumulate>: Producer<Accumulate> {
-    typealias Accumulator = (inout Accumulate, Element) throws -> ()
+final private class Scan<Element, Accumulate>: Producer<Accumulate> {
+    typealias Accumulator = (inout Accumulate, Element) throws -> Void
     
     fileprivate let _source: Observable<Element>
     fileprivate let _seed: Accumulate
     fileprivate let _accumulator: Accumulator
     
     init(source: Observable<Element>, seed: Accumulate, accumulator: @escaping Accumulator) {
-        _source = source
-        _seed = seed
-        _accumulator = accumulator
+        self._source = source
+        self._seed = seed
+        self._accumulator = accumulator
     }
     
     override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Accumulate {
         let sink = ScanSink(parent: self, observer: observer, cancel: cancel)
-        let subscription = _source.subscribe(sink)
+        let subscription = self._source.subscribe(sink)
         return (sink: sink, subscription: subscription)
     }
 }

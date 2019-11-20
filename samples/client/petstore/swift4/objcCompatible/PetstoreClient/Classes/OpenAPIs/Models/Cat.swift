@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 public struct Cat: Codable {
 
     public var className: String
@@ -26,6 +24,4 @@ public struct Cat: Codable {
         self.declawed = declawed
     }
 
-
 }
-

@@ -4,6 +4,7 @@ org.openapitools.codegen.languages.AndroidClientCodegen
 org.openapitools.codegen.languages.Apache2ConfigCodegen
 org.openapitools.codegen.languages.ApexClientCodegen
 org.openapitools.codegen.languages.AspNetCoreServerCodegen
+org.openapitools.codegen.languages.AvroSchemaCodegen
 org.openapitools.codegen.languages.BashClientCodegen
 org.openapitools.codegen.languages.CLibcurlClientCodegen
 org.openapitools.codegen.languages.ClojureClientCodegen
@@ -27,8 +28,9 @@ org.openapitools.codegen.languages.ErlangClientCodegen
 org.openapitools.codegen.languages.ErlangProperCodegen
 org.openapitools.codegen.languages.ErlangServerCodegen
 org.openapitools.codegen.languages.FlashClientCodegen
-org.openapitools.codegen.languages.FinchServerCodegen
+org.openapitools.codegen.languages.FsharpGiraffeServerCodegen
 org.openapitools.codegen.languages.GoClientCodegen
+org.openapitools.codegen.languages.GoClientExperimentalCodegen
 org.openapitools.codegen.languages.GoServerCodegen
 org.openapitools.codegen.languages.GoGinServerCodegen
 org.openapitools.codegen.languages.GraphQLSchemaCodegen
@@ -37,6 +39,7 @@ org.openapitools.codegen.languages.GroovyClientCodegen
 org.openapitools.codegen.languages.KotlinClientCodegen
 org.openapitools.codegen.languages.KotlinServerCodegen
 org.openapitools.codegen.languages.KotlinSpringServerCodegen
+org.openapitools.codegen.languages.KotlinVertxServerCodegen
 org.openapitools.codegen.languages.HaskellHttpClientCodegen
 org.openapitools.codegen.languages.HaskellServantCodegen
 org.openapitools.codegen.languages.JavaClientCodegen
@@ -60,8 +63,11 @@ org.openapitools.codegen.languages.JavascriptClosureAngularClientCodegen
 org.openapitools.codegen.languages.JMeterClientCodegen
 org.openapitools.codegen.languages.LuaClientCodegen
 org.openapitools.codegen.languages.MysqlSchemaCodegen
+org.openapitools.codegen.languages.NimClientCodegen
 org.openapitools.codegen.languages.NodeJSServerCodegen
+org.openapitools.codegen.languages.NodeJSExpressServerCodegen
 org.openapitools.codegen.languages.ObjcClientCodegen
+org.openapitools.codegen.languages.OCamlClientCodegen
 org.openapitools.codegen.languages.OpenAPIGenerator
 org.openapitools.codegen.languages.OpenAPIYamlGenerator
 org.openapitools.codegen.languages.PerlClientCodegen
@@ -73,7 +79,9 @@ org.openapitools.codegen.languages.PhpSilexServerCodegen
 org.openapitools.codegen.languages.PhpSymfonyServerCodegen
 org.openapitools.codegen.languages.PhpZendExpressivePathHandlerServerCodegen
 org.openapitools.codegen.languages.PowerShellClientCodegen
+org.openapitools.codegen.languages.ProtobufSchemaCodegen
 org.openapitools.codegen.languages.PythonClientCodegen
+org.openapitools.codegen.languages.PythonClientExperimentalCodegen
 org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen
 org.openapitools.codegen.languages.PythonAiohttpConnexionServerCodegen
 org.openapitools.codegen.languages.PythonBluePlanetServerCodegen
@@ -85,6 +93,7 @@ org.openapitools.codegen.languages.RustClientCodegen
 org.openapitools.codegen.languages.RustServerCodegen
 org.openapitools.codegen.languages.ScalatraServerCodegen
 org.openapitools.codegen.languages.ScalaAkkaClientCodegen
+org.openapitools.codegen.languages.ScalaFinchServerCodegen
 org.openapitools.codegen.languages.ScalaHttpClientCodegen
 org.openapitools.codegen.languages.ScalaGatlingCodegen
 org.openapitools.codegen.languages.ScalaLagomServerCodegen
@@ -106,3 +115,6 @@ org.openapitools.codegen.languages.TypeScriptInversifyClientCodegen
 org.openapitools.codegen.languages.TypeScriptJqueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptNodeClientCodegen
 org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
+org.openapitools.codegen.languages.FsharpGiraffeServerCodegen
+org.openapitools.codegen.languages.AsciidocDocumentationCodegen
+org.openapitools.codegen.languages.FsharpFunctionsServerCodegen

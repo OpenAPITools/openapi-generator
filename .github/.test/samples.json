@@ -146,12 +146,6 @@
       ]
     },
     {
-      "input": "dart-flutter-petstore.sh",
-      "matches": [
-        "Client: Dart"
-      ]
-    },
-    {
       "input": "dart-jaguar-petstore.sh",
       "matches": [
         "Client: Dart"
@@ -927,7 +921,7 @@
       ]
     },
     {
-      "input": "spring-all-pestore.sh",
+      "input": "spring-all-petstore.sh",
       "matches": [
         "Server: Spring"
       ]
@@ -1258,6 +1252,30 @@
     },
     {
       "input": "typescript-node-petstore.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-rxjs-petstore-interfaces.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-rxjs-petstore-target-es6.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-rxjs-petstore-with-npm-version.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-rxjs-petstore.sh",
       "matches": [
         "Client: TypeScript"
       ]

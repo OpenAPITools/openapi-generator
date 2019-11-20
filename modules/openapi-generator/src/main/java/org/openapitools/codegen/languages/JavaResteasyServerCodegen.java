@@ -38,8 +38,11 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         super();
 
         artifactId = "openapi-jaxrs-resteasy-server";
-
         outputFolder = "generated-code/JavaJaxRS-Resteasy";
+
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
         apiTestTemplateFiles.clear(); // TODO: add test template
@@ -49,8 +52,6 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         //TODO: add doc templates
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
-
-        dateLibrary = "legacy";// TODO: change to joda
 
         embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "resteasy";
 

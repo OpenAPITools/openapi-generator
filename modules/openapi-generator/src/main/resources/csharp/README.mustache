@@ -102,7 +102,7 @@ Then, publish to a [local feed](https://docs.microsoft.com/en-us/nuget/hosting-p
 ## Getting Started
 
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using {{packageName}}.{{apiPackage}};
 using {{packageName}}.Client;
@@ -112,9 +112,10 @@ namespace Example
 {
     public class {{operationId}}Example
     {
-        public void main()
+        public static void Main()
         {
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
+            Configuration.Default.BasePath = "{{{basePath}}}";
             {{#hasAuthMethods}}
             {{#authMethods}}
             {{#isBasic}}
@@ -135,7 +136,7 @@ namespace Example
             {{/authMethods}}
 
             {{/hasAuthMethods}}
-            var apiInstance = new {{classname}}();
+            var apiInstance = new {{classname}}(Configuration.Default);
             {{#allParams}}
             {{#isPrimitiveType}}
             var {{paramName}} = {{{example}}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
@@ -153,9 +154,11 @@ namespace Example
                 {{#returnType}}{{{.}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
                 Debug.WriteLine(result);{{/returnType}}
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
 {{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
         }

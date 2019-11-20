@@ -34,12 +34,13 @@ fi
 echo "Release preparation: replacing $FROM with $TO in different files"
 
 declare -a files=("modules/openapi-generator-maven-plugin/README.md"
+                  "modules/openapi-generator-maven-plugin/examples/multi-module/java-client/pom.xml"
                   "modules/openapi-generator-maven-plugin/examples/java-client.xml"
                   "modules/openapi-generator-maven-plugin/examples/non-java-invalid-spec.xml"
                   "modules/openapi-generator-maven-plugin/examples/non-java.xml"
                   "modules/openapi-generator-gradle-plugin/README.adoc"
+                  "modules/openapi-generator-gradle-plugin/gradle.properties"
                   "modules/openapi-generator-gradle-plugin/samples/local-spec/gradle.properties"
-                  "modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle"
                   "modules/openapi-generator-gradle-plugin/samples/local-spec/README.md"
                   "README.md")
 

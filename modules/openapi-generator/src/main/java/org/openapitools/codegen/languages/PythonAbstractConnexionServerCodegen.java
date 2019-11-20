@@ -93,6 +93,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
         typeMapping.put("object", "object");
         typeMapping.put("file", "file");
         typeMapping.put("UUID", "str");
+        typeMapping.put("URI", "str");
         typeMapping.put("byte", "bytearray");
         typeMapping.put("ByteArray", "bytearray");
 
@@ -201,15 +202,20 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
         }
         supportingFiles.add(new SupportingFile("__main__.mustache", packagePath(), "__main__.py"));
         supportingFiles.add(new SupportingFile("util.mustache", packagePath(), "util.py"));
-        supportingFiles.add(new SupportingFile("__init__.mustache", packagePath() + File.separatorChar + controllerPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("security_controller_.mustache", packagePath() + File.separatorChar + controllerPackage, "security_controller_.py"));
-        supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + modelPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("base_model_.mustache", packagePath() + File.separatorChar + modelPackage, "base_model_.py"));
+        supportingFiles.add(new SupportingFile("typing_utils.mustache", packagePath(), "typing_utils.py"));
+        supportingFiles.add(new SupportingFile("__init__.mustache", packagePath() + File.separatorChar + packageToPath(controllerPackage), "__init__.py"));
+        supportingFiles.add(new SupportingFile("security_controller_.mustache", packagePath() + File.separatorChar + packageToPath(controllerPackage), "security_controller_.py"));
+        supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + packageToPath(modelPackage), "__init__.py"));
+        supportingFiles.add(new SupportingFile("base_model_.mustache", packagePath() + File.separatorChar + packageToPath(modelPackage), "base_model_.py"));
         supportingFiles.add(new SupportingFile("openapi.mustache", packagePath() + File.separatorChar + "openapi", "openapi.yaml"));
         addSupportingFiles();
 
         modelPackage = packageName + "." + modelPackage;
         controllerPackage = packageName + "." + controllerPackage;
+    }
+
+    private static String packageToPath(String pkg) {
+        return pkg.replace(".", File.separator);
     }
 
     private static String dropDots(String str) {

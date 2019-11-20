@@ -1,35 +1,44 @@
 import IHttpClient from "./IHttpClient";
+
 import { Observable } from "rxjs/Observable";
+
 import "whatwg-fetch";
 import HttpResponse from "./HttpResponse";
 import {injectable} from "inversify";
-import "rxjs/add/observable/fromPromise";
 import { Headers } from "./Headers";
 
 @injectable()
 class HttpClient implements IHttpClient {
 
     get(url:string, headers?: Headers):Observable<HttpResponse> {
-        return this.performNetworkCall(url, "get", undefined, headers);
+        return this.performNetworkCall(url, "GET", undefined, headers);
     }
 
-    post(url: string, body: {}|FormData, headers?: Headers): Observable<HttpResponse> {
-        return this.performNetworkCall(url, "post", this.getJsonBody(body), this.addJsonHeaders(headers));
+    post(url: string, body?: {}|FormData, headers?: Headers): Observable<HttpResponse> {
+        return this.performNetworkCall(url, "POST", this.getJsonBody(body), this.addJsonHeaders(headers));
     }
 
-    put(url: string, body: {}, headers?: Headers): Observable<HttpResponse> {
-        return this.performNetworkCall(url, "put", this.getJsonBody(body), this.addJsonHeaders(headers));
+    put(url: string, body?: {}, headers?: Headers): Observable<HttpResponse> {
+        return this.performNetworkCall(url, "PUT", this.getJsonBody(body), this.addJsonHeaders(headers));
     }
+
+    patch(url: string, body?: {}, headers?: Headers): Observable<HttpResponse> {
+        return this.performNetworkCall(url, "PATCH", this.getJsonBody(body), this.addJsonHeaders(headers));
+    }
+
 
     delete(url: string, headers?: Headers): Observable<HttpResponse> {
-        return this.performNetworkCall(url, "delete", undefined, headers);
+        return this.performNetworkCall(url, "DELETE", undefined, headers);
     }
 
-    private getJsonBody(body: {}|FormData) {
-        return !(body instanceof FormData) ? JSON.stringify(body) : body;
+    private getJsonBody(body?: {}|FormData) {
+        if (body === undefined || body instanceof FormData) {
+            return body;
+        }
+        return JSON.stringify(body);
     }
 
-    private addJsonHeaders(headers: Headers) {
+    private addJsonHeaders(headers?: Headers) {
         return Object.assign({}, {
             "Accept": "application/json",
             "Content-Type": "application/json"
@@ -56,7 +65,8 @@ class HttpClient implements IHttpClient {
                 return httpResponse;
             });
         });
-        return Observable.fromPromise(promise);
+
+            return Observable.fromPromise(promise);
     }
 }
 

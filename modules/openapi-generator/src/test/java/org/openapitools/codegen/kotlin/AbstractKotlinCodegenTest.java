@@ -2,7 +2,10 @@ package org.openapitools.codegen.kotlin;
 
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.File;
 
 import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.*;
 import static org.testng.Assert.*;
@@ -117,6 +120,40 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toVarName("Pony?"), "ponyQuestionMark");
         assertEquals(codegen.toVarName("nam#e"), "namHashE");
         assertEquals(codegen.toVarName("Pony>=>="), "ponyGreaterThanEqualGreaterThanEqual");
+        assertEquals(codegen.toVarName("uSername"), "uSername");
+        assertEquals(codegen.toVarName("USERname"), "usERname");
+        assertEquals(codegen.toVarName("USERNAME"), "USERNAME");
+        assertEquals(codegen.toVarName("USER123NAME"), "USER123NAME");
     }
+
+    @Test
+    public void convertApiNameWithEmptySuffix() {
+        assertEquals(codegen.toApiName("Fake"), "FakeApi");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    @Test
+    public void convertApiNameWithSuffix() {
+        codegen.setApiSuffix("Test");
+        assertEquals(codegen.toApiName("Fake"), "FakeTest");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    @Test
+    public void apIFileFolder() {
+        codegen.setOutputDir("/User/open/api/tools");
+        codegen.setSourceFolder("src/folder");
+        codegen.setApiPackage("org.openapitools.codegen.api");
+        Assert.assertEquals(codegen.apiFileFolder(), "/User/open/api/tools/src/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+    }
+
+    @Test
+    public void apiTestFileFolder() {
+        codegen.setOutputDir("/User/open/api/tools");
+        codegen.setTestFolder("test/folder");
+        codegen.setApiPackage("org.openapitools.codegen.api");
+        Assert.assertEquals(codegen.apiTestFileFolder(), "/User/open/api/tools/test/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+    }
+
 
 }

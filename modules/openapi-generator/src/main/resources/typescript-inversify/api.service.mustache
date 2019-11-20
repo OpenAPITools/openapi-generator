@@ -1,9 +1,14 @@
 {{>licenseInfo}}
 /* tslint:disable:no-unused-variable member-ordering */
 
+{{^useRxJS6}}
 import { Observable } from "rxjs/Observable";
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
+{{/useRxJS6}}
+{{#useRxJS6}}
+import { Observable } from "rxjs";
+{{/useRxJS6}}
+
+import { map } from "rxjs/operators";
 import IHttpClient from "../IHttpClient";
 import { inject, injectable } from "inversify";
 import { IAPIConfiguration } from "../IAPIConfiguration";
@@ -11,12 +16,12 @@ import { Headers } from "../Headers";
 import HttpResponse from "../HttpResponse";
 
 {{#imports}}
-import { {{classname}} } from '../{{filename}}';
+import { {{classname}} } from "../{{filename}}";
 {{/imports}}
 
-import { COLLECTION_FORMATS }  from '../variables';
+import { COLLECTION_FORMATS }  from "../variables";
 {{#withInterfaces}}
-import { {{classname}}Interface }  from './{{classname}}Interface';
+import { {{classname}}Interface }  from "./{{classFilename}}Interface";
 {{/withInterfaces}}
 
 {{#operations}}
@@ -55,7 +60,7 @@ export class {{classname}} {
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe: any = 'body', headers: Headers = {}): {{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<any> {
 {{#allParams}}
 {{#required}}
-        if (!{{paramName}}){
+        if ({{paramName}} === null || {{paramName}} === undefined){
             throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
         }
 
@@ -134,7 +139,7 @@ export class {{classname}} {
         headers['Accept'] = 'application/json';
         {{/produces}}
         {{#produces.0}}
-        headers['Accept'] = '{{{mediaType}}}';
+        headers['Accept'] = '{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}';
         {{/produces.0}}
 {{#bodyParam}}
         {{^consumes}}
@@ -171,7 +176,9 @@ export class {{classname}} {
 {{/hasFormParams}}
         const response: Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>> = this.httpClient.{{httpMethod}}(`${this.basePath}{{{path}}}{{#hasQueryParams}}?${queryParameters.join('&')}{{/hasQueryParams}}`{{#bodyParam}}, {{paramName}} {{/bodyParam}}{{#hasFormParams}}, body{{/hasFormParams}}, headers);
         if (observe == 'body') {
-               return response.map(httpResponse => <{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>(httpResponse.response)){{#usePromise}}.toPromise(){{/usePromise}};
+               return response.pipe(
+                   map(httpResponse => <{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>(httpResponse.response))
+               ){{#usePromise}}.toPromise(){{/usePromise}};
         }
         return response{{#usePromise}}.toPromise(){{/usePromise}};
     }

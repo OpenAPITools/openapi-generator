@@ -25,7 +25,7 @@ extension DispatchQueueConfiguration {
     func schedule<StateType>(_ state: StateType, action: @escaping (StateType) -> Disposable) -> Disposable {
         let cancel = SingleAssignmentDisposable()
 
-        queue.async {
+        self.queue.async {
             if cancel.isDisposed {
                 return
             }
@@ -42,8 +42,8 @@ extension DispatchQueueConfiguration {
 
         let compositeDisposable = CompositeDisposable()
 
-        let timer = DispatchSource.makeTimerSource(queue: queue)
-        timer.schedule(deadline: deadline, leeway: leeway)
+        let timer = DispatchSource.makeTimerSource(queue: self.queue)
+        timer.schedule(deadline: deadline, leeway: self.leeway)
 
         // TODO:
         // This looks horrible, and yes, it is.
@@ -76,8 +76,8 @@ extension DispatchQueueConfiguration {
 
         var timerState = state
 
-        let timer = DispatchSource.makeTimerSource(queue: queue)
-        timer.schedule(deadline: initial, repeating: dispatchInterval(period), leeway: leeway)
+        let timer = DispatchSource.makeTimerSource(queue: self.queue)
+        timer.schedule(deadline: initial, repeating: dispatchInterval(period), leeway: self.leeway)
         
         // TODO:
         // This looks horrible, and yes, it is.

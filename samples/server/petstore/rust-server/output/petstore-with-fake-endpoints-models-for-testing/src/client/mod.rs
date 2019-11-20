@@ -7,7 +7,8 @@ extern crate mime;
 extern crate chrono;
 extern crate url;
 extern crate serde_urlencoded;
-
+extern crate multipart;
+extern crate uuid;
 
 use hyper;
 use hyper::header::{Headers, ContentType};
@@ -26,9 +27,10 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
-
+use hyper::mime::Mime; 
+use std::io::Cursor; 
+use client::multipart::client::lazy::Multipart; 
 use mimetypes;
-
 use serde_json;
 use serde_xml_rs;
 
@@ -299,17 +301,13 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Patch, uri);
 
-
         // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-
-        request.set_body(body.into_bytes());
-
+        request.set_body(body);
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_SPECIAL_TAGS.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -320,17 +318,20 @@ impl<F, C> Api<C> for Client<F> where
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::Client>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             TestSpecialTagsResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -379,20 +380,18 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
         // Body parameter
         let body = param_body.map(|ref body| {
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
 
-if let Some(body) = body {
-            request.set_body(body.into_bytes());
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_BOOLEAN_SERIALIZE.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -403,17 +402,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<bool>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FakeOuterBooleanSerializeResponse::OutputBoolean(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -466,14 +468,13 @@ if let Some(body) = body {
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
 
-if let Some(body) = body {
-            request.set_body(body.into_bytes());
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_COMPOSITE_SERIALIZE.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -484,17 +485,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::OuterComposite>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FakeOuterCompositeSerializeResponse::OutputComposite(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -547,14 +551,13 @@ if let Some(body) = body {
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
 
-if let Some(body) = body {
-            request.set_body(body.into_bytes());
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_NUMBER_SERIALIZE.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -565,17 +568,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<f64>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FakeOuterNumberSerializeResponse::OutputNumber(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -628,14 +634,13 @@ if let Some(body) = body {
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
 
-if let Some(body) = body {
-            request.set_body(body.into_bytes());
+        if let Some(body) = body {
+        request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_STRING_SERIALIZE.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -646,17 +651,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<String>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FakeOuterStringSerializeResponse::OutputString(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -707,14 +715,11 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-
-        request.set_body(body.into_bytes());
-
+        request.set_body(body);
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_BODY_WITH_QUERY_PARAMS.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -775,14 +780,11 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Patch, uri);
 
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-
-        request.set_body(body.into_bytes());
-
+        request.set_body(body);
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_CLIENT_MODEL.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -793,17 +795,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::Client>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             TestClientModelResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -872,15 +877,20 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_ENDPOINT_PARAMETERS.clone()));
         request.set_body(body.into_bytes());
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
-            if let AuthData::Basic(ref basic_header) = *auth_data {
-                request.headers_mut().set(hyper::header::Authorization(
-                    basic_header.clone(),
-                ))
-            }
-        }
 
+        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Basic(ref basic_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        basic_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -968,6 +978,7 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_ENUM_PARAMETERS.clone()));
         request.set_body(body.into_bytes());
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
         // Header parameters
@@ -975,8 +986,6 @@ if let Some(body) = body {
         param_enum_header_string_array.map(|header| request.headers_mut().set(RequestEnumHeaderStringArray(header.clone())));
         header! { (RequestEnumHeaderString, "enum_header_string") => [String] }
         param_enum_header_string.map(|header| request.headers_mut().set(RequestEnumHeaderString(header)));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1046,14 +1055,11 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
         let body = serde_json::to_string(&param_param).expect("impossible to fail to serialize");
-
-        request.set_body(body.into_bytes());
-
+        request.set_body(body);
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_INLINE_ADDITIONAL_PROPERTIES.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1121,9 +1127,8 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_JSON_FORM_DATA.clone()));
         request.set_body(body.into_bytes());
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1187,17 +1192,13 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Patch, uri);
 
-
         // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-
-        request.set_body(body.into_bytes());
-
+        request.set_body(body);
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_CLASSNAME.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1208,17 +1209,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::Client>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             TestClassnameResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -1267,17 +1271,25 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
         // Body parameter
         let body = param_body.to_xml();
-
-        request.set_body(body.into_bytes());
-
+        request.set_body(body);
 
         request.headers_mut().set(ContentType(mimetypes::requests::ADD_PET.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
-
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1340,11 +1352,21 @@ if let Some(body) = body {
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
+
         // Header parameters
         header! { (RequestApiKey, "api_key") => [String] }
         param_api_key.map(|header| request.headers_mut().set(RequestApiKey(header)));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1408,7 +1430,17 @@ if let Some(body) = body {
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
-
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1419,19 +1451,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<Vec<models::Pet>>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FindPetsByStatusResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -1493,7 +1527,17 @@ if let Some(body) = body {
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
-
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1504,19 +1548,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<Vec<models::Pet>>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FindPetsByTagsResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -1576,13 +1622,19 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-        header! { (ApiKey, "api_key") => [String] }
-        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
-            if let AuthData::ApiKey(ref api_key) = *auth_data {
-                request.headers_mut().set(ApiKey(api_key.to_string()));
-            }
-        }
 
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::ApiKey(ref api_key) => {
+                    header! { (ApiKey, "api_key") => [String] }
+                    request.headers_mut().set(
+                        ApiKey(api_key.to_string())
+                    )
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1593,19 +1645,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<models::Pet>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             GetPetByIdResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -1673,14 +1727,23 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
         let body = param_body.to_xml();
-
-        request.set_body(body.into_bytes());
-
+        request.set_body(body);
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_PET.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
-
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1766,9 +1829,20 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_PET_WITH_FORM.clone()));
         request.set_body(body.into_bytes());
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
-
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1828,17 +1902,69 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-        let params = &[
-            ("additionalMetadata", param_additional_metadata),
-            ("file", param_file.map(|param| format!("{:?}", param))),
-        ];
-        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
+        let mut multipart = Multipart::new(); 
 
-        request.headers_mut().set(ContentType(mimetypes::requests::UPLOAD_FILE.clone()));
-        request.set_body(body.into_bytes());
+        // For each parameter, encode as appropriate and add to the multipart body as a stream.
+
+        let additional_metadata_str = match serde_json::to_string(&param_additional_metadata) {
+            Ok(str) => str,
+            Err(e) => return Box::new(futures::done(Err(ApiError(format!("Unable to parse additional_metadata to string: {}", e))))),
+        };
+
+        let additional_metadata_vec = additional_metadata_str.as_bytes().to_vec();
+
+        let additional_metadata_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
+
+        let additional_metadata_cursor = Cursor::new(additional_metadata_vec);
+
+        multipart.add_stream("additional_metadata",  additional_metadata_cursor,  None as Option<&str>, Some(additional_metadata_mime));  
+
+
+        let file_str = match serde_json::to_string(&param_file) {
+            Ok(str) => str,
+            Err(e) => return Box::new(futures::done(Err(ApiError(format!("Unable to parse file to string: {}", e))))),
+        };
+
+        let file_vec = file_str.as_bytes().to_vec();
+
+        let file_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
+
+        let file_cursor = Cursor::new(file_vec);
+
+        multipart.add_stream("file",  file_cursor,  None as Option<&str>, Some(file_mime));  
+
+
+        let mut fields = match multipart.prepare() {
+            Ok(fields) => fields,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build request: {}", err))))),
+        };
+
+        let mut body_string = String::new();
+        fields.to_body().read_to_string(&mut body_string).unwrap();
+        let boundary = fields.boundary();
+
+        let multipart_header = match Mime::from_str(&format!("multipart/form-data;boundary={}", boundary)) {
+            Ok(multipart_header) => multipart_header,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build multipart header: {:?}", err))))),
+        };
+
+        request.set_body(body_string.into_bytes());
+        request.headers_mut().set(ContentType(multipart_header));
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
-
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::Bearer(ref bearer_header) => {
+                    request.headers_mut().set(hyper::header::Authorization(
+                        bearer_header.clone(),
+                    ))
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1849,17 +1975,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::ApiResponse>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             UploadFileResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -1910,8 +2039,6 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1982,13 +2109,19 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-        header! { (ApiKey, "api_key") => [String] }
-        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
-            if let AuthData::ApiKey(ref api_key) = *auth_data {
-                request.headers_mut().set(ApiKey(api_key.to_string()));
-            }
-        }
 
+        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+            // Currently only authentication with Basic, API Key, and Bearer are supported
+            match auth_data {
+                &AuthData::ApiKey(ref api_key) => {
+                    header! { (ApiKey, "api_key") => [String] }
+                    request.headers_mut().set(
+                        ApiKey(api_key.to_string())
+                    )
+                },
+                _ => {}
+            }
+        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1999,17 +2132,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<HashMap<String, i32>>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             GetInventoryResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -2060,8 +2196,6 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2072,19 +2206,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<models::Order>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             GetOrderByIdResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -2152,14 +2288,11 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-
-        request.set_body(body.into_bytes());
-
+        request.set_body(body);
 
         request.headers_mut().set(ContentType(mimetypes::requests::PLACE_ORDER.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2170,19 +2303,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<models::Order>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             PlaceOrderResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -2240,17 +2375,13 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
         // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-
-        request.set_body(body.into_bytes());
-
+        request.set_body(body);
 
         request.headers_mut().set(ContentType(mimetypes::requests::CREATE_USER.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2311,14 +2442,11 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-
-        request.set_body(body.into_bytes());
-
+        request.set_body(body);
 
         request.headers_mut().set(ContentType(mimetypes::requests::CREATE_USERS_WITH_ARRAY_INPUT.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2379,14 +2507,11 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-
-        request.set_body(body.into_bytes());
-
+        request.set_body(body);
 
         request.headers_mut().set(ContentType(mimetypes::requests::CREATE_USERS_WITH_LIST_INPUT.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2448,8 +2573,6 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2520,8 +2643,6 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2532,19 +2653,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<models::User>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             GetUserByNameResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -2615,8 +2738,6 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2637,19 +2758,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<String>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             LoginUserResponse::SuccessfulOperation{ body: body, x_rate_limit: response_x_rate_limit, x_expires_after: response_x_expires_after }
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -2709,8 +2832,6 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2771,14 +2892,11 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
-
-        request.set_body(body.into_bytes());
-
+        request.set_body(body);
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_USER.clone()));
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {

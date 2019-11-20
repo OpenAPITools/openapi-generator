@@ -42,7 +42,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     protected String implFolder = "src/main/java";
     protected String testResourcesFolder = "src/test/resources";
     protected String title = "OpenAPI Server";
-
+    protected String serverPort = "8080";
     protected boolean useBeanValidation = true;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
@@ -54,19 +54,24 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-server";
         dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
-
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
+
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
         additionalProperties.put("jackson", "true");
 
-        cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));
-        cliOptions.add(new CliOption("title", "a title describing the application"));
-
+        cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC).defaultValue(implFolder));
+        cliOptions.add(new CliOption("title", "a title describing the application").defaultValue(title));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
-        cliOptions.add(new CliOption(SERVER_PORT, "The port on which the server should be started"));
+        cliOptions.add(new CliOption(SERVER_PORT, "The port on which the server should be started").defaultValue(serverPort));
     }
 
 
@@ -97,6 +102,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
         /* TODO there should be no need for the following logic
         if ("/".equals(swagger.getBasePath())) {
             swagger.setBasePath("");
@@ -104,9 +110,9 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         */
 
         if (!this.additionalProperties.containsKey(SERVER_PORT)) {
-            URL url = URLPathUtils.getServerURL(openAPI);
+            URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
             // 8080 is the default value for a JEE Server:
-            this.additionalProperties.put(SERVER_PORT, URLPathUtils.getPort(url, 8080));
+            this.additionalProperties.put(SERVER_PORT, URLPathUtils.getPort(url, serverPort));
         }
 
         if (openAPI.getPaths() != null) {
@@ -238,11 +244,10 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     @Override
     public String toApiName(final String name) {
         String computed = name;
-        if (computed.length() == 0) {
-            return "DefaultApi";
+        if (computed.length() > 0) {
+            computed = sanitizeName(computed);
         }
-        computed = sanitizeName(computed);
-        return camelize(computed) + "Api";
+         return super.toApiName(computed);
     }
 
     @Override

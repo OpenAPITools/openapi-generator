@@ -143,7 +143,7 @@ public interface FakeApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid request"),
         @ApiResponse(code = 404, message = "Not found") })
-    public void testEnumParameters(@HeaderParam("enum_header_string_array")   List<String> enumHeaderStringArray, @HeaderParam("enum_header_string")   String enumHeaderString, @QueryParam("enum_query_string_array")  List<String> enumQueryStringArray, @QueryParam("enum_query_string")  @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer")  Integer enumQueryInteger, @QueryParam("enum_query_double")  Double enumQueryDouble, @Multipart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray, @Multipart(value = "enum_form_string", required = false)  String enumFormString);
+    public void testEnumParameters(@HeaderParam("enum_header_string_array")   List<String> enumHeaderStringArray, @HeaderParam("enum_header_string")   String enumHeaderString, @QueryParam("enum_query_string_array")  List<String> enumQueryStringArray, @QueryParam("enum_query_string")  @DefaultValue("-efg")String enumQueryString, @QueryParam("enum_query_integer")  Integer enumQueryInteger, @QueryParam("enum_query_double")  Double enumQueryDouble, @Multipart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray, @Multipart(value = "enum_form_string", required = false)  String enumFormString);
 
     /**
      * Fake endpoint to test group parameters (optional)
@@ -177,9 +177,16 @@ public interface FakeApi  {
     @GET
     @Path("/fake/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "test json serialization of form data", tags={ "fake" })
+    @ApiOperation(value = "test json serialization of form data", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     public void testJsonFormData(@Multipart(value = "param")  String param, @Multipart(value = "param2")  String param2);
+
+    @PUT
+    @Path("/fake/test-query-paramters")
+    @ApiOperation(value = "", tags={ "fake" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success") })
+    public void testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull  List<String> pipe, @QueryParam("ioutil") @NotNull  List<String> ioutil, @QueryParam("http") @NotNull  List<String> http, @QueryParam("url") @NotNull  List<String> url, @QueryParam("context") @NotNull  List<String> context);
 }
 

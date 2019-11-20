@@ -4,6 +4,7 @@
 
 #include <QString>
 #include <QJsonValue>
+#include <QMetaType>
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -14,7 +15,7 @@ class {{prefix}}Enum {
     {{prefix}}Enum() {
 
     }
-    
+
     {{prefix}}Enum(QString jsonString) {
         fromJson(jsonString);
     }
@@ -47,11 +48,13 @@ class {{prefix}}Enum {
         return true;
     }
 private :
-    QString jstr; 
+    QString jstr;
 };
 
 {{#cppNamespaceDeclarations}}
 }
 {{/cppNamespaceDeclarations}}
+
+Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{prefix}}Enum)
 
 #endif // {{prefix}}_ENUM_H

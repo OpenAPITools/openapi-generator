@@ -45,6 +45,12 @@ public struct APIHelper {
         })
     }
 
+    public static func mapValueToPathItem(_ source: Any) -> Any {
+        if let collection = source as? Array<Any?> {
+            return collection.filter({ $0 != nil }).map({"\($0!)"}).joined(separator: ",")
+        }
+        return source
+    }
 
     public static func mapValuesToQueryItems(_ source: [String:Any?]) -> [URLQueryItem]? {
         let destination = source.filter({ $0.value != nil}).reduce(into: [URLQueryItem]()) { (result, item) in

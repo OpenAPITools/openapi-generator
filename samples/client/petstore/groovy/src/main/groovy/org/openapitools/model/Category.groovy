@@ -6,8 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Canonical
 class Category {
+    
     Long id
-
+    
     String name
-
 }

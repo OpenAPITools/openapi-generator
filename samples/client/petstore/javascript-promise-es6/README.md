@@ -22,6 +22,38 @@ Then install it via:
 npm install open_api_petstore --save
 ```
 
+Finally, you need to build the module:
+
+```shell
+npm run build
+```
+
+##### Local development
+
+To use the library locally without publishing to a remote npm registry, first install the dependencies by changing into the directory containing `package.json` (and this README). Let's call this `JAVASCRIPT_CLIENT_DIR`. Then run:
+
+```shell
+npm install
+```
+
+Next, [link](https://docs.npmjs.com/cli/link) it globally in npm with the following, also from `JAVASCRIPT_CLIENT_DIR`:
+
+```shell
+npm link
+```
+
+To use the link you just defined in your project, switch to the directory you want to use your open_api_petstore from, and run:
+
+```shell
+npm link /path/to/<JAVASCRIPT_CLIENT_DIR>
+```
+
+Finally, you need to build the module:
+
+```shell
+npm run build
+```
+
 #### git
 
 If the library is hosted at a git repository, e.g.https://github.com/GIT_USER_ID/GIT_REPO_ID
@@ -100,6 +132,7 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *OpenApiPetstore.FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *OpenApiPetstore.FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+*OpenApiPetstore.FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
 *OpenApiPetstore.FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *OpenApiPetstore.PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 *OpenApiPetstore.PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -141,10 +174,12 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.ArrayTest](docs/ArrayTest.md)
  - [OpenApiPetstore.Capitalization](docs/Capitalization.md)
  - [OpenApiPetstore.Cat](docs/Cat.md)
+ - [OpenApiPetstore.CatAllOf](docs/CatAllOf.md)
  - [OpenApiPetstore.Category](docs/Category.md)
  - [OpenApiPetstore.ClassModel](docs/ClassModel.md)
  - [OpenApiPetstore.Client](docs/Client.md)
  - [OpenApiPetstore.Dog](docs/Dog.md)
+ - [OpenApiPetstore.DogAllOf](docs/DogAllOf.md)
  - [OpenApiPetstore.EnumArrays](docs/EnumArrays.md)
  - [OpenApiPetstore.EnumClass](docs/EnumClass.md)
  - [OpenApiPetstore.EnumTest](docs/EnumTest.md)

@@ -7,6 +7,9 @@
 //
 
 import Dispatch
+#if !os(Linux)
+    import Foundation
+#endif
 
 /**
 Abstracts work that needs to be performed on `DispatchQueue.main`. In case `schedule` methods are called from `DispatchQueue.main`, it will perform action immediately without scheduling.
@@ -22,12 +25,12 @@ public final class MainScheduler : SerialDispatchQueueScheduler {
 
     private let _mainQueue: DispatchQueue
 
-    var numberEnqueued = AtomicInt(0)
+    let numberEnqueued = AtomicInt(0)
 
     /// Initializes new instance of `MainScheduler`.
     public init() {
-        _mainQueue = DispatchQueue.main
-        super.init(serialQueue: _mainQueue)
+        self._mainQueue = DispatchQueue.main
+        super.init(serialQueue: self._mainQueue)
     }
 
     /// Singleton instance of `MainScheduler`
@@ -44,23 +47,32 @@ public final class MainScheduler : SerialDispatchQueueScheduler {
         }
     }
 
+    /// In case this method is running on a background thread it will throw an exception.
+    public class func ensureRunningOnMainThread(errorMessage: String? = nil) {
+        #if !os(Linux) // isMainThread is not implemented in Linux Foundation
+            guard Thread.isMainThread else {
+                rxFatalError(errorMessage ?? "Running on background thread.")
+            }
+        #endif
+    }
+
     override func scheduleInternal<StateType>(_ state: StateType, action: @escaping (StateType) -> Disposable) -> Disposable {
-        let previousNumberEnqueued = numberEnqueued.increment()
+        let previousNumberEnqueued = increment(self.numberEnqueued)
 
         if DispatchQueue.isMain && previousNumberEnqueued == 0 {
             let disposable = action(state)
-            numberEnqueued.decrement()
+            decrement(self.numberEnqueued)
             return disposable
         }
 
         let cancel = SingleAssignmentDisposable()
 
-        _mainQueue.async {
+        self._mainQueue.async {
             if !cancel.isDisposed {
                 _ = action(state)
             }
 
-            self.numberEnqueued.decrement()
+            decrement(self.numberEnqueued)
         }
 
         return cancel

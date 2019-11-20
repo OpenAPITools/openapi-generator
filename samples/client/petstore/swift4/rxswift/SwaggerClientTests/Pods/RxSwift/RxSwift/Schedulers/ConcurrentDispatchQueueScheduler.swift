@@ -28,7 +28,7 @@ public class ConcurrentDispatchQueueScheduler: SchedulerType {
     /// - parameter queue: Target dispatch queue.
     /// - parameter leeway: The amount of time, in nanoseconds, that the system will defer the timer.
     public init(queue: DispatchQueue, leeway: DispatchTimeInterval = DispatchTimeInterval.nanoseconds(0)) {
-        configuration = DispatchQueueConfiguration(queue: queue, leeway: leeway)
+        self.configuration = DispatchQueueConfiguration(queue: queue, leeway: leeway)
     }
     
     /// Convenience init for scheduler that wraps one of the global concurrent dispatch queues.

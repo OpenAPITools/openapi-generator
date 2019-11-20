@@ -29,6 +29,7 @@ import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -85,9 +86,6 @@ public class ApiClient {
 
     private Map<String, Authentication> authentications;
 
-    private HttpStatus statusCode;
-    private MultiValueMap<String, String> responseHeaders;
-
     private DateFormat dateFormat;
 
     public ApiClient() {
@@ -138,22 +136,6 @@ public class ApiClient {
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
         return this;
-    }
-
-    /**
-     * Gets the status code of the previous request
-     * @return HttpStatus the status code
-     */
-    public HttpStatus getStatusCode() {
-        return statusCode;
-    }
-
-    /**
-     * Gets the response headers of the previous request
-     * @return MultiValueMap a map of response headers
-     */
-    public MultiValueMap<String, String> getResponseHeaders() {
-        return responseHeaders;
     }
 
     /**
@@ -539,6 +521,16 @@ public class ApiClient {
     }
 
     /**
+     * Expand path template with variables
+     * @param pathTemplate path template with placeholders
+     * @param variables variables to replace
+     * @return path with placeholders replaced by variables
+     */
+    public String expandPath(String pathTemplate, Map<String, Object> variables) {
+        return restTemplate.getUriTemplateHandler().expand(pathTemplate, variables).toString();
+    }
+
+    /**
      * Invoke API by sending HTTP request with the given options.
      *
      * @param <T> the return type to use
@@ -552,9 +544,9 @@ public class ApiClient {
      * @param contentType The request's Content-Type header
      * @param authNames The authentications to apply
      * @param returnType The return type into which to deserialize the response
-     * @return The response body in chosen type
+     * @return ResponseEntity&lt;T&gt; The response of the chosen type
      */
-    public <T> T invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+    public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         updateParamsForAuth(authNames, queryParams, headerParams);
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
@@ -596,19 +588,11 @@ public class ApiClient {
 
         ResponseEntity<T> responseEntity = restTemplate.exchange(requestEntity, returnType);
 
-        statusCode = responseEntity.getStatusCode();
-        responseHeaders = responseEntity.getHeaders();
-
-        if (responseEntity.getStatusCode() == HttpStatus.NO_CONTENT) {
-            return null;
-        } else if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            if (returnType == null) {
-                return null;
-            }
-            return responseEntity.getBody();
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            return responseEntity;
         } else {
             // The error handler built into the RestTemplate should handle 400 and 500 series errors.
-            throw new RestClientException("API returned " + statusCode + " and it wasn't handled by the RestTemplate error handler");
+            throw new RestClientException("API returned " + responseEntity.getStatusCode() + " and it wasn't handled by the RestTemplate error handler");
         }
     }
 
@@ -642,6 +626,7 @@ public class ApiClient {
                 module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
                 module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
                 mapper.registerModule(module);
+                mapper.registerModule(new JsonNullableModule());
             }
         }
         // This allows us to read the response more than once - Necessary for debugging.

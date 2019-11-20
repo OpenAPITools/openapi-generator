@@ -84,7 +84,7 @@ if(hasProperty('target') && target == 'android') {
 
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'pestore-resttemplate-withxml'
+            pom.artifactId = 'petstore-resttemplate-withxml'
         }
     }
     
@@ -95,9 +95,10 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.21"
-    jackson_version = "2.8.11"
-    jackson_databind_version = "2.8.11.3"
+    swagger_annotations_version = "1.5.22"
+    jackson_version = "2.9.10"
+    jackson_databind_version = "2.9.10"
+    jackson-databind-nullable-version = "0.2.0"
     spring_web_version = "4.3.9.RELEASE"
     jodatime_version = "2.9.9"
     junit_version = "4.12"
@@ -106,11 +107,13 @@ ext {
 
 dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "com.google.code.findbugs:jsr305:3.0.2"
     compile "org.springframework:spring-web:$spring_web_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    compile "org.openapitools:jackson-databind-nullable:$jackson-databind-nullable-version"
     compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threeten_version"
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
     testCompile "junit:junit:$junit_version"

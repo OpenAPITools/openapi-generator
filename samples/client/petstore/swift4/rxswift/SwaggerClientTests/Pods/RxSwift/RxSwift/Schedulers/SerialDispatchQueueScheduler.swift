@@ -45,7 +45,7 @@ public class SerialDispatchQueueScheduler : SchedulerType {
     - parameter leeway: The amount of time, in nanoseconds, that the system will defer the timer.
     */
     init(serialQueue: DispatchQueue, leeway: DispatchTimeInterval = DispatchTimeInterval.nanoseconds(0)) {
-        configuration = DispatchQueueConfiguration(queue: serialQueue, leeway: leeway)
+        self.configuration = DispatchQueueConfiguration(queue: serialQueue, leeway: leeway)
     }
 
     /**

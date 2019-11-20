@@ -21,7 +21,7 @@ import Dispatch
         fileprivate static let instance = "RxSwift.CurrentThreadScheduler.Queue"
     }
 #else
-    fileprivate class CurrentThreadSchedulerQueueKey: NSObject, NSCopying {
+    private class CurrentThreadSchedulerQueueKey: NSObject, NSCopying {
         static let instance = CurrentThreadSchedulerQueueKey()
         private override init() {
             super.init()
