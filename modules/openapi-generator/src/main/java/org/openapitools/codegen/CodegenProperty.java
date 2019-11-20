@@ -62,6 +62,7 @@ public class CodegenProperty implements Cloneable {
     public boolean isWriteOnly;
     public boolean isNullable;
     public boolean isSelfReference;
+    public boolean isCircularReference;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
@@ -498,6 +499,7 @@ public class CodegenProperty implements Cloneable {
         sb.append(", isWriteOnly=").append(isWriteOnly);
         sb.append(", isNullable=").append(isNullable);
         sb.append(", isSelfReference=").append(isSelfReference);
+        sb.append(", isCircularReference=").append(isCircularReference);
         sb.append(", _enum=").append(_enum);
         sb.append(", allowableValues=").append(allowableValues);
         sb.append(", items=").append(items);
@@ -558,6 +560,7 @@ public class CodegenProperty implements Cloneable {
                 isWriteOnly == that.isWriteOnly &&
                 isNullable == that.isNullable &&
                 isSelfReference == that.isSelfReference &&
+                isCircularReference == that.isCircularReference &&
                 hasValidation == that.hasValidation &&
                 isInherited == that.isInherited &&
                 isXmlAttribute == that.isXmlAttribute &&
@@ -613,8 +616,9 @@ public class CodegenProperty implements Cloneable {
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric, isInteger,
                 isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime,
                 isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isEnum, isReadOnly,
-                isWriteOnly, isNullable, isSelfReference, _enum, allowableValues, items, mostInnerItems,
-                vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase, nameInSnakeCase,
-                enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName, xmlNamespace, isXmlWrapped);
+                isWriteOnly, isNullable, isSelfReference, isCircularReference, _enum, allowableValues, items,
+                mostInnerItems, vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
+                nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName, xmlNamespace,
+                isXmlWrapped);
     }
 }
