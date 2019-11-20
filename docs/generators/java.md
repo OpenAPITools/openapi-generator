@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-java
 title: Config Options for java
 sidebar_label: java
 ---

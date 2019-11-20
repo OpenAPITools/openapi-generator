@@ -67,7 +67,6 @@ public class Name {
   }
 
 
-
   public void setName(Integer name) {
     this.name = name;
   }
@@ -107,7 +106,6 @@ public class Name {
   public String getProperty() {
     return property;
   }
-
 
 
   public void setProperty(String property) {

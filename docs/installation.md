@@ -68,7 +68,7 @@ Here's an example generating a Go client:
 ```bash
 docker run --rm \
   -v ${PWD}:/local openapitools/openapi-generator-cli generate \
-  -i petstore.yaml \
+  -i /local/petstore.yaml \
   -g go \
   -o /local/out/go
 ```

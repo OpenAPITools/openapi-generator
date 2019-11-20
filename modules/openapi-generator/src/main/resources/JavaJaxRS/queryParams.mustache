@@ -1,1 +1,35 @@
-{{#isQueryParam}}@ApiParam(value = "{{{description}}}"{{#required}},required=true{{/required}}{{^isContainer}}{{#allowableValues}}, {{> allowableValues }}{{/allowableValues}}{{#defaultValue}}, defaultValue={{^isString}}"{{/isString}}{{#isString}}{{#isEnum}}"{{/isEnum}}{{/isString}}{{{defaultValue}}}{{^isString}}"{{/isString}}{{#isString}}{{#isEnum}}"{{/isEnum}}{{/isString}}{{/defaultValue}}{{/isContainer}}){{^isContainer}}{{#defaultValue}} @DefaultValue({{^isString}}"{{/isString}}{{#isString}}{{#isEnum}}"{{/isEnum}}{{/isString}}{{{defaultValue}}}{{^isString}}"{{/isString}}{{#isString}}{{#isEnum}}"{{/isEnum}}{{/isString}}){{/defaultValue}}{{/isContainer}}@QueryParam("{{baseName}}") {{{dataType}}} {{paramName}}{{/isQueryParam}}
+{{#isQueryParam}}{{!
+
+    }}@ApiParam(value = "{{{description}}}"{{!
+        }}{{#required}}, required = true{{/required}}{{!
+        }}{{^isContainer}}{{!
+            }}{{#allowableValues}}, {{> allowableValues}}{{/allowableValues}}{{!
+            }}{{#defaultValue}}, defaultValue = {{!
+            }}{{^isString}}"{{/isString}}{{!
+            }}{{#isString}}{{#isEnum}}"{{/isEnum}}{{/isString}}{{!
+            }}{{{defaultValue}}}{{!
+            }}{{^isString}}"{{/isString}}{{!
+            }}{{#isString}}{{#isEnum}}"{{/isEnum}}{{/isString}}{{!
+            }}{{/defaultValue}}{{!
+        }}{{/isContainer}}{{!
+    }}){{!
+
+    }}{{^isContainer}}{{!
+        }}{{#defaultValue}}{{!
+            }} @DefaultValue({{!
+                }}{{^isString}}"{{/isString}}{{!
+                }}{{#isString}}{{#isEnum}}"{{/isEnum}}{{/isString}}{{!
+                }}{{{defaultValue}}}{{!
+                }}{{^isString}}"{{/isString}}{{!
+                }}{{#isString}}{{#isEnum}}"{{/isEnum}}{{/isString}}{{!
+            }}){{!
+        }}{{/defaultValue}}{{!
+    }}{{/isContainer}}{{!
+
+    }} @QueryParam("{{baseName}}"){{!
+
+    }}{{#useBeanValidation}} {{>beanValidation}}{{/useBeanValidation}}{{!
+
+    }} {{{dataType}}} {{paramName}}{{!
+
+}}{{/isQueryParam}}

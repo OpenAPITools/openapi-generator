@@ -10,6 +10,6 @@ Pod::Spec.new do |s|
   s.homepage = 'https://github.com/openapitools/openapi-generator'
   s.summary = 'PetstoreClient'
   s.source_files = 'PetstoreClient/Classes/**/*.swift'
-  s.dependency 'PromiseKit/CorePromise', '~> 4.4.0'
+  s.dependency 'PromiseKit/CorePromise', '~> 6.11.0'
   s.dependency 'Alamofire', '~> 4.9.0'
 end

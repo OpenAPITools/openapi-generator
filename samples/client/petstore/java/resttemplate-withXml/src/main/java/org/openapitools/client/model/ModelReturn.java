@@ -37,8 +37,8 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Return")
 public class ModelReturn {
-  @XmlElement(name = "return")
   public static final String JSON_PROPERTY_RETURN = "return";
+  @XmlElement(name = "return")
   private Integer _return;
 
 
@@ -61,7 +61,6 @@ public class ModelReturn {
   public Integer getReturn() {
     return _return;
   }
-
 
 
   public void setReturn(Integer _return) {

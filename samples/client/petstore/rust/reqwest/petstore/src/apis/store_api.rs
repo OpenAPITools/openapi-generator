@@ -10,6 +10,8 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+#[allow(unused_imports)]
+use std::option::Option;
 
 use reqwest;
 
@@ -22,7 +24,7 @@ pub struct StoreApiClient {
 impl StoreApiClient {
     pub fn new(configuration: Rc<configuration::Configuration>) -> StoreApiClient {
         StoreApiClient {
-            configuration: configuration,
+            configuration,
         }
     }
 }

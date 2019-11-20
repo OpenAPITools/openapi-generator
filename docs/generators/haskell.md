@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-haskell
 title: Config Options for haskell
 sidebar_label: haskell
 ---
@@ -13,3 +11,4 @@ sidebar_label: haskell
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |modelPackage|package for generated models| |null|
 |apiPackage|package for generated api classes| |null|
+|serveStatic|serve will serve files from the directory 'static'.| |true|

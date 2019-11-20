@@ -11,7 +11,7 @@ type {{{name}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/form
 const (
 	{{#allowableValues}}
 	{{#enumVars}}
-	{{name}} {{{classname}}} = "{{{value}}}"
+	{{name}} {{{classname}}} = {{{value}}}
 	{{/enumVars}}
 	{{/allowableValues}}
 ){{/isEnum}}{{^isEnum}}{{#description}}

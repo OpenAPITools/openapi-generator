@@ -112,86 +112,86 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Integer
         /// </summary>
-        [DataMember(Name="integer", EmitDefaultValue=false)]
+        [DataMember(Name="integer", EmitDefaultValue=true)]
         public int Integer { get; set; }
 
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
-        [DataMember(Name="int32", EmitDefaultValue=false)]
+        [DataMember(Name="int32", EmitDefaultValue=true)]
         public int Int32 { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
-        [DataMember(Name="int64", EmitDefaultValue=false)]
+        [DataMember(Name="int64", EmitDefaultValue=true)]
         public long Int64 { get; set; }
 
         /// <summary>
         /// Gets or Sets Number
         /// </summary>
-        [DataMember(Name="number", EmitDefaultValue=false)]
+        [DataMember(Name="number", EmitDefaultValue=true)]
         public decimal Number { get; set; }
 
         /// <summary>
         /// Gets or Sets Float
         /// </summary>
-        [DataMember(Name="float", EmitDefaultValue=false)]
+        [DataMember(Name="float", EmitDefaultValue=true)]
         public float Float { get; set; }
 
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
-        [DataMember(Name="double", EmitDefaultValue=false)]
+        [DataMember(Name="double", EmitDefaultValue=true)]
         public double Double { get; set; }
 
         /// <summary>
         /// Gets or Sets String
         /// </summary>
-        [DataMember(Name="string", EmitDefaultValue=false)]
+        [DataMember(Name="string", EmitDefaultValue=true)]
         public string String { get; set; }
 
         /// <summary>
         /// Gets or Sets Byte
         /// </summary>
-        [DataMember(Name="byte", EmitDefaultValue=false)]
+        [DataMember(Name="byte", EmitDefaultValue=true)]
         public byte[] Byte { get; set; }
 
         /// <summary>
         /// Gets or Sets Binary
         /// </summary>
-        [DataMember(Name="binary", EmitDefaultValue=false)]
+        [DataMember(Name="binary", EmitDefaultValue=true)]
         public System.IO.Stream Binary { get; set; }
 
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        [DataMember(Name="date", EmitDefaultValue=false)]
+        [DataMember(Name="date", EmitDefaultValue=true)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime Date { get; set; }
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
-        [DataMember(Name="dateTime", EmitDefaultValue=false)]
+        [DataMember(Name="dateTime", EmitDefaultValue=true)]
         public DateTime DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
-        [DataMember(Name="uuid", EmitDefaultValue=false)]
+        [DataMember(Name="uuid", EmitDefaultValue=true)]
         public Guid Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
-        [DataMember(Name="password", EmitDefaultValue=false)]
+        [DataMember(Name="password", EmitDefaultValue=true)]
         public string Password { get; set; }
 
         /// <summary>
         /// Gets or Sets BigDecimal
         /// </summary>
-        [DataMember(Name="BigDecimal", EmitDefaultValue=false)]
+        [DataMember(Name="BigDecimal", EmitDefaultValue=true)]
         public decimal BigDecimal { get; set; }
 
         /// <summary>

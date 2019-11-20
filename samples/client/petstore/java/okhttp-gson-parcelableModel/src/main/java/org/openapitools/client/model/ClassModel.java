@@ -57,7 +57,6 @@ public class ClassModel implements Parcelable {
   }
 
 
-
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }

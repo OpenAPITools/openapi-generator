@@ -11,6 +11,7 @@
 /// Category : A category for a pet
 
 
+
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Category {
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]

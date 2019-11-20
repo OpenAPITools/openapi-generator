@@ -13,6 +13,7 @@ use std::marker::PhantomData;
 use hyper;
 use openapi_v3;
 use swagger::{Has, XSpanIdString};
+use swagger::auth::Authorization;
 
 pub struct NewService<C>{
     marker: PhantomData<C>
@@ -24,7 +25,7 @@ impl<C> NewService<C>{
     }
 }
 
-impl<C> hyper::server::NewService for NewService<C> where C: Has<XSpanIdString>  + Clone + 'static {
+impl<C> hyper::server::NewService for NewService<C> where C: Has<XSpanIdString> + Has<Option<Authorization>> + Clone + 'static {
     type Request = (hyper::Request, C);
     type Response = hyper::Response;
     type Error = hyper::Error;

@@ -8,16 +8,18 @@
  */
 
 package petstore
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // Client struct for Client
 type Client struct {
 	Client *string `json:"client,omitempty"`
-
 }
 
-// GetClient returns the Client field if non-nil, zero value otherwise.
+// GetClient returns the Client field value if set, zero value otherwise.
 func (o *Client) GetClient() string {
 	if o == nil || o.Client == nil {
 		var ret string
@@ -26,7 +28,7 @@ func (o *Client) GetClient() string {
 	return *o.Client
 }
 
-// GetClientOk returns a tuple with the Client field if it's non-nil, zero value otherwise
+// GetClientOk returns a tuple with the Client field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Client) GetClientOk() (string, bool) {
 	if o == nil || o.Client == nil {
@@ -50,14 +52,26 @@ func (o *Client) SetClient(v string) {
 	o.Client = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o Client) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Client != nil {
-		toSerialize["client"] = o.Client
-	}
-	return json.Marshal(toSerialize)
+type NullableClient struct {
+	Value Client
+	ExplicitNull bool
 }
 
+func (v NullableClient) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableClient) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

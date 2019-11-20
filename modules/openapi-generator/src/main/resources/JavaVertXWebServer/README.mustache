@@ -1,0 +1,14 @@
+{{^hideGenerationTimestamp}}
+Project generated on : {{generatedDate}}
+{{/hideGenerationTimestamp}}
+
+## Getting Started
+
+This document assumes you have maven available.
+
+To build the project using maven, run:
+```bash
+mvn package && java -jar target/target/java-vertx-web-rx-server-{{artifactVersion}}-fat.jar
+```
+
+If all builds successfully, the server should run on [http://localhost:8080/](http://localhost:8080/)

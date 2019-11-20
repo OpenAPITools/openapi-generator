@@ -1,0 +1,11 @@
+{
+  "artifactId": "kotlin-client-petstore-multiplatform",
+  "generatorName": "kotlin",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/client/petstore/kotlin-multiplatform",
+  "templateDir": "modules/openapi-generator/src/main/resources/kotlin-client",
+  "library": "multiplatform",
+  "additionalProperties": {
+    "dateLibrary": "java8"
+  }
+}

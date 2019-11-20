@@ -22,9 +22,9 @@ open class FakeClassnameTags123API {
         let deferred = Promise<Client>.pending()
         testClassnameWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
-                deferred.reject(error)
+                deferred.resolver.reject(error)
             } else if let response = response {
-                deferred.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body!)
             } else {
                 fatalError()
             }

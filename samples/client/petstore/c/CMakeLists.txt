@@ -70,8 +70,7 @@ set(HDRS "")
 #    unit-tests/manual-PetAPI.c
 #    unit-tests/manual-StoreAPI.c
 #    unit-tests/manual-UserAPI.c
-#    unit-tests/manual-order.c
-#    unit-tests/manual-user.c)
+#)
 
 ##set header files
 #set(HDRS

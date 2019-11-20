@@ -37,8 +37,8 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "NumberOnly")
 public class NumberOnly {
-  @XmlElement(name = "JustNumber")
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
+  @XmlElement(name = "JustNumber")
   private BigDecimal justNumber;
 
 
@@ -61,7 +61,6 @@ public class NumberOnly {
   public BigDecimal getJustNumber() {
     return justNumber;
   }
-
 
 
   public void setJustNumber(BigDecimal justNumber) {

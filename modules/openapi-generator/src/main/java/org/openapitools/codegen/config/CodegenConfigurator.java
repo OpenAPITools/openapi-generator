@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.config;
 
+import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import io.swagger.parser.OpenAPIParser;
@@ -74,7 +75,8 @@ public class CodegenConfigurator {
 
     }
 
-    public static CodegenConfigurator fromFile(String configFile) {
+    @SuppressWarnings("DuplicatedCode")
+    public static CodegenConfigurator fromFile(String configFile, Module... modules) {
 
         if (isNotEmpty(configFile)) {
             ObjectMapper mapper;
@@ -85,13 +87,52 @@ public class CodegenConfigurator {
                 mapper = Json.mapper();
             }
 
+            if (modules != null && modules.length > 0) {
+                mapper.registerModules(modules);
+            }
+
             mapper.registerModule(new GuavaModule());
 
             try {
                 DynamicSettings settings = mapper.readValue(new File(configFile), DynamicSettings.class);
                 CodegenConfigurator configurator = new CodegenConfigurator();
-                configurator.generatorSettingsBuilder = GeneratorSettings.newBuilder(settings.getGeneratorSettings());
-                configurator.workflowSettingsBuilder = WorkflowSettings.newBuilder(settings.getWorkflowSettings());
+
+                GeneratorSettings generatorSettings = settings.getGeneratorSettings();
+                WorkflowSettings workflowSettings = settings.getWorkflowSettings();
+
+                // We copy "cached" properties into configurator so it is appropriately configured with all settings in external files.
+                // FIXME: target is to eventually move away from CodegenConfigurator properties except gen/workflow settings.
+                configurator.generatorName = generatorSettings.getGeneratorName();
+                configurator.inputSpec = workflowSettings.getInputSpec();
+                configurator.templatingEngineName = workflowSettings.getTemplatingEngineName();
+                if (workflowSettings.getSystemProperties() != null) {
+                    configurator.systemProperties.putAll(workflowSettings.getSystemProperties());
+                }
+                if(generatorSettings.getInstantiationTypes() != null) {
+                    configurator.instantiationTypes.putAll(generatorSettings.getInstantiationTypes());
+                }
+                if(generatorSettings.getTypeMappings() != null) {
+                    configurator.typeMappings.putAll(generatorSettings.getTypeMappings());
+                }
+                if(generatorSettings.getAdditionalProperties() != null) {
+                    configurator.additionalProperties.putAll(generatorSettings.getAdditionalProperties());
+                }
+                if(generatorSettings.getImportMappings() != null) {
+                    configurator.importMappings.putAll(generatorSettings.getImportMappings());
+                }
+                if(generatorSettings.getLanguageSpecificPrimitives() != null) {
+                    configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
+                }
+                if(generatorSettings.getReservedWordMappings() != null) {
+                    configurator.reservedWordMappings.putAll(generatorSettings.getReservedWordMappings());
+                }
+                if(generatorSettings.getServerVariables() != null) {
+                    configurator.serverVariables.putAll(generatorSettings.getServerVariables());
+                }
+
+                configurator.generatorSettingsBuilder = GeneratorSettings.newBuilder(generatorSettings);
+                configurator.workflowSettingsBuilder = WorkflowSettings.newBuilder(workflowSettings);
+
                 return configurator;
             } catch (IOException ex) {
                 LOGGER.error("Unable to deserialize config file: " + configFile, ex);
@@ -453,11 +494,13 @@ public class CodegenConfigurator {
     }
 
     public ClientOptInput toClientOptInput() {
-        CodegenConfig config = CodegenConfigLoader.forName(generatorName);
-
         Context<?> context = toContext();
         WorkflowSettings workflowSettings = context.getWorkflowSettings();
         GeneratorSettings generatorSettings = context.getGeneratorSettings();
+
+        // We load the config via generatorSettings.getGeneratorName() because this is guaranteed to be set
+        // regardless of entrypoint (CLI sets properties on this type, config deserialization sets on generatorSettings).
+        CodegenConfig config = CodegenConfigLoader.forName(generatorSettings.getGeneratorName());
 
         if (isNotEmpty(generatorSettings.getLibrary())) {
             config.setLibrary(generatorSettings.getLibrary());

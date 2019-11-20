@@ -71,7 +71,7 @@ public class ApiClient {
             this.separator = separator;
         }
 
-        private String collectionToString(Collection<? extends CharSequence> collection) {
+        private String collectionToString(Collection<?> collection) {
             return StringUtils.collectionToDelimitedString(collection, separator);
         }
     }
@@ -79,15 +79,13 @@ public class ApiClient {
     private boolean debugging = false;
 
     private HttpHeaders defaultHeaders = new HttpHeaders();
+    private MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
 
     private String basePath = "http://petstore.swagger.io:80/v2";
 
     private RestTemplate restTemplate;
 
     private Map<String, Authentication> authentications;
-
-    private HttpStatus statusCode;
-    private MultiValueMap<String, String> responseHeaders;
 
     private DateFormat dateFormat;
 
@@ -139,22 +137,6 @@ public class ApiClient {
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
         return this;
-    }
-
-    /**
-     * Gets the status code of the previous request
-     * @return HttpStatus the status code
-     */
-    public HttpStatus getStatusCode() {
-        return statusCode;
-    }
-
-    /**
-     * Gets the response headers of the previous request
-     * @return MultiValueMap a map of response headers
-     */
-    public MultiValueMap<String, String> getResponseHeaders() {
-        return responseHeaders;
     }
 
     /**
@@ -284,6 +266,21 @@ public class ApiClient {
         return this;
     }
 
+    /**
+     * Add a default cookie.
+     *
+     * @param name The cookie's name
+     * @param value The cookie's value
+     * @return ApiClient this client
+     */
+    public ApiClient addDefaultCookie(String name, String value) {
+        if (defaultCookies.containsKey(name)) {
+            defaultCookies.remove(name);
+        }
+        defaultCookies.add(name, value);
+        return this;
+    }
+
     public void setDebugging(boolean debugging) {
         List<ClientHttpRequestInterceptor> currentInterceptors = this.restTemplate.getInterceptors();
         if(debugging) {
@@ -393,7 +390,7 @@ public class ApiClient {
     * @param values The values of the parameter.
     * @return String representation of the parameter
     */
-    public String collectionPathParameterToString(CollectionFormat collectionFormat, Collection<? extends CharSequence> values) {
+    public String collectionPathParameterToString(CollectionFormat collectionFormat, Collection<?> values) {
         // create the value based on the collection format
         if (CollectionFormat.MULTI.equals(collectionFormat)) {
             // not valid for path params
@@ -558,15 +555,16 @@ public class ApiClient {
      * @param queryParams The query parameters
      * @param body The request body object
      * @param headerParams The header parameters
+     * @param cookieParams The cookie parameters
      * @param formParams The form parameters
      * @param accept The request's Accept header
      * @param contentType The request's Content-Type header
      * @param authNames The authentications to apply
      * @param returnType The return type into which to deserialize the response
-     * @return The response body in chosen type
+     * @return ResponseEntity&lt;T&gt; The response of the chosen type
      */
-    public <T> T invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
-        updateParamsForAuth(authNames, queryParams, headerParams);
+    public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
         if (queryParams != null) {
@@ -602,21 +600,18 @@ public class ApiClient {
 
         addHeadersToRequest(headerParams, requestBuilder);
         addHeadersToRequest(defaultHeaders, requestBuilder);
+        addCookiesToRequest(cookieParams, requestBuilder);
+        addCookiesToRequest(defaultCookies, requestBuilder);
 
         RequestEntity<Object> requestEntity = requestBuilder.body(selectBody(body, formParams, contentType));
 
         ResponseEntity<T> responseEntity = restTemplate.exchange(requestEntity, returnType);
 
-        statusCode = responseEntity.getStatusCode();
-        responseHeaders = responseEntity.getHeaders();
-
-        if (responseEntity.getStatusCode() == HttpStatus.NO_CONTENT) {
-            return null;
-        } else if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            return responseEntity.getBody();
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            return responseEntity;
         } else {
             // The error handler built into the RestTemplate should handle 400 and 500 series errors.
-            throw new RestClientException("API returned " + statusCode + " and it wasn't handled by the RestTemplate error handler");
+            throw new RestClientException("API returned " + responseEntity.getStatusCode() + " and it wasn't handled by the RestTemplate error handler");
         }
     }
 
@@ -634,6 +629,29 @@ public class ApiClient {
                 }
             }
         }
+    }
+
+    /**
+     * Add cookies to the request that is being built
+     * @param cookies The cookies to add
+     * @param requestBuilder The current request
+     */
+    protected void addCookiesToRequest(MultiValueMap<String, String> cookies, BodyBuilder requestBuilder) {
+        if (!cookies.isEmpty()) {
+            requestBuilder.header("Cookie", buildCookieHeader(cookies));
+        }
+    }
+
+    private String buildCookieHeader(MultiValueMap<String, String> cookies) {
+        final StringBuilder cookieValue = new StringBuilder();
+        String delimiter = "";
+        for (final Map.Entry<String, List<String>> entry : cookies.entrySet()) {
+            for (String value : entry.getValue()) {
+                cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), entry.getValue()));
+                delimiter = "; ";
+            }
+        }
+        return cookieValue.toString();
     }
 
     /**
@@ -665,13 +683,13 @@ public class ApiClient {
      * @param queryParams The query parameters
      * @param headerParams The header parameters
      */
-    private void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams) {
+    private void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) {
                 throw new RestClientException("Authentication undefined: " + authName);
             }
-            auth.applyToParams(queryParams, headerParams);
+            auth.applyToParams(queryParams, headerParams, cookieParams);
         }
     }
 
