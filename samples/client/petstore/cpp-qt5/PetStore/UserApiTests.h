@@ -7,7 +7,6 @@ using namespace OpenAPI;
 class UserApiTests: public QObject {
     Q_OBJECT
 
-    OAIUserApi* getApi();
     OAIUser createRandomUser();
 
 private slots:
@@ -19,4 +18,6 @@ private slots:
     void loginUserTest();
     void logoutUserTest();
     void updateUserTest();
+private:
+    const QString PetStoreHost = QStringLiteral("http://petstore.swagger.io");
 };

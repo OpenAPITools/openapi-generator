@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-fsharp-giraffe-server
 title: Config Options for fsharp-giraffe-server
 sidebar_label: fsharp-giraffe-server
 ---

@@ -20,13 +20,22 @@ import (
 	//
 	//    sw "github.com/myname/myrepo/go"
 	//
-	sw "./go"
+	petstoreserver "./go"
 )
 
 func main() {
 	log.Printf("Server started")
 
-	router := sw.NewRouter()
+	PetApiService := petstoreserver.NewPetApiService()
+	PetApiController := petstoreserver.NewPetApiController(PetApiService)
+
+	StoreApiService := petstoreserver.NewStoreApiService()
+	StoreApiController := petstoreserver.NewStoreApiController(StoreApiService)
+
+	UserApiService := petstoreserver.NewUserApiService()
+	UserApiController := petstoreserver.NewUserApiController(UserApiService)
+
+	router := petstoreserver.NewRouter(PetApiController, StoreApiController, UserApiController)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

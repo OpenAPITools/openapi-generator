@@ -43,27 +43,27 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "TypeHolderDefault")
 public class TypeHolderDefault {
-  @XmlElement(name = "string_item")
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
+  @XmlElement(name = "string_item")
   private String stringItem = "what";
 
-  @XmlElement(name = "number_item")
   public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
+  @XmlElement(name = "number_item")
   private BigDecimal numberItem;
 
-  @XmlElement(name = "integer_item")
   public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
+  @XmlElement(name = "integer_item")
   private Integer integerItem;
 
-  @XmlElement(name = "bool_item")
   public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
+  @XmlElement(name = "bool_item")
   private Boolean boolItem = true;
 
+  public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   // Is a container wrapped=false
   // items.name=arrayItem items.baseName=arrayItem items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "arrayItem")
-  public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
 
@@ -85,7 +85,6 @@ public class TypeHolderDefault {
   public String getStringItem() {
     return stringItem;
   }
-
 
 
   public void setStringItem(String stringItem) {
@@ -113,7 +112,6 @@ public class TypeHolderDefault {
   }
 
 
-
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
@@ -139,7 +137,6 @@ public class TypeHolderDefault {
   }
 
 
-
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
@@ -163,7 +160,6 @@ public class TypeHolderDefault {
   public Boolean getBoolItem() {
     return boolItem;
   }
-
 
 
   public void setBoolItem(Boolean boolItem) {
@@ -193,7 +189,6 @@ public class TypeHolderDefault {
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
-
 
 
   public void setArrayItem(List<Integer> arrayItem) {

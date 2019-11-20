@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// Order Status
         /// </summary>
         /// <value>Order Status</value>
-        [DataMember(Name="status", EmitDefaultValue=false)]
+        [DataMember(Name="status", EmitDefaultValue=true)]
         public StatusEnum? Status { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
@@ -96,32 +96,32 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=false)]
+        [DataMember(Name="id", EmitDefaultValue=true)]
         public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
-        [DataMember(Name="petId", EmitDefaultValue=false)]
+        [DataMember(Name="petId", EmitDefaultValue=true)]
         public long PetId { get; set; }
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
-        [DataMember(Name="quantity", EmitDefaultValue=false)]
+        [DataMember(Name="quantity", EmitDefaultValue=true)]
         public int Quantity { get; set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
-        [DataMember(Name="shipDate", EmitDefaultValue=false)]
+        [DataMember(Name="shipDate", EmitDefaultValue=true)]
         public DateTime ShipDate { get; set; }
 
 
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
-        [DataMember(Name="complete", EmitDefaultValue=false)]
+        [DataMember(Name="complete", EmitDefaultValue=true)]
         public bool Complete { get; set; }
 
         /// <summary>

@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-csharp-dotnet2
 title: Config Options for csharp-dotnet2
 sidebar_label: csharp-dotnet2
 ---

@@ -317,7 +317,9 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 		}
 		{{#responses}}
 		{{#dataType}}
+		{{^wildcard}}
 		if localVarHTTPResponse.StatusCode == {{{code}}} {
+		{{/wildcard}}
 			var v {{{dataType}}}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -325,8 +327,12 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 				return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
 			}
 			newErr.model = v
+			{{#hasMore}}
 			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
+			{{/hasMore}}
+		{{^wildcard}}
 		}
+		{{/wildcard}}
 		{{/dataType}}
 		{{/responses}}
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr

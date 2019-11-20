@@ -134,6 +134,8 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         self.retries = None
         """Adding retries to override urllib3 default value 3
         """
+        # Disable client side validation
+        self.client_side_validation = True
 
     @property
     def logger_file(self):

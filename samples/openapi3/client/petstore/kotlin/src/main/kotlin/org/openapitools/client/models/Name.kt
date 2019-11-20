@@ -19,7 +19,7 @@ import java.io.Serializable
  * @param name 
  * @param snakeCase 
  * @param property 
- * @param ``123number`` 
+ * @param `123number` 
  */
 
 data class Name (
@@ -30,8 +30,13 @@ data class Name (
     @Json(name = "property")
     val property: kotlin.String? = null,
     @Json(name = "123Number")
-    val ``123number``: kotlin.Int? = null
+    val `123number`: kotlin.Int? = null
 ) 
 : Serializable 
 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

@@ -21,5 +21,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class CatAllOf (
     @SerialName(value = "declawed") val declawed: kotlin.Boolean? = null
-)
+) 
+
+
 

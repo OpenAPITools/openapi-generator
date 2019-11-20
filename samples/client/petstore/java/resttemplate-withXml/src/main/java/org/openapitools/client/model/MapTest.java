@@ -42,11 +42,11 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "MapTest")
 public class MapTest {
+  public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Map&lt;String, String&gt;
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   private Map<String, Map<String, String>> mapMapOfString = null;
 
   /**
@@ -84,25 +84,25 @@ public class MapTest {
     }
   }
 
+  public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
   private Map<String, InnerEnum> mapOfEnumString = null;
 
+  public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Boolean
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
   private Map<String, Boolean> directMap = null;
 
+  public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Boolean
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
   private Map<String, Boolean> indirectMap = null;
 
 
@@ -132,7 +132,6 @@ public class MapTest {
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
-
 
 
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
@@ -168,7 +167,6 @@ public class MapTest {
   }
 
 
-
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
@@ -202,7 +200,6 @@ public class MapTest {
   }
 
 
-
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
@@ -234,7 +231,6 @@ public class MapTest {
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
-
 
 
   public void setIndirectMap(Map<String, Boolean> indirectMap) {

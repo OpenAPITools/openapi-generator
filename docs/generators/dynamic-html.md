@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-documentation-dynamic-html
 title: Config Options for dynamic-html
 sidebar_label: dynamic-html
 ---

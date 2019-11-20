@@ -25,4 +25,9 @@ data class ClassModel (
 ) 
 : Serializable 
 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

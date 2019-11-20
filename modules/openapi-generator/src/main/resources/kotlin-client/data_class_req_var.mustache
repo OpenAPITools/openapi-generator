@@ -3,10 +3,10 @@
 {{/description}}
     {{#jvm}}
     {{#moshi}}
-    @Json(name = "{{{baseName}}}")
+    @Json(name = "{{{vendorExtensions.x-base-name-literal}}}")
     {{/moshi}}
     {{#gson}}
-    @SerializedName("{{name}}")
+    @SerializedName("{{{vendorExtensions.x-base-name-literal}}}")
     {{/gson}}
     {{/jvm}}
-    {{#multiplatform}}@SerialName(value = "{{baseName}}") @Required {{/multiplatform}}{{>property}} {{{name}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}
+    {{#multiplatform}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}") @Required {{/multiplatform}}{{>property}} {{{name}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}

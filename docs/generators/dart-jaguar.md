@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-dart-jaguar
 title: Config Options for dart-jaguar
 sidebar_label: dart-jaguar
 ---

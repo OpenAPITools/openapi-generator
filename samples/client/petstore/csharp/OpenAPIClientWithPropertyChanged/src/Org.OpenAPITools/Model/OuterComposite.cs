@@ -49,19 +49,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MyNumber
         /// </summary>
-        [DataMember(Name="my_number", EmitDefaultValue=false)]
+        [DataMember(Name="my_number", EmitDefaultValue=true)]
         public decimal MyNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets MyString
         /// </summary>
-        [DataMember(Name="my_string", EmitDefaultValue=false)]
+        [DataMember(Name="my_string", EmitDefaultValue=true)]
         public string MyString { get; set; }
 
         /// <summary>
         /// Gets or Sets MyBoolean
         /// </summary>
-        [DataMember(Name="my_boolean", EmitDefaultValue=false)]
+        [DataMember(Name="my_boolean", EmitDefaultValue=true)]
         public bool MyBoolean { get; set; }
 
         /// <summary>

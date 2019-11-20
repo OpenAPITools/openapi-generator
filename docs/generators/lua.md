@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-lua
 title: Config Options for lua
 sidebar_label: lua
 ---

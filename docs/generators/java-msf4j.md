@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-java-msf4j
 title: Config Options for java-msf4j
 sidebar_label: java-msf4j
 ---

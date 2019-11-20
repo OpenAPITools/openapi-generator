@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-kotlin-spring
 title: Config Options for kotlin-spring
 sidebar_label: kotlin-spring
 ---

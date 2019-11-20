@@ -22,8 +22,10 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class InlineObject5 (
     /* file to upload */
-    @SerialName(value = "requiredFile") @Required val requiredFile: io.ktor.client.request.forms.InputProvider,
+    @SerialName(value = "requiredFile") @Required val requiredFile: org.openapitools.client.infrastructure.OctetByteArray,
     /* Additional data to pass to server */
     @SerialName(value = "additionalMetadata") val additionalMetadata: kotlin.String? = null
-)
+) 
+
+
 

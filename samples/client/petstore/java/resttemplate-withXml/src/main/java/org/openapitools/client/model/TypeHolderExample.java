@@ -44,31 +44,31 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "TypeHolderExample")
 public class TypeHolderExample {
-  @XmlElement(name = "string_item")
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
+  @XmlElement(name = "string_item")
   private String stringItem;
 
-  @XmlElement(name = "number_item")
   public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
+  @XmlElement(name = "number_item")
   private BigDecimal numberItem;
 
-  @XmlElement(name = "float_item")
   public static final String JSON_PROPERTY_FLOAT_ITEM = "float_item";
+  @XmlElement(name = "float_item")
   private Float floatItem;
 
-  @XmlElement(name = "integer_item")
   public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
+  @XmlElement(name = "integer_item")
   private Integer integerItem;
 
-  @XmlElement(name = "bool_item")
   public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
+  @XmlElement(name = "bool_item")
   private Boolean boolItem;
 
+  public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   // Is a container wrapped=false
   // items.name=arrayItem items.baseName=arrayItem items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "arrayItem")
-  public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
 
@@ -90,7 +90,6 @@ public class TypeHolderExample {
   public String getStringItem() {
     return stringItem;
   }
-
 
 
   public void setStringItem(String stringItem) {
@@ -118,7 +117,6 @@ public class TypeHolderExample {
   }
 
 
-
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
@@ -142,7 +140,6 @@ public class TypeHolderExample {
   public Float getFloatItem() {
     return floatItem;
   }
-
 
 
   public void setFloatItem(Float floatItem) {
@@ -170,7 +167,6 @@ public class TypeHolderExample {
   }
 
 
-
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
@@ -194,7 +190,6 @@ public class TypeHolderExample {
   public Boolean getBoolItem() {
     return boolItem;
   }
-
 
 
   public void setBoolItem(Boolean boolItem) {
@@ -224,7 +219,6 @@ public class TypeHolderExample {
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
-
 
 
   public void setArrayItem(List<Integer> arrayItem) {

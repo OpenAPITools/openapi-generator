@@ -57,7 +57,6 @@ public class ModelReturn implements Parcelable {
   }
 
 
-
   public void setReturn(Integer _return) {
     this._return = _return;
   }

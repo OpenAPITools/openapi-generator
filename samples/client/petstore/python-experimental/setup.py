@@ -22,17 +22,21 @@ VERSION = "1.0.0"
 # http://pypi.python.org/pypi/setuptools
 
 REQUIRES = ["urllib3 >= 1.15", "six >= 1.10", "certifi", "python-dateutil"]
+EXTRAS = {':python_version <= "2.7"': ['future']}
 
 setup(
     name=NAME,
     version=VERSION,
     description="OpenAPI Petstore",
-    author_email="",
+    author="OpenAPI Generator community",
+    author_email="team@openapitools.org",
     url="",
     keywords=["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"],
     install_requires=REQUIRES,
+    extras_require=EXTRAS,
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
+    license="Apache-2.0",
     long_description="""\
     This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\  # noqa: E501
     """
