@@ -45,6 +45,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(BashClientCodegen.class);
@@ -110,7 +111,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     public BashClientCodegen() {
         super();
 
-        setReservedWordsLowerCase(
+        super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                         "case",
                         "do",
