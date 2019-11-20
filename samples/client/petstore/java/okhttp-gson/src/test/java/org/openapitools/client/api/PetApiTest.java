@@ -128,8 +128,6 @@ public class PetApiTest {
                 //empty
             }
         });
-        // the API call should be executed asynchronously, so result should be empty at the moment
-        assertTrue(result.isEmpty());
 
         // wait for the asynchronous call to finish (at most 10 seconds)
         final int maxTry = 10;

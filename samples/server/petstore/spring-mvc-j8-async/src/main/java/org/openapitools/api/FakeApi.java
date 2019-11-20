@@ -81,7 +81,8 @@ public interface FakeApi {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                     if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                        ApiUtil.setExampleResponse(request, "*/*", "{  \"my_string\" : \"my_string\",  \"my_number\" : 0.8008281904610115,  \"my_boolean\" : true}");
+                        String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
+                        ApiUtil.setExampleResponse(request, "*/*", exampleString);
                         break;
                     }
                 }
@@ -152,7 +153,8 @@ public interface FakeApi {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                     if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                        ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
+                        String exampleString = "{ \"client\" : \"client\" }";
+                        ApiUtil.setExampleResponse(request, "application/json", exampleString);
                         break;
                     }
                 }
@@ -254,7 +256,8 @@ public interface FakeApi {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                     if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                        ApiUtil.setExampleResponse(request, "application/json", "{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}");
+                        String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                        ApiUtil.setExampleResponse(request, "application/json", exampleString);
                         break;
                     }
                 }
