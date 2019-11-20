@@ -92,19 +92,19 @@ extension UUID: JSONEncodable {
 
 extension String: CodingKey {
 
-    internal var stringValue: String {
+    public var stringValue: String {
         return self
     }
 
-    internal init?(stringValue: String) {
+    public init?(stringValue: String) {
         self.init(stringLiteral: stringValue)
     }
 
-    internal var intValue: Int? {
+    public var intValue: Int? {
         return nil
     }
 
-    internal init?(intValue: Int) {
+    public init?(intValue: Int) {
         return nil
     }
 
