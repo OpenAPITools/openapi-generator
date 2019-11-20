@@ -689,10 +689,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             Schema<?> items = getSchemaItems((ArraySchema) p);
-            if (ModelUtils.isGenerateAliasAsModel())
-                return getSchemaType(p) + "<" + getTypeDeclaration(items) + ">";
-            else
-                return getSchemaType(p) + "<" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items)) + ">";
+            return getSchemaType(p) + "<" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             if (inner == null) {
@@ -700,10 +697,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 inner = new StringSchema().description("TODO default missing map inner type to string");
                 p.setAdditionalProperties(inner);
             }
-            if (ModelUtils.isGenerateAliasAsModel())
-                return getSchemaType(p) + "<String, " + getTypeDeclaration(inner) + ">";
-            else
-                return getSchemaType(p) + "<String, " + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + ">";
+            return getSchemaType(p) + "<String, " + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + ">";
         }
         return super.getTypeDeclaration(p);
     }
