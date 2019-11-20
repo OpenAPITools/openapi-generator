@@ -28,7 +28,6 @@
 		40E46046D2B16D1A672A08E3 /* AlamofireImplementations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A201508DF2B697D65F2631 /* AlamofireImplementations.swift */; };
 		418DB36F23C53C6E2C3CDE39 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A235FA3FDFB086CC69CDE83D /* Alamofire.framework */; };
 		41A491E9B577C510F927D126 /* OuterEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15008AABC804EB6FB4CDAC6 /* OuterEnum.swift */; };
-		45B3B29D7A62049F824751F8 /* AnimalFarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D22BE01748F51106DE02332 /* AnimalFarm.swift */; };
 		4884A65ABBA468278D2450FD /* AdditionalPropertiesString.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE215C1B526E0418ED301B1 /* AdditionalPropertiesString.swift */; };
 		4A344DF7ECE721B4BBEDCB4A /* CatAllOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD0F94F512DFBC09F9CC79A /* CatAllOf.swift */; };
 		4B4BE77747413A9188CDABD2 /* ArrayOfArrayOfNumberOnly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1B8B838B5D9D312F2002EB /* ArrayOfArrayOfNumberOnly.swift */; };
@@ -68,7 +67,6 @@
 		DDBD4C0FBA3CD6A4DA3DF376 /* FakeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E00950725DC44436C5E238C /* FakeAPI.swift */; };
 		DDF1D589267D56D9BED3C6E5 /* FileSchemaTestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3666552AA854DAF9C480A3 /* FileSchemaTestClass.swift */; };
 		E8A58C6414E88AF3EAE45B69 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2985D01F8D60A4B1925C69 /* Category.swift */; };
-		EDFC6C5121A43997014049CB /* StringBooleanMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B4DEBABEFE140768CFB70B /* StringBooleanMap.swift */; };
 		EF35D2C67E3BC377DDCC99CB /* AdditionalPropertiesBoolean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC24C01A55F644957196F9F /* AdditionalPropertiesBoolean.swift */; };
 		FECA2E8C9D0BDFEC459E8996 /* TypeHolderExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B65C66C97F082718DDD703 /* TypeHolderExample.swift */; };
 /* End PBXBuildFile section */
@@ -91,7 +89,6 @@
 		396DEF3156BA0D12D0FC5C3C /* AdditionalPropertiesClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalPropertiesClass.swift; sourceTree = "<group>"; };
 		3AD0F94F512DFBC09F9CC79A /* CatAllOf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatAllOf.swift; sourceTree = "<group>"; };
 		3C30827D8EAF8EA684E7BCEA /* ClassModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassModel.swift; sourceTree = "<group>"; };
-		47B4DEBABEFE140768CFB70B /* StringBooleanMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringBooleanMap.swift; sourceTree = "<group>"; };
 		4B2C97AE6ACA1E5FB88F5BAA /* EnumClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumClass.swift; sourceTree = "<group>"; };
 		4B3666552AA854DAF9C480A3 /* FileSchemaTestClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSchemaTestClass.swift; sourceTree = "<group>"; };
 		4C7FBC641752D2E13B150973 /* HasOnlyReadOnly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasOnlyReadOnly.swift; sourceTree = "<group>"; };
@@ -109,7 +106,6 @@
 		84A201508DF2B697D65F2631 /* AlamofireImplementations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireImplementations.swift; sourceTree = "<group>"; };
 		8699F7966F748ED026A6FB4C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		897716962D472FE162B723CB /* APIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
-		8D22BE01748F51106DE02332 /* AnimalFarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalFarm.swift; sourceTree = "<group>"; };
 		95568E7C35F119EB4A12B498 /* Animal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animal.swift; sourceTree = "<group>"; };
 		9791B840B8D6EAA35343B00F /* JSONEncodableEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncodableEncoding.swift; sourceTree = "<group>"; };
 		9A019F500E546A3292CE716A /* PetAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetAPI.swift; sourceTree = "<group>"; };
@@ -173,7 +169,6 @@
 				72FEDC94BA0E37214D360871 /* AdditionalPropertiesObject.swift */,
 				FFE215C1B526E0418ED301B1 /* AdditionalPropertiesString.swift */,
 				95568E7C35F119EB4A12B498 /* Animal.swift */,
-				8D22BE01748F51106DE02332 /* AnimalFarm.swift */,
 				A8E7B833748B4F0C7CDA90C6 /* ApiResponse.swift */,
 				7B1B8B838B5D9D312F2002EB /* ArrayOfArrayOfNumberOnly.swift */,
 				B65BB72353DA24536A9049BE /* ArrayOfNumberOnly.swift */,
@@ -206,7 +201,6 @@
 				6FD42727E001E799E458C292 /* ReadOnlyFirst.swift */,
 				C81447828475F76C5CF4F08A /* Return.swift */,
 				386FD590658E90509C121118 /* SpecialModelName.swift */,
-				47B4DEBABEFE140768CFB70B /* StringBooleanMap.swift */,
 				B2896F8BFD1AA2965C8A3015 /* Tag.swift */,
 				EBC76F6D4D2AA8084B7EB50E /* TypeHolderDefault.swift */,
 				19B65C66C97F082718DDD703 /* TypeHolderExample.swift */,
@@ -357,7 +351,6 @@
 				4884A65ABBA468278D2450FD /* AdditionalPropertiesString.swift in Sources */,
 				40E46046D2B16D1A672A08E3 /* AlamofireImplementations.swift in Sources */,
 				2B441CDFFFDDB343C04F5375 /* Animal.swift in Sources */,
-				45B3B29D7A62049F824751F8 /* AnimalFarm.swift in Sources */,
 				CA9B9B19882EA044EAD0B359 /* AnotherFakeAPI.swift in Sources */,
 				0299339D13C3571C4C57368A /* ApiResponse.swift in Sources */,
 				4B4BE77747413A9188CDABD2 /* ArrayOfArrayOfNumberOnly.swift in Sources */,
@@ -401,7 +394,6 @@
 				A6E50CC6845FE58D8C236253 /* Return.swift in Sources */,
 				294CDFA409BC369C0FDC5FB3 /* SpecialModelName.swift in Sources */,
 				CB68ABDBAADAF6B8D7B93A5D /* StoreAPI.swift in Sources */,
-				EDFC6C5121A43997014049CB /* StringBooleanMap.swift in Sources */,
 				B3E35FE2773D4A8BA15CFA88 /* Tag.swift in Sources */,
 				5695497F5DBF6C08842755A3 /* TypeHolderDefault.swift in Sources */,
 				FECA2E8C9D0BDFEC459E8996 /* TypeHolderExample.swift in Sources */,

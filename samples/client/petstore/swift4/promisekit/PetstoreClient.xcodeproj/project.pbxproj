@@ -22,7 +22,6 @@
 		34C26979F4678B5B579D26E8 /* FakeClassnameTags123API.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42354B407EC173BEB54E042 /* FakeClassnameTags123API.swift */; };
 		3691B017D3AA18404A563C67 /* ArrayOfNumberOnly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65BB72353DA24536A9049BE /* ArrayOfNumberOnly.swift */; };
 		37DEADD6CD0496690725B8A7 /* Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD994DFAA0DA93C188A4DBA /* Name.swift */; };
-		3EA765BDC5A11401D8A16536 /* XmlItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2253391845B73B8BA368049 /* XmlItem.swift */; };
 		40E3027D2E38D8329C6AB01F /* APIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DF825B8F3BADA2B2537D17 /* APIs.swift */; };
 		40E46046D2B16D1A672A08E3 /* AlamofireImplementations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A201508DF2B697D65F2631 /* AlamofireImplementations.swift */; };
 		418DB36F23C53C6E2C3CDE39 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A235FA3FDFB086CC69CDE83D /* Alamofire.framework */; };
@@ -106,7 +105,6 @@
 		9AD714C7CC59BDD18DE8DF4E /* MixedPropertiesAndAdditionalPropertiesClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedPropertiesAndAdditionalPropertiesClass.swift; sourceTree = "<group>"; };
 		9DF24D2714B9C4CF14146E88 /* AnotherFakeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherFakeAPI.swift; sourceTree = "<group>"; };
 		A21A69C8402A60E01116ABBD /* DogAllOf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogAllOf.swift; sourceTree = "<group>"; };
-		A2253391845B73B8BA368049 /* XmlItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XmlItem.swift; sourceTree = "<group>"; };
 		A235FA3FDFB086CC69CDE83D /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Alamofire.framework; sourceTree = "<group>"; };
 		A53274D99BBDE1B79BF3521C /* StoreAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAPI.swift; sourceTree = "<group>"; };
 		A586582C92491DF9C12D27E2 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PromiseKit.framework; sourceTree = "<group>"; };
@@ -193,7 +191,6 @@
 				EBC76F6D4D2AA8084B7EB50E /* TypeHolderDefault.swift */,
 				19B65C66C97F082718DDD703 /* TypeHolderExample.swift */,
 				E5565A447062C7B8F695F451 /* User.swift */,
-				A2253391845B73B8BA368049 /* XmlItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -383,7 +380,6 @@
 				FECA2E8C9D0BDFEC459E8996 /* TypeHolderExample.swift in Sources */,
 				31DFF71D8CCCA0D2D2F8AC90 /* User.swift in Sources */,
 				64C48E3658CF53EBE8AF82F9 /* UserAPI.swift in Sources */,
-				3EA765BDC5A11401D8A16536 /* XmlItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
