@@ -73,8 +73,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
         embeddedTemplateDir = templateDir = "erlang-client";
 
-        // TODO Are those case sensitive or insensitive
-        super.registerReservedWordsCaseInsensitive(
+        super.registerReservedWordsCaseSensitive(
                 Arrays.asList(
                         "after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr", "bxor", "case",
                         "catch", "cond", "div", "end", "fun", "if", "let", "not", "of", "or", "orelse", "receive",

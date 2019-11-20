@@ -84,8 +84,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTestTemplateFiles.put("model_test.mustache", ".dart");
         apiTestTemplateFiles.put("api_test.mustache", ".dart");
 
-        // TODO Are those case sensitive or insensitive
-        super.registerReservedWordsCaseInsensitive(
+        super.registerReservedWordsCaseSensitive(
                 Arrays.asList(
                         "abstract", "as", "assert", "async", "async*", "await",
                         "break", "case", "catch", "class", "const", "continue",

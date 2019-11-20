@@ -86,7 +86,6 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         importMapping.put("File", "flash.filesystem.File");
 
         // from
-        // TODO Are those case sensitive or insensitive
         super.registerReservedWordsCaseInsensitive(Arrays.asList("add", "for", "lt", "tellTarget", "and",
                 "function", "ne", "this", "break", "ge", "new", "typeof", "continue", "gt", "not",
                 "var", "delete", "if", "on", "void", "do", "ifFrameLoaded", "onClipEvent", "while",

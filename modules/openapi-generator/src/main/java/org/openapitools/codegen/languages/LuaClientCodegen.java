@@ -82,8 +82,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
-        // TODO Are those case sensitive or insensitive
-        super.registerReservedWordsCaseInsensitive(
+        super.registerReservedWordsCaseSensitive(
                 Arrays.asList(
                         // data type
                         "nil", "string", "boolean", "number", "userdata", "thread",

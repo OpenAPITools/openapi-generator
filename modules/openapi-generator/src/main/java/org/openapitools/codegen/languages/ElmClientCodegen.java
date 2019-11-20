@@ -95,8 +95,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         supportsInheritance = true;
 
-        // TODO Are those case sensitive or insensitive
-        super.registerReservedWordsCaseInsensitive(
+        super.registerReservedWordsCaseSensitive(
                 Arrays.asList(
                         "if", "then", "else",
                         "case", "of",

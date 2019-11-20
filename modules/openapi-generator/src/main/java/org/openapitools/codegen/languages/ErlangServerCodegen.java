@@ -76,8 +76,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         /**
          * Reserved words.  Override this with reserved words specific to your language
          */
-        // TODO Are those case sensitive or insensitive
-        super.registerReservedWordsCaseInsensitive(
+        super.registerReservedWordsCaseSensitive(
                 Arrays.asList(
                         "after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr", "bxor", "case",
                         "catch", "cond", "div", "end", "fun", "if", "let", "not", "of", "or", "orelse", "receive",

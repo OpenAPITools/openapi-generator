@@ -78,7 +78,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         // apiDocTemplateFiles.clear();
 
         // https://dev.mysql.com/doc/refman/8.0/en/keywords.html
-        // TODO Are those case sensitive or insensitive
         super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                         // SQL reserved words

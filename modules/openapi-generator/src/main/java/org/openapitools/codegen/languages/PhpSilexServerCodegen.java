@@ -59,7 +59,6 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
 
         embeddedTemplateDir = templateDir = "php-silex";
 
-        // TODO Are those case sensitive or insensitive
         super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                         "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch",

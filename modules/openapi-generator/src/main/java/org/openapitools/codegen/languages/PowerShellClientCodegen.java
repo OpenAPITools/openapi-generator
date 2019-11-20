@@ -100,7 +100,6 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         ));
 
         // https://richardspowershellblog.wordpress.com/2009/05/02/powershell-reserved-words/
-        // TODO Are those case sensitive or insensitive
         super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                 "Begin",
