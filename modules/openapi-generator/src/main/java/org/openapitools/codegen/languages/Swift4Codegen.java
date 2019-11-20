@@ -59,6 +59,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     protected static final String LIBRARY_RX_SWIFT = "RxSwift";
     protected static final String[] RESPONSE_LIBRARIES = {LIBRARY_PROMISE_KIT, LIBRARY_RX_SWIFT};
     protected String projectName = "OpenAPIClient";
+    protected boolean nonPublicApi = false;
     protected boolean unwrapRequired;
     protected boolean objcCompatible = false;
     protected boolean lenientTypeCast = false;
@@ -208,6 +209,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 "Optionally use libraries to manage response.  Currently "
                         + StringUtils.join(RESPONSE_LIBRARIES, ", ")
                         + " are available."));
+        cliOptions.add(new CliOption(CodegenConstants.NON_PUBLIC_API,
+                CodegenConstants.NON_PUBLIC_API_DESC 
+                        + "(default: false)"));
         cliOptions.add(new CliOption(UNWRAP_REQUIRED,
                 "Treat 'required' properties in response as non-optional "
                         + "(which would crash the app if api returns null as opposed "
@@ -328,6 +332,14 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put(PROJECT_NAME, projectName);
         }
         sourceFolder = projectName + File.separator + sourceFolder;
+
+        // Setup nonPublicApi option, which generates code with reduced access
+        // modifiers; allows embedding elsewhere without exposing non-public API calls
+        // to consumers
+        if (additionalProperties.containsKey(CodegenConstants.NON_PUBLIC_API)) {
+            setNonPublicApi(convertPropertyToBooleanAndWriteBack(CodegenConstants.NON_PUBLIC_API));
+        }
+        additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
 
         // Setup unwrapRequired option, which makes all the
         // properties with "required" non-optional
@@ -712,6 +724,10 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public void setNonPublicApi(boolean nonPublicApi) {
+        this.nonPublicApi = nonPublicApi;
     }
 
     public void setUnwrapRequired(boolean unwrapRequired) {
