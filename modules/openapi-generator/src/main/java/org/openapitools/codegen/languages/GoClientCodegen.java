@@ -36,6 +36,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     protected boolean isGoSubmodule = false;
     public static final String WITH_GO_CODEGEN_COMMENT = "withGoCodegenComment";
     public static final String WITH_XML = "withXml";
+    public static final String STRUCT_PREFIX = "structPrefix";
 
     public GoClientCodegen() {
         super();
@@ -56,6 +57,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         cliOptions.add(CliOption.newBoolean(WITH_GO_CODEGEN_COMMENT, "whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs"));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_CLASS_PREFIX, CodegenConstants.ENUM_CLASS_PREFIX_DESC));
+        cliOptions.add(CliOption.newBoolean(STRUCT_PREFIX, "whether to prefix struct with the class name. e.g. DeletePetOpts => PetApiServiceDeletePetOpts"));
 
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(
@@ -125,6 +127,13 @@ public class GoClientCodegen extends AbstractGoCodegen {
             setIsGoSubmodule(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.IS_GO_SUBMODULE).toString()));
             if (isGoSubmodule) {
                 additionalProperties.put(CodegenConstants.IS_GO_SUBMODULE, "true");
+            }
+        }
+
+        if (additionalProperties.containsKey(STRUCT_PREFIX)) {
+            setStructPrefix(Boolean.parseBoolean(additionalProperties.get(STRUCT_PREFIX).toString()));
+            if (structPrefix) {
+                additionalProperties.put(STRUCT_PREFIX, "true");
             }
         }
     }
