@@ -51,7 +51,7 @@
 {{/allParams}}
 {{#returnType}}
 {{^returnTypeIsPrimitive}}
-#' \item \emph{ @returnType } {{#isListContainer}}list( {{/isListContainer}}{{#isMapContainer}}named list( {{/isMapContainer}}\link{{=<% %>=}}{<%#returnContainer%><%returnBaseType%><%/returnContainer%><%^returnContainer%><%returnType%><%/returnContainer%>}<%={{ }}=%>{{#isListContainer}} ){{/isListContainer}}{{#isMapContainer}} ){{/isMapContainer}} \cr
+#' \item \emph{ @returnType } {{#returnContainer}}{{#isListContainer}}list( {{/isListContainer}}{{#isMapContainer}}named list( {{/isMapContainer}}{{/returnContainer}}\link{{=<% %>=}}{<%#returnContainer%><%={{ }}=%>{{returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{=<% %>=}}<%/returnContainer%>}<%={{ }}=%>{{#returnContainer}}{{#isListContainer}} ){{/isListContainer}}{{#isMapContainer}} ){{/isMapContainer}}{{/returnContainer}} \cr
 {{/returnTypeIsPrimitive}}
 {{/returnType}}
 #'
