@@ -1,3 +1,5 @@
 #!/bin/sh
 
-xcodebuild clean build build-for-testing -workspace "TestClientApp.xcworkspace" -scheme "TestClient" -destination "platform=iOS Simulator,name=iPhone 6,OS=9.3" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 6,OS=9.3" | xcpretty && exit ${PIPESTATUS[0]}
+pod install
+
+xcodebuild clean build build-for-testing -workspace "TestClientApp.xcworkspace" -scheme "TestClientApp" -destination "platform=iOS Simulator,name=iPhone 11 Pro Max,OS=latest" && xcodebuild test-without-building -workspace "TestClientApp.xcworkspace" -scheme "TestClientAppTests" -destination "platform=iOS Simulator,name=iPhone 11 Pro Max,OS=latest" | xcpretty && exit ${PIPESTATUS[0]}
