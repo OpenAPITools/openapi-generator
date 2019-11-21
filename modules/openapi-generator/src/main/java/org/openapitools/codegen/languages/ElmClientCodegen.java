@@ -39,10 +39,8 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ElmClientCodegen.class);
     private Set<String> customPrimitives = new HashSet<String>();
-    private ElmVersion elmVersion = ElmVersion.ELM_019;
     private Boolean elmPrefixCustomTypeVariants = false;
 
-    private static final String ELM_VERSION = "elmVersion";
     private static final String ELM_PREFIX_CUSTOM_TYPE_VARIANTS = "elmPrefixCustomTypeVariants";
     private static final String ELM_ENABLE_CUSTOM_BASE_PATHS = "elmEnableCustomBasePaths";
     private static final String ELM_ENABLE_HTTP_REQUEST_TRACKERS = "elmEnableHttpRequestTrackers";
@@ -143,13 +141,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         importMapping.clear();
 
         cliOptions.clear();
-
-        final CliOption elmVersion = new CliOption(ELM_VERSION, "Elm version: 0.18, 0.19").defaultValue("0.19");
-        final Map<String, String> supportedVersions = new HashMap<>();
-        supportedVersions.put("0.18", "Elm 0.18");
-        supportedVersions.put("0.19", "Elm 0.19");
-        elmVersion.setEnum(supportedVersions);
-        cliOptions.add(elmVersion);
         final CliOption elmPrefixCustomTypeVariants = CliOption.newBoolean(ELM_PREFIX_CUSTOM_TYPE_VARIANTS, "Prefix custom type variants");
         cliOptions.add(elmPrefixCustomTypeVariants);
         final CliOption elmEnableCustomBasePaths = CliOption.newBoolean(ELM_ENABLE_CUSTOM_BASE_PATHS, "Enable setting the base path for each request");
@@ -161,15 +152,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (additionalProperties.containsKey(ELM_VERSION)) {
-            final String version = (String) additionalProperties.get(ELM_VERSION);
-            if ("0.18".equals(version)) {
-                elmVersion = ElmVersion.ELM_018;
-            } else {
-                elmVersion = ElmVersion.ELM_019;
-            }
-        }
 
         if (additionalProperties.containsKey(ELM_PREFIX_CUSTOM_TYPE_VARIANTS)) {
             elmPrefixCustomTypeVariants = Boolean.TRUE.equals(Boolean.valueOf(additionalProperties.get(ELM_PREFIX_CUSTOM_TYPE_VARIANTS).toString()));
@@ -186,37 +168,15 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (StringUtils.isEmpty(System.getenv("ELM_POST_PROCESS_FILE"))) {
-            if (elmVersion.equals(ElmVersion.ELM_018)) { // 0.18
-                LOGGER.info("Environment variable ELM_POST_PROCESS_FILE not defined so the Elm code may not be properly formatted. To define it, try `export ELM_POST_PROCESS_FILE=\"/usr/local/bin/elm-format --elm-version={} --yes\"` (Linux/Mac)", "0.18");
-            } else { // 0.19
-                LOGGER.info("Environment variable ELM_POST_PROCESS_FILE not defined so the Elm code may not be properly formatted. To define it, try `export ELM_POST_PROCESS_FILE=\"/usr/local/bin/elm-format --elm-version={} --yes\"` (Linux/Mac)", "0.19");
-            }
+            LOGGER.info("Environment variable ELM_POST_PROCESS_FILE not defined so the Elm code may not be properly formatted. To define it, try `export ELM_POST_PROCESS_FILE=\"/usr/local/bin/elm-format --elm-version={} --yes\"` (Linux/Mac)", "0.19");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
-        switch (elmVersion) {
-            case ELM_018:
-                LOGGER.info("Elm version: 0.18");
-                additionalProperties.put("isElm018", true);
-                apiTemplateFiles.put("api018.mustache", ".elm");
-                supportingFiles.add(new SupportingFile("DateOnly018.mustache", "src", "DateOnly.elm"));
-                supportingFiles.add(new SupportingFile("DateTime018.mustache", "src", "DateTime.elm"));
-                supportingFiles.add(new SupportingFile("elm-package018.mustache", "", "elm-package.json"));
-                supportingFiles.add(new SupportingFile("Main018.mustache", "src", "Main.elm"));
-                break;
-            case ELM_019:
-                LOGGER.info("Elm version: 0.19");
-                additionalProperties.put("isElm019", true);
-                apiTemplateFiles.put("api.mustache", ".elm");
-                supportingFiles.add(new SupportingFile("DateOnly.mustache", "src", "DateOnly.elm"));
-                supportingFiles.add(new SupportingFile("DateTime.mustache", "src", "DateTime.elm"));
-                supportingFiles.add(new SupportingFile("elm.mustache", "", "elm.json"));
-                supportingFiles.add(new SupportingFile("Main.mustache", "src", "Main.elm"));
-                break;
-            default:
-                throw new RuntimeException("Undefined Elm version");
-        }
-
+        apiTemplateFiles.put("api.mustache", ".elm");
+        supportingFiles.add(new SupportingFile("DateOnly.mustache", "src", "DateOnly.elm"));
+        supportingFiles.add(new SupportingFile("DateTime.mustache", "src", "DateTime.elm"));
+        supportingFiles.add(new SupportingFile("elm.mustache", "", "elm.json"));
+        supportingFiles.add(new SupportingFile("Main.mustache", "src", "Main.elm"));
         supportingFiles.add(new SupportingFile("Byte.mustache", "src", "Byte.elm"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -444,25 +404,16 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         final Set<String> dependencies = new HashSet<>();
 
         for (CodegenOperation op : ops) {
-            if (ElmVersion.ELM_018.equals(elmVersion)) { // elm 0.18
-                String path = op.path;
-                for (CodegenParameter param : op.pathParams) {
-                    final String var = paramToString("params", param, false, null);
-                    path = path.replace("{" + param.baseName + "}", "\" ++ " + var + " ++ \"");
-                }
-                op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
-            } else { // elm 0.19 or later
-                final List<Object> pathParams = Arrays.asList(op.path.substring(1).split("/")).stream()
-                        .map(str -> {
-                            if (str.startsWith("{") && str.endsWith("}")) {
-                                return op.pathParams.stream().filter(p -> str.equals("{" + p.baseName + "}")).findFirst().orElse(null);
-                            } else {
-                                return "\"" + str + "\"";
-                            }
-                        })
-                        .collect(Collectors.toList());
-                op.vendorExtensions.put("pathParams", pathParams);
-            }
+            final List<Object> pathParams = Arrays.asList(op.path.substring(1).split("/")).stream()
+                    .map(str -> {
+                        if (str.startsWith("{") && str.endsWith("}")) {
+                            return op.pathParams.stream().filter(p -> str.equals("{" + p.baseName + "}")).findFirst().orElse(null);
+                        } else {
+                            return "\"" + str + "\"";
+                        }
+                    })
+                    .collect(Collectors.toList());
+            op.vendorExtensions.put("pathParams", pathParams);
 
             for (CodegenParameter param : op.allParams) {
                 if (param.isPrimitiveType || param.isContainer || param.isDate || param.isDateTime || param.isUuid) {
@@ -571,8 +522,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             return Optional.of("DateOnly.toString");
         } else if (property.isUuid) {
             return Optional.of("Uuid.toString");
-        } else if (ElmVersion.ELM_018.equals(elmVersion)) {
-            return Optional.of("toString");
         } else if (property.isInteger || property.isLong) {
             return Optional.of("String.fromInt");
         } else if (property.isFloat || property.isDouble) {
@@ -601,7 +550,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private String paramToString(final String prefix, final CodegenParameter param, final boolean useMaybe, final String maybeMapResult) {
-        final String paramName = (ElmVersion.ELM_018.equals(elmVersion) ? "" : prefix + ".") + param.paramName;
+        final String paramName = prefix + "." + param.paramName;
         if (!useMaybe) {
             param.required = true;
         }
@@ -755,11 +704,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         public String as;
         public Set<String> exposures;
         public Boolean hasExposures;
-    }
-
-    private enum ElmVersion {
-        ELM_018,
-        ELM_019
     }
 
     @Override

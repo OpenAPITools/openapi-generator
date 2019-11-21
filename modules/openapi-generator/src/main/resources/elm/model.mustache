@@ -4,7 +4,7 @@ module Data.{{classname}} exposing ({{#models}}{{#model}}{{classname}}{{#hasChil
 
 {{>imports}}import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
-import Json.Decode.Pipeline exposing ({{#isElm018}}decode, {{/isElm018}}optional, required)
+import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
 {{#models}}
 {{#model}}

@@ -9,7 +9,7 @@ decoder =
 
 encode : {{classname}} -> Encode.Value
 encode items =
-    Encode.list {{#isElm018}}(List.map {{/isElm018}}{{vendorExtensions.elmEncoder}} items{{#isElm018}}){{/isElm018}}
+    Encode.list {{vendorExtensions.elmEncoder}} items
 
 
 toString : {{classname}} -> String
