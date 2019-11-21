@@ -305,9 +305,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(UNHANDLED_EXCEPTION_HANDLING)) {
             this.setUnhandledException(Boolean.valueOf(additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING).toString()));
-        } else {
-            additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
         }
+        additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
 
         typeMapping.put("file", "Resource");
         importMapping.put("Resource", "org.springframework.core.io.Resource");
