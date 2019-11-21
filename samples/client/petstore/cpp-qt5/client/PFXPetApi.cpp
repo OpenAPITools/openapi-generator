@@ -56,7 +56,7 @@ void PFXPetApi::addHeaders(const QString &key, const QString &value) {
 }
 
 void PFXPetApi::addPet(const PFXPet &body) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -100,7 +100,7 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXPetApi::deletePet(const qint64 &pet_id, const QString &api_key) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -148,7 +148,7 @@ void PFXPetApi::deletePetCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -237,7 +237,7 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -326,7 +326,7 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXPetApi::getPetById(const qint64 &pet_id) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -371,7 +371,7 @@ void PFXPetApi::getPetByIdCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXPetApi::updatePet(const PFXPet &body) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -415,7 +415,7 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QString &name, const QString &status) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -461,7 +461,7 @@ void PFXPetApi::updatePetWithFormCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXPetApi::uploadFile(const qint64 &pet_id, const QString &additional_metadata, const PFXHttpFileElement &file) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")

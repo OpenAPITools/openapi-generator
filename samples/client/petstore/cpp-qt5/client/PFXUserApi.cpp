@@ -56,7 +56,7 @@ void PFXUserApi::addHeaders(const QString &key, const QString &value) {
 }
 
 void PFXUserApi::createUser(const PFXUser &body) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -100,7 +100,7 @@ void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -145,7 +145,7 @@ void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker)
 }
 
 void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -190,7 +190,7 @@ void PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker *worker) 
 }
 
 void PFXUserApi::deleteUser(const QString &username) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -234,7 +234,7 @@ void PFXUserApi::deleteUserCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::getUserByName(const QString &username) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -279,7 +279,7 @@ void PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::loginUser(const QString &username, const QString &password) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -334,7 +334,7 @@ void PFXUserApi::loginUserCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::logoutUser() {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -375,7 +375,7 @@ void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")

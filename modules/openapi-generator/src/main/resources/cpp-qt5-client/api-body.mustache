@@ -50,7 +50,7 @@ void {{classname}}::addHeaders(const QString &key, const QString &value) {
 {{#operations}}
 {{#operation}}
 void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")

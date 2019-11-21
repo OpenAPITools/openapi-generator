@@ -192,7 +192,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
     } else {
         // variable layout is MULTIPART
 
-        boundary = QString("__-----------------------%0%1")
+        boundary = QString("__-----------------------%1%2")
                        .arg(QDateTime::currentDateTime().toTime_t())
                        .arg(qrand());
         QString boundary_delimiter = "--";

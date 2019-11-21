@@ -56,7 +56,7 @@ void PFXStoreApi::addHeaders(const QString &key, const QString &value) {
 }
 
 void PFXStoreApi::deleteOrder(const QString &order_id) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -100,7 +100,7 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXStoreApi::getInventory() {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -151,7 +151,7 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXStoreApi::getOrderById(const qint64 &order_id) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
@@ -196,7 +196,7 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXStoreApi::placeOrder(const PFXOrder &body) {
-    QString fullPath = QString("%0://%1%2%3%4")
+    QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
                            .arg(_host)
                            .arg(_port ? ":" + QString::number(_port) : "")
