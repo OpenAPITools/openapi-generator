@@ -11,5 +11,6 @@ mvn -f rxswiftLibrary/SwaggerClientTests/pom.xml integration-test
 mvn -f default/pom.xml integration-test
 # mvn -f objcCompatible/pom.xml integration-test
 mvn -f promisekitLibrary/pom.xml integration-test
+mvn -f result/pom.xml integration-test
 mvn -f rxswiftLibrary/pom.xml integration-test
 mvn -f unwrapRequired/pom.xml integration-test
