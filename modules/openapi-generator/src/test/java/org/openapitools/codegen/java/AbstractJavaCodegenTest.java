@@ -17,15 +17,15 @@
 
 package org.openapitools.codegen.java;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.*;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -420,6 +420,32 @@ public class AbstractJavaCodegenTest {
         Schema<?> schema = createObjectSchemaWithMinItems();
         String defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "Object");
+
+        // Create an alias to an array schema
+        Schema<?> nestedArraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NestedArray", nestedArraySchema)));
+
+        // Create an array schema with item type set to the array alias
+        schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
+
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<List<Integer>>");
+
+        ModelUtils.setGenerateAliasAsModel(true);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<NestedArray>");
+
+        // Create a map schema with additionalProperties type set to array alias
+        schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
+
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "Map<String, List<Integer>>");
+
+        ModelUtils.setGenerateAliasAsModel(true);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "Map<String, NestedArray>");
     }
 
     @Test
