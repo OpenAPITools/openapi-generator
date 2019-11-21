@@ -59,6 +59,6 @@ public class PythonFlaskConnexionServerCodegen extends PythonAbstractConnexionSe
     public String toParamName(String name) {
         // Connexion is broken and does not sanitize the parameter names.
         // Since Connexion does no sanitization we cannot do it here sadly.
-        return toVarName(name);
+        return name;
     }
 }
