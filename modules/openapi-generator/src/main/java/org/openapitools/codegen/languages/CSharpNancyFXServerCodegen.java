@@ -297,7 +297,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public String toEnumVarName(final String name, final String datatype) {
+    public String toEnumVarName(final String name, final String datatype, boolean isModel) {
         if (name.length() == 0) {
             return "Empty";
         }

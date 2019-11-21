@@ -454,7 +454,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                     enumName = value.toString();
                 }
             }
-            enumVar.put("name", toEnumVarName(enumName, cm.dataType));
+            enumVar.put("name", toEnumVarName(enumName, cm.dataType, true));
             enumVar.put("value", toEnumValue(value.toString(), cm.dataType));
             enumVars.add(enumVar);
         }
@@ -497,7 +497,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toEnumVarName(String value, String datatype) {
+    public String toEnumVarName(String value, String datatype, boolean isModel) {
         if (value.length() == 0) {
             return "empty";
         }

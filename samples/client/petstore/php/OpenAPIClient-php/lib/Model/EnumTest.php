@@ -312,6 +312,14 @@ class EnumTest implements ModelInterface, ArrayAccess
             );
         }
 
+        $outer_enumAllowedValues = \OpenAPI\Client\Model\OuterEnum::getAllowableEnumValues();
+        if (!is_null($this->container['outer_enum']) && !in_array($this->container['outer_enum'], $outer_enumAllowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value for 'outer_enum', must be one of '%s'",
+                implode("', '", $outer_enumAllowedValues)
+            );
+        }
+
         return $invalidProperties;
     }
 
@@ -462,7 +470,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Gets outer_enum
      *
-     * @return \OpenAPI\Client\Model\OuterEnum|null
+     * @return string|null
      */
     public function getOuterEnum()
     {
@@ -472,12 +480,21 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Sets outer_enum
      *
-     * @param \OpenAPI\Client\Model\OuterEnum|null $outer_enum outer_enum
+     * @param string|null $outer_enum outer_enum
      *
      * @return $this
      */
     public function setOuterEnum($outer_enum)
     {
+        $allowedValues = \OpenAPI\Client\Model\OuterEnum::getAllowableEnumValues();
+        if (!is_null($outer_enum) && !in_array($outer_enum, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'outer_enum', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
         $this->container['outer_enum'] = $outer_enum;
 
         return $this;

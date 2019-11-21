@@ -18,39 +18,39 @@ public class AbstractKotlinCodegenTest {
     @Test
     public void camlCaseEnumConverter() {
         codegen.setEnumPropertyNaming(camelCase.name());
-        assertEquals(codegen.toEnumVarName("long Name", null), "longName");
-        assertEquals(codegen.toEnumVarName("1long Name", null), "_1longName");
-        assertEquals(codegen.toEnumVarName("not1long Name", null), "not1longName");
+        assertEquals(codegen.toEnumVarName("long Name", null, false), "longName");
+        assertEquals(codegen.toEnumVarName("1long Name", null, false), "_1longName");
+        assertEquals(codegen.toEnumVarName("not1long Name", null, false), "not1longName");
     }
 
     @Test
     public void uppercasEnumConverter() {
         codegen.setEnumPropertyNaming(UPPERCASE.name());
-        assertEquals(codegen.toEnumVarName("long Name", null), "LONG_NAME");
-        assertEquals(codegen.toEnumVarName("1long Name", null), "_1LONG_NAME");
-        assertEquals(codegen.toEnumVarName("not1long Name", null), "NOT1LONG_NAME");
+        assertEquals(codegen.toEnumVarName("long Name", null, false), "LONG_NAME");
+        assertEquals(codegen.toEnumVarName("1long Name", null, false), "_1LONG_NAME");
+        assertEquals(codegen.toEnumVarName("not1long Name", null, false), "NOT1LONG_NAME");
     }
     @Test
     public void snake_caseEnumConverter() {
         codegen.setEnumPropertyNaming(snake_case.name());
-        assertEquals(codegen.toEnumVarName("long Name", null), "long_name");
-        assertEquals(codegen.toEnumVarName("1long Name", null), "_1long_name");
-        assertEquals(codegen.toEnumVarName("not1long Name", null), "not1long_name");
+        assertEquals(codegen.toEnumVarName("long Name", null, false), "long_name");
+        assertEquals(codegen.toEnumVarName("1long Name", null, false), "_1long_name");
+        assertEquals(codegen.toEnumVarName("not1long Name", null, false), "not1long_name");
     }
 
     @Test
     public void originalEnumConverter() {
         codegen.setEnumPropertyNaming(original.name());
-        assertEquals(codegen.toEnumVarName("long Name", null), "long_Name");
-        assertEquals(codegen.toEnumVarName("1long Name", null), "_1long_Name");
-        assertEquals(codegen.toEnumVarName("not1long Name", null), "not1long_Name");
+        assertEquals(codegen.toEnumVarName("long Name", null, false), "long_Name");
+        assertEquals(codegen.toEnumVarName("1long Name", null, false), "_1long_Name");
+        assertEquals(codegen.toEnumVarName("not1long Name", null, false), "not1long_Name");
     }
     @Test
     public void pascalCaseEnumConverter() {
         codegen.setEnumPropertyNaming(PascalCase.name());
-        assertEquals(codegen.toEnumVarName("long Name", null), "LongName");
-        assertEquals(codegen.toEnumVarName("1long Name", null), "_1longName");
-        assertEquals(codegen.toEnumVarName("not1long Name", null), "Not1longName");
+        assertEquals(codegen.toEnumVarName("long Name", null, false), "LongName");
+        assertEquals(codegen.toEnumVarName("1long Name", null, false), "_1longName");
+        assertEquals(codegen.toEnumVarName("not1long Name", null, false), "Not1longName");
     }
 
     @Test

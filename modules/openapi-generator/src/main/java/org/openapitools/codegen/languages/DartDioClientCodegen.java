@@ -113,7 +113,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
     }
 
     @Override
-    public String toEnumVarName(String name, String datatype) {
+    public String toEnumVarName(String name, String datatype, boolean isModel) {
         if (name.length() == 0) {
             return "empty";
         }

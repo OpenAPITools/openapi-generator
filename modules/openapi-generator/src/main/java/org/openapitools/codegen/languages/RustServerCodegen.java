@@ -403,7 +403,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toEnumVarName(String value, String datatype) {
+    public String toEnumVarName(String value, String datatype, boolean isModel) {
         String var = null;
         if (value.isEmpty()) {
             var = "EMPTY";

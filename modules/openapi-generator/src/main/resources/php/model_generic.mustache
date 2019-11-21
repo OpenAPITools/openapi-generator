@@ -202,6 +202,16 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
 
         {{/isContainer}}
         {{/isEnum}}
+        {{#referencedEnumType}}
+        ${{name}}AllowedValues = {{{dataType}}}::getAllowableEnumValues();
+        if (!is_null($this->container['{{name}}']) && !in_array($this->container['{{name}}'], ${{name}}AllowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value for '{{name}}', must be one of '%s'",
+                implode("', '", ${{name}}AllowedValues)
+            );
+        }
+
+        {{/referencedEnumType}}
         {{#hasValidation}}
         {{#maxLength}}
         if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(mb_strlen($this->container['{{name}}']) > {{maxLength}})) {
@@ -266,7 +276,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
     /**
      * Gets {{name}}
      *
-     * @return {{dataType}}{{^required}}|null{{/required}}
+     * @return {{#referencedEnumType}}{{referencedEnumType}}{{/referencedEnumType}}{{^referencedEnumType}}{{dataType}}{{/referencedEnumType}}{{^required}}|null{{/required}}
      */
     public function {{getter}}()
     {
@@ -276,7 +286,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
     /**
      * Sets {{name}}
      *
-     * @param {{dataType}}{{^required}}|null{{/required}} ${{name}}{{#description}} {{{description}}}{{/description}}{{^description}} {{{name}}}{{/description}}
+     * @param {{#referencedEnumType}}{{referencedEnumType}}{{/referencedEnumType}}{{^referencedEnumType}}{{dataType}}{{/referencedEnumType}}{{^required}}|null{{/required}} ${{name}}{{#description}} {{{description}}}{{/description}}{{^description}} {{{name}}}{{/description}}
      *
      * @return $this
      */
@@ -305,6 +315,17 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
         }
         {{/isContainer}}
         {{/isEnum}}
+        {{#referencedEnumType}}
+        $allowedValues = {{{dataType}}}::getAllowableEnumValues();
+        if ({{^required}}!is_null(${{name}}) && {{/required}}!in_array(${{{name}}}, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for '{{name}}', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        {{/referencedEnumType}}
         {{#hasValidation}}
         {{#maxLength}}
         if ({{^required}}!is_null(${{name}}) && {{/required}}(mb_strlen(${{name}}) > {{maxLength}})) {

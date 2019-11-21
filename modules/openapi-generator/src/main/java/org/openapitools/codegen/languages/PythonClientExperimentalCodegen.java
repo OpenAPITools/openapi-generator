@@ -360,7 +360,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 }
             }
 
-            enumVar.put("name", toEnumVarName(enumName, dataType));
+            enumVar.put("name", toEnumVarName(enumName, dataType, false));
             enumVar.put("value", toEnumValue(value.toString(), dataType));
             enumVar.put("isString", isDataTypeString(dataType));
             enumVars.add(enumVar);
@@ -527,7 +527,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * @param datatype data type
      * @return the sanitized variable name for enum
      */
-    public String toEnumVarName(String value, String datatype) {
+    public String toEnumVarName(String value, String datatype, boolean isModel) {
         // our enum var names are keys in a python dict, so change spaces to underscores
         if (value.length() == 0) {
             return "EMPTY";

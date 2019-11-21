@@ -1344,8 +1344,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public String toEnumVarName(String value, String datatype) {
-        if (!genEnums) return super.toEnumVarName(value, datatype);
+    public String toEnumVarName(String value, String datatype, boolean isModel) {
+        if (!genEnums) return super.toEnumVarName(value, datatype, isModel);
 
         List<String> num = new ArrayList<>(Arrays.asList("integer", "int", "double", "long", "float"));
         if (value.length() == 0) {

@@ -368,7 +368,7 @@ public class DefaultCodegen implements CodegenConfig {
                             enumName = value.toString();
                         }
                     }
-                    enumVar.put("name", toEnumVarName(enumName, cm.dataType));
+                    enumVar.put("name", toEnumVarName(enumName, cm.dataType, true));
                     enumVar.put("value", toEnumValue(value.toString(), cm.dataType));
                     enumVar.put("isString", isDataTypeString(cm.dataType));
                     enumVars.add(enumVar);
@@ -466,15 +466,16 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param value    enum variable name
      * @param datatype data type
+     * @param isModel  true if this enum is on a dedicated/referenced model
      * @return the sanitized variable name for enum
      */
-    public String toEnumVarName(String value, String datatype) {
+    public String toEnumVarName(String value, String datatype, boolean isModel) {
         if (value.length() == 0) {
             return "EMPTY";
         }
 
         String var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
-        if (var.matches("\\d.*")) {
+        if (var.matches("^\\d")) {
             return "_" + var;
         } else {
             return var;
@@ -2235,19 +2236,23 @@ public class DefaultCodegen implements CodegenConfig {
 
         Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
 
-        //Referenced enum case:
-        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
-            List<Object> _enum = referencedSchema.getEnum();
+        if (referencedSchema != p) {
+            //Referenced enum case:
+            if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+                List<Object> _enum = referencedSchema.getEnum();
 
-            Map<String, Object> allowableValues = new HashMap<String, Object>();
-            allowableValues.put("values", _enum);
-            if (allowableValues.size() > 0) {
-                property.allowableValues = allowableValues;
+                property.referencedEnumType = getTypeDeclaration(referencedSchema);
+
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                if (allowableValues.size() > 0) {
+                    property.allowableValues = allowableValues;
+                }
             }
-        }
 
-        if (referencedSchema.getNullable() != null) {
-            property.isNullable = referencedSchema.getNullable();
+            if (referencedSchema.getNullable() != null) {
+                property.isNullable = referencedSchema.getNullable();
+            }
         }
 
         property.dataType = getTypeDeclaration(p);
@@ -4324,7 +4329,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            enumVar.put("name", toEnumVarName(enumName, dataType));
+            enumVar.put("name", toEnumVarName(enumName, dataType, false));
             enumVar.put("value", toEnumValue(value.toString(), dataType));
             enumVar.put("isString", isDataTypeString(dataType));
             enumVars.add(enumVar);

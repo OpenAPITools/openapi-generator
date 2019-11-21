@@ -526,7 +526,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      * @return the sanitized variable name for enum
      */
     @Override
-    public String toEnumVarName(String value, String datatype) {
+    public String toEnumVarName(String value, String datatype, boolean isModel) {
         String modified;
         if (value.length() == 0) {
             modified = "EMPTY";
