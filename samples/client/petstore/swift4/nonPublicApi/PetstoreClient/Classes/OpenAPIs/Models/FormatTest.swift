@@ -22,9 +22,8 @@ internal struct FormatTest: Codable {
     internal var dateTime: Date?
     internal var uuid: UUID?
     internal var password: String
-    internal var bigDecimal: Decimal?
 
-    internal init(integer: Int?, int32: Int?, int64: Int64?, number: Double, float: Float?, double: Double?, string: String?, byte: Data, binary: URL?, date: Date, dateTime: Date?, uuid: UUID?, password: String, bigDecimal: Decimal?) {
+    internal init(integer: Int?, int32: Int?, int64: Int64?, number: Double, float: Float?, double: Double?, string: String?, byte: Data, binary: URL?, date: Date, dateTime: Date?, uuid: UUID?, password: String) {
         self.integer = integer
         self.int32 = int32
         self.int64 = int64
@@ -38,24 +37,6 @@ internal struct FormatTest: Codable {
         self.dateTime = dateTime
         self.uuid = uuid
         self.password = password
-        self.bigDecimal = bigDecimal
-    }
-
-    internal enum CodingKeys: String, CodingKey {
-        case integer
-        case int32
-        case int64
-        case number
-        case float
-        case double
-        case string
-        case byte
-        case binary
-        case date
-        case dateTime
-        case uuid
-        case password
-        case bigDecimal = "BigDecimal"
     }
 
 }
