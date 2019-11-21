@@ -137,6 +137,8 @@ class ApiClient {
           return client.delete(url, headers: headerParams);
         case "PATCH":
           return client.patch(url, headers: headerParams, body: msgBody);
+        case "HEAD":
+          return client.head(url, headers: headerParams);
         default:
           return client.get(url, headers: headerParams);
       }

@@ -17,15 +17,15 @@
 
 package org.openapitools.codegen.java;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.*;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -303,6 +303,7 @@ public class AbstractJavaCodegenTest {
     @Test(description = "tests if default version is used when neither OpenAPI version nor artifactVersion additional property has been provided")
     public void defaultVersionTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setArtifactVersion(null);
 
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
@@ -340,6 +341,55 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.getArtifactVersion(), "2.0-SNAPSHOT");
     }
 
+    @Test(description = "tests if setting an artifact version programmatically persists to additional properties, when openapi version is null")
+    public void allowsProgrammaticallySettingArtifactVersionWithNullOpenApiVersion() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final String version = "9.8.7-rc1";
+        codegen.setArtifactVersion(version);
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        api.getInfo().setVersion(null);
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
+
+        Assert.assertEquals(codegen.getArtifactVersion(), version);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), version);
+    }
+
+    @Test(description = "tests if setting an artifact version programmatically persists to additional properties, even when openapi version is specified")
+    public void allowsProgrammaticallySettingArtifactVersionWithSpecifiedOpenApiVersion() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final String version = "9.8.7-rc1";
+        codegen.setArtifactVersion(version);
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        api.getInfo().setVersion("1.2.3-SNAPSHOT");
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
+
+        Assert.assertEquals(codegen.getArtifactVersion(), version);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), version);
+    }
+
+    @Test(description = "tests if a null in addition properties artifactVersion results in default version")
+    public void usesDefaultVersionWhenAdditionalPropertiesVersionIsNull() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final String version = "1.0.0";
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        api.getInfo().setVersion(null);
+        codegen.setArtifactVersion(null);
+        codegen.additionalProperties().put(CodegenConstants.ARTIFACT_VERSION, null);
+
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
+
+        Assert.assertEquals(codegen.getArtifactVersion(), version);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), version);
+    }
+
+
+
     @Test(description = "tests if default version with snapshot is used when setArtifactVersion is used")
     public void snapshotVersionAlreadySnapshotTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -370,6 +420,32 @@ public class AbstractJavaCodegenTest {
         Schema<?> schema = createObjectSchemaWithMinItems();
         String defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "Object");
+
+        // Create an alias to an array schema
+        Schema<?> nestedArraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NestedArray", nestedArraySchema)));
+
+        // Create an array schema with item type set to the array alias
+        schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
+
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<List<Integer>>");
+
+        ModelUtils.setGenerateAliasAsModel(true);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<NestedArray>");
+
+        // Create a map schema with additionalProperties type set to array alias
+        schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
+
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "Map<String, List<Integer>>");
+
+        ModelUtils.setGenerateAliasAsModel(true);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "Map<String, NestedArray>");
     }
 
     @Test
