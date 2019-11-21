@@ -207,19 +207,25 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
             supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
         }
 
-        this.addOperationModelImportInfomation(operations);
+        this.addOperationModelImportInformation(operations);
         this.updateOperationParameterEnumInformation(operations);
         this.addOperationObjectResponseInformation(operations);
         return operations;
     }
 
-    private void addOperationModelImportInfomation(Map<String, Object> operations) {
+    private void addOperationModelImportInformation(Map<String, Object> operations) {
         // This method will add extra information to the operations.imports array.
         // The api template uses this information to import all the required
         // models for a given operation.
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
-            im.put("className", im.get("import").toString().replace(modelPackage() + ".", ""));
+            String[] parts = im.get("import").toString().replace(modelPackage() + ".", "").split("( [|&] )|[<>]");
+            for (String s : parts) {
+                if (needToImport(s)) {
+                    im.put("filename", im.get("import"));
+                    im.put("className", s);
+                }
+            }
         }
     }
 
