@@ -181,6 +181,18 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 "C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).",
                 this.optionalMethodArgumentFlag);
 
+        addSwitch(CodegenConstants.OPTIONAL_ASSEMBLY_INFO,
+                CodegenConstants.OPTIONAL_ASSEMBLY_INFO_DESC,
+                this.optionalAssemblyInfoFlag);
+
+        addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
+                CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
+                this.optionalEmitDefaultValuesFlag);
+
+        addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE,
+                CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
+                this.optionalProjectFileFlag);
+
         // NOTE: This will reduce visibility of all public members in templates. Users can use InternalsVisibleTo
         // https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.internalsvisibletoattribute(v=vs.110).aspx
         // to expose to shared code if the generated code is not embedded into another project. Otherwise, users of codegen
@@ -362,6 +374,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
+        postProcessEmitDefaultValue(property.vendorExtensions);
+
         super.postProcessModelProperty(model, property);
     }
 
@@ -395,6 +409,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+        postProcessEmitDefaultValue(parameter.vendorExtensions);
         super.postProcessParameter(parameter);
 
         if (!parameter.required && nullableType.contains(parameter.dataType)) { //optional
@@ -438,6 +453,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
     }
 
+    public void postProcessEmitDefaultValue(Map<String, Object> vendorExtensions) {
+        vendorExtensions.put("x-emit-default-value", optionalEmitDefaultValuesFlag);
+    }
+
     @Override
     public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
         // To avoid unexpected behaviors when options are passed programmatically such as { "supportsAsync": "" }
@@ -456,6 +475,13 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
          * Use the pattern:
          *     if (additionalProperties.containsKey(prop)) convertPropertyToBooleanAndWriteBack(prop);
          */
+
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
+            setOptionalEmitDefaultValuesFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValuesFlag);
+        }
+
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
@@ -570,6 +596,18 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     public void setNetStandard(Boolean netStandard) {
         this.netStandard = netStandard;
+    }
+
+    public void setOptionalAssemblyInfoFlag(boolean flag) {
+        this.optionalAssemblyInfoFlag = flag;
+    }
+
+    public void setOptionalEmitDefaultValuesFlag(boolean flag){
+        this.optionalEmitDefaultValuesFlag = flag;
+    }
+
+    public void setOptionalProjectFileFlag(boolean flag) {
+        this.optionalProjectFileFlag = flag;
     }
 
     public void setPackageGuid(String packageGuid) {

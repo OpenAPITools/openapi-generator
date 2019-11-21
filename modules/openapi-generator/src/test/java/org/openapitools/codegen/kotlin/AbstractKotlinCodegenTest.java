@@ -1,5 +1,6 @@
 package org.openapitools.codegen.kotlin;
 
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.testng.Assert;
@@ -53,7 +54,7 @@ public class AbstractKotlinCodegenTest {
     }
 
     @Test
-    public void toEnumValue(){
+    public void toEnumValue() {
         assertEquals(codegen.toEnumValue("1", "kotlin.Int"), "1");
         assertEquals(codegen.toEnumValue("1", "kotlin.Double"), "1.0");
         assertEquals(codegen.toEnumValue("1.3", "kotlin.Double"), "1.3");
@@ -81,14 +82,14 @@ public class AbstractKotlinCodegenTest {
     }
 
     @Test
-    public void isDataTypeString(){
+    public void isDataTypeString() {
         assertFalse(codegen.isDataTypeString("kotlin.Int"));
         assertTrue(codegen.isDataTypeString("kotlin.String"));
         assertTrue(codegen.isDataTypeString("String"));
     }
 
     @Test
-    public void toModelNameShouldUseProvidedMapping()  {
+    public void toModelNameShouldUseProvidedMapping() {
         codegen.importMapping().put("json_myclass", "com.test.MyClass");
         assertEquals("com.test.MyClass", codegen.toModelName("json_myclass"));
     }
@@ -155,5 +156,45 @@ public class AbstractKotlinCodegenTest {
         Assert.assertEquals(codegen.apiTestFileFolder(), "/User/open/api/tools/test/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
     }
 
+    @Test
+    public void processOptsBooleanTrueFromString() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, "true");
+        codegen.processOpts();
+        Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+    }
 
+    @Test
+    public void processOptsBooleanTrueFromBoolean() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+        codegen.processOpts();
+        Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromString() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, "false");
+        codegen.processOpts();
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromBoolean() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, false);
+        codegen.processOpts();
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromGarbage() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, "blibb");
+        codegen.processOpts();
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromNumeric() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, 42L);
+        codegen.processOpts();
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+    }
 }

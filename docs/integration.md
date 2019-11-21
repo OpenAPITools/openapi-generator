@@ -19,6 +19,14 @@ Supported tasks include:
 
 See the [openapi-generator-maven-plugin README](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-maven-plugin/README.md) for details related to configuring and using the Maven Plugin.
 
+### sbt Integration
+
+Please refer to https://github.com/upstart-commerce/sbt-openapi-generator
+
+### Bazel Integration
+
+Please refer to https://github.com/OpenAPITools/openapi-generator-bazel
+
 ### GitHub Integration
 
 To push the auto-generated SDK to GitHub, we provide `git_push.sh` to streamline the process. For example:

@@ -22,7 +22,7 @@ apiClient_t *apiClient_create() {
 }
 
 void apiClient_free(apiClient_t *apiClient) {
-	if(apiClient->apiKeys) {
+	if(apiClient->accessToken) {
 		list_free(apiClient->apiKeys);
 	}
 	if(apiClient->accessToken) {
