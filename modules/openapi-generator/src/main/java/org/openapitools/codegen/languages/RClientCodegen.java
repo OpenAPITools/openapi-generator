@@ -748,7 +748,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps) {
         String example;
-        example = codegenModel.name + "$new(";
+        example = codegenModel.getName() + "$new(";
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.vars) {
             propertyExamples.add(constructExampleCode(codegenProperty, modelMaps));

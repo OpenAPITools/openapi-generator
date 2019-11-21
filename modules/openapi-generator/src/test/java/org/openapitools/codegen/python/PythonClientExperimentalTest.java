@@ -37,13 +37,13 @@ public class PythonClientExperimentalTest {
 
         codegen.setOpenAPI(openAPI);
         final CodegenModel simpleName = codegen.fromModel("v1beta3.Binding", openAPI.getComponents().getSchemas().get("v1beta3.Binding"));
-        Assert.assertEquals(simpleName.name, "v1beta3.Binding");
+        Assert.assertEquals(simpleName.getName(), "v1beta3.Binding");
         Assert.assertEquals(simpleName.classname, "V1beta3Binding");
         Assert.assertEquals(simpleName.classVarName, "v1beta3_binding");
 
         codegen.setOpenAPI(openAPI);
         final CodegenModel compoundName = codegen.fromModel("v1beta3.ComponentStatus", openAPI.getComponents().getSchemas().get("v1beta3.ComponentStatus"));
-        Assert.assertEquals(compoundName.name, "v1beta3.ComponentStatus");
+        Assert.assertEquals(compoundName.getName(), "v1beta3.ComponentStatus");
         Assert.assertEquals(compoundName.classname, "V1beta3ComponentStatus");
         Assert.assertEquals(compoundName.classVarName, "v1beta3_component_status");
 
@@ -68,7 +68,7 @@ public class PythonClientExperimentalTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 3);
@@ -116,7 +116,7 @@ public class PythonClientExperimentalTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 2);
@@ -156,7 +156,7 @@ public class PythonClientExperimentalTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
@@ -182,7 +182,7 @@ public class PythonClientExperimentalTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
@@ -207,7 +207,7 @@ public class PythonClientExperimentalTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
@@ -234,7 +234,7 @@ public class PythonClientExperimentalTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
@@ -264,7 +264,7 @@ public class PythonClientExperimentalTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
@@ -284,7 +284,7 @@ public class PythonClientExperimentalTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);

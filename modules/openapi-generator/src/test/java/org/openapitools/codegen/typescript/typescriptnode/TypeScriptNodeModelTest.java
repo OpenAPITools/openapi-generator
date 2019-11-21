@@ -47,7 +47,7 @@ public class TypeScriptNodeModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 4);
@@ -101,7 +101,7 @@ public class TypeScriptNodeModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 2);
@@ -134,7 +134,7 @@ public class TypeScriptNodeModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
@@ -158,7 +158,7 @@ public class TypeScriptNodeModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
@@ -182,7 +182,7 @@ public class TypeScriptNodeModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
@@ -198,7 +198,7 @@ public class TypeScriptNodeModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
@@ -214,7 +214,7 @@ public class TypeScriptNodeModelTest {
         final Schema categorySchema = openAPI.getComponents().getSchemas().get("ApiResponse");
         final CodegenModel cm = codegen.fromModel("ApiResponse", categorySchema);
 
-        Assert.assertEquals(cm.name, "ApiResponse");
+        Assert.assertEquals(cm.getName(), "ApiResponse");
         Assert.assertEquals(cm.classFilename, "./apiResponse");
     }
 
@@ -228,7 +228,7 @@ public class TypeScriptNodeModelTest {
         final Schema categorySchema = openAPI.getComponents().getSchemas().get("ApiResponse");
         final CodegenModel cm = codegen.fromModel("ApiResponse", categorySchema);
 
-        Assert.assertEquals(cm.name, "ApiResponse");
+        Assert.assertEquals(cm.getName(), "ApiResponse");
         Assert.assertEquals(cm.classFilename, mappedName);
     }
 }

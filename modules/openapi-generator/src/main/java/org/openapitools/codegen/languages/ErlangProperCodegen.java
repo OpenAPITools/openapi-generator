@@ -438,7 +438,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             this.parentModel = cm.parentModel;
             this.interfaceModels = cm.interfaceModels;
             this.children = cm.children;
-            this.name = cm.name;
+            this.setName(cm.getName());
             this.classname = cm.classname;
             this.title = cm.title;
             this.description = cm.description;

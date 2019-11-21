@@ -43,7 +43,7 @@ public class DartModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 3);
@@ -97,7 +97,7 @@ public class DartModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 2);
@@ -137,7 +137,7 @@ public class DartModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
@@ -163,7 +163,7 @@ public class DartModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
@@ -188,7 +188,7 @@ public class DartModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
@@ -214,7 +214,7 @@ public class DartModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
@@ -244,7 +244,7 @@ public class DartModelTest {
 
         Assert.assertEquals(model.getDescription(), "an array model");
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertTrue(cm.isArrayModel);
         Assert.assertEquals(cm.description, "an array model");
@@ -262,7 +262,7 @@ public class DartModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
@@ -292,7 +292,7 @@ public class DartModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel(name, model);
 
-        Assert.assertEquals(cm.name, name);
+        Assert.assertEquals(cm.getName(), name);
         Assert.assertEquals(cm.classname, expectedName);
     }
 

@@ -72,7 +72,7 @@ public class JavascriptClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("Pet", pet);
 
-        Assert.assertEquals(cm.name, "Pet");
+        Assert.assertEquals(cm.getName(), "Pet");
         Assert.assertEquals(cm.classname, "Pet");
         Assert.assertEquals(cm.description, "A pet for sale in the pet store");
         Assert.assertEquals(cm.vars.size(), 6);

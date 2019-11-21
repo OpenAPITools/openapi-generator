@@ -677,7 +677,7 @@ public class DefaultCodegenTest {
         //Model:
         final CodegenModel cm = codegen.fromModel("someModel", schema);
         Assert.assertEquals(cm.dataType, "integer");
-        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertEquals(cm.getName(), "someModel");
         Assert.assertFalse(cm.isString);
         Assert.assertTrue(cm.isInteger);
         Assert.assertFalse(cm.isLong);
@@ -709,7 +709,7 @@ public class DefaultCodegenTest {
         //Model:
         final CodegenModel cm = codegen.fromModel("someModel", schema);
         Assert.assertEquals(cm.dataType, "long");
-        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertEquals(cm.getName(), "someModel");
         Assert.assertFalse(cm.isString);
         Assert.assertFalse(cm.isInteger);
         Assert.assertTrue(cm.isLong);
@@ -741,7 +741,7 @@ public class DefaultCodegenTest {
         //Model:
         final CodegenModel cm = codegen.fromModel("someModel", schema);
         Assert.assertEquals(cm.dataType, "number");
-        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertEquals(cm.getName(), "someModel");
         Assert.assertFalse(cm.isString);
         Assert.assertFalse(cm.isInteger);
         Assert.assertFalse(cm.isLong);
@@ -773,7 +773,7 @@ public class DefaultCodegenTest {
         //Model:
         final CodegenModel cm = codegen.fromModel("someModel", schema);
         Assert.assertEquals(cm.dataType, "float");
-        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertEquals(cm.getName(), "someModel");
         Assert.assertFalse(cm.isString);
         Assert.assertFalse(cm.isInteger);
         Assert.assertFalse(cm.isLong);
@@ -805,7 +805,7 @@ public class DefaultCodegenTest {
         //Model:
         final CodegenModel cm = codegen.fromModel("someModel", schema);
         Assert.assertEquals(cm.dataType, "double");
-        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertEquals(cm.getName(), "someModel");
         Assert.assertFalse(cm.isString);
         Assert.assertFalse(cm.isInteger);
         Assert.assertFalse(cm.isLong);

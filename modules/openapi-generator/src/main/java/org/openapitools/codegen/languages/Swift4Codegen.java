@@ -1039,7 +1039,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps) {
         String example;
-        example = codegenModel.name + "(";
+        example = codegenModel.getName() + "(";
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.vars) {
             propertyExamples.add(codegenProperty.name + ": " + constructExampleCode(codegenProperty, modelMaps));

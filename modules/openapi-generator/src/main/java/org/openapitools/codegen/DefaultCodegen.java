@@ -1775,9 +1775,9 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
 
         if (this.isReservedWord(name)) {
-            m.name = escapeReservedWord(name);
+            m.setName(escapeReservedWord(name));
         } else {
-            m.name = name;
+            m.setName(name);
         }
         m.title = escapeText(schema.getTitle());
         m.description = escapeText(schema.getDescription());
@@ -2008,7 +2008,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        addParentContainer(codegenModel, codegenModel.name, schema);
+        addParentContainer(codegenModel, codegenModel.getName(), schema);
     }
 
     /**

@@ -41,14 +41,11 @@ import java.lang.Exception;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Set;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -339,7 +336,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                 // check to see if model name is same as the property name
                 // which will result in compilation error
                 // if found, prepend with _ to workaround the limitation
-                if (var.name.equalsIgnoreCase(cm.name)) {
+                if (var.name.equalsIgnoreCase(cm.getName())) {
                     var.name = "_" + var.name;
                 }
             }

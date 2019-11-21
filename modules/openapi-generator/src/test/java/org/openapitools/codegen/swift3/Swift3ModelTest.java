@@ -51,7 +51,7 @@ public class Swift3ModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 7);
