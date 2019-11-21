@@ -164,10 +164,10 @@ pub trait Api<C> {
     fn xml_other_post(&self, another_xml_object: Option<models::AnotherXmlObject>, context: &C) -> Box<Future<Item=XmlOtherPostResponse, Error=ApiError>>;
 
 
-    fn xml_other_put(&self, string: Option<models::AnotherXmlArray>, context: &C) -> Box<Future<Item=XmlOtherPutResponse, Error=ApiError>>;
+    fn xml_other_put(&self, another_xml_array: Option<models::AnotherXmlArray>, context: &C) -> Box<Future<Item=XmlOtherPutResponse, Error=ApiError>>;
 
     /// Post an array
-    fn xml_post(&self, string: Option<models::XmlArray>, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
+    fn xml_post(&self, xml_array: Option<models::XmlArray>, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
 
 
     fn xml_put(&self, xml_object: Option<models::XmlObject>, context: &C) -> Box<Future<Item=XmlPutResponse, Error=ApiError>>;
@@ -199,10 +199,10 @@ pub trait ApiNoContext {
     fn xml_other_post(&self, another_xml_object: Option<models::AnotherXmlObject>) -> Box<Future<Item=XmlOtherPostResponse, Error=ApiError>>;
 
 
-    fn xml_other_put(&self, string: Option<models::AnotherXmlArray>) -> Box<Future<Item=XmlOtherPutResponse, Error=ApiError>>;
+    fn xml_other_put(&self, another_xml_array: Option<models::AnotherXmlArray>) -> Box<Future<Item=XmlOtherPutResponse, Error=ApiError>>;
 
     /// Post an array
-    fn xml_post(&self, string: Option<models::XmlArray>) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
+    fn xml_post(&self, xml_array: Option<models::XmlArray>) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
 
 
     fn xml_put(&self, xml_object: Option<models::XmlObject>) -> Box<Future<Item=XmlPutResponse, Error=ApiError>>;
@@ -259,13 +259,13 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     }
 
 
-    fn xml_other_put(&self, string: Option<models::AnotherXmlArray>) -> Box<Future<Item=XmlOtherPutResponse, Error=ApiError>> {
-        self.api().xml_other_put(string, &self.context())
+    fn xml_other_put(&self, another_xml_array: Option<models::AnotherXmlArray>) -> Box<Future<Item=XmlOtherPutResponse, Error=ApiError>> {
+        self.api().xml_other_put(another_xml_array, &self.context())
     }
 
     /// Post an array
-    fn xml_post(&self, string: Option<models::XmlArray>) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
-        self.api().xml_post(string, &self.context())
+    fn xml_post(&self, xml_array: Option<models::XmlArray>) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
+        self.api().xml_post(xml_array, &self.context())
     }
 
 

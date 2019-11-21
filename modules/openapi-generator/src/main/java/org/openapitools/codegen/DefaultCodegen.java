@@ -4823,7 +4823,11 @@ public class DefaultCodegen implements CodegenConfig {
         }
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
-        if (ModelUtils.isMapSchema(schema)) {
+        boolean useAliasReferenceName = ModelUtils.isGenerateAliasAsModel() && StringUtils.isNotBlank(name) &&
+          (ModelUtils.isMapSchema(schema) || ModelUtils.isArraySchema(schema)) &&
+          (schema.getProperties() == null || schema.getProperties().isEmpty());
+
+        if (ModelUtils.isMapSchema(schema) && !useAliasReferenceName) {
             Schema inner = ModelUtils.getAdditionalProperties(schema);
             if (inner == null) {
                 LOGGER.error("No inner type supplied for map parameter `{}`. Default to type:string", schema.getName());
@@ -4859,7 +4863,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
-        } else if (ModelUtils.isArraySchema(schema)) {
+        } else if (ModelUtils.isArraySchema(schema) && !useAliasReferenceName) {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = getSchemaItems(arraySchema);
             if (arraySchema.getItems() == null) {
@@ -4924,7 +4928,7 @@ public class DefaultCodegen implements CodegenConfig {
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
 
-        } else if (ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema)) {
+        } else if (ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema) || useAliasReferenceName) {
             CodegenModel codegenModel = null;
             if (StringUtils.isNotBlank(name)) {
                 schema.setName(name);
@@ -4934,7 +4938,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.isModel = true;
             }
 
-            if (codegenModel != null && !codegenModel.emptyVars) {
+            if (codegenModel != null && (codegenModel.hasVars || useAliasReferenceName)) {
                 if (StringUtils.isEmpty(bodyParameterName)) {
                     codegenParameter.baseName = codegenModel.classname;
                 } else {
