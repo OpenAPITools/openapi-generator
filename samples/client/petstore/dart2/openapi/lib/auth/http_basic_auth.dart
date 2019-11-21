@@ -1,4 +1,7 @@
-part of openapi.api;
+import 'dart:convert';
+
+import 'package:openapi/api_client.dart';
+import 'package:openapi/auth/authentication.dart';
 
 class HttpBasicAuth implements Authentication {
 

@@ -1,4 +1,5 @@
-part of openapi.api;
+import 'package:openapi/api_client.dart';
+import 'package:openapi/auth/authentication.dart';
 
 class ApiKeyAuth implements Authentication {
 

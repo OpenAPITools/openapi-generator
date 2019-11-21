@@ -2,9 +2,9 @@
 syntax = "proto3";
 
 
-import "tag.proto";
+import "package:openapi/model/tag/dart.proto";
 
-import "category.proto";
+import "package:openapi/model/category/dart.proto";
 message Pet {
     int32 id = 1;
     Category category = 2;

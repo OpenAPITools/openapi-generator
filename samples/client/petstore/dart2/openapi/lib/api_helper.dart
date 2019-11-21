@@ -1,9 +1,12 @@
-part of openapi.api;
+import 'dart:convert';
+
+import 'package:http/http.dart';
+import 'package:openapi/api_client.dart';
 
 const _delimiters = const {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
 
 // port from Java version
-Iterable<QueryParam> _convertParametersForCollectionFormat(
+Iterable<QueryParam> convertParametersForCollectionFormat(
   String collectionFormat, String name, dynamic value) {
   var params = <QueryParam>[];
 
@@ -46,7 +49,7 @@ String parameterToString(dynamic value) {
 /// Returns the decoded body by utf-8 if application/json with the given headers.
 /// Else, returns the decoded body by default algorithm of dart:http.
 /// Because avoid to text garbling when header only contains "application/json" without "; charset=utf-8".
-String _decodeBodyBytes(Response response) {
+String decodeBodyBytes(Response response) {
   var contentType = response.headers['content-type'];
   if (contentType != null && contentType.contains("application/json")) {
     return utf8.decode(response.bodyBytes);

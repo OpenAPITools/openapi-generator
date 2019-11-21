@@ -1,6 +1,4 @@
-part of openapi.api;
-
-class Category {
+        class Category {
   
   int id = null;
   

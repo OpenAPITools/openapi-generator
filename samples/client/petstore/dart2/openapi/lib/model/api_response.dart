@@ -1,6 +1,4 @@
-part of openapi.api;
-
-class ApiResponse {
+        class ApiResponse {
   
   int code = null;
   

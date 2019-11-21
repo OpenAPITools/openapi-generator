@@ -1,4 +1,17 @@
-part of openapi.api;
+import 'dart:convert';
+
+import 'package:http/http.dart';
+import 'package:openapi/auth/authentication.dart';
+import 'package:openapi/auth/api_key_auth.dart';
+import 'package:openapi/auth/oauth.dart';
+import 'package:openapi/api_exception.dart';
+
+import 'package:openapi/model/api_response.dart';
+import 'package:openapi/model/category.dart';
+import 'package:openapi/model/order.dart';
+import 'package:openapi/model/pet.dart';
+import 'package:openapi/model/tag.dart';
+import 'package:openapi/model/user.dart';
 
 class QueryParam {
   String name;

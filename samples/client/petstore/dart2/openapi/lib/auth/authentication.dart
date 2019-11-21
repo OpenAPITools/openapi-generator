@@ -1,4 +1,4 @@
-part of openapi.api;
+import 'package:openapi/api_client.dart';
 
 abstract class Authentication {
 
