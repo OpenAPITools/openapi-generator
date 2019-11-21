@@ -37,7 +37,7 @@ public class ModelUtilsTest {
     public void testGetAllUsedSchemas() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/unusedSchemas.yaml");
         List<String> allUsedSchemas = ModelUtils.getAllUsedSchemas(openAPI);
-        Assert.assertEquals(allUsedSchemas.size(), 38);
+        Assert.assertEquals(allUsedSchemas.size(), 41);
 
         Assert.assertTrue(allUsedSchemas.contains("SomeObjShared"), "contains 'SomeObjShared'");
         Assert.assertTrue(allUsedSchemas.contains("SomeObj1"), "contains 'UnusedObj1'");
@@ -77,21 +77,30 @@ public class ModelUtilsTest {
         Assert.assertTrue(allUsedSchemas.contains("SomeObj26"), "contains 'SomeObj26'");
         Assert.assertTrue(allUsedSchemas.contains("Param27"), "contains 'Param27'");
         Assert.assertTrue(allUsedSchemas.contains("Param28"), "contains 'Param28'");
+        Assert.assertTrue(allUsedSchemas.contains("Parent30"), "contains 'Parent30'");
+        Assert.assertTrue(allUsedSchemas.contains("AChild30"), "contains 'AChild30'");
+        Assert.assertTrue(allUsedSchemas.contains("BChild30"), "contains 'BChild30'");
     }
 
     @Test
     public void testGetUnusedSchemas() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/unusedSchemas.yaml");
         List<String> unusedSchemas = ModelUtils.getUnusedSchemas(openAPI);
-        Assert.assertEquals(unusedSchemas.size(), 4);
-        //UnusedObj is not used at all:
+        Assert.assertEquals(unusedSchemas.size(), 7);
+        //UnusedObj1 is not used at all:
         Assert.assertTrue(unusedSchemas.contains("UnusedObj1"), "contains 'UnusedObj1'");
-        //SomeObjUnused is used in a request body that is not used.
+        //UnusedObj2 is used in a request body that is not used.
         Assert.assertTrue(unusedSchemas.contains("UnusedObj2"), "contains 'UnusedObj2'");
-        //SomeObjUnused is used in a response that is not used.
+        //UnusedObj3 is used in a response that is not used.
         Assert.assertTrue(unusedSchemas.contains("UnusedObj3"), "contains 'UnusedObj3'");
-        //SomeObjUnused is used in a parameter that is not used.
+        //UnusedObj4 is used in a parameter that is not used.
         Assert.assertTrue(unusedSchemas.contains("UnusedObj4"), "contains 'UnusedObj4'");
+        //Parent29 is not used at all (only unused children AChild29 and BChild29 are referencing him):
+        Assert.assertTrue(unusedSchemas.contains("Parent29"), "contains 'Parent29'");
+        //AChild29 is not used at all:
+        Assert.assertTrue(unusedSchemas.contains("AChild29"), "contains 'AChild29'");
+        //BChild29 is not used at all:
+        Assert.assertTrue(unusedSchemas.contains("BChild29"), "contains 'BChild29'");
     }
 
     @Test

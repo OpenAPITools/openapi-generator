@@ -71,10 +71,10 @@ before_install:
   - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
   - docker ps -a
   # Add bats test framework and cURL for Bash script integration tests
-  #- sudo add-apt-repository ppa:duggan/bats --yes
-  #- sudo apt-get update -qq
-  #- sudo apt-get install -qq bats
-  #- sudo apt-get install -qq curl
+  - sudo add-apt-repository ppa:duggan/bats --yes
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq bats
+  - sudo apt-get install -qq curl
   # install dart
   #- sudo apt-get update
   #- sudo apt-get install apt-transport-https
@@ -138,6 +138,8 @@ script:
   # test maven plugin
   - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml
   - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml
+  - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml
+  - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/spring.xml
   # test gradle plugin
   - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
   - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)

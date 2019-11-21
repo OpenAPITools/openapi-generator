@@ -36,14 +36,19 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
 
+    private static String CLASS_NAME_PREFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
+    private static final String DEFAULT_IMPORT_PREFIX = "./";
+
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
+    public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
     public static final String PROVIDED_IN_ROOT = "providedInRoot";
+    public static final String API_MODULE_PREFIX = "apiModulePrefix";
     public static final String SERVICE_SUFFIX = "serviceSuffix";
     public static final String SERVICE_FILE_SUFFIX = "serviceFileSuffix";
     public static final String MODEL_SUFFIX = "modelSuffix";
@@ -54,6 +59,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     protected String ngVersion = "8.0.0";
     protected String npmRepository = null;
+    private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
     protected String modelSuffix = "";
@@ -82,6 +88,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,
                 "Setting this property to true will generate interfaces next to the default class implementations.",
                 false));
+        this.cliOptions.add(CliOption.newBoolean(USE_SINGLE_REQUEST_PARAMETER,
+                "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.",
+                false));
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
@@ -89,6 +98,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).",
                 false));
         this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular.").defaultValue(this.ngVersion));
+        this.cliOptions.add(new CliOption(API_MODULE_PREFIX, "The prefix of the generated ApiModule."));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
@@ -158,6 +168,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
         }
+        
+        if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
+            this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
+        }
+        writePropertyBack(USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
         if (additionalProperties.containsKey(TAGGED_UNIONS)) {
             taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
@@ -182,6 +197,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         additionalProperties.put("useRxJS6", ngVersion.atLeast("6.0.0"));
         if (!ngVersion.atLeast("4.3.0")) {
             supportingFiles.add(new SupportingFile("rxjs-operators.mustache", getIndexDirectory(), "rxjs-operators.ts"));
+        }
+        if (additionalProperties.containsKey(API_MODULE_PREFIX)) {
+            String apiModulePrefix = additionalProperties.get(API_MODULE_PREFIX).toString();
+            validateClassPrefixArgument("ApiModule", apiModulePrefix);
+
+            additionalProperties.put("apiModuleClassName", apiModulePrefix + "ApiModule");
+        } else {
+            additionalProperties.put("apiModuleClassName", "ApiModule");
         }
         if (additionalProperties.containsKey(SERVICE_SUFFIX)) {
             serviceSuffix = additionalProperties.get(SERVICE_SUFFIX).toString();
@@ -319,34 +342,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
 
-    @Override
-    public String getSchemaType(Schema p) {
-        String openAPIType = super.getSchemaType(p);
-        if (isLanguagePrimitive(openAPIType) || isLanguageGenericType(openAPIType)) {
-            return openAPIType;
-        }
-        applyLocalTypeMapping(openAPIType);
-        return openAPIType;
-    }
-
     private String applyLocalTypeMapping(String type) {
         if (typeMapping.containsKey(type)) {
             type = typeMapping.get(type);
         }
         return type;
-    }
-
-    private boolean isLanguagePrimitive(String type) {
-        return languageSpecificPrimitives.contains(type);
-    }
-
-    private boolean isLanguageGenericType(String type) {
-        for (String genericType : languageGenericTypes) {
-            if (type.startsWith(genericType + "<")) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
@@ -505,7 +505,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     /**
-     * Parse imports 
+     * Parse imports
      */
     private Set<String> parseImports(CodegenModel cm) {
         Set<String> newImports = new HashSet<String>();
@@ -556,17 +556,26 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toApiImport(String name) {
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
         return apiPackage() + "/" + toApiFilename(name);
     }
 
     @Override
     public String toModelFilename(String name) {
-        return this.convertUsingFileNamingConvention(this.sanitizeName(name)) + modelFileSuffix;
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+        return DEFAULT_IMPORT_PREFIX + this.convertUsingFileNamingConvention(this.sanitizeName(name)) + modelFileSuffix;
     }
 
     @Override
     public String toModelImport(String name) {
-        return modelPackage() + "/" + toModelFilename(name);
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+        return modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
     }
 
     public String getNpmRepository() {
@@ -575,6 +584,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     public void setNpmRepository(String npmRepository) {
         this.npmRepository = npmRepository;
+    }
+
+    private boolean getUseSingleRequestParameter() {
+        return useSingleRequestParameter;
+    }
+
+    private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
+        this.useSingleRequestParameter = useSingleRequestParameter;
     }
 
     private String getApiFilenameFromClassname(String classname) {
@@ -630,6 +647,21 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      * @param argument The name of the argument being validated. This is only used for displaying an error message.
      * @param value    The value that is being validated.
      */
+    private void validateClassPrefixArgument(String argument, String value) {
+        if (!value.matches(CLASS_NAME_PREFIX_PATTERN)) {
+            throw new IllegalArgumentException(
+                    String.format(Locale.ROOT, "%s class prefix only allows alphanumeric characters.", argument)
+            );
+        }
+    }
+
+    /**
+     * Validates that the given string value only contains alpha numeric characters.
+     * Throws an IllegalArgumentException, if the string contains any other characters.
+     *
+     * @param argument The name of the argument being validated. This is only used for displaying an error message.
+     * @param value    The value that is being validated.
+     */
     private void validateClassSuffixArgument(String argument, String value) {
         if (!value.matches(CLASS_NAME_SUFFIX_PATTERN)) {
             throw new IllegalArgumentException(
@@ -669,4 +701,3 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
 }
-

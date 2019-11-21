@@ -35,7 +35,8 @@ public interface FakeClassnameTestApiDelegate {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                result = ApiUtil.getExampleResponse(exchange, "{  \"client\" : \"client\"}");
+                String exampleString = "{ \"client\" : \"client\" }";
+                result = ApiUtil.getExampleResponse(exchange, exampleString);
                 break;
             }
         }

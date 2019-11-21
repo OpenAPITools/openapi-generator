@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets _Return
         /// </summary>
-        [DataMember(Name="return", EmitDefaultValue=false)]
+        [DataMember(Name="return", EmitDefaultValue=true)]
         public int _Return { get; set; }
 
         /// <summary>

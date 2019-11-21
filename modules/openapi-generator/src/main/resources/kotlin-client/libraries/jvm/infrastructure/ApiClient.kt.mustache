@@ -71,11 +71,16 @@ import java.io.File
             }
             {{#jvm-okhttp3}}
             mediaType == JsonMediaType -> RequestBody.create(
+                {{#moshi}}
                 MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
+                {{/moshi}}
+                {{#gson}}
+                MediaType.parse(mediaType), Serializer.gson.toJson(content, T::class.java)
+                {{/gson}}
             )
             {{/jvm-okhttp3}}
             {{#jvm-okhttp4}}
-            mediaType == JsonMediaType -> Serializer.moshi.adapter(T::class.java).toJson(content).toRequestBody(
+            mediaType == JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).toJson(content){{/moshi}}{{#gson}}Serializer.gson.toJson(content, T::class.java){{/gson}}.toRequestBody(
                 mediaType.toMediaTypeOrNull()
             )
             {{/jvm-okhttp4}}
@@ -93,7 +98,7 @@ import java.io.File
             return null
         }
         return when(mediaType) {
-            JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(bodyContent)
+            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, T::class.java){{/gson}}
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -130,18 +135,26 @@ import java.io.File
         {{#isBasic}}
         {{^isBasicBearer}}
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            requestConfig.headers[Authorization] = Credentials.basic(username, password)
+            username?.let { username ->
+                password?.let { password ->
+                    requestConfig.headers[Authorization] = Credentials.basic(username, password)
+                }
+            }
         }
         {{/isBasicBearer}}
         {{#isBasicBearer}}
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            requestConfig.headers[Authorization] = "Bearer " + accessToken
+            accessToken?.let { accessToken ->
+                requestConfig.headers[Authorization] = "Bearer " + accessToken
+            }
         }
         {{/isBasicBearer}}
         {{/isBasic}}
         {{#isOAuth}}
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            requestConfig.headers[Authorization] = "Bearer " + accessToken
+            accessToken?.let { accessToken ->
+                requestConfig.headers[Authorization] = "Bearer " + accessToken
+            }
         }
         {{/isOAuth}}
         {{/authMethods}}

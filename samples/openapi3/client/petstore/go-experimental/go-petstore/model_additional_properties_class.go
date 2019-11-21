@@ -8,18 +8,19 @@
  */
 
 package openapi
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // AdditionalPropertiesClass struct for AdditionalPropertiesClass
 type AdditionalPropertiesClass struct {
 	MapProperty *map[string]string `json:"map_property,omitempty"`
-
 	MapOfMapProperty *map[string]map[string]string `json:"map_of_map_property,omitempty"`
-
 }
 
-// GetMapProperty returns the MapProperty field if non-nil, zero value otherwise.
+// GetMapProperty returns the MapProperty field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapProperty() map[string]string {
 	if o == nil || o.MapProperty == nil {
 		var ret map[string]string
@@ -28,7 +29,7 @@ func (o *AdditionalPropertiesClass) GetMapProperty() map[string]string {
 	return *o.MapProperty
 }
 
-// GetMapPropertyOk returns a tuple with the MapProperty field if it's non-nil, zero value otherwise
+// GetMapPropertyOk returns a tuple with the MapProperty field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapPropertyOk() (map[string]string, bool) {
 	if o == nil || o.MapProperty == nil {
@@ -52,7 +53,7 @@ func (o *AdditionalPropertiesClass) SetMapProperty(v map[string]string) {
 	o.MapProperty = &v
 }
 
-// GetMapOfMapProperty returns the MapOfMapProperty field if non-nil, zero value otherwise.
+// GetMapOfMapProperty returns the MapOfMapProperty field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapOfMapProperty() map[string]map[string]string {
 	if o == nil || o.MapOfMapProperty == nil {
 		var ret map[string]map[string]string
@@ -61,7 +62,7 @@ func (o *AdditionalPropertiesClass) GetMapOfMapProperty() map[string]map[string]
 	return *o.MapOfMapProperty
 }
 
-// GetMapOfMapPropertyOk returns a tuple with the MapOfMapProperty field if it's non-nil, zero value otherwise
+// GetMapOfMapPropertyOk returns a tuple with the MapOfMapProperty field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesClass) GetMapOfMapPropertyOk() (map[string]map[string]string, bool) {
 	if o == nil || o.MapOfMapProperty == nil {
@@ -85,17 +86,26 @@ func (o *AdditionalPropertiesClass) SetMapOfMapProperty(v map[string]map[string]
 	o.MapOfMapProperty = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o AdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.MapProperty != nil {
-		toSerialize["map_property"] = o.MapProperty
-	}
-	if o.MapOfMapProperty != nil {
-		toSerialize["map_of_map_property"] = o.MapOfMapProperty
-	}
-	return json.Marshal(toSerialize)
+type NullableAdditionalPropertiesClass struct {
+	Value AdditionalPropertiesClass
+	ExplicitNull bool
 }
 
+func (v NullableAdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableAdditionalPropertiesClass) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

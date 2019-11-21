@@ -24,7 +24,11 @@ elif [ "$NODE_INDEX" = "2" ]; then
     # install elm-format
     npm install -g elm-format
 
-    ./bin/utils/ensure-up-to-date
+    # clear any changes to the samples
+    git checkout -- .
+
+    # look for outdated samples
+    ./bin/utils/ensure-up-to-date --batch
   fi
 #elif [ "$NODE_INDEX" = "3" ]; then
   echo "Running node $NODE_INDEX to test haskell"

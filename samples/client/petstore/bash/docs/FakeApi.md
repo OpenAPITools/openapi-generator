@@ -20,6 +20,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
 
 
 
@@ -500,6 +501,45 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not Applicable
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## testQueryParameterCollectionFormat
+
+
+
+To test the collection format in query parameters
+
+### Example
+
+```bash
+petstore-cli testQueryParameterCollectionFormat  Specify as:  pipe="value1,value2,..."  Specify as:  ioutil="value1,value2,..."  Specify as:   Specify as:  url="value1,value2,..."  Specify as:  context=value1 context=value2 context=...
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**array[string]**](string.md) |  | [default to null]
+ **ioutil** | [**array[string]**](string.md) |  | [default to null]
+ **http** | [**array[string]**](string.md) |  | [default to null]
+ **url** | [**array[string]**](string.md) |  | [default to null]
+ **context** | [**array[string]**](string.md) |  | [default to null]
+
+### Return type
+
+(empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not Applicable
 - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

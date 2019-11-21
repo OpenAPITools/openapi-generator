@@ -76,7 +76,7 @@ public class ApiClient {
             this.separator = separator;
         }
 
-        private String collectionToString(Collection<? extends CharSequence> collection) {
+        private String collectionToString(Collection<?> collection) {
             return StringUtils.collectionToDelimitedString(collection, separator);
         }
     }
@@ -395,7 +395,7 @@ public class ApiClient {
     * @param values The values of the parameter.
     * @return String representation of the parameter
     */
-    public String collectionPathParameterToString(CollectionFormat collectionFormat, Collection<? extends CharSequence> values) {
+    public String collectionPathParameterToString(CollectionFormat collectionFormat, Collection<?> values) {
         // create the value based on the collection format
         if (CollectionFormat.MULTI.equals(collectionFormat)) {
             // not valid for path params

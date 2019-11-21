@@ -32,6 +32,8 @@ class EnumClass(object):
     _EFG = "-efg"
     _XYZ_ = "(xyz)"
 
+    allowable_values = [_ABC, _EFG, _XYZ_]  # noqa: E501
+
     """
     Attributes:
       openapi_types (dict): The key is attribute name

@@ -23,7 +23,7 @@ type UserApiController struct {
 }
 
 // NewUserApiController creates a default api controller
-func NewUserApiController(s UserApiServicer) UserApiRouter {
+func NewUserApiController(s UserApiServicer) Router {
 	return &UserApiController{ service: s }
 }
 
@@ -95,7 +95,7 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
@@ -112,7 +112,7 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
@@ -129,7 +129,7 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // DeleteUser - Delete user
@@ -142,7 +142,7 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // GetUserByName - Get user by user name
@@ -155,7 +155,7 @@ func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // LoginUser - Logs user into the system
@@ -169,7 +169,7 @@ func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // LogoutUser - Logs out current logged in user session
@@ -180,7 +180,7 @@ func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // UpdateUser - Updated user
@@ -199,5 +199,5 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }

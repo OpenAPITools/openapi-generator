@@ -35,12 +35,12 @@ class UserApi {
     List<String> contentTypes = [];
 
     var serializedBody = _serializers.serialize(body);
-    var data = json.encode(serializedBody);
+    var jsonbody = json.encode(serializedBody);
 
     return _dio.request(
       path,
       queryParameters: queryParams,
-      data: data,
+      data: jsonbody,
       options: Options(
         method: 'post'.toUpperCase(),
         headers: headerParams,
@@ -75,12 +75,12 @@ class UserApi {
     final type = const FullType(BuiltList, const [const FullType(User)]);
     var serializedBody =
         _serializers.serialize(BuiltList<User>.from(body), specifiedType: type);
-    var data = json.encode(serializedBody);
+    var jsonbody = json.encode(serializedBody);
 
     return _dio.request(
       path,
       queryParameters: queryParams,
-      data: data,
+      data: jsonbody,
       options: Options(
         method: 'post'.toUpperCase(),
         headers: headerParams,
@@ -115,12 +115,12 @@ class UserApi {
     final type = const FullType(BuiltList, const [const FullType(User)]);
     var serializedBody =
         _serializers.serialize(BuiltList<User>.from(body), specifiedType: type);
-    var data = json.encode(serializedBody);
+    var jsonbody = json.encode(serializedBody);
 
     return _dio.request(
       path,
       queryParameters: queryParams,
-      data: data,
+      data: jsonbody,
       options: Options(
         method: 'post'.toUpperCase(),
         headers: headerParams,
@@ -326,12 +326,12 @@ class UserApi {
     List<String> contentTypes = [];
 
     var serializedBody = _serializers.serialize(body);
-    var data = json.encode(serializedBody);
+    var jsonbody = json.encode(serializedBody);
 
     return _dio.request(
       path,
       queryParameters: queryParams,
-      data: data,
+      data: jsonbody,
       options: Options(
         method: 'put'.toUpperCase(),
         headers: headerParams,

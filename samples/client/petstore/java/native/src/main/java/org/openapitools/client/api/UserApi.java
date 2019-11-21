@@ -96,7 +96,10 @@ public class UserApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -141,7 +144,10 @@ public class UserApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -186,7 +192,10 @@ public class UserApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -230,7 +239,10 @@ public class UserApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -276,7 +288,10 @@ public class UserApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<User>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -336,7 +351,10 @@ public class UserApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -374,7 +392,10 @@ public class UserApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -425,7 +446,10 @@ public class UserApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }

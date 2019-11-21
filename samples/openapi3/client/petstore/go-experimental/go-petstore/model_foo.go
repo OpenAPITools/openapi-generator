@@ -8,16 +8,18 @@
  */
 
 package openapi
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // Foo struct for Foo
 type Foo struct {
 	Bar *string `json:"bar,omitempty"`
-
 }
 
-// GetBar returns the Bar field if non-nil, zero value otherwise.
+// GetBar returns the Bar field value if set, zero value otherwise.
 func (o *Foo) GetBar() string {
 	if o == nil || o.Bar == nil {
 		var ret string
@@ -26,7 +28,7 @@ func (o *Foo) GetBar() string {
 	return *o.Bar
 }
 
-// GetBarOk returns a tuple with the Bar field if it's non-nil, zero value otherwise
+// GetBarOk returns a tuple with the Bar field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Foo) GetBarOk() (string, bool) {
 	if o == nil || o.Bar == nil {
@@ -50,14 +52,26 @@ func (o *Foo) SetBar(v string) {
 	o.Bar = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o Foo) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Bar != nil {
-		toSerialize["bar"] = o.Bar
-	}
-	return json.Marshal(toSerialize)
+type NullableFoo struct {
+	Value Foo
+	ExplicitNull bool
 }
 
+func (v NullableFoo) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *NullableFoo) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
 

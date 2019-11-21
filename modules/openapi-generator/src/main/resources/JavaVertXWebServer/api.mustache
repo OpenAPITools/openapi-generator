@@ -1,0 +1,19 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import {{invokerPackage}}.ApiResponse;
+
+import io.reactivex.Single;
+
+import java.util.List;
+import java.util.Map;
+
+public interface {{classname}}  {
+{{#operations}}
+{{#operation}}
+    Single<ApiResponse<{{{returnType}}}>> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}});
+{{/operation}}
+{{/operations}}
+}

@@ -39,7 +39,7 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     @Suppress("UNCHECKED_CAST")
     fun fakeHealthGet() : HealthCheckResult {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -70,7 +70,7 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     @Suppress("UNCHECKED_CAST")
     fun fakeOuterBooleanSerialize(body: kotlin.Boolean?) : kotlin.Boolean {
         val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -101,7 +101,7 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     @Suppress("UNCHECKED_CAST")
     fun fakeOuterCompositeSerialize(outerComposite: OuterComposite?) : OuterComposite {
         val localVariableBody: kotlin.Any? = outerComposite
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -132,7 +132,7 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     @Suppress("UNCHECKED_CAST")
     fun fakeOuterNumberSerialize(body: java.math.BigDecimal?) : java.math.BigDecimal {
         val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -163,7 +163,7 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     @Suppress("UNCHECKED_CAST")
     fun fakeOuterStringSerialize(body: kotlin.String?) : kotlin.String {
         val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -193,7 +193,7 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     */
     fun testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass) : Unit {
         val localVariableBody: kotlin.Any? = fileSchemaTestClass
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.PUT,
@@ -224,7 +224,10 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     */
     fun testBodyWithQueryParams(query: kotlin.String, user: User) : Unit {
         val localVariableBody: kotlin.Any? = user
-        val localVariableQuery: MultiValueMap = mapOf("query" to listOf("$query"))
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+            .apply {
+                put("query", listOf(query.toString()))
+            }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.PUT,
@@ -255,7 +258,7 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     @Suppress("UNCHECKED_CAST")
     fun testClientModel(client: Client) : Client {
         val localVariableBody: kotlin.Any? = client
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.PATCH,
@@ -298,7 +301,7 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     */
     fun testEndpointParameters(number: java.math.BigDecimal, double: kotlin.Double, patternWithoutDelimiter: kotlin.String, byte: kotlin.ByteArray, integer: kotlin.Int?, int32: kotlin.Int?, int64: kotlin.Long?, float: kotlin.Float?, string: kotlin.String?, binary: java.io.File?, date: java.time.LocalDate?, dateTime: java.time.LocalDateTime?, password: kotlin.String?, paramCallback: kotlin.String?) : Unit {
         val localVariableBody: kotlin.Any? = mapOf("integer" to "$integer", "int32" to "$int32", "int64" to "$int64", "number" to "$number", "float" to "$float", "double" to "$double", "string" to "$string", "pattern_without_delimiter" to "$patternWithoutDelimiter", "byte" to "$byte", "binary" to "$binary", "date" to "$date", "dateTime" to "$dateTime", "password" to "$password", "callback" to "$paramCallback")
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "")
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -335,7 +338,21 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     */
     fun testEnumParameters(enumHeaderStringArray: kotlin.Array<kotlin.String>?, enumHeaderString: kotlin.String?, enumQueryStringArray: kotlin.Array<kotlin.String>?, enumQueryString: kotlin.String?, enumQueryInteger: kotlin.Int?, enumQueryDouble: kotlin.Double?, enumFormStringArray: kotlin.Array<kotlin.String>?, enumFormString: kotlin.String?) : Unit {
         val localVariableBody: kotlin.Any? = mapOf("enum_form_string_array" to "$enumFormStringArray", "enum_form_string" to "$enumFormString")
-        val localVariableQuery: MultiValueMap = mapOf("enumQueryStringArray" to toMultiValue(enumQueryStringArray.toList(), "multi"), "enumQueryString" to listOf("$enumQueryString"), "enumQueryInteger" to listOf("$enumQueryInteger"), "enumQueryDouble" to listOf("$enumQueryDouble"))
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+            .apply {
+                if (enumQueryStringArray != null) {
+                    put("enumQueryStringArray", toMultiValue(enumQueryStringArray.toList(), "multi"))
+                }
+                if (enumQueryString != null) {
+                    put("enumQueryString", listOf(enumQueryString.toString()))
+                }
+                if (enumQueryInteger != null) {
+                    put("enumQueryInteger", listOf(enumQueryInteger.toString()))
+                }
+                if (enumQueryDouble != null) {
+                    put("enumQueryDouble", listOf(enumQueryDouble.toString()))
+                }
+            }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "", "enum_header_string_array" to enumHeaderStringArray.joinToString(separator = collectionDelimiter("csv")), "enum_header_string" to enumHeaderString.toString())
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -370,7 +387,17 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     */
     fun testGroupParameters(requiredStringGroup: kotlin.Int, requiredBooleanGroup: kotlin.Boolean, requiredInt64Group: kotlin.Long, stringGroup: kotlin.Int?, booleanGroup: kotlin.Boolean?, int64Group: kotlin.Long?) : Unit {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf("requiredStringGroup" to listOf("$requiredStringGroup"), "requiredInt64Group" to listOf("$requiredInt64Group"), "stringGroup" to listOf("$stringGroup"), "int64Group" to listOf("$int64Group"))
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+            .apply {
+                put("requiredStringGroup", listOf(requiredStringGroup.toString()))
+                put("requiredInt64Group", listOf(requiredInt64Group.toString()))
+                if (stringGroup != null) {
+                    put("stringGroup", listOf(stringGroup.toString()))
+                }
+                if (int64Group != null) {
+                    put("int64Group", listOf(int64Group.toString()))
+                }
+            }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("required_boolean_group" to requiredBooleanGroup.toString(), "boolean_group" to booleanGroup.toString())
         val localVariableConfig = RequestConfig(
             RequestMethod.DELETE,
@@ -400,7 +427,7 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     */
     fun testInlineAdditionalProperties(requestBody: kotlin.collections.Map<kotlin.String, kotlin.String>) : Unit {
         val localVariableBody: kotlin.Any? = requestBody
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -431,7 +458,7 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     */
     fun testJsonFormData(param: kotlin.String, param2: kotlin.String) : Unit {
         val localVariableBody: kotlin.Any? = mapOf("param" to "$param", "param2" to "$param2")
-        val localVariableQuery: MultiValueMap = mapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "")
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -465,7 +492,14 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     */
     fun testQueryParameterCollectionFormat(pipe: kotlin.Array<kotlin.String>, ioutil: kotlin.Array<kotlin.String>, http: kotlin.Array<kotlin.String>, url: kotlin.Array<kotlin.String>, context: kotlin.Array<kotlin.String>) : Unit {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf("pipe" to toMultiValue(pipe.toList(), "multi"), "ioutil" to toMultiValue(ioutil.toList(), "csv"), "http" to toMultiValue(http.toList(), "space"), "url" to toMultiValue(url.toList(), "csv"), "context" to toMultiValue(context.toList(), "multi"))
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+            .apply {
+                put("pipe", toMultiValue(pipe.toList(), "multi"))
+                put("ioutil", toMultiValue(ioutil.toList(), "csv"))
+                put("http", toMultiValue(http.toList(), "space"))
+                put("url", toMultiValue(url.toList(), "csv"))
+                put("context", toMultiValue(context.toList(), "multi"))
+            }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.PUT,

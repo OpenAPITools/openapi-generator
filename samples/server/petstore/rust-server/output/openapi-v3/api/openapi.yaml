@@ -86,6 +86,23 @@ paths:
       responses:
         200:
           description: OK
+  /readonly_auth_scheme:
+    get:
+      responses:
+        200:
+          description: Check that limiting to a single required auth scheme works
+      security:
+      - authScheme:
+        - test.read
+  /multiple_auth_scheme:
+    get:
+      responses:
+        200:
+          description: Check that limiting to multiple required auth schemes works
+      security:
+      - authScheme:
+        - test.read
+        - test.write
   /responses_with_headers:
     get:
       responses:
@@ -176,4 +193,14 @@ components:
       xml:
         name: snake_another_xml_object
         namespace: http://foo.bar
+  securitySchemes:
+    authScheme:
+      flows:
+        authorizationCode:
+          authorizationUrl: http://example.org
+          scopes:
+            test.read: Allowed to read state.
+            test.write: Allowed to change state.
+          tokenUrl: http://example.org
+      type: oauth2
 

@@ -35,14 +35,14 @@ std::string {{classname}}::toJsonString()
 	{{#vars}}
 	{{^isContainer}}
 	{{#isPrimitiveType}}
-	pt.put("{{name}}", m_{{name}});
+	pt.put("{{baseName}}", m_{{name}});
 	{{/isPrimitiveType}}
 	{{^isPrimitiveType}}
 	{{#isString}}
-	pt.put("{{name}}", m_{{name}});
+	pt.put("{{baseName}}", m_{{name}});
 	{{/isString}}
 	{{#isDateTime}}
-	pt.put("{{name}}", m_{{name}});
+	pt.put("{{baseName}}", m_{{name}});
 	{{/isDateTime}}
 	{{/isPrimitiveType}}
 	{{/isContainer}}
@@ -59,14 +59,14 @@ void {{classname}}::fromJsonString(std::string const& jsonString)
 	{{#vars}}
 	{{^isContainer}}
 	{{#isPrimitiveType}}
-	m_{{name}} = pt.get("{{name}}", {{{defaultValue}}});
+	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
 	{{/isPrimitiveType}}
 	{{^isPrimitiveType}}
 	{{#isString}}
-	m_{{name}} = pt.get("{{name}}", {{{defaultValue}}});
+	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
 	{{/isString}}
 	{{#isDateTime}}
-	m_{{name}} = pt.get("{{name}}", {{{defaultValue}}});
+	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
 	{{/isDateTime}}
 	{{/isPrimitiveType}}
 	{{/isContainer}}

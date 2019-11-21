@@ -17,6 +17,7 @@ import unittest
 import petstore_api
 from petstore_api.models.additional_properties_integer import AdditionalPropertiesInteger  # noqa: E501
 from petstore_api.rest import ApiException
+from petstore_api.exceptions import ApiTypeError
 
 
 class TestAdditionalPropertiesInteger(unittest.TestCase):
@@ -30,9 +31,16 @@ class TestAdditionalPropertiesInteger(unittest.TestCase):
 
     def testAdditionalPropertiesInteger(self):
         """Test AdditionalPropertiesInteger"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.models.additional_properties_integer.AdditionalPropertiesInteger()  # noqa: E501
-        pass
+        # can make model without additional properties
+        model = AdditionalPropertiesInteger()
+
+        # can make one with additional properties
+        model = AdditionalPropertiesInteger(some_key=3)
+        assert model['some_key'] == 3
+
+        # type checking works on additional properties
+        with self.assertRaises(ApiTypeError) as exc:
+            model = AdditionalPropertiesInteger(some_key=11.3)
 
 
 if __name__ == '__main__':

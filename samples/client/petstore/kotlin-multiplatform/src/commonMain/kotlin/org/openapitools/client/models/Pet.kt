@@ -48,7 +48,7 @@ data class Pet (
         pending("pending"),
         sold("sold");
 
-        object Serializer : CommonEnumSerializer<Status>("Status", values(), values().map { it.value }.toTypedArray())
+        object Serializer : CommonEnumSerializer<Status>("Status", values(), values().map { it.value.toString() }.toTypedArray())
     }
 }
 

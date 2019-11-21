@@ -182,6 +182,10 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
 {{#vendorExtensions.extraAnnotation}}
   {{{vendorExtensions.extraAnnotation}}}
 {{/vendorExtensions.extraAnnotation}}
+{{#vendorExtensions.isJacksonOptionalNullable}}
+  {{!unannotated, Jackson would pick this up automatically and add it *in addition* to the _JsonNullable getter field}}
+  @JsonIgnore
+{{/vendorExtensions.isJacksonOptionalNullable}}
 {{^vendorExtensions.isJacksonOptionalNullable}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}{{/vendorExtensions.isJacksonOptionalNullable}}
   public {{{datatypeWithEnum}}} {{getter}}() {
     {{#vendorExtensions.isJacksonOptionalNullable}}
@@ -202,16 +206,15 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   public JsonNullable<{{{datatypeWithEnum}}}> {{getter}}_JsonNullable() {
     return {{name}};
   }
-  {{/vendorExtensions.isJacksonOptionalNullable}}
-
-  {{^isReadOnly}}
-  {{#vendorExtensions.isJacksonOptionalNullable}}
+  {{/vendorExtensions.isJacksonOptionalNullable}}{{#vendorExtensions.isJacksonOptionalNullable}}
   @JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}})
-  public void {{setter}}_JsonNullable(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
+  {{#isReadOnly}}private{{/isReadOnly}}{{^isReadOnly}}public{{/isReadOnly}} void {{setter}}_JsonNullable(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
+    {{! For getters/setters that have name differing from attribute name, we must include setter (albeit private) for jackson to be able to set the attribute}}
     this.{{name}} = {{name}};
   }
   {{/vendorExtensions.isJacksonOptionalNullable}}
 
+  {{^isReadOnly}}
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     {{#vendorExtensions.isJacksonOptionalNullable}}
     this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
@@ -228,7 +231,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   @Override
   public boolean equals(java.lang.Object o) {
   {{#useReflectionEqualsHashCode}}
-    return EqualsBuilder.reflectionEquals(this, o);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   {{/useReflectionEqualsHashCode}}
   {{^useReflectionEqualsHashCode}}
     if (this == o) {

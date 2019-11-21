@@ -51,6 +51,17 @@
       }
     end
 
+    # List of attributes with nullable: true
+    def self.openapi_nullable
+      Set.new([
+        {{#vars}}
+        {{#isNullable}}
+        :'{{{name}}}'{{#hasMore}},{{/hasMore}}
+        {{/isNullable}}
+        {{/vars}}
+      ])
+    end
+
     {{#anyOf}}
     {{#-first}}
     # List of class defined in anyOf (OpenAPI v3)

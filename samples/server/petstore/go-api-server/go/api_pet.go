@@ -23,7 +23,7 @@ type PetApiController struct {
 }
 
 // NewPetApiController creates a default api controller
-func NewPetApiController(s PetApiServicer) PetApiRouter {
+func NewPetApiController(s PetApiServicer) Router {
 	return &PetApiController{ service: s }
 }
 
@@ -95,7 +95,7 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // DeletePet - Deletes a pet
@@ -114,7 +114,7 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // FindPetsByStatus - Finds Pets by status
@@ -127,7 +127,7 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // FindPetsByTags - Finds Pets by tags
@@ -140,7 +140,7 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // GetPetById - Find pet by ID
@@ -158,7 +158,7 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // UpdatePet - Update an existing pet
@@ -175,7 +175,7 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // UpdatePetWithForm - Updates a pet in the store with form data
@@ -201,7 +201,7 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // UploadFile - uploads an image
@@ -232,5 +232,5 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }

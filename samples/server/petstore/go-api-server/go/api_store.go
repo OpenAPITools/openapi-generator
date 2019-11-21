@@ -23,7 +23,7 @@ type StoreApiController struct {
 }
 
 // NewStoreApiController creates a default api controller
-func NewStoreApiController(s StoreApiServicer) StoreApiRouter {
+func NewStoreApiController(s StoreApiServicer) Router {
 	return &StoreApiController{ service: s }
 }
 
@@ -67,7 +67,7 @@ func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // GetInventory - Returns pet inventories by status
@@ -78,7 +78,7 @@ func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // GetOrderById - Find purchase order by ID
@@ -96,7 +96,7 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }
 
 // PlaceOrder - Place an order for a pet
@@ -113,5 +113,5 @@ func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	
-	EncodeJSONResponse(result, nil,  w)
+	EncodeJSONResponse(result, nil, w)
 }

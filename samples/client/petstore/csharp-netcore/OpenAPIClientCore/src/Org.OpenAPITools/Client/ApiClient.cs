@@ -351,7 +351,9 @@ namespace Org.OpenAPITools.Client
         private ApiResponse<T> toApiResponse<T>(IRestResponse<T> response)
         {
             T result = response.Data;
-            var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>(), result)
+            string rawContent = response.Content;
+
+            var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>(), result, rawContent)
             {
                 ErrorText = response.ErrorMessage,
                 Cookies = new List<Cookie>()
