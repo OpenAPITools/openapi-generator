@@ -697,9 +697,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     private String getArrayTypeDeclaration(ArraySchema arr) {
         // TODO: collection type here should be fully qualified namespace to avoid model conflicts
         // This supports arrays of arrays.
-        String arrayType = typeMapping.get("array");
+        String arrayType;
         if (Boolean.TRUE.equals(arr.getUniqueItems())) {
             arrayType = typeMapping.get("set");
+        } else {
+            arrayType = typeMapping.get("array");
         }
         StringBuilder instantiationType = new StringBuilder(arrayType);
         Schema items = arr.getItems();

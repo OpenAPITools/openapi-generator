@@ -24,3 +24,37 @@ components:
           items:
             type: string
             enum: ['BLACK', 'RED', 'ORANGE', 'YELLOW', 'BLUE', 'GREEN']
+        reqColors:
+          type: array
+          items:
+            type: string
+            enum: ['BLACK', 'RED', 'ORANGE', 'YELLOW', 'BLUE', 'GREEN']
+      required:
+        - reqColors
+    NoEmbeddedEnumArray:
+      type: object
+      properties:
+        colors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Colors'
+        reqColors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Colors'
+          required:
+            - reqColors
+    Colors:
+      type: string
+      enum: ['BLACK', 'RED', 'ORANGE', 'YELLOW', 'BLUE', 'GREEN']
+    SimpleColorContainer:
+      type: object
+      properties:
+        color:
+          type: string
+          enum: ['BLACK', 'RED', 'ORANGE', 'YELLOW', 'BLUE', 'GREEN']
+        reqColor:
+          type: string
+          enum: ['BLACK', 'RED', 'ORANGE', 'YELLOW', 'BLUE', 'GREEN']
+      required:
+        - reqColor

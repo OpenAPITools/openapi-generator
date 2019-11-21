@@ -21,16 +21,13 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public class KotlinSpringServerCodegenTest {
 
-    @Test(description = "test embedded enum array", enabled = false) //TODO fix me
+    @Test(description = "test embedded enum array")
     public void embeddedEnumArrayTest() throws Exception {
         String baseModelPackage = "zz";
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        System.out.println(output.getAbsolutePath());
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile(); //may be move to /build
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue______kotlinArrayEnumEmbedded.yaml");
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
@@ -43,7 +40,8 @@ public class KotlinSpringServerCodegenTest {
         File resultSourcePath = new File(output, "src/main/kotlin");
         File outputModel = Files.createTempDirectory("test").toFile().getCanonicalFile();
         FileUtils.copyDirectory(new File(resultSourcePath, baseModelPackage), new File(outputModel, baseModelPackage));
-        KotlinTestUtils.buildModule(Collections.singletonList(outputModel.getAbsolutePath()), Thread.currentThread().getContextClassLoader());
+        //no exception
+        ClassLoader cl = KotlinTestUtils.buildModule(Collections.singletonList(outputModel.getAbsolutePath()), Thread.currentThread().getContextClassLoader());
     }
 
     @Test
