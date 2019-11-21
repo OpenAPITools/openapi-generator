@@ -54,4 +54,11 @@ public class PythonFlaskConnexionServerCodegen extends PythonAbstractConnexionSe
         supportingFiles.add(new SupportingFile("__init__.mustache", packagePath(), "__init__.py"));
         testPackage = packageName + "." + testPackage;
     }
+
+    @Override
+    public String toParamName(String name) {
+        // Connexion is broken and does not sanitize the parameter names.
+        // Since Connexion does no sanitization we cannot do it here sadly.
+        return toVarName(name);
+    }
 }
