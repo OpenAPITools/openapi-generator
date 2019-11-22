@@ -32,6 +32,7 @@ PFXUser::PFXUser() {
 PFXUser::~PFXUser() {}
 
 void PFXUser::initializeModel() {
+
     m_id_isSet = false;
     m_id_isValid = false;
 
@@ -65,6 +66,7 @@ void PFXUser::fromJson(QString jsonString) {
 }
 
 void PFXUser::fromJsonObject(QJsonObject json) {
+
     m_id_isValid = ::test_namespace::fromJsonValue(id, json[QString("id")]);
     m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
 

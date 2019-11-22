@@ -23,7 +23,8 @@ namespace {{this}} {
 
 {{classname}}::~{{classname}}() {}
 
-void {{classname}}::initializeModel() {{=<% %>=}}{<%={{ }}=%>{{^isEnum}}{{#vars}}
+void {{classname}}::initializeModel() {
+{{^isEnum}}{{#vars}}
     m_{{name}}_isSet = false;
     m_{{name}}_isValid = false;{{^-last}}
 {{/-last}}{{/vars}}{{/isEnum}}{{#isEnum}}
@@ -43,7 +44,8 @@ void {{classname}}::fromJson(QString jsonString) {
     }{{/enumVars}}{{/allowableValues}}{{/isEnum}}
 }
 
-void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}(QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} json) {{=<% %>=}}{<%={{ }}=%>{{^isEnum}}{{#vars}}{{^isContainer}}
+void {{classname}}::fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}(QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} json) {
+{{^isEnum}}{{#vars}}{{^isContainer}}
     m_{{name}}_isValid = ::{{cppNamespace}}::fromJsonValue({{name}}, json[QString("{{baseName}}")]);
     m_{{name}}_isSet = !json[QString("{{baseName}}")].isNull() && m_{{name}}_isValid;{{/isContainer}}{{#isContainer}}{{^items.isContainer}}
     m_{{name}}_isValid = ::{{cppNamespace}}::fromJsonValue({{name}}, json[QString("{{baseName}}")]);

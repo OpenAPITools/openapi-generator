@@ -32,6 +32,7 @@ PFXApiResponse::PFXApiResponse() {
 PFXApiResponse::~PFXApiResponse() {}
 
 void PFXApiResponse::initializeModel() {
+
     m_code_isSet = false;
     m_code_isValid = false;
 
@@ -50,6 +51,7 @@ void PFXApiResponse::fromJson(QString jsonString) {
 }
 
 void PFXApiResponse::fromJsonObject(QJsonObject json) {
+
     m_code_isValid = ::test_namespace::fromJsonValue(code, json[QString("code")]);
     m_code_isSet = !json[QString("code")].isNull() && m_code_isValid;
 

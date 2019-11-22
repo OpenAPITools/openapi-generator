@@ -32,6 +32,7 @@ PFXPet::PFXPet() {
 PFXPet::~PFXPet() {}
 
 void PFXPet::initializeModel() {
+
     m_id_isSet = false;
     m_id_isValid = false;
 
@@ -59,6 +60,7 @@ void PFXPet::fromJson(QString jsonString) {
 }
 
 void PFXPet::fromJsonObject(QJsonObject json) {
+
     m_id_isValid = ::test_namespace::fromJsonValue(id, json[QString("id")]);
     m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
 
