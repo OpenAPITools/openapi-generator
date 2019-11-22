@@ -1,4 +1,4 @@
-        class Category {
+class Category {
   
   int id = null;
   

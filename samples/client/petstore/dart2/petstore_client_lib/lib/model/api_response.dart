@@ -1,4 +1,4 @@
-        class ApiResponse {
+class ApiResponse {
   
   int code = null;
   
