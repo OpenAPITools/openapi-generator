@@ -1,4 +1,4 @@
-## @openapitools/angular2-typescript-petstore@0.0.1
+## @openapitools/typescript-redux-query-petstore@1.0.0
 
 This generator creates TypeScript/JavaScript client that utilizes [redux-query](https://amplitude.github.io/redux-query/).
 The generated Node module does not depend on ReactJS specifically.
@@ -24,7 +24,7 @@ navigate to the folder of your consuming project and run one of the following co
 _published:_
 
 ```
-npm install @openapitools/angular2-typescript-petstore@0.0.1 --save
+npm install @openapitools/typescript-redux-query-petstore@1.0.0 --save
 ```
 
 _unPublished (not recommended):_
