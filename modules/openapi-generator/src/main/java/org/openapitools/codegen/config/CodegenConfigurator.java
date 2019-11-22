@@ -135,7 +135,8 @@ public class CodegenConfigurator {
 
                 return configurator;
             } catch (IOException ex) {
-                LOGGER.error("Unable to deserialize config file: " + configFile, ex);
+                LOGGER.error(ex.getMessage());
+                throw new RuntimeException("Unable to deserialize config file: " + configFile);
             }
         }
         return null;
