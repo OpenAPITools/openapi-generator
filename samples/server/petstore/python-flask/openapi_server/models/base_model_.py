@@ -31,21 +31,22 @@ class Model(object):
 
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            dict_attr = self.attribute_map[attr]
             if isinstance(value, list):
-                result[attr] = list(map(
+                result[dict_attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
                     value
                 ))
             elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
+                result[dict_attr] = value.to_dict()
             elif isinstance(value, dict):
-                result[attr] = dict(map(
+                result[dict_attr] = dict(map(
                     lambda item: (item[0], item[1].to_dict())
                     if hasattr(item[1], "to_dict") else item,
                     value.items()
                 ))
             else:
-                result[attr] = value
+                result[dict_attr] = value
 
         return result
 
