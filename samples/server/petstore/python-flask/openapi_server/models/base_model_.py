@@ -33,7 +33,11 @@ class Model(object):
 
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+<<<<<<< HEAD
             dict_attr = self.attribute_map[attr] if json_keys else attr
+=======
+            dict_attr = self.attribute_map[attr]
+>>>>>>> created petstore examples
             if isinstance(value, list):
                 result[dict_attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
