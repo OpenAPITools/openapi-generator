@@ -72,6 +72,7 @@ function addPetRaw<T>(requestParameters: AddPetRequest, requestConfig: runtime.T
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
     headerParameters['Content-Type'] = 'application/json';
@@ -84,6 +85,10 @@ function addPetRaw<T>(requestParameters: AddPetRequest, requestConfig: runtime.T
         url: `/pet`,
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'POST',
             headers: headerParameters,
@@ -115,6 +120,7 @@ function deletePetRaw<T>(requestParameters: DeletePetRequest, requestConfig: run
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
     if (requestParameters.apiKey !== undefined && requestParameters.apiKey !== null) {
@@ -129,6 +135,10 @@ function deletePetRaw<T>(requestParameters: DeletePetRequest, requestConfig: run
         url: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'DELETE',
             headers: headerParameters,
@@ -163,6 +173,7 @@ function findPetsByStatusRaw<T>(requestParameters: FindPetsByStatusRequest, requ
 
     queryParameters = {};
 
+
     if (requestParameters.status) {
         queryParameters['status'] = requestParameters.status.join(runtime.COLLECTION_FORMATS["csv"]);
     }
@@ -177,6 +188,10 @@ function findPetsByStatusRaw<T>(requestParameters: FindPetsByStatusRequest, requ
         url: `/pet/findByStatus`,
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'GET',
             headers: headerParameters,
@@ -213,6 +228,7 @@ function findPetsByTagsRaw<T>(requestParameters: FindPetsByTagsRequest, requestC
 
     queryParameters = {};
 
+
     if (requestParameters.tags) {
         queryParameters['tags'] = requestParameters.tags.join(runtime.COLLECTION_FORMATS["csv"]);
     }
@@ -227,6 +243,10 @@ function findPetsByTagsRaw<T>(requestParameters: FindPetsByTagsRequest, requestC
         url: `/pet/findByTags`,
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'GET',
             headers: headerParameters,
@@ -261,6 +281,7 @@ function getPetByIdRaw<T>(requestParameters: GetPetByIdRequest, requestConfig: r
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
 
@@ -271,6 +292,10 @@ function getPetByIdRaw<T>(requestParameters: GetPetByIdRequest, requestConfig: r
         url: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'GET',
             headers: headerParameters,
@@ -304,6 +329,7 @@ function updatePetRaw<T>(requestParameters: UpdatePetRequest, requestConfig: run
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
     headerParameters['Content-Type'] = 'application/json';
@@ -316,6 +342,10 @@ function updatePetRaw<T>(requestParameters: UpdatePetRequest, requestConfig: run
         url: `/pet`,
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'PUT',
             headers: headerParameters,
@@ -347,6 +377,7 @@ function updatePetWithFormRaw<T>(requestParameters: UpdatePetWithFormRequest, re
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
 
@@ -366,11 +397,15 @@ function updatePetWithFormRaw<T>(requestParameters: UpdatePetWithFormRequest, re
         url: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'POST',
             headers: headerParameters,
         },
-        body: queryParameters,
+        body: formData,
     };
 
     const { transform: requestTransform } = requestConfig;
@@ -397,6 +432,7 @@ function uploadFileRaw<T>(requestParameters: UploadFileRequest, requestConfig: r
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
 
@@ -416,11 +452,15 @@ function uploadFileRaw<T>(requestParameters: UploadFileRequest, requestConfig: r
         url: `/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'POST',
             headers: headerParameters,
         },
-        body: queryParameters,
+        body: formData,
     };
 
     const { transform: requestTransform } = requestConfig;

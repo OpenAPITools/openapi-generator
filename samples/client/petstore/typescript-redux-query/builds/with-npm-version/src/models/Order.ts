@@ -17,7 +17,7 @@ import { exists, mapValues } from '../runtime';
  * @export
  * @interface Order
  */
-export interface Order {
+export interface Order  {
     /**
      * 
      * @type {number}
