@@ -2,8 +2,10 @@
 
 set -e
 
+DIRECTORY=`dirname $0`
+
 # example project with unit tests
-mvn -f default/TestClientApp/pom.xml integration-test
+mvn -f $DIRECTORY/default/TestClientApp/pom.xml integration-test
 
 # spm build
-mvn -f default/pom.xml integration-test
+mvn -f $DIRECTORY/default/pom.xml integration-test
