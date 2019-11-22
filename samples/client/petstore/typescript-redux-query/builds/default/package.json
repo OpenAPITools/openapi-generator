@@ -1,0 +1,21 @@
+{
+  "name": "@openapitools/typescript-redux-query-petstore",
+  "version": "1.0.0",
+  "description": "OpenAPI client for @openapitools/typescript-redux-query-petstore",
+  "author": "OpenAPI-Generator",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts" : {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "redux-query": "^3.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.0"
+  },
+  "publishConfig": {
+    "registry": "https://skimdb.npmjs.com/registry"
+  }
+}

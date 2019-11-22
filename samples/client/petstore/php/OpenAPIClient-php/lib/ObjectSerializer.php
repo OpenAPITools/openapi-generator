@@ -41,6 +41,19 @@ use OpenAPI\Client\Model\ModelInterface;
  */
 class ObjectSerializer
 {
+    /** @var string */
+    private static $dateTimeFormat = \DateTime::ATOM;
+
+    /**
+     * Change the date format
+     *
+     * @param string $format   the new date format to use
+     */
+    public static function setDateTimeFormat($format)
+    {
+        self::$dateTimeFormat = $format;
+    }
+
     /**
      * Serialize data
      *
@@ -55,7 +68,7 @@ class ObjectSerializer
         if (is_scalar($data) || null === $data) {
             return $data;
         } elseif ($data instanceof \DateTime) {
-            return ($format === 'date') ? $data->format('Y-m-d') : $data->format(\DateTime::ATOM);
+            return ($format === 'date') ? $data->format('Y-m-d') : $data->format(self::$dateTimeFormat);
         } elseif (is_array($data)) {
             foreach ($data as $property => $value) {
                 $data[$property] = self::sanitizeForSerialization($value);
@@ -188,7 +201,7 @@ class ObjectSerializer
     public static function toString($value)
     {
         if ($value instanceof \DateTime) { // datetime in ISO8601 format
-            return $value->format(\DateTime::ATOM);
+            return $value->format(self::$dateTimeFormat);
         } else if (is_bool($value)) {
             return $value ? 'true' : 'false';
         } else {
