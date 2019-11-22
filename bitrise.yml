@@ -46,6 +46,6 @@ workflows:
 
             set -e
 
-            ./samples/client/petstore/swift4/swift4_test_all.sh && ./samples/client/test/swift4 && sh swift4_test_all.sh && exit ${PIPESTATUS[0]}
+            ./samples/client/petstore/swift4/swift4_test_all.sh && cd ./samples/client/test/swift4 && /bin/sh swift4_test_all.sh && exit ${PIPESTATUS[0]}
         title: Run Swift4 tests
-        
+
