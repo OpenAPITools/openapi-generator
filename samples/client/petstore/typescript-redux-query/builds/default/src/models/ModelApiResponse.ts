@@ -17,7 +17,7 @@ import { exists, mapValues } from '../runtime';
  * @export
  * @interface ModelApiResponse
  */
-export interface ModelApiResponse {
+export interface ModelApiResponse  {
     /**
      * 
      * @type {number}

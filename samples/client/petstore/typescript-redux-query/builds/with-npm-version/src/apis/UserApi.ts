@@ -63,6 +63,7 @@ function createUserRaw<T>(requestParameters: CreateUserRequest, requestConfig: r
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
     headerParameters['Content-Type'] = 'application/json';
@@ -74,6 +75,10 @@ function createUserRaw<T>(requestParameters: CreateUserRequest, requestConfig: r
         url: `/user`,
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'POST',
             headers: headerParameters,
@@ -106,6 +111,7 @@ function createUsersWithArrayInputRaw<T>(requestParameters: CreateUsersWithArray
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
     headerParameters['Content-Type'] = 'application/json';
@@ -117,6 +123,10 @@ function createUsersWithArrayInputRaw<T>(requestParameters: CreateUsersWithArray
         url: `/user/createWithArray`,
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'POST',
             headers: headerParameters,
@@ -148,6 +158,7 @@ function createUsersWithListInputRaw<T>(requestParameters: CreateUsersWithListIn
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
     headerParameters['Content-Type'] = 'application/json';
@@ -159,6 +170,10 @@ function createUsersWithListInputRaw<T>(requestParameters: CreateUsersWithListIn
         url: `/user/createWithList`,
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'POST',
             headers: headerParameters,
@@ -191,6 +206,7 @@ function deleteUserRaw<T>(requestParameters: DeleteUserRequest, requestConfig: r
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
 
@@ -200,6 +216,10 @@ function deleteUserRaw<T>(requestParameters: DeleteUserRequest, requestConfig: r
         url: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'DELETE',
             headers: headerParameters,
@@ -232,6 +252,7 @@ function getUserByNameRaw<T>(requestParameters: GetUserByNameRequest, requestCon
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
 
@@ -241,6 +262,10 @@ function getUserByNameRaw<T>(requestParameters: GetUserByNameRequest, requestCon
         url: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'GET',
             headers: headerParameters,
@@ -279,11 +304,11 @@ function loginUserRaw<T>(requestParameters: LoginUserRequest, requestConfig: run
 
     queryParameters = {};
 
+
     if (requestParameters.username !== undefined) {
         queryParameters['username'] = requestParameters.username;
     }
 
-    queryParameters = {};
 
     if (requestParameters.password !== undefined) {
         queryParameters['password'] = requestParameters.password;
@@ -298,6 +323,10 @@ function loginUserRaw<T>(requestParameters: LoginUserRequest, requestConfig: run
         url: `/user/login`,
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'GET',
             headers: headerParameters,
@@ -326,6 +355,7 @@ export function loginUser<T>(requestParameters: LoginUserRequest, requestConfig?
 function logoutUserRaw<T>( requestConfig: runtime.TypedQueryConfig<T, void> = {}): QueryConfig<T> {
     let queryParameters = null;
 
+
     const headerParameters = {};
 
 
@@ -335,6 +365,10 @@ function logoutUserRaw<T>( requestConfig: runtime.TypedQueryConfig<T, void> = {}
         url: `/user/logout`,
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'GET',
             headers: headerParameters,
@@ -371,6 +405,7 @@ function updateUserRaw<T>(requestParameters: UpdateUserRequest, requestConfig: r
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
     headerParameters['Content-Type'] = 'application/json';
@@ -382,6 +417,10 @@ function updateUserRaw<T>(requestParameters: UpdateUserRequest, requestConfig: r
         url: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'PUT',
             headers: headerParameters,

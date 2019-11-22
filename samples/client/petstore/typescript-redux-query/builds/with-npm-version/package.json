@@ -1,7 +1,7 @@
 {
-  "name": "@openapitools/typescript-redux-query-petstore",
-  "version": "1.0.0",
-  "description": "OpenAPI client for @openapitools/typescript-redux-query-petstore",
+  "name": "@openapitools/angular2-typescript-petstore",
+  "version": "0.0.1",
+  "description": "OpenAPI client for @openapitools/angular2-typescript-petstore",
   "author": "OpenAPI-Generator",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
