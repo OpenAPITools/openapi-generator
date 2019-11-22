@@ -176,7 +176,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("DateOnly.mustache", "src", "DateOnly.elm"));
         supportingFiles.add(new SupportingFile("DateTime.mustache", "src", "DateTime.elm"));
         supportingFiles.add(new SupportingFile("elm.mustache", "", "elm.json"));
-        supportingFiles.add(new SupportingFile("Main.mustache", "src", "Main.elm"));
         supportingFiles.add(new SupportingFile("Byte.mustache", "src", "Byte.elm"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
