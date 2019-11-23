@@ -44,8 +44,10 @@ public:
     void placeOrder(const PFXOrder& body);
     
 private:
-    QString _scheme, _host, _basePath;
-    int _port, _timeOut;
+    QString _scheme, _host;
+    int _port;
+    QString _basePath;
+    int _timeOut;
     QString _workingDirectory;
     QMap<QString, QString> defaultHeaders;
     void deleteOrderCallback (PFXHttpRequestWorker * worker);

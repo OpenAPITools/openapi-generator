@@ -200,6 +200,7 @@
         <generex-version>1.0.2</generex-version>
         <jackson-version>2.9.10</jackson-version>
         <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
+        <kotlin-version>1.3.41</kotlin-version>
     </properties>
     <dependencies>
         <dependency>
@@ -327,6 +328,24 @@
             <groupId>org.openapitools</groupId>
             <artifactId>openapi-generator-core</artifactId>
             <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib-jdk8</artifactId>
+            <version>${kotlin-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-compiler-embeddable</artifactId>
+            <version>${kotlin-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-script-util</artifactId>
+            <version>${kotlin-version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <repositories>
