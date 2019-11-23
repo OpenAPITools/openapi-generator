@@ -10,8 +10,8 @@ import Alamofire
 
 open class JSONEncodingHelper {
 
-    open class func encodingParameters<T:Encodable>(forEncodableObject encodableObj: T?) -> Parameters? {
-        var params: Parameters? = nil
+    open class func encodingParameters<T: Encodable>(forEncodableObject encodableObj: T?) -> Parameters? {
+        var params: Parameters?
 
         // Encode the Encodable object
         if let encodableObj = encodableObj {
@@ -25,7 +25,7 @@ open class JSONEncodingHelper {
     }
 
     open class func encodingParameters(forEncodableObject encodableObj: Any?) -> Parameters? {
-        var params: Parameters? = nil
+        var params: Parameters?
 
         if let encodableObj = encodableObj {
             do {
@@ -39,5 +39,5 @@ open class JSONEncodingHelper {
 
         return params
     }
-    
+
 }
