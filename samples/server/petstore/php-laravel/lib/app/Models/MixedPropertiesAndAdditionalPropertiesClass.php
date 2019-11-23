@@ -12,8 +12,8 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     /** @var string $uuid */
     private $uuid;
 
-    /** @var \DateTime $date_time */
-    private $date_time;
+    /** @var \DateTime $dateTime */
+    private $dateTime;
 
     /** @var map[string,\app\Models\Animal] $map */
     private $map;

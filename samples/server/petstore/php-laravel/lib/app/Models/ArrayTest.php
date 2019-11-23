@@ -9,13 +9,13 @@ namespace app\Models;
  */
 class ArrayTest {
 
-    /** @var string[] $array_of_string */
-    private $array_of_string;
+    /** @var string[] $arrayOfString */
+    private $arrayOfString;
 
-    /** @var int[][] $array_array_of_integer */
-    private $array_array_of_integer;
+    /** @var int[][] $arrayArrayOfInteger */
+    private $arrayArrayOfInteger;
 
-    /** @var \app\Models\ReadOnlyFirst[][] $array_array_of_model */
-    private $array_array_of_model;
+    /** @var \app\Models\ReadOnlyFirst[][] $arrayArrayOfModel */
+    private $arrayArrayOfModel;
 
 }

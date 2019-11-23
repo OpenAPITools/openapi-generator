@@ -1,0 +1,16 @@
+    allowed_values = {
+{{#allVars}}
+{{#isEnum}}
+        ('{{name}}',): {
+{{#isNullable}}
+            'None': None,
+{{/isNullable}}
+{{#allowableValues}}
+{{#enumVars}}
+            '{{name}}': {{{value}}},
+{{/enumVars}}
+{{/allowableValues}}
+        },
+{{/isEnum}}
+{{/allVars}}
+    }

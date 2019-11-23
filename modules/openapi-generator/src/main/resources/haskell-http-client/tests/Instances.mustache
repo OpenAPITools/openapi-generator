@@ -1,9 +1,10 @@
-{-# OPTIONS_GHC -fno-warn-unused-imports #-}
+{-# OPTIONS_GHC -fno-warn-unused-imports -fno-warn-unused-matches #-}
 
 module Instances where
 
 import {{baseModule}}.Model
-import {{baseModule}}.Core
+import {{baseModule}}.Core{{#customTestInstanceModule}}
+import {{.}} (){{/customTestInstanceModule}}
 
 import qualified Data.Aeson as A
 import qualified Data.ByteString.Lazy as BL
@@ -86,6 +87,21 @@ hasNoDups = go Set.empty
 
 instance ApproxEq TI.Day where
   (=~) = (==)
+    
+arbitraryReduced :: Arbitrary a => Int -> Gen a
+arbitraryReduced n = resize (n `div` 2) arbitrary
+
+arbitraryReducedMaybe :: Arbitrary a => Int -> Gen (Maybe a)
+arbitraryReducedMaybe 0 = elements [Nothing]
+arbitraryReducedMaybe n = arbitraryReduced n
+
+arbitraryReducedMaybeValue :: Int -> Gen (Maybe A.Value)
+arbitraryReducedMaybeValue 0 = elements [Nothing]
+arbitraryReducedMaybeValue n = do
+  generated <- arbitraryReduced n
+  if generated == Just A.Null
+    then return Nothing
+    else return generated
 
 -- * Models
  
@@ -93,11 +109,14 @@ instance ApproxEq TI.Day where
 {{#model}}
 {{^isEnum}}
 instance Arbitrary {{classname}} where
-  arbitrary =
-    {{#isAlias}}{{classname}} <$> arbitrary{{/isAlias}}{{^isAlias}}{{^hasVars}}
-    pure {{/hasVars}}{{classname}}
-    {{#hasVars}}  <$>{{/hasVars}} {{#vars}}arbitrary -- {{name}} :: {{^required}}Maybe {{/required}}{{dataType}}
-    {{#hasMore}}  <*> {{/hasMore}}{{/vars}}{{/isAlias}}
+  arbitrary = sized gen{{classname}}
+
+gen{{classname}} :: Int -> Gen {{classname}}
+gen{{classname}} n =
+  {{#isAlias}}{{classname}} <$> arbitrary{{/isAlias}}{{^isAlias}}{{^hasVars}}
+  pure {{/hasVars}}{{classname}}
+  {{#hasVars}}  <$>{{/hasVars}} {{#vars}}{{#required}}{{#isPrimitiveType}}arbitrary{{/isPrimitiveType}}{{^isPrimitiveType}}arbitraryReduced n{{/isPrimitiveType}}{{/required}}{{^required}}{{^vendorExtensions.x-isMaybeValue}}arbitraryReducedMaybe n{{/vendorExtensions.x-isMaybeValue}}{{#vendorExtensions.x-isMaybeValue}}arbitraryReducedMaybeValue n{{/vendorExtensions.x-isMaybeValue}}{{/required}} -- {{name}} :: {{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}
+  {{#hasMore}}  <*> {{/hasMore}}{{/vars}}{{/isAlias}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

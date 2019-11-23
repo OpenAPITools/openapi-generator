@@ -18,22 +18,82 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 {{/infoUrl}}
 
 ## Installation
-You'll need the `devtools` package in order to build the API.
-Make sure you have a proper CRAN repository from which you can download packages.
 
 ### Prerequisites
-Install the `devtools` package with the following command.
+
+Install the dependencies
+
 ```R
-if(!require(devtools)) { install.packages("devtools") }
+install.packages("jsonlite")
+install.packages("httr")
+install.packages("caTools")
 ```
 
-### Installation of the API package
-Make sure you set the working directory to where the API code is located.
-Then execute
-```R
-library(devtools)
-install(".")
+### Build the package
+
+```sh
+git clone https://{{gitHost}}/{{{gitUserId}}}/{{{gitRepoId}}}
+cd {{{gitRepoId}}}
+R CMD build .
+R CMD check {{{packageName}}}_{{{packageVersion}}}.tar.gz
+R CMD INSTALL {{{packageName}}}_{{{packageVersion}}}.tar.gz
 ```
+
+### Install the package
+
+```R
+install.packages("{{{packageName}}}")
+```
+
+To install directly from Github, use `devtools`:
+```R
+install.packages("devtools")
+library(devtools)
+install_github("{{{gitUserId}}}/{{{gitRepoId}}}")
+```
+
+### Usage
+
+```R
+library({{{packageName}}})
+```
+
+## Documentation for API Endpoints
+
+All URIs are relative to *{{basePath}}*
+
+Class | Method | HTTP request | Description
+------------ | ------------- | ------------- | -------------
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+## Documentation for Models
+
+{{#models}}{{#model}} - [{{classname}}]({{modelDocPath}}{{classname}}.md)
+{{/model}}{{/models}}
+
+## Documentation for Authorization
+
+{{^authMethods}} All endpoints do not require authorization.
+{{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
+{{#authMethods}}### {{name}}
+
+{{#isApiKey}}- **Type**: API key
+- **API key parameter name**: {{keyParamName}}
+- **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
+{{/isApiKey}}
+{{#isBasic}}- **Type**: HTTP basic authentication
+{{/isBasic}}
+{{#isOAuth}}- **Type**: OAuth
+- **Flow**: {{flow}}
+- **Authorization URL**: {{authorizationUrl}}
+- **Scopes**: {{^scopes}}N/A{{/scopes}}
+{{#scopes}}  - {{scope}}: {{description}}
+{{/scopes}}
+{{/isOAuth}}
+
+{{/authMethods}}
+
 
 ## Author
 

@@ -45,8 +45,8 @@ public class Validate implements Runnable {
 
         SwaggerParseResult result = new OpenAPIParser().readLocation(spec, null, null);
         List<String> messageList = result.getMessages();
-        Set<String> errors = new HashSet<String>(messageList);
-        Set<String> warnings = new HashSet<String>();
+        Set<String> errors = new HashSet<>(messageList);
+        Set<String> warnings = new HashSet<>();
 
         StringBuilder sb = new StringBuilder();
         OpenAPI specification = result.getOpenAPI();
@@ -61,7 +61,7 @@ public class Validate implements Runnable {
             }
         }
 
-        if (errors.size() > 0) {
+        if (!errors.isEmpty()) {
             sb.append("Errors:").append(System.lineSeparator());
             errors.forEach(msg ->
                     sb.append("\t-").append(msg).append(System.lineSeparator())

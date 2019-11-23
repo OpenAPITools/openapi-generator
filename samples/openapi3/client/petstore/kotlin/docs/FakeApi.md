@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -16,7 +17,49 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
 
+
+<a name="fakeHealthGet"></a>
+# **fakeHealthGet**
+> HealthCheckResult fakeHealthGet()
+
+Health check endpoint
+
+### Example
+```kotlin
+// Import classes:
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
+
+val apiInstance = FakeApi()
+try {
+    val result : HealthCheckResult = apiInstance.fakeHealthGet()
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling FakeApi#fakeHealthGet")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling FakeApi#fakeHealthGet")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**HealthCheckResult**](HealthCheckResult.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 <a name="fakeOuterBooleanSerialize"></a>
 # **fakeOuterBooleanSerialize**
@@ -127,7 +170,7 @@ Test serialization of outer number types
 //import org.openapitools.client.models.*
 
 val apiInstance = FakeApi()
-val body : java.math.BigDecimal = 1.2 // java.math.BigDecimal | Input number as post body
+val body : java.math.BigDecimal = 8.14 // java.math.BigDecimal | Input number as post body
 try {
     val result : java.math.BigDecimal = apiInstance.fakeOuterNumberSerialize(body)
     println(result)
@@ -282,7 +325,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **kotlin.String**|  | [default to null]
+ **query** | **kotlin.String**|  |
  **user** | [**User**](User.md)|  |
 
 ### Return type
@@ -360,7 +403,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 //import org.openapitools.client.models.*
 
 val apiInstance = FakeApi()
-val number : java.math.BigDecimal = 1.2 // java.math.BigDecimal | None
+val number : java.math.BigDecimal = 8.14 // java.math.BigDecimal | None
 val double : kotlin.Double = 1.2 // kotlin.Double | None
 val patternWithoutDelimiter : kotlin.String = patternWithoutDelimiter_example // kotlin.String | None
 val byte : kotlin.ByteArray = BYTE_ARRAY_DATA_HERE // kotlin.ByteArray | None
@@ -370,7 +413,7 @@ val int64 : kotlin.Long = 789 // kotlin.Long | None
 val float : kotlin.Float = 3.4 // kotlin.Float | None
 val string : kotlin.String = string_example // kotlin.String | None
 val binary : java.io.File = BINARY_DATA_HERE // java.io.File | None
-val date : java.time.LocalDateTime = 2013-10-20 // java.time.LocalDateTime | None
+val date : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | None
 val dateTime : java.time.LocalDateTime = 2013-10-20T19:20:30+01:00 // java.time.LocalDateTime | None
 val password : kotlin.String = password_example // kotlin.String | None
 val paramCallback : kotlin.String = paramCallback_example // kotlin.String | None
@@ -389,20 +432,20 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **java.math.BigDecimal**| None | [default to null]
- **double** | **kotlin.Double**| None | [default to null]
- **patternWithoutDelimiter** | **kotlin.String**| None | [default to null]
- **byte** | **kotlin.ByteArray**| None | [default to null]
- **integer** | **kotlin.Int**| None | [optional] [default to null]
- **int32** | **kotlin.Int**| None | [optional] [default to null]
- **int64** | **kotlin.Long**| None | [optional] [default to null]
- **float** | **kotlin.Float**| None | [optional] [default to null]
- **string** | **kotlin.String**| None | [optional] [default to null]
- **binary** | **java.io.File**| None | [optional] [default to null]
- **date** | **java.time.LocalDateTime**| None | [optional] [default to null]
- **dateTime** | **java.time.LocalDateTime**| None | [optional] [default to null]
- **password** | **kotlin.String**| None | [optional] [default to null]
- **paramCallback** | **kotlin.String**| None | [optional] [default to null]
+ **number** | **java.math.BigDecimal**| None |
+ **double** | **kotlin.Double**| None |
+ **patternWithoutDelimiter** | **kotlin.String**| None |
+ **byte** | **kotlin.ByteArray**| None |
+ **integer** | **kotlin.Int**| None | [optional]
+ **int32** | **kotlin.Int**| None | [optional]
+ **int64** | **kotlin.Long**| None | [optional]
+ **float** | **kotlin.Float**| None | [optional]
+ **string** | **kotlin.String**| None | [optional]
+ **binary** | **java.io.File**| None | [optional]
+ **date** | **java.time.LocalDate**| None | [optional]
+ **dateTime** | **java.time.LocalDateTime**| None | [optional]
+ **password** | **kotlin.String**| None | [optional]
+ **paramCallback** | **kotlin.String**| None | [optional]
 
 ### Return type
 
@@ -410,7 +453,10 @@ null (empty response body)
 
 ### Authorization
 
-[http_basic_test](../README.md#http_basic_test)
+
+Configure http_basic_test:
+    ApiClient.username = ""
+    ApiClient.password = ""
 
 ### HTTP request headers
 
@@ -455,14 +501,14 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Header parameter enum test (string array) | [optional] [default to null] [enum: >, $]
- **enumHeaderString** | **kotlin.String**| Header parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
- **enumQueryStringArray** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Query parameter enum test (string array) | [optional] [default to null] [enum: >, $]
- **enumQueryString** | **kotlin.String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
- **enumQueryInteger** | **kotlin.Int**| Query parameter enum test (double) | [optional] [default to null] [enum: 1, -2]
- **enumQueryDouble** | **kotlin.Double**| Query parameter enum test (double) | [optional] [default to null] [enum: 1.1, -1.2]
- **enumFormStringArray** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Form parameter enum test (string array) | [optional] [default to $] [enum: >, $]
- **enumFormString** | **kotlin.String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
+ **enumHeaderStringArray** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Header parameter enum test (string array) | [optional] [enum: >, $]
+ **enumHeaderString** | **kotlin.String**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;] [enum: _abc, -efg, (xyz)]
+ **enumQueryStringArray** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Query parameter enum test (string array) | [optional] [enum: >, $]
+ **enumQueryString** | **kotlin.String**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;] [enum: _abc, -efg, (xyz)]
+ **enumQueryInteger** | **kotlin.Int**| Query parameter enum test (double) | [optional] [enum: 1, -2]
+ **enumQueryDouble** | **kotlin.Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
+ **enumFormStringArray** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;] [enum: >, $]
+ **enumFormString** | **kotlin.String**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;] [enum: _abc, -efg, (xyz)]
 
 ### Return type
 
@@ -513,12 +559,12 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requiredStringGroup** | **kotlin.Int**| Required String in group parameters | [default to null]
- **requiredBooleanGroup** | **kotlin.Boolean**| Required Boolean in group parameters | [default to null]
- **requiredInt64Group** | **kotlin.Long**| Required Integer in group parameters | [default to null]
- **stringGroup** | **kotlin.Int**| String in group parameters | [optional] [default to null]
- **booleanGroup** | **kotlin.Boolean**| Boolean in group parameters | [optional] [default to null]
- **int64Group** | **kotlin.Long**| Integer in group parameters | [optional] [default to null]
+ **requiredStringGroup** | **kotlin.Int**| Required String in group parameters |
+ **requiredBooleanGroup** | **kotlin.Boolean**| Required Boolean in group parameters |
+ **requiredInt64Group** | **kotlin.Long**| Required Integer in group parameters |
+ **stringGroup** | **kotlin.Int**| String in group parameters | [optional]
+ **booleanGroup** | **kotlin.Boolean**| Boolean in group parameters | [optional]
+ **int64Group** | **kotlin.Long**| Integer in group parameters | [optional]
 
 ### Return type
 
@@ -526,7 +572,9 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+
+Configure bearer_test:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -607,8 +655,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **kotlin.String**| field1 | [default to null]
- **param2** | **kotlin.String**| field2 | [default to null]
+ **param** | **kotlin.String**| field1 |
+ **param2** | **kotlin.String**| field2 |
 
 ### Return type
 
@@ -621,5 +669,59 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+<a name="testQueryParameterCollectionFormat"></a>
+# **testQueryParameterCollectionFormat**
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+
+
+
+To test the collection format in query parameters
+
+### Example
+```kotlin
+// Import classes:
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
+
+val apiInstance = FakeApi()
+val pipe : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | 
+val ioutil : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | 
+val http : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | 
+val url : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | 
+val context : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | 
+try {
+    apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+} catch (e: ClientException) {
+    println("4xx response calling FakeApi#testQueryParameterCollectionFormat")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling FakeApi#testQueryParameterCollectionFormat")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)|  |
+ **ioutil** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)|  |
+ **http** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)|  |
+ **url** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)|  |
+ **context** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)|  |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 

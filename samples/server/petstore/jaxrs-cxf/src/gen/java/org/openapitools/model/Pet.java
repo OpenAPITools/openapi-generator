@@ -24,7 +24,7 @@ public class Pet  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private Category category = null;
+  private Category category;
 
   @ApiModelProperty(example = "doggie", required = true, value = "")
   private String name;
@@ -58,13 +58,13 @@ public enum StatusEnum {
         return String.valueOf(value);
     }
 
-    public static StatusEnum fromValue(String v) {
+    public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 

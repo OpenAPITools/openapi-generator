@@ -96,7 +96,7 @@
                   "sold"
                 ]
               },
-              "default": "available"
+              "default": ["available"]
             }
           }
         ],

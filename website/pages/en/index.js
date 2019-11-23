@@ -158,7 +158,7 @@ class Index extends React.Component {
     | \`\`\`bash
     | docker run --rm \\
     | -v \${PWD}:/local openapitools/openapi-generator-cli generate \\
-    | -i petstore.yaml \\
+    | -i /local/petstore.yaml \\
     | -g go \\
     | -o /local/out/go
     | \`\`\`
@@ -233,11 +233,12 @@ class Index extends React.Component {
               '* Gradle Plugin\n' +
               '* CLI via Homebrew\n' +
               '* CLI via Docker\n' +
+              '* CLI via npm\n' +
               '* Generator SaaS\n\n' +
               'For details, see  [Workflow Integrations](' + this.docUrl('integrations.html', this.props.language) + ')\n\n' +
               'Generation also allows for easy customization via options, custom templates, or even custom generators on your classpath. ' +
                'See [Customization](' + this.docUrl('customization.html', this.props.language) + ') for details.\n\n' +
-              'As a very community-oriented project, the core team is also active on the project\'s [Gitter channel](https://gitter.im/OpenAPITools/openapi-generator).',
+              'As a very community-oriented project, the core team is also active on the project\'s [Slack Workspace](https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM).',
             image: `${baseUrl}img/color-logo.svg`,
             imageAlign: 'right',
             title: 'Learn How',
@@ -323,10 +324,36 @@ class Index extends React.Component {
       );
     };
 
+    const Sponsors = () => {
+      if ((siteConfig.sponsors || []).length === 0) {
+        return null;
+      }
+
+      const bronze_sponsors = siteConfig.sponsors
+        .filter(user => user.bronze)
+        .map(user => (
+          <a href={user.infoLink} key={user.infoLink}>
+            <img src={baseUrl + user.image} alt={user.caption} title={user.caption} />
+          </a>
+        ));
+
+      const pageUrl = page => baseUrl + (language ? `${language}/` : '') + page;
+
+      return (
+        <div className="productShowcaseSection paddingBottom">
+          <h2><b>Sponsors</b></h2>
+          <p>If you find OpenAPI Generator useful for work, please consider asking your company to support this Open Source project by <a href="https://opencollective.com/openapi_generator">becoming a sponsor</a>. You can also individually sponsor the project by <a href="https://opencollective.com/openapi_generator">becoming a backer</a>.</p>
+          <h3>Thank you to our bronze sponsors!</h3>
+          <div className="logos">{bronze_sponsors}</div>
+        </div>
+      );
+    };
+
     return (
       <div>
         <HomeSplash siteConfig={siteConfig} language={language} />
         <div className="mainContainer">
+          <Sponsors />
           <Features />
           {/*<FeatureCallout />*/}
           <LearnHow />

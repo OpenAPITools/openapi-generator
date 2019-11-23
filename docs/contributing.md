@@ -35,6 +35,8 @@ Please file the pull request against the correct branch, e.g. `master` for non-b
 
 All the code generators can be found in [modules/openapi-generator/src/main/java/org/openapitools/codegen/languages](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages)
 
+If you want to add a new generator, follow the [new-generator](https://openapi-generator.tech/docs/new-generator) guide. 
+
 ### Templates
 
 All the templates ([mustache](https://mustache.github.io/)) can be found in [modules/openapi-generator/src/main/resources](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources).
@@ -87,8 +89,8 @@ For [Vendor Extensions](https://github.com/OAI/OpenAPI-Specification/blob/master
 To add test cases (optional) covering the change in the code generator, please refer to [modules/openapi-generator/src/test/java/org/openapitools/codegen](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/test/java/org/openapitools/codegen)
 
 To test the templates, please perform the following:
-- Update the Petstore sample by running the shell script under `bin` folder. For example, run `./bin/ruby-petstore.sh` to update the Ruby PetStore API client under [`samples/client/petstore/ruby`](https://github.com/openapitools/openapi-generator/tree/master/samples/client/petstore/ruby) For Windows, the batch files can be found under `bin\windows` folder. (If you find that there are new files generated or unexpected changes as a result of the update, that's not unusual as the test cases are added to the OpenAPI spec from time to time. If you've questions or concerns, please open a ticket to start a discussion)
-- Run the tests in the sample folder, e.g. in `samples/client/petstore/ruby`, run `mvn integration-test -rf :RubyPetstoreClientTests`. (some languages may not contain unit testing for Petstore and we're looking for contribution from the community to implement those tests)
+- Update the Petstore sample by running the shell scripts under `bin` and `bin/openapi3` folder. For example, run `./bin/python-petstore.sh` and `./bin/openapi3/python-petstore.sh` to update the Python PetStore API client under [`samples/client/petstore/python`](https://github.com/openapitools/openapi-generator/tree/master/samples/client/petstore/python) and [`samples/openapi3/client/petstore/python`](https://github.com/openapitools/openapi-generator/tree/master/samples/openapi3/client/petstore/python). For Windows, the batch files can be found under `bin\windows` folder. (If you find that there are new files generated or unexpected changes as a result of the update, that's not unusual as the test cases are added to the OpenAPI spec from time to time. If you've questions or concerns, please open a ticket to start a discussion)
+- Run the tests in the sample folder using maven `mvn integration-test -rf :<artifactId>`, e.g. open a shell in `samples/client/petstore/python`, run `mvn integration-test -rf :PythonPetstoreClientTests`. The artifactId of the project can be found in the pom.xml file. (some languages may not contain unit testing for Petstore and we're looking for contribution from the community to implement those tests)
 - Finally, git commit the updated samples files: `git commit -a`
   (`git add -A` if added files with new test cases)
 - For new test cases, please add to the [Fake Petstore spec](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml)

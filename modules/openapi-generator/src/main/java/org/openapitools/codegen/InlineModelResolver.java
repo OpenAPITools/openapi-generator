@@ -17,26 +17,20 @@
 
 package org.openapitools.codegen;
 
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
-
 import java.util.*;
-
-import io.swagger.v3.oas.models.media.XML;
+import java.util.stream.Collectors;
 
 public class InlineModelResolver {
     private OpenAPI openapi;
@@ -72,7 +66,20 @@ public class InlineModelResolver {
 
         for (String pathname : paths.keySet()) {
             PathItem path = paths.get(pathname);
+            List<Operation> operations = new ArrayList<>(path.readOperations());
+
+            // Include callback operation as well
             for (Operation operation : path.readOperations()) {
+                Map<String, Callback> callbacks = operation.getCallbacks();
+                if (callbacks != null) {
+                    operations.addAll(callbacks.values().stream()
+                            .flatMap(callback -> callback.values().stream())
+                            .flatMap(pathItem -> pathItem.readOperations().stream())
+                            .collect(Collectors.toList()));
+                }
+            }
+
+            for (Operation operation : operations) {
                 flattenRequestBody(openAPI, pathname, operation);
                 flattenParameters(openAPI, pathname, operation);
                 flattenResponses(openAPI, pathname, operation);
@@ -320,6 +327,35 @@ public class InlineModelResolver {
         }
     }
 
+    private void flattenComposedChildren(OpenAPI openAPI, String key, List<Schema> children) {
+        if (children == null || children.isEmpty()) {
+            return;
+        }
+        ListIterator<Schema> listIterator = children.listIterator();
+        while (listIterator.hasNext()) {
+            Schema component = listIterator.next();
+            if (component instanceof ObjectSchema) {
+                ObjectSchema op = (ObjectSchema) component;
+                if (op.get$ref() == null && op.getProperties() != null && op.getProperties().size() > 0) {
+                    String innerModelName = resolveModelName(op.getTitle(), key);
+                    Schema innerModel = modelFromProperty(op, innerModelName);
+                    String existing = matchGenerated(innerModel);
+                    if (existing == null) {
+                        openAPI.getComponents().addSchemas(innerModelName, innerModel);
+                        addGenerated(innerModelName, innerModel);
+                        Schema schema = new Schema().$ref(innerModelName);
+                        schema.setRequired(op.getRequired());
+                        listIterator.set(schema);
+                    } else {
+                        Schema schema = new Schema().$ref(existing);
+                        schema.setRequired(op.getRequired());
+                        listIterator.set(schema);
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Flatten inline models in components
      *
@@ -334,7 +370,13 @@ public class InlineModelResolver {
         List<String> modelNames = new ArrayList<String>(models.keySet());
         for (String modelName : modelNames) {
             Schema model = models.get(modelName);
-            if (model instanceof Schema) {
+            if (ModelUtils.isComposedSchema(model)) {
+                ComposedSchema m = (ComposedSchema) model;
+                // inline child schemas
+                flattenComposedChildren(openAPI, modelName + "_allOf", m.getAllOf());
+                flattenComposedChildren(openAPI, modelName + "_anyOf", m.getAnyOf());
+                flattenComposedChildren(openAPI, modelName + "_oneOf", m.getOneOf());
+            } else if (model instanceof Schema) {
                 Schema m = (Schema) model;
                 Map<String, Schema> properties = m.getProperties();
                 flattenProperties(properties, modelName);
@@ -361,20 +403,6 @@ public class InlineModelResolver {
                         }
                     }
                 }
-            } else if (ModelUtils.isComposedSchema(model)) {
-                ComposedSchema m = (ComposedSchema) model;
-                if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
-                    Schema child = null;
-                    for (Schema component : m.getAllOf()) {
-                        if (component.get$ref() == null) {
-                            child = component;
-                        }
-                    }
-                    if (child != null) {
-                        Map<String, Schema> properties = child.getProperties();
-                        flattenProperties(properties, modelName);
-                    }
-                }
             }
         }
     }
@@ -394,11 +422,26 @@ public class InlineModelResolver {
         }
     }
 
+    /**
+     * Generates a unique model name. Non-alphanumeric characters will be replaced
+     * with underscores
+     *
+     * e.g. io.schema.User_name => io_schema_User_name
+     * 
+     * @param title String title field in the schema if present
+     * @param key String model name
+     *
+     * @return if provided the sanitized {@code title}, else the sanitized {@code key}
+     */
     private String resolveModelName(String title, String key) {
         if (title == null) {
-            return uniqueName(key);
+            if (key == null) {
+                LOGGER.warn("Found an inline schema without the `title` attribute. Default the model name to InlineObject instead. To have better control of the model naming, define the model separately so that it can be reused throughout the spec.");
+                return uniqueName("InlineObject");
+            }
+            return uniqueName(sanitizeName(key));
         } else {
-            return uniqueName(title);
+            return uniqueName(sanitizeName(title));
         }
     }
 
@@ -414,29 +457,31 @@ public class InlineModelResolver {
         generatedSignature.put(Json.pretty(model), name);
     }
 
-    private String uniqueName(String key) {
-        if (key == null) {
-            key = "NULL_UNIQUE_NAME";
-            LOGGER.warn("null key found. Default to NULL_UNIQUE_NAME");
+    /**
+     * Sanitizes the input so that it's valid name for a class or interface
+     *
+     * e.g. 12.schema.User name => _2_schema_User_name
+     */
+    private String sanitizeName(final String name) {
+        return name
+            .replaceAll("^[0-9]", "_") // e.g. 12object => _2object
+            .replaceAll("[^A-Za-z0-9]", "_"); // e.g. io.schema.User name => io_schema_User_name
+    }
+
+    private String uniqueName(final String name) {
+        if (openapi.getComponents().getSchemas() == null) {
+            return name;
         }
+
+        String uniqueName = name;
         int count = 0;
-        boolean done = false;
-        key = key.replaceAll("/", "_"); // e.g. /me/videos => _me_videos
-        key = key.replaceAll("[^a-z_\\.A-Z0-9 ]", ""); // FIXME: a parameter
-        // should not be assigned. Also declare the methods parameters as 'final'.
-        while (!done) {
-            String name = key;
-            if (count > 0) {
-                name = key + "_" + count;
+        while (true) {
+            if (!openapi.getComponents().getSchemas().containsKey(uniqueName)) {
+                return uniqueName;
             }
-            if (openapi.getComponents().getSchemas() == null) {
-                return name;
-            } else if (!openapi.getComponents().getSchemas().containsKey(name)) {
-                return name;
-            }
-            count += 1;
+            uniqueName = name + "_" + ++count;
         }
-        return key;
+        // TODO it would probably be a good idea to check against a list of used uniqueNames to make sure there are no collisions
     }
 
     private void flattenProperties(Map<String, Schema> properties, String path) {
@@ -539,6 +584,7 @@ public class InlineModelResolver {
         model.setName(object.getName());
         model.setXml(xml);
         model.setRequired(object.getRequired());
+        model.setNullable(object.getNullable());
         if (properties != null) {
             flattenProperties(properties, path);
             model.setProperties(properties);

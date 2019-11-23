@@ -1,4 +1,4 @@
-/*ap Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+/* Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
  * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,30 +21,15 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -56,11 +41,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
     public static final String PACKAGE_NAME = "packageName";
     public static final String SRC_BASE_PATH = "srcBasePath";
-    // composerVendorName/composerProjectName has be replaced by gitUserId/gitRepoId. prepare to remove these.
-    // public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
-    // public static final String COMPOSER_PROJECT_NAME = "composerProjectName";
-    // protected String composerVendorName = null;
-    // protected String composerProjectName = null;
     protected String invokerPackage = "php";
     protected String packageName = "php-base";
     protected String artifactVersion = null;
@@ -70,8 +50,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     protected String apiDirName = "Api";
     protected String modelDirName = "Model";
     protected String variableNamingConvention = "snake_case";
-    protected String apiDocPath = docsBasePath + File.separator + apiDirName;
-    protected String modelDocPath = docsBasePath + File.separator + modelDirName;
+    protected String apiDocPath = docsBasePath + "/" + apiDirName;
+    protected String modelDocPath = docsBasePath + "/" + modelDirName;
     protected String interfaceNamePrefix = "", interfaceNameSuffix = "Interface";
     protected String abstractNamePrefix = "Abstract", abstractNameSuffix = "";
     protected String traitNamePrefix = "", traitNameSuffix = "Trait";
@@ -145,6 +125,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -153,10 +134,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay\\Pets"));
         cliOptions.add(new CliOption(PACKAGE_NAME, "The main package name for classes. e.g. GeneratedPetstore"));
         cliOptions.add(new CliOption(SRC_BASE_PATH, "The directory to serve as source root."));
-        // cliOptions.add(new CliOption(COMPOSER_VENDOR_NAME, "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets. IMPORTANT NOTE (2016/03): composerVendorName will be deprecated and replaced by gitUserId in the next openapi-generator release"));
-        cliOptions.add(new CliOption(CodegenConstants.GIT_USER_ID, CodegenConstants.GIT_USER_ID_DESC));
-        // cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client. IMPORTANT NOTE (2016/03): composerProjectName will be deprecated and replaced by gitRepoId in the next openapi-generator release"));
-        cliOptions.add(new CliOption(CodegenConstants.GIT_REPO_ID, CodegenConstants.GIT_REPO_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "The version to use in the composer package version field. e.g. 1.2.3"));
     }
 
@@ -202,30 +179,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             apiPackage = invokerPackage + "\\" + (String) additionalProperties.get(CodegenConstants.API_PACKAGE);
         }
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
-
-        // if (additionalProperties.containsKey(COMPOSER_PROJECT_NAME)) {
-        //     this.setComposerProjectName((String) additionalProperties.get(COMPOSER_PROJECT_NAME));
-        // } else {
-        //     additionalProperties.put(COMPOSER_PROJECT_NAME, composerProjectName);
-        // }
-
-        if (additionalProperties.containsKey(CodegenConstants.GIT_USER_ID)) {
-            this.setGitUserId((String) additionalProperties.get(CodegenConstants.GIT_USER_ID));
-        } else {
-            additionalProperties.put(CodegenConstants.GIT_USER_ID, gitUserId);
-        }
-
-        // if (additionalProperties.containsKey(COMPOSER_VENDOR_NAME)) {
-        //     this.setComposerVendorName((String) additionalProperties.get(COMPOSER_VENDOR_NAME));
-        // } else {
-        //     additionalProperties.put(COMPOSER_VENDOR_NAME, composerVendorName);
-        // }
-
-        if (additionalProperties.containsKey(CodegenConstants.GIT_REPO_ID)) {
-            this.setGitRepoId((String) additionalProperties.get(CodegenConstants.GIT_REPO_ID));
-        } else {
-            additionalProperties.put(CodegenConstants.GIT_REPO_ID, gitRepoId);
-        }
 
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
             this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
@@ -274,30 +227,18 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String toSrcPath(String packageName, String basePath) {
         packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (basePath != null && basePath.length() > 0) {
-            basePath = basePath.replaceAll("[\\\\/]?$", "") + '/'; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separator; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         }
 
-        String regFirstPathSeparator;
-        if ("/".equals(File.separator)) { // for mac, linux
-            regFirstPathSeparator = "^/";
-        } else { // for windows
-            regFirstPathSeparator = "^\\\\";
-        }
+        // Trim prefix file separators from package path
+        String packagePath = StringUtils.removeStart(
+            // Replace period, backslash, forward slash with file separator in package name
+            packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+            File.separator
+        );
 
-        String regLastPathSeparator;
-        if ("/".equals(File.separator)) { // for mac, linux
-            regLastPathSeparator = "/$";
-        } else { // for windows
-            regLastPathSeparator = "\\\\$";
-        }
-
-        return (basePath
-                // Replace period, backslash, forward slash with file separator in package name
-                + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/"))
-                // Trim prefix file separators from package path
-                .replaceAll(regFirstPathSeparator, ""))
-                // Trim trailing file separators from the overall path
-                .replaceAll(regLastPathSeparator + "$", "");
+        // Trim trailing file separators from the overall path
+        return StringUtils.removeEnd(basePath + packagePath, File.separator);
     }
 
     @Override
@@ -424,14 +365,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public void setParameterNamingConvention(String variableNamingConvention) {
         this.variableNamingConvention = variableNamingConvention;
     }
-
-    // public void setComposerVendorName(String composerVendorName) {
-    //     this.composerVendorName = composerVendorName;
-    // }
-
-    // public void setComposerProjectName(String composerProjectName) {
-    //     this.composerProjectName = composerProjectName;
-    // }
 
     @Override
     public String toVarName(String name) {
@@ -568,8 +501,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     /**
      * Return the default value of the property
-     *
-     * @param p Swagger property object
+     * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
     @Override

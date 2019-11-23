@@ -1,0 +1,40 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+
+# Routes for Pet API
+
+POST /v2/pet                       api.PetApiController.addPet()
+GET /v2/pet/findByStatus           api.PetApiController.findPetsByStatus()
+GET /v2/pet/findByTags             api.PetApiController.findPetsByTags()
+PUT /v2/pet                        api.PetApiController.updatePet()
+DELETE /v2/pet/:petId              api.PetApiController.deletePet(petId: Long)
+GET /v2/pet/:petId                 api.PetApiController.getPetById(petId: Long)
+POST /v2/pet/:petId                api.PetApiController.updatePetWithForm(petId: Long)
+POST /v2/pet/:petId/uploadImage    api.PetApiController.uploadFile(petId: Long)
+
+# Routes for Store API
+
+GET /v2/store/inventory            api.StoreApiController.getInventory()
+POST /v2/store/order               api.StoreApiController.placeOrder()
+DELETE /v2/store/order/:orderId    api.StoreApiController.deleteOrder(orderId: String)
+GET /v2/store/order/:orderId       api.StoreApiController.getOrderById(orderId: Long)
+
+# Routes for User API
+
+POST /v2/user                      api.UserApiController.createUser()
+POST /v2/user/createWithArray      api.UserApiController.createUsersWithArrayInput()
+POST /v2/user/createWithList       api.UserApiController.createUsersWithListInput()
+GET /v2/user/login                 api.UserApiController.loginUser()
+GET /v2/user/logout                api.UserApiController.logoutUser()
+DELETE /v2/user/:username          api.UserApiController.deleteUser(username: String)
+GET /v2/user/:username             api.UserApiController.getUserByName(username: String)
+PUT /v2/user/:username             api.UserApiController.updateUser(username: String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET /assets/*file           controllers.Assets.at(file)
+GET /versionedAssets/*file  controllers.Assets.versioned(file)
+
+# Swagger UI
+GET /api                    api.ApiDocController.api

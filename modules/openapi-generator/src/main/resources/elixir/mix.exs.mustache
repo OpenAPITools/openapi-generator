@@ -3,7 +3,7 @@ defmodule {{moduleName}}.Mixfile do
 
   def project do
     [app: :{{#underscored}}{{packageName}}{{/underscored}},
-     version: "0.1.0",
+     version: "{{appVersion}}",
      elixir: "~> {{supportedElixirVersion}}",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -24,7 +24,7 @@ defmodule {{moduleName}}.Mixfile do
   #
   # Or git/path repositories:
   #
-  #   {:my_dep, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+  #   {:my_dep, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.3.0"}
   #
   # Type "mix help deps" for more examples and options
   defp deps do

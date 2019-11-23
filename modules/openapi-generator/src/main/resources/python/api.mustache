@@ -10,6 +10,10 @@ import re  # noqa: F401
 import six
 
 from {{packageName}}.api_client import ApiClient
+from {{packageName}}.exceptions import (
+    ApiTypeError,
+    ApiValueError
+)
 
 
 {{#operations}}
@@ -42,20 +46,23 @@ class {{classname}}(object):
 {{/sortParamsByRequiredFlag}}
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
 {{#allParams}}
         :param {{dataType}} {{paramName}}:{{#description}} {{{description}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
 {{/allParams}}
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
         :return: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.{{operationId}}_with_http_info({{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs)  # noqa: E501
-        else:
-            (data) = self.{{operationId}}_with_http_info({{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs)  # noqa: E501
-            return data
+        return self.{{operationId}}_with_http_info({{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs)  # noqa: E501
 
     def {{operationId}}_with_http_info(self, {{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs):  # noqa: E501
         """{{#summary}}{{{.}}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
@@ -73,15 +80,32 @@ class {{classname}}(object):
 {{/sortParamsByRequiredFlag}}
         >>> result = thread.get()
 
-        :param async_req bool
+        :param async_req bool: execute request asynchronously
 {{#allParams}}
         :param {{dataType}} {{paramName}}:{{#description}} {{{description}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/optional}}
 {{/allParams}}
-        :return: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: {{#returnType}}tuple({{returnType}}, status_code(int), headers(HTTPHeaderDict)){{/returnType}}{{^returnType}}None{{/returnType}}
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
+        {{#servers.0}}
+        local_var_hosts = [{{#servers}}'{{{url}}}'{{^-last}}, {{/-last}}{{/servers}}]  # noqa: E501
+        local_var_host = local_var_hosts[0]
+        if kwargs.get('_host_index'):
+            if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
+                raise ApiValueError("Invalid host index. Must be 0 <= index < %s" % len(local_var_host))
+            local_var_host = local_var_hosts[int(kwargs.get('_host_index'))]
+        {{/servers.0}}
         local_var_params = locals()
 
         all_params = [{{#allParams}}'{{paramName}}'{{#hasMore}}, {{/hasMore}}{{/allParams}}]  # noqa: E501
@@ -91,8 +115,8 @@ class {{classname}}(object):
         all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
+            if key not in all_params{{#servers.0}} and key != "_host_index"{{/servers.0}}:
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method {{operationId}}" % key
                 )
@@ -102,9 +126,9 @@ class {{classname}}(object):
 {{^isNullable}}
 {{#required}}
         # verify the required parameter '{{paramName}}' is set
-        if ('{{paramName}}' not in local_var_params or
-                local_var_params['{{paramName}}'] is None):
-            raise ValueError("Missing the required parameter `{{paramName}}` when calling `{{operationId}}`")  # noqa: E501
+        if self.api_client.client_side_validation and ('{{paramName}}' not in local_var_params or  # noqa: E501
+                                                        local_var_params['{{paramName}}'] is None):  # noqa: E501
+            raise ApiValueError("Missing the required parameter `{{paramName}}` when calling `{{operationId}}`")  # noqa: E501
 {{/required}}
 {{/isNullable}}
 {{/allParams}}
@@ -112,36 +136,36 @@ class {{classname}}(object):
 {{#allParams}}
 {{#hasValidation}}
     {{#maxLength}}
-        if ('{{paramName}}' in local_var_params and
-                len(local_var_params['{{paramName}}']) > {{maxLength}}):
-            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be less than or equal to `{{maxLength}}`")  # noqa: E501
+        if self.api_client.client_side_validation and ('{{paramName}}' in local_var_params and  # noqa: E501
+                                                        len(local_var_params['{{paramName}}']) > {{maxLength}}):  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be less than or equal to `{{maxLength}}`")  # noqa: E501
     {{/maxLength}}
     {{#minLength}}
-        if ('{{paramName}}' in local_var_params and
-                len(local_var_params['{{paramName}}']) < {{minLength}}):
-            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be greater than or equal to `{{minLength}}`")  # noqa: E501
+        if self.api_client.client_side_validation and ('{{paramName}}' in local_var_params and  # noqa: E501
+                                                        len(local_var_params['{{paramName}}']) < {{minLength}}):  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be greater than or equal to `{{minLength}}`")  # noqa: E501
     {{/minLength}}
     {{#maximum}}
-        if '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}:  # noqa: E501
-            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value less than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}`{{maximum}}`")  # noqa: E501
+        if self.api_client.client_side_validation and '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}:  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value less than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}`{{maximum}}`")  # noqa: E501
     {{/maximum}}
     {{#minimum}}
-        if '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}:  # noqa: E501
-            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}`{{minimum}}`")  # noqa: E501
+        if self.api_client.client_side_validation and '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}:  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}`{{minimum}}`")  # noqa: E501
     {{/minimum}}
     {{#pattern}}
-        if '{{paramName}}' in local_var_params and not re.search(r'{{{vendorExtensions.x-regex}}}', local_var_params['{{paramName}}']{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):  # noqa: E501
-            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must conform to the pattern `{{{pattern}}}`")  # noqa: E501
+        if self.api_client.client_side_validation and '{{paramName}}' in local_var_params and not re.search(r'{{{vendorExtensions.x-regex}}}', local_var_params['{{paramName}}']{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must conform to the pattern `{{{pattern}}}`")  # noqa: E501
     {{/pattern}}
     {{#maxItems}}
-        if ('{{paramName}}' in local_var_params and
-                len(local_var_params['{{paramName}}']) > {{maxItems}}):
-            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be less than or equal to `{{maxItems}}`")  # noqa: E501
+        if self.api_client.client_side_validation and ('{{paramName}}' in local_var_params and  # noqa: E501
+                                                        len(local_var_params['{{paramName}}']) > {{maxItems}}):  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be less than or equal to `{{maxItems}}`")  # noqa: E501
     {{/maxItems}}
     {{#minItems}}
-        if ('{{paramName}}' in local_var_params and
-                len(local_var_params['{{paramName}}']) < {{minItems}}):
-            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be greater than or equal to `{{minItems}}`")  # noqa: E501
+        if self.api_client.client_side_validation and ('{{paramName}}' in local_var_params and  # noqa: E501
+                                                        len(local_var_params['{{paramName}}']) < {{minItems}}):  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be greater than or equal to `{{minItems}}`")  # noqa: E501
     {{/minItems}}
 {{/hasValidation}}
 {{#-last}}
@@ -158,7 +182,7 @@ class {{classname}}(object):
 
         query_params = []
 {{#queryParams}}
-        if '{{paramName}}' in local_var_params:
+        if '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] is not None:  # noqa: E501
             query_params.append(('{{baseName}}', local_var_params['{{paramName}}'])){{#isListContainer}}  # noqa: E501
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}  # noqa: E501
 {{/queryParams}}
@@ -212,6 +236,9 @@ class {{classname}}(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
+            {{#servers.0}}
+            _host=local_var_host,
+            {{/servers.0}}
             collection_formats=collection_formats)
 {{/operation}}
 {{/operations}}

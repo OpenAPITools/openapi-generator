@@ -134,7 +134,7 @@
       ]
     },
     {
-      "input": "csharp-refactor-petstore.sh",
+      "input": "csharp-netcore-petstore.sh",
       "matches": [
         "Client: C-Sharp"
       ]
@@ -146,13 +146,13 @@
       ]
     },
     {
-      "input": "dart-flutter-petstore.sh",
+      "input": "dart-jaguar-petstore.sh",
       "matches": [
         "Client: Dart"
       ]
     },
     {
-      "input": "dart-jaguar-petstore.sh",
+      "input": "dart-dio-petstore.sh",
       "matches": [
         "Client: Dart"
       ]
@@ -218,7 +218,7 @@
       ]
     },
     {
-      "input": "finch-petstore-server.sh",
+      "input": "scala-finch-petstore-server.sh",
       "matches": [
         "Server: Scala"
       ]
@@ -260,7 +260,7 @@
       ]
     },
     {
-      "input": "graphql-server-petstore.sh",
+      "input": "graphql-nodejs-express-server.sh",
       "matches": [
         "Server: GraphQL"
       ]
@@ -825,13 +825,13 @@
       ]
     },
     {
-      "input": "python-flask-petstore-python2.sh",
+      "input": "python-server-flask-petstore-python2.sh",
       "matches": [
         "Server: Python"
       ]
     },
     {
-      "input": "python-flask-petstore.sh",
+      "input": "python-server-flask-petstore.sh",
       "matches": [
         "Server: Python"
       ]
@@ -879,12 +879,6 @@
       ]
     },
     {
-      "input": "rust-reqwest-petstore.sh",
-      "matches": [
-        "Client: Rust"
-      ]
-    },
-    {
       "input": "rust-server-petstore.sh",
       "matches": [
         "Server: Rust"
@@ -927,7 +921,7 @@
       ]
     },
     {
-      "input": "spring-all-pestore.sh",
+      "input": "spring-all-petstore.sh",
       "matches": [
         "Server: Spring"
       ]
@@ -1261,6 +1255,30 @@
       "matches": [
         "Client: TypeScript"
       ]
+    },
+    {
+      "input": "typescript-rxjs-petstore-interfaces.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-rxjs-petstore-target-es6.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-rxjs-petstore-with-npm-version.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-rxjs-petstore.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
     }
   ],
   "text": [
@@ -1287,6 +1305,76 @@
       "matches": [
         "Announcement"
       ]
+    },
+    {
+      "input": "[typescript] Generic typescript text",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "[typescript] Generic typescript text",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "[typescript-angular] Generic typescript text",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "[typescript-angularjs] Generic typescript text",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "[typescript-aurelia] Generic typescript text",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "[typescript-axios] Generic typescript text",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "[typescript-fetch] Generic typescript text",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "[typescript-inversify] Generic typescript text",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "[typescript-jquery] Generic typescript text",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "[typescript-node] Generic typescript text",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "[typescript-rxjs] Generic typescript text",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "Should not auto-label for typescript outside of brackets.",
+      "matches": []
     }
   ]
 }

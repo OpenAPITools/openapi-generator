@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.2)
 
 project(api-server)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pg -g3" )
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -pg -g3" )
 
 include(ExternalProject)
 
@@ -19,7 +19,6 @@ ExternalProject_Add(NLOHMANN
 
 )
 include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
-include_directories(${EXTERNAL_INSTALL_LOCATION}/include/nlohmann)
 link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
 
 include_directories(model)

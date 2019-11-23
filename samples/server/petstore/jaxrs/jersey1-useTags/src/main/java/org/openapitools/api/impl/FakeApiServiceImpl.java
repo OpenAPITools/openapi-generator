@@ -13,6 +13,7 @@ import org.openapitools.model.FileSchemaTestClass;
 import java.util.Map;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;
@@ -27,6 +28,12 @@ import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
 public class FakeApiServiceImpl extends FakeApiService {
+    @Override
+    public Response createXmlItem(XmlItem xmlItem, SecurityContext securityContext)
+    throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
     @Override
     public Response fakeOuterBooleanSerialize(Boolean body, SecurityContext securityContext)
     throws NotFoundException {
@@ -95,6 +102,12 @@ public class FakeApiServiceImpl extends FakeApiService {
     }
     @Override
     public Response testJsonFormData(String param, String param2, SecurityContext securityContext)
+    throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response testQueryParameterCollectionFormat( @NotNull List<String> pipe,  @NotNull List<String> ioutil,  @NotNull List<String> http,  @NotNull List<String> url,  @NotNull List<String> context, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

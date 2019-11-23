@@ -4,10 +4,11 @@ import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
@@ -15,6 +16,8 @@ import io.vertx.core.json.JsonObject;
 import java.util.*;
 
 public interface FakeApi {
+
+    void createXmlItem(XmlItem xmlItem, Handler<AsyncResult<Void>> handler);
 
     void fakeOuterBooleanSerialize(Boolean body, Handler<AsyncResult<Boolean>> handler);
 
@@ -39,5 +42,7 @@ public interface FakeApi {
     void testInlineAdditionalProperties(Map<String, String> param, Handler<AsyncResult<Void>> handler);
 
     void testJsonFormData(String param, String param2, Handler<AsyncResult<Void>> handler);
+
+    void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, Handler<AsyncResult<Void>> handler);
 
 }

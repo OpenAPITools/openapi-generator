@@ -1,0 +1,27 @@
+PODS:
+  - Alamofire (4.9.0)
+  - PetstoreClient (1.0.0):
+    - Alamofire (~> 4.9.0)
+    - PromiseKit/CorePromise (~> 6.11.0)
+  - PromiseKit/CorePromise (6.11.0)
+
+DEPENDENCIES:
+  - PetstoreClient (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - PromiseKit
+
+EXTERNAL SOURCES:
+  PetstoreClient:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
+  PetstoreClient: 57248512c92ab99e6079feab8d035215a58535c5
+  PromiseKit: e4863d06976e7dee5e41c04fc7371c16b3600292
+
+PODFILE CHECKSUM: 509bec696cc1d8641751b52e4fe4bef04ac4542c
+
+COCOAPODS: 1.8.4

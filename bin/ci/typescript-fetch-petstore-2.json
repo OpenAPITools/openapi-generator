@@ -1,0 +1,8 @@
+{
+  "generatorName": "typescript-fetch",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/client/petstore/typescript-fetch/builds/with-interfaces",
+  "additionalProperties": {
+    "withInterfaces": true
+  }
+}

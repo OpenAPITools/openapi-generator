@@ -164,8 +164,6 @@ testPetOps mgr config =
 
 -- * STORE TESTS
   
-instance S.Consumes S.PlaceOrder S.MimeJSON
-
 testStoreOps :: NH.Manager -> S.OpenAPIPetstoreConfig -> Spec
 testStoreOps mgr config = do
 
@@ -222,11 +220,6 @@ testStoreOps mgr config = do
 
 -- * USER TESTS
 
-instance S.Consumes S.CreateUser S.MimeJSON
-instance S.Consumes S.CreateUsersWithArrayInput S.MimeJSON
-instance S.Consumes S.CreateUsersWithListInput S.MimeJSON
-instance S.Consumes S.UpdateUser S.MimeJSON
-
 testUserOps :: NH.Manager -> S.OpenAPIPetstoreConfig -> Spec
 testUserOps mgr config = do
 
@@ -257,13 +250,13 @@ testUserOps mgr config = do
 
     before (pure _users) $
       it "createUsersWithArrayInput" $ \users -> do
-        let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.ContentType S.MimeJSON) (S.User2 users)
+        let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.ContentType S.MimeJSON) (S.Body users)
         createUsersWithArrayInputResult <- S.dispatchLbs mgr config createUsersWithArrayInputRequest
         NH.responseStatus createUsersWithArrayInputResult `shouldBe` NH.status200
 
     before (pure _users) $
       it "createUsersWithListInput" $ \users -> do
-        let createUsersWithListInputRequest = S.createUsersWithListInput (S.ContentType S.MimeJSON) (S.User2 users)
+        let createUsersWithListInputRequest = S.createUsersWithListInput (S.ContentType S.MimeJSON) (S.Body users)
         createUsersWithListInputResult <- S.dispatchLbs mgr config createUsersWithListInputRequest 
         NH.responseStatus createUsersWithListInputResult `shouldBe` NH.status200
 

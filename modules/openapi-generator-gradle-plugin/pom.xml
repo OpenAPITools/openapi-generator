@@ -3,7 +3,9 @@
     <parent>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
+        <!-- RELEASE_VERSION -->
+        <version>4.2.2-SNAPSHOT</version>
+        <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -15,8 +17,22 @@
 
     <properties>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <gradleVersion>4.10.2</gradleVersion>
+        <gradleVersion>5.2.1</gradleVersion>
     </properties>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>Gradle Releases</id>
+            <name>Gradle Releases repository</name>
+            <url>https://repo.gradle.org/gradle/libs-releases-local/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
     <dependencies>
         <dependency>
@@ -72,7 +88,7 @@
                                 <!-- calls "clean assemble install" -->
                                 <task>clean</task>
                                 <task>assemble</task>
-                                <task>install</task>
+                                <task>publishToMavenLocal</task>
                             </tasks>
                         </configuration>
                     </execution>

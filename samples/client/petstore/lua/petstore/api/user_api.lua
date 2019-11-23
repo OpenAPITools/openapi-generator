@@ -24,14 +24,16 @@ local user_api_mt = {
 	__index = user_api;
 }
 
-local function new_user_api(host, basePath, schemes)
+local function new_user_api(authority, basePath, schemes)
 	local schemes_map = {}
 	for _,v in ipairs(schemes) do
 		schemes_map[v] = v
 	end
 	local default_scheme = schemes_map.https or schemes_map.http
+	local host, port = http_util.split_authority(authority, default_scheme)
 	return setmetatable({
 		host = host;
+		port = port;
 		basePath = basePath or "http://petstore.swagger.io/v2";
 		schemes = schemes_map;
 		default_scheme = default_scheme;
@@ -46,6 +48,7 @@ function user_api:create_user(user)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/user",
 			self.basePath);
 	})
@@ -78,6 +81,7 @@ function user_api:create_users_with_array_input(user)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/user/createWithArray",
 			self.basePath);
 	})
@@ -110,6 +114,7 @@ function user_api:create_users_with_list_input(user)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/user/createWithList",
 			self.basePath);
 	})
@@ -142,6 +147,7 @@ function user_api:delete_user(username)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/user/%s",
 			self.basePath, username);
 	})
@@ -172,6 +178,7 @@ function user_api:get_user_by_name(username)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/user/%s",
 			self.basePath, username);
 	})
@@ -217,6 +224,7 @@ function user_api:login_user(username, password)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/user/login?username=%s&password=%s",
 			self.basePath, http_util.encodeURIComponent(username), http_util.encodeURIComponent(password));
 	})
@@ -262,6 +270,7 @@ function user_api:logout_user()
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/user/logout",
 			self.basePath);
 	})
@@ -292,6 +301,7 @@ function user_api:update_user(username, user)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/user/%s",
 			self.basePath, username);
 	})
@@ -323,4 +333,3 @@ end
 return {
 	new = new_user_api;
 }
-

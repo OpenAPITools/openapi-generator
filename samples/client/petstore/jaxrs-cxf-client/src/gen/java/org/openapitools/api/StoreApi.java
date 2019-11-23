@@ -82,6 +82,6 @@ public interface StoreApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order") })
-    public Order placeOrder(Order order);
+    public Order placeOrder(Order body);
 }
 

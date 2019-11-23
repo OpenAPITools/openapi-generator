@@ -5,11 +5,13 @@ import java.util.Map;
 
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
+
 import org.threeten.bp.*;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 
 import feign.Feign;
@@ -95,14 +97,14 @@ public class ApiClient {
    * @param username
    * @param password
    */
-   public ApiClient(String authName, String clientId, String secret, String username, String password) {
-     this(authName);
-     this.getTokenEndPoint()
-            .setClientId(clientId)
-            .setClientSecret(secret)
-            .setUsername(username)
-            .setPassword(password);
-   }
+  public ApiClient(String authName, String clientId, String secret, String username, String password) {
+    this(authName);
+    this.getTokenEndPoint()
+           .setClientId(clientId)
+           .setClientSecret(secret)
+           .setUsername(username)
+           .setPassword(password);
+  }
 
   public String getBasePath() {
     return basePath;
@@ -143,6 +145,8 @@ public class ApiClient {
     module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
     module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
     objectMapper.registerModule(module);
+    JsonNullableModule jnm = new JsonNullableModule();
+    objectMapper.registerModule(jnm);
     return objectMapper;
   }
 
@@ -194,6 +198,21 @@ public class ApiClient {
     if (contentTypes.length == 0) return "application/json";
     if (StringUtil.containsIgnoreCase(contentTypes, "application/json")) return "application/json";
     return contentTypes[0];
+  }
+
+
+  /**
+   * Helper method to configure the bearer token.
+   * @param bearerToken the bearer token.
+   */
+  public void setBearerToken(String bearerToken) {
+    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof HttpBearerAuth) {
+        ((HttpBearerAuth) apiAuthorization).setBearerToken(bearerToken);
+        return;
+      }
+    }
+    throw new RuntimeException("No Bearer authentication configured!");
   }
 
   /**

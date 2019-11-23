@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-javascript
 title: Config Options for javascript
 sidebar_label: javascript
 ---
@@ -12,7 +10,6 @@ sidebar_label: javascript
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sourceFolder|source folder for generated code| |src|
-|localVariablePrefix|prefix for generated code members and local variables| |null|
 |invokerPackage|root package for generated code| |null|
 |apiPackage|package for generated api classes| |null|
 |modelPackage|package for generated models| |null|

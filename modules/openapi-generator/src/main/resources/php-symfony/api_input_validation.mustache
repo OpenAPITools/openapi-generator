@@ -18,7 +18,10 @@
 {{#isContainer}}
     {{#items}}
         $asserts[] = new Assert\All([
-            new Assert\Type("{{dataType}}")
+            new Assert\Type("{{dataType}}"),
+            {{^isPrimitiveType}}
+            new Assert\Valid(),
+            {{/isPrimitiveType}}
         ]);
     {{/items}}
 {{/isContainer}}
@@ -36,6 +39,9 @@
     {{/isFile}}
     {{^isFile}}
         $asserts[] = new Assert\Type("{{dataType}}");
+        {{^isPrimitiveType}}
+        $asserts[] = new Assert\Valid();
+        {{/isPrimitiveType}}
     {{/isFile}}
     {{/isDateTime}}
     {{/isDate}}
@@ -61,10 +67,10 @@
     {{/minimum}}
     {{#maximum}}
     {{#exclusiveMaximum}}
-        $asserts[] = new Assert\LessThan({{minimum}});
+        $asserts[] = new Assert\LessThan({{maximum}});
     {{/exclusiveMaximum}}
     {{^exclusiveMaximum}}
-        $asserts[] = new Assert\LessThanOrEqual({{minimum}});
+        $asserts[] = new Assert\LessThanOrEqual({{maximum}});
     {{/exclusiveMaximum}}
     {{/maximum}}
     {{#pattern}}

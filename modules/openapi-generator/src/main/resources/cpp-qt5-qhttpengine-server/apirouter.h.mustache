@@ -2,6 +2,7 @@
 #ifndef {{prefix}}_APIROUTER_H
 #define {{prefix}}_APIROUTER_H
 
+#include <functional>
 #include <QObject>
 #include <QStringList>
 #include <QSharedPointer>
@@ -42,6 +43,8 @@ public:
 
     void setUpRoutes();
     void processRequest(QHttpEngine::Socket *socket);
+    {{#apiInfo}}{{#apis}}
+    void set{{classname}}Handler(QSharedPointer<{{classname}}Handler> handler);{{/apis}}{{/apiInfo}}
 private:
     QMap<QString, std::function<void(QHttpEngine::Socket *)>> Routes;
     QMultiMap<QString, std::function<void(QHttpEngine::Socket *)>> RoutesWithPathParam;
@@ -50,7 +53,7 @@ private:
     bool handleRequestAndExtractPathParam(QHttpEngine::Socket *socket);
 
     {{#apiInfo}}{{#apis}}
-    {{classname}}Handler *{{classname}}ApiHandler;{{/apis}}{{/apiInfo}}
+    QSharedPointer<{{classname}}Handler> m{{classname}}Handler;{{/apis}}{{/apiInfo}}
 protected:
     // override this method to provide custom class derived from ApiHandler classes
     virtual void createApiHandlers();

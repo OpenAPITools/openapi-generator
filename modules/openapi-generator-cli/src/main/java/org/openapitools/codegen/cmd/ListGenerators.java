@@ -5,14 +5,14 @@ import com.google.common.base.Objects;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 // NOTE: List can later have subcommands such as list languages, list types, list frameworks, etc.
@@ -25,9 +25,31 @@ public class ListGenerators implements Runnable {
     @Option(name = {"-d", "--docsite" }, description = "format for docusaurus site output", hidden = true)
     private Boolean docusaurus = false;
 
+    @Option(name = {"-i", "--include" },
+            description = "comma-separated list of stability indexes to include (value: all,beta,stable,experimental,deprecated). Excludes deprecated by default.",
+            allowedValues = { "all", "beta", "stable", "experimental", "deprecated" })
+    private String include = "stable,beta,experimental";
+
     @Override
     public void run() {
-        List<CodegenConfig> generators = CodegenConfigLoader.getAll();
+        List<CodegenConfig> generators = new ArrayList<>();
+        List<Stability> stabilities = Arrays.asList(Stability.values());
+
+        if (!StringUtils.isEmpty(include)) {
+            List<String> includes = Arrays.asList(include.split(","));
+            if (includes.size() != 0 && !includes.contains("all")) {
+                stabilities = includes.stream()
+                        .map(Stability::forDescription)
+                        .collect(Collectors.toList());
+            }
+        }
+
+        for (CodegenConfig codegenConfig : CodegenConfigLoader.getAll()) {
+            GeneratorMetadata meta = codegenConfig.getGeneratorMetadata();
+            if (meta != null && stabilities.contains(meta.getStability())) {
+                generators.add(codegenConfig);
+            }
+        }
 
         StringBuilder sb = new StringBuilder();
 
@@ -62,7 +84,7 @@ public class ListGenerators implements Runnable {
                 .sorted(Comparator.comparing(CodegenConfig::getName))
                 .collect(Collectors.toList());
 
-        if(list.size() > 0) {
+        if(!list.isEmpty()) {
             if (docusaurus) {
                 sb.append("## ").append(typeName).append(" generators");
             } else {
@@ -71,16 +93,27 @@ public class ListGenerators implements Runnable {
             sb.append(System.lineSeparator());
 
             list.forEach(generator -> {
+                GeneratorMetadata meta = generator.getGeneratorMetadata();
                 if (docusaurus) {
                     sb.append("* ");
-                    String id = "generators/" + generator.getName();
-                    sb.append("[").append(generator.getName()).append("](").append(id).append(")");
+                    String id = "generators/" + generator.getName() + ".md";
+                    sb.append("[").append(generator.getName());
+
+                    if (meta != null && meta.getStability() != null && meta.getStability() != Stability.STABLE) {
+                        sb.append(" (").append(meta.getStability().value()).append(")");
+                    }
+
+                    sb.append("](").append(id).append(")");
 
                     // trailing space is important for markdown list formatting
                     sb.append("  ");
                 } else {
                     sb.append("    - ");
                     sb.append(generator.getName());
+
+                    if (meta != null && meta.getStability() != null && meta.getStability() != Stability.STABLE) {
+                        sb.append(" (").append(meta.getStability().value()).append(")");
+                    }
                 }
                 sb.append(System.lineSeparator());
             });

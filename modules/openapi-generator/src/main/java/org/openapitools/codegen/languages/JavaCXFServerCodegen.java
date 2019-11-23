@@ -18,12 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
-
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
 import org.openapitools.codegen.languages.features.LoggingTestFeatures;
@@ -81,6 +76,9 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         artifactId = "openapi-cxf-server";
 
         outputFolder = "generated-code/JavaJaxRS-CXF";
+
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
 
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
 

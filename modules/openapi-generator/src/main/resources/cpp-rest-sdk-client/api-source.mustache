@@ -193,7 +193,7 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
         {{#bodyParam}}
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
         {{#isPrimitiveType}}
-        localVarMultipart->add(ModelBase::toHttpContent("{{paramName}}", {{paramName}}));
+        localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), {{paramName}}));
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isListContainer}}
@@ -294,9 +294,9 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     })
     .then([=](std::vector<unsigned char> localVarResponse)
     {
-        HttpContent localVarResult;
+        {{{returnType}}} localVarResult;
         std::shared_ptr<std::stringstream> stream = std::make_shared<std::stringstream>(std::string(localVarResponse.begin(), localVarResponse.end()));
-        localVarResult.setData(stream);
+        localVarResult->setData(stream);
         return localVarResult;
         {{/vendorExtensions.x-codegen-response-ishttpcontent}}
         {{^vendorExtensions.x-codegen-response-ishttpcontent}}

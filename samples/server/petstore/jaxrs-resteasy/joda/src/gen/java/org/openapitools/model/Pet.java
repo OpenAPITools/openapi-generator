@@ -15,11 +15,10 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
 @ApiModel(description="A pet for sale in the pet store")
-
 public class Pet   {
   
   private Long id;
-  private Category category = null;
+  private Category category;
   private String name;
   private List<String> photoUrls = new ArrayList<String>();
   private List<Tag> tags = new ArrayList<Tag>();

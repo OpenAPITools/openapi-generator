@@ -18,8 +18,23 @@ Method | HTTP request | Description
 {{{notes}}}{{/notes}}
 
 ### Example
-{{#hasAuthMethods}}{{#authMethods}}
-{{#isBasic}}* Basic Authentication ({{name}}): {{/isBasic }}{{#isApiKey}}* Api Key Authentication ({{name}}): {{/isApiKey }}{{#isOAuth}}* OAuth Authentication ({{name}}): {{/isOAuth }}
+
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{#isBasic}}
+{{^isBasicBearer}}
+* Basic Authentication ({{name}}):
+{{/isBasicBearer}}
+{{#isBasicBearer}}
+* Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} Authentication ({{name}}):
+{{/isBasicBearer}}
+{{/isBasic}}
+{{#isApiKey}}
+* Api Key Authentication ({{name}}):
+{{/isApiKey }}
+{{#isOAuth}}
+* OAuth Authentication ({{name}}):
+{{/isOAuth }}
 {{> api_doc_example }}
 {{/authMethods}}
 {{/hasAuthMethods}}
@@ -45,6 +60,15 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
  - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+{{#responses.0}}
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+{{#responses}}
+**{{code}}** | {{message}} | {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} |
+{{/responses}}
+{{/responses.0}}
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

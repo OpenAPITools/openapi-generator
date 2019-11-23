@@ -462,7 +462,7 @@ paths:
             X-Expires-After:
               type: string
               format: date-time
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
         '400':
           description: Invalid username/password supplied
   /user/logout:
@@ -492,7 +492,7 @@ paths:
       parameters:
         - name: username
           in: path
-          description: 'The name that needs to be fetched. Use user1 for testing. '
+          description: 'The name that needs to be fetched. Use user1 for testing.'
           required: true
           type: string
       responses:
@@ -606,9 +606,7 @@ paths:
       description: To test enum parameters
       operationId: testEnumParameters
       consumes:
-        - application/x-www-form-urlencoded
-      produces:
-        - "*/*"
+        - "application/x-www-form-urlencoded"
       parameters:
         - name: enum_form_string_array
           type: array
@@ -681,7 +679,7 @@ paths:
           enum:
             - 1.1
             - -1.2
-          in: formData
+          in: query
           description: Query parameter enum test (double)
       responses:
         '400':
@@ -704,9 +702,6 @@ paths:
       operationId: testEndpointParameters
       consumes:
         - application/x-www-form-urlencoded
-      produces:
-        - application/xml; charset=utf-8
-        - application/json; charset=utf-8
       parameters:
         - name: integer
           type: integer
@@ -797,6 +792,46 @@ paths:
           description: User not found
       security:
         - http_basic_test: []
+    delete:
+      tags:
+        - fake
+      summary: Fake endpoint to test group parameters (optional)
+      description: Fake endpoint to test group parameters (optional)
+      operationId: testGroupParameters
+      x-group-parameters: true
+      parameters:
+        - name: required_string_group
+          type: integer
+          in: query
+          description: Required String in group parameters
+          required: true
+        - name: required_boolean_group
+          type: boolean
+          in: header
+          description: Required Boolean in group parameters
+          required: true
+        - name: required_int64_group
+          type: integer
+          format: int64
+          in: query
+          description: Required Integer in group parameters
+          required: true
+        - name: string_group
+          type: integer
+          in: query
+          description: String in group parameters
+        - name: boolean_group
+          type: boolean
+          in: header
+          description: Boolean in group parameters
+        - name: int64_group
+          type: integer
+          format: int64
+          in: query
+          description: Integer in group parameters
+      responses:
+        '400':
+          description: Someting wrong
   /fake/outer/number:
     post:
       tags:
@@ -888,36 +923,54 @@ paths:
       responses:
         '200':
           description: successful operation
-#TODO comment out the following as swift can't handle inline additonal property at the moment
-#
-#  /fake/inline-additionalProperties:
-#    post:
-#      tags:
-#        - fake
-#      summary: test inline additionalProperties
-#      description: ''
-#      operationId: testInlineAdditionalProperties
-#      consumes:
-#        - application/json
-#      parameters:
-#        - name: param
-#          in: body
-#          description: request body
-#          required: true
-#          schema:
-#            type: object
-#            additionalProperties:
-#              type: string
-#      responses:
-#        '200':
-#          description: successful operation
+  /fake/inline-additionalProperties:
+    post:
+      tags:
+        - fake
+      summary: test inline additionalProperties
+      description: ''
+      operationId: testInlineAdditionalProperties
+      consumes:
+        - application/json
+      parameters:
+        - name: param
+          in: body
+          description: request body
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+  /fake/body-with-query-params:
+    put:
+      tags:
+        - fake
+      operationId: testBodyWithQueryParams
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+        - name: query
+          in: query
+          required: true
+          type: string
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: Success
   /another-fake/dummy:
     patch:
       tags:
         - "$another-fake?"
       summary: To test special tags
-      description: To test special tags
-      operationId: test_special_tags
+      description: To test special tags and operation ID starting with number
+      operationId: 123_test_@#$%_special_tags
       consumes:
         - application/json
       produces:
@@ -934,6 +987,60 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/Client'
+  /fake/body-with-file-schema:
+    put:
+      tags:
+        - fake
+      description: 'For this test, the body for this request much reference a schema named `File`.'
+      operationId: testBodyWithFileSchema
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/FileSchemaTestClass'
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: Success
+  '/fake/{petId}/uploadImageWithRequiredFile':
+    post:
+      tags:
+        - pet
+      summary: uploads an image (required)
+      description: ''
+      operationId: uploadFileWithRequiredFile
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          type: integer
+          format: int64
+        - name: additionalMetadata
+          in: formData
+          description: Additional data to pass to server
+          required: false
+          type: string
+        - name: requiredFile
+          in: formData
+          description: file to upload
+          required: true
+          type: file
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
 securityDefinitions:
   petstore_auth:
     type: oauth2
@@ -982,12 +1089,15 @@ definitions:
       name: Order
   Category:
     type: object
+    required:
+      - name
     properties:
       id:
         type: integer
         format: int64
       name:
         type: string
+        default: default-name
     xml:
       name: Category
   User:
@@ -1203,6 +1313,7 @@ definitions:
       uuid:
         type: string
         format: uuid
+        example: 72f98069-206d-4f12-9f12-3d1e525a8e84
       password:
         type: string
         format: password
@@ -1217,8 +1328,16 @@ definitions:
       - (xyz)
   Enum_Test:
     type: object
+    required:
+      - enum_string_required
     properties:
       enum_string:
+        type: string
+        enum:
+          - UPPER
+          - lower
+          - ''
+      enum_string_required:
         type: string
         enum:
           - UPPER
@@ -1241,11 +1360,11 @@ definitions:
   AdditionalPropertiesClass:
     type: object
     properties:
-      map_property:
+      map_string:
         type: object
         additionalProperties:
           type: string
-      map_of_map_property:
+      map_map_string:
         type: object
         additionalProperties:
           type: object
@@ -1334,6 +1453,12 @@ definitions:
           enum:
             - UPPER
             - lower
+      direct_map:
+        type: object
+        additionalProperties:
+          type: boolean
+      indirect_map:
+        $ref: "#/definitions/StringBooleanMap"
   ArrayTest:
     type: object
     properties:
@@ -1410,7 +1535,7 @@ definitions:
       #        - Cat
       #        - Dog
   OuterEnum:
-    type: "string"
+    type: string
     enum:
     - "placed"
     - "approved"
@@ -1430,3 +1555,83 @@ definitions:
     type: string
   OuterBoolean:
     type: boolean
+    x-codegen-body-parameter-name: boolean_post_body
+  StringBooleanMap:
+    additionalProperties:
+      type: boolean
+  FileSchemaTestClass:
+    type: object
+    properties:
+      file:
+        $ref: "#/definitions/File"
+      files:
+        type: array
+        items:
+          $ref: "#/definitions/File"
+  File:
+    type: object
+    description: 'Must be named `File` for test.'
+    properties:
+      sourceURI:
+        description: 'Test capitalization'
+        type: string
+  TypeHolderDefault:
+    type: object
+    required:
+      - string_item
+      - number_item
+      - integer_item
+      - bool_item
+      - array_item
+    properties:
+      string_item:
+        type: string
+        default: what
+      number_item:
+        type: number
+        default: 1.234
+      integer_item:
+        type: integer
+        default: -2
+      bool_item:
+        type: boolean
+        default: true
+      array_item:
+          type: array
+          items:
+            type: integer
+          default:
+            - 0
+            - 1
+            - 2
+            - 3
+  TypeHolderExample:
+    type: object
+    required:
+      - string_item
+      - number_item
+      - integer_item
+      - bool_item
+      - array_item
+    properties:
+      string_item:
+        type: string
+        example: what
+      number_item:
+        type: number
+        example: 1.234
+      integer_item:
+        type: integer
+        example: -2
+      bool_item:
+        type: boolean
+        example: true
+      array_item:
+          type: array
+          items:
+            type: integer
+          example:
+            - 0
+            - 1
+            - 2
+            - 3

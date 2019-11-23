@@ -62,3 +62,26 @@ The steps are shown here for a specific version of the generator, but apply the 
   Listening for transport dt_socket at address: 5005
   ```
 * Set breakpoints in code, and then attach your remote debugger from your IDE (see above). The generator will automatically unblock once the remote debugger is attached. You can now step through the code.
+
+## Logs
+
+You can try to enable debugging log with `-Dlog.level=debug` option to the `JAVA_OPTS` environment variable to see more information:
+
+```bash
+export JAVA_OPTS="${JAVA_OPTS} -Dlog.level=debug"
+```
+
+Set the option then DEBUG logs are printed out:
+
+```bash
+openapi-generator generate -g go ...
+
+...
+...
+[main] DEBUG o.o.codegen.DefaultCodegen - debugging fromProperty for files : class Schema {
+    type: null
+    format: null
+    $ref: #/components/schemas/File
+...
+...
+```

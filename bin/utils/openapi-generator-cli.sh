@@ -20,16 +20,20 @@
 ####
 set -o pipefail
 
-for cmd in {mvn,python,curl}; do
+for cmd in {mvn,jq,curl}; do
   if ! command -v ${cmd} > /dev/null; then
-  >&2 echo "This script requires '${cmd}' to be installed."
+    >&2 echo "This script requires '${cmd}' to be installed."
     exit 1
   fi
 done
 
 function latest.tag {
-  local uri="https://api.github.com/repos/${1}/tags"
-  curl -s ${uri} | python -c "import sys, json; print json.load(sys.stdin)[0]['name'][1:]"
+  local uri="https://api.github.com/repos/${1}/releases"
+  local ver=$(curl -s ${uri} | jq -r 'first(.[]|select(.prerelease==false)).tag_name')
+  if [[ $ver == v* ]]; then
+    ver=${ver:1}
+  fi
+  echo $ver
 }
 
 ghrepo=openapitools/openapi-generator
@@ -38,7 +42,18 @@ artifactid=openapi-generator-cli
 ver=${OPENAPI_GENERATOR_VERSION:-$(latest.tag $ghrepo)}
 
 jar=${artifactid}-${ver}.jar
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# TODO: Remove OPENAPI_GENERATOR_DOWLOAD_CACHE_DIR for release 5.0
+if [ -n "${OPENAPI_GENERATOR_DOWLOAD_CACHE_DIR}" ]; then
+  >&2 printf "[WARN] Variable OPENAPI_GENERATOR_DOWLOAD_CACHE_DIR is misspelled.\nPlease change to OPENAPI_GENERATOR_DOWNLOAD_CACHE_DIR. This option will be removed in the 5.0 release.\n"
+fi
+cachedir=${OPENAPI_GENERATOR_DOWNLOAD_CACHE_DIR:-"$OPENAPI_GENERATOR_DOWLOAD_CACHE_DIR"}
+
+DIR=${cachedir:-"$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"}
+
+if [ ! -d "${DIR}" ]; then
+  mkdir -p "${DIR}"
+fi
 
 if [ ! -f ${DIR}/${jar} ]; then
   repo="central::default::https://repo1.maven.org/maven2/"

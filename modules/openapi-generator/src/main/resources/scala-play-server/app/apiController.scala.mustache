@@ -1,0 +1,108 @@
+package {{package}}
+
+{{#generateCustomExceptions}}
+import {{basePackage}}.OpenApiExceptions
+{{/generateCustomExceptions}}
+import javax.inject.{Inject, Singleton}
+import play.api.libs.json._
+import play.api.mvc._
+{{#supportAsync}}
+import scala.concurrent.{ExecutionContext, Future}
+{{/supportAsync}}
+{{#imports}}
+import {{import}}
+{{/imports}}
+{{#operations}}
+
+{{>generatedAnnotation}}
+@Singleton
+class {{classname}}Controller @Inject()(cc: ControllerComponents, api: {{classname}}){{#supportAsync}}(implicit executionContext: ExecutionContext){{/supportAsync}} extends AbstractController(cc) {
+  {{#operation}}
+  /**
+    * {{httpMethod}} {{contextPath}}{{path}}{{#queryParams.0}}?{{/queryParams.0}}{{#queryParams}}{{paramName}}=[value]{{#hasMore}}&{{/hasMore}}{{/queryParams}}
+    {{#pathParams}}
+    {{#description}}
+    * @param {{paramName}} {{description}}
+    {{/description}}
+    {{/pathParams}}
+    */
+  def {{operationId}}({{#pathParams}}{{paramName}}: {{dataType}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}): Action[AnyContent] = Action{{#supportAsync}}.async{{/supportAsync}} { request =>
+    {{! Keep the execution result in its own block to prevent redeclaration of parameter names (however unlikely that might be). }}
+    def executeApi(): {{>returnTypeOrUnit}} = {
+      {{#bodyParams}}
+      val {{paramName}} = request.body.asJson.map(_.as[{{dataType}}]){{#required}}.getOrElse {
+        {{#generateCustomExceptions}}
+        throw new OpenApiExceptions.MissingRequiredParameterException("body", "{{paramName}}")
+        {{/generateCustomExceptions}}
+        {{^generateCustomExceptions}}
+        throw new IllegalArgumentException("Missing required body parameter.")
+        {{/generateCustomExceptions}}
+      }{{/required}}
+      {{/bodyParams}}
+      {{#headerParams}}
+      val {{paramName}} = request.headers.get("{{baseName}}")
+        {{#lambda.indented_8}}{{>app/transformParamValues}}{{/lambda.indented_8}}
+      {{/headerParams}}
+      {{#queryParams}}
+      val {{paramName}} = request.{{#isCollectionFormatMulti}}queryString.get("{{baseName}}"){{/isCollectionFormatMulti}}{{^isCollectionFormatMulti}}getQueryString("{{baseName}}"){{/isCollectionFormatMulti}}
+        {{#lambda.indented_8}}{{>app/transformParamValues}}{{/lambda.indented_8}}
+      {{/queryParams}}
+      {{#formParams}}
+      {{#isFile}}
+      val {{paramName}} = request.body.asMultipartFormData.flatMap(_.file("{{baseName}}").map(_.ref: {{dataType}}))
+        {{#lambda.indented_8}}{{>app/transformParamValues}}{{/lambda.indented_8}}
+      {{/isFile}}
+      {{^isFile}}
+      {{! TODO: Check if this fallback is required }}
+      val {{paramName}} = (request.body.asMultipartFormData.map(_.asFormUrlEncoded) orElse request.body.asFormUrlEncoded)
+        .flatMap(_.get("{{baseName}}"))
+        {{^isCollectionFormatMulti}}
+        .flatMap(_.headOption)
+        {{/isCollectionFormatMulti}}
+        {{#lambda.indented_8}}{{>app/transformParamValues}}{{/lambda.indented_8}}
+      {{/isFile}}
+      {{/formParams}}
+      api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    }
+
+    {{#supportAsync}}
+    executeApi().map { {{#returnType}}result{{/returnType}}{{^returnType}}_{{/returnType}} =>
+    {{/supportAsync}}
+    {{^supportAsync}}
+    {{#returnType}}
+    val result = executeApi()
+    {{/returnType}}
+    {{^returnType}}
+    executeApi()
+    {{/returnType}}
+    {{/supportAsync}}
+    {{#returnType}}
+    {{#supportAsync}}  {{/supportAsync}}val json = Json.toJson(result)
+    {{#supportAsync}}  {{/supportAsync}}Ok(json)
+    {{/returnType}}
+    {{^returnType}}
+    {{#supportAsync}}  {{/supportAsync}}Ok
+    {{/returnType}}
+    {{#supportAsync}}
+    }
+    {{/supportAsync}}
+  }{{#hasMore}}
+
+  {{/hasMore}}
+  {{/operation}}
+
+
+  private def splitCollectionParam(paramValues: String, collectionFormat: String): List[String] = {
+    {{! Note: `+` is used to filter empty values when splitting }}
+    val splitBy =
+      collectionFormat match {
+        case "csv" => ",+"
+        case "tsv" => "\t+"
+        case "ssv" => " +"
+        case "pipes" => "|+"
+      }
+
+    paramValues.split(splitBy).toList
+  }
+}
+{{/operations}}

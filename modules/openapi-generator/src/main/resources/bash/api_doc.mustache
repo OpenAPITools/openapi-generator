@@ -1,4 +1,5 @@
 # {{classname}}{{#description}}
+
 {{description}}{{/description}}
 
 All URIs are relative to *{{basePathWithoutHost}}*
@@ -10,18 +11,21 @@ Method | HTTP request | Description
 
 {{#operations}}
 {{#operation}}
-## **{{{operationId}}}**
+
+## {{{operationId}}}
 
 {{{summary}}}{{#notes}}
 
 {{{notes}}}{{/notes}}
 
 ### Example
+
 ```bash
 {{scriptName}} {{operationId}}{{#allParams}}{{#isPathParam}} {{baseName}}=value{{/isPathParam}}{{#isQueryParam}} {{#isContainer}} Specify as: {{#vendorExtensions}}{{#x-codegen-collection-multi}} {{baseName}}=value1 {{baseName}}=value2 {{baseName}}=...{{/x-codegen-collection-multi}}{{#x-codegen-collection-csv}} {{baseName}}="value1,value2,..."{{/x-codegen-collection-csv}}{{#x-codegen-collection-pipes}} {{baseName}}="value1|value2|..."{{/x-codegen-collection-pipes}}{{#x-codegen-collection-ssv}} {{baseName}}="value1 value2 ..."{{/x-codegen-collection-ssv}}{{#x-codegen-collection-tsv}} {{baseName}}="value1\\tvalue2\\t..."{{/x-codegen-collection-tsv}}{{/vendorExtensions}}{{/isContainer}}{{^isContainer}} {{baseName}}=value{{/isContainer}}{{/isQueryParam}}{{#isHeaderParam}} {{baseName}}:value{{/isHeaderParam}}{{#isBodyParam}}{{#vendorExtensions}}{{#x-codegen-body-example}} '{{{x-codegen-body-example}}}'{{/x-codegen-body-example}}{{/vendorExtensions}}{{/isBodyParam}}{{/allParams}}
 ```
 
 ### Parameters
+
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
@@ -38,8 +42,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not Applicable{{/consumes}}
- - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not Applicable{{/produces}}
+- **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not Applicable{{/consumes}}
+- **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not Applicable{{/produces}}
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

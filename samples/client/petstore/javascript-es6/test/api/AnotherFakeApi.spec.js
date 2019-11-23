@@ -14,10 +14,10 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD.
-    define(['expect.js', '../../src/index'], factory);
+    define(['expect.js', process.cwd()+'/src/index'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    factory(require('expect.js'), require('../../src/index'));
+    factory(require('expect.js'), require(process.cwd()+'/src/index'));
   } else {
     // Browser globals (root is window)
     factory(root.expect, root.OpenApiPetstore);
@@ -48,10 +48,10 @@
   }
 
   describe('AnotherFakeApi', function() {
-    describe('testSpecialTags', function() {
-      it('should call testSpecialTags successfully', function(done) {
-        //uncomment below and update the code to test testSpecialTags
-        //instance.testSpecialTags(function(error) {
+    describe('call123testSpecialTags', function() {
+      it('should call call123testSpecialTags successfully', function(done) {
+        //uncomment below and update the code to test call123testSpecialTags
+        //instance.call123testSpecialTags(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

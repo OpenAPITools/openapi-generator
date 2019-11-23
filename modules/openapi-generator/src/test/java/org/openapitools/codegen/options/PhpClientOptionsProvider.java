@@ -17,10 +17,9 @@
 
 package org.openapitools.codegen.options;
 
+import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.PhpClientCodegen;
-
-import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
@@ -33,10 +32,6 @@ public class PhpClientOptionsProvider implements OptionsProvider {
     public static final String INVOKER_PACKAGE_VALUE = "OpenAPITools\\Client\\Php";
     public static final String PACKAGE_NAME_VALUE = "OpenAPIToolsClient-php";
     public static final String SRC_BASE_PATH_VALUE = "libPhp";
-    public static final String COMPOSER_VENDOR_NAME_VALUE = "openAPIToolsPhp";
-    public static final String COMPOSER_PROJECT_NAME_VALUE = "openapi-tools-client-php";
-    public static final String GIT_USER_ID_VALUE = "gitOpenAPIToolsPhp";
-    public static final String GIT_REPO_ID_VALUE = "git-openapi-tools-client-php";
     public static final String ARTIFACT_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
@@ -57,10 +52,6 @@ public class PhpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.INVOKER_PACKAGE, INVOKER_PACKAGE_VALUE)
                 .put(PhpClientCodegen.PACKAGE_NAME, PACKAGE_NAME_VALUE)
                 .put(PhpClientCodegen.SRC_BASE_PATH, SRC_BASE_PATH_VALUE)
-                .put(PhpClientCodegen.COMPOSER_VENDOR_NAME, COMPOSER_VENDOR_NAME_VALUE)
-                .put(CodegenConstants.GIT_USER_ID, GIT_USER_ID_VALUE)
-                .put(PhpClientCodegen.COMPOSER_PROJECT_NAME, COMPOSER_PROJECT_NAME_VALUE)
-                .put(CodegenConstants.GIT_REPO_ID, GIT_REPO_ID_VALUE)
                 .put(CodegenConstants.ARTIFACT_VERSION, ARTIFACT_VERSION_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)

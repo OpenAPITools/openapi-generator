@@ -17,7 +17,8 @@
 
 package org.openapitools.codegen.ignore.rules;
 
-import java.nio.file.*;
+import java.nio.file.FileSystems;
+import java.nio.file.PathMatcher;
 import java.util.List;
 
 public class DirectoryRule extends FileRule {

@@ -1,13 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "cJSON.h"
-#include "list.h"
-#include "keyValuePair.h"
 #include "pet.h"
-#include "category.h"
-#include "list.h"
-#include "tag.h"
+
 
 char *statuspet_ToString(status_e status) {
 	char *statusArray[] = { "available", "pending", "sold" };
@@ -24,19 +19,23 @@ status_e statuspet_FromString(char *status) {
 		}
 		stringToReturn++;
 	}
+	return 0;
 }
 
 pet_t *pet_create(long id, category_t *category, char *name, list_t *photoUrls,
                   list_t *tags, status_e status) {
-	pet_t *pet = malloc(sizeof(pet_t));
-	pet->id = id;
-	pet->category = category;
-	pet->name = name;
-	pet->photoUrls = photoUrls;
-	pet->tags = tags;
-	pet->status = status;
+	pet_t *pet_local_var = malloc(sizeof(pet_t));
+	if(!pet_local_var) {
+		return NULL;
+	}
+	pet_local_var->id = id;
+	pet_local_var->category = category;
+	pet_local_var->name = name;
+	pet_local_var->photoUrls = photoUrls;
+	pet_local_var->tags = tags;
+	pet_local_var->status = status;
 
-	return pet;
+	return pet_local_var;
 }
 
 
@@ -52,33 +51,49 @@ void pet_free(pet_t *pet) {
 		tag_free(listEntry->data);
 	}
 	list_free(pet->tags);
-
 	free(pet);
 }
 
 cJSON *pet_convertToJSON(pet_t *pet) {
 	cJSON *item = cJSON_CreateObject();
+
 	// pet->id
-	if(cJSON_AddNumberToObject(item, "id", pet->id) == NULL) {
-		goto fail; // Numeric
+	if(pet->id) {
+		if(cJSON_AddNumberToObject(item, "id", pet->id) == NULL) {
+			goto fail; // Numeric
+		}
 	}
 
+
 	// pet->category
-	cJSON *category = category_convertToJSON(pet->category);
-	if(category == NULL) {
-		goto fail; // nonprimitive
+	if(pet->category) {
+		cJSON *category_local_JSON = category_convertToJSON(
+			pet->category);
+		if(category_local_JSON == NULL) {
+			goto fail; // model
+		}
+		cJSON_AddItemToObject(item, "category", category_local_JSON);
+		if(item->child == NULL) {
+			goto fail;
+		}
 	}
-	cJSON_AddItemToObject(item, "category", category);
-	if(item->child == NULL) {
+
+
+	// pet->name
+	if(!pet->name) {
 		goto fail;
 	}
 
-	// pet->name
 	if(cJSON_AddStringToObject(item, "name", pet->name) == NULL) {
 		goto fail; // String
 	}
 
+
 	// pet->photoUrls
+	if(!pet->photoUrls) {
+		goto fail;
+	}
+
 	cJSON *photo_urls = cJSON_AddArrayToObject(item, "photoUrls");
 	if(photo_urls == NULL) {
 		goto fail; // primitive container
@@ -94,136 +109,142 @@ cJSON *pet_convertToJSON(pet_t *pet) {
 		}
 	}
 
+
 	// pet->tags
-	cJSON *tags = cJSON_AddArrayToObject(item, "tags");
-	if(tags == NULL) {
-		goto fail; // nonprimitive container
+	if(pet->tags) {
+		cJSON *tags = cJSON_AddArrayToObject(item, "tags");
+		if(tags == NULL) {
+			goto fail; // nonprimitive container
+		}
+
+		listEntry_t *tagsListEntry;
+		if(pet->tags) {
+			list_ForEach(tagsListEntry, pet->tags) {
+				cJSON *itemLocal = tag_convertToJSON(
+					tagsListEntry->data);
+				if(itemLocal == NULL) {
+					goto fail;
+				}
+				cJSON_AddItemToArray(tags, itemLocal);
+			}
+		}
 	}
 
-	listEntry_t *tagsListEntry;
-	list_ForEach(tagsListEntry, pet->tags) {
-		cJSON *item = tag_convertToJSON(tagsListEntry->data);
-		if(item == NULL) {
-			goto fail;
-		}
-		cJSON_AddItemToArray(tags, item);
-	}
 
 	// pet->status
+
 	if(cJSON_AddStringToObject(item, "status",
 	                           statuspet_ToString(pet->status)) == NULL)
 	{
-		goto fail; // String
+		goto fail; // Enum
 	}
+
 
 	return item;
 fail:
-	cJSON_Delete(item);
+	if(item) {
+		cJSON_Delete(item);
+	}
 	return NULL;
 }
 
-pet_t *pet_parseFromJSON(char *jsonString) {
-	pet_t *pet = NULL;
-	cJSON *petJSON = cJSON_Parse(jsonString);
-	if(petJSON == NULL) {
-		const char *error_ptr = cJSON_GetErrorPtr();
-		if(error_ptr != NULL) {
-			fprintf(stderr, "Error Before: %s\n", error_ptr);
-			goto end;
-		}
-	}
+pet_t *pet_parseFromJSON(cJSON *petJSON) {
+	pet_t *pet_local_var = NULL;
 
 	// pet->id
 	cJSON *id = cJSON_GetObjectItemCaseSensitive(petJSON, "id");
-	if(!cJSON_IsNumber(id)) {
-		goto end; // Numeric
+	if(id) {
+		if(!cJSON_IsNumber(id)) {
+			goto end; // Numeric
+		}
 	}
 
 	// pet->category
-	category_t *category;
-	cJSON *categoryJSON = cJSON_GetObjectItemCaseSensitive(petJSON,
-	                                                       "category");
-	if(petJSON == NULL) {
-		const char *error_ptr = cJSON_GetErrorPtr();
-		if(error_ptr != NULL) {
-			fprintf(stderr, "Error Before: %s\n", error_ptr);
-		}
-		goto end; // nonprimitive
+	cJSON *category = cJSON_GetObjectItemCaseSensitive(petJSON, "category");
+	category_t *category_local_nonprim = NULL;
+	if(category) {
+		category_local_nonprim = category_parseFromJSON(category); // nonprimitive
 	}
-	char *categoryJSONData = cJSON_Print(categoryJSON);
-	category = category_parseFromJSON(categoryJSONData);
 
 	// pet->name
 	cJSON *name = cJSON_GetObjectItemCaseSensitive(petJSON, "name");
-	if(!cJSON_IsString(name) ||
-	   (name->valuestring == NULL))
-	{
+	if(!name) {
+		goto end;
+	}
+
+
+	if(!cJSON_IsString(name)) {
 		goto end; // String
 	}
 
 	// pet->photoUrls
-	cJSON *photo_urls;
-	cJSON *photoUrlsJSON = cJSON_GetObjectItemCaseSensitive(petJSON,
-	                                                        "photoUrls");
-	if(!cJSON_IsArray(photoUrlsJSON)) {
+	cJSON *photoUrls =
+		cJSON_GetObjectItemCaseSensitive(petJSON, "photoUrls");
+	if(!photoUrls) {
+		goto end;
+	}
+
+	list_t *photo_urlsList;
+
+	cJSON *photo_urls_local;
+	if(!cJSON_IsArray(photoUrls)) {
 		goto end; // primitive container
 	}
-	list_t *photo_urlsList = list_create();
+	photo_urlsList = list_create();
 
-	cJSON_ArrayForEach(photo_urls, photoUrlsJSON)
+	cJSON_ArrayForEach(photo_urls_local, photoUrls)
 	{
-		if(!cJSON_IsString(photo_urls)) {
+		if(!cJSON_IsString(photo_urls_local)) {
 			goto end;
 		}
 		list_addElement(photo_urlsList,
-		                strdup(photo_urls->valuestring));
+		                strdup(photo_urls_local->valuestring));
 	}
 
 	// pet->tags
-	cJSON *tags;
-	cJSON *tagsJSON = cJSON_GetObjectItemCaseSensitive(petJSON, "tags");
-	if(!cJSON_IsArray(tagsJSON)) {
-		goto end; // nonprimitive container
-	}
-
-	list_t *tagsList = list_create();
-
-	cJSON_ArrayForEach(tags, tagsJSON)
-	{
-		if(!cJSON_IsObject(tags)) {
-			goto end;
+	cJSON *tags = cJSON_GetObjectItemCaseSensitive(petJSON, "tags");
+	list_t *tagsList;
+	if(tags) {
+		cJSON *tags_local_nonprimitive;
+		if(!cJSON_IsArray(tags)) {
+			goto end; // nonprimitive container
 		}
-		char *JSONData = cJSON_Print(tags);
-		tag_t *tagsItem = tag_parseFromJSON(JSONData);
 
-		list_addElement(tagsList, tagsItem);
-		free(JSONData);
+		tagsList = list_create();
+
+		cJSON_ArrayForEach(tags_local_nonprimitive, tags)
+		{
+			if(!cJSON_IsObject(tags_local_nonprimitive)) {
+				goto end;
+			}
+			tag_t *tagsItem = tag_parseFromJSON(
+				tags_local_nonprimitive);
+
+			list_addElement(tagsList, tagsItem);
+		}
 	}
 
 	// pet->status
-	status_e statusVariable;
 	cJSON *status = cJSON_GetObjectItemCaseSensitive(petJSON, "status");
-	if(!cJSON_IsString(status) ||
-	   (status->valuestring == NULL))
-	{
-		goto end; // String
+	status_e statusVariable;
+	if(status) {
+		if(!cJSON_IsString(status)) {
+			goto end; // Enum
+		}
+		statusVariable = statuspet_FromString(status->valuestring);
 	}
 
-	statusVariable = statuspet_FromString(status->valuestring);
 
-
-	pet = pet_create(
-		id->valuedouble,
-		category,
+	pet_local_var = pet_create(
+		id ? id->valuedouble : 0,
+		category ? category_local_nonprim : NULL,
 		strdup(name->valuestring),
 		photo_urlsList,
-		tagsList,
-		statusVariable
+		tags ? tagsList : NULL,
+		status ? statusVariable : -1
 		);
-	free(categoryJSONData);
-	cJSON_Delete(petJSON);
-	return pet;
+
+	return pet_local_var;
 end:
-	cJSON_Delete(petJSON);
 	return NULL;
 }

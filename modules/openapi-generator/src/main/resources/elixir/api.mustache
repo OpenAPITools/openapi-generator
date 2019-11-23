@@ -12,21 +12,21 @@ defmodule {{moduleName}}.Api.{{classname}} do
 
   @doc """
   {{#summary}}
-  {{summary}}
+  {{&summary}}
   {{/summary}}
   {{#notes}}
-  {{notes}}
+  {{&notes}}
   {{/notes}}
 
   ## Parameters
 
   - connection ({{moduleName}}.Connection): Connection to server
 {{#requiredParams}}
-  - {{#underscored}}{{paramName}}{{/underscored}} ({{dataType}}): {{description}}
+  - {{#underscored}}{{paramName}}{{/underscored}} ({{dataType}}): {{&description}}
 {{/requiredParams}}
   - opts (KeywordList): [optional] Optional parameters
 {{#optionalParams}}
-    - {{#underscored}}:{{paramName}}{{/underscored}} ({{dataType}}): {{description}}
+    - {{#underscored}}:{{paramName}}{{/underscored}} ({{dataType}}): {{&description}}
 {{/optionalParams}}
   ## Returns
 
@@ -59,7 +59,10 @@ defmodule {{moduleName}}.Api.{{classname}} do
 {{/optionalParams}}
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode({{decodedStruct}})
+    |> evaluate_response({{#responses}}{{#-first}}[
+{{/-first}}
+      { {{& codeMappingKey}}, {{decodedStruct}}}{{#hasMore}},{{/hasMore}}
+{{#-last}}    ]{{/-last}}{{/responses}})
   end
   {{/operation}}
 {{/operations}}

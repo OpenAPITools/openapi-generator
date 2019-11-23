@@ -13,7 +13,7 @@ abstract class _$StoreApiClient implements ApiClient {
         .path(basePath)
         .path("/store/order/:orderId")
         .pathParams("orderId", orderId);
-    await req.go();
+    await req.go(throwOnErr: true);
   }
 
   Future<Map<String, int>> getInventory() async {
@@ -30,7 +30,7 @@ abstract class _$StoreApiClient implements ApiClient {
         })
         .path(basePath)
         .path("/store/inventory");
-    return req.one().then((v) => serializers.mapFrom<int>(v));
+    return req.one().then((v) => jsonConverter.mapFrom<int>(v));
   }
 
   Future<Order> getOrderById(int orderId) async {
@@ -38,14 +38,14 @@ abstract class _$StoreApiClient implements ApiClient {
         .path(basePath)
         .path("/store/order/:orderId")
         .pathParams("orderId", orderId);
-    return req.one(convert: serializers.oneFrom);
+    return req.go(throwOnErr: true).then(decodeOne);
   }
 
-  Future<Order> placeOrder(Order order) async {
+  Future<Order> placeOrder(Order body) async {
     var req = base.post
         .path(basePath)
         .path("/store/order")
-        .json(serializers.to(order));
-    return req.one(convert: serializers.oneFrom);
+        .json(jsonConverter.to(body));
+    return req.go(throwOnErr: true).then(decodeOne);
   }
 }

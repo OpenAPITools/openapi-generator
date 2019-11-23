@@ -2,14 +2,18 @@ apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
-def artifactory = 'buildserver.supportspace.com'
-group = 'com.supportspace'
+group = '{{groupId}}'
+version = '{{artifactVersion}}'
 archivesBaseName = 'openapi-gen-groovy'
-version = '0.1'
+
+wrapper {
+    gradleVersion = '4.9'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
 
 buildscript {
     repositories {
-        maven { url 'http://repo.jfrog.org/artifactory/gradle-plugins' }
+        maven { url 'https://repo.jfrog.org/artifactory/gradle-plugins' }
     }
     dependencies {
         classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '2.0.16')
@@ -19,25 +23,22 @@ buildscript {
 repositories {
     mavenCentral()
     mavenLocal()
-    mavenCentral(artifactUrls: ['http://maven.springframework.org/milestone'])
-    maven { url  "http://$artifactory:8080/artifactory/repo" }
 }
 
 ext {
-    swagger_annotations_version = "1.5.21"
-    jackson_version = "2.8.11"
-    jackson_databind_version = "2.8.11.2"
+    swagger_annotations_version = "1.5.22"
+    jackson_version = "2.9.10"
+    jackson_databind_version = "2.9.10.1"
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.6'
+    compile 'org.codehaus.groovy:groovy-all:2.5.7'
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
-    compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_databind_version"
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.1.5"
-    compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
+    compile 'io.github.http-builder-ng:http-builder-ng-core:1.0.3'
+    testCompile "junit:junit:4.11"
 }
-
-task wrapper(type: Wrapper) { gradleVersion = '1.6' }

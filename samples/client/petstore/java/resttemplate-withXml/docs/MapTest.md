@@ -1,7 +1,9 @@
 
+
 # MapTest
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **mapMapOfString** | [**Map&lt;String, Map&lt;String, String&gt;&gt;**](Map.md) |  |  [optional]
@@ -10,8 +12,9 @@ Name | Type | Description | Notes
 **indirectMap** | **Map&lt;String, Boolean&gt;** |  |  [optional]
 
 
-<a name="Map<String, InnerEnum>"></a>
+
 ## Enum: Map&lt;String, InnerEnum&gt;
+
 Name | Value
 ---- | -----
 UPPER | &quot;UPPER&quot;

@@ -1,14 +1,15 @@
 package org.openapitools.codegen.kotlin;
 
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+
 import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.*;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class AbstractKotlinCodegenTest {
 
@@ -53,7 +54,7 @@ public class AbstractKotlinCodegenTest {
     }
 
     @Test
-    public void toEnumValue(){
+    public void toEnumValue() {
         assertEquals(codegen.toEnumValue("1", "kotlin.Int"), "1");
         assertEquals(codegen.toEnumValue("1", "kotlin.Double"), "1.0");
         assertEquals(codegen.toEnumValue("1.3", "kotlin.Double"), "1.3");
@@ -81,9 +82,119 @@ public class AbstractKotlinCodegenTest {
     }
 
     @Test
-    public void isDataTypeString(){
+    public void isDataTypeString() {
         assertFalse(codegen.isDataTypeString("kotlin.Int"));
         assertTrue(codegen.isDataTypeString("kotlin.String"));
         assertTrue(codegen.isDataTypeString("String"));
+    }
+
+    @Test
+    public void toModelNameShouldUseProvidedMapping() {
+        codegen.importMapping().put("json_myclass", "com.test.MyClass");
+        assertEquals("com.test.MyClass", codegen.toModelName("json_myclass"));
+    }
+
+    @Test
+    public void convertModelNameTitleCase() {
+        assertEquals(codegen.toModelName("name"), "Name");
+    }
+
+    @Test
+    public void convertModelName() {
+        assertEquals(codegen.toModelName("$"), "Dollar");
+        assertEquals(codegen.toModelName("$$"), "DollarDollar");
+        assertEquals(codegen.toModelName("Pony?"), "PonyQuestionMark");
+        assertEquals(codegen.toModelName("$name"), "DollarName");
+        assertEquals(codegen.toModelName("nam#e"), "NamHashE");
+        assertEquals(codegen.toModelName("$another-fake?"), "DollarAnotherMinusFakeQuestionMark");
+        assertEquals(codegen.toModelName("Pony>=>="), "PonyGreaterThanEqualGreaterThanEqual");
+    }
+
+    @Test
+    public void convertVarName() throws Exception {
+        assertEquals(codegen.toVarName("name"), "name");
+        assertEquals(codegen.toVarName("$name"), "dollarName");
+        assertEquals(codegen.toVarName("nam$$e"), "namDollarDollarE");
+        assertEquals(codegen.toVarName("user-name"), "userMinusName");
+        assertEquals(codegen.toVarName("user_name"), "userName");
+        assertEquals(codegen.toVarName("user|name"), "userPipeName");
+        assertEquals(codegen.toVarName("Pony?"), "ponyQuestionMark");
+        assertEquals(codegen.toVarName("nam#e"), "namHashE");
+        assertEquals(codegen.toVarName("Pony>=>="), "ponyGreaterThanEqualGreaterThanEqual");
+        assertEquals(codegen.toVarName("uSername"), "uSername");
+        assertEquals(codegen.toVarName("USERname"), "usERname");
+        assertEquals(codegen.toVarName("USERNAME"), "USERNAME");
+        assertEquals(codegen.toVarName("USER123NAME"), "USER123NAME");
+    }
+
+    @Test
+    public void convertApiNameWithEmptySuffix() {
+        assertEquals(codegen.toApiName("Fake"), "FakeApi");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    @Test
+    public void convertApiNameWithSuffix() {
+        codegen.setApiSuffix("Test");
+        assertEquals(codegen.toApiName("Fake"), "FakeTest");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    @Test
+    public void apIFileFolder() {
+        codegen.setOutputDir("/User/open/api/tools");
+        codegen.setSourceFolder("src/folder");
+        codegen.setApiPackage("org.openapitools.codegen.api");
+        Assert.assertEquals(codegen.apiFileFolder(), "/User/open/api/tools/src/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+    }
+
+    @Test
+    public void apiTestFileFolder() {
+        codegen.setOutputDir("/User/open/api/tools");
+        codegen.setTestFolder("test/folder");
+        codegen.setApiPackage("org.openapitools.codegen.api");
+        Assert.assertEquals(codegen.apiTestFileFolder(), "/User/open/api/tools/test/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+    }
+
+    @Test
+    public void processOptsBooleanTrueFromString() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, "true");
+        codegen.processOpts();
+        Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+    }
+
+    @Test
+    public void processOptsBooleanTrueFromBoolean() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+        codegen.processOpts();
+        Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromString() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, "false");
+        codegen.processOpts();
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromBoolean() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, false);
+        codegen.processOpts();
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromGarbage() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, "blibb");
+        codegen.processOpts();
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+    }
+
+    @Test
+    public void processOptsBooleanFalseFromNumeric() {
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, 42L);
+        codegen.processOpts();
+        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
     }
 }

@@ -1,6 +1,7 @@
 # php-base - PHP Slim Server library for OpenAPI Petstore
 
-[Slim Framework Documentation](https://www.slimframework.com/docs/)
+* [OpenAPI Generator](https://openapi-generator.tech)
+* [Slim Framework Documentation](https://www.slimframework.com/docs/)
 
 ## Requirements
 
@@ -79,10 +80,15 @@ $ composer phplint
 
 ## Show errors
 
-Change line in `./index.php`:
+Switch on option in `./index.php`:
 ```diff
---- $router = new SlimRouter();
-+++ $router = new SlimRouter(['settings' => ['displayErrorDetails' => true]]);
+    /**
+     * When true, additional information about exceptions are displayed by the default
+     * error handler.
+     * Default: false
+     */
+--- // 'displayErrorDetails' => false,
++++ 'displayErrorDetails' => true,
 ```
 
 ## API Endpoints
@@ -114,6 +120,7 @@ For instance, when abstract class located at `./lib/Api/AbstractPetApi.php` you 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AbstractAnotherFakeApi* | **call123TestSpecialTags** | **PATCH** /another-fake/dummy | To test special tags
+*AbstractFakeApi* | **createXmlItem** | **POST** /fake/create_xml_item | creates an XmlItem
 *AbstractFakeApi* | **fakeOuterBooleanSerialize** | **POST** /fake/outer/boolean | 
 *AbstractFakeApi* | **fakeOuterCompositeSerialize** | **POST** /fake/outer/composite | 
 *AbstractFakeApi* | **fakeOuterNumberSerialize** | **POST** /fake/outer/number | 
@@ -126,6 +133,7 @@ Class | Method | HTTP request | Description
 *AbstractFakeApi* | **testGroupParameters** | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *AbstractFakeApi* | **testInlineAdditionalProperties** | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *AbstractFakeApi* | **testJsonFormData** | **GET** /fake/jsonFormData | test json serialization of form data
+*AbstractFakeApi* | **testQueryParameterCollectionFormat** | **PUT** /fake/test-query-paramters | 
 *AbstractFakeClassnameTags123Api* | **testClassname** | **PATCH** /fake_classname_test | To test class name in snake case
 *AbstractPetApi* | **addPet** | **POST** /pet | Add a new pet to the store
 *AbstractPetApi* | **findPetsByStatus** | **GET** /pet/findByStatus | Finds Pets by status
@@ -152,7 +160,14 @@ Class | Method | HTTP request | Description
 
 ## Models
 
+* OpenAPIServer\Model\AdditionalPropertiesAnyType
+* OpenAPIServer\Model\AdditionalPropertiesArray
+* OpenAPIServer\Model\AdditionalPropertiesBoolean
 * OpenAPIServer\Model\AdditionalPropertiesClass
+* OpenAPIServer\Model\AdditionalPropertiesInteger
+* OpenAPIServer\Model\AdditionalPropertiesNumber
+* OpenAPIServer\Model\AdditionalPropertiesObject
+* OpenAPIServer\Model\AdditionalPropertiesString
 * OpenAPIServer\Model\Animal
 * OpenAPIServer\Model\ApiResponse
 * OpenAPIServer\Model\ArrayOfArrayOfNumberOnly
@@ -160,10 +175,12 @@ Class | Method | HTTP request | Description
 * OpenAPIServer\Model\ArrayTest
 * OpenAPIServer\Model\Capitalization
 * OpenAPIServer\Model\Cat
+* OpenAPIServer\Model\CatAllOf
 * OpenAPIServer\Model\Category
 * OpenAPIServer\Model\ClassModel
 * OpenAPIServer\Model\Client
 * OpenAPIServer\Model\Dog
+* OpenAPIServer\Model\DogAllOf
 * OpenAPIServer\Model\EnumArrays
 * OpenAPIServer\Model\EnumClass
 * OpenAPIServer\Model\EnumTest
@@ -188,6 +205,7 @@ Class | Method | HTTP request | Description
 * OpenAPIServer\Model\TypeHolderDefault
 * OpenAPIServer\Model\TypeHolderExample
 * OpenAPIServer\Model\User
+* OpenAPIServer\Model\XmlItem
 
 
 ## Authentication

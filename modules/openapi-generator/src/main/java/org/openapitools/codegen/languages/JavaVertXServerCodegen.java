@@ -22,12 +22,8 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import io.swagger.v3.oas.models.servers.Server;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.URLPathUtils;
 
 import java.io.File;
@@ -48,6 +44,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     public static final String ROOT_PACKAGE = "rootPackage";
 
     public static final String RX_INTERFACE_OPTION = "rxInterface";
+    public static final String RX_VERSION_2_OPTION = "rxVersion2";
     public static final String VERTX_SWAGGER_ROUTER_VERSION_OPTION = "vertxSwaggerRouterVersion";
 
     /**
@@ -75,20 +72,26 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         embeddedTemplateDir = templateDir = "JavaVertXServer";
 
         apiPackage = rootPackage + ".verticle";
-
         modelPackage = rootPackage + ".model";
-
-        additionalProperties.put(ROOT_PACKAGE, rootPackage);
-
-        groupId = "org.openapitools";
         artifactId = "openapi-java-vertx-server";
         artifactVersion = apiVersion;
-
         this.setDateLibrary("java8");
+
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.ARTIFACT_VERSION, this.getArtifactVersion());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+
+        additionalProperties.put(ROOT_PACKAGE, rootPackage);
 
         cliOptions.add(CliOption.newBoolean(RX_INTERFACE_OPTION,
                 "When specified, API interfaces are generated with RX "
                         + "and methods return Single<> and Comparable."));
+        cliOptions.add(CliOption.newBoolean(RX_VERSION_2_OPTION,
+                "When specified in combination with rxInterface, "
+                        + "API interfaces are generated with RxJava2."));
         cliOptions.add(CliOption.newString(VERTX_SWAGGER_ROUTER_VERSION_OPTION,
                 "Specify the version of the swagger router library"));
 
@@ -198,17 +201,16 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
-                                          Map<String, Schema> definitions, OpenAPI openAPI) {
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation codegenOperation =
-                super.fromOperation(path, httpMethod, operation, definitions, openAPI);
+                super.fromOperation(path, httpMethod, operation, servers);
         codegenOperation.imports.add("MainApiException");
         return codegenOperation;
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
         codegenModel.imports.remove("ApiModel");
         codegenModel.imports.remove("ApiModelProperty");
         return codegenModel;
@@ -219,15 +221,17 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         super.preprocessOpenAPI(openAPI);
 
         // add server port from the swagger file, 8080 by default
-        URL url = URLPathUtils.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         this.additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
 
         // retrieve api version from swagger file, 1.0.0-SNAPSHOT by default
+        // set in super.preprocessOpenAPI
+        /*
         if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
             artifactVersion = apiVersion = openAPI.getInfo().getVersion();
         } else {
             artifactVersion = apiVersion;
-        }
+        }*/
 
         /*
          * manage operation & custom serviceId because operationId field is not

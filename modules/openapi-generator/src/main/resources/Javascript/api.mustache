@@ -2,7 +2,7 @@
 {{=< >=}}(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['<#invokerPackage><&invokerPackage>/</invokerPackage>ApiClient'<#imports>, '<#invokerPackage><&invokerPackage>/</invokerPackage><#modelPackage><&modelPackage>/</modelPackage><import>'</imports>], factory);
+    define(['<#invokerPackage><&invokerPackage>/</invokerPackage>ApiClient'<#imports>, '<#invokerPackage><&invokerPackage>/</invokerPackage><#modelPackage><&modelPackage>/</modelPackage><&import>'</imports>], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient')<#imports>, require('../<#modelPackage><&modelPackage>/</modelPackage><import>')</imports>);
@@ -13,19 +13,19 @@
     }
     root.<&moduleName>.<&classname> = factory(root.<&moduleName>.ApiClient<#imports>, root.<&moduleName>.<import></imports>);
   }
-}(this, function(ApiClient<#imports>, <import></imports>) {
+}(this, function(ApiClient<#imports>, <&import></imports>) {
   'use strict';
 
 <#emitJSDoc>  /**
    * <baseName> service.
-   * @module <#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><classname>
+   * @module <#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><&classname>
    * @version <projectVersion>
    */
 
   /**
    * Constructs a new <&classname>. <#description>
-   * <description></description>
-   * @alias module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><apiPackage>/</apiPackage><classname>
+   * <&description></description>
+   * @alias module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><&classname>
    * @class
    * @param {module:<#invokerPackage><&invokerPackage>/</invokerPackage>ApiClient} [apiClient] Optional API client implementation to use,
    * default to {@link module:<#invokerPackage><&invokerPackage>/</invokerPackage>ApiClient#instance} if unspecified.
@@ -43,24 +43,26 @@
      */</usePromises>
 
     /**<#summary>
-     * <summary></summary><#notes>
-     * <notes></notes><#allParams><#required>
-     * @param {<&vendorExtensions.x-jsdoc-type>} <paramName> <description></required></allParams><#hasOptionalParams>
+     * <&summary></summary><#notes>
+     * <&notes></notes><#allParams><#required>
+     * @param {<&vendorExtensions.x-jsdoc-type>} <&paramName> <&description></required></allParams><#hasOptionalParams>
      * @param {Object} opts Optional parameters<#allParams><^required>
-     * @param {<&vendorExtensions.x-jsdoc-type>} opts.<paramName> <description><#defaultValue> (default to <.>)</defaultValue></required></allParams></hasOptionalParams><^usePromises>
-     * @param {module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><&classname>~<operationId>Callback} callback The callback function, accepting three arguments: error, data, response<#returnType>
+     * @param {<&vendorExtensions.x-jsdoc-type>} opts.<&paramName> <&description><#defaultValue> (default to <&.>)</defaultValue></required></allParams></hasOptionalParams><^usePromises>
+     * @param {module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><&classname>~<&operationId>Callback} callback The callback function, accepting three arguments: error, data, response<#returnType>
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with an object containing data of type {@link <&vendorExtensions.x-jsdoc-type>} and HTTP response</returnType><^returnType>, with an object containing HTTP response</returnType></usePromises>
      */
 </emitJSDoc>    this.<operationId><#usePromises>WithHttpInfo</usePromises> = function(<vendorExtensions.x-codegen-argList>) {<#hasOptionalParams>
       opts = opts || {};</hasOptionalParams>
       var postBody = <#bodyParam><#required><paramName></required><^required>opts['<paramName>']</required></bodyParam><^bodyParam>null</bodyParam>;
-<#allParams><#required>
+<#allParams>
+<#required>
       // verify the required parameter '<paramName>' is set
       if (<paramName> === undefined || <paramName> === null) {
         throw new Error("Missing the required parameter '<paramName>' when calling <operationId>");
       }
-</required></allParams>
+</required>
+</allParams>
 
       var pathParams = {<#pathParams>
         '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></pathParams>
@@ -85,23 +87,33 @@
       var contentTypes = [<#consumes>'<& mediaType>'<#hasMore>, </hasMore></consumes>];
       var accepts = [<#produces>'<& mediaType>'<#hasMore>, </hasMore></produces>];
       var returnType = <#vendorExtensions.x-return-type><&vendorExtensions.x-return-type></vendorExtensions.x-return-type><^vendorExtensions.x-return-type>null</vendorExtensions.x-return-type>;
+      <#servers.0>
+      let basePaths = [<#servers>'<url>'<^-last>, </-last></servers>];
+      let basePath = basePaths[0]; // by default use the first one in "servers" defined in OpenAPI
+      if (typeof opts['_base_path_index'] !== 'undefined') {
+        if (opts['_base_path_index'] < 0 || opts['_base_path_index'] >= basePaths.length) {
+          throw new Error("Invalid index " + opts['_base_path_index'] + " when selecting the host settings. Must be less than " + basePaths.length);
+        }
+        basePath = basePaths[opts['_base_path_index']];
+      }
 
+      </servers.0>
       return this.apiClient.callApi(
         '<&path>', '<httpMethod>',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType<^usePromises>, callback</usePromises>
+        authNames, contentTypes, accepts, returnType, <#servers.0>basePath</servers.0><^servers.0>null</servers.0><^usePromises>, callback</usePromises>
       );
     }
 <#usePromises>
     <#emitJSDoc>
 
     /**<#summary>
-     * <summary></summary><#notes>
-     * <notes></notes><#allParams><#required>
-     * @param {<&vendorExtensions.x-jsdoc-type>} <paramName> <description></required></allParams><#hasOptionalParams>
+     * <&summary></summary><#notes>
+     * <&notes></notes><#allParams><#required>
+     * @param {<&vendorExtensions.x-jsdoc-type>} <&paramName> <&description></required></allParams><#hasOptionalParams>
      * @param {Object} opts Optional parameters<#allParams><^required>
-     * @param {<&vendorExtensions.x-jsdoc-type>} opts.<paramName> <description><#defaultValue> (default to <.>)</defaultValue></required></allParams></hasOptionalParams><^usePromises>
-     * @param {module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><&classname>~<operationId>Callback} callback The callback function, accepting three arguments: error, data, response<#returnType>
+     * @param {<&vendorExtensions.x-jsdoc-type>} opts.<&paramName> <&description><#defaultValue> (default to <&.>)</defaultValue></required></allParams></hasOptionalParams><^usePromises>
+     * @param {module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><&classname>~<&operationId>Callback} callback The callback function, accepting three arguments: error, data, response<#returnType>
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with data of type {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises>
      */

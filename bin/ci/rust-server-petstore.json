@@ -1,0 +1,11 @@
+{
+  "generateAliasAsModel": true,
+  "generatorName": "rust-server",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/rust-server/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/server/petstore/rust-server/output/petstore-with-fake-endpoints-models-for-testing",
+  "templateDir": "modules/openapi-generator/src/main/resources/rust-server",
+  "additionalProperties": {
+    "packageName": "petstore-with-fake-endpoints-models-for-testing",
+    "hideGenerationTimestamp": true
+  }
+}

@@ -17,10 +17,9 @@
 
 package org.openapitools.codegen.options;
 
+import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.RubyClientCodegen;
-
-import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
@@ -39,6 +38,7 @@ public class RubyClientOptionsProvider implements OptionsProvider {
     public static final String GEM_AUTHOR_EMAIL_VALUE = "foo";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
+    public static final String LIBRARY = "typhoeus";
 
     @Override
     public String getLanguage() {
@@ -48,8 +48,8 @@ public class RubyClientOptionsProvider implements OptionsProvider {
     @Override
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
-        return builder.put(RubyClientCodegen.GEM_NAME, GEM_NAME_VALUE)
-                .put(RubyClientCodegen.MODULE_NAME, MODULE_NAME_VALUE)
+        return builder.put(CodegenConstants.GEM_NAME, GEM_NAME_VALUE)
+                .put(CodegenConstants.MODULE_NAME, MODULE_NAME_VALUE)
                 .put(RubyClientCodegen.GEM_VERSION, GEM_VERSION_VALUE)
                 .put(RubyClientCodegen.GEM_LICENSE, GEM_LICENSE_VALUE)
                 .put(RubyClientCodegen.GEM_REQUIRED_RUBY_VERSION, GEM_REQUIRED_RUBY_VERSION_VALUE)
@@ -63,6 +63,7 @@ public class RubyClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(CodegenConstants.LIBRARY, LIBRARY)
                 .build();
     }
 

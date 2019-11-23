@@ -17,29 +17,23 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.CodegenSecurity;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.net.URLEncoder;
-import org.apache.commons.lang3.StringEscapeUtils;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.*;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.Schema;
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
@@ -53,6 +47,10 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
     public PhpSlimServerCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
 
         // clear import mapping (from default generator) as slim does not use it
         // at the moment
@@ -93,28 +91,28 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
     @Override
     public String getName() {
-        return "php-slim";
+        return "php-slim-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a PHP Slim Framework server library.";
+        return "Generates a PHP Slim Framework server library. IMPORTANT NOTE: this generator (Slim 3.x)  is no longer actively maintained so please use 'php-slim4' generator instead.";
     }
 
     @Override
     public String apiFileFolder() {
-        if (apiPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
+        if (apiPackage.startsWith(invokerPackage + "\\")) {
             // need to strip out invokerPackage from path
-            return (outputFolder + File.separator + toSrcPath(apiPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
+            return (outputFolder + File.separator + toSrcPath(StringUtils.removeStart(apiPackage, invokerPackage + "\\"), srcBasePath));
         }
         return (outputFolder + File.separator + toSrcPath(apiPackage, srcBasePath));
     }
 
     @Override
     public String modelFileFolder() {
-        if (modelPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
+        if (modelPackage.startsWith(invokerPackage + "\\")) {
             // need to strip out invokerPackage from path
-            return (outputFolder + File.separator + toSrcPath(modelPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
+            return (outputFolder + File.separator + toSrcPath(StringUtils.removeStart(modelPackage, invokerPackage + "\\"), srcBasePath));
         }
         return (outputFolder + File.separator + toSrcPath(modelPackage, srcBasePath));
     }
@@ -186,7 +184,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         if (name.length() == 0) {
             return toAbstractName("DefaultApi");
         }
-        return toAbstractName(initialCaps(name) + "Api");
+        return toAbstractName(camelize(name) + "Api");
     }
 
     @Override
@@ -194,7 +192,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         if (name.length() == 0) {
             return "DefaultApiTest";
         }
-        return initialCaps(name) + "ApiTest";
+        return camelize(name) + "ApiTest";
     }
 
     /**
@@ -255,9 +253,8 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
                                           Operation operation,
-                                          Map<String, Schema> schemas,
-                                          OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, schemas, openAPI);
+                                          List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         op.path = encodePath(path);
         return op;
     }

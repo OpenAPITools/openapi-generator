@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**FakeHealthGet**](FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 [**FakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 [**FakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 [**FakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -13,9 +14,65 @@ Method | HTTP request | Description
 [**TestClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**TestEndpointParameters**](FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**TestEnumParameters**](FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
+[**TestGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**TestInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**TestJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 
+
+<a name="fakehealthget"></a>
+# **FakeHealthGet**
+> HealthCheckResult FakeHealthGet ()
+
+Health check endpoint
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class FakeHealthGetExample
+    {
+        public void main()
+        {
+            var apiInstance = new FakeApi();
+
+            try
+            {
+                // Health check endpoint
+                HealthCheckResult result = apiInstance.FakeHealthGet();
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FakeApi.FakeHealthGet: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**HealthCheckResult**](HealthCheckResult.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="fakeouterbooleanserialize"></a>
 # **FakeOuterBooleanSerialize**
@@ -160,7 +217,7 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var body = 1.2D;  // decimal? | Input number as post body (optional) 
+            var body = 8.14;  // decimal? | Input number as post body (optional) 
 
             try
             {
@@ -463,7 +520,7 @@ namespace Example
             Configuration.Default.Password = "YOUR_PASSWORD";
 
             var apiInstance = new FakeApi();
-            var number = 1.2D;  // decimal? | None
+            var number = 8.14;  // decimal? | None
             var _double = 1.2D;  // double? | None
             var patternWithoutDelimiter = patternWithoutDelimiter_example;  // string | None
             var _byte = BYTE_ARRAY_DATA_HERE;  // byte[] | None
@@ -596,6 +653,80 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="testgroupparameters"></a>
+# **TestGroupParameters**
+> void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+
+Fake endpoint to test group parameters (optional)
+
+Fake endpoint to test group parameters (optional)
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestGroupParametersExample
+    {
+        public void main()
+        {
+            // Configure HTTP basic authorization: bearer_test
+            Configuration.Default.Username = "YOUR_USERNAME";
+            Configuration.Default.Password = "YOUR_PASSWORD";
+
+            var apiInstance = new FakeApi();
+            var requiredStringGroup = 56;  // int? | Required String in group parameters
+            var requiredBooleanGroup = true;  // bool? | Required Boolean in group parameters
+            var requiredInt64Group = 789;  // long? | Required Integer in group parameters
+            var stringGroup = 56;  // int? | String in group parameters (optional) 
+            var booleanGroup = true;  // bool? | Boolean in group parameters (optional) 
+            var int64Group = 789;  // long? | Integer in group parameters (optional) 
+
+            try
+            {
+                // Fake endpoint to test group parameters (optional)
+                apiInstance.TestGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FakeApi.TestGroupParameters: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **requiredStringGroup** | **int?**| Required String in group parameters | 
+ **requiredBooleanGroup** | **bool?**| Required Boolean in group parameters | 
+ **requiredInt64Group** | **long?**| Required Integer in group parameters | 
+ **stringGroup** | **int?**| String in group parameters | [optional] 
+ **booleanGroup** | **bool?**| Boolean in group parameters | [optional] 
+ **int64Group** | **long?**| Integer in group parameters | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearer_test](../README.md#bearer_test)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

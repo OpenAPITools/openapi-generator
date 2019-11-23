@@ -7,8 +7,7 @@
 
 import Foundation
 
-
-/** Object which contains lots of different primitive Swagger types */
+/** Object which contains lots of different primitive OpenAPI types */
 
 public struct AllPrimitives: Codable {
 
@@ -71,6 +70,4 @@ public struct AllPrimitives: Codable {
         self.myInlineStringEnum = myInlineStringEnum
     }
 
-
 }
-

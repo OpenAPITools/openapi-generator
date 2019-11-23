@@ -1,0 +1,70 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server User"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a User"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  User {
+    title = User
+    description = User
+    derivedFrom = Root
+    properties {
+        id {
+          type =  integer
+          description = ""
+          optional = false
+        }
+        username {
+          type =  string
+          description = ""
+          optional = false
+        }
+        first_name {
+          type =  string
+          description = ""
+          optional = false
+        }
+        last_name {
+          type =  string
+          description = ""
+          optional = false
+        }
+        email {
+          type =  string
+          description = ""
+          optional = false
+        }
+        password {
+          type =  string
+          description = ""
+          optional = false
+        }
+        phone {
+          type =  string
+          description = ""
+          optional = false
+        }
+        user_status {
+          type =  integer
+          description = "User Status"
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  User {
+    title = User
+    description = User
+    implements = openapi_server.resourceTypes.User
+
+  }
+}

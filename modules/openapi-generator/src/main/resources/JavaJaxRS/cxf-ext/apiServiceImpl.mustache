@@ -1,0 +1,93 @@
+package {{package}}.impl;
+
+import {{package}}.*;
+{{#imports}}import {{import}};
+{{/imports}}
+
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.Map;
+{{#generateOperationBody}}
+import java.io.File;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+{{#loadTestDataFromFile}}
+import org.openapitools.codegen.utils.JsonCache;
+import org.openapitools.codegen.utils.JsonCache.CacheException;
+{{/loadTestDataFromFile}}
+{{/generateOperationBody}}
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
+import org.apache.cxf.jaxrs.model.wadl.Description;
+import org.apache.cxf.jaxrs.model.wadl.DocTarget;
+
+import org.apache.cxf.jaxrs.ext.multipart.*;
+
+import io.swagger.annotations.Api;
+{{#useSpringAnnotationConfig}}
+import org.springframework.stereotype.Service;
+{{/useSpringAnnotationConfig}}
+
+{{#useSpringAnnotationConfig}}
+@Service("{{classname}}")
+{{/useSpringAnnotationConfig}}
+{{#description}}
+{{/description}}
+{{#appName}}
+/**
+ * {{{appName}}}
+ *
+ {{#appDescription}}
+ * <p>{{{appDescription}}}
+ {{/appDescription}}
+ *
+ */
+{{/appName}}
+public class {{classname}}ServiceImpl implements {{classname}} {
+{{#generateOperationBody}}
+{{#loadTestDataFromFile}}
+    private JsonCache cache;
+
+    {
+        try {
+            File cacheFile = new File(System.getProperty("jaxrs.test.server.json",
+                    "{{testDataFile}}"));
+            cache = JsonCache.Factory.instance.get("test-data").load(cacheFile).child("/{{invokerPackage}}/{{classname}}");
+        } catch (CacheException e) {
+            e.printStackTrace();
+        }
+    }
+
+{{/loadTestDataFromFile}}
+{{/generateOperationBody}}
+{{#operations}}
+{{#operation}}
+    {{#summary}}
+    /**
+     * {{summary}}
+     *
+     {{#notes}}
+     * {{notes}}
+     *
+     {{/notes}}
+     */
+    {{/summary}}
+    @Override
+    public {{>returnTypes}} {{operationId}}({{#allParams}}{{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>bodyParamsImpl}}{{>formParamsImpl}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    {{^loadTestDataFromFile}}
+        // TODO: Implement...
+    {{/loadTestDataFromFile}}
+{{! generic response:
+        }}{{#useGenericResponse}}return Response.ok().entity("magic!").build();{{/useGenericResponse}}{{!
+non-generic response: }}{{^useGenericResponse}}{{!
+non-void response: }}{{^vendorExtensions.x-java-is-response-void}}{{!
+pre-populated operation body: }}{{#generateOperationBody}}{{{vendorExtensions.x-java-operation-body}}}{{/generateOperationBody}}{{!
+null response: }}{{^generateOperationBody}}        return null;{{/generateOperationBody}}{{!
+}}{{/vendorExtensions.x-java-is-response-void}}{{!
+}}{{/useGenericResponse}}
+    }
+
+{{/operation}}
+}
+{{/operations}}

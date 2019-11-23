@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-javascript-closure-angular
 title: Config Options for javascript-closure-angular
 sidebar_label: javascript-closure-angular
 ---

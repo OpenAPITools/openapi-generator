@@ -21,7 +21,7 @@ import javax.ws.rs.core.SecurityContext;
 
 public class PetApiServiceImpl extends PetApiService {
     @Override
-    public Response addPet(Pet pet
+    public Response addPet(Pet body
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
@@ -52,7 +52,7 @@ public class PetApiServiceImpl extends PetApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response updatePet(Pet pet
+    public Response updatePet(Pet body
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

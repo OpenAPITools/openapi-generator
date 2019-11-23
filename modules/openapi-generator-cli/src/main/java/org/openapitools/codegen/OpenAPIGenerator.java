@@ -37,7 +37,6 @@ public class OpenAPIGenerator {
 
     public static void main(String[] args) {
         String version = Version.readVersionFromResources();
-        @SuppressWarnings("unchecked")
         Cli.CliBuilder<Runnable> builder =
                 Cli.<Runnable>builder("openapi-generator-cli")
                         .withDescription(
@@ -54,7 +53,8 @@ public class OpenAPIGenerator {
                                 ConfigHelp.class,
                                 Validate.class,
                                 Version.class,
-                                CompletionCommand.class
+                                CompletionCommand.class,
+                                GenerateBatch.class
                         );
 
         try {

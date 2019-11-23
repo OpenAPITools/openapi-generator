@@ -16,9 +16,8 @@
 
 package org.openapitools.codegen.options;
 
-import org.openapitools.codegen.CodegenConstants;
-
 import com.google.common.collect.ImmutableMap;
+import org.openapitools.codegen.CodegenConstants;
 
 import java.util.Map;
 

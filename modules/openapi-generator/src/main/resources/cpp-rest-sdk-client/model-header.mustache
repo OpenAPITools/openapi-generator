@@ -20,6 +20,48 @@
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
 
+{{#isEnum}}
+class {{declspec}} {{classname}}
+    : public {{#parent}}{{{parent}}}{{/parent}}{{^parent}}ModelBase{{/parent}}
+{
+public:
+    {{classname}}();
+    virtual ~{{classname}}();
+
+    /////////////////////////////////////////////
+    /// ModelBase overrides
+
+    void validate() override;
+
+    web::json::value toJson() const override;
+    void fromJson(const web::json::value& json) override;
+
+    void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
+    void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
+
+    enum class e{{classname}} 
+    {
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{#enumDescription}}
+        /// <summary>
+        /// {{enumDescription}}
+        /// </summary>
+        {{/enumDescription}}
+        {{classname}}_{{{name}}}{{^last}},{{/last}}        
+        {{/enumVars}}        
+        {{/allowableValues}}
+    };
+
+    e{{classname}} getValue() const;
+    void setValue(e{{classname}} const value);
+
+    protected:
+        e{{classname}} m_value;
+};
+{{/isEnum}}
+{{^isEnum}}
+
 /// <summary>
 /// {{description}}
 /// </summary>
@@ -74,6 +116,8 @@ protected:
     {{/isInherited}}
     {{/vars}}
 };
+
+{{/isEnum}}
 
 {{#modelNamespaceDeclarations}}
 }

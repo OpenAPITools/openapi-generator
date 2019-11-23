@@ -10,6 +10,7 @@ import org.threeten.bp.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,11 @@ import java.util.Map;
  */
 
 public interface FakeApiDelegate {
+
+    /**
+     * @see FakeApi#createXmlItem
+     */
+    ResponseEntity<Void> createXmlItem(XmlItem xmlItem);
 
     /**
      * @see FakeApi#fakeOuterBooleanSerialize
@@ -110,6 +116,15 @@ public interface FakeApiDelegate {
      */
     ResponseEntity<Void> testJsonFormData(String param,
         String param2);
+
+    /**
+     * @see FakeApi#testQueryParameterCollectionFormat
+     */
+    ResponseEntity<Void> testQueryParameterCollectionFormat(List<String> pipe,
+        List<String> ioutil,
+        List<String> http,
+        List<String> url,
+        List<String> context);
 
     /**
      * @see FakeApi#uploadFileWithRequiredFile

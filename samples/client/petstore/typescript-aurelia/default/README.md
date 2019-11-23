@@ -18,11 +18,13 @@ Module system
 
 It can be used in both TypeScript and JavaScript. In TypeScript, the definition should be automatically resolved via `package.json`. ([Reference](http://www.typescriptlang.org/docs/handbook/typings-for-npm-packages.html))
 
-### Installation ###
+### Building ####
 
-`swagger-codegen` does not generate JavaScript directly. The generated Node module comes with `package.json` that bundles `typescript` and `typings` so it can self-compile during `prepublish` stage. The should be run automatically during `npm install` or `npm publish`. 
-
-CAVEAT: Due to [privilege implications](https://docs.npmjs.com/misc/scripts#user), `npm` would skip all scripts if the user is `root`. You would need to manually run it with `npm run prepublish` or run `npm install --unsafe-perm`. 
+To build and compile the typescript sources to javascript use:
+```
+npm install
+npm run build
+```
 
 #### NPM ####
 You may publish the module to NPM. In this case, you would be able to install the module as any other NPM module. It maybe useful to use [scoped packages](https://docs.npmjs.com/misc/scope).

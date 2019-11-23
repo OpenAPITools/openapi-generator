@@ -18,6 +18,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +26,20 @@ import java.util.List;
 import java.util.Map;
 
 public interface FakeApi {
+  /**
+   * creates an XmlItem
+   * this route creates an XmlItem
+   * @param xmlItem XmlItem Body (required)
+   * @return Completable
+   */
+  @Headers({
+    "Content-Type:application/xml"
+  })
+  @POST("fake/create_xml_item")
+  Completable createXmlItem(
+    @retrofit2.http.Body XmlItem xmlItem
+  );
+
   /**
    * 
    * Test serialization of outer boolean types
@@ -197,6 +212,21 @@ public interface FakeApi {
   @GET("fake/jsonFormData")
   Completable testJsonFormData(
     @retrofit2.http.Field("param") String param, @retrofit2.http.Field("param2") String param2
+  );
+
+  /**
+   * 
+   * To test the collection format in query parameters
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   * @return Completable
+   */
+  @PUT("fake/test-query-paramters")
+  Completable testQueryParameterCollectionFormat(
+    @retrofit2.http.Query("pipe") CSVParams pipe, @retrofit2.http.Query("ioutil") CSVParams ioutil, @retrofit2.http.Query("http") SPACEParams http, @retrofit2.http.Query("url") CSVParams url, @retrofit2.http.Query("context") List<String> context
   );
 
 }

@@ -1,5 +1,6 @@
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'java'
 
 group = 'org.openapitools'
 version = '1.0.0'
@@ -18,7 +19,9 @@ buildscript {
 repositories {
     jcenter()
 }
-
+sourceSets {
+    main.java.srcDirs = ['src/main/java']
+}
 
 if(hasProperty('target') && target == 'android') {
 
@@ -95,13 +98,18 @@ if(hasProperty('target') && target == 'android') {
 }
 
 dependencies {
-    compile 'io.swagger:swagger-annotations:1.5.21'
-    compile 'com.squareup.okhttp3:okhttp:3.12.1'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+    compile 'io.swagger:swagger-annotations:1.5.22'
+    compile "com.google.code.findbugs:jsr305:3.0.2"
+    compile 'com.squareup.okhttp3:okhttp:3.14.2'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.14.2'
     compile 'com.google.code.gson:gson:2.8.5'
-    compile 'io.gsonfire:gson-fire:1.8.0'
+    compile 'io.gsonfire:gson-fire:1.8.3'
     compile group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version: '1.0.1'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
-    compile 'org.threeten:threetenbp:1.3.5'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+    compile 'org.threeten:threetenbp:1.4.0'
     testCompile 'junit:junit:4.12'
+}
+
+javadoc {
+    options.tags = [ "http.response.details:a:Http Response Details" ]
 }

@@ -1,27 +1,32 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 
+
 import 'package:openapi/model/tag.dart';
+
 import 'package:openapi/model/category.dart';
+
 part 'pet.jser.dart';
 
 class Pet {
   
-  @Alias('id')
+  @Alias('id', isNullable: false,  )
   final int id;
   
-  @Alias('category')
+  @Alias('category', isNullable: false,  )
   final Category category;
   
-  @Alias('name')
+  @Alias('name', isNullable: false,  )
   final String name;
   
-  @Alias('photoUrls')
+  @Alias('photoUrls', isNullable: false,  )
   final List<String> photoUrls;
   
-  @Alias('tags')
+  @Alias('tags', isNullable: false,  )
   final List<Tag> tags;
    /* pet status in the store */
-  @Alias('status')
+  @Alias('status', isNullable: false,
+          
+  )
   final String status;
   //enum statusEnum {  available,  pending,  sold,  };
 
@@ -49,3 +54,4 @@ class Pet {
 class PetSerializer extends Serializer<Pet> with _$PetSerializer {
 
 }
+

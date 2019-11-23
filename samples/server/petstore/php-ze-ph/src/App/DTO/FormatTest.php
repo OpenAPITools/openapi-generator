@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\DTO;
 
@@ -102,4 +103,11 @@ class FormatTest
      * @var string
      */
     public $password;
+    /**
+     * @DTA\Data(field="BigDecimal", nullable=true)
+     * @DTA\Strategy(name="Object", options={"type":BigDecimal::class})
+     * @DTA\Validator(name="Dictionary", options={"type":BigDecimal::class})
+     * @var BigDecimal
+     */
+    public $big_decimal;
 }

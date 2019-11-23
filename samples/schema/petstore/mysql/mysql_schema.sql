@@ -24,12 +24,77 @@ CREATE TABLE IF NOT EXISTS `200_response` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Model for testing model name starting with number';
 
 --
+-- Table structure for table `AdditionalPropertiesAnyType` generated from model 'AdditionalPropertiesAnyType'
+--
+
+CREATE TABLE IF NOT EXISTS `AdditionalPropertiesAnyType` (
+  `name` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `AdditionalPropertiesArray` generated from model 'AdditionalPropertiesArray'
+--
+
+CREATE TABLE IF NOT EXISTS `AdditionalPropertiesArray` (
+  `name` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `AdditionalPropertiesBoolean` generated from model 'AdditionalPropertiesBoolean'
+--
+
+CREATE TABLE IF NOT EXISTS `AdditionalPropertiesBoolean` (
+  `name` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `AdditionalPropertiesClass` generated from model 'AdditionalPropertiesClass'
 --
 
 CREATE TABLE IF NOT EXISTS `AdditionalPropertiesClass` (
-  `map_property` JSON DEFAULT NULL,
-  `map_of_map_property` JSON DEFAULT NULL
+  `map_string` JSON DEFAULT NULL,
+  `map_number` JSON DEFAULT NULL,
+  `map_integer` JSON DEFAULT NULL,
+  `map_boolean` JSON DEFAULT NULL,
+  `map_array_integer` JSON DEFAULT NULL,
+  `map_array_anytype` JSON DEFAULT NULL,
+  `map_map_string` JSON DEFAULT NULL,
+  `map_map_anytype` JSON DEFAULT NULL,
+  `anytype_1` JSON DEFAULT NULL,
+  `anytype_2` JSON DEFAULT NULL,
+  `anytype_3` JSON DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `AdditionalPropertiesInteger` generated from model 'AdditionalPropertiesInteger'
+--
+
+CREATE TABLE IF NOT EXISTS `AdditionalPropertiesInteger` (
+  `name` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `AdditionalPropertiesNumber` generated from model 'AdditionalPropertiesNumber'
+--
+
+CREATE TABLE IF NOT EXISTS `AdditionalPropertiesNumber` (
+  `name` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `AdditionalPropertiesObject` generated from model 'AdditionalPropertiesObject'
+--
+
+CREATE TABLE IF NOT EXISTS `AdditionalPropertiesObject` (
+  `name` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `AdditionalPropertiesString` generated from model 'AdditionalPropertiesString'
+--
+
+CREATE TABLE IF NOT EXISTS `AdditionalPropertiesString` (
+  `name` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -101,6 +166,14 @@ CREATE TABLE IF NOT EXISTS `Cat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `Cat_allOf` generated from model 'CatUnderscoreallOf'
+--
+
+CREATE TABLE IF NOT EXISTS `Cat_allOf` (
+  `declawed` TINYINT(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `Category` generated from model 'Category'
 --
 
@@ -133,6 +206,14 @@ CREATE TABLE IF NOT EXISTS `Client` (
 CREATE TABLE IF NOT EXISTS `Dog` (
   `className` TEXT NOT NULL,
   `color` TEXT,
+  `breed` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `Dog_allOf` generated from model 'DogUnderscoreallOf'
+--
+
+CREATE TABLE IF NOT EXISTS `Dog_allOf` (
   `breed` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -192,7 +273,8 @@ CREATE TABLE IF NOT EXISTS `format_test` (
   `date` DATE NOT NULL,
   `dateTime` DATETIME DEFAULT NULL,
   `uuid` TEXT DEFAULT NULL,
-  `password` VARCHAR(64) NOT NULL
+  `password` VARCHAR(64) NOT NULL,
+  `BigDecimal` DECIMAL(20, 9) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -335,6 +417,7 @@ CREATE TABLE IF NOT EXISTS `TypeHolderDefault` (
 CREATE TABLE IF NOT EXISTS `TypeHolderExample` (
   `string_item` TEXT NOT NULL,
   `number_item` DECIMAL(20, 9) NOT NULL,
+  `float_item` DECIMAL(20, 9) NOT NULL,
   `integer_item` INT NOT NULL,
   `bool_item` TINYINT(1) NOT NULL,
   `array_item` JSON NOT NULL
@@ -353,5 +436,41 @@ CREATE TABLE IF NOT EXISTS `User` (
   `password` TEXT DEFAULT NULL,
   `phone` TEXT DEFAULT NULL,
   `userStatus` INT DEFAULT NULL COMMENT 'User Status'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `XmlItem` generated from model 'XmlItem'
+--
+
+CREATE TABLE IF NOT EXISTS `XmlItem` (
+  `attribute_string` TEXT DEFAULT NULL,
+  `attribute_number` DECIMAL(20, 9) DEFAULT NULL,
+  `attribute_integer` INT DEFAULT NULL,
+  `attribute_boolean` TINYINT(1) DEFAULT NULL,
+  `wrapped_array` JSON DEFAULT NULL,
+  `name_string` TEXT DEFAULT NULL,
+  `name_number` DECIMAL(20, 9) DEFAULT NULL,
+  `name_integer` INT DEFAULT NULL,
+  `name_boolean` TINYINT(1) DEFAULT NULL,
+  `name_array` JSON DEFAULT NULL,
+  `name_wrapped_array` JSON DEFAULT NULL,
+  `prefix_string` TEXT DEFAULT NULL,
+  `prefix_number` DECIMAL(20, 9) DEFAULT NULL,
+  `prefix_integer` INT DEFAULT NULL,
+  `prefix_boolean` TINYINT(1) DEFAULT NULL,
+  `prefix_array` JSON DEFAULT NULL,
+  `prefix_wrapped_array` JSON DEFAULT NULL,
+  `namespace_string` TEXT DEFAULT NULL,
+  `namespace_number` DECIMAL(20, 9) DEFAULT NULL,
+  `namespace_integer` INT DEFAULT NULL,
+  `namespace_boolean` TINYINT(1) DEFAULT NULL,
+  `namespace_array` JSON DEFAULT NULL,
+  `namespace_wrapped_array` JSON DEFAULT NULL,
+  `prefix_ns_string` TEXT DEFAULT NULL,
+  `prefix_ns_number` DECIMAL(20, 9) DEFAULT NULL,
+  `prefix_ns_integer` INT DEFAULT NULL,
+  `prefix_ns_boolean` TINYINT(1) DEFAULT NULL,
+  `prefix_ns_array` JSON DEFAULT NULL,
+  `prefix_ns_wrapped_array` JSON DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

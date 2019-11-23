@@ -17,10 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -33,10 +33,10 @@ import java.util.Locale;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
+abstract public class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
 
-    AbstractRubyCodegen() {
+    public AbstractRubyCodegen() {
         super();
 
         setReservedWordsLowerCase(
@@ -50,6 +50,7 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("String");
+        languageSpecificPrimitives.add("Boolean");
         languageSpecificPrimitives.add("Integer");
         languageSpecificPrimitives.add("Float");
         languageSpecificPrimitives.add("Date");
@@ -61,6 +62,7 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
 
         typeMapping.clear();
         typeMapping.put("string", "String");
+        typeMapping.put("boolean", "Boolean");
         typeMapping.put("char", "String");
         typeMapping.put("int", "Integer");
         typeMapping.put("integer", "Integer");
@@ -79,6 +81,7 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("UUID", "String");
+        typeMapping.put("URI", "String");
     }
 
     @Override
@@ -127,24 +130,25 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public String toVarName(String name) {
+    public String toVarName(final String name) {
+        String varName;
         // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        varName = sanitizeName(name);
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
-            name = name.toLowerCase(Locale.ROOT);
+            varName = varName.toLowerCase(Locale.ROOT);
         }
 
         // camelize (lower first character) the variable name
         // petId => pet_id
-        name = underscore(name);
+        varName = underscore(varName);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
+        if (isReservedWord(varName) || varName.matches("^\\d.*")) {
+            varName = escapeReservedWord(varName);
         }
 
-        return name;
+        return varName;
     }
 
     public String toRegularExpression(String pattern) {
@@ -177,7 +181,7 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return input.replace("=end", "=_end").replace("=begin", "=_begin");
+        return input.replace("=end", "=_end").replace("=begin", "=_begin").replace("#{", "\\#{");
     }
 
     @Override

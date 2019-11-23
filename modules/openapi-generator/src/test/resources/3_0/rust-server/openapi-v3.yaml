@@ -1,0 +1,212 @@
+# Test the mainline function of OpenAPI v3 specification.
+#
+# This includes the XML part of the OpenAPI specification, as found at
+# https://swagger.io/docs/specification/data-models/representing-xml/
+#
+# Specifically, these tests are intended to include:
+#   - namespaces
+#   - arrays
+#     - as the whole response body
+#     - within another object
+#     - wrapping and renaming to and from camelCase and snake_case
+#   - objects
+#     - renaming to and from camelCase and snake_case
+#   - UUIDs
+#   - Octet Streams
+
+openapi: 3.0.1
+info:
+  title: My title
+  description: API under test
+  version: 1.0.7
+paths:
+  /xml:
+    post:
+      summary: Post an array
+      description: ''
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/xml_array'
+      responses:
+        '201':
+          description: 'OK'
+        '400':
+          description: Bad Request
+    put:
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/xml_object'
+      responses:
+        '201':
+          description: 'OK'
+        '400':
+          description: Bad Request
+  /xml_other:
+    post:
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/anotherXmlObject'
+      responses:
+        '201':
+          description: 'OK'
+        '400':
+          description: Bad Request
+    put:
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/anotherXmlArray'
+      responses:
+        '201':
+          description: 'OK'
+        '400':
+          description: Bad Request
+  /xml_extra:
+    post:
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/duplicate_xml_object'
+      responses:
+        '201':
+          description: 'OK'
+        '400':
+          description: Bad Request
+  /uuid:
+    get:
+      responses:
+        200:
+          description: Duplicate Response long text. One.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UuidObject"
+  /required_octet_stream:
+    put:
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: byte
+      responses:
+        '200':
+          description: 'OK'
+  /readonly_auth_scheme:
+    get:
+      security:
+        - authScheme: ["test.read"]
+      responses:
+        200:
+          description: Check that limiting to a single required auth scheme works
+  /multiple_auth_scheme:
+    get:
+      security:
+        - authScheme: ["test.read", "test.write"]
+      responses:
+        200:
+          description: Check that limiting to multiple required auth schemes works
+  /responses_with_headers:
+    get:
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            'application/json':
+              schema:
+                type: String
+          headers:
+            Success-Info:
+              schema:
+                type: String
+        '412':
+          description: Precondition Failed
+          headers:
+            Further-Info:
+              schema:
+                type: String
+            Failure-Info:
+              schema:
+                type: String
+
+components:
+  securitySchemes:
+    authScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'http://example.org'
+          tokenUrl: 'http://example.org'
+          scopes:
+            test.read: Allowed to read state.
+            test.write: Allowed to change state.
+  schemas:
+    UuidObject:
+      description: Test a model containing a UUID
+      type: string
+      format: uuid
+    xml_array:
+      xml:
+        name: CamelXmlArray
+        wrapped: true
+      type: array
+      items:
+        $ref: '#/components/schemas/xml_inner'
+    xml_inner:
+      type: string
+      xml:
+        name: camelXmlInner
+    xml_object:
+      title: an XML object
+      description: An XML object
+      type: object
+      properties:
+        innerString:
+          type: string
+        other_inner_rename:
+          type: integer
+      xml:
+        name: camelXmlObject
+        namespace: http://foo.bar
+    duplicate_xml_object:
+      description: An XML object
+      type: object
+      required:
+        - inner_array
+      properties:
+        inner_string:
+          type: string
+        inner_array:
+          $ref: '#/components/schemas/xml_array'
+      xml:
+        name: camelDuplicateXmlObject
+        namespace: http://different.bar
+    anotherXmlArray:
+      type: array
+      xml:
+        wrapped: true
+        name: snake_another_xml_array
+      items:
+        $ref: '#/components/schemas/anotherXmlInner'
+    anotherXmlInner:
+      type: string
+      xml:
+        name: snake_another_xml_inner
+    anotherXmlObject:
+      description: An XML object
+      type: object
+      properties:
+        inner_string:
+          type: string
+      xml:
+        name: snake_another_xml_object
+        namespace: http://foo.bar

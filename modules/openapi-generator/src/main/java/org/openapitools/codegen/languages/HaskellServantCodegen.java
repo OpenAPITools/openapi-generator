@@ -21,30 +21,16 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -56,6 +42,10 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     protected String sourceFolder = "src";
     protected String apiVersion = "0.0.1";
     private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_+");
+
+    public static final String PROP_SERVE_STATIC = "serveStatic";
+    public static final String PROP_SERVE_STATIC_DESC = "serve will serve files from the directory 'static'.";
+    public static final Boolean PROP_SERVE_STATIC_DEFAULT = Boolean.TRUE;
 
     /**
      * Configures the type of generator.
@@ -185,8 +175,10 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("file", "FilePath");
         typeMapping.put("binary", "FilePath");
         typeMapping.put("number", "Double");
+        typeMapping.put("BigDecimal", "Double");
         typeMapping.put("any", "Value");
         typeMapping.put("UUID", "UUID");
+        typeMapping.put("URI", "Text");
         typeMapping.put("ByteArray", "Text");
         typeMapping.put("object", "Value");
 
@@ -195,6 +187,15 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+        cliOptions.add(new CliOption(PROP_SERVE_STATIC, PROP_SERVE_STATIC_DESC).defaultValue(PROP_SERVE_STATIC_DEFAULT.toString()));
+    }
+
+    public void setBooleanProperty(String property, Boolean defaultValue) {
+        if (additionalProperties.containsKey(property)) {
+            additionalProperties.put(property, convertPropertyToBoolean(property));
+        } else {
+            additionalProperties.put(property, defaultValue);
+        }
     }
 
     @Override
@@ -204,6 +205,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         if (StringUtils.isEmpty(System.getenv("HASKELL_POST_PROCESS_FILE"))) {
             LOGGER.info("Hint: Environment variable HASKELL_POST_PROCESS_FILE not defined so the Haskell code may not be properly formatted. To define it, try 'export HASKELL_POST_PROCESS_FILE=\"$HOME/.local/bin/hfmt -w\"' (Linux/Mac)");
         }
+
+        setBooleanProperty(PROP_SERVE_STATIC, PROP_SERVE_STATIC_DEFAULT);
     }
 
     /**
@@ -315,7 +318,6 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      */
     private void setGenerateToSchema(CodegenModel model) {
         for (CodegenProperty var : model.vars) {
-            LOGGER.warn(var.dataType);
             if (var.dataType.contentEquals("Value") || var.dataType.contains(" Value")) {
                 additionalProperties.put("generateToSchema", false);
             }
@@ -363,7 +365,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-        LOGGER.debug("debugging swager type: " + p.getType() + ", " + p.getFormat() + " => " + schemaType);
+        LOGGER.debug("debugging OpenAPI type: " + p.getType() + ", " + p.getFormat() + " => " + schemaType);
         String type = null;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
@@ -425,6 +427,11 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         for (CodegenParameter param : pathParams) {
             captureTypes.put(param.baseName, param.dataType);
         }
+        
+        // Properly handle root-only routes (#3256)
+        if (path.contentEquals("/")) {
+            return new ArrayList<>();
+        }
 
         // Cut off the leading slash, if it is present.
         if (path.startsWith("/")) {
@@ -473,8 +480,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
 
     @Override
-    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, definitions, openAPI);
+    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, servers);
 
         List<String> path = pathToServantRoute(op.path, op.pathParams);
         List<String> type = pathToClientType(op.path, op.pathParams);
@@ -558,6 +565,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
                 return "(QueryList 'CommaSeparated (" + type + "))";
             case "tsv":
                 return "(QueryList 'TabSeparated (" + type + "))";
+            case "space":
             case "ssv":
                 return "(QueryList 'SpaceSeparated (" + type + "))";
             case "pipes":
@@ -565,7 +573,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             case "multi":
                 return "(QueryList 'MultiParamArray (" + type + "))";
             default:
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException(collectionFormat + " (collection format) not supported");
         }
     }
 
@@ -599,8 +607,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
     // Override fromModel to create the appropriate model namings
     @Override
-    public CodegenModel fromModel(String name, Schema mod, Map<String, Schema> allDefinitions) {
-        CodegenModel model = super.fromModel(name, mod, allDefinitions);
+    public CodegenModel fromModel(String name, Schema mod) {
+        CodegenModel model = super.fromModel(name, mod);
 
         setGenerateToSchema(model);
 

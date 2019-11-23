@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Handler;
 
-use Articus\PathHandler\Operation;
 use Articus\PathHandler\Annotation as PHA;
 use Articus\PathHandler\Consumer as PHConsumer;
 use Articus\PathHandler\Producer as PHProducer;
@@ -13,10 +13,11 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * @PHA\Route(pattern="/fake")
  */
-class Fake implements Operation\PatchInterface, Operation\PostInterface, Operation\GetInterface, Operation\DeleteInterface
+class Fake
 {
     /**
      * To test \&quot;client\&quot; model
+     * @PHA\Patch()
      * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Consumer(name=PHConsumer\Json::class, mediaType="application/json")
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\Client::class,"objectAttr":"bodyData"})
@@ -24,48 +25,51 @@ class Fake implements Operation\PatchInterface, Operation\PostInterface, Operati
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json")
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
      *
      * @return \App\DTO\Client
      */
-    public function handlePatch(ServerRequestInterface $request)
+    public function testClientModel(ServerRequestInterface $request): \App\DTO\Client
     {
         //TODO implement method
         /** @var \App\DTO\Client $bodyData */
         $bodyData = $request->getAttribute("bodyData");
-        throw new PHException\HttpCode(500, "Not implemented");
+        throw new PHException\HttpCode(501, "Not implemented");
     }
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     * @PHA\Post()
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
      */
-    public function handlePost(ServerRequestInterface $request)
+    public function testEndpointParameters(ServerRequestInterface $request)
     {
         //TODO implement method
-        throw new PHException\HttpCode(500, "Not implemented");
+        throw new PHException\HttpCode(501, "Not implemented");
     }
     /**
      * To test enum parameters
+     * @PHA\Get()
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
      */
-    public function handleGet(ServerRequestInterface $request)
+    public function testEnumParameters(ServerRequestInterface $request)
     {
         //TODO implement method
-        throw new PHException\HttpCode(500, "Not implemented");
+        throw new PHException\HttpCode(501, "Not implemented");
     }
     /**
      * Fake endpoint to test group parameters (optional)
+     * @PHA\Delete()
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
      */
-    public function handleDelete(ServerRequestInterface $request)
+    public function testGroupParameters(ServerRequestInterface $request)
     {
         //TODO implement method
-        throw new PHException\HttpCode(500, "Not implemented");
+        throw new PHException\HttpCode(501, "Not implemented");
     }
 }

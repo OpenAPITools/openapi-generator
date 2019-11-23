@@ -1,5 +1,6 @@
 package org.openapitools.client;
 
+import okhttp3.OkHttpClient;
 import org.openapitools.client.auth.*;
 
 import java.text.DateFormat;
@@ -9,6 +10,7 @@ import java.util.TimeZone;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 
 public class ApiClientTest {
@@ -165,7 +167,7 @@ public class ApiClientTest {
 
         apiClient.setConnectTimeout(10000);
     }
-    
+
     @Test
     public void testGetAndSetReadTimeout() {
         // read timeout defaults to 10 seconds
@@ -178,7 +180,7 @@ public class ApiClientTest {
 
         apiClient.setReadTimeout(10000);
     }
-    
+
     @Test
     public void testGetAndSetWriteTimeout() {
         // write timeout defaults to 10 seconds
@@ -191,7 +193,7 @@ public class ApiClientTest {
 
         apiClient.setWriteTimeout(10000);
     }
-    
+
     @Test
     public void testParameterToPairWhenNameIsInvalid() throws Exception {
         List<Pair> pairs_a = apiClient.parameterToPair(null, new Integer(1));
@@ -326,5 +328,20 @@ public class ApiClientTest {
         assertEquals("sun.gif", apiClient.sanitizeFilename("\\var\\tmp\\sun.gif"));
         assertEquals("sun.gif", apiClient.sanitizeFilename("c:\\var\\tmp\\sun.gif"));
         assertEquals("sun.gif", apiClient.sanitizeFilename(".\\sun.gif"));
+    }
+
+    @Test
+    public void testNewHttpClient() {
+        OkHttpClient oldClient = apiClient.getHttpClient();
+        apiClient.setHttpClient(oldClient.newBuilder().build());
+        assertThat(apiClient.getHttpClient(), is(not(oldClient)));
+    }
+
+    /**
+     * Tests the invariant that the HttpClient for the ApiClient must never be null
+     */
+    @Test(expected = NullPointerException.class)
+    public void testNullHttpClient() {
+        apiClient.setHttpClient(null);
     }
 }

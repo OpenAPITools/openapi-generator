@@ -39,7 +39,13 @@ packages/
 
 /target
 /generated-files
+test-output/
 nbactions.xml
+test-output/
+
+# website
+website/build/
+website/package-lock.json
 
 # scalatra
 samples/server-generator/scalatra/output
@@ -82,6 +88,9 @@ samples/client/petstore/java/jersey2/build/
 samples/client/petstore/java/okhttp-gson/.gradle/
 samples/client/petstore/java/okhttp-gson/build/
 samples/client/petstore/java/feign/build/
+samples/client/petstore/java/feign10x/build/
+samples/client/petstore/java/feign/project/
+samples/client/petstore/java/feign10x/project/
 samples/client/petstore/java/retrofit/build/
 samples/client/petstore/java/retrofit2/build/
 samples/client/petstore/java/retrofit2/hello.txt
@@ -162,25 +171,24 @@ samples/client/petstore/python-asyncio/.pytest_cache/
 samples/client/petstore/python-tornado/.venv/
 
 # ts
-samples/client/petstore/typescript-node/npm/node_modules
-samples/client/petstore/typescript-node/**/typings
-samples/client/petstore/typescript-angular/**/typings
-samples/client/petstore/typescript-fetch/**/dist/
-samples/client/petstore/typescript-fetch/**/typings
 samples/client/petstore/typescript-angular2/npm/npm-debug.log
 samples/client/petstore/typescript-node/npm/npm-debug.log
-samples/client/petstore/typescript-aurelia/**/dist/
 samples/client/petstore/typescript-angular/tsd-debug.log
+samples/client/petstore/typescript-fetch/tests/**/dist/
 
 # aspnetcore
 samples/server/petstore/aspnetcore/.vs/
 effective.pom
+
 # kotlin
 samples/client/petstore/kotlin/src/main/kotlin/test/
 samples/client/petstore/kotlin-threetenbp/build
 samples/client/petstore/kotlin-string/build
-samples/server/petstore/kotlin-server/ktor/build
 samples/openapi3/client/petstore/kotlin/build
+samples/server/petstore/kotlin-server/ktor/build
+samples/server/petstore/kotlin-springboot/build
+samples/client/petstore/kotlin-multiplatform/build/
+samples/client/petstore/kotlin-okhttp3/build/
 \?
 
 # haskell
@@ -193,6 +201,8 @@ samples/client/petstore/haskell-http-client/docs/quick-jump.css
 
 # R
 .Rproj.user
+samples/client/petstore/R/**/petstore.Rcheck/
+samples/client/petstore/R/**/*.tar.gz
 
 # elixir
 samples/client/petstore/elixir/_build/
@@ -214,6 +224,7 @@ samples/server/petstore/erlang-server/rebar.lock
 samples/client/petstore/dart/petstore/packages
 samples/client/petstore/dart/flutter_petstore/test/packages
 samples/client/petstore/dart/petstore/test/packages
+**/.dart_tool
 
 # JS
 samples/client/petstore/javascript/package-lock.json
@@ -224,3 +235,7 @@ samples/client/petstore/elm/index.html
 # C
 samples/client/petstore/c/build
 samples/client/petstore/c/*.so
+
+# Ruby
+samples/openapi3/client/petstore/ruby/Gemfile.lock
+samples/openapi3/client/petstore/ruby-faraday/Gemfile.lock

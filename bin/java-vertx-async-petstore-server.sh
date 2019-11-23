@@ -26,7 +26,7 @@ then
 fi
 
 # if you've executed sbt assembly previously it will use that instead.
-export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g java-vertx -o samples/server/petstore/java-vertx/async -DvertxSwaggerRouterVersion=1.4.0 -DhideGenerationTimestamp=true $@"
+export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
+ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g java-vertx -o samples/server/petstore/java-vertx/async --additional-properties vertxSwaggerRouterVersion=1.4.0,hideGenerationTimestamp=true $@"
 
 java $JAVA_OPTS -jar $executable $ags

@@ -15,11 +15,9 @@
  */
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.io.File;
-import java.util.*;
 
 public class PythonAiohttpConnexionServerCodegen extends PythonAbstractConnexionServerCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonAiohttpConnexionServerCodegen.class);
@@ -45,6 +43,6 @@ public class PythonAiohttpConnexionServerCodegen extends PythonAbstractConnexion
     protected void addSupportingFiles() {
         supportingFiles.add(new SupportingFile("conftest.mustache", testPackage, "conftest.py"));
         supportingFiles.add(new SupportingFile("__init__test.mustache", testPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__main.mustache", packageName, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__main.mustache", packagePath(), "__init__.py"));
     }
 }

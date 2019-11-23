@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.go;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.GoClientCodegen;
 import org.openapitools.codegen.options.GoClientOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class GoClientOptionsTest extends AbstractOptionsTest {
 
@@ -51,7 +50,13 @@ public class GoClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setWithXml(GoClientOptionsProvider.WITH_XML_VALUE);
             times = 1;
+            clientCodegen.setWithXml(GoClientOptionsProvider.ENUM_CLASS_PREFIX_VALUE);
+            times = 1;
             clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(GoClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
+            times = 1;
+            clientCodegen.setIsGoSubmodule(Boolean.valueOf(GoClientOptionsProvider.IS_GO_SUBMODULE_VALUE));
+            times = 1;
+            clientCodegen.setStructPrefix(Boolean.valueOf(GoClientOptionsProvider.STRUCT_PREFIX_VALUE));
             times = 1;
         }};
     }

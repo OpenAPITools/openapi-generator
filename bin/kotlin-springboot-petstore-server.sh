@@ -25,8 +25,8 @@ then
   mvn clean package
 fi
 
-export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -t modules/openapi-generator/src/main/resources/kotlin-spring -g kotlin-spring -o samples/server/petstore/kotlin-springboot --additional-properties=library=spring-boot,beanValidations=true,swaggerAnnotations=true,serviceImplementation=true"
+export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
+ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -t modules/openapi-generator/src/main/resources/kotlin-spring -g kotlin-spring -o samples/server/petstore/kotlin-springboot --additional-properties=library=spring-boot,beanValidations=true,swaggerAnnotations=true,serviceImplementation=true,serializableModel=true"
 
 echo "Cleaning previously generated files if any from samples/server/petstore/kotlin-springboot"
 rm -rf samples/server/petstore/kotlin-springboot

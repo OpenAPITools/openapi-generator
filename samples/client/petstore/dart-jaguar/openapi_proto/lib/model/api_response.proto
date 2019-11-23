@@ -1,0 +1,9 @@
+
+syntax = "proto3";
+
+message ApiResponse {
+    int32 code = 1;
+    string type = 2;
+    string message = 3;
+}
+

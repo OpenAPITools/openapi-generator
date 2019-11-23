@@ -3,7 +3,6 @@ package org.openapitools.codegen.serializer;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-
 import io.swagger.v3.oas.models.OpenAPI;
 
 import java.io.IOException;

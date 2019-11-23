@@ -90,7 +90,7 @@ defmodule OpenapiPetstore.RequestBuilder do
   end
   def add_param(request, :headers, key, value) do
     request
-    |> Map.update(:headers, %{key => value}, &(Map.put(&1, key, value)))
+    |> Tesla.put_header(key, value)
   end
   def add_param(request, :file, name, path) do
     request
@@ -118,12 +118,26 @@ defmodule OpenapiPetstore.RequestBuilder do
   {:ok, struct} on success
   {:error, term} on failure
   """
-  @spec decode(Tesla.Env.t | term()) :: {:ok, struct()} | {:error, Tesla.Env.t} | {:error, term()}
-  def decode(%Tesla.Env{status: 200, body: body}), do: Poison.decode(body)
-  def decode(response), do: {:error, response}
+  @spec decode(Tesla.Env.t() | term(), false | struct() | [struct()]) ::
+          {:ok, struct()} | {:ok, Tesla.Env.t()} | {:error, any}
+  def decode(%Tesla.Env{} = env, false), do: {:ok, env}
+  def decode(%Tesla.Env{body: body}, struct), do: Poison.decode(body, as: struct)
 
-  @spec decode(Tesla.Env.t | term(), :false | struct() | [struct()]) :: {:ok, struct()} | {:error, Tesla.Env.t} | {:error, term()}
-  def decode(%Tesla.Env{status: 200} = env, false), do: {:ok, env}
-  def decode(%Tesla.Env{status: 200, body: body}, struct), do: Poison.decode(body, as: struct)
-  def decode(response, _struct), do: {:error, response}
+  def evaluate_response({:ok, %Tesla.Env{} = env}, mapping) do
+    resolve_mapping(env, mapping)
+  end
+
+  def evaluate_response({:error, _} = error, _), do: error
+
+  def resolve_mapping(env, mapping, default \\ nil)
+
+  def resolve_mapping(%Tesla.Env{status: status} = env, [{mapping_status, struct} | _], _)
+      when status == mapping_status do
+    decode(env, struct)
+  end
+
+  def resolve_mapping(env, [{:default, struct} | tail], _), do: resolve_mapping(env, tail, struct)
+  def resolve_mapping(env, [_ | tail], struct), do: resolve_mapping(env, tail, struct)
+  def resolve_mapping(env, [], nil), do: {:error, env}
+  def resolve_mapping(env, [], struct), do: decode(env, struct)
 end

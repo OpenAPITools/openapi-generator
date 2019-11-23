@@ -17,8 +17,8 @@
 
 package org.openapitools.codegen.config;
 
-import org.openapitools.codegen.utils.OptionUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.openapitools.codegen.utils.OptionUtils;
 
 import java.util.*;
 
@@ -104,6 +104,19 @@ public final class CodegenConfiguratorUtils {
         final Map<String, String> map = createMapFromKeyValuePairs(additionalProperties);
         for (Map.Entry<String, String> entry : map.entrySet()) {
             configurator.addAdditionalProperty(entry.getKey(), entry.getValue());
+        }
+    }
+
+    public static void applyServerVariablesKvpList(List<String> values, CodegenConfigurator configurator) {
+        for(String value : values) {
+            applyServerVariablesKvp(value, configurator);
+        }
+    }
+
+    public static void applyServerVariablesKvp(String values, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(values);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addServerVariable(entry.getKey(), entry.getValue());
         }
     }
 

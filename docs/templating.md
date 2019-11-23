@@ -5,9 +5,11 @@ title: Using Templates
 
 It's easy to work with templates for codegen!
 
+For maybe 90% of use cases, you will only need to modify the mustache template files to create your own custom generated code. If you need to include additional files in your generated output, manipulate the OpenAPI document inputs, or implement your own vendor extensions or other logic, you'll want to read [customization](./customization.md) after you read this document. Be sure to start here first, because templating is the easier concept and you'll need it for more advanced use cases.
+
 The generator workflow has [transforming logic](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages) as well as templates for each generation of code.
 
-Each generator will create a data structure from the OpenAPI document; OpenAPI 2.0 and OpenAPI 3.x documents are normalized into the same API model within the generator. This model is then applied to the templates.  While generators do not need to perform transformations, it's often necessary in order to add more advanced support for your language or framework. You may need to refer to the generator implementation to understand some of the logic while creating or customizing templates (see [FinchServerCodegen.java](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/FinchServerCodegen.java) for an advanced example).
+Each generator will create a data structure from the OpenAPI document; OpenAPI 2.0 and OpenAPI 3.x documents are normalized into the same API model within the generator. This model is then applied to the templates.  While generators do not need to perform transformations, it's often necessary in order to add more advanced support for your language or framework. You may need to refer to the generator implementation to understand some of the logic while creating or customizing templates (see [ScalaFinchServerCodegen.java](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/ScalaFinchServerCodegen.java) for an advanced example).
 
 The transform logic needs to implement [CodegenConfig.java](https://github.com/openapitools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/CodegenConfig.java) and is most easily done by extending [DefaultCodegen.java](https://github.com/openapitools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java).  Take a look at the various implementations as a guideline while the instructions get more complete.
 
@@ -16,9 +18,9 @@ The transform logic needs to implement [CodegenConfig.java](https://github.com/o
 > OpenAPI Generator applies user-defined templates via options:  
 > * CLI: `-t/--template` CLI options
 > * Maven Plugin: `templateDirectory`
-> * Gradle Plugin: `templateDir` 
+> * Gradle Plugin: `templateDir`
 
-Built-in templates are written in Mustache and processed by [jmustache](https://github.com/samskivert/jmustache). We plan to eventually support Handlebars and user-defined template engines via plugins.
+Built-in templates are written in Mustache and processed by [jmustache](https://github.com/samskivert/jmustache). Beginning with version 4.0.0, we support experimental Handlebars and user-defined template engines via plugins.
 
 OpenAPI Generator supports user-defined templates. This approach is often the easiest when creating a custom template. Our generators implement a combination of language and framework features, and it's fully possible to use an existing generator to implement a custom template for a different framework. Suppose you have internal utilities which you'd like to incorporate into generated code (e.g. logging, monitoring, fault-handling)... this is easy to add via custom templates.
 
@@ -26,7 +28,7 @@ OpenAPI Generator supports user-defined templates. This approach is often the ea
 
 ### Custom Logic
 
-For this example, let's modify a Java client to use AOP via [jcabi/jcabi-aspects](https://github.com/jcabi/jcabi-aspects). We'll log API method execution at the `INFO` level. The jcabi-aspects project could also be used to implement method retries on failures; this would be a great exercise to further play around with templating. 
+For this example, let's modify a Java client to use AOP via [jcabi/jcabi-aspects](https://github.com/jcabi/jcabi-aspects). We'll log API method execution at the `INFO` level. The jcabi-aspects project could also be used to implement method retries on failures; this would be a great exercise to further play around with templating.
 
 The Java generator supports a `library` option. This option works by defining base templates, then applying library-specific template overrides. This allows for template reuse for libraries sharing the same programming language. Templates defined as a library need only modify or extend the templates concerning the library, and generation falls back to the root templates (the "defaults") when not extended by the library. Generators which support the `library` option will only support the libraries known by the generator at compile time, and will throw a runtime error if you try to provide a custom library name.
 
@@ -77,7 +79,7 @@ index 3b40702..a6d12e0 100644
 +++ b/libraries/resteasy/build.gradle.mustache
 @@ -134,6 +134,7 @@ ext {
  }
- 
+
  dependencies {
 +    compile "com.jcabi:jcabi-aspects:0.22.6"
      compile "io.swagger:swagger-annotations:$swagger_annotations_version"
@@ -95,7 +97,7 @@ index a4d0f9f..49b17c7 100644
 +++ b/libraries/resteasy/api.mustache
 @@ -1,5 +1,6 @@
  package {{package}};
- 
+
 +import com.jcabi.aspects.Loggable;
  import {{invokerPackage}}.ApiException;
  import {{invokerPackage}}.ApiClient;
@@ -134,7 +136,7 @@ index 04a9d55..7a93c50 100644
  apply plugin: 'idea'
  apply plugin: 'eclipse'
 +apply plugin: 'aspectj'
- 
+
  group = '{{groupId}}'
  version = '{{artifactVersion}}'
 @@ -12,6 +13,7 @@ buildscript {
@@ -144,14 +146,14 @@ index 04a9d55..7a93c50 100644
 +        classpath "net.uberfoo.gradle:gradle-aspectj:2.2"
      }
  }
- 
+
 @@ -140,9 +142,18 @@ ext {
      jersey_version = "1.19.4"
      jodatime_version = "2.9.9"
      junit_version = "4.12"
 +    aspectjVersion = '1.9.0'
  }
- 
+
 +sourceCompatibility = '1.8'
 +targetCompatibility = '1.8'
 +
@@ -199,7 +201,7 @@ Make sure your custom template compiles:
 ```bash
 cd ~/.openapi-generator/example
 gradle assemble
-# or, regenerate the wrapper 
+# or, regenerate the wrapper
 gradle wrapper --gradle-version 4.8 --distribution-type all
 ./gradlew assemble
 ```
@@ -261,6 +263,165 @@ Congratulations! You've now modified one of the built-in templates to meet your 
 
 Adding/modifying template logic simply requires a little bit of [mustache](https://mustache.github.io/), for which you can use existing templates as a guide.
 
+### Custom Engines
+
+> Custom template engine support is *experimental*
+
+If Mustache or the experimental Handlebars engines don't suit your needs, you can define an adapter to your templating engine of choice. To do this, you'll need to define a new project which consumes the `openapi-generator-core` artifact, and at a minimum implement `TemplatingEngineAdapter`.
+
+This example:
+
+* creates an adapter providing the fundamental logic to compile [Pebble Templates](https://pebbletemplates.io)
+* will be implemented in Kotlin to demonstrate ServiceLoader configuration specific to Kotlin (Java will be similar)
+* requires Gradle 5.0+
+* provides project setup instructions for IntelliJ
+
+To begin, create a [new Gradle project](https://www.jetbrains.com/help/idea/getting-started-with-gradle.html) with Kotlin support. To do this, go to `File` ➞ `New` ➞ `Project`, choose "Gradle" and "Kotlin". Specify groupId `org.openapitools.examples` and artifactId `pebble-template-adapter`.
+
+Ensure the new project uses Gradle 5.0. Navigate to the newly created directory and execute:
+
+```bash
+gradle wrapper --gradle-version 5.0
+```
+
+In `build.gradle`, we'll add a dependency for OpenAPI Tools core which defines the interface and an abstract helper type for implementing the adapter. We'll also pull in the Pebble artifact. We'll be evaluating this new artifact locally, so we'll also add the Maven plugin for installing to the local maven repository. We'll also create a fatjar using the `shadow` plugin to simplify our classpath.
+
+Modifications to the new project's `build.gradle` should be made in the `plugins` and `dependencies` nodes:
+
+```diff
+ plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.3.11'
+    id "com.github.johnrengelman.shadow" version "5.0.0"
+ }
+
+ dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "org.openapitools:openapi-generator-core:4.0.0-SNAPSHOT"
+    compile "io.pebbletemplates:pebble:3.0.8"
+ }
+```
+
+The above configuration for the `shadow` plugin is strictly optional. It is not needed, for instance, if you plan to publish your adapter and consume it via the Maven or Gradle plugins.
+
+Next, create a new class file called `PebbleTemplateEngineAdapter` under `src/kotlin`. We'll define the template adapter's name as `pebble` and we'll also list this as the only supported file extension. We'll implement the adapter by extending `AbstractTemplatingEngineAdapter`, which includes reusable logic, such as retrieving a list of all possible template names for our provided template extensions(s).
+
+The class in its simplest form looks like this (with inline comments):
+
+```kotlin
+// Allows specifying engine by class name
+// e.g. -e org.openapitools.examples.templating.PebbleTemplateAdapter
+@file:JvmName("PebbleTemplateAdapter")
+package org.openapitools.examples.templating
+
+// imports
+
+class PebbleTemplateAdapter : AbstractTemplatingEngineAdapter() {
+    // initialize the template compilation engine
+    private val engine: PebbleEngine = PebbleEngine.Builder()
+        .cacheActive(false)
+        .loader(DelegatingLoader(listOf(FileLoader(), ClasspathLoader())))
+        .build()
+
+    // allows targeting engine by id/name: -e pebble
+    override fun getIdentifier(): String = "pebble"
+
+    override fun compileTemplate(
+        generator: TemplatingGenerator?,
+        bundle: MutableMap<String, Any>?,
+        templateFile: String?
+    ): String {
+        // This will convert, for example, model.mustache to model.pebble
+        val modifiedTemplate = this.getModifiedFileLocation(templateFile).first()
+
+        // Uses generator built-in template resolution strategy to find the full template file
+        val filePath = generator?.getFullTemplatePath(modifiedTemplate)
+
+        val writer = StringWriter()
+        // Conditionally writes out the template if found.
+        if (filePath != null) {
+            engine.getTemplate(filePath.toAbsolutePath().toString())?.evaluate(writer, bundle)
+        }
+        return writer.toString()
+    }
+
+    override fun getFileExtensions(): Array<String> = arrayOf("pebble")
+}
+```
+
+Lastly, create a file `resources/META-INF/services/org.openapitools.codegen.api.TemplatingEngineAdapter`, containing the full class path to the above class:
+
+```
+org.openapitools.examples.templating.PebbleTemplateAdapter
+```
+
+This allows the adapter to load via ServiceLoader, and to be referenced via the identifier `pebble`. This is optional; if you don't provide the above file and contents, you'll only be able to load the engine via full class name (explained in a bit).
+
+Now, build the fatjar for this new adapter:
+
+```bash
+./gradlew shadowJar
+```
+
+To test compilation of some templates, we'll need to first create one or more template files. Create a temp directory at `/tmp/pebble-example/templates` and add the following files.
+
+*api.pebble*
+
+```
+package {{packageName}}
+
+import (
+    "net/http"
+{% for item in imports %}
+    "{{item.import}}"
+{% endfor %}
+)
+
+type Generated{{classname}}Servicer
+
+// etc
+```
+
+*model.pebble*
+
+```
+package {{packageName}}
+
+{% for item in models %}
+{% if item.isEnum %}
+// TODO: enum
+{% else %}
+{% if item.description is not empty %}// {{item.description}}{% endif %}
+type {{item.classname}} struct {
+{% for var in item.model.vars %}
+    {% if var.description is not empty %}// {{var.description}}{% endif %}
+    {{var.name}} {% if var.isNullable %}*{% endif %}{{var.dataType}} `json:"{{var.baseName}}{% if var.required == false %},omitempty{% endif %}"{% if var.withXml == true %} xml:"{{var.baseName}}{% if var.isXmlAttribute %},attr{% endif %}"{% endif %}`
+{% endfor %}
+}
+{% endif %}
+{{model.name}}
+{% endfor %}
+```
+
+> Find object structures passed to templates later in this document's **Structures** section.
+
+Finally, we can compile some code by explicitly defining our classpath and jar entrypoint for CLI (be sure to modify `/your/path` below)
+
+```bash
+java $JAVA_OPTS -cp /your/path/build/libs/pebble-template-adapter-1.0-SNAPSHOT-all.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
+    org.openapitools.codegen.OpenAPIGenerator \
+    generate \
+    -g go \
+    -i https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v2.0/json/petstore-minimal.json \
+    -e pebble \
+    -o /tmp/pebble-example/out \
+    -t /tmp/pebble-example/templates \
+    -Dmodels -DmodelDocs=false -DmodelTests=false -Dapis -DapiTests=false -DapiDocs=false
+```
+
+Notice how we've targeted our custom template engine adapter via `-e pebble`. If you don't include the SPI file under `META-INF/services`, you'll need to specify the exact classpath: `org.openapitools.examples.templating.PebbleTemplateAdapter`. Notice that the target class here matches the Kotlin class name. This is because of the `@file:JvmName` annotation.
+
+Congratulations on creating a custom templating engine adapter!
+
 ## Structures
 
 Aside from transforming an API document, the implementing class gets to decide how to apply the data structure to templates. We can decide which data structure to apply to which template files. You have the following structures at your disposal.
@@ -269,49 +430,49 @@ Examples for the following structures will be presented using the following spec
 
 ```yaml
   swagger: "2.0"
-  info: 
+  info:
     version: "1.0.0"
     title: "Swagger Petstore"
     description: "A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification"
     termsOfService: "http://swagger.io/terms/"
-    contact: 
+    contact:
       name: "Swagger API Team"
-    license: 
+    license:
       name: "MIT"
   host: "petstore.swagger.io"
   basePath: "/api"
-  schemes: 
+  schemes:
     - "http"
-  consumes: 
+  consumes:
     - "application/json"
-  produces: 
+  produces:
     - "application/json"
-  paths: 
-    /pets: 
-      get: 
+  paths:
+    /pets:
+      get:
         description: "Returns all pets from the system that the user has access to"
-        produces: 
+        produces:
           - "application/json"
-        responses: 
+        responses:
           "200":
             description: "A list of pets."
-            schema: 
+            schema:
               type: "array"
-              items: 
+              items:
                 $ref: "#/definitions/Pet"
-  definitions: 
-    Pet: 
+  definitions:
+    Pet:
       type: "object"
-      required: 
+      required:
         - "id"
         - "name"
-      properties: 
-        id: 
+      properties:
+        id:
           type: "integer"
           format: "int64"
-        name: 
+        name:
           type: "string"
-        tag: 
+        tag:
           type: "string"
 
 ```
@@ -319,9 +480,9 @@ Examples for the following structures will be presented using the following spec
 ### Operations
 
 > Inspect operation structures passed to templates with system property `-DdebugOpenAPI`
-> 
+>
 > Example:
-> 
+>
 > ```bash
 > openapi-generator generate -g go \
 >     -o out \
@@ -351,9 +512,9 @@ Here, an Operation with tag `Pet` will generate two files: `SWGPetApi.h` and `SW
 ### Models
 
 > Inspect models passed to templates with system property `-DdebugModels`
-> 
+>
 > Execute:
-> 
+>
 > ```bash
 > openapi-generator generate -g go \
 >     -o out \
@@ -571,14 +732,14 @@ Templates are passed redundant properties, depending on the semantics of the arr
 * `readOnlyVars` lists all model properties marked with `readonly` in the spec document
 * `allVars` lists all model properties. This may include the same set as `vars`, but may also include generator-defined properties
 
-We expose the same properties in multiple sets because this allows us to conditionally iterate over properties based on some condition ("is it required" or "is it readonly"). This is driven by the use of the logic-less Mustache templates. It is possible that models passed to the templating engine may be cleaned up as we support more template engines, but such an effort will go through a deprecation phase and would be communicated at runtime through log messages. 
+We expose the same properties in multiple sets because this allows us to conditionally iterate over properties based on some condition ("is it required" or "is it readonly"). This is driven by the use of the logic-less Mustache templates. It is possible that models passed to the templating engine may be cleaned up as we support more template engines, but such an effort will go through a deprecation phase and would be communicated at runtime through log messages.
 
 ### supportingFiles
 
 > Inspect supportingFiles passed to templates with system property `-DdebugSupportingFiles`
-> 
+>
 > Execute:
-> 
+>
 > ```bash
 > openapi-generator generate -g go \
 >     -o out \
@@ -596,9 +757,24 @@ Supporting files can either be processed through the templating engine or copied
 
 > This is a very limited list of variable name explanations. Feel free to [open a pull request](https://github.com/OpenAPITools/openapi-generator/pull/new/master) to add to this documentation!
 
-- **complexType**: stores the name of the model (e.g. Pet) 
+- **complexType**: stores the name of the model (e.g. Pet)
 - **isContainer**: true if the parameter or property is an array or a map.
 - **isPrimitiveType**: true if the parameter or property type is a primitive type (e.g. string, integer, etc) as defined in the spec.
+
+## Mustache Lambdas
+
+Many generators (*those extending DefaultCodegen*) come with a small set of lambda functions available under the key `lambda`:
+
+- `lowercase` - Converts all of the characters in this fragment to lower case using the rules of the `ROOT` locale.
+- `uppercase` - Converts all of the characters in this fragment to upper case using the rules of the `ROOT` locale.
+- `titlecase` - Converts text in a fragment to title case. For example `once upon a time` to `Once Upon A Time`.
+- `camelcase` - Converts text in a fragment to camelCase. For example `Input-text` to `inputText`.
+- `indented` - Prepends 4 spaces indention from second line of a fragment on. First line will be indented by Mustache.
+- `indented_8` - Prepends 8 spaces indention from second line of a fragment on. First line will be indented by Mustache.
+- `indented_12` - Prepends 12 spaces indention from second line of a fragment on. First line will be indented by Mustache.
+- `indented_16` -Prepends 16 spaces indention from second line of a fragment on. First line will be indented by Mustache.
+
+Lambda is invoked by `lambda.[lambda name]` expression. For example: `{{#lambda.lowercase}}FRAGMENT TO LOWERCASE{{/lambda.lowercase}}` to lower case text between `lambda.lowercase`.
 
 ## Extensions
 
@@ -614,6 +790,41 @@ For example, suppose you use your specification document for code generation wit
 <!-- TODO: Auto-generate this list using generator metadata -->
 
 The following are vendor extensions supported by OpenAPI Generator. The list may not be up-to-date, the best way is to look for "x-" in the built-in mustache templates.
+
+### All generators (core)
+
+#### Enum
+
+`x-enum-varnames` can be used to have an other enum name for the corresponding value.
+This is used to define names of the enum items.
+
+`x-enum-descriptions` can be used to provide an individual description for each value.
+This is used for comments in the code (like javadoc if the target language is java).
+
+`x-enum-descriptions` and `x-enum-varnames` are each expected to be list of items containing the same number of items as `enum`.
+The order of the items in the list matters: their position is used to group them together.
+
+Example:
+
+```yaml
+WeatherType:
+  type: integer
+  format: int32
+  enum:
+    - 42
+    - 18
+    - 56
+  x-enum-descriptions:
+    - 'Blue sky'
+    - 'Slightly overcast'
+    - 'Take an umbrella with you'
+  x-enum-varnames:
+    - Sunny
+    - Cloudy
+    - Rainy
+```
+
+In the example for the integer value `42`, the description will be `Blue sky` and the name of the enum item will be `Sunny` (some generators changes it to `SUNNY` to respect some coding convention).
 
 ### ObjC
 #### x-objc-operationId
@@ -667,7 +878,7 @@ paths:
 
 #### x-mysqlSchema
 
-MySQL schema generator creates vendor extensions based on openapi `dataType` and `dataFormat`. When user defined extensions with same key already exists codegen accepts those as is. It means it won't validate properties or correct it for you. Every model in `definitions` can contain table related and column related extensions like in example below: 
+MySQL schema generator creates vendor extensions based on openapi `dataType` and `dataFormat`. When user defined extensions with same key already exists codegen accepts those as is. It means it won't validate properties or correct it for you. Every model in `definitions` can contain table related and column related extensions like in example below:
 
 ```yaml
 definitions:

@@ -1,0 +1,31 @@
+Articus\PathHandler\RouteInjection\Factory:
+  paths:
+    '{{basePathWithoutHost}}':
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+    - {{package}}\{{classname}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+  handlers:
+    abstract_factories:
+    - Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory
+#  consumers:
+#    factories:
+#    invokables:
+#  attributes:
+#    factories:
+#    invokables:
+#  producers:
+#    factories:
+#    invokables:
+
+Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+  {{package}}\{{classname}}: []
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

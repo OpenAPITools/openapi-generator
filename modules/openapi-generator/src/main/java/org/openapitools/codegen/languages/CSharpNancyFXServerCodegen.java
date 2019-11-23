@@ -18,19 +18,10 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.base.Predicate;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.*;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -38,38 +29,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static java.util.Arrays.asList;
 import static java.util.UUID.randomUUID;
 import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.openapitools.codegen.CodegenConstants.INTERFACE_PREFIX;
-import static org.openapitools.codegen.CodegenConstants.INTERFACE_PREFIX_DESC;
-import static org.openapitools.codegen.CodegenConstants.OPTIONAL_PROJECT_FILE;
-import static org.openapitools.codegen.CodegenConstants.OPTIONAL_PROJECT_FILE_DESC;
-import static org.openapitools.codegen.CodegenConstants.OPTIONAL_PROJECT_GUID;
-import static org.openapitools.codegen.CodegenConstants.OPTIONAL_PROJECT_GUID_DESC;
-import static org.openapitools.codegen.CodegenConstants.PACKAGE_NAME;
-import static org.openapitools.codegen.CodegenConstants.PACKAGE_VERSION;
-import static org.openapitools.codegen.CodegenConstants.RETURN_ICOLLECTION;
-import static org.openapitools.codegen.CodegenConstants.RETURN_ICOLLECTION_DESC;
-import static org.openapitools.codegen.CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG;
-import static org.openapitools.codegen.CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC;
-import static org.openapitools.codegen.CodegenConstants.SOURCE_FOLDER;
-import static org.openapitools.codegen.CodegenConstants.SOURCE_FOLDER_DESC;
-import static org.openapitools.codegen.CodegenConstants.USE_COLLECTION;
-import static org.openapitools.codegen.CodegenConstants.USE_COLLECTION_DESC;
-import static org.openapitools.codegen.CodegenConstants.USE_DATETIME_OFFSET;
-import static org.openapitools.codegen.CodegenConstants.USE_DATETIME_OFFSET_DESC;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.CodegenType.SERVER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -392,7 +359,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public void preprocessOpenAPI(final OpenAPI openAPI) {
-        URL url = URLPathUtils.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         String path = URLPathUtils.getPath(url, "/");
         final String packageContextOption = (String) additionalProperties.get(PACKAGE_CONTEXT);
         additionalProperties.put("packageContext", packageContextOption == null ? sanitizeName(path) : packageContextOption);

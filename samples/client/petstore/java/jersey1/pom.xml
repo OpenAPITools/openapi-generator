@@ -201,6 +201,14 @@
             <version>${swagger-annotations-version}</version>
         </dependency>
 
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
+
         <!-- HTTP client: jersey-client -->
         <dependency>
             <groupId>com.sun.jersey</groupId>

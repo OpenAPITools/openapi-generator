@@ -16,6 +16,7 @@ cmake .
 
 make 
 
-./unit-manual-PetAPI
-./unit-manual-UserAPI
-./unit-manual-StoreAPI
+if [ -f unit-manual-PetAPI ]; then ./unit-manual-PetAPI; fi
+if [ -f unit-manual-UserAPI ]; then ./unit-manual-UserAPI; fi
+if [ -f unit-manual-StoreAPI ]; then ./unit-manual-StoreAPI; fi
+

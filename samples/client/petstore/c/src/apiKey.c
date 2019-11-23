@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "keyValuePair.h"
+#include "../include/keyValuePair.h"
 
 keyValuePair_t *keyValuePair_create(char *key, void *value) {
 	keyValuePair_t *keyValuePair = malloc(sizeof(keyValuePair_t));

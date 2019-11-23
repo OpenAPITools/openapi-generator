@@ -208,6 +208,13 @@
             <version>${swagger-annotations-version}</version>
         </dependency>
 
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        
         <!-- Vertx -->
         <dependency>
             <groupId>io.vertx</groupId>
@@ -234,7 +241,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-version}</version>
+            <version>${jackson-databind}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable-version}</version>
         </dependency>
         {{#joda}}
             <dependency>
@@ -276,8 +288,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vertx-version>3.4.2</vertx-version>
-        <swagger-annotations-version>1.5.21</swagger-annotations-version>
-        <jackson-version>{{^threetenbp}}2.8.11{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}</jackson-version>
+        <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        <jackson-version>2.9.10</jackson-version>
+        <jackson-databind>2.9.10.1</jackson-databind>
+        <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
         <junit-version>4.12</junit-version>
     </properties>
 </project>

@@ -10,53 +10,194 @@
 package petstoreserver
 
 import (
+	"encoding/json"
 	"net/http"
+	"strings"
+
+	"github.com/gorilla/mux"
 )
 
+// A UserApiController binds http requests to an api service and writes the service results to the http response
+type UserApiController struct {
+	service UserApiServicer
+}
+
+// NewUserApiController creates a default api controller
+func NewUserApiController(s UserApiServicer) Router {
+	return &UserApiController{ service: s }
+}
+
+// Routes returns all of the api route for the UserApiController
+func (c *UserApiController) Routes() Routes {
+	return Routes{ 
+		{
+			"CreateUser",
+			strings.ToUpper("Post"),
+			"/v2/user",
+			c.CreateUser,
+		},
+		{
+			"CreateUsersWithArrayInput",
+			strings.ToUpper("Post"),
+			"/v2/user/createWithArray",
+			c.CreateUsersWithArrayInput,
+		},
+		{
+			"CreateUsersWithListInput",
+			strings.ToUpper("Post"),
+			"/v2/user/createWithList",
+			c.CreateUsersWithListInput,
+		},
+		{
+			"DeleteUser",
+			strings.ToUpper("Delete"),
+			"/v2/user/{username}",
+			c.DeleteUser,
+		},
+		{
+			"GetUserByName",
+			strings.ToUpper("Get"),
+			"/v2/user/{username}",
+			c.GetUserByName,
+		},
+		{
+			"LoginUser",
+			strings.ToUpper("Get"),
+			"/v2/user/login",
+			c.LoginUser,
+		},
+		{
+			"LogoutUser",
+			strings.ToUpper("Get"),
+			"/v2/user/logout",
+			c.LogoutUser,
+		},
+		{
+			"UpdateUser",
+			strings.ToUpper("Put"),
+			"/v2/user/{username}",
+			c.UpdateUser,
+		},
+	}
+}
+
 // CreateUser - Create user
-func CreateUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) { 
+	body := &User{}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	result, err := c.service.CreateUser(*body)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	EncodeJSONResponse(result, nil, w)
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
-func CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) { 
+	body := &[]User{}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	result, err := c.service.CreateUsersWithArrayInput(*body)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	EncodeJSONResponse(result, nil, w)
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
-func CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) { 
+	body := &[]User{}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	result, err := c.service.CreateUsersWithListInput(*body)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	EncodeJSONResponse(result, nil, w)
 }
 
 // DeleteUser - Delete user
-func DeleteUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) { 
+	params := mux.Vars(r)
+	username := params["username"]
+	result, err := c.service.DeleteUser(username)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	EncodeJSONResponse(result, nil, w)
 }
 
 // GetUserByName - Get user by user name
-func GetUserByName(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request) { 
+	params := mux.Vars(r)
+	username := params["username"]
+	result, err := c.service.GetUserByName(username)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	EncodeJSONResponse(result, nil, w)
 }
 
 // LoginUser - Logs user into the system
-func LoginUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) { 
+	query := r.URL.Query()
+	username := query.Get("username")
+	password := query.Get("password")
+	result, err := c.service.LoginUser(username, password)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	EncodeJSONResponse(result, nil, w)
 }
 
 // LogoutUser - Logs out current logged in user session
-func LogoutUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) { 
+	result, err := c.service.LogoutUser()
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	EncodeJSONResponse(result, nil, w)
 }
 
 // UpdateUser - Updated user
-func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) { 
+	params := mux.Vars(r)
+	username := params["username"]
+	body := &User{}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	result, err := c.service.UpdateUser(username, *body)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	EncodeJSONResponse(result, nil, w)
 }

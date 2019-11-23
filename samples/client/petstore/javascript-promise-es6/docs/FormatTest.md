@@ -1,6 +1,7 @@
 # OpenApiPetstore.FormatTest
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **integer** | **Number** |  | [optional] 
@@ -16,5 +17,6 @@ Name | Type | Description | Notes
 **dateTime** | **Date** |  | [optional] 
 **uuid** | **String** |  | [optional] 
 **password** | **String** |  | 
+**bigDecimal** | **Number** |  | [optional] 
 
 

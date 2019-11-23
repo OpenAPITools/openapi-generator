@@ -1,13 +1,14 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 
+
 part 'tag.jser.dart';
 
 class Tag {
   
-  @Alias('id')
+  @Alias('id', isNullable: false,  )
   final int id;
   
-  @Alias('name')
+  @Alias('name', isNullable: false,  )
   final String name;
   
 
@@ -31,3 +32,4 @@ class Tag {
 class TagSerializer extends Serializer<Tag> with _$TagSerializer {
 
 }
+

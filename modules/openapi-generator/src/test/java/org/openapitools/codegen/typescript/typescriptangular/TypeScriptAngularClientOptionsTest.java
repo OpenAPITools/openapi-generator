@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.typescript.typescriptangular;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
 import org.openapitools.codegen.options.TypeScriptAngularClientOptionsProvider;
-import org.openapitools.codegen.options.TypeScriptAngularClientOptionsProvider;
-import mockit.Expectations;
-import mockit.Tested;
 
 public class TypeScriptAngularClientOptionsTest extends AbstractOptionsTest {
 
@@ -48,6 +47,8 @@ public class TypeScriptAngularClientOptionsTest extends AbstractOptionsTest {
             clientCodegen.setModelPropertyNaming(TypeScriptAngularClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
             times = 1;
             clientCodegen.setSupportsES6(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.SUPPORTS_ES6_VALUE));
+            times = 1;
+            clientCodegen.setStringEnums(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.STRING_ENUMS_VALUE));
             times = 1;
             clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
             times = 1;

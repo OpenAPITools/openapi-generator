@@ -1,0 +1,7 @@
+{
+  "!include": "bin/ruby-petstore.json",
+  "generatorName": "ruby",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/client/petstore/ruby",
+  "templateDir": "modules/openapi-generator/src/main/resources/ruby-client"
+}

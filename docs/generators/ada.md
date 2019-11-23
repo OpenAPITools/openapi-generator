@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-ada
 title: Config Options for ada
 sidebar_label: ada
 ---

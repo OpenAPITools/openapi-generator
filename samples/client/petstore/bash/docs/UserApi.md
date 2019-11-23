@@ -14,18 +14,21 @@ Method | HTTP request | Description
 [**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
 
 
-## **createUser**
+
+## createUser
 
 Create user
 
 This can only be done by the logged in user.
 
 ### Example
+
 ```bash
 petstore-cli createUser
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -41,25 +44,28 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
- - **Accept**: Not Applicable
+- **Content-Type**: application/json
+- **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-## **createUsersWithArrayInput**
+
+## createUsersWithArrayInput
 
 Creates list of users with given input array
 
 ### Example
+
 ```bash
 petstore-cli createUsersWithArrayInput
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**array[User]**](array.md) | List of user object |
+ **user** | [**array[User]**](User.md) | List of user object |
 
 ### Return type
 
@@ -71,25 +77,28 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
- - **Accept**: Not Applicable
+- **Content-Type**: application/json
+- **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-## **createUsersWithListInput**
+
+## createUsersWithListInput
 
 Creates list of users with given input array
 
 ### Example
+
 ```bash
 petstore-cli createUsersWithListInput
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**array[User]**](array.md) | List of user object |
+ **user** | [**array[User]**](User.md) | List of user object |
 
 ### Return type
 
@@ -101,27 +110,30 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
- - **Accept**: Not Applicable
+- **Content-Type**: application/json
+- **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-## **deleteUser**
+
+## deleteUser
 
 Delete user
 
 This can only be done by the logged in user.
 
 ### Example
+
 ```bash
 petstore-cli deleteUser username=value
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string** | The name that needs to be deleted |
+ **username** | **string** | The name that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -133,25 +145,28 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
- - **Accept**: Not Applicable
+- **Content-Type**: Not Applicable
+- **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-## **getUserByName**
+
+## getUserByName
 
 Get user by user name
 
 ### Example
+
 ```bash
 petstore-cli getUserByName username=value
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string** | The name that needs to be fetched. Use user1 for testing. |
+ **username** | **string** | The name that needs to be fetched. Use user1 for testing. | [default to null]
 
 ### Return type
 
@@ -163,26 +178,29 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not Applicable
+- **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-## **loginUser**
+
+## loginUser
 
 Logs user into the system
 
 ### Example
+
 ```bash
 petstore-cli loginUser  username=value  password=value
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string** | The user name for login |
- **password** | **string** | The password for login in clear text |
+ **username** | **string** | The user name for login | [default to null]
+ **password** | **string** | The password for login in clear text | [default to null]
 
 ### Return type
 
@@ -194,21 +212,24 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not Applicable
+- **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-## **logoutUser**
+
+## logoutUser
 
 Logs out current logged in user session
 
 ### Example
+
 ```bash
 petstore-cli logoutUser
 ```
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -221,27 +242,30 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
- - **Accept**: Not Applicable
+- **Content-Type**: Not Applicable
+- **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-## **updateUser**
+
+## updateUser
 
 Updated user
 
 This can only be done by the logged in user.
 
 ### Example
+
 ```bash
 petstore-cli updateUser username=value
 ```
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string** | name that need to be deleted |
+ **username** | **string** | name that need to be deleted | [default to null]
  **user** | [**User**](User.md) | Updated user object |
 
 ### Return type
@@ -254,8 +278,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not Applicable
- - **Accept**: Not Applicable
+- **Content-Type**: application/json
+- **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

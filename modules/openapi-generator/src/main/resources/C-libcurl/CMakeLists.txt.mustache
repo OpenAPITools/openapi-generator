@@ -10,13 +10,6 @@ set(CMAKE_BUILD_TYPE Debug)
 
 set(pkgName "{{projectName}}")
 
-find_program(VALGRIND valgrind)
-if(VALGRIND)
-	set(CMAKE_MEMORYCHECK_COMMAND valgrind)
-	set(CMAKE_MEMORYCHECK_COMMAND_OPTIONS "--leak-check=full --track-origins=yes --read-var-info=yes --show-leak-kinds=all --error-exitcode=1")
-	set(VALGRIND_LIST "")
-endif()
-
 find_package(CURL 7.58.0 REQUIRED)
 if(CURL_FOUND)
 	include_directories(${CURL_INCLUDE_DIR})
@@ -65,27 +58,42 @@ set(HDRS
 
 )
 
+# Add library with project file with projectname as library name
 add_library(${pkgName} SHARED ${SRCS} ${HDRS})
+# Link dependent libraries
 target_link_libraries(${pkgName} ${CURL_LIBRARIES} )
+#install library to destination
 install(TARGETS ${pkgName} DESTINATION ${CMAKE_INSTALL_PREFIX})
 
-#For common coding standard (code beautifier/pretty printing)
-find_program(UNCRUSTIFY uncrustify)
-if(UNCRUSTIFY)
-	add_custom_target(
-		uncrustify
-	)
+# Setting file variables to null
+set(SRCS "")
+set(HDRS "")
 
-	foreach(ELEMENT ${ALL_SRC_LIST})
-		string(REGEX REPLACE "/" "_" ELEMENT_NAME ${ELEMENT})
-		set(DEP_NAME "uncrustify-${ELEMENT_NAME}")
-		add_custom_target(
-			${DEP_NAME}
-			uncrustify -c uncrustify-rules.cfg --no-backup ${ELEMENT}
-			DEPENDS ${ELEMENT}
-			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-			VERBATIM
-		)
-		add_dependencies(uncrustify ${DEP_NAME})
-	endforeach()
-endif()
+
+## This section shows how to use the above compiled libary to compile the source files
+## set source files
+#set(SRCS
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+#    unit-tests/manual-{{classname}}.c
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+#)
+
+##set header files
+#set(HDRS
+#)
+
+## loop over all files in SRCS variable
+#foreach(SOURCE_FILE ${SRCS})
+#    # Get only the file name from the file as add_executable doesnot support executable with slash("/")
+#    get_filename_component(FILE_NAME_ONLY ${SOURCE_FILE} NAME_WE)
+#    # Remove .c from the file name and set it as executable name
+#    string( REPLACE ".c" "" EXECUTABLE_FILE ${FILE_NAME_ONLY})
+#    # Add executable for every source file in  SRCS
+#    add_executable(unit-${EXECUTABLE_FILE} ${SOURCE_FILE})
+#    # Link above created libary to executable and dependent libary curl
+#    target_link_libraries(unit-${EXECUTABLE_FILE} ${CURL_LIBRARIES} ${pkgName} )
+#endforeach(SOURCE_FILE ${SRCS})

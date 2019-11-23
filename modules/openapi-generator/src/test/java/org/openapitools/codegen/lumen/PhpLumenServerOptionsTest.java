@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.lumen;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PhpLumenServerCodegen;
 import org.openapitools.codegen.options.PhpLumenServerOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class PhpLumenServerOptionsTest extends AbstractOptionsTest {
 
@@ -56,10 +55,6 @@ public class PhpLumenServerOptionsTest extends AbstractOptionsTest {
             clientCodegen.setPackageName(PhpLumenServerOptionsProvider.PACKAGE_NAME_VALUE);
             times = 1;
             clientCodegen.setSrcBasePath(PhpLumenServerOptionsProvider.SRC_BASE_PATH_VALUE);
-            times = 1;
-            clientCodegen.setGitUserId(PhpLumenServerOptionsProvider.GIT_USER_ID_VALUE);
-            times = 1;
-            clientCodegen.setGitRepoId(PhpLumenServerOptionsProvider.GIT_REPO_ID_VALUE);
             times = 1;
             clientCodegen.setArtifactVersion(PhpLumenServerOptionsProvider.ARTIFACT_VERSION_VALUE);
             times = 1;

@@ -10,6 +10,7 @@ import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -31,6 +32,18 @@ import io.swagger.annotations.Api;
  *
  */
 public class FakeApiServiceImpl implements FakeApi {
+    /**
+     * creates an XmlItem
+     *
+     * this route creates an XmlItem
+     *
+     */
+    public void createXmlItem(XmlItem xmlItem) {
+        // TODO: Implement...
+        
+        
+    }
+    
     public Boolean fakeOuterBooleanSerialize(Boolean body) {
         // TODO: Implement...
         
@@ -130,6 +143,12 @@ public class FakeApiServiceImpl implements FakeApi {
      *
      */
     public void testJsonFormData(String param, String param2) {
+        // TODO: Implement...
+        
+        
+    }
+    
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) {
         // TODO: Implement...
         
         

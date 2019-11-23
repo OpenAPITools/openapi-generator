@@ -78,6 +78,9 @@ data CreateUser
 
 -- | /Body Param/ "body" - Created user object
 instance HasBodyParam CreateUser User 
+    
+-- | @*/*@
+instance MimeType mtype => Consumes CreateUser mtype
 
 instance Produces CreateUser MimeNoContent
 
@@ -101,6 +104,9 @@ data CreateUsersWithArrayInput
 
 -- | /Body Param/ "body" - List of user object
 instance HasBodyParam CreateUsersWithArrayInput Body 
+    
+-- | @*/*@
+instance MimeType mtype => Consumes CreateUsersWithArrayInput mtype
 
 instance Produces CreateUsersWithArrayInput MimeNoContent
 
@@ -124,6 +130,9 @@ data CreateUsersWithListInput
 
 -- | /Body Param/ "body" - List of user object
 instance HasBodyParam CreateUsersWithListInput Body 
+    
+-- | @*/*@
+instance MimeType mtype => Consumes CreateUsersWithListInput mtype
 
 instance Produces CreateUsersWithListInput MimeNoContent
 
@@ -143,7 +152,6 @@ deleteUser (Username username) =
   _mkRequest "DELETE" ["/user/",toPath username]
 
 data DeleteUser  
-
 instance Produces DeleteUser MimeNoContent
 
 
@@ -161,7 +169,6 @@ getUserByName  _ (Username username) =
   _mkRequest "GET" ["/user/",toPath username]
 
 data GetUserByName  
-
 -- | @application/xml@
 instance Produces GetUserByName MimeXML
 -- | @application/json@
@@ -185,7 +192,6 @@ loginUser  _ (Username username) (Password password) =
     `setQuery` toQuery ("password", Just password)
 
 data LoginUser  
-
 -- | @application/xml@
 instance Produces LoginUser MimeXML
 -- | @application/json@
@@ -204,7 +210,6 @@ logoutUser =
   _mkRequest "GET" ["/user/logout"]
 
 data LogoutUser  
-
 instance Produces LogoutUser MimeNoContent
 
 
@@ -230,6 +235,9 @@ data UpdateUser
 
 -- | /Body Param/ "body" - Updated user object
 instance HasBodyParam UpdateUser User 
+    
+-- | @*/*@
+instance MimeType mtype => Consumes UpdateUser mtype
 
 instance Produces UpdateUser MimeNoContent
 

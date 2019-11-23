@@ -1,0 +1,67 @@
+namespace {{packageName}}
+
+open System.Collections.Generic
+open Giraffe
+open Microsoft.AspNetCore.Http
+open FSharp.Control.Tasks.V2.ContextInsensitive
+open {{classname}}HandlerParams
+open {{classname}}ServiceInterface
+open {{classname}}ServiceImplementation
+{{#imports}}
+{{#import}}
+open {{import}}
+{{/import}}
+{{/imports}}
+
+module {{classname}}Handler = 
+
+{{#operations}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+
+    {{#operation}}
+    //#region {{operationId}}
+    /// <summary>
+    /// {{#summary}}{{summary}}{{/summary}}
+    /// </summary>
+
+    let {{operationId}} {{#hasPathParams}}(pathParams:{{operationId}}PathParams){{/hasPathParams}} : HttpHandler = 
+      fun (next : HttpFunc) (ctx : HttpContext) ->
+        task {
+          {{#hasQueryParams}}
+          let queryParams = ctx.TryBindQueryString<{{operationId}}QueryParams>()
+          {{/hasQueryParams}}
+          {{#hasBodyParam}}
+          let! bodyParams = 
+            ctx.BindJsonAsync<{{operationId}}BodyParams>()
+          {{/hasBodyParam}}
+          {{#hasFormParams}}
+          let! formParams = ctx.TryBindFormAsync<{{operationId}}FormParams>()
+          {{/hasFormParams}}
+          {{#hasHeaderParams}}
+          let headerParams = {
+            {{#headerParams}}
+              {{operationId}}HeaderParams.{{paramName}}={{#required}}ctx.GetRequestHeader{{/required}}{{^required}}ctx.TryGetRequestHeader{{/required}} "{{paramName}}";
+            {{/headerParams}}
+          }
+          {{/hasHeaderParams}}
+          {{#allParams}}
+          {{#-first}}
+          let serviceArgs = { {{#hasHeaderParams}}headerParams=headerParams;{{/hasHeaderParams}} {{#hasQueryParams}}queryParams=queryParams;{{/hasQueryParams}} {{#hasFormParams}}formParams=formParams;{{/hasFormParams}} {{#hasPathParams}}pathParams=pathParams;{{/hasPathParams}} {{#hasBodyParam}}bodyParams=bodyParams{{/hasBodyParam}} } : {{operationId}}Args
+          {{/-first}}
+          {{/allParams}}
+          let result = {{classname}}Service.{{operationId}} ctx {{#allParams}}{{#-first}}serviceArgs{{/-first}}{{/allParams}}
+          return! (match result with 
+                      {{#responses}}
+                      | {{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}} resolved ->
+                            setStatusCode {{code}} >=> {{#primitiveType}}{{^isMapContainer}}text{{/isMapContainer}}{{/primitiveType}}{{^primitiveType}}json{{/primitiveType}} resolved.content 
+                      {{/responses}}
+          ) next ctx
+        }
+    //#endregion
+
+    {{/operation}}
+{{/operations}}
+
+    

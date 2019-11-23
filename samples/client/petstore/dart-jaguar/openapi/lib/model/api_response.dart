@@ -1,16 +1,17 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 
+
 part 'api_response.jser.dart';
 
 class ApiResponse {
   
-  @Alias('code')
+  @Alias('code', isNullable: false,  )
   final int code;
   
-  @Alias('type')
+  @Alias('type', isNullable: false,  )
   final String type;
   
-  @Alias('message')
+  @Alias('message', isNullable: false,  )
   final String message;
   
 
@@ -35,3 +36,4 @@ class ApiResponse {
 class ApiResponseSerializer extends Serializer<ApiResponse> with _$ApiResponseSerializer {
 
 }
+

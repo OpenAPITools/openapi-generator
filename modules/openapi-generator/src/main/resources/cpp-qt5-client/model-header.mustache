@@ -15,6 +15,8 @@
 {{/imports}}
 
 #include "{{prefix}}Object.h"
+#include "{{prefix}}Enum.h"
+
 
 {{#models}}
 {{#model}}
@@ -22,37 +24,58 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-class {{classname}}: public {{prefix}}Object {
+class {{classname}}: public {{prefix}}{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Enum{{/isEnum}} {
 public:
     {{classname}}();
     {{classname}}(QString json);
     ~{{classname}}() override;
 
     QString asJson () const override;
-    QJsonObject asJsonObject() const override;
-    void fromJsonObject(QJsonObject json) override;
+    QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} asJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}() const override;
+    void fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}(QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} json) override;
     void fromJson(QString jsonString) override;
 
-    {{#vars}}
+    {{^isEnum}}{{#vars}}
     {{{dataType}}} {{getter}}() const;
     void {{setter}}(const {{{dataType}}} &{{name}});
 
-    {{/vars}}
+    {{/vars}}{{/isEnum}}{{#isEnum}}{{#allowableValues}}
+    enum class e{{classname}} {{#enumVars}}{{#-first}}{{^isString}}: int {{/isString}}{{/-first}}{{/enumVars}}{
+        INVALID_VALUE_OPENAPI_GENERATED = 0,
+    {{#enumVars}}
+        {{#enumDescription}}
+        /**
+        * {{enumDescription}}
+        */
+        {{/enumDescription}}
+        {{{name}}}{{^-last}}, {{/-last}}
+    {{/enumVars}}
+    };{{/allowableValues}}
+
+    {{classname}}::e{{classname}} getValue() const;
+    void setValue(const {{classname}}::e{{classname}}& value);{{/isEnum}}
+
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 
 private:
-    void init();
-    {{#vars}}
+    void initializeModel();
+    {{^isEnum}}{{#vars}}
     {{{dataType}}} {{name}};
     bool m_{{name}}_isSet;
     bool m_{{name}}_isValid;
-    {{/vars}}
+    {{/vars}}{{/isEnum}}
+    {{#isEnum}}e{{classname}} m_value;
+    bool m_value_isSet;
+    bool m_value_isValid;
+    {{/isEnum}}
 };
 
 {{#cppNamespaceDeclarations}}
 }
 {{/cppNamespaceDeclarations}}
+
+Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{classname}})
 
 #endif // {{classname}}_H
 {{/model}}

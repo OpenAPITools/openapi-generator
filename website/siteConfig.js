@@ -9,6 +9,7 @@ const loadYaml = relativePath => parseYaml(fs.readFileSync(path.join(__dirname, 
 
 const team = loadYaml("dynamic/team.yml");
 const users = loadYaml("dynamic/users.yml");
+const sponsors = loadYaml("dynamic/sponsors.yml");
 const baseUrl = '/';
 const siteConfig = {
   title: 'OpenAPI Generator', // Title for your website.
@@ -29,6 +30,8 @@ const siteConfig = {
   cname: 'openapi-generator.tech',
 
   gaTrackingId: 'UA-132927057-1',
+
+  docsSideNavCollapsible: true,
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
@@ -100,11 +103,18 @@ const siteConfig = {
   // Show documentation's last update time.
   enableUpdateTime: true,
 
+  scrollToTop: true,
+  scrollToTopOptions: {
+    zIndex: 100,
+  },
+
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
   repoUrl: 'https://github.com/OpenAPITools/openapi-generator',
 
   team: team,
+
+  sponsors: sponsors,
 };
 
 module.exports = siteConfig;

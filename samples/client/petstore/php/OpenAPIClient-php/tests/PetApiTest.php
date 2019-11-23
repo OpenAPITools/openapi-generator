@@ -323,9 +323,8 @@ class PetApiTest extends TestCase
     // test if ArrayAccess interface works
     public function testArrayStuff()
     {
-        // create an AnimalFarm which is an object implementing the
-        // ArrayAccess interface
-        $farm = new Model\AnimalFarm();
+        // create an array of Animal
+        $farm = array();
 
         // add some animals to the farm to make sure the ArrayAccess
         // interface works

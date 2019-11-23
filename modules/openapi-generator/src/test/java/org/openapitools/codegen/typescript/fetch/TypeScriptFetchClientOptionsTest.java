@@ -17,12 +17,12 @@
 
 package org.openapitools.codegen.typescript.fetch;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.options.TypeScriptFetchClientOptionsProvider;
-import mockit.Expectations;
-import mockit.Tested;
 
 public class TypeScriptFetchClientOptionsTest extends AbstractOptionsTest {
 
@@ -49,6 +49,8 @@ public class TypeScriptFetchClientOptionsTest extends AbstractOptionsTest {
             clientCodegen.setSupportsES6(TypeScriptFetchClientOptionsProvider.SUPPORTS_ES6_VALUE);
             times = 1;
             clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
+            times = 1;
+            clientCodegen.setTypescriptThreePlus(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.TYPESCRIPT_THREE_PLUS));
             times = 1;
         }};
     }

@@ -17,10 +17,9 @@
 
 package org.openapitools.codegen.options;
 
+import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.AbstractPhpCodegen;
-
-import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
@@ -33,8 +32,6 @@ public class PhpLumenServerOptionsProvider implements OptionsProvider {
     public static final String INVOKER_PACKAGE_VALUE = "lumen";
     public static final String PACKAGE_NAME_VALUE = "php";
     public static final String SRC_BASE_PATH_VALUE = "libPhp";
-    public static final String GIT_USER_ID_VALUE = "gitOpenAPIToolsPhp";
-    public static final String GIT_REPO_ID_VALUE = "git-openapi-tools-php";
     public static final String ARTIFACT_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
@@ -55,8 +52,6 @@ public class PhpLumenServerOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.INVOKER_PACKAGE, INVOKER_PACKAGE_VALUE)
-                .put(CodegenConstants.GIT_USER_ID, GIT_USER_ID_VALUE)
-                .put(CodegenConstants.GIT_REPO_ID, GIT_REPO_ID_VALUE)
                 .put(CodegenConstants.ARTIFACT_VERSION, ARTIFACT_VERSION_VALUE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)

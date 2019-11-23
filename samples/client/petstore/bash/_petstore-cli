@@ -296,10 +296,12 @@ case $state in
   ops)
     # Operations
     _values "Operations" \
-            "testSpecialTags[To test special tags]"             "fakeOuterBooleanSerialize[]" \
+            "call123TestSpecialTags[To test special tags]"             "fooGet[]"             "fakeHealthGet[Health check endpoint]" \
+            "fakeOuterBooleanSerialize[]" \
             "fakeOuterCompositeSerialize[]" \
             "fakeOuterNumberSerialize[]" \
             "fakeOuterStringSerialize[]" \
+            "testBodyWithFileSchema[]" \
             "testBodyWithQueryParams[]" \
             "testClientModel[To test \"client\" model]" \
             "testEndpointParameters[Fake endpoint for testing various parameters
@@ -307,15 +309,18 @@ case $state in
 偽のエンドポイント
 가짜 엔드 포인트]" \
             "testEnumParameters[To test enum parameters]" \
+            "testGroupParameters[Fake endpoint to test group parameters (optional)]" \
             "testInlineAdditionalProperties[test inline additionalProperties]" \
-            "testJsonFormData[test json serialization of form data]"             "testClassname[To test class name in snake case]"             "addPet[Add a new pet to the store]" \
+            "testJsonFormData[test json serialization of form data]" \
+            "testQueryParameterCollectionFormat[]"             "testClassname[To test class name in snake case]"             "addPet[Add a new pet to the store]" \
             "deletePet[Deletes a pet]" \
             "findPetsByStatus[Finds Pets by status]" \
             "findPetsByTags[Finds Pets by tags]" \
             "getPetById[Find pet by ID]" \
             "updatePet[Update an existing pet]" \
             "updatePetWithForm[Updates a pet in the store with form data]" \
-            "uploadFile[uploads an image]"             "deleteOrder[Delete purchase order by ID]" \
+            "uploadFile[uploads an image]" \
+            "uploadFileWithRequiredFile[uploads an image (required)]"             "deleteOrder[Delete purchase order by ID]" \
             "getInventory[Returns pet inventories by status]" \
             "getOrderById[Find purchase order by ID]" \
             "placeOrder[Place an order for a pet]"             "createUser[Create user]" \
@@ -332,7 +337,19 @@ case $state in
     ;;
   args)
     case $line[1] in
-      testSpecialTags)
+      call123TestSpecialTags)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      fooGet)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      fakeHealthGet)
         local -a _op_arguments
         _op_arguments=(
                               )
@@ -357,6 +374,12 @@ case $state in
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       fakeOuterStringSerialize)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      testBodyWithFileSchema)
         local -a _op_arguments
         _op_arguments=(
                               )
@@ -393,6 +416,18 @@ case $state in
 )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
+      testGroupParameters)
+        local -a _op_arguments
+        _op_arguments=(
+                    "required_string_group=:[QUERY] Required String in group parameters"
+"required_int64_group=:[QUERY] Required Integer in group parameters"
+"string_group=:[QUERY] String in group parameters"
+"int64_group=:[QUERY] Integer in group parameters"
+          "required_boolean_group\::[HEADER] Required Boolean in group parameters"
+"boolean_group\::[HEADER] Boolean in group parameters"
+)
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
       testInlineAdditionalProperties)
         local -a _op_arguments
         _op_arguments=(
@@ -403,6 +438,17 @@ case $state in
         local -a _op_arguments
         _op_arguments=(
                               )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      testQueryParameterCollectionFormat)
+        local -a _op_arguments
+        _op_arguments=(
+                    "pipe=:[QUERY] "
+"ioutil=:[QUERY] "
+"http=:[QUERY] "
+"url=:[QUERY] "
+"context=:[QUERY] "
+          )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       testClassname)
@@ -460,6 +506,13 @@ case $state in
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       uploadFile)
+        local -a _op_arguments
+        _op_arguments=(
+          "petId=:[PATH] ID of pet to update"
+                    )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      uploadFileWithRequiredFile)
         local -a _op_arguments
         _op_arguments=(
           "petId=:[PATH] ID of pet to update"

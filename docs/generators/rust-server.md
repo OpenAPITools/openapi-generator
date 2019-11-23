@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-rust-server
 title: Config Options for rust-server
 sidebar_label: rust-server
 ---

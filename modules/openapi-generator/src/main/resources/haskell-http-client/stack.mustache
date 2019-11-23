@@ -1,8 +1,7 @@
-resolver: lts-12.18
+resolver: lts-14.7
 build:
   haddock-arguments:
     haddock-args:
     - "--odir=./docs"
-extra-deps: [ {{^x-useMonadLogger}}katip-0.5.5.1{{/x-useMonadLogger}} ]
 packages:
 - '.'

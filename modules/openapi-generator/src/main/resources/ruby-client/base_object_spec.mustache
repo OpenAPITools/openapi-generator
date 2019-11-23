@@ -24,8 +24,8 @@ class ArrayMapObject < Petstore::Category
       :pet_map => :'Hash<String, Pet>',
       :int_arr_map => :'Hash<String, Array<Integer>>',
       :pet_arr_map => :'Hash<String, Array<Pet>>',
-      :boolean_true_arr  => :'Array<BOOLEAN>',
-      :boolean_false_arr => :'Array<BOOLEAN>',
+      :boolean_true_arr  => :'Array<Boolean>',
+      :boolean_false_arr => :'Array<Boolean>',
     }
   end
 end

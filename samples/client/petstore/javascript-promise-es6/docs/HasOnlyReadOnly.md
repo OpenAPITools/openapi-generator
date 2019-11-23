@@ -1,9 +1,10 @@
 # OpenApiPetstore.HasOnlyReadOnly
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**bar** | **String** |  | [optional] 
-**foo** | **String** |  | [optional] 
+**bar** | **String** |  | [optional] [readonly] 
+**foo** | **String** |  | [optional] [readonly] 
 
 

@@ -1,8 +1,10 @@
--- This file has been generated from package.yaml by hpack version 0.28.2.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 57ad4f3a6a440d73d378f5bad716416c24560afac10b43279041e1c7c4eaf6ca
+-- hash: 1de2469e3014acffdfb079309edd15dc88ec7f5acce21f1062b61a1b002418fd
 
 name:           openapi-petstore-tests-integration
 version:        0.1.0.0
@@ -15,13 +17,14 @@ maintainer:     author.name@email.com
 copyright:      YEAR - AUTHOR
 license:        UnspecifiedLicense
 build-type:     Simple
-cabal-version:  >= 1.10
 extra-source-files:
     README.md
 
 test-suite tests
   type: exitcode-stdio-1.0
   main-is: Test.hs
+  other-modules:
+      Paths_openapi_petstore_tests_integration
   hs-source-dirs:
       tests
   ghc-options: -Wall -fno-warn-orphans
@@ -35,11 +38,11 @@ test-suite tests
     , containers
     , exceptions >=0.4
     , hspec >=1.8
-    , http-api-data >=0.3.4 && <0.4
-    , http-client >=0.5 && <0.6
+    , http-api-data >=0.3.4 && <0.5
+    , http-client >=0.5 && <0.7
     , http-client-tls
-    , http-media >=0.4 && <0.8
-    , http-types >=0.8 && <0.10
+    , http-media >=0.4 && <0.9
+    , http-types >=0.8 && <0.13
     , iso8601-time
     , microlens >=0.4.3 && <0.5
     , mtl >=2.2.1
@@ -51,6 +54,4 @@ test-suite tests
     , transformers >=0.4.0.0
     , unordered-containers
     , vector >=0.10.9 && <0.13
-  other-modules:
-      Paths_openapi_petstore_tests_integration
   default-language: Haskell2010

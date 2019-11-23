@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-config-apache2
 title: Config Options for apache2
 sidebar_label: apache2
 ---

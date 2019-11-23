@@ -1,0 +1,10 @@
+[tox]
+envlist = {{#supportPython2}}py27, {{/supportPython2}}py35
+
+[testenv]
+deps=-r{toxinidir}/requirements.txt
+     -r{toxinidir}/test-requirements.txt
+
+commands=
+   nosetests \
+      []

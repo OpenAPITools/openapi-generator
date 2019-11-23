@@ -17,15 +17,12 @@
 
 package org.openapitools.codegen.perl;
 
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.PerlClientCodegen;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -62,11 +59,12 @@ public class PerlClientCodegenTest {
 
     @Test
     public void testIssue677() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/issue677.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue677.yaml");
         final PerlClientCodegen codegen = new PerlClientCodegen();
+        codegen.setOpenAPI(openAPI);
 
         Operation operation = openAPI.getPaths().get("/issue677").getPost();
-        CodegenOperation co = codegen.fromOperation("/issue677", "POST", operation, ModelUtils.getSchemas(openAPI), openAPI);
+        CodegenOperation co = codegen.fromOperation("/issue677", "POST", operation, null);
         Assert.assertNotNull(co);
     }
 

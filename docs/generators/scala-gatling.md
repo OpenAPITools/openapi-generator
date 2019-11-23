@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-scala-gatling
 title: Config Options for scala-gatling
 sidebar_label: scala-gatling
 ---

@@ -18,23 +18,16 @@
 package org.openapitools.codegen.csharp;
 
 import com.google.common.collect.Sets;
-
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.DateTimeSchema;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.MapSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.Collections;
 
 @SuppressWarnings("static-method")
 public class CSharpModelTest {
@@ -44,7 +37,9 @@ public class CSharpModelTest {
         final Schema schema = getArrayTestSchema();
 
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel generated = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel generated = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.classname, "Sample");
@@ -71,7 +66,9 @@ public class CSharpModelTest {
         final CSharpClientCodegen codegen = new CSharpClientCodegen();
         codegen.setUseCollection(true);
 
-        final CodegenModel generated = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel generated = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.vars.size(), 2);
@@ -95,7 +92,9 @@ public class CSharpModelTest {
         codegen.setUseCollection(true);
         codegen.setReturnICollection(true);
 
-        final CodegenModel generated = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel generated = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.vars.size(), 2);
@@ -131,7 +130,110 @@ public class CSharpModelTest {
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 3);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.dataType, "long");
+        Assert.assertEquals(property1.name, "Id");
+        Assert.assertNull(property1.defaultValue);
+        Assert.assertEquals(property1.baseType, "long");
+        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(property1.required);
+        Assert.assertTrue(property1.isPrimitiveType);
+
+        final CodegenProperty property2 = cm.vars.get(1);
+        Assert.assertEquals(property2.baseName, "name");
+        Assert.assertEquals(property2.dataType, "string");
+        Assert.assertEquals(property2.name, "Name");
+        Assert.assertNull(property2.defaultValue);
+        Assert.assertEquals(property2.baseType, "string");
+        Assert.assertTrue(property2.hasMore);
+        Assert.assertTrue(property2.required);
+        Assert.assertTrue(property2.isPrimitiveType);
+
+        final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertEquals(property3.baseName, "createdAt");
+        Assert.assertEquals(property3.dataType, "DateTime");
+        Assert.assertEquals(property3.name, "CreatedAt");
+        Assert.assertNull(property3.defaultValue);
+        Assert.assertEquals(property3.baseType, "DateTime");
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
+    }
+
+    @Test(description = "convert a model with a non-nullable property")
+    public void nonNullablePropertyTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(false))
+                .addProperties("urls", new ArraySchema()
+                        .items(new StringSchema()))
+                .addProperties("name", new StringSchema().nullable(true))
+                .addRequiredItem("id");
+        final DefaultCodegen codegen = new CSharpClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 3);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.dataType, "long");
+        Assert.assertEquals(property1.name, "Id");
+        Assert.assertNull(property1.defaultValue);
+        Assert.assertEquals(property1.baseType, "long");
+        Assert.assertTrue(property1.hasMore);
+        Assert.assertTrue(property1.required);
+        Assert.assertTrue(property1.isPrimitiveType);
+
+        final CodegenProperty property2 = cm.vars.get(1);
+        Assert.assertEquals(property2.baseName, "urls");
+        Assert.assertEquals(property2.dataType, "List<string>");
+        Assert.assertEquals(property2.name, "Urls");
+        Assert.assertNull(property2.defaultValue);
+        Assert.assertEquals(property2.baseType, "List");
+        Assert.assertTrue(property2.hasMore);
+        Assert.assertEquals(property2.containerType, "array");
+        Assert.assertFalse(property2.required);
+        Assert.assertTrue(property2.isPrimitiveType);
+        Assert.assertTrue(property2.isContainer);
+
+        final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertEquals(property3.baseName, "name");
+        Assert.assertEquals(property3.dataType, "string");
+        Assert.assertEquals(property3.name, "Name");
+        Assert.assertNull(property3.defaultValue);
+        Assert.assertEquals(property3.baseType, "string");
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
+        Assert.assertTrue(property3.isPrimitiveType);
+    }
+
+    @Test(description = "convert a model with a nullable property")
+    public void nullablePropertyTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(true))
+                .addProperties("urls", new ArraySchema()
+                        .items(new StringSchema()))
+                .addProperties("name", new StringSchema().nullable(true))
+                .addRequiredItem("id");
+        final DefaultCodegen codegen = new CSharpClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -149,23 +251,26 @@ public class CSharpModelTest {
         Assert.assertTrue(property1.isPrimitiveType);
 
         final CodegenProperty property2 = cm.vars.get(1);
-        Assert.assertEquals(property2.baseName, "name");
-        Assert.assertEquals(property2.dataType, "string");
-        Assert.assertEquals(property2.name, "Name");
+        Assert.assertEquals(property2.baseName, "urls");
+        Assert.assertEquals(property2.dataType, "List<string>");
+        Assert.assertEquals(property2.name, "Urls");
         Assert.assertNull(property2.defaultValue);
-        Assert.assertEquals(property2.baseType, "string");
+        Assert.assertEquals(property2.baseType, "List");
         Assert.assertTrue(property2.hasMore);
-        Assert.assertTrue(property2.required);
+        Assert.assertEquals(property2.containerType, "array");
+        Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
+        Assert.assertTrue(property2.isContainer);
 
         final CodegenProperty property3 = cm.vars.get(2);
-        Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "DateTime?");
-        Assert.assertEquals(property3.name, "CreatedAt");
+        Assert.assertEquals(property3.baseName, "name");
+        Assert.assertEquals(property3.dataType, "string");
+        Assert.assertEquals(property3.name, "Name");
         Assert.assertNull(property3.defaultValue);
-        Assert.assertEquals(property3.baseType, "DateTime?");
+        Assert.assertEquals(property3.baseType, "string");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
+        Assert.assertTrue(property3.isPrimitiveType);
     }
 
     @Test(description = "convert a model with list property")
@@ -177,7 +282,9 @@ public class CSharpModelTest {
                         .items(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -186,10 +293,10 @@ public class CSharpModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.dataType, "long?");
+        Assert.assertEquals(property1.dataType, "long");
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
-        Assert.assertEquals(property1.baseType, "long?");
+        Assert.assertEquals(property1.baseType, "long");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
@@ -215,7 +322,9 @@ public class CSharpModelTest {
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -239,7 +348,9 @@ public class CSharpModelTest {
                 .description("a sample model")
                 .addProperties("children", new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -256,12 +367,14 @@ public class CSharpModelTest {
 
     @Test(description = "convert a model with complex list property")
     public void complexListPropertyTest() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema schema = new Schema()
                 .description("a sample model")
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -286,7 +399,9 @@ public class CSharpModelTest {
                 .addProperties("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -311,7 +426,9 @@ public class CSharpModelTest {
                 .items(new Schema().$ref("#/components/schemas/Children"))
                 .description("an array model");
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -328,7 +445,9 @@ public class CSharpModelTest {
                 .description("a map model")
                 .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

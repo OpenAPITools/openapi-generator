@@ -1,9 +1,19 @@
 {{#models}}{{#model}}# {{moduleName}}::{{classname}}
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-{{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#readOnly}}[readonly] {{/readOnly}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
 {{/vars}}
+
+## Code Sample
+
+```ruby
+require '{{moduleName}}'
+
+instance = {{moduleName}}::{{classname}}.new({{#vars}}{{name}}: {{example}}{{^-last}},
+                                 {{/-last}}{{/vars}})
+```
 
 {{/model}}{{/models}}

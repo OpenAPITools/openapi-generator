@@ -1,0 +1,51 @@
+---
+format_version: '8'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: other
+trigger_map:
+- push_branch: "*"
+  workflow: primary
+- pull_request_source_branch: "*"
+  workflow: primary
+workflows:
+  primary:
+    steps:
+    - git-clone@4.0.17: {}
+    - brew-install@0.10.2:
+        inputs:
+        - packages: maven
+    - script@1.1.5:
+        title: Install Cocoapods
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+
+            sudo gem install cocoapods
+    - script@1.1.5:
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+
+            set -e
+
+            mvn package
+        title: Build openapi-generator
+    - script@1.1.5:
+        title: Update Swift4 samples
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+
+            set -e
+
+            sh bin/swift4-all.sh
+    - script@1.1.5:
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+
+            set -e
+
+            ./samples/client/petstore/swift4/swift4_test_all.sh && ./samples/client/test/swift4/swift4_test_all.sh && exit ${PIPESTATUS[0]}
+        title: Run Swift4 tests
+

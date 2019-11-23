@@ -24,7 +24,7 @@ import json
 
 import urllib3
 
-HOST = 'http://localhost/v2'
+HOST = 'http://petstore.swagger.io/v2'
 
 
 class TimeoutWithEqual(urllib3.Timeout):
@@ -104,13 +104,13 @@ class PetApiTests(unittest.TestCase):
         mock_pool = MockPoolManager(self)
         self.api_client.rest_client.pool_manager = mock_pool
 
-        mock_pool.expect_request('POST', 'http://localhost/v2/pet',
+        mock_pool.expect_request('POST', HOST + '/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(total=5))
-        mock_pool.expect_request('POST', 'http://localhost/v2/pet',
+        mock_pool.expect_request('POST', HOST + '/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ',

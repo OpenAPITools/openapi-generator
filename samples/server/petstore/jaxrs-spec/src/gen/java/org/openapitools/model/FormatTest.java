@@ -34,6 +34,7 @@ public class FormatTest  implements Serializable {
   private @Valid Date dateTime;
   private @Valid UUID uuid;
   private @Valid String password;
+  private @Valid BigDecimal bigDecimal;
 
   /**
    * minimum: 10
@@ -243,7 +244,7 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
@@ -270,6 +271,23 @@ public class FormatTest  implements Serializable {
     this.password = password;
   }
 
+  /**
+   **/
+  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "")
+  @JsonProperty("BigDecimal")
+  public BigDecimal getBigDecimal() {
+    return bigDecimal;
+  }
+  public void setBigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -280,24 +298,25 @@ public class FormatTest  implements Serializable {
       return false;
     }
     FormatTest formatTest = (FormatTest) o;
-    return Objects.equals(integer, formatTest.integer) &&
-        Objects.equals(int32, formatTest.int32) &&
-        Objects.equals(int64, formatTest.int64) &&
-        Objects.equals(number, formatTest.number) &&
-        Objects.equals(_float, formatTest._float) &&
-        Objects.equals(_double, formatTest._double) &&
-        Objects.equals(string, formatTest.string) &&
-        Objects.equals(_byte, formatTest._byte) &&
-        Objects.equals(binary, formatTest.binary) &&
-        Objects.equals(date, formatTest.date) &&
-        Objects.equals(dateTime, formatTest.dateTime) &&
-        Objects.equals(uuid, formatTest.uuid) &&
-        Objects.equals(password, formatTest.password);
+    return Objects.equals(this.integer, formatTest.integer) &&
+        Objects.equals(this.int32, formatTest.int32) &&
+        Objects.equals(this.int64, formatTest.int64) &&
+        Objects.equals(this.number, formatTest.number) &&
+        Objects.equals(this._float, formatTest._float) &&
+        Objects.equals(this._double, formatTest._double) &&
+        Objects.equals(this.string, formatTest.string) &&
+        Objects.equals(this._byte, formatTest._byte) &&
+        Objects.equals(this.binary, formatTest.binary) &&
+        Objects.equals(this.date, formatTest.date) &&
+        Objects.equals(this.dateTime, formatTest.dateTime) &&
+        Objects.equals(this.uuid, formatTest.uuid) &&
+        Objects.equals(this.password, formatTest.password) &&
+        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, bigDecimal);
   }
 
   @Override
@@ -318,6 +337,7 @@ public class FormatTest  implements Serializable {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }

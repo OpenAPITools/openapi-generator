@@ -14,6 +14,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,30 @@ import java.util.List;
 import java.util.Map;
 
 public interface FakeApi {
+  /**
+   * creates an XmlItem
+   * Sync method
+   * this route creates an XmlItem
+   * @param xmlItem XmlItem Body (required)
+   * @return Void
+   */
+  
+  @POST("/fake/create_xml_item")
+  Void createXmlItem(
+    @retrofit.http.Body XmlItem xmlItem
+  );
+
+  /**
+   * creates an XmlItem
+   * Async method
+   * @param xmlItem XmlItem Body (required)
+   * @param cb callback method
+   */
+  
+  @POST("/fake/create_xml_item")
+  void createXmlItem(
+    @retrofit.http.Body XmlItem xmlItem, Callback<Void> cb
+  );
   /**
    * 
    * Sync method
@@ -368,5 +393,37 @@ public interface FakeApi {
   @GET("/fake/jsonFormData")
   void testJsonFormData(
     @retrofit.http.Field("param") String param, @retrofit.http.Field("param2") String param2, Callback<Void> cb
+  );
+  /**
+   * 
+   * Sync method
+   * To test the collection format in query parameters
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   * @return Void
+   */
+  
+  @PUT("/fake/test-query-paramters")
+  Void testQueryParameterCollectionFormat(
+    @retrofit.http.Query("pipe") CSVParams pipe, @retrofit.http.Query("ioutil") CSVParams ioutil, @retrofit.http.Query("http") SPACEParams http, @retrofit.http.Query("url") CSVParams url, @retrofit.http.Query("context") List<String> context
+  );
+
+  /**
+   * 
+   * Async method
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   * @param cb callback method
+   */
+  
+  @PUT("/fake/test-query-paramters")
+  void testQueryParameterCollectionFormat(
+    @retrofit.http.Query("pipe") CSVParams pipe, @retrofit.http.Query("ioutil") CSVParams ioutil, @retrofit.http.Query("http") SPACEParams http, @retrofit.http.Query("url") CSVParams url, @retrofit.http.Query("context") List<String> context, Callback<Void> cb
   );
 }

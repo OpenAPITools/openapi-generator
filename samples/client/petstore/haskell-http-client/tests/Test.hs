@@ -17,10 +17,17 @@ import OpenAPIPetstore.MimeTypes
 
 main :: IO ()
 main =
-  hspec $ modifyMaxSize (const 5) $ do
+  hspec $ modifyMaxSize (const 10) $ do
     describe "JSON instances" $ do
       pure ()
+      propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesAnyType)
+      propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesArray)
+      propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesBoolean)
       propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesClass)
+      propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesInteger)
+      propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesNumber)
+      propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesObject)
+      propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesString)
       propMimeEq MimeJSON (Proxy :: Proxy Animal)
       propMimeEq MimeJSON (Proxy :: Proxy ApiResponse)
       propMimeEq MimeJSON (Proxy :: Proxy ArrayOfArrayOfNumberOnly)
@@ -28,10 +35,12 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy ArrayTest)
       propMimeEq MimeJSON (Proxy :: Proxy Capitalization)
       propMimeEq MimeJSON (Proxy :: Proxy Cat)
+      propMimeEq MimeJSON (Proxy :: Proxy CatAllOf)
       propMimeEq MimeJSON (Proxy :: Proxy Category)
       propMimeEq MimeJSON (Proxy :: Proxy ClassModel)
       propMimeEq MimeJSON (Proxy :: Proxy Client)
       propMimeEq MimeJSON (Proxy :: Proxy Dog)
+      propMimeEq MimeJSON (Proxy :: Proxy DogAllOf)
       propMimeEq MimeJSON (Proxy :: Proxy EnumArrays)
       propMimeEq MimeJSON (Proxy :: Proxy EnumClass)
       propMimeEq MimeJSON (Proxy :: Proxy EnumTest)
@@ -56,4 +65,5 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy TypeHolderDefault)
       propMimeEq MimeJSON (Proxy :: Proxy TypeHolderExample)
       propMimeEq MimeJSON (Proxy :: Proxy User)
+      propMimeEq MimeJSON (Proxy :: Proxy XmlItem)
       

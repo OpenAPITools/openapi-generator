@@ -151,6 +151,15 @@ paths:
                   properties:
                     resolve_inline_object_response_with_additional_properties:
                       type: string
+  /resolve_inline_map_schema_in_response:
+    get:
+      operationId: resolveInlineMapSchemaInResponse
+      responses:
+        '200':
+          description: OK
+          # Swagger parser doesn't use MapSchema currently,
+          # so we need to set a MapSchema instance as the schema manually for testing.
+          # see InlineModelResolverTest#resolveInlineMapSchemaInResponse()
   /arbitrary_object_request_body:
     post:
       requestBody:
@@ -266,6 +275,58 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/EmptyExampleOnStringTypeModels'
+  /nullable_properties:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nullable_request_body_property:
+                  type: object
+                  nullable: true
+                  properties:
+                    nullable_request_body_property_name:
+                      type: string
+      operationId: arbitraryObjectRequestBodyProperty
+      responses:
+        '200':
+          description: OK
+  /callback:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                callbackUri:
+                  type: string
+      responses:
+        201:
+          headers:
+            Location:
+              description: Contains the URI of the newly created resource
+              schema:
+                type: string
+      callbacks:
+        webhook:
+          '{$request.body#/callbackUri}':
+            post:
+              operationId: webhookNotify
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        notificationId:
+                          type: string
+                        action:
+                          type: string
+                        data:
+                          type: string
 components:
   schemas:
     Users:
@@ -278,6 +339,31 @@ components:
             type: string
           city:
             type: string
+    ComposedObjectModelInline:
+      allOf:
+      - type: object
+        properties:
+          composed_object_model_inline_allOf:
+            type: object
+            properties:
+              prop1:
+                type: string
+      anyOf:
+      - type: object
+        properties:
+          composed_object_model_inline_anyOf:
+            type: object
+            properties:
+              prop1:
+                type: string
+      oneOf:
+      - type: object
+        properties:
+          composed_object_model_inline_oneOf:
+            type: object
+            properties:
+              prop1:
+                type: string
     ArbitraryObjectModelInline:
       type: object
       properties:
@@ -301,3 +387,12 @@ components:
     EmptyExampleOnStringTypeModels:
       type: string
       example: ''
+    InlinePropertyIsNullable:
+      type: object
+      properties:
+        nullable_property:
+          type: object
+          nullable: true
+          properties:
+            nullable_property_name:
+              type: string

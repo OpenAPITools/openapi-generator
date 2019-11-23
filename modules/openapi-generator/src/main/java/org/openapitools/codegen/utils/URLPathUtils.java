@@ -17,20 +17,19 @@
 
 package org.openapitools.codegen.utils;
 
+import com.google.common.collect.ImmutableMap;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.oas.models.servers.ServerVariables;
-
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,58 +39,80 @@ public class URLPathUtils {
     public static final String LOCAL_HOST = "http://localhost";
     public static final Pattern VARIABLE_PATTERN = Pattern.compile("\\{([^\\}]+)\\}");
 
-    public static URL getServerURL(OpenAPI openAPI) {
+    // TODO: This should probably be moved into generator/workflow type rather than a static like this.
+    public static URL getServerURL(OpenAPI openAPI, Map<String, String> userDefinedVariables) {
         final List<Server> servers = openAPI.getServers();
         if (servers == null || servers.isEmpty()) {
             LOGGER.warn("Server information seems not defined in the spec. Default to {}.", LOCAL_HOST);
             return getDefaultUrl();
         }
         // TODO need a way to obtain all server URLs
-        return getServerURL(servers.get(0));
+        return getServerURL(servers.get(0), userDefinedVariables);
     }
 
-    public static URL getServerURL(final Server server) {
+    public static URL getServerURL(final Server server, final Map<String, String> userDefinedVariables) {
         String url = server.getUrl();
         ServerVariables variables = server.getVariables();
-        if(variables == null) {
+        if (variables == null) {
             variables = new ServerVariables();
         }
+
+        Map<String, String> userVariables = userDefinedVariables == null ? new HashMap<>() : ImmutableMap.copyOf(userDefinedVariables);
+
+        if (StringUtils.isNotBlank(url)) {
+            url = extractUrl(server, url, variables, userVariables);
+            url = sanitizeUrl(url);
+
+            try {
+                return new URL(url);
+            } catch (MalformedURLException e) {
+                LOGGER.warn("Not valid URL: {}. Default to {}.", server.getUrl(), LOCAL_HOST);
+            }
+        }
+        return getDefaultUrl();
+    }
+
+    private static String extractUrl(Server server, String url, ServerVariables variables, Map<String, String> userVariables) {
         Set<String> replacedVariables = new HashSet<>();
         Matcher matcher = VARIABLE_PATTERN.matcher(url);
-        while(matcher.find()) {
-            if(!replacedVariables.contains(matcher.group())) {
-                ServerVariable variable = variables.get(matcher.group(1));
+        while (matcher.find()) {
+            if (!replacedVariables.contains(matcher.group())) {
+                String variableName = matcher.group(1);
+                ServerVariable variable = variables.get(variableName);
                 String replacement;
-                if(variable != null) {
-                    if(variable.getDefault() != null) {
-                        replacement = variable.getDefault();
-                    } else if(variable.getEnum() != null && !variable.getEnum().isEmpty()) {
-                        replacement = variable.getEnum().get(0);
-                    } else {
-                        LOGGER.warn("No value found for variable '{}' in server definition '{}', default to empty string.", matcher.group(1), server.getUrl());
-                        replacement = "";
+                if (variable != null) {
+                    String defaultValue = variable.getDefault();
+                    List<String> enumValues = variable.getEnum() == null ? new ArrayList<>() : variable.getEnum();
+                    if (defaultValue == null && !enumValues.isEmpty()) {
+                       defaultValue = enumValues.get(0);
+                    } else if (defaultValue == null) {
+                        defaultValue = "";
+                    }
+
+                    replacement = userVariables.getOrDefault(variableName, defaultValue);
+
+                    if (!enumValues.isEmpty() && !enumValues.contains(replacement)) {
+                        LOGGER.warn("Variable override of '{}' is not listed in the enum of allowed values ({}).", replacement, StringUtils.join(enumValues, ","));
                     }
                 } else {
-                    LOGGER.warn("No variable '{}' found in server definition '{}', default to empty string.", matcher.group(1), server.getUrl());
-                    replacement = "";
+                    replacement = userVariables.getOrDefault(variableName, "");
                 }
+
+                if (StringUtils.isEmpty(replacement)) {
+                    replacement = "";
+                    LOGGER.warn("No value found for variable '{}' in server definition '{}' and no user override specified, default to empty string.", variableName, server.getUrl());
+                }
+
                 url = url.replace(matcher.group(), replacement);
                 replacedVariables.add(matcher.group());
                 matcher = VARIABLE_PATTERN.matcher(url);
             }
         }
-        url = sanitizeUrl(url);
-
-        try {
-            return new URL(url);
-        } catch (MalformedURLException e) {
-            LOGGER.warn("Not valid URL: {}. Default to {}.", server.getUrl(), LOCAL_HOST);
-            return getDefaultUrl();
-        }
+        return url;
     }
 
     public static String getScheme(OpenAPI openAPI, CodegenConfig config) {
-        URL url = getServerURL(openAPI);
+        URL url = getServerURL(openAPI, config.serverVariableOverrides());
         return getScheme(url, config);
     }
 
@@ -111,7 +132,8 @@ public class URLPathUtils {
 
     /**
      * Return the port, example value <code>8080</code>
-     * @param url server url
+     *
+     * @param url         server url
      * @param defaultPort if the port is not set
      * @return port
      */
@@ -121,7 +143,8 @@ public class URLPathUtils {
 
     /**
      * Return the port, example value <code>8080</code>
-     * @param url server url
+     *
+     * @param url         server url
      * @param defaultPort if the port is not set
      * @return port
      */
@@ -135,7 +158,8 @@ public class URLPathUtils {
 
     /**
      * Return the path, example value <code>/abcdef/xyz</code>
-     * @param url server url
+     *
+     * @param url         server url
      * @param defaultPath if the path is not empty
      * @return path
      */
@@ -149,6 +173,7 @@ public class URLPathUtils {
 
     /**
      * Get the protocol and the host, example value <code>https://www.abcdef.xyz</code>
+     *
      * @param url server url
      * @return protocolAndHost
      */
@@ -157,18 +182,20 @@ public class URLPathUtils {
             return LOCAL_HOST;
         } else {
             String protocol = (url.getProtocol() == null) ? "http" : url.getProtocol();
-            return protocol + "://"+  url.getHost();
+            return protocol + "://" + url.getHost();
         }
     }
 
     /**
      * Return the first complete URL from the OpenAPI specification
+     *
      * @param openAPI current OpenAPI specification
+     * @param userDefinedVariables User overrides for server variable templating
      * @return host
      */
-    public static String getHost(OpenAPI openAPI) {
+    public static String getHost(OpenAPI openAPI, final Map<String, String> userDefinedVariables) {
         if (openAPI.getServers() != null && openAPI.getServers().size() > 0) {
-            return sanitizeUrl(getServerURL(openAPI.getServers().get(0)).toString());
+            return sanitizeUrl(getServerURL(openAPI.getServers().get(0), userDefinedVariables).toString());
         }
         return LOCAL_HOST;
     }

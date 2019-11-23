@@ -17,10 +17,11 @@ Module : {{baseModule}}.Model
 {-# LANGUAGE TypeFamilies #-}
 {-# OPTIONS_GHC -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
-module {{baseModule}}.Model where
+module {{baseModule}}.Model {{#x-hasImportMappings}}(module {{baseModule}}.Model, module {{baseModule}}.ImportMappings) {{/x-hasImportMappings}}where
 
 import {{baseModule}}.Core
-import {{baseModule}}.MimeTypes
+import {{baseModule}}.MimeTypes{{#x-hasImportMappings}}
+import {{baseModule}}.ImportMappings{{/x-hasImportMappings}}
 
 import Data.Aeson ((.:),(.:!),(.:?),(.=))
 
@@ -53,8 +54,6 @@ import Prelude (($),(/=),(.),(<$>),(<*>),(>>=),(=<<),Maybe(..),Bool(..),Char,Dou
 import qualified Prelude as P
 
 
-{{#imports}}import {{import}}
-{{/imports}}
 
 -- * Parameter newtypes
 {{#x-allUniqueParams}}{{#x-newtype}}
@@ -75,7 +74,7 @@ newtype {{classname}} = {{classname}}
   { un{{classname}} :: {{{vendorExtensions.x-dataType}}}
   } deriving (P.Eq, P.Show, P.Typeable, A.ToJSON, A.FromJSON{{#modelDeriving}}, {{modelDeriving}}{{/modelDeriving}}){{/isAlias}}{{^isAlias}}
 data {{classname}} = {{classname}}
-  { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#readOnly}}/ReadOnly/ {{/readOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{#hasMore}}
+  { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#isReadOnly}}/ReadOnly/ {{/isReadOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}
   } deriving (P.Show, P.Eq, P.Typeable{{#modelDeriving}}, {{modelDeriving}}{{/modelDeriving}}){{/isAlias}}
 

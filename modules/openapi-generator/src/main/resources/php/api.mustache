@@ -55,18 +55,46 @@ use {{invokerPackage}}\ObjectSerializer;
     protected $headerSelector;
 
     /**
+     * @var int Host index
+     */
+    protected $hostIndex;
+
+    /**
      * @param ClientInterface $client
      * @param Configuration   $config
      * @param HeaderSelector  $selector
+     * @param int             $host_index (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
-        HeaderSelector $selector = null
+        HeaderSelector $selector = null,
+        $host_index = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
         $this->headerSelector = $selector ?: new HeaderSelector();
+        $this->hostIndex = $host_index;
+    }
+
+    /**
+     * Set the host index
+     *
+     * @param  int Host index (required)
+     */
+    public function setHostIndex($host_index)
+    {
+        $this->hostIndex = $host_index;
+    }
+
+    /**
+     * Get the host index
+     *
+     * @return Host index
+     */
+    public function getHostIndex()
+    {
+        return $this->hostIndex;
     }
 
     /**
@@ -93,6 +121,15 @@ use {{invokerPackage}}\ObjectSerializer;
      * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
 {{/vendorExtensions.x-group-parameters}}
+{{#servers}}
+{{#-first}}
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+{{/-first}}
+     * URL: {{{url}}}
+{{#-last}}
+     *
+{{/-last}}
+{{/servers}}
 {{#allParams}}
      * @param  {{dataType}} ${{paramName}}{{#description}} {{description}}{{/description}}{{^description}} {{paramName}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
@@ -119,9 +156,18 @@ use {{invokerPackage}}\ObjectSerializer;
      *
 {{/description}}
 {{#vendorExtensions.x-group-parameters}}
-     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
 {{/vendorExtensions.x-group-parameters}}
+{{#servers}}
+{{#-first}}
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+{{/-first}}
+     * URL: {{{url}}}
+{{#-last}}
+     *
+{{/-last}}
+{{/servers}}
 {{#allParams}}
      * @param  {{dataType}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
@@ -132,7 +178,7 @@ use {{invokerPackage}}\ObjectSerializer;
      */
     public function {{operationId}}WithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
     {
-        $request = $this->{{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#allParams}}$associative_array['{{paramName}}']{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/vendorExtensions.x-group-parameters}});
+        $request = $this->{{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});
 
         try {
             $options = $this->createHttpClientOption();
@@ -235,9 +281,18 @@ use {{invokerPackage}}\ObjectSerializer;
      *
 {{/description}}
 {{#vendorExtensions.x-group-parameters}}
-     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
 {{/vendorExtensions.x-group-parameters}}
+{{#servers}}
+{{#-first}}
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+{{/-first}}
+     * URL: {{{url}}}
+{{#-last}}
+     *
+{{/-last}}
+{{/servers}}
 {{#allParams}}
      * @param  {{dataType}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
@@ -265,9 +320,18 @@ use {{invokerPackage}}\ObjectSerializer;
      *
 {{/description}}
 {{#vendorExtensions.x-group-parameters}}
-     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
 {{/vendorExtensions.x-group-parameters}}
+{{#servers}}
+{{#-first}}
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+{{/-first}}
+     * URL: {{{url}}}
+{{#-last}}
+     *
+{{/-last}}
+{{/servers}}
 {{#allParams}}
      * @param  {{dataType}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
@@ -326,6 +390,15 @@ use {{invokerPackage}}\ObjectSerializer;
      * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
 {{/vendorExtensions.x-group-parameters}}
+{{#servers}}
+{{#-first}}
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+{{/-first}}
+     * URL: {{{url}}}
+{{#-last}}
+     *
+{{/-last}}
+{{/servers}}
 {{#allParams}}
      * @param  {{dataType}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
@@ -506,10 +579,18 @@ use {{invokerPackage}}\ObjectSerializer;
         }
         {{/isApiKey}}
         {{#isBasic}}
+        {{^isBasicBearer}}
         // this endpoint requires HTTP basic authentication
-        if ($this->config->getUsername() !== null || $this->config->getPassword() !== null) {
+        if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
             $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
         }
+        {{/isBasicBearer}}
+        {{#isBasicBearer}}
+        // this endpoint requires Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} authentication (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        {{/isBasicBearer}}
         {{/isBasic}}
         {{#isOAuth}}
         // this endpoint requires OAuth (access token)
@@ -530,10 +611,18 @@ use {{invokerPackage}}\ObjectSerializer;
             $headers
         );
 
+        {{#servers.0}}
+        $operationHosts = [{{#servers}}"{{{url}}}"{{^-last}}, {{/-last}}{{/servers}}];
+        if ($this->hostIndex < 0 || $this->hostIndex >= sizeof($operationHosts)) {
+            throw new \InvalidArgumentException("Invalid index {$this->hostIndex} when selecting the host. Must be less than ".sizeof($operationHosts));
+        }
+        $operationHost = $operationHosts[$this->hostIndex];
+
+        {{/servers.0}}
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             '{{httpMethod}}',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            {{^servers.0}}$this->config->getHost(){{/servers.0}}{{#servers.0}}$operationHost{{/servers.0}} . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );

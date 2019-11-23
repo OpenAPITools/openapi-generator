@@ -96,7 +96,7 @@ public class OAuth implements RequestInterceptor {
             accessTokenResponse = oauthClient.accessToken(tokenRequestBuilder.buildBodyMessage());
         } catch (Exception e) {
             {{#useFeign10}}
-            throw new RetryableException(e.getMessage(), HttpMethod.POST, e, null);
+            throw new RetryableException(0, e.getMessage(), HttpMethod.POST, e, null);
             {{/useFeign10}}
             {{^useFeign10}}
             throw new RetryableException(e.getMessage(), e,null);
@@ -120,7 +120,7 @@ public class OAuth implements RequestInterceptor {
 
     public synchronized void setAccessToken(String accessToken, Long expiresIn) {
         this.accessToken = accessToken;
-        this.expirationTimeMillis = System.currentTimeMillis() + expiresIn * MILLIS_PER_SECOND;
+        this.expirationTimeMillis = expiresIn == null ? null : System.currentTimeMillis() + expiresIn * MILLIS_PER_SECOND;
     }
 
     public TokenRequestBuilder getTokenRequestBuilder() {

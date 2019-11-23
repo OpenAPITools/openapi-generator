@@ -22,7 +22,7 @@ services:
     acme.my_bundle.api.user:
         class: Acme\MyBundle\Api\UserApi
         tags:
-            - { name: "open_apiserver.api", api: "user" }
+            - { name: "open_api_server.api", api: "user" }
     # ...
 ```
 
@@ -115,7 +115,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OpenAPI\Server\Model\User**](../Model/array.md)| List of user object |
+ **body** | [**OpenAPI\Server\Model\User**](../Model/User.md)| List of user object |
 
 ### Return type
 
@@ -167,7 +167,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OpenAPI\Server\Model\User**](../Model/array.md)| List of user object |
+ **body** | [**OpenAPI\Server\Model\User**](../Model/User.md)| List of user object |
 
 ### Return type
 

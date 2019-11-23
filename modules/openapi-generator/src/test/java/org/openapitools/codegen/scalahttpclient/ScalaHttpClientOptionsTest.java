@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.scalahttpclient;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.ScalaHttpClientCodegen;
 import org.openapitools.codegen.options.ScalaHttpClientOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class ScalaHttpClientOptionsTest extends AbstractOptionsTest {
 

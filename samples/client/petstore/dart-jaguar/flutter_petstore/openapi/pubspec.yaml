@@ -4,9 +4,9 @@ description: OpenAPI API client
 environment:
     sdk: ">=2.0.0 <3.0.0"
 dependencies:
-    jaguar_retrofit: '^2.5.12'
-    jaguar_serializer: '^2.2.4'
+    jaguar_retrofit: ^2.8.8
+    jaguar_serializer: ^2.2.12
 dev_dependencies:
-    jaguar_retrofit_gen: '^2.5.10'
-    jaguar_serializer_cli: '^2.2.4'
-    build_runner: '^1.1.1'
+    jaguar_retrofit_gen: ^2.8.10
+    jaguar_serializer_cli: ^2.2.8
+    build_runner: ^1.6.5

@@ -57,6 +57,44 @@ import qualified Prelude as P
 
 -- ** Fake
 
+-- *** createXmlItem
+
+-- | @POST \/fake\/create_xml_item@
+-- 
+-- creates an XmlItem
+-- 
+-- this route creates an XmlItem
+-- 
+createXmlItem 
+  :: (Consumes CreateXmlItem contentType, MimeRender contentType XmlItem)
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> XmlItem -- ^ "xmlItem" -  XmlItem Body
+  -> OpenAPIPetstoreRequest CreateXmlItem contentType NoContent MimeNoContent
+createXmlItem _ xmlItem =
+  _mkRequest "POST" ["/fake/create_xml_item"]
+    `setBodyParam` xmlItem
+
+data CreateXmlItem 
+
+-- | /Body Param/ "XmlItem" - XmlItem Body
+instance HasBodyParam CreateXmlItem XmlItem 
+
+-- | @application/xml@
+instance Consumes CreateXmlItem MimeXML
+-- | @text/xml@
+instance Consumes CreateXmlItem MimeTextXml
+-- | @text/xml; charset=utf-8@
+instance Consumes CreateXmlItem MimeTextXmlCharsetutf8
+-- | @text/xml; charset=utf-16@
+instance Consumes CreateXmlItem MimeTextXmlCharsetutf16
+-- | @application/xml; charset=utf-8@
+instance Consumes CreateXmlItem MimeXmlCharsetutf8
+-- | @application/xml; charset=utf-16@
+instance Consumes CreateXmlItem MimeXmlCharsetutf16
+
+instance Produces CreateXmlItem MimeNoContent
+
+
 -- *** fakeOuterBooleanSerialize
 
 -- | @POST \/fake\/outer\/boolean@
@@ -75,6 +113,9 @@ data FakeOuterBooleanSerialize
 
 -- | /Body Param/ "body" - Input boolean as post body
 instance HasBodyParam FakeOuterBooleanSerialize BodyBool 
+    
+-- | @*/*@
+instance MimeType mtype => Consumes FakeOuterBooleanSerialize mtype
 
 -- | @*/*@
 instance MimeType mtype => Produces FakeOuterBooleanSerialize mtype
@@ -98,6 +139,9 @@ data FakeOuterCompositeSerialize
 
 -- | /Body Param/ "body" - Input composite as post body
 instance HasBodyParam FakeOuterCompositeSerialize OuterComposite 
+    
+-- | @*/*@
+instance MimeType mtype => Consumes FakeOuterCompositeSerialize mtype
 
 -- | @*/*@
 instance MimeType mtype => Produces FakeOuterCompositeSerialize mtype
@@ -121,6 +165,9 @@ data FakeOuterNumberSerialize
 
 -- | /Body Param/ "body" - Input number as post body
 instance HasBodyParam FakeOuterNumberSerialize BodyDouble 
+    
+-- | @*/*@
+instance MimeType mtype => Consumes FakeOuterNumberSerialize mtype
 
 -- | @*/*@
 instance MimeType mtype => Produces FakeOuterNumberSerialize mtype
@@ -144,6 +191,9 @@ data FakeOuterStringSerialize
 
 -- | /Body Param/ "body" - Input string as post body
 instance HasBodyParam FakeOuterStringSerialize BodyText 
+    
+-- | @*/*@
+instance MimeType mtype => Consumes FakeOuterStringSerialize mtype
 
 -- | @*/*@
 instance MimeType mtype => Produces FakeOuterStringSerialize mtype
@@ -403,7 +453,6 @@ instance HasOptionalParam TestGroupParameters BooleanGroup where
 instance HasOptionalParam TestGroupParameters Int64Group where
   applyOptionalParam req (Int64Group xs) =
     req `setQuery` toQuery ("int64_group", Just xs)
-
 instance Produces TestGroupParameters MimeNoContent
 
 
@@ -454,4 +503,29 @@ data TestJsonFormData
 instance Consumes TestJsonFormData MimeFormUrlEncoded
 
 instance Produces TestJsonFormData MimeNoContent
+
+
+-- *** testQueryParameterCollectionFormat
+
+-- | @PUT \/fake\/test-query-paramters@
+-- 
+-- To test the collection format in query parameters
+-- 
+testQueryParameterCollectionFormat 
+  :: Pipe -- ^ "pipe"
+  -> Ioutil -- ^ "ioutil"
+  -> Http -- ^ "http"
+  -> Url -- ^ "url"
+  -> Context -- ^ "context"
+  -> OpenAPIPetstoreRequest TestQueryParameterCollectionFormat MimeNoContent NoContent MimeNoContent
+testQueryParameterCollectionFormat (Pipe pipe) (Ioutil ioutil) (Http http) (Url url) (Context context) =
+  _mkRequest "PUT" ["/fake/test-query-paramters"]
+    `setQuery` toQueryColl CommaSeparated ("pipe", Just pipe)
+    `setQuery` toQueryColl CommaSeparated ("ioutil", Just ioutil)
+    `setQuery` toQueryColl SpaceSeparated ("http", Just http)
+    `setQuery` toQueryColl CommaSeparated ("url", Just url)
+    `setQuery` toQueryColl MultiParamArray ("context", Just context)
+
+data TestQueryParameterCollectionFormat  
+instance Produces TestQueryParameterCollectionFormat MimeNoContent
 

@@ -2,14 +2,16 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
+{{#reactive}}
+import kotlinx.coroutines.flow.Flow;
+{{/reactive}}
 import org.springframework.stereotype.Service
-
 @Service
 {{#operations}}
 class {{classname}}ServiceImpl : {{classname}}Service {
 {{#operation}}
 
-    override fun {{operationId}}({{#allParams}}{{paramName}}: {{^isFile}}{{>optionalDataType}}{{/isFile}}{{#isFile}}org.springframework.web.multipart.MultipartFile{{/isFile}}{{#hasMore}},{{/hasMore}}{{/allParams}}): {{>returnTypes}} {
+    override {{#reactive}}{{^isListContainer}}suspend {{/isListContainer}}{{/reactive}}fun {{operationId}}({{#allParams}}{{paramName}}: {{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isListContainer}}{{>optionalDataType}}{{/isListContainer}}{{#isListContainer}}Flow<{{{baseType}}}>{{/isListContainer}}{{/reactive}}{{/isBodyParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{>returnTypes}} {
         TODO("Implement me")
     }
 {{/operation}}

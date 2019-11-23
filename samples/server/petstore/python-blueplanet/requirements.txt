@@ -1,0 +1,2 @@
+--extra-index-url https://pypi.blueplanet.com/simple/
+solution-maker==0.1.6

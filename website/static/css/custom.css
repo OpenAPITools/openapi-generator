@@ -19,12 +19,12 @@ dd {
 
 .member-container {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     justify-content: space-around;
     align-items: baseline;
 }
 .member-container .member {
-    width: 300px;
+    width: 180px;
     margin: 1em;
     text-align: center;
 }

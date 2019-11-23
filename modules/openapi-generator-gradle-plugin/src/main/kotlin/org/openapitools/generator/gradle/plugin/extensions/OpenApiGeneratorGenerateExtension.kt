@@ -18,6 +18,7 @@ package org.openapitools.generator.gradle.plugin.extensions
 
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.listProperty
+import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
 
 /**
@@ -66,7 +67,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Sets specified system properties.
      */
-    val systemProperties = project.objects.property<Map<String, String>>()
+    val systemProperties = project.objects.mapProperty<String, String>()
 
     /**
      * Path to json configuration file.
@@ -79,6 +80,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * Specifies if the existing files should be overwritten during the generation.
      */
     val skipOverwrite = project.objects.property<Boolean?>()
+
+    /**
+     * Package for generated classes (where supported)
+     */
+    val packageName = project.objects.property<String>()
 
     /**
      * Package for generated api classes
@@ -103,17 +109,22 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Sets instantiation type mappings.
      */
-    val instantiationTypes = project.objects.property<Map<String, String>>()
+    val instantiationTypes = project.objects.mapProperty<String, String>()
 
     /**
      * Sets mappings between OpenAPI spec types and generated code types.
      */
-    val typeMappings = project.objects.property<Map<String, String>>()
+    val typeMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Sets additional properties that can be referenced by the mustache templates.
      */
-    val additionalProperties = project.objects.property<Map<String, String>>()
+    val additionalProperties = project.objects.mapProperty<String, String>()
+
+    /**
+     * Sets server variable for server URL template substitution, in the format of name=value,name=value.
+     */
+    val serverVariables = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double.
@@ -123,7 +134,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Specifies mappings between a given class and the import that should be used for that class.
      */
-    val importMappings = project.objects.property<Map<String, String>>()
+    val importMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Root package for generated code.
@@ -151,6 +162,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val library = project.objects.property<String?>()
 
     /**
+     * Git host, e.g. gitlab.com.
+     */
+    val gitHost = project.objects.property<String?>()
+
+    /**
      * Git user ID, e.g. openapitools.
      */
     val gitUserId = project.objects.property<String?>()
@@ -173,7 +189,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Specifies how a reserved name should be escaped to. Otherwise, the default _<name> is used.
      */
-    val reservedWordsMappings = project.objects.property<Map<String, String>>()
+    val reservedWordsMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
@@ -289,7 +305,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * A map of options specific to a generator.
      */
-    val configOptions = project.objects.property<Map<String, String>>()
+    val configOptions = project.objects.mapProperty<String, String>()
 
     init {
         applyDefaults()

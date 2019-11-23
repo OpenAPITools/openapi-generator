@@ -54,11 +54,14 @@ public class FormatTest  {
   @ApiModelProperty(value = "")
   private Date dateTime;
 
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   private UUID uuid;
 
   @ApiModelProperty(required = true, value = "")
   private String password;
+
+  @ApiModelProperty(value = "")
+  private BigDecimal bigDecimal;
  /**
    * Get integer
    * minimum: 10
@@ -307,6 +310,24 @@ public class FormatTest  {
     return this;
   }
 
+ /**
+   * Get bigDecimal
+   * @return bigDecimal
+  **/
+  @JsonProperty("BigDecimal")
+  public BigDecimal getBigDecimal() {
+    return bigDecimal;
+  }
+
+  public void setBigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+  }
+
+  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+    this.bigDecimal = bigDecimal;
+    return this;
+  }
+
 
   @Override
   public String toString() {
@@ -326,6 +347,7 @@ public class FormatTest  {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }

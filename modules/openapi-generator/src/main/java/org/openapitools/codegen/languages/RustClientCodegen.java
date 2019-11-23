@@ -116,14 +116,17 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "String");
         typeMapping.put("UUID", "String");
+        typeMapping.put("URI", "String");
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "String");
         typeMapping.put("password", "String");
-        // TODO(farcaller): map file
-        typeMapping.put("file", "::models::File");
-        typeMapping.put("binary", "::models::File");
+        // TODO(bcourtine): review file mapping.
+        // I tried to map as "std::io::File", but Reqwest multipart file requires a "AsRef<Path>" param.
+        // Getting a file from a Path is simple, but the opposite is difficult. So I map as "std::path::Path".
+        typeMapping.put("file", "std::path::PathBuf");
+        typeMapping.put("binary", "crate::models::File");
         typeMapping.put("ByteArray", "String");
-        typeMapping.put("object", "Value");
+        typeMapping.put("object", "serde_json::Value");
 
         // no need for rust
         //importMapping = new HashMap<String, String>();
@@ -145,6 +148,51 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         libraryOption.setDefault(HYPER_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(HYPER_LIBRARY);
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // process enum in models
+        return postProcessModelsEnum(objs);
+    }
+
+    @SuppressWarnings({"static-method", "unchecked"})
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        // Index all CodegenModels by model name.
+        Map<String, CodegenModel> allModels = new HashMap<>();
+        for (Map.Entry<String, Object> entry : objs.entrySet()) {
+            String modelName = toModelName(entry.getKey());
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> mo : models) {
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                allModels.put(modelName, cm);
+            }
+        }
+        for (Map.Entry<String, Object> entry : objs.entrySet()) {
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> mo : models) {
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                if (cm.discriminator != null) {
+                    List<Object> discriminatorVars = new ArrayList<>();
+                    for(CodegenDiscriminator.MappedModel mappedModel: cm.discriminator.getMappedModels()) {
+                        CodegenModel model = allModels.get(mappedModel.getModelName());
+                        Map<String, Object> mas = new HashMap<>();
+                        mas.put("modelName", camelize(mappedModel.getModelName()));
+                        mas.put("mappingName", mappedModel.getMappingName());
+                        List<CodegenProperty> vars = model.getVars();
+                        vars.removeIf(p -> p.name.equals(cm.discriminator.getPropertyName()));
+                        mas.put("vars", vars);
+                        discriminatorVars.add(mas);
+                    }
+                    // TODO: figure out how to properly have the original property type that didn't go through toVarName
+                    cm.vendorExtensions.put("tagName", cm.discriminator.getPropertyName().replace("_", ""));
+                    cm.vendorExtensions.put("mappedModels", discriminatorVars);
+                }
+            }
+        }
+        return objs;
     }
 
     @Override
@@ -343,8 +391,8 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // return fully-qualified model name
-        // ::models::{{classnameFile}}::{{classname}}
-        return "::models::" + toModelName(schemaType);
+        // crate::models::{{classnameFile}}::{{classname}}
+        return "crate::models::" + toModelName(schemaType);
     }
 
     @Override
@@ -379,7 +427,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
-        Set<String> headerKeys = new HashSet<>();
         for (CodegenOperation operation : operations) {
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             if (HYPER_LIBRARY.equals(getLibrary())) {
@@ -439,9 +486,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             }*/
         }
 
-        additionalProperties.put("headerKeys", headerKeys);
-        additionalProperties.putIfAbsent("authHeaderKey", "api-key");
-
         return objs;
     }
 
@@ -488,25 +532,25 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toEnumVarName(String name, String datatype) {
         if (name.length() == 0) {
-            return "EMPTY";
+            return "Empty";
         }
 
         // number
         if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
             String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
+            varName = varName.replaceAll("-", "Minus");
+            varName = varName.replaceAll("\\+", "Plus");
+            varName = varName.replaceAll("\\.", "Dot");
             return varName;
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return getSymbolName(name).toUpperCase(Locale.ROOT);
+            return getSymbolName(name);
         }
 
         // string
-        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
+        String enumName = sanitizeName(camelize(name));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -519,7 +563,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
+        // camelize the enum name
+        // phone_number => PhoneNumber
+        String enumName = camelize(toModelName(property.name));
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");

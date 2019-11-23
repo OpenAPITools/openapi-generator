@@ -5,3 +5,15 @@
 
 
 {{>customTypeEncoder}}
+
+
+toString : {{classname}} -> String
+toString model =
+    case model of
+{{#allowableValues}}
+{{#enumVars}}
+        {{name}} ->
+            {{{value}}}
+
+{{/enumVars}}
+{{/allowableValues}}

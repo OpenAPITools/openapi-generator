@@ -1,0 +1,41 @@
+kind: pipeline
+name: default
+
+steps:
+# test ocaml petstore client
+- name: ocaml-test
+  image: ocaml/opam2:4.07
+  commands:
+  - sudo apt-get -y install m4
+  - cd samples/client/petstore/ocaml
+  - opam install ppx_deriving_yojson cohttp ppx_deriving cohttp-lwt-unix 
+  - opam pin add ocaml-migrate-parsetree 1.3.1
+  - eval $(opam env)
+  - sudo chmod -R 777 .
+  - dune build --build-dir=./_build
+# test haskell client
+- name: haskell-client-test
+  image: haskell:8.6.5
+  commands:
+  - (cd samples/client/petstore/haskell-http-client/ && stack --install-ghc --no-haddock-deps haddock --fast && stack test --fast)
+# test Dart 2.x petstore client
+- name: dart2x-test
+  image: google/dart
+  commands:
+  - (cd samples/client/petstore/dart-jaguar/openapi && pub get && pub run build_runner build --delete-conflicting-outputs)
+  - (cd samples/client/petstore/dart-jaguar/flutter_petstore/openapi && pub get && pub run build_runner build --delete-conflicting-outputs)
+  - (cd samples/client/petstore/dart2/petstore && pub get && pub run test)
+# test Java 11 HTTP client
+- name: java11-test
+  image: openjdk:11.0
+  commands:
+  - ./mvnw clean install
+  - ./mvnw --quiet verify -Psamples.droneio
+  # test all generators with fake petstore spec (2.0, 3.0)
+  - /bin/bash bin/utils/test-fake-petstore-for-all.sh
+  # generate test scripts
+  - /bin/bash bin/tests/run-all-test
+  # generate all petstore samples (client, servers, doc)
+  - /bin/bash bin/run-all-petstore
+  # generate all petstore samples (openapi3)
+  - /bin/bash bin/openapi3/run-all-petstore

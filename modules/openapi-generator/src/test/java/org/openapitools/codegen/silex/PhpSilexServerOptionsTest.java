@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.silex;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PhpSilexServerCodegen;
 import org.openapitools.codegen.options.PhpSilexServerOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class PhpSilexServerOptionsTest extends AbstractOptionsTest {
 

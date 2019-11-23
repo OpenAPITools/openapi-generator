@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-erlang-client
 title: Config Options for erlang-client
 sidebar_label: erlang-client
 ---
