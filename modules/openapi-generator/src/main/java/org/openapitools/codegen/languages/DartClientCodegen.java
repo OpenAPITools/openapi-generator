@@ -107,7 +107,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         List<String> reservedWordsList = new ArrayList<String>();
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/dart/dart-keywords.txt"), Charset.forName("UTF-8")));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(DartClientCodegen.class.getResourceAsStream("/dart/dart-keywords.txt"), Charset.forName("UTF-8")));
             while(reader.ready()) { reservedWordsList.add(reader.readLine()); }
             reader.close();
         } catch (Exception e) {

@@ -31,8 +31,10 @@ public:
     {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}const {{{dataType}}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
     {{/operation}}{{/operations}}
 private:
-    QString _scheme, _host, _basePath;
-    int _port, _timeOut;
+    QString _scheme, _host;
+    int _port;
+    QString _basePath;
+    int _timeOut;
     QString _workingDirectory;
     QMap<QString, QString> defaultHeaders;
     {{#operations}}{{#operation}}void {{nickname}}Callback ({{prefix}}HttpRequestWorker * worker);
