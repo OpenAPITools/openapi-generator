@@ -11,7 +11,7 @@ open class PetstoreClientAPI {
     public static var credential: URLCredential?
     public static var customHeaders: [String: String] = [:]
     public static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
-    public static var queue: DispatchQueue = .main
+    public static var apiResponseQueue: DispatchQueue = .main
 }
 
 open class RequestBuilder<T> {
