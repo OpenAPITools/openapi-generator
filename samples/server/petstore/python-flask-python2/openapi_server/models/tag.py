@@ -37,15 +37,17 @@ class Tag(Model):
         self._name = name
 
     @classmethod
-    def from_dict(cls, dikt):
+    def from_dict(cls, dikt, json_keys=True):
         """Returns the dict as a model
 
         :param dikt: A dict.
         :type: dict
+        :param json_keys: Defines if json_keys are expected in dict
+        :type: bool
         :return: The Tag of this Tag.  # noqa: E501
         :rtype: Tag
         """
-        return util.deserialize_model(dikt, cls)
+        return util.deserialize_model(dikt, cls, json_keys=json_keys)
 
     @property
     def id(self):
