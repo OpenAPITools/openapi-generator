@@ -45,6 +45,7 @@ function deleteOrderRaw<T>(requestParameters: DeleteOrderRequest, requestConfig:
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
 
@@ -54,6 +55,10 @@ function deleteOrderRaw<T>(requestParameters: DeleteOrderRequest, requestConfig:
         url: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'DELETE',
             headers: headerParameters,
@@ -83,6 +88,7 @@ export function deleteOrder<T>(requestParameters: DeleteOrderRequest, requestCon
 function getInventoryRaw<T>( requestConfig: runtime.TypedQueryConfig<T, { [key: string]: number; }> = {}): QueryConfig<T> {
     let queryParameters = null;
 
+
     const headerParameters = {};
 
 
@@ -93,6 +99,10 @@ function getInventoryRaw<T>( requestConfig: runtime.TypedQueryConfig<T, { [key: 
         url: `/store/inventory`,
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'GET',
             headers: headerParameters,
@@ -126,6 +136,7 @@ function getOrderByIdRaw<T>(requestParameters: GetOrderByIdRequest, requestConfi
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
 
@@ -135,6 +146,10 @@ function getOrderByIdRaw<T>(requestParameters: GetOrderByIdRequest, requestConfi
         url: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'GET',
             headers: headerParameters,
@@ -168,6 +183,7 @@ function placeOrderRaw<T>(requestParameters: PlaceOrderRequest, requestConfig: r
 
     let queryParameters = null;
 
+
     const headerParameters = {};
 
     headerParameters['Content-Type'] = 'application/json';
@@ -179,6 +195,10 @@ function placeOrderRaw<T>(requestParameters: PlaceOrderRequest, requestConfig: r
         url: `/store/order`,
         meta,
         update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
         options: {
             method: 'POST',
             headers: headerParameters,

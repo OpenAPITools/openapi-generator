@@ -26,7 +26,7 @@ import {
  * @export
  * @interface Pet
  */
-export interface Pet {
+export interface Pet  {
     /**
      * 
      * @type {number}

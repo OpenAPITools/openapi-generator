@@ -17,7 +17,7 @@ import { exists, mapValues } from '../runtime';
  * @export
  * @interface Category
  */
-export interface Category {
+export interface Category  {
     /**
      * 
      * @type {number}
