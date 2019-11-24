@@ -42,15 +42,17 @@ class ApiResponse(Model):
         self._message = message
 
     @classmethod
-    def from_dict(cls, dikt) -> 'ApiResponse':
+    def from_dict(cls, dikt, json_keys=True) -> 'ApiResponse':
         """Returns the dict as a model
 
         :param dikt: A dict.
         :type: dict
+        :param json_keys: Defines if json_keys are expected in dict
+        :type: bool
         :return: The ApiResponse of this ApiResponse.  # noqa: E501
         :rtype: ApiResponse
         """
-        return util.deserialize_model(dikt, cls)
+        return util.deserialize_model(dikt, cls, json_keys=json_keys)
 
     @property
     def code(self):

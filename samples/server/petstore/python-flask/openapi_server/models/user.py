@@ -67,15 +67,17 @@ class User(Model):
         self._user_status = user_status
 
     @classmethod
-    def from_dict(cls, dikt) -> 'User':
+    def from_dict(cls, dikt, json_keys=True) -> 'User':
         """Returns the dict as a model
 
         :param dikt: A dict.
         :type: dict
+        :param json_keys: Defines if json_keys are expected in dict
+        :type: bool
         :return: The User of this User.  # noqa: E501
         :rtype: User
         """
-        return util.deserialize_model(dikt, cls)
+        return util.deserialize_model(dikt, cls, json_keys=json_keys)
 
     @property
     def id(self):

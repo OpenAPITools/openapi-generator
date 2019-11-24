@@ -18,20 +18,22 @@ class Model(object):
     attribute_map = {}
 
     @classmethod
-    def from_dict(cls: typing.Type[T], dikt) -> T:
+    def from_dict(cls: typing.Type[T], dikt, json_keys=True) -> T:
         """Returns the dict as a model"""
-        return util.deserialize_model(dikt, cls)
+        return util.deserialize_model(dikt, cls, json_keys=True)
 
-    def to_dict(self):
+    def to_dict(self, json_keys=True):
         """Returns the model properties as a dict
-
+        
+        :param json_keys: Defines if json_keys are used in dict
+        :type: bool
         :rtype: dict
         """
         result = {}
 
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
-            dict_attr = self.attribute_map[attr]
+            dict_attr = self.attribute_map[attr] if json_keys else attr
             if isinstance(value, list):
                 result[dict_attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
