@@ -29,7 +29,6 @@ class Model(object):
 
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
-
             dict_attr = self.attribute_map[attr] if json_keys else attr
             if isinstance(value, list):
                 result[dict_attr] = list(map(
