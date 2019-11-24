@@ -56,6 +56,8 @@ public class GoClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setIsGoSubmodule(Boolean.valueOf(GoClientOptionsProvider.IS_GO_SUBMODULE_VALUE));
             times = 1;
+            clientCodegen.setStructPrefix(Boolean.valueOf(GoClientOptionsProvider.STRUCT_PREFIX_VALUE));
+            times = 1;
         }};
     }
 }

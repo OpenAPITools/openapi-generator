@@ -118,7 +118,7 @@ public class CodegenModel {
                 .append("hasMoreModels", hasMoreModels)
                 .append("hasEnums", hasEnums)
                 .append("isEnum", isEnum)
-                .append("isNullable", isEnum)
+                .append("isNullable", isNullable)
                 .append("hasRequired", hasRequired)
                 .append("hasOptional", hasOptional)
                 .append("isArrayModel", isArrayModel)
