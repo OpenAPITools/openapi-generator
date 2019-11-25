@@ -451,7 +451,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param value    enum variable name
      * @param datatype data type
-     * @return the sanitized value fisPrimitiveType
+     * @return the sanitized value for enum
      */
     public String toEnumValue(String value, String datatype) {
         if ("number".equalsIgnoreCase(datatype)) {
