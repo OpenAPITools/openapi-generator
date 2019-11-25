@@ -401,7 +401,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      */
     @Override
     public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
-        // if a response points at a model whose type != object an is an aliasModel
+        // if a response points at a model whose type != object and is an aliasModel
         // the response.isModel must be changed to true and response.baseType must be the name
         // of the model. Point responses at models if the model is python class type ModelSimple
         // When we serialize/deserialize ModelSimple models, validations and enums will be checked.
