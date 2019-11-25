@@ -5015,7 +5015,7 @@ public class DefaultCodegen implements CodegenConfig {
                     cm = fromModel(name, schema);
                 }
                 codegenParameter.isPrimitiveType = false;
-                if (cm != null && cm.isAlias) {
+                if (cm != null && ModelUtils.isGenerateAliasAsModel() && cm.isAlias) {
                     codegenParameter.isModel = true;
                     codegenParameter.baseType = cm.classname;
                     codegenParameter.dataType = cm.classname;

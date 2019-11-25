@@ -52,6 +52,7 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -73,6 +74,7 @@ public class JavaClientCodegenTest {
          final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
          final JavaClientCodegen codegen = new JavaClientCodegen();
          codegen.setOpenAPI(openAPI);
+         ModelUtils.setGenerateAliasAsModel(true);
 
          // invoke fromModel which sets typeAliases which are used to set model.isAlias
          String modelName = "OuterNumber";
