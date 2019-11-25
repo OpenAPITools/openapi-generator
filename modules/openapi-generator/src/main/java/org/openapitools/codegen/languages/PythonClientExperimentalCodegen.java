@@ -95,7 +95,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         // default this to true so the python ModelSimple models will be generated
         ModelUtils.setGenerateAliasAsModel(true);
-        LOGGER.info(CodegenConstants.GENERATE_ALIAS_AS_MODEL + " is hard coded to true in this generator. Alias models will only be generated if they contain validations or enums");
+        LOGGER.info(CodegenConstants.GENERATE_ALIAS_AS_MODEL + " is hard coded to true in this generator.");
     }
 
     /**
@@ -232,9 +232,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     // override with any special post-processing for all models
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        // loop through all models and delete ones where type!=object and the model has no validations and enums
-        // we will remove them because they are not needed
-        Map<String, Schema> modelSchemasToRemove = new HashMap<String, Schema>();
+        // loop through all models and ensure that the imports are correct
         for (Map.Entry<String, Object> entry : objs.entrySet()) {
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
             List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
@@ -274,25 +272,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                       }
                   }
                 }
-
-                Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
-                CodegenProperty modelProperty = fromProperty("value", modelSchema);
-                if (cm.isEnum || cm.isAlias) {
-                    if (!modelProperty.isEnum && !modelProperty.hasValidation) {
-                        // remove these models because they are aliases and do not have any enums or validations
-                        modelSchemasToRemove.put(cm.name, modelSchema);
-                    }
-                } else if (cm.isArrayModel && !modelProperty.isEnum && !modelProperty.hasValidation) {
-                    // remove any ArrayModels which lack validation and enums
-                    modelSchemasToRemove.put(cm.name, modelSchema);
-                }
             }
         }
 
-        // Remove modelSchemasToRemove models from objs
-        for (String modelName : modelSchemasToRemove.keySet()) {
-            objs.remove(modelName);
-        }
         return objs;
     }
 
@@ -394,10 +376,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // if we have validation and enum info exists
         Schema realSchema = ModelUtils.getSchema(this.openAPI, modelName);
         CodegenProperty modelProp = fromProperty("body", realSchema);
-        if (modelProp.isPrimitiveType && (modelProp.hasValidation || modelProp.isEnum)) {
+        if (result.isPrimitiveType && result.isModel) {
             String simpleDataType = result.dataType;
             result.isPrimitiveType = false;
-            result.isModel = true;
             result.dataType = modelName;
             imports.add(modelName);
             // set the example value
@@ -420,8 +401,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      */
     @Override
     public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
-        // if a response points at a model whose type != object and it has validations and/or enums, then we will
-        // generate the model, and the response.isModel must be changed to true and response.baseType must be the name
+        // if a response points at a model whose type != object an is an aliasModel
+        // the response.isModel must be changed to true and response.baseType must be the name
         // of the model. Point responses at models if the model is python class type ModelSimple
         // When we serialize/deserialize ModelSimple models, validations and enums will be checked.
         Schema responseSchema;
@@ -438,17 +419,13 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 // check the referenced schema to see if it is an type=object model
                 Schema modelSchema = ModelUtils.getSchema(this.openAPI, cp.complexType);
                 if (modelSchema != null && !"object".equals(modelSchema.getType())) {
-                    CodegenProperty modelProp = fromProperty("response", modelSchema);
-                    if (modelProp.isEnum == true || modelProp.hasValidation == true) {
-                        // this model has validations and/or enums so we will generate it
-                        newBaseType = cp.complexType;
-                    }
+                    newBaseType = cp.complexType;
                 }
             } else {
-                if (cp.isEnum == true || cp.hasValidation == true) {
-                    // this model has validations and/or enums so we will generate it
-                    Schema sc = ModelUtils.getSchemaFromResponse(response);
-                    newBaseType = ModelUtils.getSimpleRef(sc.get$ref());
+                Schema sc = ModelUtils.getSchemaFromResponse(response);
+                String scRef = sc.get$ref();
+                if (scRef != null) {
+                    newBaseType = ModelUtils.getSimpleRef(scRef);
                 }
             }
         }

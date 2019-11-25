@@ -35,9 +35,11 @@ from petstore_api.model_utils import (  # noqa: F401
 )
 from petstore_api.models.client import Client
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
+from petstore_api.models.outer_boolean import OuterBoolean
 from petstore_api.models.outer_composite import OuterComposite
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_number import OuterNumber
+from petstore_api.models.outer_string import OuterString
 from petstore_api.models.user import User
 from petstore_api.models.xml_item import XmlItem
 
@@ -175,7 +177,7 @@ class FakeApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param bool body: Input boolean as post body
+            :param OuterBoolean body: Input boolean as post body
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -194,7 +196,7 @@ class FakeApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: bool
+            :return: OuterBoolean
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -221,7 +223,7 @@ class FakeApi(object):
 
         self.fake_outer_boolean_serialize = Endpoint(
             settings={
-                'response_type': (bool,),
+                'response_type': (OuterBoolean,),
                 'auth': [],
                 'endpoint_path': '/fake/outer/boolean',
                 'operation_id': 'fake_outer_boolean_serialize',
@@ -246,7 +248,7 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (bool,),
+                    'body': (OuterBoolean,),
                 },
                 'attribute_map': {
                 },
@@ -583,7 +585,7 @@ class FakeApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param str body: Input string as post body
+            :param OuterString body: Input string as post body
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -602,7 +604,7 @@ class FakeApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: str
+            :return: OuterString
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -629,7 +631,7 @@ class FakeApi(object):
 
         self.fake_outer_string_serialize = Endpoint(
             settings={
-                'response_type': (str,),
+                'response_type': (OuterString,),
                 'auth': [],
                 'endpoint_path': '/fake/outer/string',
                 'operation_id': 'fake_outer_string_serialize',
@@ -654,7 +656,7 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (str,),
+                    'body': (OuterString,),
                 },
                 'attribute_map': {
                 },

@@ -42,6 +42,7 @@ from petstore_api.models.additional_properties_number import AdditionalPropertie
 from petstore_api.models.additional_properties_object import AdditionalPropertiesObject
 from petstore_api.models.additional_properties_string import AdditionalPropertiesString
 from petstore_api.models.animal import Animal
+from petstore_api.models.animal_farm import AnimalFarm
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
@@ -69,9 +70,11 @@ from petstore_api.models.model_return import ModelReturn
 from petstore_api.models.name import Name
 from petstore_api.models.number_only import NumberOnly
 from petstore_api.models.order import Order
+from petstore_api.models.outer_boolean import OuterBoolean
 from petstore_api.models.outer_composite import OuterComposite
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_number import OuterNumber
+from petstore_api.models.outer_string import OuterString
 from petstore_api.models.pet import Pet
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.special_model_name import SpecialModelName

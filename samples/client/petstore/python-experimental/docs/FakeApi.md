@@ -75,7 +75,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_boolean_serialize**
-> bool fake_outer_boolean_serialize()
+> OuterBoolean fake_outer_boolean_serialize()
 
 
 
@@ -92,7 +92,7 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.FakeApi()
-body = True # bool | Input boolean as post body (optional)
+body = OuterBoolean(petstore_api.OuterBoolean()) # OuterBoolean | Input boolean as post body (optional)
 
 try:
     api_response = api_instance.fake_outer_boolean_serialize(body=body)
@@ -105,11 +105,11 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **bool**| Input boolean as post body | [optional]
+ **body** | [**OuterBoolean**](OuterBoolean.md)| Input boolean as post body | [optional]
 
 ### Return type
 
-**bool**
+[**OuterBoolean**](OuterBoolean.md)
 
 ### Authorization
 
@@ -211,7 +211,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterEnum**](str.md)| Input enum as post body | [optional]
+ **body** | [**OuterEnum**](OuterEnum.md)| Input enum as post body | [optional]
 
 ### Return type
 
@@ -251,7 +251,7 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.FakeApi()
-body = OuterNumber(3.4) # OuterNumber | Input number as post body (optional)
+body = OuterNumber(petstore_api.OuterNumber()) # OuterNumber | Input number as post body (optional)
 
 try:
     api_response = api_instance.fake_outer_number_serialize(body=body)
@@ -264,7 +264,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterNumber**](float.md)| Input number as post body | [optional]
+ **body** | [**OuterNumber**](OuterNumber.md)| Input number as post body | [optional]
 
 ### Return type
 
@@ -287,7 +287,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_string_serialize**
-> str fake_outer_string_serialize()
+> OuterString fake_outer_string_serialize()
 
 
 
@@ -304,7 +304,7 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.FakeApi()
-body = 'body_example' # str | Input string as post body (optional)
+body = OuterString(petstore_api.OuterString()) # OuterString | Input string as post body (optional)
 
 try:
     api_response = api_instance.fake_outer_string_serialize(body=body)
@@ -317,11 +317,11 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **str**| Input string as post body | [optional]
+ **body** | [**OuterString**](OuterString.md)| Input string as post body | [optional]
 
 ### Return type
 
-**str**
+[**OuterString**](OuterString.md)
 
 ### Authorization
 
