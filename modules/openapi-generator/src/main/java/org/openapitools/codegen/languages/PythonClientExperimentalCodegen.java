@@ -382,16 +382,19 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (responseSchema != null) {
             CodegenProperty cp = fromProperty("response", responseSchema);
             if (cp.complexType != null) {
-                // check the referenced schema to see if it is an type=object model
-                Schema modelSchema = ModelUtils.getSchema(this.openAPI, cp.complexType);
-                if (modelSchema != null && !"object".equals(modelSchema.getType())) {
+                // this code path sets newBaseType for Enums
+                if (isAliasModel(cp.complexType)) {
                     newBaseType = cp.complexType;
                 }
             } else {
-                Schema sc = ModelUtils.getSchemaFromResponse(response);
-                String scRef = sc.get$ref();
+                // this code path sets newBaseType for alias models
+                Schema rs = ModelUtils.getSchemaFromResponse(response);
+                String scRef = rs.get$ref();
                 if (scRef != null) {
-                    newBaseType = ModelUtils.getSimpleRef(scRef);
+                    String simpleRef = ModelUtils.getSimpleRef(scRef);
+                    if (isAliasModel(simpleRef)) {
+                        newBaseType = simpleRef;
+                    }
                 }
             }
         }
@@ -496,6 +499,19 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
     }
 
+    private Boolean isAliasModel(String name) {
+        Schema schemaFromName = ModelUtils.getSchema(this.openAPI, name);
+        if (schemaFromName == null) {
+            return Boolean.FALSE;
+        }
+        CodegenModel cm = super.fromModel(name, schemaFromName);
+        Boolean isAlias = cm.isAlias || (cm.isEnum && !cm.isMapModel && !cm.isArrayModel);
+        if (isAlias) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
     /**
      * Convert OAS Model object to Codegen Model object
      *
@@ -522,23 +538,17 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                     continue;
                 }
                 Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, propertySchema);
-                String refType = refSchema.getType();
-                if (refType == null || refType.equals("object")) {
-                    continue;
-                }
-                CodegenProperty modelProperty = fromProperty("_fake_name", refSchema);
-                if (modelProperty.isEnum == false && modelProperty.hasValidation == false) {
-                    continue;
-                }
                 String modelName = ModelUtils.getSimpleRef(ref);
+                if (!isAliasModel(modelName)) {
+                    continue;
+                }
                 propertyToModelName.put(pythonPropertyName, modelName);
             }
         }
         CodegenModel result = super.fromModel(name, schema);
 
         // make non-object type models have one property so we can use it to store enums and validations
-        Boolean enumAlias = (result.isEnum && !result.isMapModel && !result.isArrayModel);
-        if (result.isAlias || enumAlias) {
+        if (isAliasModel(name)) {
             Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
             CodegenProperty modelProperty = fromProperty("value", modelSchema);
             // these models are non-object models and may have enums and/or validations
@@ -579,8 +589,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 String modelName = propertyToModelName.get(cp.name);
                 cp.complexType = modelName;
                 cp.dataType = modelName;
-                cp.isEnum = false;
-                cp.hasValidation = false;
             }
         }
         return result;

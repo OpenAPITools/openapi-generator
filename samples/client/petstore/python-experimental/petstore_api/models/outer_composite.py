@@ -36,7 +36,9 @@ from petstore_api.model_utils import (  # noqa: F401
     type_error_message,
     validate_and_convert_types
 )
+from petstore_api.models.outer_boolean import OuterBoolean
 from petstore_api.models.outer_number import OuterNumber
+from petstore_api.models.outer_string import OuterString
 
 
 class OuterComposite(ModelNormal):
@@ -76,11 +78,15 @@ class OuterComposite(ModelNormal):
 
     openapi_types = {
         'my_number': (OuterNumber,),  # noqa: E501
-        'my_string': (str,),  # noqa: E501
-        'my_boolean': (bool,),  # noqa: E501
+        'my_string': (OuterString,),  # noqa: E501
+        'my_boolean': (OuterBoolean,),  # noqa: E501
     }
 
     validations = {
+        ('my_number',): {
+            'inclusive_maximum': 2E+1,
+            'inclusive_minimum': 1E+1,
+        },
     }
 
     additional_properties_type = None
@@ -106,8 +112,8 @@ class OuterComposite(ModelNormal):
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
             my_number (OuterNumber): [optional]  # noqa: E501
-            my_string (str): [optional]  # noqa: E501
-            my_boolean (bool): [optional]  # noqa: E501
+            my_string (OuterString): [optional]  # noqa: E501
+            my_boolean (OuterBoolean): [optional]  # noqa: E501
         """
         self._data_store = {}
         self._check_type = _check_type
@@ -207,7 +213,7 @@ class OuterComposite(ModelNormal):
         """Gets the my_string of this OuterComposite.  # noqa: E501
 
         Returns:
-            (str): The my_string of this OuterComposite.  # noqa: E501
+            (OuterString): The my_string of this OuterComposite.  # noqa: E501
         """
         return self.__get_item('my_string')
 
@@ -222,7 +228,7 @@ class OuterComposite(ModelNormal):
         """Gets the my_boolean of this OuterComposite.  # noqa: E501
 
         Returns:
-            (bool): The my_boolean of this OuterComposite.  # noqa: E501
+            (OuterBoolean): The my_boolean of this OuterComposite.  # noqa: E501
         """
         return self.__get_item('my_boolean')
 
