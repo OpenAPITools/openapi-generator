@@ -1286,14 +1286,16 @@ func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx _context.Context
 	localVarQueryParams.Add("ioutil", parameterToString(ioutil, "csv"))
 	localVarQueryParams.Add("http", parameterToString(http, "space"))
 	localVarQueryParams.Add("url", parameterToString(url, "csv"))
-	t:=context
-	if reflect.TypeOf(t).Kind() == reflect.Slice {
-		s := reflect.ValueOf(t)
-		for i := 0; i < s.Len(); i++ {
-			localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
+	{
+		t:=context
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("context", parameterToString(t, "multi"))
 		}
-	} else {
-		localVarQueryParams.Add("context", parameterToString(t, "multi"))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

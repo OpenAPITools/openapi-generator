@@ -49,6 +49,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public AbstractGoCodegen() {
         super();
 
+        supportsInheritance = true;
         hideGenerationTimestamp = Boolean.FALSE;
 
         defaultIncludes = new HashSet<String>(
@@ -329,6 +330,34 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         } else
             type = openAPIType;
         return type;
+    }
+    
+    /**
+     * Determines the golang instantiation type of the specified schema.
+     * 
+     * This function is called when the input schema is a map, and specifically
+     * when the 'additionalProperties' attribute is present in the OAS specification.
+     * Codegen invokes this function to resolve the "parent" association to
+     * 'additionalProperties'.
+     *
+     * Note the 'parent' attribute in the codegen model is used in the following scenarios:
+     * - Indicate a polymorphic association with some other type (e.g. class inheritance).
+     * - If the specification has a discriminator, cogegen create a “parent” based on the discriminator.
+     * - Use of the 'additionalProperties' attribute in the OAS specification.
+     *   This is the specific scenario when codegen invokes this function. 
+     *
+     * @param property the input schema
+     *
+     * @return the golang instantiation type of the specified property.
+     */
+    @Override
+    public String toInstantiationType(Schema property) {
+        if (ModelUtils.isMapSchema(property)) {
+            return getTypeDeclaration(property);
+        } else if (ModelUtils.isArraySchema(property)) {
+            return getTypeDeclaration(property);
+        }
+        return super.toInstantiationType(property);
     }
 
     @Override
