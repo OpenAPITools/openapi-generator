@@ -5009,9 +5009,13 @@ public class DefaultCodegen implements CodegenConfig {
                 } else {
                     codegenParameter.baseName = bodyParameterName;
                 }
+                CodegenModel cm = null;
+                // name is null if the schema is inline
+                if (name != null) {
+                    cm = fromModel(name, schema);
+                }
                 codegenParameter.isPrimitiveType = false;
-                CodegenModel cm = fromModel(name, schema);
-                if (cm.isAlias) {
+                if (cm != null && cm.isAlias) {
                     codegenParameter.isModel = true;
                     codegenParameter.baseType = cm.classname;
                     codegenParameter.dataType = cm.classname;
