@@ -30,7 +30,7 @@ class Configuration(object):
 
     def __init__(self, host="{{{basePath}}}",
                  api_key=None, api_key_prefix=None,
-                 username="", password=""):
+                 username=None, password=None):
         """Constructor
         """
         self.host = host
@@ -60,17 +60,22 @@ class Configuration(object):
         """Password for HTTP basic authentication
         """
 {{#hasOAuthMethods}}
-        self.access_token = ""
+        self.access_token = None
         """access token for OAuth/Bearer
         """
 {{/hasOAuthMethods}}
 {{^hasOAuthMethods}}
 {{#hasBearerMethods}}
-        self.access_token = ""
+        self.access_token = None
         """access token for OAuth/Bearer
         """
 {{/hasBearerMethods}}
 {{/hasOAuthMethods}}
+        self.security_schemes = None
+        """The security schemes to use when authenticating and authorizing the client.
+        While the OpenAPI specification may support multiple security schemes (e.g. OAuth2, basic),
+        the client may want to explicitly use a specific security scheme.
+        """
         self.logger = {}
         """Logging Settings
         """
@@ -256,51 +261,51 @@ class Configuration(object):
 
         :return: The Auth Settings information dict.
         """
-        return {
+        auth = {}
 {{#authMethods}}
 {{#isApiKey}}
-            '{{name}}':
-                {
-                    'type': 'api_key',
-                    'in': {{#isKeyInCookie}}'cookie'{{/isKeyInCookie}}{{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{#isKeyInQuery}}'query'{{/isKeyInQuery}},
-                    'key': '{{keyParamName}}',
-                    'value': self.get_api_key_with_prefix('{{keyParamName}}')
-                },
+        if self.api_key:
+            auth['{{name}}'] = {
+                'type': 'api_key',
+                'in': {{#isKeyInCookie}}'cookie'{{/isKeyInCookie}}{{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{#isKeyInQuery}}'query'{{/isKeyInQuery}},
+                'key': '{{keyParamName}}',
+                'value': self.get_api_key_with_prefix('{{keyParamName}}')
+            }
 {{/isApiKey}}
 {{#isBasic}}
   {{^isBasicBearer}}
-            '{{name}}':
-                {
-                    'type': 'basic',
-                    'in': 'header',
-                    'key': 'Authorization',
-                    'value': self.get_basic_auth_token()
-                },
+        if self.username and self.password:
+            auth['{{name}}'] = {
+                'type': 'basic',
+                'in': 'header',
+                'key': 'Authorization',
+                'value': self.get_basic_auth_token()
+            }
   {{/isBasicBearer}}
   {{#isBasicBearer}}
-            '{{name}}':
-                {
-                    'type': 'bearer',
-                    'in': 'header',
-                    {{#bearerFormat}}
-                    'format': '{{{.}}}',
-                    {{/bearerFormat}}
-                    'key': 'Authorization',
-                    'value': 'Bearer ' + self.access_token
-                },
+        if self.access_token:
+            auth['{{name}}'] = {
+                'type': 'bearer',
+                'in': 'header',
+                {{#bearerFormat}}
+                'format': '{{{.}}}',
+                {{/bearerFormat}}
+                'key': 'Authorization',
+                'value': 'Bearer ' + self.access_token
+            }
   {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
-            '{{name}}':
-                {
-                    'type': 'oauth2',
-                    'in': 'header',
-                    'key': 'Authorization',
-                    'value': 'Bearer ' + self.access_token
-                },
+        if self.access_token:
+            auth['{{name}}'] = {
+                'type': 'oauth2',
+                'in': 'header',
+                'key': 'Authorization',
+                'value': 'Bearer ' + self.access_token
+            }
 {{/isOAuth}}
 {{/authMethods}}
-        }
+        return auth
 
     def to_debug_report(self):
         """Gets the essential information for debugging.
