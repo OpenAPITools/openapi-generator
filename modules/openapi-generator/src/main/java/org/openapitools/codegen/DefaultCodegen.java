@@ -451,7 +451,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param value    enum variable name
      * @param datatype data type
-     * @return the sanitized value for enum
+     * @return the sanitized value fisPrimitiveType
      */
     public String toEnumValue(String value, String datatype) {
         if ("number".equalsIgnoreCase(datatype)) {
@@ -5014,7 +5014,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (name != null) {
                     cm = fromModel(name, schema);
                 }
-                codegenParameter.isPrimitiveType = false;
+                codegenParameter.isPrimitiveType = true;
                 if (cm != null && ModelUtils.isGenerateAliasAsModel() && cm.isAlias) {
                     codegenParameter.isModel = true;
                     codegenParameter.baseType = cm.classname;

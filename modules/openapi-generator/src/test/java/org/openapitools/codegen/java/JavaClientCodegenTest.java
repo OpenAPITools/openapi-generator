@@ -87,6 +87,7 @@ public class JavaClientCodegenTest {
          Assert.assertEquals(co.bodyParams.get(0).baseType, "OuterNumber");
          Assert.assertEquals(co.bodyParams.get(0).dataType, "OuterNumber");
          Assert.assertEquals(co.bodyParams.get(0).isModel, true);
+         Assert.assertEquals(co.bodyParams.get(0).isPrimitiveType, true);
      }
 
     @Test

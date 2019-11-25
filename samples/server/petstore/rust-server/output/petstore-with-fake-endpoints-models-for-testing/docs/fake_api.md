@@ -33,7 +33,7 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**boolean**](boolean.md)| Input boolean as post body | 
+ **body** | [**OuterBoolean**](OuterBoolean.md)| Input boolean as post body | 
 
 ### Return type
 
@@ -101,7 +101,7 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**number**](number.md)| Input number as post body | 
+ **body** | [**OuterNumber**](OuterNumber.md)| Input number as post body | 
 
 ### Return type
 
@@ -135,7 +135,7 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**string**](string.md)| Input string as post body | 
+ **body** | [**OuterString**](OuterString.md)| Input string as post body | 
 
 ### Return type
 
