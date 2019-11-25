@@ -500,6 +500,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     }
 
     private Boolean isAliasModel(String name) {
+        // for python-experimental, any models whose type != object and != array
+        // including a model which is a string/number/... enum is viewed as an alias model
+        // and in python we generate it using the parent class ModelSimple
         Schema schemaFromName = ModelUtils.getSchema(this.openAPI, name);
         if (schemaFromName == null) {
             return Boolean.FALSE;
