@@ -16,57 +16,8 @@ import (
 
 // Cat struct for Cat
 type Cat struct {
-	ClassName string `json:"className"`
-	Color *string `json:"color,omitempty"`
+  Animal
 	Declawed *bool `json:"declawed,omitempty"`
-}
-
-// GetClassName returns the ClassName field value
-func (o *Cat) GetClassName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.ClassName
-}
-
-// SetClassName sets field value
-func (o *Cat) SetClassName(v string) {
-	o.ClassName = v
-}
-
-// GetColor returns the Color field value if set, zero value otherwise.
-func (o *Cat) GetColor() string {
-	if o == nil || o.Color == nil {
-		var ret string
-		return ret
-	}
-	return *o.Color
-}
-
-// GetColorOk returns a tuple with the Color field value if set, zero value otherwise
-// and a boolean to check if the value has been set.
-func (o *Cat) GetColorOk() (string, bool) {
-	if o == nil || o.Color == nil {
-		var ret string
-		return ret, false
-	}
-	return *o.Color, true
-}
-
-// HasColor returns a boolean if a field has been set.
-func (o *Cat) HasColor() bool {
-	if o != nil && o.Color != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetColor gets a reference to the given string and assigns it to the Color field.
-func (o *Cat) SetColor(v string) {
-	o.Color = &v
 }
 
 // GetDeclawed returns the Declawed field value if set, zero value otherwise.
