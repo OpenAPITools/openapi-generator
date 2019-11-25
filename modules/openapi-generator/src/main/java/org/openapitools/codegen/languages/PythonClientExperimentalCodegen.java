@@ -571,9 +571,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         CodegenModel result = super.fromModel(name, schema);
 
         // make non-object type models have one property so we can use it to store enums and validations
-        String schemaType = getPrimitiveType(schema);
-        Boolean enumAlias = (schemaType != null && !schemaType.equals("object") && !schemaType.equals("array")
-                && schema.getEnum() != null && !ModelUtils.isMapSchema(schema));
+        Boolean enumAlias = (result.isEnum && !result.isMapModel && !result.isArrayModel);
         if (result.isAlias || enumAlias) {
             Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
             CodegenProperty modelProperty = fromProperty("value", modelSchema);
