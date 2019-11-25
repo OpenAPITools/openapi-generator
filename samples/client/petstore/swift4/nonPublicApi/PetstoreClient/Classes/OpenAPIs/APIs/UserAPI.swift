@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Alamofire
 
 internal class UserAPI {
     /**

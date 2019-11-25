@@ -9,7 +9,7 @@ import Foundation
 
 #if swift(<5)
 
-public enum Result<Value, Error: Swift.Error> {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum Result<Value, Error: Swift.Error> {
     case success(Value)
     case failure(Error)
 }

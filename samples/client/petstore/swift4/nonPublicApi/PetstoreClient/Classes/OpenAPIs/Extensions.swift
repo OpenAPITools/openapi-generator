@@ -5,7 +5,6 @@
 //
 
 import Foundation
-import Alamofire
 
 extension Bool: JSONEncodable {
     func encodeToJSON() -> Any { return self as Any }
