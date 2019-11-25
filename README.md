@@ -699,7 +699,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-11-07 - [API First development with OpenAPI - You should you practise it !?](https://www.youtube.com/watch?v=F9iF3a1Z8Y8) by [Nick Van Hoof](https://www.nickvanhoof.com/) at [Devoxx Belgium 2019](https://devoxx.be/)
 - 2019-11-08 - [JHipster beyond CRUD - API-First for Enterprises by Enrico Costanzi](https://www.youtube.com/watch?v=m28JFovKQ20) by [Enrico Costanzi](https://twitter.com/enricocostanzi) at [JHipster Conf 2019 in Paris](https://jhipster-conf.github.io/)
 - 2019-11-11 - [TypeScript REST APIクライアント](https://qiita.com/unhurried/items/7b74f7d3c43545dadd2b) by [@unhurried](https://qiita.com/unhurried)
-- 2019-11-11 - [One Spec to Rule them all - OpenAPI in Action](https://www.youtube.com/watch?v=MMay_nht8ec) by [Andreas Litt](https://github.com/littldr) at [code.talks 2019](https://www.codetalks.com/) 
+- 2019-11-11 - [One Spec to Rule them all - OpenAPI in Action](https://www.youtube.com/watch?v=MMay_nht8ec) by [Andreas Litt](https://github.com/littldr) at [code.talks 2019](https://www.codetalks.com/)
+- 2019-11-17 - [OpenAPI Generator YouTube playlist](https://www.youtube.com/playlist?list=PLtJyHVMdzfF6fBkOUV5VDVErP23CGgHIy) at [YouTube](https://www.youtube.com)
 
 ## [6 - About Us](#table-of-contents)
 
