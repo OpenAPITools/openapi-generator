@@ -4823,11 +4823,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
-        boolean useAliasReferenceName = ModelUtils.isGenerateAliasAsModel() && StringUtils.isNotBlank(name) &&
-          (ModelUtils.isMapSchema(schema) || ModelUtils.isArraySchema(schema)) &&
-          (schema.getProperties() == null || schema.getProperties().isEmpty());
-
-        if (ModelUtils.isMapSchema(schema) && !useAliasReferenceName) {
+        if (ModelUtils.isMapSchema(schema)) {
             Schema inner = ModelUtils.getAdditionalProperties(schema);
             if (inner == null) {
                 LOGGER.error("No inner type supplied for map parameter `{}`. Default to type:string", schema.getName());
@@ -4863,7 +4859,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
-        } else if (ModelUtils.isArraySchema(schema) && !useAliasReferenceName) {
+        } else if (ModelUtils.isArraySchema(schema)) {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = getSchemaItems(arraySchema);
             if (arraySchema.getItems() == null) {
@@ -4928,7 +4924,7 @@ public class DefaultCodegen implements CodegenConfig {
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
 
-        } else if (ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema) || useAliasReferenceName) {
+        } else if (ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema)) {
             CodegenModel codegenModel = null;
             if (StringUtils.isNotBlank(name)) {
                 schema.setName(name);
@@ -4938,7 +4934,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.isModel = true;
             }
 
-            if (codegenModel != null && (codegenModel.hasVars || useAliasReferenceName)) {
+            if (codegenModel != null && !codegenModel.emptyVars) {
                 if (StringUtils.isEmpty(bodyParameterName)) {
                     codegenParameter.baseName = codegenModel.classname;
                 } else {
@@ -5013,9 +5009,17 @@ public class DefaultCodegen implements CodegenConfig {
                 } else {
                     codegenParameter.baseName = bodyParameterName;
                 }
-                codegenParameter.isPrimitiveType = true;
-                codegenParameter.baseType = codegenProperty.baseType;
-                codegenParameter.dataType = codegenProperty.dataType;
+                codegenParameter.isPrimitiveType = false;
+                CodegenModel cm = fromModel(name, schema);
+                if (cm.isAlias) {
+                    codegenParameter.isModel = true;
+                    codegenParameter.baseType = cm.classname;
+                    codegenParameter.dataType = cm.classname;
+                    codegenProperty.complexType = cm.classname;
+                } else {
+                    codegenParameter.baseType = codegenProperty.baseType;
+                    codegenParameter.dataType = codegenProperty.dataType;
+                }
                 codegenParameter.description = codegenProperty.description;
                 codegenParameter.paramName = toParamName(codegenParameter.baseName);
                 codegenParameter.minimum = codegenProperty.minimum;

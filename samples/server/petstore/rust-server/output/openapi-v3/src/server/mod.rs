@@ -560,19 +560,19 @@ where
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
-                                let param_another_xml_array: Option<models::AnotherXmlArray> = if !body.is_empty() {
+                                let param_string: Option<models::AnotherXmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_another_xml_array) => param_another_xml_array,
+                                        Ok(param_string) => param_string,
                                         Err(_) => None,
                                     }
                                 } else {
                                     None
                                 };
-                                Box::new(api_impl.xml_other_put(param_another_xml_array, &context)
+                                Box::new(api_impl.xml_other_put(param_string, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
@@ -610,7 +610,7 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter AnotherXmlArray: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter string: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
@@ -626,19 +626,19 @@ where
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
-                                let param_xml_array: Option<models::XmlArray> = if !body.is_empty() {
+                                let param_string: Option<models::XmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_xml_array) => param_xml_array,
+                                        Ok(param_string) => param_string,
                                         Err(_) => None,
                                     }
                                 } else {
                                     None
                                 };
-                                Box::new(api_impl.xml_post(param_xml_array, &context)
+                                Box::new(api_impl.xml_post(param_string, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
@@ -676,7 +676,7 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter XmlArray: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter string: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>

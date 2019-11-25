@@ -68,6 +68,25 @@ import java.util.stream.Collectors;
 
 public class JavaClientCodegenTest {
 
+     @Test
+     public void testAliasModelsInResponseBody() {
+         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+         final JavaClientCodegen codegen = new JavaClientCodegen();
+         codegen.setOpenAPI(openAPI);
+
+         // invoke fromModel which sets typeAliases which are used to set model.isAlias
+         String modelName = "OuterNumber";
+         Schema on = openAPI.getComponents().getSchemas().get(modelName);
+         CodegenModel onModel = codegen.fromModel(modelName, on);
+
+         String path = "/fake/outer/number";
+         Operation operation = openAPI.getPaths().get(path).getPost();
+         CodegenOperation co = codegen.fromOperation(path, "POST", operation, null);
+         Assert.assertEquals(co.bodyParams.get(0).baseType, "OuterNumber");
+         Assert.assertEquals(co.bodyParams.get(0).dataType, "OuterNumber");
+         Assert.assertEquals(co.bodyParams.get(0).isModel, true);
+     }
+
     @Test
     public void arraysInRequestBody() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
@@ -528,7 +547,7 @@ public class JavaClientCodegenTest {
     public void testBearerAuth() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/pingBearerAuth.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
-        
+
         List<CodegenSecurity> security = codegen.fromSecurity(openAPI.getComponents().getSecuritySchemes());
         Assert.assertEquals(security.size(), 1);
         Assert.assertEquals(security.get(0).isBasic, Boolean.TRUE);
