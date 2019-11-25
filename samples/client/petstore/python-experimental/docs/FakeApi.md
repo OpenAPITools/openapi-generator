@@ -92,7 +92,7 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.FakeApi()
-body = OuterBoolean(petstore_api.OuterBoolean()) # OuterBoolean | Input boolean as post body (optional)
+body = petstore_api.OuterBoolean(True) # OuterBoolean | Input boolean as post body (optional)
 
 try:
     api_response = api_instance.fake_outer_boolean_serialize(body=body)
@@ -105,7 +105,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterBoolean**](OuterBoolean.md)| Input boolean as post body | [optional]
+ **body** | **OuterBoolean**| Input boolean as post body | [optional]
 
 ### Return type
 
@@ -198,7 +198,7 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.FakeApi()
-body = OuterEnum("placed") # OuterEnum | Input enum as post body (optional)
+body = petstore_api.OuterEnum("placed") # OuterEnum | Input enum as post body (optional)
 
 try:
     api_response = api_instance.fake_outer_enum_serialize(body=body)
@@ -211,7 +211,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterEnum**](OuterEnum.md)| Input enum as post body | [optional]
+ **body** | **OuterEnum**| Input enum as post body | [optional]
 
 ### Return type
 
@@ -251,7 +251,7 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.FakeApi()
-body = OuterNumber(petstore_api.OuterNumber()) # OuterNumber | Input number as post body (optional)
+body = petstore_api.OuterNumber(3.4) # OuterNumber | Input number as post body (optional)
 
 try:
     api_response = api_instance.fake_outer_number_serialize(body=body)
@@ -264,7 +264,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterNumber**](OuterNumber.md)| Input number as post body | [optional]
+ **body** | **OuterNumber**| Input number as post body | [optional]
 
 ### Return type
 
@@ -304,7 +304,7 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.FakeApi()
-body = OuterString(petstore_api.OuterString()) # OuterString | Input string as post body (optional)
+body = petstore_api.OuterString('body_example') # OuterString | Input string as post body (optional)
 
 try:
     api_response = api_instance.fake_outer_string_serialize(body=body)
@@ -317,7 +317,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterString**](OuterString.md)| Input string as post body | [optional]
+ **body** | **OuterString**| Input string as post body | [optional]
 
 ### Return type
 

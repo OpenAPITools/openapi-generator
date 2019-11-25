@@ -357,40 +357,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // overwriting defaultValue omitted from here
     }
 
-    @Override
-    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
-        CodegenParameter result = super.fromRequestBody(body, imports, bodyParameterName);
-        // if we generated a model with a non-object type because it has validations or enums,
-        // make sure that the datatype of that body parameter refers to our model class
-        Content content = body.getContent();
-        Set<String> keySet = content.keySet();
-        Object[] keyArray = (Object[]) keySet.toArray();
-        MediaType mediaType = content.get(keyArray[0]);
-        Schema schema = mediaType.getSchema();
-        String ref = schema.get$ref();
-        if (ref == null) {
-            return result;
-        }
-        String modelName = ModelUtils.getSimpleRef(ref);
-        // the result lacks validation info so we need to make a CodegenProperty from the schema to check
-        // if we have validation and enum info exists
-        Schema realSchema = ModelUtils.getSchema(this.openAPI, modelName);
-        CodegenProperty modelProp = fromProperty("body", realSchema);
-        if (result.isPrimitiveType && result.isModel) {
-            String simpleDataType = result.dataType;
-            result.isPrimitiveType = false;
-            result.dataType = modelName;
-            imports.add(modelName);
-            // set the example value
-            if (modelProp.isEnum) {
-                String value = modelProp._enum.get(0).toString();
-                result.example = modelName + "(" + toEnumValue(value, simpleDataType) + ")";
-            } else {
-                result.example = modelName + "(" + result.example + ")";
-            }
-        }
-        return result;
-    }
 
     /**
      * Convert OAS Response object to Codegen Response object
@@ -696,24 +662,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
     }
 
-    @Override
-    public void setParameterExampleValue(CodegenParameter p) {
-        // we have a custom version of this function so we can set the file
-        // type example value
-        String example;
-
-        if (p.defaultValue == null) {
-            example = p.example;
-        } else {
-            p.example = p.defaultValue;
-            return;
-        }
-
-        String type = p.baseType;
-        if (type == null) {
-            type = p.dataType;
-        }
-
+    private String GetExampleValue(String example, String type, CodegenParameter p) {
         if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = p.paramName + "_example";
@@ -751,6 +700,42 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             example = this.packageName + "." + type + "()";
         } else {
             LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
+        }
+        return example;
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        // we have a custom version of this function so we can set the file
+        // type example value
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            p.example = p.defaultValue;
+            return;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if (!languageSpecificPrimitives.contains(type) && p.isModel && p.isPrimitiveType) {
+            // this is an aliased model
+            Schema sc = ModelUtils.getSchema(this.openAPI, p.baseType);
+            CodegenProperty cp = fromProperty(p.baseType, sc);
+            type = cp.baseType;
+            if (cp.isEnum) {
+                String value = cp._enum.get(0).toString();
+                example = toEnumValue(value, type);
+            } else {
+                example = GetExampleValue(example, type, p);
+            }
+            example = this.packageName + "." + p.baseType + "("+example+")";
+        } else {
+            example = GetExampleValue(example, type, p);
         }
 
         if (example == null) {
