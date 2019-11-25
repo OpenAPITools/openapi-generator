@@ -1072,8 +1072,8 @@
                 <!-- comment out due to error `npm run build`
                 <module>samples/client/petstore/typescript-jquery/npm</module>-->
                 <!--<module>samples/client/petstore/typescript-angular-v2/npm</module>-->
-                <module>samples/client/petstore/typescript-angular-v4/npm</module>
-                <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
+                <!--<module>samples/client/petstore/typescript-angular-v4/npm</module>
+                <module>samples/client/petstore/typescript-angular-v4.3/npm</module>-->
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
                 <module>samples/server/petstore/rust-server</module>
