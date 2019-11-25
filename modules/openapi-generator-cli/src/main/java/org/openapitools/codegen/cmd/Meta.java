@@ -72,15 +72,34 @@ public class Meta implements Runnable {
             allowedValues = {"CLIENT", "SERVER", "DOCUMENTATION", "CONFIG", "OTHER"})
     private String type = "OTHER";
 
+    @Option(name = {"-l", "--language"}, title = "language",
+            description = "the implementation language for the generator class",
+            allowedValues = {"java", "kotlin"}
+    )
+    private String language = "java";
+
     @Override
     public void run() {
         final File targetDir = new File(outputFolder);
         LOGGER.info("writing to folder [{}]", targetDir.getAbsolutePath());
 
         String mainClass = CaseFormat.LOWER_HYPHEN.to(CaseFormat.UPPER_CAMEL, name) + "Generator";
+        String kebabName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_HYPHEN, name);
 
-        List<SupportingFile> supportingFiles =
+        List<SupportingFile> supportingFiles = "kotlin".equals(language) ?
                 ImmutableList.of(
+                        new SupportingFile("kotlin/build_gradle.mustache", "", "build.gradle.kts"),
+                        new SupportingFile("kotlin/gradle.properties", "", "gradle.properties"),
+                        new SupportingFile("kotlin/settings.mustache", "", "settings.gradle"),
+                        new SupportingFile("kotlin/generatorClass.mustache", on(File.separator).join("src/main/kotlin", asPath(targetPackage)), mainClass.concat(".kt")),
+                        new SupportingFile("kotlin/generatorClassTest.mustache", on(File.separator).join("src/test/kotlin", asPath(targetPackage)), mainClass.concat("Test.kt")),
+                        new SupportingFile("kotlin/README.mustache", "", "README.md"),
+
+                        new SupportingFile("api.template", "src/main/resources" + File.separator + name,"api.mustache"),
+                        new SupportingFile("model.template", "src/main/resources" + File.separator + name,"model.mustache"),
+                        new SupportingFile("myFile.template", String.join(File.separator, "src", "main", "resources", name), "myFile.mustache"),
+                        new SupportingFile("services.mustache", "src/main/resources/META-INF/services", CodegenConfig.class.getCanonicalName()))
+                : ImmutableList.of(
                         new SupportingFile("pom.mustache", "", "pom.xml"),
                         new SupportingFile("generatorClass.mustache", on(File.separator).join("src/main/java", asPath(targetPackage)), mainClass.concat(".java")),
                         new SupportingFile("generatorClassTest.mustache", on(File.separator).join("src/test/java", asPath(targetPackage)), mainClass.concat("Test.java")),
@@ -97,6 +116,7 @@ public class Meta implements Runnable {
                         .put("generatorPackage", targetPackage)
                         .put("generatorClass", mainClass)
                         .put("name", name)
+                        .put("kebabName", kebabName)
                         .put("generatorType", type)
                         .put("fullyQualifiedGeneratorClass", targetPackage + "." + mainClass)
                         .put("openapiGeneratorVersion", currentVersion).build();

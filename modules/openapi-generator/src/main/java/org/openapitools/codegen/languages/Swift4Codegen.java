@@ -555,7 +555,11 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public String toDefaultValue(Schema p) {
         if (p.getEnum() != null && !p.getEnum().isEmpty()) {
             if (p.getDefault() != null) {
-                return "." + escapeText((String) p.getDefault());
+                if (ModelUtils.isStringSchema(p)) {
+                    return "." + toEnumVarName(escapeText((String) p.getDefault()), p.getType());
+                } else {
+                    return "." + toEnumVarName(escapeText(p.getDefault().toString()), p.getType());
+                }
             }
         }
         if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {

@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -100,16 +101,6 @@ public class GenerateBatch implements Runnable {
             numThreads = threads;
         }
 
-        // This allows us to put meta-configs in a different file from referenced configs.
-        // If not specified, we'll assume it's the parent directory of the first file.
-        File includesDir;
-        if (includes != null) {
-            includesDir = new File(includes);
-        } else {
-            Path first = Paths.get(configs.get(0));
-            includesDir = first.getParent().toFile();
-        }
-
         Path rootDir;
         if (root != null) {
             rootDir = Paths.get(root);
@@ -117,7 +108,23 @@ public class GenerateBatch implements Runnable {
             rootDir = Paths.get(System.getProperty("user.dir"));
         }
 
-        LOGGER.info(String.format(Locale.ROOT, "Batch generation using %d threads.\nIncludes: %s\nRoot: %s", numThreads, includesDir.getAbsolutePath(), rootDir.toAbsolutePath().toString()));
+        // This allows us to put meta-configs in a different file from referenced configs.
+        // If not specified, we'll assume it's the parent directory of the first file.
+        File includesDir;
+        if (includes != null) {
+            includesDir = new File(includes);
+        } else {
+            Path first = Paths.get(configs.get(0));
+            if (Files.isRegularFile(first) && !Files.isSymbolicLink(first)) {
+                includesDir = first.toAbsolutePath().getParent().toFile();
+            } else {
+                // Not traversing symbolic links for includes. Falling back to rooted working directory.
+                includesDir = rootDir.toFile();
+            }
+        }
+
+
+        LOGGER.info(String.format(Locale.ROOT, "Batch generation using up to %d threads.\nIncludes: %s\nRoot: %s", numThreads, includesDir.getAbsolutePath(), rootDir.toAbsolutePath().toString()));
 
         // Create a module which loads our config files, but supports a special "!include" key which can point to an existing config file.
         // This allows us to create a sort of meta-config which holds configs which are otherwise required at CLI time (via generate task).

@@ -1,0 +1,13 @@
+{{#isHeaderParam}}
+{{^isListContainer}}
+{{#isModel}}
+            {{{dataType}}} {{paramName}} = ParameterCast.toObject(routingContext.request().getHeader("{{baseName}}"), {{dataType}}.class);
+{{/isModel}}
+{{^isModel}}
+            {{{dataType}}} {{paramName}} = ParameterCast.to{{dataType}}(routingContext.request().getHeader("{{baseName}}"));
+{{/isModel}}
+{{/isListContainer}}
+{{#isListContainer}}
+            {{{dataType}}} {{paramName}} = routingContext.request().params().getAll("{{baseName}}");
+{{/isListContainer}}
+{{/isHeaderParam}}

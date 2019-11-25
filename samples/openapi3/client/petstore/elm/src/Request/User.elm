@@ -40,10 +40,10 @@ createUser :
 createUser params =
     Http.request
         { method = "POST"
-        , headers = []
+        , headers = List.filterMap identity []
         , url = Url.crossOrigin basePath
             ["user"]
-            []
+            (List.filterMap identity [])
         , body = Http.jsonBody <| User.encode params.body
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -63,10 +63,10 @@ createUsersWithArrayInput :
 createUsersWithArrayInput params =
     Http.request
         { method = "POST"
-        , headers = []
+        , headers = List.filterMap identity []
         , url = Url.crossOrigin basePath
             ["user", "createWithArray"]
-            []
+            (List.filterMap identity [])
         , body = Http.jsonBody <| User.encode params.body
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -86,10 +86,10 @@ createUsersWithListInput :
 createUsersWithListInput params =
     Http.request
         { method = "POST"
-        , headers = []
+        , headers = List.filterMap identity []
         , url = Url.crossOrigin basePath
             ["user", "createWithList"]
-            []
+            (List.filterMap identity [])
         , body = Http.jsonBody <| User.encode params.body
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -111,10 +111,10 @@ deleteUser :
 deleteUser params =
     Http.request
         { method = "DELETE"
-        , headers = []
+        , headers = List.filterMap identity []
         , url = Url.crossOrigin basePath
-            ["user",   params.username]
-            []
+            ["user", identity params.username]
+            (List.filterMap identity [])
         , body = Http.emptyBody
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -134,10 +134,10 @@ getUserByName :
 getUserByName params =
     Http.request
         { method = "GET"
-        , headers = []
+        , headers = List.filterMap identity []
         , url = Url.crossOrigin basePath
-            ["user",   params.username]
-            []
+            ["user", identity params.username]
+            (List.filterMap identity [])
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend User.decoder
         , timeout = Just 30000
@@ -157,10 +157,10 @@ loginUser :
 loginUser params =
     Http.request
         { method = "GET"
-        , headers = []
+        , headers = List.filterMap identity []
         , url = Url.crossOrigin basePath
             ["user", "login"]
-            (List.filterMap identity [Just (Url.string "username"  params.username), Just (Url.string "password"  params.password)])
+            (List.filterMap identity [(Just << Url.string "username" << identity) params.username, (Just << Url.string "password" << identity) params.password])
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend Decode.string
         , timeout = Just 30000
@@ -180,10 +180,10 @@ logoutUser :
 logoutUser params =
     Http.request
         { method = "GET"
-        , headers = []
+        , headers = List.filterMap identity []
         , url = Url.crossOrigin basePath
             ["user", "logout"]
-            []
+            (List.filterMap identity [])
         , body = Http.emptyBody
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -205,10 +205,10 @@ updateUser :
 updateUser params =
     Http.request
         { method = "PUT"
-        , headers = []
+        , headers = List.filterMap identity []
         , url = Url.crossOrigin basePath
-            ["user",   params.username]
-            []
+            ["user", identity params.username]
+            (List.filterMap identity [])
         , body = Http.jsonBody <| User.encode params.body
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
