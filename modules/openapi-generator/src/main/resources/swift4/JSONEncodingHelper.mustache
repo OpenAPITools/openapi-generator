@@ -8,9 +8,9 @@
 import Foundation
 import Alamofire
 
-open class JSONEncodingHelper {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class JSONEncodingHelper {
 
-    open class func encodingParameters<T:Encodable>(forEncodableObject encodableObj: T?) -> Parameters? {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func encodingParameters<T:Encodable>(forEncodableObject encodableObj: T?) -> Parameters? {
         var params: Parameters? = nil
 
         // Encode the Encodable object
@@ -24,7 +24,7 @@ open class JSONEncodingHelper {
         return params
     }
 
-    open class func encodingParameters(forEncodableObject encodableObj: Any?) -> Parameters? {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func encodingParameters(forEncodableObject encodableObj: Any?) -> Parameters? {
         var params: Parameters? = nil
 
         if let encodableObj = encodableObj {

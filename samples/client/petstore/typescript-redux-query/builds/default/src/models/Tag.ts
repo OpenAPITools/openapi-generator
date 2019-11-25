@@ -17,7 +17,7 @@ import { exists, mapValues } from '../runtime';
  * @export
  * @interface Tag
  */
-export interface Tag {
+export interface Tag  {
     /**
      * 
      * @type {number}
