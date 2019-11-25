@@ -6,3 +6,4 @@
 ./bin/swift4-petstore-rxswift.sh
 ./bin/swift4-petstore-objcCompatible.sh
 ./bin/swift4-petstore-unwrapRequired.sh
+./bin/swift4-petstore-nonPublicApi.sh
