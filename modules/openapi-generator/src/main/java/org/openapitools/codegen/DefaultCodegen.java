@@ -1548,10 +1548,10 @@ public class DefaultCodegen implements CodegenConfig {
      * Return the OAI type (e.g. integer, long, etc) corresponding to a schema.
      * <pre>$ref</pre> is not taken into account by this method.
      *
-     * @param schema
-     * @return type
+     * @param schema the input schema
+     * @return type describing schema
      */
-    private String getPrimitiveType(Schema schema) {
+    protected String getPrimitiveType(Schema schema) {
         if (schema == null) {
             throw new RuntimeException("schema cannot be null in getPrimitiveType");
         } else if (ModelUtils.isStringSchema(schema) && "number".equals(schema.getFormat())) {

@@ -64,6 +64,7 @@ class OuterString(ModelSimple):
     }
 
     openapi_types = {
+        'value': (str,),  # noqa: E501
     }
 
     validations = {
@@ -73,9 +74,11 @@ class OuterString(ModelSimple):
 
     discriminator = None
 
-    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+    def __init__(self, value, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
         """OuterString - a model defined in OpenAPI
 
+        Args:
+            value (str):
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -98,6 +101,7 @@ class OuterString(ModelSimple):
         self._path_to_item = _path_to_item
         self._configuration = _configuration
 
+        self.__set_item('value', value)
         for var_name, var_value in six.iteritems(kwargs):
             self.__set_item(var_name, var_value)
 
@@ -169,6 +173,21 @@ class OuterString(ModelSimple):
     def __getitem__(self, name):
         """this allows us to get a value with val = instance[field_name]"""
         return self.__get_item(name)
+
+    @property
+    def value(self):
+        """Gets the value of this OuterString.  # noqa: E501
+
+        Returns:
+            (str): The value of this OuterString.  # noqa: E501
+        """
+        return self.__get_item('value')
+
+    @value.setter
+    def value(self, value):
+        """Sets the value of this OuterString.  # noqa: E501
+        """
+        return self.__set_item('value', value)
 
     def to_str(self):
         """Returns the string representation of the model"""
