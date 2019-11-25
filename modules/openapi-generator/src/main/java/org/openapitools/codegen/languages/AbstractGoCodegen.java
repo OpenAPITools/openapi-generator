@@ -47,6 +47,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public AbstractGoCodegen() {
         super();
 
+        supportsInheritance = true;
         hideGenerationTimestamp = Boolean.FALSE;
 
         defaultIncludes = new HashSet<String>(

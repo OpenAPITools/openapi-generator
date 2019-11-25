@@ -55,6 +55,9 @@ func (v *Nullable{{{classname}}}) UnmarshalJSON(src []byte) error {
 {{^isEnum}}
 // {{classname}}{{#description}} {{{description}}}{{/description}}{{^description}} struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
+{{#parent}}
+  {{{parent}}}
+{{/parent}}
 {{#vars}}
 {{^-first}}
 {{/-first}}
