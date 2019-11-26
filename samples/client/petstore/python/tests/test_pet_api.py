@@ -57,6 +57,7 @@ class PetApiTests(unittest.TestCase):
     def setUp(self):
         config = Configuration()
         config.host = HOST
+        config.access_token = 'ACCESS_TOKEN'
         self.api_client = petstore_api.ApiClient(config)
         self.pet_api = petstore_api.PetApi(self.api_client)
         self.setUpModels()
@@ -107,13 +108,13 @@ class PetApiTests(unittest.TestCase):
         mock_pool.expect_request('POST', HOST + '/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Bearer ',
+                                          'Authorization': 'Bearer ACCESS_TOKEN',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(total=5))
         mock_pool.expect_request('POST', HOST + '/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Bearer ',
+                                          'Authorization': 'Bearer ACCESS_TOKEN',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(connect=1, read=2))
 
