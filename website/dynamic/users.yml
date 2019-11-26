@@ -134,6 +134,11 @@
   infoLink: "https://www.gantner.com/"
   pinned: false
 -
+  caption: "GetYourGuide"
+  image: "img/companies/getyourguide.png"
+  infoLink: "https://www.getyourguide.com/"
+  pinned: false
+-
   caption: "GMO Pepabo"
   image: "img/companies/pepabo.png"
   infoLink: "https://pepabo.com/en/"
