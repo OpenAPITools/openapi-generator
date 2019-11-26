@@ -57,7 +57,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
     protected static final String LIBRARY_PROMISE_KIT = "PromiseKit";
     protected static final String LIBRARY_RX_SWIFT = "RxSwift";
-    protected static final String[] RESPONSE_LIBRARIES = {LIBRARY_PROMISE_KIT, LIBRARY_RX_SWIFT};
+    protected static final String LIBRARY_RESULT = "Result";
+    protected static final String[] RESPONSE_LIBRARIES = {LIBRARY_PROMISE_KIT, LIBRARY_RX_SWIFT, LIBRARY_RESULT};
     protected String projectName = "OpenAPIClient";
     protected boolean nonPublicApi = false;
     protected boolean unwrapRequired;
@@ -376,6 +377,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         if (ArrayUtils.contains(responseAs, LIBRARY_RX_SWIFT)) {
             additionalProperties.put("useRxSwift", true);
         }
+        if (ArrayUtils.contains(responseAs, LIBRARY_RESULT)) {
+            additionalProperties.put("useResult", true);
+        }
 
         // Setup swiftUseApiNamespace option, which makes all the API
         // classes inner-class of {{projectName}}API
@@ -429,6 +433,11 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("JSONEncodingHelper.mustache",
                 sourceFolder,
                 "JSONEncodingHelper.swift"));
+        if (ArrayUtils.contains(responseAs, LIBRARY_RESULT)) {
+            supportingFiles.add(new SupportingFile("Result.mustache", 
+                    sourceFolder, 
+                    "Result.swift"));
+        }
         supportingFiles.add(new SupportingFile("git_push.sh.mustache",
                 "",
                 "git_push.sh"));
