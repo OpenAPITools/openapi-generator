@@ -16,7 +16,7 @@ import (
 
 // AdditionalPropertiesNumber struct for AdditionalPropertiesNumber
 type AdditionalPropertiesNumber struct {
-  null<String, float32>
+  
 	Name *string `json:"name,omitempty"`
 }
 

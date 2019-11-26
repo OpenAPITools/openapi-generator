@@ -16,7 +16,7 @@ import (
 
 // AdditionalPropertiesObject struct for AdditionalPropertiesObject
 type AdditionalPropertiesObject struct {
-  null<String, map>
+  
 	Name *string `json:"name,omitempty"`
 }
 

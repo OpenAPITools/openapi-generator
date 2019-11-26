@@ -56,7 +56,7 @@ func (v *Nullable{{{classname}}}) UnmarshalJSON(src []byte) error {
 // {{classname}}{{#description}} {{{description}}}{{/description}}{{^description}} struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
 {{#parent}}
-  {{{parent}}}
+  {{{parentSchema}}}
 {{/parent}}
 {{#vars}}
 {{^-first}}

@@ -16,7 +16,7 @@ import (
 
 // AdditionalPropertiesAnyType struct for AdditionalPropertiesAnyType
 type AdditionalPropertiesAnyType struct {
-  null<String, map[string]interface{}>
+  
 	Name *string `json:"name,omitempty"`
 }
 
