@@ -32,11 +32,13 @@ class Configuration(object):
     :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
+    :param access_token: The OAuth2 access token
     """
 
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
-                 username=None, password=None):
+                 username=None, password=None,
+                 access_token=None):
         """Constructor
         """
         self.host = host
@@ -65,7 +67,7 @@ class Configuration(object):
         self.password = password
         """Password for HTTP basic authentication
         """
-        self.access_token = None
+        self.access_token = access_token
         """access token for OAuth/Bearer
         """
         self.logger = {}
@@ -260,14 +262,14 @@ class Configuration(object):
                 'key': 'api_key_query',
                 'value': self.get_api_key_with_prefix('api_key_query')
             }
-        if self.username and self.password:
+        if self.username is not None and self.password is not None:
             auth['http_basic_test'] = {
                 'type': 'basic',
                 'in': 'header',
                 'key': 'Authorization',
                 'value': self.get_basic_auth_token()
             }
-        if self.access_token:
+        if self.access_token is not None:
             auth['petstore_auth'] = {
                 'type': 'oauth2',
                 'in': 'header',

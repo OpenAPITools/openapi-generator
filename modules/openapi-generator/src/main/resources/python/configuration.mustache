@@ -26,11 +26,13 @@ class Configuration(object):
     :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
+    :param access_token: The OAuth2 access token
     """
 
     def __init__(self, host="{{{basePath}}}",
                  api_key=None, api_key_prefix=None,
-                 username=None, password=None):
+                 username=None, password=None,
+                 access_token=None):
         """Constructor
         """
         self.host = host
@@ -59,18 +61,9 @@ class Configuration(object):
         self.password = password
         """Password for HTTP basic authentication
         """
-{{#hasOAuthMethods}}
-        self.access_token = None
+        self.access_token = access_token
         """access token for OAuth/Bearer
         """
-{{/hasOAuthMethods}}
-{{^hasOAuthMethods}}
-{{#hasBearerMethods}}
-        self.access_token = None
-        """access token for OAuth/Bearer
-        """
-{{/hasBearerMethods}}
-{{/hasOAuthMethods}}
         self.logger = {}
         """Logging Settings
         """
@@ -269,7 +262,7 @@ class Configuration(object):
 {{/isApiKey}}
 {{#isBasic}}
   {{^isBasicBearer}}
-        if self.username and self.password:
+        if self.username is not None and self.password is not None:
             auth['{{name}}'] = {
                 'type': 'basic',
                 'in': 'header',
@@ -278,7 +271,7 @@ class Configuration(object):
             }
   {{/isBasicBearer}}
   {{#isBasicBearer}}
-        if self.access_token:
+        if self.access_token is not None:
             auth['{{name}}'] = {
                 'type': 'bearer',
                 'in': 'header',
@@ -291,7 +284,7 @@ class Configuration(object):
   {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
-        if self.access_token:
+        if self.access_token is not None:
             auth['{{name}}'] = {
                 'type': 'oauth2',
                 'in': 'header',

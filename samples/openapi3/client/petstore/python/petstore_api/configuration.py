@@ -32,11 +32,13 @@ class Configuration(object):
     :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
+    :param access_token: The OAuth2 access token
     """
 
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
-                 username="", password=""):
+                 username=None, password=None,
+                 access_token=None):
         """Constructor
         """
         self.host = host
@@ -65,7 +67,7 @@ class Configuration(object):
         self.password = password
         """Password for HTTP basic authentication
         """
-        self.access_token = ""
+        self.access_token = access_token
         """access token for OAuth/Bearer
         """
         self.logger = {}
@@ -245,44 +247,44 @@ class Configuration(object):
 
         :return: The Auth Settings information dict.
         """
-        return {
-            'api_key':
-                {
-                    'type': 'api_key',
-                    'in': 'header',
-                    'key': 'api_key',
-                    'value': self.get_api_key_with_prefix('api_key')
-                },
-            'api_key_query':
-                {
-                    'type': 'api_key',
-                    'in': 'query',
-                    'key': 'api_key_query',
-                    'value': self.get_api_key_with_prefix('api_key_query')
-                },
-            'bearer_test':
-                {
-                    'type': 'bearer',
-                    'in': 'header',
-                    'format': 'JWT',
-                    'key': 'Authorization',
-                    'value': 'Bearer ' + self.access_token
-                },
-            'http_basic_test':
-                {
-                    'type': 'basic',
-                    'in': 'header',
-                    'key': 'Authorization',
-                    'value': self.get_basic_auth_token()
-                },
-            'petstore_auth':
-                {
-                    'type': 'oauth2',
-                    'in': 'header',
-                    'key': 'Authorization',
-                    'value': 'Bearer ' + self.access_token
-                },
-        }
+        auth = {}
+        if self.api_key and 'api_key' in self.api_key:
+            auth['api_key'] = {
+                'type': 'api_key',
+                'in': 'header',
+                'key': 'api_key',
+                'value': self.get_api_key_with_prefix('api_key')
+            }
+        if self.api_key and 'api_key_query' in self.api_key:
+            auth['api_key_query'] = {
+                'type': 'api_key',
+                'in': 'query',
+                'key': 'api_key_query',
+                'value': self.get_api_key_with_prefix('api_key_query')
+            }
+        if self.access_token is not None:
+            auth['bearer_test'] = {
+                'type': 'bearer',
+                'in': 'header',
+                'format': 'JWT',
+                'key': 'Authorization',
+                'value': 'Bearer ' + self.access_token
+            }
+        if self.username is not None and self.password is not None:
+            auth['http_basic_test'] = {
+                'type': 'basic',
+                'in': 'header',
+                'key': 'Authorization',
+                'value': self.get_basic_auth_token()
+            }
+        if self.access_token is not None:
+            auth['petstore_auth'] = {
+                'type': 'oauth2',
+                'in': 'header',
+                'key': 'Authorization',
+                'value': 'Bearer ' + self.access_token
+            }
+        return auth
 
     def to_debug_report(self):
         """Gets the essential information for debugging.
