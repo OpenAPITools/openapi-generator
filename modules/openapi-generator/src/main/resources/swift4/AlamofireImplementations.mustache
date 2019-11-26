@@ -157,7 +157,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(completionHandler: { (stringResponse) in
+            validatedRequest.responseString(queue: {{projectName}}API.apiResponseQueue, completionHandler: { (stringResponse) in
                 cleanupRequest()
 
                 if stringResponse.result.isFailure {
@@ -177,7 +177,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
                 )
             })
         case is URL.Type:
-            validatedRequest.responseData(completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: {{projectName}}API.apiResponseQueue, completionHandler: { (dataResponse) in
                 cleanupRequest()
 
                 do {
@@ -227,7 +227,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
                 return
             })
         case is Void.Type:
-            validatedRequest.responseData(completionHandler: { (voidResponse) in
+            validatedRequest.responseData(queue: {{projectName}}API.apiResponseQueue, completionHandler: { (voidResponse) in
                 cleanupRequest()
 
                 if voidResponse.result.isFailure {
@@ -246,7 +246,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManag
                 )
             })
         default:
-            validatedRequest.responseData(completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: {{projectName}}API.apiResponseQueue, completionHandler: { (dataResponse) in
                 cleanupRequest()
 
                 if dataResponse.result.isFailure {
@@ -359,7 +359,7 @@ fileprivate enum DownloadException : Error {
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(completionHandler: { (stringResponse) in
+            validatedRequest.responseString(queue: {{projectName}}API.apiResponseQueue, completionHandler: { (stringResponse) in
                 cleanupRequest()
 
                 if stringResponse.result.isFailure {
@@ -379,7 +379,7 @@ fileprivate enum DownloadException : Error {
                 )
             })
         case is Void.Type:
-            validatedRequest.responseData(completionHandler: { (voidResponse) in
+            validatedRequest.responseData(queue: {{projectName}}API.apiResponseQueue, completionHandler: { (voidResponse) in
                 cleanupRequest()
 
                 if voidResponse.result.isFailure {
@@ -398,7 +398,7 @@ fileprivate enum DownloadException : Error {
                 )
             })
         case is Data.Type:
-            validatedRequest.responseData(completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: {{projectName}}API.apiResponseQueue, completionHandler: { (dataResponse) in
                 cleanupRequest()
 
                 if dataResponse.result.isFailure {
@@ -418,7 +418,7 @@ fileprivate enum DownloadException : Error {
                 )
             })
         default:
-            validatedRequest.responseData(completionHandler: { (dataResponse: DataResponse<Data>) in
+            validatedRequest.responseData(queue: {{projectName}}API.apiResponseQueue, completionHandler: { (dataResponse: DataResponse<Data>) in
                 cleanupRequest()
 
                 guard dataResponse.result.isSuccess else {
