@@ -29,7 +29,8 @@ class Configuration(object):
 
     :param host: Base url
     :param api_key: Dict to store API key(s).
-      The dict key should be the name of the api key, as specified in the OAS specification.
+      The dict key should be the name of the api key, as specified in the
+      OAS specification.
       The dict value should be the value of the api key (i.e. the secret).
     :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
     :param username: Username for HTTP basic authentication
