@@ -68,11 +68,6 @@ class Configuration(object):
         self.access_token = None
         """access token for OAuth/Bearer
         """
-        self.security_schemes = None
-        """The security schemes to use when authenticating and authorizing the client.
-        While the OpenAPI specification may support multiple security schemes (e.g. OAuth2, basic),
-        the client may want to explicitly use a specific security scheme.
-        """
         self.logger = {}
         """Logging Settings
         """
