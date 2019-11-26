@@ -16,7 +16,7 @@ import (
 
 // AdditionalPropertiesString struct for AdditionalPropertiesString
 type AdditionalPropertiesString struct {
-  
+	
 	Name *string `json:"name,omitempty"`
 }
 

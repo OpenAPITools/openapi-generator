@@ -16,7 +16,7 @@ import (
 
 // AdditionalPropertiesInteger struct for AdditionalPropertiesInteger
 type AdditionalPropertiesInteger struct {
-  
+	
 	Name *string `json:"name,omitempty"`
 }
 

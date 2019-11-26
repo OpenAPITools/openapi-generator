@@ -16,7 +16,7 @@ import (
 
 // AdditionalPropertiesBoolean struct for AdditionalPropertiesBoolean
 type AdditionalPropertiesBoolean struct {
-  
+	
 	Name *string `json:"name,omitempty"`
 }
 
