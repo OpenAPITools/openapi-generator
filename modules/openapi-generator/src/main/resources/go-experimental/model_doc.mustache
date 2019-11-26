@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-{{#vars}}**{{name}}** | Pointer to {{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
-{{/vars}}
+{{#allVars}}**{{name}}** | Pointer to {{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
+{{/allVars}}
 
 {{^isEnum}}
 ## Methods
 
-{{#vars}}
+{{#allVars}}
 ### Get{{name}}
 
 `func (o *{{classname}}) Get{{name}}() {{dataType}}`
@@ -45,7 +45,7 @@ Set{{name}}ExplicitNull (un)sets {{name}} to be considered as explicit "null" va
 when serializing to JSON (pass true as argument to set this, false to unset)
 The {{name}} value is set to nil even if false is passed
 {{/isNullable}}
-{{/vars}}
+{{/allVars}}
 {{/isEnum}}
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
