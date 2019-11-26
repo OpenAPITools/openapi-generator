@@ -47,7 +47,7 @@ class ApiClientTests(unittest.TestCase):
 
         # test api key auth
         self.assertEqual(header_params['test1'], 'value1')
-        self.assertEqual(header_params['api_key'], 'PREFIX= 123456')
+        self.assertEqual(header_params['api_key'], 'PREFIX=123456')
         self.assertEqual(query_params['test2'], 'value2')
 
         # test basic auth
