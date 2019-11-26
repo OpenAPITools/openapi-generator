@@ -27,11 +27,31 @@ class Configuration(object):
     Do not edit the class manually.
 
     :param host: Base url
-    :param api_key: Dict to store API key(s)
+    :param api_key: Dict to store API key(s).
+      The dict key should be the name of the api key, as specified in the OAS specification.
+      The dict value should be the value of the api key (i.e. the secret).
     :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
     :param access_token: The OAuth2 access token
+
+    :Example:
+
+    Given the following security scheme in the OpenAPI specification:
+      components:
+        securitySchemes:
+          cookieAuth:         # name for the security scheme
+            type: apiKey
+            in: cookie
+            name: JSESSIONID  # cookie name
+
+    You can programmatically set the cookie:
+      conf = petstore_api.Configuration(
+        api_key={'JSESSIONID': 'abc123'}
+        api_key_prefix={'JSESSIONID': 'JSESSIONID='}
+      )
+    The following cookie will be added to the HTTP request:
+       Cookie: JSESSIONID=abc123
     """
 
     def __init__(self, host="http://petstore.swagger.io:80/v2",
@@ -225,7 +245,7 @@ class Configuration(object):
         if key:
             prefix = self.api_key_prefix.get(identifier)
             if prefix:
-                return "%s %s" % (prefix, key)
+                return "%s%s" % (prefix, key)
             else:
                 return key
 
@@ -250,14 +270,14 @@ class Configuration(object):
         :return: The Auth Settings information dict.
         """
         auth = {}
-        if self.api_key and 'api_key' in self.api_key:
+        if 'api_key' in self.api_key:
             auth['api_key'] = {
                 'type': 'api_key',
                 'in': 'header',
                 'key': 'api_key',
                 'value': self.get_api_key_with_prefix('api_key')
             }
-        if self.api_key and 'api_key_query' in self.api_key:
+        if 'api_key_query' in self.api_key:
             auth['api_key_query'] = {
                 'type': 'api_key',
                 'in': 'query',

@@ -22,11 +22,31 @@ class Configuration(object):
     Do not edit the class manually.
 
     :param host: Base url
-    :param api_key: Dict to store API key(s)
+    :param api_key: Dict to store API key(s).
+      The dict key should be the name of the api key, as specified in the OAS specification.
+      The dict value should be the value of the api key (i.e. the secret).
     :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
     :param access_token: The OAuth2 access token
+
+    :Example:
+
+    Given the following security scheme in the OpenAPI specification:
+      components:
+        securitySchemes:
+          cookieAuth:         # name for the security scheme
+            type: apiKey
+            in: cookie
+            name: JSESSIONID  # cookie name
+
+    You can programmatically set the cookie:
+      conf = {{{packageName}}}.Configuration(
+        api_key={'JSESSIONID': 'abc123'}
+        api_key_prefix={'JSESSIONID': 'JSESSIONID='}
+      )
+    The following cookie will be added to the HTTP request:
+       Cookie: JSESSIONID=abc123
     """
 
     def __init__(self, host="{{{basePath}}}",
@@ -231,7 +251,7 @@ class Configuration(object):
         if key:
             prefix = self.api_key_prefix.get(identifier)
             if prefix:
-                return "%s %s" % (prefix, key)
+                return "%s%s" % (prefix, key)
             else:
                 return key
 
@@ -258,7 +278,7 @@ class Configuration(object):
         auth = {}
 {{#authMethods}}
 {{#isApiKey}}
-        if self.api_key and '{{keyParamName}}' in self.api_key:
+        if '{{keyParamName}}' in self.api_key:
             auth['{{name}}'] = {
                 'type': 'api_key',
                 'in': {{#isKeyInCookie}}'cookie'{{/isKeyInCookie}}{{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{#isKeyInQuery}}'query'{{/isKeyInQuery}},
