@@ -29,7 +29,7 @@ class ApiClientTests(unittest.TestCase):
         config = petstore_api.Configuration()
 
         config.api_key['api_key'] = '123456'
-        config.api_key_prefix['api_key'] = 'PREFIX'
+        config.api_key_prefix['api_key'] = 'PREFIX='
         config.username = 'test_username'
         config.password = 'test_password'
 
@@ -40,14 +40,14 @@ class ApiClientTests(unittest.TestCase):
         client = petstore_api.ApiClient(config)
 
         # test prefix
-        self.assertEqual('PREFIX', client.configuration.api_key_prefix['api_key'])
+        self.assertEqual('PREFIX=', client.configuration.api_key_prefix['api_key'])
 
         # update parameters based on auth setting
         client.update_params_for_auth(header_params, query_params, auth_settings)
 
         # test api key auth
         self.assertEqual(header_params['test1'], 'value1')
-        self.assertEqual(header_params['api_key'], 'PREFIX 123456')
+        self.assertEqual(header_params['api_key'], 'PREFIX=123456')
         self.assertEqual(query_params['test2'], 'value2')
 
         # test basic auth
