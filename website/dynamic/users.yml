@@ -304,6 +304,11 @@
   infoLink: "https://www.xero.com/"
   pinned: false
 -
+  caption: Yahoo! Japan
+  image: "img/companies/yahoo_japan.png"
+  infoLink: "https://www.yahoo.co.jp"
+  pinned: false
+-
   caption: Yelp 
   image: "img/companies/yelp.png"
   infoLink: "https://www.yelp.com/"
