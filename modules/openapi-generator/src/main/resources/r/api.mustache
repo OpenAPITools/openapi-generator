@@ -276,7 +276,7 @@
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "{{returnType}}", "package:{{packageName}}"),
+          self$apiClient$deserialize(resp, "{{returnType}}", loadNamespace("{{packageName}}")),
           error = function(e){
            {{#useDefaultExceptionHandling}}
              stop("Failed to deserialize response")
