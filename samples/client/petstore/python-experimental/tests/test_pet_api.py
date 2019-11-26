@@ -71,10 +71,10 @@ class MockPoolManager(object):
 class PetApiTests(unittest.TestCase):
 
     def setUp(self):
-        config = Configuration()
-        config.host = HOST
-        config.access_token = 'ACCESS_TOKEN'
-        self.api_client = petstore_api.ApiClient(config)
+        self.config = Configuration()
+        self.config.host = HOST
+        self.config.access_token = 'ACCESS_TOKEN'
+        self.api_client = petstore_api.ApiClient(self.config)
         self.pet_api = petstore_api.PetApi(self.api_client)
         self.setUpModels()
         self.setUpFiles()
@@ -115,6 +115,25 @@ class PetApiTests(unittest.TestCase):
 
         resp.close()
         resp.release_conn()
+
+    def test_config(self):
+        self.assertIsNotNone(self.config.get_host_settings())
+        self.assertEquals(self.config.get_basic_auth_token(),
+                          urllib3.util.make_headers(basic_auth=":").get('authorization'))
+        self.assertEquals(len(self.config.auth_settings()), 1)
+        self.assertIn("petstore_auth", self.config.auth_settings().keys())
+        self.config.username = "user"
+        self.config.password = "password"
+        self.assertEquals(
+            self.config.get_basic_auth_token(),
+            urllib3.util.make_headers(basic_auth="user:password").get('authorization'))
+        self.assertEquals(len(self.config.auth_settings()), 2)
+        self.assertIn("petstore_auth", self.config.auth_settings().keys())
+        self.assertIn("http_basic_test", self.config.auth_settings().keys())
+        self.config.username = None
+        self.config.password = None
+        self.assertEquals(len(self.config.auth_settings()), 1)
+        self.assertIn("petstore_auth", self.config.auth_settings().keys())
 
     def test_timeout(self):
         mock_pool = MockPoolManager(self)
