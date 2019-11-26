@@ -36,7 +36,7 @@ class Configuration(object):
 
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
-                 username="", password=""):
+                 username=None, password=None):
         """Constructor
         """
         self.host = host
@@ -65,8 +65,13 @@ class Configuration(object):
         self.password = password
         """Password for HTTP basic authentication
         """
-        self.access_token = ""
+        self.access_token = None
         """access token for OAuth/Bearer
+        """
+        self.security_schemes = None
+        """The security schemes to use when authenticating and authorizing the client.
+        While the OpenAPI specification may support multiple security schemes (e.g. OAuth2, basic),
+        the client may want to explicitly use a specific security scheme.
         """
         self.logger = {}
         """Logging Settings
@@ -245,36 +250,36 @@ class Configuration(object):
 
         :return: The Auth Settings information dict.
         """
-        return {
-            'api_key':
-                {
-                    'type': 'api_key',
-                    'in': 'header',
-                    'key': 'api_key',
-                    'value': self.get_api_key_with_prefix('api_key')
-                },
-            'api_key_query':
-                {
-                    'type': 'api_key',
-                    'in': 'query',
-                    'key': 'api_key_query',
-                    'value': self.get_api_key_with_prefix('api_key_query')
-                },
-            'http_basic_test':
-                {
-                    'type': 'basic',
-                    'in': 'header',
-                    'key': 'Authorization',
-                    'value': self.get_basic_auth_token()
-                },
-            'petstore_auth':
-                {
-                    'type': 'oauth2',
-                    'in': 'header',
-                    'key': 'Authorization',
-                    'value': 'Bearer ' + self.access_token
-                },
-        }
+        auth = {}
+        if self.api_key:
+            auth['api_key'] = {
+                'type': 'api_key',
+                'in': 'header',
+                'key': 'api_key',
+                'value': self.get_api_key_with_prefix('api_key')
+            }
+        if self.api_key:
+            auth['api_key_query'] = {
+                'type': 'api_key',
+                'in': 'query',
+                'key': 'api_key_query',
+                'value': self.get_api_key_with_prefix('api_key_query')
+            }
+        if self.username and self.password:
+            auth['http_basic_test'] = {
+                'type': 'basic',
+                'in': 'header',
+                'key': 'Authorization',
+                'value': self.get_basic_auth_token()
+            }
+        if self.access_token:
+            auth['petstore_auth'] = {
+                'type': 'oauth2',
+                'in': 'header',
+                'key': 'Authorization',
+                'value': 'Bearer ' + self.access_token
+            }
+        return auth
 
     def to_debug_report(self):
         """Gets the essential information for debugging.
