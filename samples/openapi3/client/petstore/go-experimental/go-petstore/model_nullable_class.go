@@ -17,6 +17,7 @@ import (
 
 // NullableClass struct for NullableClass
 type NullableClass struct {
+	
 	IntegerProp *NullableInt32 `json:"integer_prop,omitempty"`
 	NumberProp *NullableFloat32 `json:"number_prop,omitempty"`
 	BooleanProp *NullableBool `json:"boolean_prop,omitempty"`
