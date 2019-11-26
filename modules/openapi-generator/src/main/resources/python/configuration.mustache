@@ -259,7 +259,7 @@ class Configuration(object):
         auth = {}
 {{#authMethods}}
 {{#isApiKey}}
-        if self.api_key:
+        if self.api_key and '{{keyParamName}}' in self.api_key:
             auth['{{name}}'] = {
                 'type': 'api_key',
                 'in': {{#isKeyInCookie}}'cookie'{{/isKeyInCookie}}{{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{#isKeyInQuery}}'query'{{/isKeyInQuery}},

@@ -242,14 +242,14 @@ class Configuration(object):
         :return: The Auth Settings information dict.
         """
         auth = {}
-        if self.api_key:
+        if self.api_key and 'api_key' in self.api_key:
             auth['api_key'] = {
                 'type': 'api_key',
                 'in': 'header',
                 'key': 'api_key',
                 'value': self.get_api_key_with_prefix('api_key')
             }
-        if self.api_key:
+        if self.api_key and 'api_key_query' in self.api_key:
             auth['api_key_query'] = {
                 'type': 'api_key',
                 'in': 'query',
