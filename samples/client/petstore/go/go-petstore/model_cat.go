@@ -10,5 +10,7 @@
 package petstore
 // Cat struct for Cat
 type Cat struct {
+	ClassName string `json:"className"`
+	Color string `json:"color,omitempty"`
 	Declawed bool `json:"declawed,omitempty"`
 }
