@@ -259,6 +259,11 @@
   infoLink: "https://restunited.com/"
   pinned: false
 -
+  caption: "Sony Interactive Entertainment"
+  image: "img/companies/sie.jpeg"
+  infoLink: "https://www.sie.com/en/index.html"
+  pinned: false
+-
   caption: Stingray
   image: "img/companies/stingray.png"
   infoLink: "http://www.stingray.com/"
