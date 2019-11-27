@@ -17,6 +17,7 @@ paths:
               properties:
                 files:
                   type: array
+                  description: "Many files"
                   items:
                     type: string
                     format: binary
@@ -36,6 +37,7 @@ paths:
               type: object
               properties:
                 file:
+                  description: "One file"
                   type: string
                   format: binary
       responses:
