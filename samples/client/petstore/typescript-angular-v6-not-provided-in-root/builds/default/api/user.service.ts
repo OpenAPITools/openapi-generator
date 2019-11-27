@@ -81,22 +81,20 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.post<any>(`${this.configuration.basePath}/user`,
             body,
-            httpClientParams
+            {
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
@@ -133,22 +131,20 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithArray`,
             body,
-            httpClientParams
+            {
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
@@ -185,22 +181,20 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithList`,
             body,
-            httpClientParams
+            {
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
@@ -230,21 +224,19 @@ export class UserService {
         }
 
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.delete<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
-            httpClientParams
+            {
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
@@ -275,21 +267,19 @@ export class UserService {
         }
 
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.get<User>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
-            httpClientParams
+            {
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
@@ -332,22 +322,20 @@ export class UserService {
         }
 
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            params: queryParameters,
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.get<string>(`${this.configuration.basePath}/user/login`,
-            httpClientParams
+            {
+                params: queryParameters,
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
@@ -372,21 +360,19 @@ export class UserService {
         }
 
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.get<any>(`${this.configuration.basePath}/user/logout`,
-            httpClientParams
+            {
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
@@ -428,22 +414,20 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.put<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             body,
-            httpClientParams
+            {
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 

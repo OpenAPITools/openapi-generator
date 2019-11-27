@@ -144,22 +144,20 @@ export class PetService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.post<any>(`${this.configuration.basePath}/pet`,
             body,
-            httpClientParams
+            {
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
@@ -201,21 +199,19 @@ export class PetService {
         }
 
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.delete<any>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
-            httpClientParams
+            {
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
@@ -261,22 +257,20 @@ export class PetService {
         }
 
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            params: queryParameters,
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.get<Array<Pet>>(`${this.configuration.basePath}/pet/findByStatus`,
-            httpClientParams
+            {
+                params: queryParameters,
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
@@ -322,22 +316,20 @@ export class PetService {
         }
 
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            params: queryParameters,
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.get<Array<Pet>>(`${this.configuration.basePath}/pet/findByTags`,
-            httpClientParams
+            {
+                params: queryParameters,
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
@@ -375,21 +367,19 @@ export class PetService {
         }
 
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.get<Pet>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
-            httpClientParams
+            {
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
@@ -437,22 +427,20 @@ export class PetService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.put<any>(`${this.configuration.basePath}/pet`,
             body,
-            httpClientParams
+            {
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
@@ -514,22 +502,20 @@ export class PetService {
             formParams = formParams.append('status', <any>status) as any || formParams;
         }
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.post<any>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
             convertFormParamsToString ? formParams.toString() : formParams,
-            httpClientParams
+            {
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
@@ -595,22 +581,20 @@ export class PetService {
             formParams = formParams.append('file', <any>file) as any || formParams;
         }
 
-        let responseType: string = undefined;
+        let responseType: any = undefined;
         if(httpHeaderAcceptSelected !== undefined) {
             responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
         }
 
-        const httpClientParams: any = {
-            responseType: responseType,
-            withCredentials: this.configuration.withCredentials,
-            headers: headers,
-            observe: observe,
-            reportProgress: reportProgress
-        }
-
         return this.httpClient.post<ApiResponse>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`,
             convertFormParamsToString ? formParams.toString() : formParams,
-            httpClientParams
+            {
+                responseType: responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
         );
     }
 
