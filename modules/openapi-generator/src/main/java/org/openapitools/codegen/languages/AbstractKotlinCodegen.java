@@ -43,6 +43,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson}
 
+    public static final String MODEL_MUTABLE = "modelMutable";
+    public static final String MODEL_MUTABLE_DESC = "Create mutable models";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 
     protected String artifactId;
@@ -225,6 +228,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         cliOptions.add(new CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
+
+        cliOptions.add(CliOption.newBoolean(MODEL_MUTABLE, MODEL_MUTABLE_DESC, false));
     }
 
     @Override

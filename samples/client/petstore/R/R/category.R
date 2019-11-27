@@ -10,9 +10,9 @@
 #' @title Category
 #' @description Category Class
 #' @format An \code{R6Class} generator object
-#' @field id   integer  [optional]
+#' @field id  integer [optional]
 #'
-#' @field name   character  [optional]
+#' @field name  character [optional]
 #'
 #'
 #' @importFrom R6 R6Class

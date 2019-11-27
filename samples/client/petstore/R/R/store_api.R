@@ -57,7 +57,7 @@
 #'
 #' \itemize{
 #' \item \emph{ @param } order.id integer
-#' \item \emph{ @returnType } \link[petstore:Order]{ Order }   \cr
+#' \item \emph{ @returnType } \link{Order} \cr
 #'
 #'
 #' \item status code : 200 | successful operation
@@ -87,8 +87,8 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body \link[petstore:Order]{ Order }
-#' \item \emph{ @returnType } \link[petstore:Order]{ Order }   \cr
+#' \item \emph{ @param } body \link{Order}
+#' \item \emph{ @returnType } \link{Order} \cr
 #'
 #'
 #' \item status code : 200 | successful operation

@@ -115,4 +115,26 @@ public class AsciidocSampleGeneratorTest {
                 "keep parameter name from-iso-date-string unchanged.");
     }
 
+    /**
+     * added apikey info in access section.
+     */
+    @Test
+    public void testSampleAsciidocMarkupGenerationAccessApiKey() throws Exception {
+        Assert.assertTrue(markupContent.contains("*APIKey*"),
+                "access section mit apikey expected.");
+        Assert.assertFalse(markupContent.contains("*OAuth*"),
+                "access section no oauth expected.");
+        Assert.assertFalse(markupContent.contains("*HTTP Basic*"),
+                "access section no http basic expected.");
+    }
+
+    /**
+     * no form params in this sample spec.
+     */
+    @Test
+    public void testSampleAsciidocMarkupGenerationWithoutFormParameter() throws Exception {
+        Assert.assertFalse(markupContent.contains("= Form Parameter"),
+                "no form parameters in this openapi spec expected.");
+    }
+
 }
