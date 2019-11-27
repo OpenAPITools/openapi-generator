@@ -28,23 +28,23 @@ export interface UserServiceInterface {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param body Created user object
+     * @param user Created user object
      */
-    createUser(body: User, extraHttpRequestParams?: any): Observable<{}>;
+    createUser(user: User, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Creates list of users with given input array
      * 
-     * @param body List of user object
+     * @param user List of user object
      */
-    createUsersWithArrayInput(body: Array<User>, extraHttpRequestParams?: any): Observable<{}>;
+    createUsersWithArrayInput(user: Array<User>, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Creates list of users with given input array
      * 
-     * @param body List of user object
+     * @param user List of user object
      */
-    createUsersWithListInput(body: Array<User>, extraHttpRequestParams?: any): Observable<{}>;
+    createUsersWithListInput(user: Array<User>, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Delete user
@@ -78,8 +78,8 @@ export interface UserServiceInterface {
      * Updated user
      * This can only be done by the logged in user.
      * @param username name that need to be deleted
-     * @param body Updated user object
+     * @param user Updated user object
      */
-    updateUser(username: string, body: User, extraHttpRequestParams?: any): Observable<{}>;
+    updateUser(username: string, user: User, extraHttpRequestParams?: any): Observable<{}>;
 
 }

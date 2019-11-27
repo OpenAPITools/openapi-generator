@@ -48,8 +48,8 @@ export interface StoreServiceInterface {
     /**
      * Place an order for a pet
      * 
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      */
-    placeOrder(body: Order, extraHttpRequestParams?: any): Observable<Order>;
+    placeOrder(order: Order, extraHttpRequestParams?: any): Observable<Order>;
 
 }
