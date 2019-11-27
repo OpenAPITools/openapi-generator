@@ -84,6 +84,11 @@
   infoLink: "https://www.commencis.com/"
   pinned: false
 -
+  caption: "Crossover Health"
+  image: "img/companies/crossover_health.png"
+  infoLink: "https://crossoverhealth.com/"
+  pinned: false
+-
   caption: Cupix
   image: "img/companies/cupix.png"
   infoLink: "https://www.cupix.com/"
