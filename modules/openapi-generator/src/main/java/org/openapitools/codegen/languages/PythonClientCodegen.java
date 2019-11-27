@@ -151,6 +151,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.SUPPORT_LARGE_MODEL, CodegenConstants.SUPPORT_LARGE_MODEL_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "Asyncio-based client (python 3.5+)");
@@ -195,6 +197,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
             generateSourceCodeOnly = Boolean.valueOf(additionalProperties.get(CodegenConstants.SOURCECODEONLY_GENERATION).toString());
+        }
+        Boolean supportLargeModel = false;
+        if (additionalProperties.containsKey(CodegenConstants.SUPPORT_LARGE_MODEL)) {
+            supportLargeModel = Boolean.valueOf(additionalProperties.get(CodegenConstants.SUPPORT_LARGE_MODEL).toString());
         }
 
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);

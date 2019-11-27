@@ -44,6 +44,7 @@ public class PythonClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "true")
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.SOURCECODEONLY_GENERATION, "false")
+                .put(CodegenConstants.SUPPORT_LARGE_MODEL, "false")
                 .put(CodegenConstants.LIBRARY, "urllib3")
                 .build();
     }

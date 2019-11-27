@@ -245,6 +245,12 @@ public class CodegenConstants {
     public static final String SOURCECODEONLY_GENERATION = "generateSourceCodeOnly";
     public static final String SOURCECODEONLY_GENERATION_DESC = "Specifies that only a library source code is to be generated.";
 
+    // Some languages may have limitations such as max 255 arguments per function (e.g. Java, Python < 3.7).
+    // This may cause problems during compilation if the generated code exceeds language-specific limits, which could
+    // happen when at least one OpenAPI data type is unusually large.
+    public static final String SUPPORT_LARGE_MODEL = "supportLargeModel";
+    public static final String SUPPORT_LARGE_MODEL_DESC = "Generate files that can support unusually large data types, such as data types with more than 255 properties.";
+
     public static final String PARCELIZE_MODELS = "parcelizeModels";
     public static final String PARCELIZE_MODELS_DESC = "toggle \"@Parcelize\" for generated models";
 

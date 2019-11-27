@@ -57,7 +57,12 @@ class {{classname}}(object):
     }
 {{/discriminator}}
 
+{{^supportLargeModel}}
     def __init__(self{{#vars}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}, local_vars_configuration=None):  # noqa: E501
+{{/supportLargeModel}}
+{{#supportLargeModel}}
+    def __init__(self{{#vars}}{{#required}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/required}}{{/vars}}, local_vars_configuration=None):  # noqa: E501
+{{/supportLargeModel}}
         """{{classname}} - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
@@ -74,11 +79,21 @@ class {{classname}}(object):
 {{/required}}
 {{^required}}
 {{#isNullable}}
+{{^supportLargeModel}}
         self.{{name}} = {{name}}
+{{/supportLargeModel}}
+{{#supportLargeModel}}
+        self.{{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}
+{{/supportLargeModel}}
 {{/isNullable}}
 {{^isNullable}}
+{{^supportLargeModel}}
         if {{name}} is not None:
             self.{{name}} = {{name}}
+{{/supportLargeModel}}
+{{#supportLargeModel}}
+        self.{{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}
+{{/supportLargeModel}}
 {{/isNullable}}
 {{/required}}
 {{/vars}}
