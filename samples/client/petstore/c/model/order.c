@@ -30,31 +30,31 @@ order_t *order_create(
     status_e status,
     int complete
     ) {
-	order_t *order_local_var = malloc(sizeof(order_t));
+    order_t *order_local_var = malloc(sizeof(order_t));
     if (!order_local_var) {
         return NULL;
     }
-	order_local_var->id = id;
-	order_local_var->petId = petId;
-	order_local_var->quantity = quantity;
-	order_local_var->shipDate = shipDate;
-	order_local_var->status = status;
-	order_local_var->complete = complete;
+    order_local_var->id = id;
+    order_local_var->petId = petId;
+    order_local_var->quantity = quantity;
+    order_local_var->shipDate = shipDate;
+    order_local_var->status = status;
+    order_local_var->complete = complete;
 
-	return order_local_var;
+    return order_local_var;
 }
 
 
 void order_free(order_t *order) {
     listEntry_t *listEntry;
     free(order->shipDate);
-	free(order);
+    free(order);
 }
 
 cJSON *order_convertToJSON(order_t *order) {
-	cJSON *item = cJSON_CreateObject();
+    cJSON *item = cJSON_CreateObject();
 
-	// order->id
+    // order->id
     if(order->id) { 
     if(cJSON_AddNumberToObject(item, "id", order->id) == NULL) {
     goto fail; //Numeric
@@ -62,7 +62,7 @@ cJSON *order_convertToJSON(order_t *order) {
      } 
 
 
-	// order->petId
+    // order->petId
     if(order->petId) { 
     if(cJSON_AddNumberToObject(item, "petId", order->petId) == NULL) {
     goto fail; //Numeric
@@ -70,7 +70,7 @@ cJSON *order_convertToJSON(order_t *order) {
      } 
 
 
-	// order->quantity
+    // order->quantity
     if(order->quantity) { 
     if(cJSON_AddNumberToObject(item, "quantity", order->quantity) == NULL) {
     goto fail; //Numeric
@@ -78,7 +78,7 @@ cJSON *order_convertToJSON(order_t *order) {
      } 
 
 
-	// order->shipDate
+    // order->shipDate
     if(order->shipDate) { 
     if(cJSON_AddStringToObject(item, "shipDate", order->shipDate) == NULL) {
     goto fail; //Date-Time
@@ -86,7 +86,7 @@ cJSON *order_convertToJSON(order_t *order) {
      } 
 
 
-	// order->status
+    // order->status
     
     if(cJSON_AddStringToObject(item, "status", statusorder_ToString(order->status)) == NULL)
     {
@@ -95,19 +95,19 @@ cJSON *order_convertToJSON(order_t *order) {
     
 
 
-	// order->complete
+    // order->complete
     if(order->complete) { 
     if(cJSON_AddBoolToObject(item, "complete", order->complete) == NULL) {
     goto fail; //Bool
     }
      } 
 
-	return item;
+    return item;
 fail:
-	if (item) {
+    if (item) {
         cJSON_Delete(item);
     }
-	return NULL;
+    return NULL;
 }
 
 order_t *order_parseFromJSON(cJSON *orderJSON){

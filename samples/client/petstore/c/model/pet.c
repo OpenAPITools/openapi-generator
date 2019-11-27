@@ -30,18 +30,18 @@ pet_t *pet_create(
     list_t *tags,
     status_e status
     ) {
-	pet_t *pet_local_var = malloc(sizeof(pet_t));
+    pet_t *pet_local_var = malloc(sizeof(pet_t));
     if (!pet_local_var) {
         return NULL;
     }
-	pet_local_var->id = id;
-	pet_local_var->category = category;
-	pet_local_var->name = name;
-	pet_local_var->photoUrls = photoUrls;
-	pet_local_var->tags = tags;
-	pet_local_var->status = status;
+    pet_local_var->id = id;
+    pet_local_var->category = category;
+    pet_local_var->name = name;
+    pet_local_var->photoUrls = photoUrls;
+    pet_local_var->tags = tags;
+    pet_local_var->status = status;
 
-	return pet_local_var;
+    return pet_local_var;
 }
 
 
@@ -49,21 +49,21 @@ void pet_free(pet_t *pet) {
     listEntry_t *listEntry;
     category_free(pet->category);
     free(pet->name);
-	list_ForEach(listEntry, pet->photoUrls) {
-		free(listEntry->data);
-	}
-	list_free(pet->photoUrls);
-	list_ForEach(listEntry, pet->tags) {
-		tag_free(listEntry->data);
-	}
-	list_free(pet->tags);
-	free(pet);
+    list_ForEach(listEntry, pet->photoUrls) {
+        free(listEntry->data);
+    }
+    list_free(pet->photoUrls);
+    list_ForEach(listEntry, pet->tags) {
+        tag_free(listEntry->data);
+    }
+    list_free(pet->tags);
+    free(pet);
 }
 
 cJSON *pet_convertToJSON(pet_t *pet) {
-	cJSON *item = cJSON_CreateObject();
+    cJSON *item = cJSON_CreateObject();
 
-	// pet->id
+    // pet->id
     if(pet->id) { 
     if(cJSON_AddNumberToObject(item, "id", pet->id) == NULL) {
     goto fail; //Numeric
@@ -71,7 +71,7 @@ cJSON *pet_convertToJSON(pet_t *pet) {
      } 
 
 
-	// pet->category
+    // pet->category
     if(pet->category) { 
     cJSON *category_local_JSON = category_convertToJSON(pet->category);
     if(category_local_JSON == NULL) {
@@ -84,7 +84,7 @@ cJSON *pet_convertToJSON(pet_t *pet) {
      } 
 
 
-	// pet->name
+    // pet->name
     if (!pet->name) {
         goto fail;
     }
@@ -94,17 +94,17 @@ cJSON *pet_convertToJSON(pet_t *pet) {
     }
 
 
-	// pet->photoUrls
+    // pet->photoUrls
     if (!pet->photoUrls) {
         goto fail;
     }
     
-	cJSON *photo_urls = cJSON_AddArrayToObject(item, "photoUrls");
-	if(photo_urls == NULL) {
-		goto fail; //primitive container
-	}
+    cJSON *photo_urls = cJSON_AddArrayToObject(item, "photoUrls");
+    if(photo_urls == NULL) {
+        goto fail; //primitive container
+    }
 
-	listEntry_t *photo_urlsListEntry;
+    listEntry_t *photo_urlsListEntry;
     list_ForEach(photo_urlsListEntry, pet->photoUrls) {
     if(cJSON_AddStringToObject(photo_urls, "", (char*)photo_urlsListEntry->data) == NULL)
     {
@@ -113,7 +113,7 @@ cJSON *pet_convertToJSON(pet_t *pet) {
     }
 
 
-	// pet->tags
+    // pet->tags
     if(pet->tags) { 
     cJSON *tags = cJSON_AddArrayToObject(item, "tags");
     if(tags == NULL) {
@@ -133,7 +133,7 @@ cJSON *pet_convertToJSON(pet_t *pet) {
      } 
 
 
-	// pet->status
+    // pet->status
     
     if(cJSON_AddStringToObject(item, "status", statuspet_ToString(pet->status)) == NULL)
     {
@@ -141,12 +141,12 @@ cJSON *pet_convertToJSON(pet_t *pet) {
     }
     
 
-	return item;
+    return item;
 fail:
-	if (item) {
+    if (item) {
         cJSON_Delete(item);
     }
-	return NULL;
+    return NULL;
 }
 
 pet_t *pet_parseFromJSON(cJSON *petJSON){

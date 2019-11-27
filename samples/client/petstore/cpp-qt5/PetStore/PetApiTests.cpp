@@ -3,8 +3,8 @@
 #include <QTest>
 #include <QTimer>
 
-OAIPet PetApiTests::createRandomPet() {
-    OAIPet pet;
+PFXPet PetApiTests::createRandomPet() {
+    PFXPet pet;
     qint64 id = QDateTime::currentMSecsSinceEpoch();
     pet.setName("monster");
     pet.setId(id);
@@ -13,14 +13,13 @@ OAIPet PetApiTests::createRandomPet() {
 }
 
 void PetApiTests::findPetsByStatusTest() {
-    OAIPetApi api;
-    api.setHost(PetStoreHost);
+    PFXPetApi api;
     QEventLoop loop;
     bool petFound = false;
 
-    connect(&api, &OAIPetApi::findPetsByStatusSignal, [&](QList<OAIPet> pets) {
+    connect(&api, &PFXPetApi::findPetsByStatusSignal, [&](QList<PFXPet> pets) {
         petFound = true;
-        foreach(OAIPet pet, pets) {
+        foreach (PFXPet pet, pets) {
             QVERIFY(pet.getStatus().startsWith("available") || pet.getStatus().startsWith("sold"));
         }
         loop.quit();
@@ -33,18 +32,17 @@ void PetApiTests::findPetsByStatusTest() {
 }
 
 void PetApiTests::createAndGetPetTest() {
-    OAIPetApi api;
-    api.setHost(PetStoreHost);
+    PFXPetApi api;
     QEventLoop loop;
     bool petCreated = false;
 
-    connect(&api, &OAIPetApi::addPetSignal, [&]() {
+    connect(&api, &PFXPetApi::addPetSignal, [&]() {
         // pet created
         petCreated = true;
         loop.quit();
     });
 
-    OAIPet pet = createRandomPet();
+    PFXPet pet = createRandomPet();
     qint64 id = pet.getId();
 
     api.addPet(pet);
@@ -54,7 +52,7 @@ void PetApiTests::createAndGetPetTest() {
 
     bool petFetched = false;
 
-    connect(&api, &OAIPetApi::getPetByIdSignal, [&](OAIPet pet) {
+    connect(&api, &PFXPetApi::getPetByIdSignal, [&](PFXPet pet) {
         QVERIFY(pet.getId() > 0);
         QVERIFY(pet.getStatus().compare("freaky") == 0);
         loop.quit();
@@ -65,20 +63,18 @@ void PetApiTests::createAndGetPetTest() {
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
     QVERIFY2(petFetched, "didn't finish within timeout");
-
 }
 
 void PetApiTests::updatePetTest() {
-    OAIPetApi api;
-    api.setHost(PetStoreHost);
+    PFXPetApi api;
 
-    OAIPet pet = createRandomPet();
-    OAIPet petToCheck;
+    PFXPet pet = createRandomPet();
+    PFXPet petToCheck;
     qint64 id = pet.getId();
     QEventLoop loop;
     bool petAdded = false;
 
-    connect(&api, &OAIPetApi::addPetSignal, [&](){
+    connect(&api, &PFXPetApi::addPetSignal, [&]() {
         petAdded = true;
         loop.quit();
     });
@@ -92,10 +88,10 @@ void PetApiTests::updatePetTest() {
     // fetch it
 
     bool petFetched = false;
-    connect(&api, &OAIPetApi::getPetByIdSignal, this, [&](OAIPet pet) {
-            petFetched = true;
-            petToCheck = pet;
-            loop.quit();
+    connect(&api, &PFXPetApi::getPetByIdSignal, this, [&](PFXPet pet) {
+        petFetched = true;
+        petToCheck = pet;
+        loop.quit();
     });
 
     // create pet
@@ -106,7 +102,7 @@ void PetApiTests::updatePetTest() {
 
     // update it
     bool petUpdated = false;
-    connect(&api, &OAIPetApi::updatePetSignal, [&]() {
+    connect(&api, &PFXPetApi::updatePetSignal, [&]() {
         petUpdated = true;
         loop.quit();
     });
@@ -120,7 +116,7 @@ void PetApiTests::updatePetTest() {
 
     // check it
     bool petFetched2 = false;
-    connect(&api, &OAIPetApi::getPetByIdSignal, [&](OAIPet pet) {
+    connect(&api, &PFXPetApi::getPetByIdSignal, [&](PFXPet pet) {
         petFetched2 = true;
         QVERIFY(pet.getId() == petToCheck.getId());
         QVERIFY(pet.getStatus().compare(petToCheck.getStatus()) == 0);
@@ -133,17 +129,16 @@ void PetApiTests::updatePetTest() {
 }
 
 void PetApiTests::updatePetWithFormTest() {
-    OAIPetApi api;
-    api.setHost(PetStoreHost);
+    PFXPetApi api;
 
-    OAIPet pet = createRandomPet();
-    OAIPet petToCheck;
+    PFXPet pet = createRandomPet();
+    PFXPet petToCheck;
     qint64 id = pet.getId();
     QEventLoop loop;
 
     // create pet
     bool petAdded = false;
-    connect(&api, &OAIPetApi::addPetSignal, [&](){
+    connect(&api, &PFXPetApi::addPetSignal, [&]() {
         petAdded = true;
         loop.quit();
     });
@@ -155,7 +150,7 @@ void PetApiTests::updatePetWithFormTest() {
 
     // fetch it
     bool petFetched = false;
-    connect(&api, &OAIPetApi::getPetByIdSignal, [&](OAIPet pet) {
+    connect(&api, &PFXPetApi::getPetByIdSignal, [&](PFXPet pet) {
         petFetched = true;
         petToCheck = pet;
         loop.quit();
@@ -168,7 +163,7 @@ void PetApiTests::updatePetWithFormTest() {
 
     // update it
     bool petUpdated = false;
-    connect(&api, &OAIPetApi::updatePetWithFormSignal, [&](){
+    connect(&api, &PFXPetApi::updatePetWithFormSignal, [&]() {
         petUpdated = true;
         loop.quit();
     });
@@ -181,7 +176,7 @@ void PetApiTests::updatePetWithFormTest() {
 
     // fetch it
     bool petUpdated2 = false;
-    connect(&api, &OAIPetApi::getPetByIdSignal, [&](OAIPet pet) {
+    connect(&api, &PFXPetApi::getPetByIdSignal, [&](PFXPet pet) {
         petUpdated2 = true;
         QVERIFY(pet.getName().compare(QString("gorilla")) == 0);
         loop.quit();

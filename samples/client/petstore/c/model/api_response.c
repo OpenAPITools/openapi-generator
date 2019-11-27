@@ -10,15 +10,15 @@ api_response_t *api_response_create(
     char *type,
     char *message
     ) {
-	api_response_t *api_response_local_var = malloc(sizeof(api_response_t));
+    api_response_t *api_response_local_var = malloc(sizeof(api_response_t));
     if (!api_response_local_var) {
         return NULL;
     }
-	api_response_local_var->code = code;
-	api_response_local_var->type = type;
-	api_response_local_var->message = message;
+    api_response_local_var->code = code;
+    api_response_local_var->type = type;
+    api_response_local_var->message = message;
 
-	return api_response_local_var;
+    return api_response_local_var;
 }
 
 
@@ -26,13 +26,13 @@ void api_response_free(api_response_t *api_response) {
     listEntry_t *listEntry;
     free(api_response->type);
     free(api_response->message);
-	free(api_response);
+    free(api_response);
 }
 
 cJSON *api_response_convertToJSON(api_response_t *api_response) {
-	cJSON *item = cJSON_CreateObject();
+    cJSON *item = cJSON_CreateObject();
 
-	// api_response->code
+    // api_response->code
     if(api_response->code) { 
     if(cJSON_AddNumberToObject(item, "code", api_response->code) == NULL) {
     goto fail; //Numeric
@@ -40,7 +40,7 @@ cJSON *api_response_convertToJSON(api_response_t *api_response) {
      } 
 
 
-	// api_response->type
+    // api_response->type
     if(api_response->type) { 
     if(cJSON_AddStringToObject(item, "type", api_response->type) == NULL) {
     goto fail; //String
@@ -48,19 +48,19 @@ cJSON *api_response_convertToJSON(api_response_t *api_response) {
      } 
 
 
-	// api_response->message
+    // api_response->message
     if(api_response->message) { 
     if(cJSON_AddStringToObject(item, "message", api_response->message) == NULL) {
     goto fail; //String
     }
      } 
 
-	return item;
+    return item;
 fail:
-	if (item) {
+    if (item) {
         cJSON_Delete(item);
     }
-	return NULL;
+    return NULL;
 }
 
 api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON){

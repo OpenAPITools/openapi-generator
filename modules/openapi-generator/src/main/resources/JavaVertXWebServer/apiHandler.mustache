@@ -39,32 +39,7 @@ public class {{classname}}Handler {
         HttpServerResponse response = routingContext.response();
 
         {{#returnType}}Single{{/returnType}}{{^returnType}}Completable{{/returnType}}.defer( () -> {
-{{#allParams}}
-{{^isBodyParam}}
-{{^isListContainer}}
-{{#isHeaderParam}}
-            {{{dataType}}} {{paramName}} = ParameterCast.to{{dataType}}(routingContext.request().getHeader("{{baseName}}"));
-{{/isHeaderParam}}
-{{#isPathParam}}
-            {{{dataType}}} {{paramName}} = ParameterCast.to{{dataType}}(routingContext.pathParams().get("{{baseName}}"));
-{{/isPathParam}}
-{{#isQueryParam}}
-            {{{dataType}}} {{paramName}} = ParameterCast.to{{dataType}}(routingContext.queryParams().get("{{baseName}}"));
-{{/isQueryParam}}
-{{#isFormParam}}
-{{^isFile}}
-            {{{dataType}}} {{paramName}} = ParameterCast.to{{dataType}}(routingContext.request().getFormAttribute("{{baseName}}"));
-{{/isFile}}
-{{#isFile}}
-            {{{dataType}}} {{paramName}} = routingContext.fileUploads().iterator().next();
-{{/isFile}}
-{{/isFormParam}}
-{{/isListContainer}}
-{{#isListContainer}}
-            {{{dataType}}} {{paramName}} = routingContext.request().params().getAll("{{baseName}}");
-{{/isListContainer}}
-{{/isBodyParam}}
-{{/allParams}}
+{{#allParams}}{{^isBodyParam}}{{>headerParams}}{{>pathParams}}{{>queryParams}}{{>formParams}}{{/isBodyParam}}{{/allParams}}
 {{#allParams}}
 {{#isBodyParam}}
             String jsonString = routingContext.getBodyAsString();

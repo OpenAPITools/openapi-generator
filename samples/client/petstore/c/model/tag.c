@@ -9,27 +9,27 @@ tag_t *tag_create(
     long id,
     char *name
     ) {
-	tag_t *tag_local_var = malloc(sizeof(tag_t));
+    tag_t *tag_local_var = malloc(sizeof(tag_t));
     if (!tag_local_var) {
         return NULL;
     }
-	tag_local_var->id = id;
-	tag_local_var->name = name;
+    tag_local_var->id = id;
+    tag_local_var->name = name;
 
-	return tag_local_var;
+    return tag_local_var;
 }
 
 
 void tag_free(tag_t *tag) {
     listEntry_t *listEntry;
     free(tag->name);
-	free(tag);
+    free(tag);
 }
 
 cJSON *tag_convertToJSON(tag_t *tag) {
-	cJSON *item = cJSON_CreateObject();
+    cJSON *item = cJSON_CreateObject();
 
-	// tag->id
+    // tag->id
     if(tag->id) { 
     if(cJSON_AddNumberToObject(item, "id", tag->id) == NULL) {
     goto fail; //Numeric
@@ -37,19 +37,19 @@ cJSON *tag_convertToJSON(tag_t *tag) {
      } 
 
 
-	// tag->name
+    // tag->name
     if(tag->name) { 
     if(cJSON_AddStringToObject(item, "name", tag->name) == NULL) {
     goto fail; //String
     }
      } 
 
-	return item;
+    return item;
 fail:
-	if (item) {
+    if (item) {
         cJSON_Delete(item);
     }
-	return NULL;
+    return NULL;
 }
 
 tag_t *tag_parseFromJSON(cJSON *tagJSON){

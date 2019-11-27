@@ -15,20 +15,20 @@ user_t *user_create(
     char *phone,
     int userStatus
     ) {
-	user_t *user_local_var = malloc(sizeof(user_t));
+    user_t *user_local_var = malloc(sizeof(user_t));
     if (!user_local_var) {
         return NULL;
     }
-	user_local_var->id = id;
-	user_local_var->username = username;
-	user_local_var->firstName = firstName;
-	user_local_var->lastName = lastName;
-	user_local_var->email = email;
-	user_local_var->password = password;
-	user_local_var->phone = phone;
-	user_local_var->userStatus = userStatus;
+    user_local_var->id = id;
+    user_local_var->username = username;
+    user_local_var->firstName = firstName;
+    user_local_var->lastName = lastName;
+    user_local_var->email = email;
+    user_local_var->password = password;
+    user_local_var->phone = phone;
+    user_local_var->userStatus = userStatus;
 
-	return user_local_var;
+    return user_local_var;
 }
 
 
@@ -40,13 +40,13 @@ void user_free(user_t *user) {
     free(user->email);
     free(user->password);
     free(user->phone);
-	free(user);
+    free(user);
 }
 
 cJSON *user_convertToJSON(user_t *user) {
-	cJSON *item = cJSON_CreateObject();
+    cJSON *item = cJSON_CreateObject();
 
-	// user->id
+    // user->id
     if(user->id) { 
     if(cJSON_AddNumberToObject(item, "id", user->id) == NULL) {
     goto fail; //Numeric
@@ -54,7 +54,7 @@ cJSON *user_convertToJSON(user_t *user) {
      } 
 
 
-	// user->username
+    // user->username
     if(user->username) { 
     if(cJSON_AddStringToObject(item, "username", user->username) == NULL) {
     goto fail; //String
@@ -62,7 +62,7 @@ cJSON *user_convertToJSON(user_t *user) {
      } 
 
 
-	// user->firstName
+    // user->firstName
     if(user->firstName) { 
     if(cJSON_AddStringToObject(item, "firstName", user->firstName) == NULL) {
     goto fail; //String
@@ -70,7 +70,7 @@ cJSON *user_convertToJSON(user_t *user) {
      } 
 
 
-	// user->lastName
+    // user->lastName
     if(user->lastName) { 
     if(cJSON_AddStringToObject(item, "lastName", user->lastName) == NULL) {
     goto fail; //String
@@ -78,7 +78,7 @@ cJSON *user_convertToJSON(user_t *user) {
      } 
 
 
-	// user->email
+    // user->email
     if(user->email) { 
     if(cJSON_AddStringToObject(item, "email", user->email) == NULL) {
     goto fail; //String
@@ -86,7 +86,7 @@ cJSON *user_convertToJSON(user_t *user) {
      } 
 
 
-	// user->password
+    // user->password
     if(user->password) { 
     if(cJSON_AddStringToObject(item, "password", user->password) == NULL) {
     goto fail; //String
@@ -94,7 +94,7 @@ cJSON *user_convertToJSON(user_t *user) {
      } 
 
 
-	// user->phone
+    // user->phone
     if(user->phone) { 
     if(cJSON_AddStringToObject(item, "phone", user->phone) == NULL) {
     goto fail; //String
@@ -102,19 +102,19 @@ cJSON *user_convertToJSON(user_t *user) {
      } 
 
 
-	// user->userStatus
+    // user->userStatus
     if(user->userStatus) { 
     if(cJSON_AddNumberToObject(item, "userStatus", user->userStatus) == NULL) {
     goto fail; //Numeric
     }
      } 
 
-	return item;
+    return item;
 fail:
-	if (item) {
+    if (item) {
         cJSON_Delete(item);
     }
-	return NULL;
+    return NULL;
 }
 
 user_t *user_parseFromJSON(cJSON *userJSON){

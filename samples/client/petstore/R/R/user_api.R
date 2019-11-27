@@ -18,7 +18,7 @@
 #' This can only be done by the logged in user.
 #'
 #' \itemize{
-#' \item \emph{ @param } body \link[petstore:User]{ User }
+#' \item \emph{ @param } body \link{User}
 #'
 #'
 #' \item status code : 0 | successful operation
@@ -34,7 +34,7 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body list( \link[petstore:User]{ User } )
+#' \item \emph{ @param } body list( \link{User} )
 #'
 #'
 #' \item status code : 0 | successful operation
@@ -50,7 +50,7 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body list( \link[petstore:User]{ User } )
+#' \item \emph{ @param } body list( \link{User} )
 #'
 #'
 #' \item status code : 0 | successful operation
@@ -90,7 +90,7 @@
 #'
 #' \itemize{
 #' \item \emph{ @param } username character
-#' \item \emph{ @returnType } \link[petstore:User]{ User }   \cr
+#' \item \emph{ @returnType } \link{User} \cr
 #'
 #'
 #' \item status code : 200 | successful operation
@@ -162,7 +162,7 @@
 #'
 #' \itemize{
 #' \item \emph{ @param } username character
-#' \item \emph{ @param } body \link[petstore:User]{ User }
+#' \item \emph{ @param } body \link{User}
 #'
 #'
 #' \item status code : 400 | Invalid user supplied

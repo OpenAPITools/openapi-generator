@@ -119,6 +119,11 @@
   infoLink: "https://formapi.io/"
   pinned: false
 -
+  caption: "FreshCells"
+  image: "img/companies/freshcells.png"
+  infoLink: "https://www.freshcells.de/"
+  pinned: false
+-
   caption: "Fuse"
   image: "img/companies/fuseno.png"
   infoLink: "https://www.fuse.no/"
@@ -127,6 +132,11 @@
   caption: "Gantner"
   image: "img/companies/gantner.png"
   infoLink: "https://www.gantner.com/"
+  pinned: false
+-
+  caption: "GetYourGuide"
+  image: "img/companies/getyourguide.png"
+  infoLink: "https://www.getyourguide.com/"
   pinned: false
 -
   caption: "GMO Pepabo"
@@ -157,6 +167,11 @@
   caption: Klarna
   image: "img/companies/klarna.svg"
   infoLink: "https://www.klarna.com/us/"
+  pinned: false
+-
+  caption: "Kronsoft Development"
+  image: "img/companies/kronsoft.png"
+  infoLink: "https://www.kronsoft.ro/home/"
   pinned: false
 -
   caption: "Médiavision"
@@ -219,6 +234,11 @@
   infoLink: "https://github.com/prometheus/alertmanager"
   pinned: false
 -
+  caption: "Qulix Systems"
+  image: "img/companies/qulix.png"
+  infoLink: "https://www.qulix.com"
+  pinned: false
+-
   caption: "Raiffeisen Schweiz Genossenschaft"
   image: "img/companies/raiffeisen.png"
   infoLink: "https://www.raiffeisen.ch/"
@@ -237,6 +257,11 @@
   caption: "REST United"
   image: "img/companies/rest-united.png"
   infoLink: "https://restunited.com/"
+  pinned: false
+-
+  caption: "Sony Interactive Entertainment"
+  image: "img/companies/sie.jpeg"
+  infoLink: "https://www.sie.com/en/index.html"
   pinned: false
 -
   caption: Stingray
@@ -287,6 +312,11 @@
   caption: Xero
   image: "img/companies/xero.png"
   infoLink: "https://www.xero.com/"
+  pinned: false
+-
+  caption: Yahoo! Japan
+  image: "img/companies/yahoo_japan.png"
+  infoLink: "https://www.yahoo.co.jp"
   pinned: false
 -
   caption: Yelp 

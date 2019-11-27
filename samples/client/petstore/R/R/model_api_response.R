@@ -10,11 +10,11 @@
 #' @title ModelApiResponse
 #' @description ModelApiResponse Class
 #' @format An \code{R6Class} generator object
-#' @field code   integer  [optional]
+#' @field code  integer [optional]
 #'
-#' @field type   character  [optional]
+#' @field type  character [optional]
 #'
-#' @field message   character  [optional]
+#' @field message  character [optional]
 #'
 #'
 #' @importFrom R6 R6Class
