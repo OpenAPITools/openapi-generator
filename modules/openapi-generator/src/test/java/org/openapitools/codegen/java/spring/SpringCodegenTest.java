@@ -278,8 +278,15 @@ public class SpringCodegenTest {
     public void testMultipartBoot() throws IOException {
         final Map<String, String> files = testMultipart("spring-boot");
 
-        Assert.assertTrue(files.get("/src/main/java/org/openapitools/api/MultipartArrayApi.java").contains("List<MultipartFile> files"));
-        Assert.assertTrue(files.get("/src/main/java/org/openapitools/api/MultipartSingleApi.java").contains("MultipartFile file"));
+        final String multipartArrayApi = files.get("/src/main/java/org/openapitools/api/MultipartArrayApi.java");
+        Assert.assertTrue(multipartArrayApi.contains("List<MultipartFile> files"));
+        Assert.assertTrue(multipartArrayApi.contains("@ApiParam(value = \"Many files\")"));
+        Assert.assertTrue(multipartArrayApi.contains("@RequestPart(\"files\")"));
+
+        final String multipartSingleApi = files.get("/src/main/java/org/openapitools/api/MultipartSingleApi.java");
+        Assert.assertTrue(multipartSingleApi.contains("MultipartFile file"));
+        Assert.assertTrue(multipartSingleApi.contains("@ApiParam(value = \"One file\")"));
+        Assert.assertTrue(multipartSingleApi.contains("@RequestPart(\"file\")"));
     }
 
     @Test
