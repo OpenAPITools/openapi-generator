@@ -14,6 +14,7 @@ import javax.validation.constraints.*;
 /**
  * Cat
  */
+@java.lang.Deprecated
 
 public class Cat extends Animal  {
   @JsonProperty("declawed")

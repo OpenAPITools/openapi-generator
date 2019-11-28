@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 /**
  * CatAllOf
  */
+@java.lang.Deprecated
 
 public class CatAllOf   {
   @JsonProperty("declawed")

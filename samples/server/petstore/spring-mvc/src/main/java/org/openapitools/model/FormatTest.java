@@ -17,6 +17,7 @@ import javax.validation.constraints.*;
 /**
  * FormatTest
  */
+@java.lang.Deprecated
 
 public class FormatTest   {
   @JsonProperty("integer")

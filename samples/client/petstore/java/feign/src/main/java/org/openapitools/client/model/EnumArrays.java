@@ -32,6 +32,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
+@java.lang.Deprecated
+@javax.annotation.concurrent.Immutable
 
 public class EnumArrays {
   /**

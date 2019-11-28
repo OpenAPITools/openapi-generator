@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   * Model for testing model with \"_class\" property
  **/
 @ApiModel(description="Model for testing model with \"_class\" property")
+
 public class ClassModel  {
   
   @ApiModelProperty(value = "")

@@ -13,6 +13,7 @@ import javax.validation.constraints.*;
 /**
  * NumberOnly
  */
+@java.lang.Deprecated
 
 public class NumberOnly   {
   @JsonProperty("JustNumber")

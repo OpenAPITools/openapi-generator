@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 /**
  * Category
  */
+@java.lang.Deprecated
 
 public class Category   {
   @JsonProperty("id")

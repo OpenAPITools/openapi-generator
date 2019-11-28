@@ -38,6 +38,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
+@java.lang.Deprecated
 
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";

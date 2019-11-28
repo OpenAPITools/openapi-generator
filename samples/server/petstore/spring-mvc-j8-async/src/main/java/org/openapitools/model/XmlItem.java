@@ -15,6 +15,7 @@ import javax.validation.constraints.*;
 /**
  * XmlItem
  */
+@java.lang.Deprecated
 
 public class XmlItem   {
   @JsonProperty("attribute_string")

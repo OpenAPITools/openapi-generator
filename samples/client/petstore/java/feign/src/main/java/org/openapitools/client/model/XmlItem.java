@@ -60,6 +60,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   XmlItem.JSON_PROPERTY_PREFIX_NS_ARRAY,
   XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
 })
+@java.lang.Deprecated
+@javax.annotation.concurrent.Immutable
 
 public class XmlItem {
   public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";

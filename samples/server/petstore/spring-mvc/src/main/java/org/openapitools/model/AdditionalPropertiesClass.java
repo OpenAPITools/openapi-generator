@@ -16,6 +16,7 @@ import javax.validation.constraints.*;
 /**
  * AdditionalPropertiesClass
  */
+@java.lang.Deprecated
 
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_string")

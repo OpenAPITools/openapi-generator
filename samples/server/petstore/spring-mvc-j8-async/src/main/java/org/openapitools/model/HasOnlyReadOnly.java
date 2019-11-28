@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 /**
  * HasOnlyReadOnly
  */
+@java.lang.Deprecated
 
 public class HasOnlyReadOnly   {
   @JsonProperty("bar")

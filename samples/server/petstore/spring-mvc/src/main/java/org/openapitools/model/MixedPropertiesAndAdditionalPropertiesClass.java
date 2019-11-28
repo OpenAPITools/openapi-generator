@@ -18,6 +18,7 @@ import javax.validation.constraints.*;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
+@java.lang.Deprecated
 
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")

@@ -36,6 +36,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
+@java.lang.Deprecated
+@javax.annotation.concurrent.Immutable
 
 public class User {
   public static final String JSON_PROPERTY_ID = "id";

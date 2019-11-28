@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 /**
  * DogAllOf
  */
+@java.lang.Deprecated
 
 public class DogAllOf   {
   @JsonProperty("breed")

@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 /**
  * SpecialModelName
  */
+@java.lang.Deprecated
 
 public class SpecialModelName   {
   @JsonProperty("$special[property.name]")

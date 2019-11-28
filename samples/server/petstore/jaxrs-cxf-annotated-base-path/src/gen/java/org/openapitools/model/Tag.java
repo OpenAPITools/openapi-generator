@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
   * A tag for a pet
  **/
 @ApiModel(description="A tag for a pet")
+
 public class Tag  {
   
   @ApiModelProperty(value = "")

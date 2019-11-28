@@ -13,6 +13,7 @@ import javax.validation.constraints.*;
  * Model for testing model with \&quot;_class\&quot; property
  */
 @ApiModel(description = "Model for testing model with \"_class\" property")
+@java.lang.Deprecated
 
 public class ClassModel   {
   @JsonProperty("_class")

@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * {{{description}}}
  */
 @ApiModel(description="{{{description}}}")
-{{/description}}
+{{/description}}{{>additionalModelTypeAnnotations}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializableModel}} implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}

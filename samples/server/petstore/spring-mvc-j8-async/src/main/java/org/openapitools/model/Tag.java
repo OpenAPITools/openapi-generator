@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 /**
  * Tag
  */
+@java.lang.Deprecated
 
 public class Tag   {
   @JsonProperty("id")

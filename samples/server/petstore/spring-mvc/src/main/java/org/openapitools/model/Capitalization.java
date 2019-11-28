@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 /**
  * Capitalization
  */
+@java.lang.Deprecated
 
 public class Capitalization   {
   @JsonProperty("smallCamel")

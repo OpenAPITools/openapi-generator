@@ -33,6 +33,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
+@java.lang.Deprecated
 
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";

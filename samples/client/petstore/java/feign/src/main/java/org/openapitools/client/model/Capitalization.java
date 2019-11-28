@@ -34,6 +34,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
+@java.lang.Deprecated
+@javax.annotation.concurrent.Immutable
 
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";

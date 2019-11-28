@@ -38,6 +38,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
 })
+@java.lang.Deprecated
 
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";

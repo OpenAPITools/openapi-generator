@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Category.JSON_PROPERTY_ID,
   Category.JSON_PROPERTY_NAME
 })
+@java.lang.Deprecated
 
 public class Category {
   public static final String JSON_PROPERTY_ID = "id";

@@ -15,6 +15,7 @@ import javax.validation.constraints.*;
 /**
  * ArrayTest
  */
+@java.lang.Deprecated
 
 public class ArrayTest   {
   @JsonProperty("array_of_string")
