@@ -1,4 +1,4 @@
-        class Tag {
+class Tag {
   
   int id = null;
   

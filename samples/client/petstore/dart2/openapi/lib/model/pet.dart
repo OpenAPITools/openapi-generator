@@ -1,6 +1,6 @@
-            import 'package:openapi/model/tag.dart';
-            import 'package:openapi/model/category.dart';
-        class Pet {
+import 'package:openapi/model/tag.dart';
+import 'package:openapi/model/category.dart';
+class Pet {
   
   int id = null;
   
