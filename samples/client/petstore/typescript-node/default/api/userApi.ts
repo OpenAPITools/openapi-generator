@@ -38,7 +38,7 @@ export class UserApi {
         'default': <Authentication>new VoidAuth(),
     }
 
-    protected interceptors = [];
+    protected interceptors : Interceptor[] = [];
 
     constructor(basePath?: string);
     constructor(basePathOrUsername: string, password?: string, basePath?: string) {

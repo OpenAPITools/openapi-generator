@@ -41,7 +41,7 @@ export class StoreApi {
         'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
-    protected interceptors = [];
+    protected interceptors : Interceptor[] = [];
 
     constructor(basePath?: string);
     constructor(basePathOrUsername: string, password?: string, basePath?: string) {

@@ -59,7 +59,7 @@ export class {{classname}} {
 {{/hasAuthMethods}}
     }
 
-    protected interceptors = [];
+    protected interceptors : Interceptor[] = [];
 
     constructor(basePath?: string);
 {{#authMethods}}
