@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Alamofire
 import RxSwift
 
 open class UserAPI {
@@ -248,8 +247,8 @@ open class UserAPI {
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "username": username,
-            "password": password
+            "username": username.encodeToJSON(),
+            "password": password.encodeToJSON()
         ])
 
         let requestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()

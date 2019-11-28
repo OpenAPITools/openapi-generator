@@ -17,8 +17,10 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"mime/multipart"
 	"net/http"
+	"net/http/httputil"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -175,7 +177,25 @@ func parameterToJson(obj interface{}) (string, error) {
 
 // callAPI do the request.
 func (c *APIClient) callAPI(request *http.Request) (*http.Response, error) {
-	return c.cfg.HTTPClient.Do(request)
+	if c.cfg.Debug {
+	        dump, err := httputil.DumpRequestOut(request, true)
+		if err != nil {
+		        return nil, err
+		}
+		log.Printf("\n%s\n", string(dump))
+	}
+
+	resp, err := c.cfg.HTTPClient.Do(request)
+
+	if c.cfg.Debug {
+		dump, err := httputil.DumpResponse(resp, true)
+		if err != nil {
+			return resp, err
+		}
+		log.Printf("\n%s\n", string(dump))
+	}
+
+	return resp, err
 }
 
 // ChangeBasePath changes base path to allow switching to mocks
