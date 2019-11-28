@@ -279,10 +279,10 @@ class Configuration(object):
             }
         ]
 
-    def get_host_from_settings(self, index=0, variables=None):
+    def get_host_from_settings(self, index, variables=None):
         """Get host URL based on the index and variables.
 
-        :param index: array index of the host settings (default: 0)
+        :param index: array index of the host settings
         :param variables: mapping of variable and the corresponding value
         :return: URL based on host settings
         """
