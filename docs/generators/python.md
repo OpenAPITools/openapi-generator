@@ -12,4 +12,5 @@ sidebar_label: python
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |generateSourceCodeOnly|Specifies that only a library source code is to be generated.| |false|
+|supportLargeModel|Generate files that can support unusually large data types, such as data types with more than 255 properties.| |false|
 |library|library template (sub-template) to use: asyncio, tornado, urllib3| |urllib3|
