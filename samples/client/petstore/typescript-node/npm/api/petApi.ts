@@ -43,7 +43,7 @@ export class PetApi {
         'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
-    protected interceptors : Interceptor[] = [];
+    protected interceptors: Interceptor[] = [];
 
     constructor(basePath?: string);
     constructor(basePathOrUsername: string, password?: string, basePath?: string) {
