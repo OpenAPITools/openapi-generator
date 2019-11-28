@@ -87,7 +87,7 @@ func NewConfiguration() *Configuration {
 			Variables: map[string]ServerVariable{
 			{{/-first}}
 				"{{{name}}}": ServerVariable{
-					Description: "{{{description}}}{{^description}}No descriptoin provided{{/description}}",
+					Description: "{{{description}}}{{^description}}No description provided{{/description}}",
 					DefaultValue: "{{{defaultValue}}}",
 					{{#enumValues}}
 					{{#-first}}
@@ -119,6 +119,9 @@ func (c *Configuration) AddDefaultHeader(key string, value string) {
 
 // ServerUrl returns URL based on server settings
 func (c *Configuration) ServerUrl(index int, variables map[string]string) (string, error) {
+	if index < 0 || len(c.Servers) <= index {
+		return "", fmt.Errorf("Index %v out of range %v", index, len(c.Servers) - 1)
+	}
 	server := c.Servers[index]
 	url := server.Url
 

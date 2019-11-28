@@ -89,7 +89,7 @@ func NewConfiguration() *Configuration {
 			Description: "petstore server",
 			Variables: map[string]ServerVariable{
 				"server": ServerVariable{
-					Description: "No descriptoin provided",
+					Description: "No description provided",
 					DefaultValue: "petstore",
 					EnumValues: []string{
 						"petstore",
@@ -98,7 +98,7 @@ func NewConfiguration() *Configuration {
 					},
 				},
 				"port": ServerVariable{
-					Description: "No descriptoin provided",
+					Description: "No description provided",
 					DefaultValue: "80",
 					EnumValues: []string{
 						"80",
@@ -111,7 +111,7 @@ func NewConfiguration() *Configuration {
 			Description: "The local server",
 			Variables: map[string]ServerVariable{
 				"version": ServerVariable{
-					Description: "No descriptoin provided",
+					Description: "No description provided",
 					DefaultValue: "v2",
 					EnumValues: []string{
 						"v1",
@@ -132,6 +132,9 @@ func (c *Configuration) AddDefaultHeader(key string, value string) {
 
 // ServerUrl returns URL based on server settings
 func (c *Configuration) ServerUrl(index int, variables map[string]string) (string, error) {
+	if index < 0 || len(c.Servers) <= index {
+		return "", fmt.Errorf("Index %v out of range %v", index, len(c.Servers) - 1)
+	}
 	server := c.Servers[index]
 	url := server.Url
 
