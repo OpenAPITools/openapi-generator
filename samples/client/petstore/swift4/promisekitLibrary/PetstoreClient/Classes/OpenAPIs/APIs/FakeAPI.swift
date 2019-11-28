@@ -223,7 +223,7 @@ open class FakeAPI {
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": query
+            "query": query.encodeToJSON()
         ])
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
@@ -331,17 +331,17 @@ open class FakeAPI {
             "integer": integer?.encodeToJSON(),
             "int32": int32?.encodeToJSON(),
             "int64": int64?.encodeToJSON(),
-            "number": number,
-            "float": float,
-            "double": double,
-            "string": string,
-            "pattern_without_delimiter": patternWithoutDelimiter,
-            "byte": byte,
-            "binary": binary,
+            "number": number.encodeToJSON(),
+            "float": float?.encodeToJSON(),
+            "double": double.encodeToJSON(),
+            "string": string?.encodeToJSON(),
+            "pattern_without_delimiter": patternWithoutDelimiter.encodeToJSON(),
+            "byte": byte.encodeToJSON(),
+            "binary": binary?.encodeToJSON(),
             "date": date?.encodeToJSON(),
             "dateTime": dateTime?.encodeToJSON(),
-            "password": password,
-            "callback": callback
+            "password": password?.encodeToJSON(),
+            "callback": callback?.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -464,8 +464,8 @@ open class FakeAPI {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
-            "enum_form_string_array": enumFormStringArray,
-            "enum_form_string": enumFormString?.rawValue
+            "enum_form_string_array": enumFormStringArray?.encodeToJSON(),
+            "enum_form_string": enumFormString?.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -473,14 +473,14 @@ open class FakeAPI {
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "enum_query_string_array": enumQueryStringArray,
-            "enum_query_string": enumQueryString?.rawValue,
-            "enum_query_integer": enumQueryInteger?.rawValue,
-            "enum_query_double": enumQueryDouble?.rawValue
+            "enum_query_string_array": enumQueryStringArray?.encodeToJSON(),
+            "enum_query_string": enumQueryString?.encodeToJSON(),
+            "enum_query_integer": enumQueryInteger?.encodeToJSON(),
+            "enum_query_double": enumQueryDouble?.encodeToJSON()
         ])
         let nillableHeaders: [String: Any?] = [
-            "enum_header_string_array": enumHeaderStringArray,
-            "enum_header_string": enumHeaderString?.rawValue
+            "enum_header_string_array": enumHeaderStringArray?.encodeToJSON(),
+            "enum_header_string": enumHeaderString?.encodeToJSON()
         ]
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
@@ -537,8 +537,8 @@ open class FakeAPI {
             "int64_group": int64Group?.encodeToJSON()
         ])
         let nillableHeaders: [String: Any?] = [
-            "required_boolean_group": requiredBooleanGroup,
-            "boolean_group": booleanGroup
+            "required_boolean_group": requiredBooleanGroup.encodeToJSON(),
+            "boolean_group": booleanGroup?.encodeToJSON()
         ]
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
@@ -613,8 +613,8 @@ open class FakeAPI {
         let path = "/fake/jsonFormData"
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
-            "param": param,
-            "param2": param2
+            "param": param.encodeToJSON(),
+            "param2": param2.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
