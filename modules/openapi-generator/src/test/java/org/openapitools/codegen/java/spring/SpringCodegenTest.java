@@ -25,7 +25,6 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.Generator;
 import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
@@ -44,7 +43,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 
-import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
 import static org.testng.Assert.assertTrue;
 
 public class SpringCodegenTest {
@@ -251,24 +249,21 @@ public class SpringCodegenTest {
                 "@RequestParam(value = \"start\"");
     }
 
-    private Map<String, String> testMultipart(String library) throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+    // Helper function, intended to reduce boilerplate
+    private Map<String, String> generateFiles(SpringCodegen codegen, String filePath) throws IOException {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        final String outputPath = output.getAbsolutePath().replace('\\', '/');
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/form-multipart-binary-array.yaml", null, new ParseOptions()).getOpenAPI();
-
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setLibrary(library);
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
-        ClientOptInput input = new ClientOptInput();
+        final ClientOptInput input = new ClientOptInput();
+        final OpenAPI openAPI = new OpenAPIParser().readLocation(filePath, null, new ParseOptions()).getOpenAPI();
         input.openAPI(openAPI);
         input.config(codegen);
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        final MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
 
         return generator.getFiles().entrySet().stream().collect(Collectors.toMap(e -> e.getKey().replace(outputPath, ""), Map.Entry::getValue));
@@ -276,13 +271,27 @@ public class SpringCodegenTest {
 
     @Test
     public void testMultipartBoot() throws IOException {
-        final Map<String, String> files = testMultipart("spring-boot");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-boot");
+        codegen.setDelegatePattern(true);
 
+        final Map<String, String> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
+
+        // Check that the delegate handles the array
+        final String multipartArrayApiDelegate = files.get("/src/main/java/org/openapitools/api/MultipartArrayApiDelegate.java");
+        Assert.assertTrue(multipartArrayApiDelegate.contains("List<MultipartFile> files"));
+
+        // Check that the api handles the array
         final String multipartArrayApi = files.get("/src/main/java/org/openapitools/api/MultipartArrayApi.java");
         Assert.assertTrue(multipartArrayApi.contains("List<MultipartFile> files"));
         Assert.assertTrue(multipartArrayApi.contains("@ApiParam(value = \"Many files\")"));
         Assert.assertTrue(multipartArrayApi.contains("@RequestPart(\"files\")"));
 
+        // Check that the delegate handles the single file
+        final String multipartSingleApiDelegate = files.get("/src/main/java/org/openapitools/api/MultipartSingleApiDelegate.java");
+        Assert.assertTrue(multipartSingleApiDelegate.contains("MultipartFile file"));
+
+        // Check that the api handles the single file
         final String multipartSingleApi = files.get("/src/main/java/org/openapitools/api/MultipartSingleApi.java");
         Assert.assertTrue(multipartSingleApi.contains("MultipartFile file"));
         Assert.assertTrue(multipartSingleApi.contains("@ApiParam(value = \"One file\")"));
@@ -291,11 +300,21 @@ public class SpringCodegenTest {
 
     @Test
     public void testMultipartCloud() throws IOException {
-        final Map<String, String> files = testMultipart("spring-cloud");
-        final String targetFile = files.get("/src/main/java/org/openapitools/api/MultipartApi.java");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-cloud");
+        codegen.setDelegatePattern(true);
 
-        Assert.assertTrue(targetFile.contains("List<MultipartFile> files"));
-        Assert.assertTrue(targetFile.contains("MultipartFile file"));
+        final Map<String, String> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
+
+        // Check that the delegate handles the array and the file
+        final String multipartApiDelegate = files.get("/src/main/java/org/openapitools/api/MultipartApiDelegate.java");
+        Assert.assertTrue(multipartApiDelegate.contains("List<MultipartFile> files"));
+        Assert.assertTrue(multipartApiDelegate.contains("MultipartFile file"));
+
+        // Check that the api handles the array and the file
+        final String multipartApi = files.get("/src/main/java/org/openapitools/api/MultipartApi.java");
+        Assert.assertTrue(multipartApi.contains("List<MultipartFile> files"));
+        Assert.assertTrue(multipartApi.contains("MultipartFile file"));
     }
 
     @Test
