@@ -189,15 +189,15 @@ return 0;
     {{/isContainer}}
     {{/vars}}
     ) {
-	{{classname}}_t *{{classname}}_local_var = malloc(sizeof({{classname}}_t));
+    {{classname}}_t *{{classname}}_local_var = malloc(sizeof({{classname}}_t));
     if (!{{classname}}_local_var) {
         return NULL;
     }
-	{{#vars}}
-	{{classname}}_local_var->{{{baseName}}} = {{{baseName}}};
-	{{/vars}}
+    {{#vars}}
+    {{classname}}_local_var->{{{baseName}}} = {{{baseName}}};
+    {{/vars}}
 
-	return {{classname}}_local_var;
+    return {{classname}}_local_var;
 }
 
 
@@ -241,36 +241,36 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     {{#isContainer}}
     {{#isListContainer}}
     {{#isPrimitiveType}}
-	list_ForEach(listEntry, {{classname}}->{{baseName}}) {
-		free(listEntry->data);
-	}
-	list_free({{classname}}->{{baseName}});
+    list_ForEach(listEntry, {{classname}}->{{baseName}}) {
+        free(listEntry->data);
+    }
+    list_free({{classname}}->{{baseName}});
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-	list_ForEach(listEntry, {{classname}}->{{baseName}}) {
-		{{complexType}}_free(listEntry->data);
-	}
-	list_free({{classname}}->{{baseName}});
+    list_ForEach(listEntry, {{classname}}->{{baseName}}) {
+        {{complexType}}_free(listEntry->data);
+    }
+    list_free({{classname}}->{{baseName}});
     {{/isPrimitiveType}}
     {{/isListContainer}}
     {{#isMapContainer}}
-	list_ForEach(listEntry, {{classname}}->{{baseName}}) {
-		keyValuePair_t *localMapKeyPair = (keyValuePair_t*) listEntry->data;
+    list_ForEach(listEntry, {{classname}}->{{baseName}}) {
+        keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
         free (localKeyValue->key);
         free (localKeyValue->value);
-	}
-	list_free({{classname}}->{{baseName}});
+    }
+    list_free({{classname}}->{{baseName}});
     {{/isMapContainer}}
     {{/isContainer}}
     {{/vars}}
-	free({{classname}});
+    free({{classname}});
 }
 
 cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
-	cJSON *item = cJSON_CreateObject();
-	{{#vars}}
+    cJSON *item = cJSON_CreateObject();
+    {{#vars}}
 
-	// {{{classname}}}->{{{baseName}}}
+    // {{{classname}}}->{{{baseName}}}
     {{#required}}
     {{^isEnum}}
     if (!{{{classname}}}->{{{baseName}}}) {
@@ -279,8 +279,8 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isEnum}}
     {{/required}}
     {{^required}}{{^isEnum}}if({{{classname}}}->{{{baseName}}}) { {{/isEnum}}{{/required}}
-	{{^isContainer}}
-	{{#isPrimitiveType}}
+    {{^isContainer}}
+    {{#isPrimitiveType}}
     {{#isNumeric}}
     if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
     goto fail; //Numeric
@@ -328,8 +328,8 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     goto fail; //Date-Time
     }
     {{/isDateTime}}
-	{{/isPrimitiveType}}
-	{{^isPrimitiveType}}
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
     cJSON *{{{baseName}}}_enum_local_JSON = {{datatypeWithEnum}}_convertToJSON({{{classname}}}->{{{baseName}}});
@@ -372,17 +372,17 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     goto fail;
     }
     {{/isFreeFormObject}}
-	{{/isPrimitiveType}}
-	{{/isContainer}}
-	{{#isContainer}}
-	{{#isListContainer}}
-	{{#isPrimitiveType}}
-	cJSON *{{{name}}} = cJSON_AddArrayToObject(item, "{{{baseName}}}");
-	if({{{name}}} == NULL) {
-		goto fail; //primitive container
-	}
+    {{/isPrimitiveType}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#isListContainer}}
+    {{#isPrimitiveType}}
+    cJSON *{{{name}}} = cJSON_AddArrayToObject(item, "{{{baseName}}}");
+    if({{{name}}} == NULL) {
+        goto fail; //primitive container
+    }
 
-	listEntry_t *{{{name}}}ListEntry;
+    listEntry_t *{{{name}}}ListEntry;
     list_ForEach({{{name}}}ListEntry, {{{classname}}}->{{{baseName}}}) {
     {{#items}}
     {{#isString}}
@@ -399,8 +399,8 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isString}}
     {{/items}}
     }
-	{{/isPrimitiveType}}
-	{{^isPrimitiveType}}
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
     cJSON *{{{baseName}}} = cJSON_AddArrayToObject(item, "{{{baseName}}}");
     if({{{baseName}}} == NULL) {
     goto fail; //nonprimitive container
@@ -416,15 +416,15 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     cJSON_AddItemToArray({{{baseName}}}, itemLocal);
     }
     }
-	{{/isPrimitiveType}}
-	{{/isListContainer}}
-	{{#isMapContainer}}
-	cJSON *{{{baseName}}} = cJSON_AddObjectToObject(item, "{{{baseName}}}");
-	if({{{baseName}}} == NULL) {
-		goto fail; //primitive map container
-	}
+    {{/isPrimitiveType}}
+    {{/isListContainer}}
+    {{#isMapContainer}}
+    cJSON *{{{baseName}}} = cJSON_AddObjectToObject(item, "{{{baseName}}}");
+    if({{{baseName}}} == NULL) {
+        goto fail; //primitive map container
+    }
     cJSON *localMapObject = cJSON_CreateObject(); //Memory free to be implemented in user code
-	listEntry_t *{{{baseName}}}ListEntry;
+    listEntry_t *{{{baseName}}}ListEntry;
     if ({{{classname}}}->{{{baseName}}}) {
     list_ForEach({{{baseName}}}ListEntry, {{{classname}}}->{{{baseName}}}) {
         keyValuePair_t *localKeyValue = (keyValuePair_t*){{{baseName}}}ListEntry->data;
@@ -445,19 +445,19 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
         cJSON_AddItemToObject({{{baseName}}},"", localMapObject);
     }
     }
-	{{/isMapContainer}}
-	{{/isContainer}}
-	{{^required}}
+    {{/isMapContainer}}
+    {{/isContainer}}
+    {{^required}}
     {{^isEnum}} } {{/isEnum}}
-	{{/required}}
+    {{/required}}
 
     {{/vars}}
-	return item;
+    return item;
 fail:
-	if (item) {
+    if (item) {
         cJSON_Delete(item);
     }
-	return NULL;
+    return NULL;
 }
 
 {{classname}}_t *{{classname}}_parseFromJSON(cJSON *{{classname}}JSON){
@@ -526,8 +526,8 @@ fail:
     char* decoded = base64decode({{{baseName}}}->valuestring, strlen({{{baseName}}}->valuestring));
     decoded_str_{{{baseName}}}->data = malloc(strlen(decoded) - 1);
     if (!decoded_str_{{{baseName}}}->data) {
-		goto end;
-	}
+        goto end;
+    }
     memcpy(decoded_str_{{{baseName}}}->data,decoded,(strlen(decoded)-1));
     decoded_str_{{{baseName}}}->len = strlen(decoded) - 1;
     {{/isBinary}}

@@ -84,6 +84,11 @@
   infoLink: "https://www.commencis.com/"
   pinned: false
 -
+  caption: "Crossover Health"
+  image: "img/companies/crossover_health.png"
+  infoLink: "https://crossoverhealth.com/"
+  pinned: false
+-
   caption: Cupix
   image: "img/companies/cupix.png"
   infoLink: "https://www.cupix.com/"
@@ -257,6 +262,11 @@
   caption: "REST United"
   image: "img/companies/rest-united.png"
   infoLink: "https://restunited.com/"
+  pinned: false
+-
+  caption: "Sony Interactive Entertainment"
+  image: "img/companies/sie.jpeg"
+  infoLink: "https://www.sie.com/en/index.html"
   pinned: false
 -
   caption: Stingray

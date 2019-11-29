@@ -469,7 +469,7 @@ PetApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "array[Pet]", "package:petstore"),
+          self$apiClient$deserialize(resp, "array[Pet]", loadNamespace("petstore")),
           error = function(e){
              stop("Failed to deserialize response")
           }
@@ -521,7 +521,7 @@ PetApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "array[Pet]", "package:petstore"),
+          self$apiClient$deserialize(resp, "array[Pet]", loadNamespace("petstore")),
           error = function(e){
              stop("Failed to deserialize response")
           }
@@ -577,7 +577,7 @@ PetApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "Pet", "package:petstore"),
+          self$apiClient$deserialize(resp, "Pet", loadNamespace("petstore")),
           error = function(e){
              stop("Failed to deserialize response")
           }
@@ -739,7 +739,7 @@ PetApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "ModelApiResponse", "package:petstore"),
+          self$apiClient$deserialize(resp, "ModelApiResponse", loadNamespace("petstore")),
           error = function(e){
              stop("Failed to deserialize response")
           }
