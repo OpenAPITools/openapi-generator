@@ -297,7 +297,8 @@ class Configuration(object):
 
         # go through variables and replace placeholders
         for variable_name, variable in server['variables'].items():
-            used_value = variables.get(variable_name, variable['default_value'])
+            used_value = variables.get(
+                variable_name, variable['default_value'])
 
             if 'enum_values' in variable \
                     and used_value not in variable['enum_values']:
