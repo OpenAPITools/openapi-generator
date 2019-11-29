@@ -10,8 +10,6 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
     {{#isNullable}}
         @nullable
     {{/isNullable}}
-
-    {{#description}}/* {{{description}}} */{{/description}}
     @BuiltValueField(wireName: '{{baseName}}')
     {{{dataType}}} get {{name}};
     {{#allowableValues}}
