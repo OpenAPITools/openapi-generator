@@ -128,11 +128,6 @@ class Configuration(object):
 
     @property
     def logger_file(self):
-        """The logger file."""
-        return self.__logger_file
-
-    @logger_file.setter
-    def logger_file(self, value):
         """The logger file.
 
         If the logger_file is None, then add stream handler and remove file
@@ -141,6 +136,10 @@ class Configuration(object):
         :param value: The logger_file path.
         :type: str
         """
+        return self.__logger_file
+
+    @logger_file.setter
+    def logger_file(self, value):
         self.__logger_file = value
         if self.__logger_file:
             # If set logging file,
@@ -152,16 +151,15 @@ class Configuration(object):
 
     @property
     def debug(self):
-        """Return debug status."""
-        return self.__debug
-
-    @debug.setter
-    def debug(self, value):
-        """Set debug status.
+        """The debug status.
 
         :param value: The debug status, True or False.
         :type: bool
         """
+        return self.__debug
+
+    @debug.setter
+    def debug(self, value):
         self.__debug = value
         if self.__debug:
             # if debug status is True, turn on debug logging
@@ -179,18 +177,17 @@ class Configuration(object):
 
     @property
     def logger_format(self):
-        """Return the logger format."""
-        return self.__logger_format
-
-    @logger_format.setter
-    def logger_format(self, value):
-        """Set the logger format.
+        """The logger format.
 
         The logger_formatter will be updated when sets logger_format.
 
         :param value: The format string.
         :type: str
         """
+        return self.__logger_format
+
+    @logger_format.setter
+    def logger_format(self, value):
         self.__logger_format = value
         self.logger_formatter = logging.Formatter(self.__logger_format)
 
