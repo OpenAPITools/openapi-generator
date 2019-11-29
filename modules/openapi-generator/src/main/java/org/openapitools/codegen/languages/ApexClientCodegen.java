@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
@@ -97,7 +96,8 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         typeMapping.put("URI", "String");
 
         // https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_reserved_words.htm
-        setReservedWordsLowerCase(
+        // TODO Are those case sensitive or insensitive
+        super.registerReservedWordsCaseInsensitive(
                 Arrays.asList("abstract", "activate", "and", "any", "array", "as", "asc", "autonomous",
                         "begin", "bigdecimal", "blob", "break", "bulk", "by", "byte", "case", "cast",
                         "catch", "char", "class", "collect", "commit", "const", "continue",

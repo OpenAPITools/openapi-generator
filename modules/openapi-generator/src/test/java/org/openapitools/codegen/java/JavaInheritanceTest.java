@@ -55,7 +55,7 @@ public class JavaInheritanceTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.parent, "Base");
         Assert.assertEquals(cm.imports, Sets.newHashSet("Base"));
@@ -77,7 +77,7 @@ public class JavaInheritanceTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.parent, "Base");
         Assert.assertEquals(cm.imports, Sets.newHashSet("Base"));

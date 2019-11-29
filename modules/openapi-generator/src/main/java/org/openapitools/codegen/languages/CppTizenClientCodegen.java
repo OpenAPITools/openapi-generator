@@ -67,7 +67,8 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
 
         additionalProperties().put("prefix", PREFIX);
 
-        setReservedWordsLowerCase(
+        // TODO Are those case sensitive or insensitive
+        super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                         "alignas", "alignof", "and", "and_eq", "asm", "atomic_cancel", "atomic_commit", "atomic_noexcept",
                         "auto", "bitand", "bitor", "bool", "break", "case", "catch", "char", "char16_t", "char32_t",

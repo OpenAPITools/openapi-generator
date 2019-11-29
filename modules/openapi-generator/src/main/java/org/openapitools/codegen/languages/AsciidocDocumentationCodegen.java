@@ -16,8 +16,6 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -27,6 +25,12 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -219,7 +223,6 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.adoc"));
-        reservedWords = new HashSet<String>();
 
         languageSpecificPrimitives = new HashSet<String>();
         importMapping = new HashMap<String, String>();

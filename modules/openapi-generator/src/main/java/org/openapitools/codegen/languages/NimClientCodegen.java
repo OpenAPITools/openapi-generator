@@ -28,10 +28,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     static Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
@@ -70,7 +72,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("sample_client.mustache", "", "sample_client.nim"));
         supportingFiles.add(new SupportingFile("config.mustache", "", "config.nim"));
 
-        setReservedWordsLowerCase(
+        super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                         "addr", "and", "as", "asm",
                         "bind", "block", "break",

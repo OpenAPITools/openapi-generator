@@ -109,7 +109,7 @@ public class JavaClientCodegenTest {
         ComposedSchema schema = new ComposedSchema();
         CodegenModel result = codegen.fromModel("CompSche",
                 schema);
-        Assert.assertEquals(result.name, "CompSche");
+        Assert.assertEquals(result.getName(), "CompSche");
     }
 
     @Test

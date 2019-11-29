@@ -39,7 +39,8 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
     public AbstractRubyCodegen() {
         super();
 
-        setReservedWordsLowerCase(
+        // TODO Are those case sensitive or insensitive
+        super.registerReservedWordsCaseInsensitive(
                 Arrays.asList(
                         "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
                         "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",

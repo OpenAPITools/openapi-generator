@@ -17,16 +17,12 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -37,12 +33,10 @@ import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientExperimentalCodegen.class);
@@ -275,16 +269,16 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                   }
                 }
 
-                Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
+                Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.getName());
                 CodegenProperty modelProperty = fromProperty("value", modelSchema);
                 if (cm.isEnum || cm.isAlias) {
                     if (!modelProperty.isEnum && !modelProperty.hasValidation) {
                         // remove these models because they are aliases and do not have any enums or validations
-                        modelSchemasToRemove.put(cm.name, modelSchema);
+                        modelSchemasToRemove.put(cm.getName(), modelSchema);
                     }
                 } else if (cm.isArrayModel && !modelProperty.isEnum && !modelProperty.hasValidation) {
                     // remove any ArrayModels which lack validation and enums
-                    modelSchemasToRemove.put(cm.name, modelSchema);
+                    modelSchemasToRemove.put(cm.getName(), modelSchema);
                 }
             }
         }
@@ -595,7 +589,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         // make non-object type models have one property so we can use it to store enums and validations
         if (result.isAlias || result.isEnum) {
-            Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
+            Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.getName());
             CodegenProperty modelProperty = fromProperty("value", modelSchema);
             if (modelProperty.isEnum == true || modelProperty.hasValidation == true) {
                 // these models are non-object models with enums and/or validations
@@ -717,7 +711,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             String typeString = getTypeDeclaration(addProps);
             codegenModel.additionalPropertiesType = typeString;
         } else {
-            addParentContainer(codegenModel, codegenModel.name, schema);
+            addParentContainer(codegenModel, codegenModel.getName(), schema);
         }
     }
 

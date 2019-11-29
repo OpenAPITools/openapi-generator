@@ -80,7 +80,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         embeddedTemplateDir = templateDir = "ocaml";
 
-        setReservedWordsLowerCase(
+        super.registerReservedWordsCaseSensitive(
                 Arrays.asList(
                         "and", "as", "assert", "asr", "begin", "class",
                         "constraint", "do", "done", "downto", "else", "end",
@@ -354,7 +354,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             List<String> nameCandidates = enumNames.get(h);
             for (String name : nameCandidates) {
                 String candidate = sanitizeOCamlTypeName(name);
-                if (!definitiveNames.containsKey(candidate) && !reservedWords.contains(candidate)) {
+                if (!definitiveNames.containsKey(candidate) && !super.isReservedWord(candidate)) {
                     definitiveNames.put(candidate, h);
                     hasDefName = true;
                     break;
@@ -642,7 +642,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     public String toEnumValueName(String name) {
-        if (reservedWords.contains(name)) {
+        if (super.isReservedWord(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
             return escape(name, specialCharReplacements, Collections.singletonList("_"), null);

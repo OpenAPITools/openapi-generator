@@ -17,7 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +76,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         /**
          * Reserved words.  Override this with reserved words specific to your language
          */
-        setReservedWordsLowerCase(
+        super.registerReservedWordsCaseSensitive(
                 Arrays.asList(
                         "after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr", "bxor", "case",
                         "catch", "cond", "div", "end", "fun", "if", "let", "not", "of", "or", "orelse", "receive",

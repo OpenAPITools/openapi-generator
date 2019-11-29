@@ -22,15 +22,24 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.headers.Header;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.CookieParameter;
+import io.swagger.v3.oas.models.parameters.HeaderParameter;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.PathParameter;
+import io.swagger.v3.oas.models.parameters.QueryParameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.OAuthFlow;
@@ -61,14 +70,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.escape;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
@@ -79,7 +106,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Set<String> defaultIncludes = new HashSet<String>();
     protected Map<String, String> typeMapping = new HashMap<String, String>();
     protected Map<String, String> instantiationTypes = new HashMap<String, String>();
-    protected Set<String> reservedWords = new HashSet<String>();
+    private final Set<String> reservedWordsCaseSensitive = new HashSet<String>();
+    private final Set<String> reservedWordsCaseInsensitive = new HashSet<String>();
     protected Set<String> languageSpecificPrimitives = new HashSet<String>();
     protected Map<String, String> importMapping = new HashMap<String, String>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
@@ -623,10 +651,6 @@ public class DefaultCodegen implements CodegenConfig {
         return instantiationTypes;
     }
 
-    public Set<String> reservedWords() {
-        return reservedWords;
-    }
-
     public Set<String> languageSpecificPrimitives() {
         return languageSpecificPrimitives;
     }
@@ -941,7 +965,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the sanitized variable name
      */
     public String toVarName(String name) {
-        if (reservedWords.contains(name)) {
+        if (this.isReservedWord(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
             return escape(name, specialCharReplacements, null, null);
@@ -959,7 +983,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public String toParamName(String name) {
         name = removeNonNameElementToCamelCase(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        if (reservedWords.contains(name)) {
+        if (this.isReservedWord(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
             return escape(name, specialCharReplacements, null, null);
@@ -1083,8 +1107,6 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("BigDecimal", "BigDecimal");
 
         instantiationTypes = new HashMap<String, String>();
-
-        reservedWords = new HashSet<String>();
 
         // TODO: Move Java specific import mappings out of DefaultCodegen.
         importMapping = new HashMap<String, String>();
@@ -1752,10 +1774,10 @@ public class DefaultCodegen implements CodegenConfig {
 
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
 
-        if (reservedWords.contains(name)) {
-            m.name = escapeReservedWord(name);
+        if (this.isReservedWord(name)) {
+            m.setName(escapeReservedWord(name));
         } else {
-            m.name = name;
+            m.setName(name);
         }
         m.title = escapeText(schema.getTitle());
         m.description = escapeText(schema.getDescription());
@@ -1986,7 +2008,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        addParentContainer(codegenModel, codegenModel.name, schema);
+        addParentContainer(codegenModel, codegenModel.getName(), schema);
     }
 
     /**
@@ -3473,15 +3495,28 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenSecurities;
     }
 
-    protected void setReservedWordsLowerCase(List<String> words) {
-        reservedWords = new HashSet<String>();
-        for (String word : words) {
-            reservedWords.add(word.toLowerCase(Locale.ROOT));
-        }
+    public void registerReservedWordsCaseInsensitive(Collection<String> reserved) {
+        reserved.forEach(it -> this.reservedWordsCaseInsensitive.add(it.toLowerCase(Locale.ROOT)));
     }
 
-    protected boolean isReservedWord(String word) {
-        return word != null && reservedWords.contains(word.toLowerCase(Locale.ROOT));
+    public void registerReservedWordsCaseSensitive(Collection<String> reserved) {
+        this.reservedWordsCaseSensitive.addAll(reserved);
+    }
+
+    /**
+     * This function tests the word against the two sets reservedWordsCaseInsensitive and reservedWordsCaseSensitive.
+     * If the word is in any of these lists the method will return true.
+     * Attention: The method will return false if word is null!
+     *
+     * @param word The key which should be checked against the reserved words sets.
+     * @return Whether the word is in the reserved sets.
+     */
+    public final boolean isReservedWord(String word) {
+        if (word == null) {
+            return false;
+        }
+        return this.reservedWordsCaseSensitive.contains(word)
+                || this.reservedWordsCaseInsensitive.contains(word.toLowerCase(Locale.ROOT));
     }
 
     /**

@@ -41,7 +41,7 @@ public class CSharpModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel generated = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(generated.name, "sample");
+        Assert.assertEquals(generated.getName(), "sample");
         Assert.assertEquals(generated.classname, "Sample");
         Assert.assertEquals(generated.description, "a sample model");
         Assert.assertEquals(generated.vars.size(), 2);
@@ -70,7 +70,7 @@ public class CSharpModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel generated = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(generated.name, "sample");
+        Assert.assertEquals(generated.getName(), "sample");
         Assert.assertEquals(generated.vars.size(), 2);
 
         final CodegenProperty property = generated.vars.get(1);
@@ -96,7 +96,7 @@ public class CSharpModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel generated = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(generated.name, "sample");
+        Assert.assertEquals(generated.getName(), "sample");
         Assert.assertEquals(generated.vars.size(), 2);
 
         final CodegenProperty property = generated.vars.get(1);
@@ -134,7 +134,7 @@ public class CSharpModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 3);
@@ -183,7 +183,7 @@ public class CSharpModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 3);
@@ -235,7 +235,7 @@ public class CSharpModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 3);
@@ -286,7 +286,7 @@ public class CSharpModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 2);
@@ -326,7 +326,7 @@ public class CSharpModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
@@ -352,7 +352,7 @@ public class CSharpModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
@@ -376,7 +376,7 @@ public class CSharpModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
@@ -403,7 +403,7 @@ public class CSharpModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
@@ -430,7 +430,7 @@ public class CSharpModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
@@ -449,7 +449,7 @@ public class CSharpModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);

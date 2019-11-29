@@ -32,10 +32,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.escape;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -91,7 +99,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
         // as well as keywords from https://kotlinlang.org/docs/reference/keyword-reference.html
-        reservedWords = new HashSet<String>(Arrays.asList(
+        super.registerReservedWordsCaseSensitive(Arrays.asList(
                 "abstract",
                 "annotation",
                 "as",
@@ -563,7 +571,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 break;
         }
 
-        if (reservedWords.contains(modified)) {
+        if (super.isReservedWord(modified)) {
             return escapeReservedWord(modified);
         }
         // NOTE: another sanitize because camelize can create an invalid name
@@ -775,12 +783,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     private String titleCase(final String input) {
         return input.substring(0, 1).toUpperCase(Locale.ROOT) + input.substring(1);
-    }
-
-    @Override
-    protected boolean isReservedWord(String word) {
-        // We want case-sensitive escaping, to avoid unnecessary backtick-escaping.
-        return reservedWords.contains(word);
     }
 
     /**

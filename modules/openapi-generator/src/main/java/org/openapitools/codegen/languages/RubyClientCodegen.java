@@ -21,7 +21,13 @@ import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,11 +97,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         hideGenerationTimestamp = Boolean.TRUE;
 
         // local variable names used in API methods (endpoints)
-        for (String word : Arrays.asList(
+        super.registerReservedWordsCaseSensitive(Arrays.asList(
                 "local_var_path", "query_params", "header_params", "_header_accept", "_header_accept_result",
-                "_header_content_type", "form_params", "post_body", "auth_names", "send")) {
-            reservedWords.add(word.toLowerCase(Locale.ROOT));
-        }
+                "_header_content_type", "form_params", "post_body", "auth_names", "send"));
 
         // primitives in ruby lang
         languageSpecificPrimitives.add("int");

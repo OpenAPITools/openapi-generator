@@ -914,34 +914,6 @@ impl Model200Response {
     }
 }
 
-/// Model for testing reserved words
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
-#[serde(rename = "Return")]
-pub struct ModelReturn {
-    #[serde(rename = "return")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub _return: Option<i32>,
-
-}
-
-impl ModelReturn {
-    pub fn new() -> ModelReturn {
-        ModelReturn {
-            _return: None,
-        }
-    }
-}
-
-impl ModelReturn {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
 /// Model for testing model name same as property name
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -1348,6 +1320,34 @@ impl ReadOnlyFirst {
 }
 
 impl ReadOnlyFirst {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+/// Model for testing reserved words
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+#[serde(rename = "Return")]
+pub struct Return {
+    #[serde(rename = "return")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _return: Option<i32>,
+
+}
+
+impl Return {
+    pub fn new() -> Return {
+        Return {
+            _return: None,
+        }
+    }
+}
+
+impl Return {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]

@@ -49,7 +49,7 @@ class ModelList implements ModelInterface, ArrayAccess
       *
       * @var string
       */
-    protected static $openAPIModelName = 'List';
+    protected static $openAPIModelName = '_List';
 
     /**
       * Array of property to type mappings. Used for (de)serialization

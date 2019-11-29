@@ -18,13 +18,19 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap.Builder;
 import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
 import com.samskivert.mustache.Mustache.Lambda;
-
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -34,7 +40,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
@@ -46,12 +58,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private static Logger LOGGER =
             LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
 
-    private static final HashSet<String> VARIABLE_RESERVED_WORDS =
-            new HashSet<>(Arrays.asList(
+    private static final Collection<String> VARIABLE_RESERVED_WORDS =
+            Arrays.asList(
                     "ApiClient",
                     "ApiException",
                     "ApiResponse"
-            ));
+            );
 
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
@@ -84,7 +96,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public KotlinSpringServerCodegen() {
         super();
 
-        reservedWords.addAll(VARIABLE_RESERVED_WORDS);
+        super.registerReservedWordsCaseInsensitive(VARIABLE_RESERVED_WORDS);
 
         outputFolder = "generated-code/kotlin-spring";
         embeddedTemplateDir = templateDir = "kotlin-spring";

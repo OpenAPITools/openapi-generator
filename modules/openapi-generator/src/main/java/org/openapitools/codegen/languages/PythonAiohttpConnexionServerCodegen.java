@@ -19,7 +19,7 @@ import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PythonAiohttpConnexionServerCodegen extends PythonAbstractConnexionServerCodegen {
+public class PythonAiohttpConnexionServerCodegen extends AbstractPythonConnexionServerCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonAiohttpConnexionServerCodegen.class);
 
     public PythonAiohttpConnexionServerCodegen() {

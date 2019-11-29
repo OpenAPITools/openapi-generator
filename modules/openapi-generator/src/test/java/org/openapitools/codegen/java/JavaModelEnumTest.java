@@ -159,7 +159,7 @@ public class JavaModelEnumTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", composedSchema);
 
-        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.getName(), "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.parent, "ParentModel");
         Assert.assertTrue(cm.imports.contains("ParentModel"));

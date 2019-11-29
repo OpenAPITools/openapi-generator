@@ -39,7 +39,16 @@ public class CodegenModel {
     public Set<String> oneOf = new TreeSet<String>();
     public Set<String> allOf = new TreeSet<String>();
 
-    public String name, classname, title, description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
+    private String name;
+    public String classname;
+    public String title;
+    public String description;
+    public String classVarName;
+    public String modelJson;
+    public String dataType;
+    public String xmlPrefix;
+    public String xmlNamespace;
+    public String xmlName;
     public String classFilename; // store the class file name, mainly used for import
     public String unescapedDescription;
     public CodegenDiscriminator discriminator;
@@ -79,7 +88,7 @@ public class CodegenModel {
                 .append("parentModel", parentModel)
                 .append("interfaceModels", interfaceModels)
                 .append("children", children)
-                .append("name", name)
+                .append("name", getName())
                 .append("classname", classname)
                 .append("title", title)
                 .append("description", description)
@@ -144,7 +153,7 @@ public class CodegenModel {
                 Objects.equals(allParents, that.allParents) &&
                 Objects.equals(parentModel, that.parentModel) &&
                 Objects.equals(interfaceModels, that.interfaceModels) &&
-                Objects.equals(name, that.name) &&
+                Objects.equals(getName(), that.getName()) &&
                 Objects.equals(classname, that.classname) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(description, that.description) &&
@@ -186,8 +195,7 @@ public class CodegenModel {
                 interfaces,
                 allParents,
                 parentModel,
-                interfaceModels,
-                name,
+                interfaceModels, getName(),
                 classname,
                 title,
                 description,
@@ -282,6 +290,9 @@ public class CodegenModel {
     }
 
     public void setName(String name) {
+        if (name == null) {
+            throw new NullPointerException("parameter name is null");
+        }
         this.name = name;
     }
 

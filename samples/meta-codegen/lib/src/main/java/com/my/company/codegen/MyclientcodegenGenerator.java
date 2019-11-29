@@ -111,7 +111,7 @@ public class MyclientcodegenGenerator extends DefaultCodegen implements CodegenC
     /**
      * Reserved words.  Override this with reserved words specific to your language
      */
-    reservedWords = new HashSet<String> (
+    super.registerReservedWordsCaseSensitive(
       Arrays.asList(
         "sample1",  // replace with static values
         "sample2")

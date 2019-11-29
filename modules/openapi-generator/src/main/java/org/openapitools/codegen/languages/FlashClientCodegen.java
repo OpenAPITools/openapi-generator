@@ -19,7 +19,12 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,7 +86,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         importMapping.put("File", "flash.filesystem.File");
 
         // from
-        setReservedWordsLowerCase(Arrays.asList("add", "for", "lt", "tellTarget", "and",
+        super.registerReservedWordsCaseInsensitive(Arrays.asList("add", "for", "lt", "tellTarget", "and",
                 "function", "ne", "this", "break", "ge", "new", "typeof", "continue", "gt", "not",
                 "var", "delete", "if", "on", "void", "do", "ifFrameLoaded", "onClipEvent", "while",
                 "else", "in", "or", "with", "eq", "le", "return"));

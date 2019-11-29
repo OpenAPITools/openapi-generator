@@ -62,7 +62,7 @@ public class CamelCaseLambda implements Mustache.Lambda {
         String text = camelize(fragment.execute(), true);
         if (generator != null) {
             text = generator.sanitizeName(text);
-            if (generator.reservedWords().contains(text)) {
+            if (generator.isReservedWord(text)) {
                 // Escaping must be done *after* camelize, because generators may escape using characters removed by camelize function.
                 text = generator.escapeReservedWord(text);
             }

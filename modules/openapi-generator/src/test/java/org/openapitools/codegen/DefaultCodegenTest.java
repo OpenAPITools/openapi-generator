@@ -26,7 +26,14 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.headers.Header;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -42,10 +49,17 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
-import static org.testng.Assert.*;
+import java.util.stream.Collectors;
 
 
 public class DefaultCodegenTest {
@@ -663,7 +677,7 @@ public class DefaultCodegenTest {
         //Model:
         final CodegenModel cm = codegen.fromModel("someModel", schema);
         Assert.assertEquals(cm.dataType, "integer");
-        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertEquals(cm.getName(), "someModel");
         Assert.assertFalse(cm.isString);
         Assert.assertTrue(cm.isInteger);
         Assert.assertFalse(cm.isLong);
@@ -695,7 +709,7 @@ public class DefaultCodegenTest {
         //Model:
         final CodegenModel cm = codegen.fromModel("someModel", schema);
         Assert.assertEquals(cm.dataType, "long");
-        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertEquals(cm.getName(), "someModel");
         Assert.assertFalse(cm.isString);
         Assert.assertFalse(cm.isInteger);
         Assert.assertTrue(cm.isLong);
@@ -727,7 +741,7 @@ public class DefaultCodegenTest {
         //Model:
         final CodegenModel cm = codegen.fromModel("someModel", schema);
         Assert.assertEquals(cm.dataType, "number");
-        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertEquals(cm.getName(), "someModel");
         Assert.assertFalse(cm.isString);
         Assert.assertFalse(cm.isInteger);
         Assert.assertFalse(cm.isLong);
@@ -759,7 +773,7 @@ public class DefaultCodegenTest {
         //Model:
         final CodegenModel cm = codegen.fromModel("someModel", schema);
         Assert.assertEquals(cm.dataType, "float");
-        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertEquals(cm.getName(), "someModel");
         Assert.assertFalse(cm.isString);
         Assert.assertFalse(cm.isInteger);
         Assert.assertFalse(cm.isLong);
@@ -791,7 +805,7 @@ public class DefaultCodegenTest {
         //Model:
         final CodegenModel cm = codegen.fromModel("someModel", schema);
         Assert.assertEquals(cm.dataType, "double");
-        Assert.assertEquals(cm.name, "someModel");
+        Assert.assertEquals(cm.getName(), "someModel");
         Assert.assertFalse(cm.isString);
         Assert.assertFalse(cm.isInteger);
         Assert.assertFalse(cm.isLong);
@@ -971,33 +985,66 @@ public class DefaultCodegenTest {
         DefaultCodegen codegen = new DefaultCodegen();
         Object lambdasObj = codegen.additionalProperties.get("lambda");
 
-        assertNotNull(lambdasObj, "Expecting lambda in additionalProperties");
+        Assert.assertNotNull(lambdasObj, "Expecting lambda in additionalProperties");
 
         Map<String, Lambda> lambdas = (Map<String, Lambda>) lambdasObj;
 
-        assertTrue(lambdas.get("lowercase") instanceof LowercaseLambda, "Expecting LowercaseLambda class");
-        assertTrue(lambdas.get("uppercase") instanceof UppercaseLambda, "Expecting UppercaseLambda class");
-        assertTrue(lambdas.get("titlecase") instanceof TitlecaseLambda, "Expecting TitlecaseLambda class");
-        assertTrue(lambdas.get("camelcase") instanceof CamelCaseLambda, "Expecting CamelCaseLambda class");
-        assertTrue(lambdas.get("indented") instanceof IndentedLambda, "Expecting IndentedLambda class");
-        assertTrue(lambdas.get("indented_8") instanceof IndentedLambda, "Expecting IndentedLambda class");
-        assertTrue(lambdas.get("indented_12") instanceof IndentedLambda, "Expecting IndentedLambda class");
-        assertTrue(lambdas.get("indented_16") instanceof IndentedLambda, "Expecting IndentedLambda class");
+        Assert.assertTrue(lambdas.get("lowercase") instanceof LowercaseLambda, "Expecting LowercaseLambda class");
+        Assert.assertTrue(lambdas.get("uppercase") instanceof UppercaseLambda, "Expecting UppercaseLambda class");
+        Assert.assertTrue(lambdas.get("titlecase") instanceof TitlecaseLambda, "Expecting TitlecaseLambda class");
+        Assert.assertTrue(lambdas.get("camelcase") instanceof CamelCaseLambda, "Expecting CamelCaseLambda class");
+        Assert.assertTrue(lambdas.get("indented") instanceof IndentedLambda, "Expecting IndentedLambda class");
+        Assert.assertTrue(lambdas.get("indented_8") instanceof IndentedLambda, "Expecting IndentedLambda class");
+        Assert.assertTrue(lambdas.get("indented_12") instanceof IndentedLambda, "Expecting IndentedLambda class");
+        Assert.assertTrue(lambdas.get("indented_16") instanceof IndentedLambda, "Expecting IndentedLambda class");
     }
 
     @Test
+    public void isReservedWordConsideringCase() {
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        List<String> caseSensitive = new ArrayList<>(2);
+        caseSensitive.add("aaBb");
+        caseSensitive.add("BbCc");
+        codegen.registerReservedWordsCaseSensitive(caseSensitive);
+
+        List<String> caseInsensitive = new ArrayList<>(2);
+        caseInsensitive.add("DdEe");
+        caseInsensitive.add("ffGg");
+        codegen.registerReservedWordsCaseInsensitive(caseInsensitive);
+
+        // Rudimentary case sensitive test
+        Assert.assertTrue(codegen.isReservedWord("aaBb"));
+        Assert.assertFalse(codegen.isReservedWord("aaBB"));
+        Assert.assertFalse(codegen.isReservedWord("aabb"));
+        Assert.assertTrue(codegen.isReservedWord("BbCc"));
+        Assert.assertFalse(codegen.isReservedWord("bbcc"));
+        Assert.assertFalse(codegen.isReservedWord("bbCc"));
+
+        // Rudimentary case insensitive test
+        Assert.assertTrue(codegen.isReservedWord("DdEe"));
+        Assert.assertTrue(codegen.isReservedWord("ddee"));
+        Assert.assertTrue(codegen.isReservedWord("ffGg"));
+        Assert.assertTrue(codegen.isReservedWord("ffgg"));
+        Assert.assertTrue(codegen.isReservedWord("FFGG"));
+
+        // Not in the list test
+        Assert.assertFalse(codegen.isReservedWord("DoesNotExist"));
+        Assert.assertFalse(codegen.isReservedWord(null));
+    }
+    @Test
     public void convertApiNameWithEmptySuffix() {
         DefaultCodegen codegen = new DefaultCodegen();
-        assertEquals(codegen.toApiName("Fake"), "FakeApi");
-        assertEquals(codegen.toApiName(""), "DefaultApi");
+        Assert.assertEquals(codegen.toApiName("Fake"), "FakeApi");
+        Assert.assertEquals(codegen.toApiName(""), "DefaultApi");
     }
 
     @Test
     public void convertApiNameWithSuffix() {
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setApiNameSuffix("Test");
-        assertEquals(codegen.toApiName("Fake"), "FakeTest");
-        assertEquals(codegen.toApiName(""), "DefaultApi");
+        Assert.assertEquals(codegen.toApiName("Fake"), "FakeTest");
+        Assert.assertEquals(codegen.toApiName(""), "DefaultApi");
     }
 
     public static class FromParameter {
@@ -1022,13 +1069,13 @@ public class DefaultCodegenTest {
         @Test
         public void setStyle() {
             CodegenParameter parameter = codegenParameter("/set_style");
-            assertEquals("form", parameter.style);
+            Assert.assertEquals("form", parameter.style);
         }
 
         @Test
         public void setShouldExplode() {
             CodegenParameter parameter = codegenParameter("/set_should_explode");
-            assertTrue(parameter.isExplode);
+            Assert.assertTrue(parameter.isExplode);
         }
 
         @Test

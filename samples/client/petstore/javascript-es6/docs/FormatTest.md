@@ -7,13 +7,13 @@ Name | Type | Description | Notes
 **integer** | **Number** |  | [optional] 
 **int32** | **Number** |  | [optional] 
 **int64** | **Number** |  | [optional] 
-**_number** | **Number** |  | 
+**number** | **Number** |  | 
 **_float** | **Number** |  | [optional] 
 **_double** | **Number** |  | [optional] 
-**_string** | **String** |  | [optional] 
+**string** | **String** |  | [optional] 
 **_byte** | **Blob** |  | 
 **binary** | **File** |  | [optional] 
-**_date** | **Date** |  | 
+**date** | **Date** |  | 
 **dateTime** | **Date** |  | [optional] 
 **uuid** | **String** |  | [optional] 
 **password** | **String** |  | 

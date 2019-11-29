@@ -64,7 +64,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 "Map",
                 "Array"));
 
-        reservedWords.addAll(Arrays.asList(
+        super.registerReservedWordsCaseSensitive(Arrays.asList(
                 "abstract",
                 "case",
                 "catch",
