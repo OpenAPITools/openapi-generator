@@ -347,6 +347,11 @@
             <version>${kotlin-version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.5.0</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>
