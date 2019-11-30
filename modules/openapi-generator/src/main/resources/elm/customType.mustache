@@ -1,6 +1,6 @@
-type {{#vendorExtensions}}{{elmCustomType}}{{/vendorExtensions}}
+type {{classname}}{{nameInCamelCase}}
 {{#allowableValues}}
   {{#enumVars}}
-    {{#-first}}={{/-first}}{{^-first}}|{{/-first}} {{name}}
+    {{#-first}}={{/-first}}{{^-first}}|{{/-first}} {{classname}}{{nameInCamelCase}}{{name}}
   {{/enumVars}}
 {{/allowableValues}}

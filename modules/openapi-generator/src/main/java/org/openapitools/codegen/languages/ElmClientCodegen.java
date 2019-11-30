@@ -39,9 +39,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ElmClientCodegen.class);
     private Set<String> customPrimitives = new HashSet<String>();
-    private Boolean elmPrefixCustomTypeVariants = false;
 
-    private static final String ELM_PREFIX_CUSTOM_TYPE_VARIANTS = "elmPrefixCustomTypeVariants";
     private static final String ELM_ENABLE_CUSTOM_BASE_PATHS = "elmEnableCustomBasePaths";
     private static final String ELM_ENABLE_HTTP_REQUEST_TRACKERS = "elmEnableHttpRequestTrackers";
     private static final String ENCODER = "elmEncoder";
@@ -109,8 +107,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         customPrimitives = new HashSet<>(
                 Arrays.asList(
-                        "Byte",
-                        "DateOnly",
+                        "Date",
                         "DateTime",
                         "Uuid")
         );
@@ -129,10 +126,10 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("string", "String");
         typeMapping.put("array", "List");
         typeMapping.put("map", "Dict");
-        typeMapping.put("date", "DateOnly");
+        typeMapping.put("date", "Date");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("password", "String");
-        typeMapping.put("ByteArray", "Byte");
+        typeMapping.put("ByteArray", "String");
         typeMapping.put("file", "String");
         typeMapping.put("binary", "String");
         typeMapping.put("UUID", "Uuid");
@@ -141,8 +138,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         importMapping.clear();
 
         cliOptions.clear();
-        final CliOption elmPrefixCustomTypeVariants = CliOption.newBoolean(ELM_PREFIX_CUSTOM_TYPE_VARIANTS, "Prefix custom type variants");
-        cliOptions.add(elmPrefixCustomTypeVariants);
         final CliOption elmEnableCustomBasePaths = CliOption.newBoolean(ELM_ENABLE_CUSTOM_BASE_PATHS, "Enable setting the base path for each request");
         cliOptions.add(elmEnableCustomBasePaths);
         final CliOption elmEnableHttpRequestTrackers = CliOption.newBoolean(ELM_ENABLE_HTTP_REQUEST_TRACKERS, "Enable adding a tracker to each http request");
@@ -152,10 +147,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (additionalProperties.containsKey(ELM_PREFIX_CUSTOM_TYPE_VARIANTS)) {
-            elmPrefixCustomTypeVariants = Boolean.TRUE.equals(Boolean.valueOf(additionalProperties.get(ELM_PREFIX_CUSTOM_TYPE_VARIANTS).toString()));
-        }
 
         if (additionalProperties.containsKey(ELM_ENABLE_CUSTOM_BASE_PATHS)) {
             final boolean enable = Boolean.TRUE.equals(Boolean.valueOf(additionalProperties.get(ELM_ENABLE_CUSTOM_BASE_PATHS).toString()));
@@ -173,10 +164,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         apiTemplateFiles.put("api.mustache", ".elm");
-        supportingFiles.add(new SupportingFile("DateOnly.mustache", "src", "DateOnly.elm"));
-        supportingFiles.add(new SupportingFile("DateTime.mustache", "src", "DateTime.elm"));
         supportingFiles.add(new SupportingFile("elm.mustache", "", "elm.json"));
-        supportingFiles.add(new SupportingFile("Byte.mustache", "src", "Byte.elm"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
@@ -207,7 +195,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelFilename(String name) {
-        return toModelName(name);
+        return "Data";
     }
 
     @Override
@@ -259,7 +247,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + ("/src/Data/" + modelPackage().replace('.', File.separatorChar)).replace("/", File.separator);
+        return outputFolder + ("/src/" + modelPackage().replace('.', File.separatorChar)).replace("/", File.separator);
     }
 
     @Override
@@ -276,89 +264,24 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @SuppressWarnings({"static-method", "unchecked"})
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        // Index all CodegenModels by model name.
-        Map<String, CodegenModel> allModels = new HashMap<>();
-        for (Map.Entry<String, Object> entry : objs.entrySet()) {
-            String modelName = toModelName(entry.getKey());
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
-                allModels.put(modelName, cm);
-            }
-        }
-        // Let parent know about all its children
-        for (CodegenModel cm : allModels.values()) {
-            CodegenModel parent = allModels.get(cm.parent);
+    public Map<String, Object> postProcessAllModels(final Map<String, Object> orgObjs) {
+        final Map<String, Object> objs = super.postProcessAllModels(orgObjs);
 
-            if (parent != null) {
-                if (parent.children == null) {
-                    parent.children = new ArrayList<>();
-                    parent.hasChildren = true;
-                }
-                parent.children.add(cm);
-                Collections.sort(parent.children, new Comparator<CodegenModel>() {
-                    @Override
-                    public int compare(CodegenModel cm1, CodegenModel cm2) {
-                        return Collator.getInstance(Locale.ROOT).compare(cm1.classname, cm2.classname);
-                    }
-                });
-            }
-        }
-        setCircularReferences(allModels);
-        for (Map.Entry<String, Object> entry : objs.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
-                if (cm.isEnum) {
-                    addEncoderAndDecoder(cm.vendorExtensions, cm.classname, DataTypeExposure.EXPOSED);
-                    cm.vendorExtensions.put(CUSTOM_TYPE, cm.classname);
-                } else if (cm.isAlias) {
-                    addEncoderAndDecoder(cm.vendorExtensions, cm.dataType, DataTypeExposure.EXPOSED);
-                }
-
-                List<ElmImport> elmImports = new ArrayList<>();
-                for (CodegenProperty property : cm.allVars) {
-                    if (property.complexType != null) {
-                        final ElmImport elmImport = createImport(property.complexType);
-                        elmImports.add(elmImport);
-                    }
-                }
-                if (cm.isArrayModel) {
-                    if (cm.arrayModelType != null) {
-                        // add type imports
-                        final ElmImport elmImport = createImport(cm.arrayModelType);
-                        elmImports.add(elmImport);
-                    }
-                }
-                if (cm.oneOf != null) {
-                    for (String variant : cm.oneOf) {
-                        final ElmImport elmImport = createImport(variant);
-                        elmImports.add(elmImport);
-                    }
-                }
-                if (cm.discriminator != null && cm.children != null) {
-                    for (CodegenModel child : cm.children) {
-                        // add child imports
-                        final ElmImport elmImport = createImport(child.classname);
-                        elmImports.add(elmImport);
-
-                        final String propertyName = cm.discriminator.getPropertyName();
-                        final List<CodegenProperty> allVars = child.allVars.stream()
-                                .filter(var -> !var.baseName.equals(propertyName))
-                                .collect(Collectors.toList());
-                        child.allVars.clear();
-                        child.allVars.addAll(allVars);
-
-                        child.vendorExtensions.put(DISCRIMINATOR_NAME, propertyName);
-                    }
-                }
-                inner.put("elmImports", elmImports);
-            }
-        }
-        return objs;
+        // put all models in one file
+        final Map<String, Object> objects = new HashMap<>();
+        final Map<String, Object> dataObj = objs.values().stream()
+            .map(obj -> (Map<String, Object>) obj)
+            .findFirst()
+            .orElse(new HashMap<>());
+        final List<Map<String, Object>> models = objs.values().stream()
+            .map(obj -> (Map<String, Object>) obj)
+            .flatMap(obj -> ((List<Map<String, Object>>) obj.get("models")).stream())
+            .collect(Collectors.toList());
+        dataObj.put("models", models);
+        objects.put("Data", dataObj);
+        dataObj.put("includeTime", true); // TODO only if used
+        dataObj.put("includeUuid", true); // TODO only if used
+        return objects;
     }
 
     private ElmImport createImport(final String name) {
@@ -474,38 +397,22 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return toOptionalValue("\"" + p.getDefault().toString() + "\"");
+                return "\"" + p.getDefault().toString() + "\"";
             }
-            return toOptionalValue(null);
         } else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                return toOptionalValue(Boolean.valueOf(p.getDefault().toString()) ? "True" : "False");
+                return Boolean.valueOf(p.getDefault().toString()) ? "True" : "False";
             }
-            return toOptionalValue(null);
-        } else if (ModelUtils.isDateSchema(p)) {
-            return toOptionalValue(null);
-        } else if (ModelUtils.isDateTimeSchema(p)) {
-            return toOptionalValue(null);
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
-                return toOptionalValue(p.getDefault().toString());
+                return p.getDefault().toString();
             }
-            return toOptionalValue(null);
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
-                return toOptionalValue(p.getDefault().toString());
+                return p.getDefault().toString();
             }
-            return toOptionalValue(null);
-        } else {
-            return toOptionalValue(null);
         }
-    }
-
-    private String toOptionalValue(String value) {
-        if (value == null) {
-            return "Nothing";
-        }
-        return "(Just " + value + ")";
+        return null;
     }
 
     private Optional<String> paramToStringMapper(final String paramName, final CodegenProperty property) {
@@ -627,31 +534,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void postProcessParameter(CodegenParameter parameter) {
         final boolean isPrimitiveType = parameter.isMapContainer ? isPrimitiveDataType(parameter.dataType) : parameter.isPrimitiveType;
         addEncoderAndDecoder(parameter.vendorExtensions, parameter.dataType, isPrimitiveType ? DataTypeExposure.PRIMITIVE : DataTypeExposure.EXTERNAL);
-    }
-
-    @Override
-    public void updateCodegenPropertyEnum(final CodegenProperty property) {
-        super.updateCodegenPropertyEnum(property);
-        if (!elmPrefixCustomTypeVariants) {
-            return;
-        }
-
-        final Map<String, Object> allowableValues = property.allowableValues;
-        if (allowableValues == null) {
-            return;
-        }
-
-        final List<Map<String, Object>> enumVars = (ArrayList<Map<String, Object>>) allowableValues.get("enumVars");
-        if (enumVars == null) {
-            return;
-        }
-        final String prefix = toEnumName(property);
-        for (Map<String, Object> enumVar : enumVars) {
-            if (!enumVar.containsKey("_isPrefixed")) {
-                enumVar.put("name", prefix + enumVar.get("name"));
-                enumVar.put("_isPrefixed", true);
-            }
-        }
     }
 
     private boolean isPrimitiveDataType(String dataType) {

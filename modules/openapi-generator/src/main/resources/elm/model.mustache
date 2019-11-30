@@ -1,20 +1,183 @@
 {{>licenseInfo}}
 
-module Data.{{classname}} exposing ({{#models}}{{#model}}{{classname}}{{#hasChildren}}(..){{/hasChildren}}{{#isEnum}}(..){{/isEnum}}{{^isEnum}}{{#vars}}{{#isEnum}}, {{vendorExtensions.elmCustomType}}(..){{/isEnum}}{{/vars}}{{/isEnum}}, decoder, encode{{^isEnum}}{{^discriminator}}{{^oneOf}}, encodeWithTag{{/oneOf}}{{/discriminator}}{{/isEnum}}, toString{{/model}}{{/models}})
+module Data exposing
+{{#models}}{{#model}}    {{#-first}}( {{/-first}}{{^-first}}, {{/-first}}{{classname}}{{#oneOf}}{{#-first}}(..){{/-first}}{{/oneOf}}{{#isEnum}}(..){{/isEnum}}{{^isEnum}}{{#vars}}{{#isEnum}}, {{classname}}{{nameInCamelCase}}(..){{/isEnum}}{{/vars}}{{/isEnum}}
+{{/model}}{{/models}}{{#models}}{{#model}}    , encode{{classname}}
+{{/model}}{{/models}}{{#models}}{{#model}}    , {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder
+{{/model}}{{/models}}    )
 
-{{>imports}}import Dict exposing (Dict)
-import Json.Decode as Decode exposing (Decoder)
-import Json.Decode.Pipeline exposing (optional, required)
-import Json.Encode as Encode
+import Dict{{#includeTime}}
+import Iso8601{{/includeTime}}
+import Json.Decode
+import Json.Encode{{#includeTime}}
+import Time{{/includeTime}}{{#includeUuid}}
+import Uuid exposing (Uuid){{/includeUuid}}
+
+
+-- MODEL
+
+
 {{#models}}
 {{#model}}
-
-
 {{#description}}
-{-| {{{description}}}
+{-| {{{.}}}
 -}
 {{/description}}
-{{#isEnum}}{{>modelTypeCustom}}{{/isEnum}}{{^isEnum}}{{#discriminator}}{{>modelTypeDiscriminator}}{{/discriminator}}{{^discriminator}}{{#oneOf}}{{#-first}}{{>modelTypeDiscriminator}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#isAlias}}{{>modelTypePrimitive}}{{/isAlias}}{{^isAlias}}{{#isArrayModel}}{{>modelTypeArray}}{{/isArrayModel}}{{^isArrayModel}}{{>modelTypeRecord}}{{/isArrayModel}}{{/isAlias}}{{/oneOf}}{{/discriminator}}{{/isEnum}}
+{{#isEnum}}{{>customType}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>customTypeWithData}}{{/-first}}{{/oneOf}}{{^oneOf}}{{>record}}{{/oneOf}}{{/isEnum}}
+
 
 {{/model}}
-{{/models}}
+{{/models}}{{#includeTime}}
+type alias Date = Time.Posix
+
+
+type alias DateTime = Time.Posix
+{{/includeTime}}
+
+
+-- ENCODER
+
+
+{{#models}}
+{{#model}}
+{{#isEnum}}{{>customTypeEncoder}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>customTypeWithDataEncoder}}{{/-first}}{{/oneOf}}{{^oneOf}}{{>recordEncoder}}{{/oneOf}}{{/isEnum}}
+
+
+{{/model}}
+{{/models}}{{#includeTime}}
+encodeDate : Date -> Json.Encode.Value
+encodeDate =
+    Json.Encode.string << String.left 10 << Iso8601.fromTime
+
+
+encodeDateTime : DateTime -> Json.Encode.Value
+encodeDateTime =
+    Json.Encode.string << Iso8601.fromTime
+{{/includeTime}}
+
+
+-- DECODER
+
+
+{{#models}}
+{{#model}}
+{{#isEnum}}{{>customTypeDecoder}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>customTypeWithDataDecoder}}{{/-first}}{{/oneOf}}{{^oneOf}}{{>recordDecoder}}{{/oneOf}}{{/isEnum}}
+
+
+{{/model}}
+{{/models}}{{#includeTime}}
+dateDecoder : Json.Decode.Decoder Date
+dateDecoder =
+    Json.Decode.string
+        |> Json.Decode.andThen decodeDateIsoString
+
+
+decodeDateIsoString : String -> Json.Decode.Decoder Date
+decodeDateIsoString str =
+    case Iso8601.toTime (str ++ "T00:00:00.000Z") of
+        Result.Ok posix ->
+            Json.Decode.succeed posix
+
+        Result.Err _ ->
+            Json.Decode.fail <| "Invalid date: " ++ str
+
+
+dateTimeDecoder : Json.Decode.Decoder DateTime
+dateTimeDecoder =
+    Json.Decode.string
+        |> Json.Decode.andThen decodeDateTimeIsoString
+
+
+decodeDateTimeIsoString : String -> Json.Decode.Decoder DateTime
+decodeDateTimeIsoString str =
+    case Iso8601.toTime str of
+        Result.Ok posix ->
+            Json.Decode.succeed posix
+
+        Result.Err _ ->
+            Json.Decode.fail <| "Invalid date: " ++ str
+{{/includeTime}}
+
+
+-- HELPER
+
+
+type alias EncodedField =
+    Maybe ( String, Json.Encode.Value )
+
+
+encodeObject : List EncodedField -> Json.Encode.Value
+encodeObject =
+    Json.Encode.object << List.filterMap identity
+
+
+encode : String -> (a -> Json.Encode.Value) -> a -> EncodedField
+encode key encoder value =
+    Just ( key, encoder value )
+
+
+encodeNullable : String -> (a -> Json.Encode.Value) -> Maybe a -> EncodedField
+encodeNullable key encoder value =
+    Just ( key, Maybe.withDefault Json.Encode.null (Maybe.map encoder value) )
+
+
+maybeEncode : String -> (a -> Json.Encode.Value) -> Maybe a -> EncodedField
+maybeEncode key encoder =
+    Maybe.map (Tuple.pair key << encoder)
+
+
+maybeEncodeNullable : String -> (a -> Json.Encode.Value) -> Maybe a -> EncodedField
+maybeEncodeNullable =
+    encodeNullable
+
+
+decode : String -> Json.Decode.Decoder a -> Json.Decode.Decoder (a -> b) -> Json.Decode.Decoder b
+decode key decoder =
+    decodeChain (Json.Decode.field key decoder)
+
+
+decodeNullable : String -> Json.Decode.Decoder a -> Json.Decode.Decoder (Maybe a -> b) -> Json.Decode.Decoder b
+decodeNullable key decoder =
+    decodeChain (maybeDecoder key decoder Nothing)
+
+
+maybeDecode : String -> Json.Decode.Decoder a -> Maybe a -> Json.Decode.Decoder (Maybe a -> b) -> Json.Decode.Decoder b
+maybeDecode key decoder fallback =
+    -- let's be kind to null-values as well
+    decodeChain (maybeDecoder key decoder fallback)
+
+
+maybeDecodeNullable : String -> Json.Decode.Decoder a -> Maybe a -> Json.Decode.Decoder (Maybe a -> b) -> Json.Decode.Decoder b
+maybeDecodeNullable key decoder fallback =
+    decodeChain (maybeDecoder key decoder fallback)
+
+
+maybeDecoder : String -> Json.Decode.Decoder a -> Maybe a -> Json.Decode.Decoder (Maybe a)
+maybeDecoder key decoder fallback =
+    let
+        fieldDecoder =
+            Json.Decode.field key Json.Decode.value
+
+        valueDecoder =
+            Json.Decode.oneOf [ Json.Decode.map Just decoder, Json.Decode.null fallback ]
+
+        decodeObject rawObject =
+            case Json.Decode.decodeValue fieldDecoder rawObject of
+                Ok rawValue ->
+                    case Json.Decode.decodeValue valueDecoder rawValue of
+                        Ok value ->
+                            Json.Decode.succeed value
+
+                        Err error ->
+                            Json.Decode.fail (Json.Decode.errorToString error)
+
+                Err _ ->
+                    Json.Decode.succeed fallback
+    in
+    Json.Decode.value
+        |> Json.Decode.andThen decodeObject
+
+
+decodeChain : Json.Decode.Decoder a -> Json.Decode.Decoder (a -> b) -> Json.Decode.Decoder b
+decodeChain =
+    Json.Decode.map2 (|>)

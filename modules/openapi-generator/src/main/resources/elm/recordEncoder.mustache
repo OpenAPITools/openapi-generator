@@ -1,16 +1,20 @@
-encode : {{classname}} -> Encode.Value
-encode =
-    Encode.object << encodePairs
+encode{{classname}} : {{classname}} -> Json.Encode.Value
+encode{{classname}} =
+    encodeObject << encode{{classname}}Pairs
 
 
-encodeWithTag : ( String, String ) -> {{classname}} -> Encode.Value
-encodeWithTag (tagField, tag) model =
-    Encode.object <| encodePairs model ++ [ ( tagField, Encode.string tag ) ]
+encode{{classname}}WithTag : ( String, String ) -> {{classname}} -> Json.Encode.Value
+encode{{classname}}WithTag (tagField, tag) model =
+    encodeObject (encode{{classname}}Pairs model ++ [ encode tagField Json.Encode.string tag ])
 
 
-encodePairs : {{classname}} -> List (String, Encode.Value)
-encodePairs model =
-{{#allVars}}
+encode{{classname}}Pairs : {{classname}} -> List EncodedField
+encode{{classname}}Pairs model =
+{{#vars}}
     {{#-first}}[{{/-first}}{{^-first}},{{/-first}} {{>recordFieldEncoder}}
-{{/allVars}}
-    ]
+{{/vars}}
+    ]{{#vars}}{{#isEnum}}
+
+
+{{>customTypeEncoder}}
+{{/isEnum}}{{/vars}}

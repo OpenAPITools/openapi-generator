@@ -2,7 +2,8 @@
 
 module Request.{{classname}} exposing ({{#operations}}{{#operation}}{{^-first}}, {{/-first}}{{operationId}}{{#allParams}}{{#isEnum}}, {{enumName}}(..){{/isEnum}}{{/allParams}}{{/operation}}{{/operations}})
 
-{{>imports}}import Dict
+import Data
+import Dict
 import Http
 import Json.Decode as Decode
 import Url.Builder as Url

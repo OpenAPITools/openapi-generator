@@ -1,6 +1,8 @@
-decoder : Decoder {{classname}}
-decoder =
-    Decode.succeed {{classname}}
-{{#allVars}}
-        |> {{>recordFieldDecoder}}
-{{/allVars}}
+{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder : Json.Decode.Decoder {{classname}}
+{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder =
+    Json.Decode.succeed {{classname}}{{#vars}}
+        |> {{>recordFieldDecoder}}{{/vars}}{{#vars}}{{#isEnum}}
+
+
+{{>customTypeDecoder}}
+{{/isEnum}}{{/vars}}
