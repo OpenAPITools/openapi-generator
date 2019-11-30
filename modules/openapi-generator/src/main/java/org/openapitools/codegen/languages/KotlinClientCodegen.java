@@ -160,6 +160,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
         }
 
+        commonSupportingFiles();
+
         switch (getLibrary()) {
             case JVM_OKHTTP3:
             case JVM_OKHTTP4:
@@ -326,13 +328,16 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
 
     private void commonJvmMultiplatformSupportingFiles(String infrastructureFolder) {
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
-        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ApiAbstractions.kt.mustache", infrastructureFolder, "ApiAbstractions.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestConfig.kt.mustache", infrastructureFolder, "RequestConfig.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
+    }
+
+    private void commonSupportingFiles() {
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
     }
 
     @Override
