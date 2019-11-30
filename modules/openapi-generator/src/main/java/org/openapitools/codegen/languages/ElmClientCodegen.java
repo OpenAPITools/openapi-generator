@@ -68,6 +68,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code/elm";
         modelTemplateFiles.put("model.mustache", ".elm");
         templateDir = "elm";
+        apiPackage = "Api.Request";
+        modelPackage = "Api";
 
         supportsInheritance = true;
 
@@ -194,11 +196,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toModelFilename(String name) {
-        return "Data";
-    }
-
-    @Override
     public String toEnumName(CodegenProperty property) {
         return toModelName(property.name);
     }
@@ -242,7 +239,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + ("/src/Request/" + apiPackage().replace('.', File.separatorChar)).replace("/", File.separator);
+        return outputFolder + ("/src/" + apiPackage().replace('.', File.separatorChar)).replace("/", File.separator);
     }
 
     @Override
@@ -278,9 +275,9 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             .flatMap(obj -> ((List<Map<String, Object>>) obj.get("models")).stream())
             .collect(Collectors.toList());
         dataObj.put("models", models);
-        objects.put("Data", dataObj);
         dataObj.put("includeTime", true); // TODO only if used
         dataObj.put("includeUuid", true); // TODO only if used
+        objects.put("Data", dataObj);
         return objects;
     }
 

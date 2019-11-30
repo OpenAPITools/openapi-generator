@@ -1,6 +1,6 @@
 {{>licenseInfo}}
 
-module Data exposing
+module Api.Data exposing
 {{#models}}{{#model}}    {{#-first}}( {{/-first}}{{^-first}}, {{/-first}}{{classname}}{{#oneOf}}{{#-first}}(..){{/-first}}{{/oneOf}}{{#isEnum}}(..){{/isEnum}}{{^isEnum}}{{#vars}}{{#isEnum}}, {{classname}}{{nameInCamelCase}}(..){{/isEnum}}{{/vars}}{{/isEnum}}
 {{/model}}{{/models}}{{#models}}{{#model}}    , encode{{classname}}
 {{/model}}{{/models}}{{#models}}{{#model}}    , {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder

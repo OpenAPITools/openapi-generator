@@ -1,6 +1,6 @@
 {{>licenseInfo}}
 
-module Request.{{classname}} exposing ({{#operations}}{{#operation}}{{^-first}}, {{/-first}}{{operationId}}{{#allParams}}{{#isEnum}}, {{enumName}}(..){{/isEnum}}{{/allParams}}{{/operation}}{{/operations}})
+module Api.Request.{{classname}} exposing ({{#operations}}{{#operation}}{{^-first}}, {{/-first}}{{operationId}}{{#allParams}}{{#isEnum}}, {{enumName}}(..){{/isEnum}}{{/allParams}}{{/operation}}{{/operations}})
 
 import Data
 import Dict
