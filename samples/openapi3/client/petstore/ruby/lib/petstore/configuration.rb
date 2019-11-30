@@ -240,7 +240,7 @@ module Petstore
           description: "petstore server",
           variables: {
             server: {
-                description: "No descriptoin provided",
+                description: "No description provided",
                 default_value: "petstore",
                 enum_values: [
                   "petstore",
@@ -249,7 +249,7 @@ module Petstore
                 ]
               },
             port: {
-                description: "No descriptoin provided",
+                description: "No description provided",
                 default_value: "80",
                 enum_values: [
                   "80",
@@ -263,7 +263,7 @@ module Petstore
           description: "The local server",
           variables: {
             version: {
-                description: "No descriptoin provided",
+                description: "No description provided",
                 default_value: "v2",
                 enum_values: [
                   "v1",

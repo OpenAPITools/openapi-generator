@@ -1896,6 +1896,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             if (composed.getRequired() != null) {
                 required.addAll(composed.getRequired());
+                allRequired.addAll(composed.getRequired());
             }
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
 
@@ -4434,6 +4435,8 @@ public class DefaultCodegen implements CodegenConfig {
             result = (Boolean) booleanValue;
         } else if (booleanValue instanceof String) {
             result = Boolean.parseBoolean((String) booleanValue);
+        } else {
+            LOGGER.warn("The value (generator's option) must be either boolean or string. Default to `false`.");
         }
         return result;
     }

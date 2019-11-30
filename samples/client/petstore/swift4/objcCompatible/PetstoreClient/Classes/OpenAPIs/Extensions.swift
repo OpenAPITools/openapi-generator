@@ -5,7 +5,6 @@
 //
 
 import Foundation
-import Alamofire
 
 extension Bool: JSONEncodable {
     func encodeToJSON() -> Any { return self as Any }
@@ -33,6 +32,10 @@ extension Double: JSONEncodable {
 
 extension String: JSONEncodable {
     func encodeToJSON() -> Any { return self as Any }
+}
+
+extension RawRepresentable where RawValue: JSONEncodable {
+    func encodeToJSON() -> Any { return self.rawValue as Any }
 }
 
 private func encodeIfPossible<T>(_ object: T) -> Any {
@@ -81,6 +84,12 @@ private let dateFormatter: DateFormatter = {
 extension Date: JSONEncodable {
     func encodeToJSON() -> Any {
         return dateFormatter.string(from: self) as Any
+    }
+}
+
+extension URL: JSONEncodable {
+    func encodeToJSON() -> Any {
+        return self
     }
 }
 

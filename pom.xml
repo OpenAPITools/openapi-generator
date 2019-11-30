@@ -1042,7 +1042,7 @@
                 <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/c</module>
                 <module>samples/client/petstore/cpp-qt5</module>
-                <module>samples/client/petstore/elm-0.18</module>
+                <!--<module>samples/client/petstore/elm-0.18</module>-->
                 <module>samples/client/petstore/rust</module>
                 <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
@@ -1072,8 +1072,8 @@
                 <!-- comment out due to error `npm run build`
                 <module>samples/client/petstore/typescript-jquery/npm</module>-->
                 <!--<module>samples/client/petstore/typescript-angular-v2/npm</module>-->
-                <module>samples/client/petstore/typescript-angular-v4/npm</module>
-                <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
+                <!--<module>samples/client/petstore/typescript-angular-v4/npm</module>
+                <module>samples/client/petstore/typescript-angular-v4.3/npm</module>-->
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
                 <module>samples/server/petstore/rust-server</module>
@@ -1308,12 +1308,13 @@
                 <module>samples/client/petstore/swift4/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/rxswift/SwaggerClientTests</module>
+                <!-- swift 1.x, 3.x client generators have been deprecated
                 <module>samples/client/petstore/swift3/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift3/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift3/rxswift/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift/promisekit/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift/rxswift/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift/rxswift/SwaggerClientTests</module>-->
                 <!-- comment out objc tests as it's timing out
                 <module>samples/client/petstore/objc/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/objc/core-data/SwaggerClientTests</module>-->
@@ -1394,7 +1395,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-core-version>2.0.10</swagger-core-version>
         <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
-        <swagger-parser-version>2.0.15</swagger-parser-version>
+        <swagger-parser-version>2.0.16</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>

@@ -8,7 +8,7 @@ team@openapitools.org
 :keywords: openapi, rest, OpenAPI Petstore 
 :specDir: modules\openapi-generator\src\main\resources\asciidoc-documentation
 :snippetDir: .
-:generator-template: v1 2019-11-10
+:generator-template: v1 2019-11-19
 :info-url: https://openapi-generator.tech
 :app-name: OpenAPI Petstore
 
@@ -18,6 +18,14 @@ This is a sample server Petstore server. For this sample, you can use the api ke
 
 
 // markup not found, no include ::intro.adoc[opts=optional]
+
+
+== Access
+
+
+* *APIKey* KeyParamName:     _api_key_,     KeyInQuery: _false_, KeyInHeader: _true_
+* *OAuth*  AuthorizationUrl: _http://petstore.swagger.io/api/oauth/dialog_, TokenUrl:   __ 
+
 
 
 == Endpoints
@@ -59,6 +67,7 @@ Add a new pet to the store
 |  
 
 |===         
+
 
 
 
@@ -139,6 +148,7 @@ Deletes a pet
 |===         
 
 
+
 ====== Header Parameters
 
 [cols="2,3,1,1,1"]
@@ -215,6 +225,7 @@ Multiple status values can be provided with comma separated strings
 
 
 ===== Parameters
+
 
 
 
@@ -302,6 +313,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 
 ===== Parameters
+
 
 
 
@@ -408,6 +420,7 @@ Returns a single pet
 
 
 
+
 ===== Return Type
 
 <<Pet>>
@@ -500,6 +513,7 @@ Update an existing pet
 
 
 
+
 ===== Return Type
 
 
@@ -586,6 +600,26 @@ Updates a pet in the store with form data
 |===         
 
 
+===== Form Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| name 
+| Updated name of the pet <<string>> 
+| - 
+| null 
+|  
+
+| status 
+| Updated status of the pet <<string>> 
+| - 
+| null 
+|  
+
+|===         
+
 
 
 
@@ -664,6 +698,26 @@ uploads an image
 
 |===         
 
+
+===== Form Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| additionalMetadata 
+| Additional data to pass to server <<string>> 
+| - 
+| null 
+|  
+
+| file 
+| file to upload <<file>> 
+| - 
+| null 
+|  
+
+|===         
 
 
 
@@ -753,6 +807,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 
 
+
 ===== Return Type
 
 
@@ -818,6 +873,7 @@ Returns a map of status codes to quantities
 
 
 ===== Parameters
+
 
 
 
@@ -901,6 +957,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 |  
 
 |===         
+
 
 
 
@@ -998,6 +1055,7 @@ Place an order for a pet
 
 
 
+
 ===== Return Type
 
 <<Order>>
@@ -1089,6 +1147,7 @@ This can only be done by the logged in user.
 
 
 
+
 ===== Return Type
 
 
@@ -1164,6 +1223,7 @@ Creates list of users with given input array
 |  
 
 |===         
+
 
 
 
@@ -1247,6 +1307,7 @@ Creates list of users with given input array
 
 
 
+
 ===== Return Type
 
 
@@ -1321,6 +1382,7 @@ This can only be done by the logged in user.
 |  
 
 |===         
+
 
 
 
@@ -1410,6 +1472,7 @@ Get user by user name
 
 
 
+
 ===== Return Type
 
 <<User>>
@@ -1483,6 +1546,7 @@ Logs user into the system
 
 
 ===== Parameters
+
 
 
 
@@ -1583,6 +1647,7 @@ Logs out current logged in user session
 
 
 
+
 ===== Return Type
 
 
@@ -1671,6 +1736,7 @@ This can only be done by the logged in user.
 |  
 
 |===         
+
 
 
 
