@@ -1,0 +1,40 @@
+group 'org.openapitools'
+version '1.0.0'
+
+wrapper {
+    gradleVersion = '4.9'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+buildscript {
+    ext.kotlin_version = '1.3.50'
+    ext.retrofitVersion = '2.6.2'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compile "com.squareup.moshi:moshi-kotlin:1.8.0"
+    compile "com.squareup.moshi:moshi-adapters:1.8.0"
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
+    testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.0"
+}
