@@ -1,9 +1,9 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 
 
-import 'package:openapi/model/package:openapi/model/tag/dart.dart';
+import 'package:openapi/model/tag/dart.dart';
 
-import 'package:openapi/model/package:openapi/model/category/dart.dart';
+import 'package:openapi/model/category/dart.dart';
 
 part 'pet.jser.dart';
 
