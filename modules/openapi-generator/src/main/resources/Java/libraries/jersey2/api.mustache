@@ -38,8 +38,8 @@ public class {{classname}} {
   public void setApiClient(ApiClient apiClient) {
     this.apiClient = apiClient;
   }
-
   {{#operation}}
+  {{^vendorExtensions.x-group-parameters}}
   /**
    * {{summary}}
    * {{notes}}
@@ -53,10 +53,10 @@ public class {{classname}} {
    {{#responses.0}}
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        {{#responses}}
-        <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
-        {{/responses}}
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       {{#responses}}
+       <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
+       {{/responses}}
      </table>
    {{/responses.0}}
    {{#isDeprecated}}
@@ -71,13 +71,11 @@ public class {{classname}} {
   @Deprecated
   {{/isDeprecated}}
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
-    {{#returnType}}
-    return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).getData();
-    {{/returnType}}{{^returnType}}
-    {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-    {{/returnType}}
+    {{#returnType}}return {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).getData();
   }
+  {{/vendorExtensions.x-group-parameters}}
 
+  {{^vendorExtensions.x-group-parameters}}
   /**
    * {{summary}}
    * {{notes}}
@@ -89,10 +87,10 @@ public class {{classname}} {
    {{#responses.0}}
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        {{#responses}}
-        <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
-        {{/responses}}
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       {{#responses}}
+       <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
+       {{/responses}}
      </table>
    {{/responses.0}}
    {{#isDeprecated}}
@@ -106,7 +104,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+  public{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}private{{/vendorExtensions.x-group-parameters}} ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     Object localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
@@ -152,13 +150,93 @@ public class {{classname}} {
 
     String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
 
-    {{#returnType}}
-    GenericType<{{{returnType}}}> localVarReturnType = new GenericType<{{{returnType}}}>() {};
-    return apiClient.invokeAPI(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-    {{/returnType}}{{^returnType}}
-    return apiClient.invokeAPI(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
-    {{/returnType}}
+    {{#returnType}}GenericType<{{{returnType}}}> localVarReturnType = new GenericType<{{{returnType}}}>() {};{{/returnType}}
+    return apiClient.invokeAPI(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}});
   }
+  {{#vendorExtensions.x-group-parameters}}
+
+  public class API{{operationId}}Request {
+    {{#allParams}}
+    private {{#isRequired}}final {{/isRequired}}{{{dataType}}} {{localVariablePrefix}}{{paramName}};
+    {{/allParams}}
+
+    private API{{operationId}}Request({{#pathParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{#bodyParam}}{{#hasPathParams}}, {{/hasPathParams}}{{{dataType}}} {{paramName}}{{/bodyParam}}) {
+      {{#pathParams}}
+      this.{{localVariablePrefix}}{{paramName}} = {{paramName}};
+      {{/pathParams}}
+      {{#bodyParam}}
+      this.{{localVariablePrefix}}{{paramName}} = {{paramName}};
+      {{/bodyParam}}
+    }
+    {{#allParams}}{{^isPathParam}}{{^isBodyParam}}
+
+    /**
+     * Set {{paramName}}
+     * @param {{paramName}} {{description}} ({{^required}}optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}{{/required}}{{#required}}required{{/required}})
+     * @return API{{operationId}}Request
+     */
+    public API{{operationId}}Request {{paramName}}({{{dataType}}} {{paramName}}) {
+      this.{{localVariablePrefix}}{{paramName}} = {{paramName}};
+      return this;
+    }
+    {{/isBodyParam}}{{/isPathParam}}{{/allParams}}
+
+    /**
+     * Execute {{operationId}} request
+     {{#returnType}}* @return {{.}}{{/returnType}}
+     * @throws ApiException if fails to make API call
+     {{#responses.0}}
+     * @http.response.details
+       <table summary="Response Details" border="1">
+         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+         {{#responses}}
+         <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
+         {{/responses}}
+       </table>
+     {{/responses.0}}
+     {{#isDeprecated}}* @deprecated{{/isDeprecated}}
+     */
+    {{#isDeprecated}}@Deprecated{{/isDeprecated}}
+    public {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}} execute() throws ApiException {
+      {{#returnType}}return {{/returnType}}this.executeWithHttpInfo().getData();
+    }
+
+    /**
+     * Execute {{operationId}} request with HTTP info returned
+     * @return ApiResponse&lt;{{#returnType}}{{.}}{{/returnType}}{{^returnType}}Void{{/returnType}}&gt;
+     * @throws ApiException if fails to make API call
+     {{#responses.0}}
+     * @http.response.details
+       <table summary="Response Details" border="1">
+         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+         {{#responses}}
+         <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
+         {{/responses}}
+       </table>
+     {{/responses.0}}
+     {{#isDeprecated}}* @deprecated{{/isDeprecated}}
+     */
+    {{#isDeprecated}}@Deprecated{{/isDeprecated}}
+    public ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> executeWithHttpInfo() throws ApiException {
+      return {{operationId}}WithHttpInfo({{#allParams}}{{localVariablePrefix}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    }
+  }
+
+  /**
+   * {{summary}}
+   * {{notes}}{{#pathParams}}
+   * @param {{paramName}} {{description}} (required){{/pathParams}}
+   {{#bodyParam}}* @param {{paramName}} {{description}} (require){{/bodyParam}}
+   * @return {{operationId}}Request
+   {{#isDeprecated}}* @deprecated{{/isDeprecated}}
+   {{#externalDocs}}* {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>{{/externalDocs}}
+   */
+  {{#isDeprecated}}@Deprecated{{/isDeprecated}}
+  public API{{operationId}}Request {{operationId}}({{#pathParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{#bodyParam}}{{#hasPathParams}}, {{/hasPathParams}}{{{dataType}}} {{paramName}}{{/bodyParam}}) throws ApiException {
+    return new API{{operationId}}Request({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{#bodyParam}}{{#hasPathParams}}, {{/hasPathParams}}{{paramName}}{{/bodyParam}});
+  }
+  {{/vendorExtensions.x-group-parameters}}
   {{/operation}}
 }
 {{/operations}}
