@@ -34,7 +34,6 @@ public class StoreApi {
   public void setApiClient(ApiClient apiClient) {
     this.apiClient = apiClient;
   }
-
   /**
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -42,14 +41,13 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
+       <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
    */
   public void deleteOrder(String orderId) throws ApiException {
-
-    deleteOrderWithHttpInfo(orderId);
+    deleteOrderWithHttpInfo(orderId).getData();
   }
 
   /**
@@ -60,9 +58,9 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
+       <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Void> deleteOrderWithHttpInfo(String orderId) throws ApiException {
@@ -99,7 +97,7 @@ public class StoreApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-
+    
     return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
@@ -109,13 +107,13 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public Map<String, Integer> getInventory() throws ApiException {
     return getInventoryWithHttpInfo().getData();
-      }
+  }
 
   /**
    * Returns pet inventories by status
@@ -124,8 +122,8 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Map<String, Integer>> getInventoryWithHttpInfo() throws ApiException {
@@ -158,7 +156,7 @@ public class StoreApi {
 
     GenericType<Map<String, Integer>> localVarReturnType = new GenericType<Map<String, Integer>>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      }
+  }
   /**
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
@@ -167,15 +165,15 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
+       <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
    */
   public Order getOrderById(Long orderId) throws ApiException {
     return getOrderByIdWithHttpInfo(orderId).getData();
-      }
+  }
 
   /**
    * Find purchase order by ID
@@ -185,10 +183,10 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
+       <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Order> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
@@ -227,7 +225,7 @@ public class StoreApi {
 
     GenericType<Order> localVarReturnType = new GenericType<Order>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      }
+  }
   /**
    * Place an order for a pet
    * 
@@ -236,14 +234,14 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
    */
   public Order placeOrder(Order body) throws ApiException {
     return placeOrderWithHttpInfo(body).getData();
-      }
+  }
 
   /**
    * Place an order for a pet
@@ -253,9 +251,9 @@ public class StoreApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Order> placeOrderWithHttpInfo(Order body) throws ApiException {
@@ -293,5 +291,5 @@ public class StoreApi {
 
     GenericType<Order> localVarReturnType = new GenericType<Order>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      }
+  }
 }

@@ -12,6 +12,7 @@ Method | HTTP request | Description
 
 > Client call123testSpecialTags(body)
 
+
 To test special tags
 
 To test special tags and operation ID starting with number
@@ -33,8 +34,9 @@ public class Example {
 
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
         Client body = new Client(); // Client | client model
-        try {
+        try { 
             Client result = apiInstance.call123testSpecialTags(body);
+            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");

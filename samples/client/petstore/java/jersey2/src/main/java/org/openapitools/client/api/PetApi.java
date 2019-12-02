@@ -36,7 +36,6 @@ public class PetApi {
   public void setApiClient(ApiClient apiClient) {
     this.apiClient = apiClient;
   }
-
   /**
    * Add a new pet to the store
    * 
@@ -44,14 +43,13 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
    */
   public void addPet(Pet body) throws ApiException {
-
-    addPetWithHttpInfo(body);
+    addPetWithHttpInfo(body).getData();
   }
 
   /**
@@ -62,9 +60,9 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
@@ -100,7 +98,7 @@ public class PetApi {
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-
+    
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
@@ -111,14 +109,13 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
    */
   public void deletePet(Long petId, String apiKey) throws ApiException {
-
-    deletePetWithHttpInfo(petId, apiKey);
+    deletePetWithHttpInfo(petId, apiKey).getData();
   }
 
   /**
@@ -130,9 +127,9 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
@@ -171,7 +168,7 @@ public class PetApi {
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-
+    
     return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
@@ -182,14 +179,14 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
      </table>
    */
   public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
     return findPetsByStatusWithHttpInfo(status).getData();
-      }
+  }
 
   /**
    * Finds Pets by status
@@ -199,9 +196,9 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
@@ -240,7 +237,7 @@ public class PetApi {
 
     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      }
+  }
   /**
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -249,16 +246,16 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid tag value </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid tag value </td><td>  -  </td></tr>
      </table>
    * @deprecated
    */
   @Deprecated
   public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
     return findPetsByTagsWithHttpInfo(tags).getData();
-      }
+  }
 
   /**
    * Finds Pets by tags
@@ -268,9 +265,9 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid tag value </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid tag value </td><td>  -  </td></tr>
      </table>
    * @deprecated
    */
@@ -311,7 +308,7 @@ public class PetApi {
 
     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      }
+  }
   /**
    * Find pet by ID
    * Returns a single pet
@@ -320,15 +317,15 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
+       <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
      </table>
    */
   public Pet getPetById(Long petId) throws ApiException {
     return getPetByIdWithHttpInfo(petId).getData();
-      }
+  }
 
   /**
    * Find pet by ID
@@ -338,10 +335,10 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
+       <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
@@ -380,7 +377,7 @@ public class PetApi {
 
     GenericType<Pet> localVarReturnType = new GenericType<Pet>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      }
+  }
   /**
    * Update an existing pet
    * 
@@ -388,16 +385,15 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
-        <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
+       <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
+       <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
    */
   public void updatePet(Pet body) throws ApiException {
-
-    updatePetWithHttpInfo(body);
+    updatePetWithHttpInfo(body).getData();
   }
 
   /**
@@ -408,11 +404,11 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
-        <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
+       <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
+       <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
@@ -448,7 +444,7 @@ public class PetApi {
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-
+    
     return apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
@@ -460,13 +456,12 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
    */
   public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
-
-    updatePetWithFormWithHttpInfo(petId, name, status);
+    updatePetWithFormWithHttpInfo(petId, name, status).getData();
   }
 
   /**
@@ -479,8 +474,8 @@ public class PetApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
@@ -521,7 +516,7 @@ if (status != null)
 
     String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-
+    
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
@@ -534,13 +529,13 @@ if (status != null)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
     return uploadFileWithHttpInfo(petId, additionalMetadata, file).getData();
-      }
+  }
 
   /**
    * uploads an image
@@ -552,8 +547,8 @@ if (status != null)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
@@ -596,7 +591,7 @@ if (file != null)
 
     GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      }
+  }
   /**
    * uploads an image (required)
    * 
@@ -607,13 +602,13 @@ if (file != null)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
     return uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata).getData();
-      }
+  }
 
   /**
    * uploads an image (required)
@@ -625,8 +620,8 @@ if (file != null)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
@@ -674,5 +669,5 @@ if (requiredFile != null)
 
     GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      }
+  }
 }

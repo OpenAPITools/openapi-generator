@@ -34,7 +34,6 @@ public class UserApi {
   public void setApiClient(ApiClient apiClient) {
     this.apiClient = apiClient;
   }
-
   /**
    * Create user
    * This can only be done by the logged in user.
@@ -42,13 +41,12 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public void createUser(User body) throws ApiException {
-
-    createUserWithHttpInfo(body);
+    createUserWithHttpInfo(body).getData();
   }
 
   /**
@@ -59,8 +57,8 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Void> createUserWithHttpInfo(User body) throws ApiException {
@@ -96,7 +94,7 @@ public class UserApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-
+    
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
@@ -106,13 +104,12 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public void createUsersWithArrayInput(List<User> body) throws ApiException {
-
-    createUsersWithArrayInputWithHttpInfo(body);
+    createUsersWithArrayInputWithHttpInfo(body).getData();
   }
 
   /**
@@ -123,8 +120,8 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
@@ -160,7 +157,7 @@ public class UserApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-
+    
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
@@ -170,13 +167,12 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public void createUsersWithListInput(List<User> body) throws ApiException {
-
-    createUsersWithListInputWithHttpInfo(body);
+    createUsersWithListInputWithHttpInfo(body).getData();
   }
 
   /**
@@ -187,8 +183,8 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body) throws ApiException {
@@ -224,7 +220,7 @@ public class UserApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-
+    
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
@@ -234,14 +230,13 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
+       <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
   public void deleteUser(String username) throws ApiException {
-
-    deleteUserWithHttpInfo(username);
+    deleteUserWithHttpInfo(username).getData();
   }
 
   /**
@@ -252,9 +247,9 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
+       <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
@@ -291,7 +286,7 @@ public class UserApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-
+    
     return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
@@ -302,15 +297,15 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
+       <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
   public User getUserByName(String username) throws ApiException {
     return getUserByNameWithHttpInfo(username).getData();
-      }
+  }
 
   /**
    * Get user by user name
@@ -320,10 +315,10 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 400 </td><td> Invalid username supplied </td><td>  -  </td></tr>
+       <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
@@ -362,7 +357,7 @@ public class UserApi {
 
     GenericType<User> localVarReturnType = new GenericType<User>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      }
+  }
   /**
    * Logs user into the system
    * 
@@ -372,14 +367,14 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  </td></tr>
-        <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  </td></tr>
+       <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
    */
   public String loginUser(String username, String password) throws ApiException {
     return loginUserWithHttpInfo(username, password).getData();
-      }
+  }
 
   /**
    * Logs user into the system
@@ -390,9 +385,9 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> successful operation </td><td>  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  </td></tr>
-        <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  </td></tr>
+       <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
@@ -437,20 +432,19 @@ public class UserApi {
 
     GenericType<String> localVarReturnType = new GenericType<String>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      }
+  }
   /**
    * Logs out current logged in user session
    * 
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public void logoutUser() throws ApiException {
-
-    logoutUserWithHttpInfo();
+    logoutUserWithHttpInfo().getData();
   }
 
   /**
@@ -460,8 +454,8 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Void> logoutUserWithHttpInfo() throws ApiException {
@@ -492,7 +486,7 @@ public class UserApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-
+    
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
@@ -503,14 +497,13 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 400 </td><td> Invalid user supplied </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 400 </td><td> Invalid user supplied </td><td>  -  </td></tr>
+       <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
   public void updateUser(String username, User body) throws ApiException {
-
-    updateUserWithHttpInfo(username, body);
+    updateUserWithHttpInfo(username, body).getData();
   }
 
   /**
@@ -522,9 +515,9 @@ public class UserApi {
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 400 </td><td> Invalid user supplied </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 400 </td><td> Invalid user supplied </td><td>  -  </td></tr>
+       <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
   public ApiResponse<Void> updateUserWithHttpInfo(String username, User body) throws ApiException {
@@ -566,7 +559,7 @@ public class UserApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-
+    
     return apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
 }
