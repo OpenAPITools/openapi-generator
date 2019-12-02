@@ -6,13 +6,13 @@
         <description>The best place to stay up-to-date with the latest OpenAPI Generator news and events.</description>
         <lastBuildDate>Mon, 24 Dec 2018 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
-        <generator>Feed for Node.js</generator>
+        <generator>https://github.com/jpmonette/feed</generator>
         <image>
             <title>OpenAPI Generator Blog</title>
             <url>https://openapi-generator.tech/img/mono-logo.svg</url>
             <link>https://openapi-generator.tech/blog</link>
         </image>
-        <copyright>Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</copyright>
+        <copyright>Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both "OpenAPI Tools" (https://OpenAPITools.org) and "OpenAPI Generator" are not affiliated with OpenAPI Initiative (OAI))</copyright>
         <item>
             <title><![CDATA[New Website]]></title>
             <link>https://openapi-generator.tech/blog/2018/12/24/new-website.html</link>

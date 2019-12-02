@@ -2,23 +2,23 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://openapi-generator.tech/blog</id>
     <title>OpenAPI Generator Blog</title>
-    <updated>2018-12-24T06:00:00Z</updated>
-    <generator>Feed for Node.js</generator>
+    <updated>2018-12-24T06:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://openapi-generator.tech/blog"/>
     <subtitle>The best place to stay up-to-date with the latest OpenAPI Generator news and events.</subtitle>
     <logo>https://openapi-generator.tech/img/mono-logo.svg</logo>
-    <rights>Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</rights>
+    <rights>Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both "OpenAPI Tools" (https://OpenAPITools.org) and "OpenAPI Generator" are not affiliated with OpenAPI Initiative (OAI))</rights>
     <entry>
         <title type="html"><![CDATA[New Website]]></title>
         <id>https://openapi-generator.tech/blog/2018/12/24/new-website.html</id>
-        <link href="https://openapi-generator.tech/blog/2018/12/24/new-website.html">
-        </link>
-        <updated>2018-12-24T06:00:00Z</updated>
+        <link href="https://openapi-generator.tech/blog/2018/12/24/new-website.html"/>
+        <updated>2018-12-24T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>Every great open source project has great documentation.</p>
 <p>That's why we're proud to announce that we've adopted a new website and design for our official documentation.</p>
 ]]></summary>
         <author>
             <name>Jim Schubert</name>
+            <email/>
             <uri>http://twitter.com/jimschubert</uri>
         </author>
     </entry>
