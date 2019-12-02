@@ -175,6 +175,7 @@ public class CodegenParameter {
         output.isListContainer = this.isListContainer;
         output.isMapContainer = this.isMapContainer;
         output.isExplode = this.isExplode;
+        output.style = this.style;
 
         return output;
     }
@@ -251,7 +252,8 @@ public class CodegenParameter {
             Objects.equals(minItems, that.minItems) &&
             Objects.equals(uniqueItems, that.uniqueItems) &&
             Objects.equals(multipleOf, that.multipleOf) &&
-            Objects.equals(isExplode, that.isExplode);
+            Objects.equals(isExplode, that.isExplode) &&
+            Objects.equals(style, that.style);
     }
 
     @Override
@@ -322,7 +324,8 @@ public class CodegenParameter {
             minItems,
             uniqueItems,
             multipleOf,
-            isExplode);
+            isExplode,
+            style);
     }
 
     @java.lang.Override
@@ -394,6 +397,7 @@ public class CodegenParameter {
                 ", uniqueItems=" + uniqueItems +
                 ", multipleOf=" + multipleOf +
                 ", isExplode=" + isExplode +
+                ", style='" + style + '\'' +
                 '}';
     }
 }

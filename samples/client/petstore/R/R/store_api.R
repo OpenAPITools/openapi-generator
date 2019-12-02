@@ -254,7 +254,7 @@ StoreApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "map(integer)", "package:petstore"),
+          self$apiClient$deserialize(resp, "map(integer)", loadNamespace("petstore")),
           error = function(e){
              stop("Failed to deserialize response")
           }
@@ -306,7 +306,7 @@ StoreApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "Order", "package:petstore"),
+          self$apiClient$deserialize(resp, "Order", loadNamespace("petstore")),
           error = function(e){
              stop("Failed to deserialize response")
           }
@@ -360,7 +360,7 @@ StoreApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "Order", "package:petstore"),
+          self$apiClient$deserialize(resp, "Order", loadNamespace("petstore")),
           error = function(e){
              stop("Failed to deserialize response")
           }
