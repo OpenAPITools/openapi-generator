@@ -521,7 +521,7 @@ UserApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "User", "package:petstore"),
+          self$apiClient$deserialize(resp, "User", loadNamespace("petstore")),
           error = function(e){
              stop("Failed to deserialize response")
           }
@@ -577,7 +577,7 @@ UserApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "character", "package:petstore"),
+          self$apiClient$deserialize(resp, "character", loadNamespace("petstore")),
           error = function(e){
              stop("Failed to deserialize response")
           }

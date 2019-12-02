@@ -4,7 +4,7 @@
 
 using namespace test_namespace;
 
-class PetApiTests: public QObject {
+class PetApiTests : public QObject {
     Q_OBJECT
 
     PFXPet createRandomPet();

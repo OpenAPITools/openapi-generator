@@ -1295,6 +1295,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         // We have to create a new auth method instance because the original object must
                         // not be modified.
                         CodegenSecurity opSecurity = security.filterByScopeNames(opScopes);
+                        opSecurity.hasMore = security.hasMore;
                         result.add(opSecurity);
                         filtered = true;
                         break;

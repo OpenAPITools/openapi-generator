@@ -27,6 +27,7 @@ RUN mvn -am -pl "modules/openapi-generator-cli" package
 
 # This exists at the end of the file to benefit from cached layers when modifying docker-entrypoint.sh.
 COPY docker-entrypoint.sh /usr/local/bin/
+RUN ln -s /usr/local/bin/docker-entrypoint.sh /usr/local/bin/openapi-generator
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 

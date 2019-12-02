@@ -145,7 +145,7 @@
       {{#vars}}
       if (!is.null({{classname}}Object$`{{baseName}}`)) {
         {{#isContainer}}
-        self$`{{baseName}}` <- ApiClient$new()$deserializeObj({{classname}}Object$`{{baseName}}`, "{{dataType}}", "package:{{packageName}}")
+        self$`{{baseName}}` <- ApiClient$new()$deserializeObj({{classname}}Object$`{{baseName}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
         {{/isContainer}}
         {{^isContainer}}
         {{#isPrimitiveType}}
@@ -226,7 +226,7 @@
       {{#vars}}
       {{! AAPI - added condition for handling container type of parameters, map and array}}
       {{#isContainer}}
-      self$`{{baseName}}` <- ApiClient$new()$deserializeObj({{classname}}Object$`{{baseName}}`, "{{dataType}}","package:{{packageName}}")
+      self$`{{baseName}}` <- ApiClient$new()$deserializeObj({{classname}}Object$`{{baseName}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
       {{/isContainer}}
       {{^isContainer}}
       {{#isPrimitiveType}}
