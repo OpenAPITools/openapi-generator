@@ -13,6 +13,7 @@ $ nosetests -v
 
 import os
 import unittest
+import pprint
 
 import petstore_api
 from petstore_api import Configuration
@@ -223,7 +224,10 @@ class PetApiTests(unittest.TestCase):
 
     def test_find_pets_by_tags(self):
         self.pet_api.add_pet(self.pet)
-
+        with open("file_out.txt", "w") as fout:
+            pp = pprint.PrettyPrinter(indent=4, stream=fout)
+            pp.pprint(self.pet)
+            pp.pprint(self.pet_api.find_pets_by_tags(tags=[self.tag.name]))
         self.assertIn(
             self.pet.id,
             list(map(lambda x: getattr(x, 'id'), self.pet_api.find_pets_by_tags(tags=[self.tag.name])))

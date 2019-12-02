@@ -29,7 +29,6 @@ class TestConfiguration(unittest.TestCase):
         c1 = petstore_api.Configuration()
         c2 = petstore_api.Configuration()
         assert id(c1.api_key) != id(c2.api_key)
-        assert id(c1.api_key_prefix) != id(c2.api_key_prefix)
 
 
 if __name__ == '__main__':

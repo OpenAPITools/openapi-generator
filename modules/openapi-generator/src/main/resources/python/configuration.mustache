@@ -23,10 +23,12 @@ class Configuration(object):
 
     :param host: Base url
     :param api_key: Dict to store API key(s).
-      The dict key should be the name of the api key, as specified in the
-      OAS specification.
-      The dict value should be the value of the api key (i.e. the secret).
-    :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
+      Each entry in the dict specifies an API key. The dict key is the name
+      of the api key, as specified in the OAS specification.
+      The dict value is itself a dict that must have a 'value' entry.
+      The 'value' entry is required and specifies the api key secret.
+      The 'prefix' entry is optional and specifies an api key prefix when
+      generating the auth data.
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
     :param access_token: The OAuth2 access token
@@ -43,15 +45,14 @@ class Configuration(object):
 
     You can programmatically set the cookie:
       conf = {{{packageName}}}.Configuration(
-        api_key={'JSESSIONID': 'abc123'}
-        api_key_prefix={'JSESSIONID': 'JSESSIONID='}
+        api_key={'JSESSIONID': {prefix='JSESSIONID=', value='abc123'}}
       )
     The following cookie will be added to the HTTP request:
        Cookie: JSESSIONID=abc123
     """
 
     def __init__(self, host="{{{basePath}}}",
-                 api_key=None, api_key_prefix=None,
+                 api_key=None,
                  username=None, password=None,
                  access_token=None):
         """Constructor
@@ -67,11 +68,6 @@ class Configuration(object):
         if api_key:
             self.api_key = api_key
         """dict to store API key(s)
-        """
-        self.api_key_prefix = {}
-        if api_key_prefix:
-            self.api_key_prefix = api_key_prefix
-        """dict to store API prefix (e.g. Bearer)
         """
         self.refresh_api_key_hook = None
         """function hook to refresh API key if expired
@@ -248,11 +244,13 @@ class Configuration(object):
         """
         if self.refresh_api_key_hook is not None:
             self.refresh_api_key_hook(self)
-        key = self.api_key.get(identifier)
-        if key:
-            prefix = self.api_key_prefix.get(identifier)
-            if prefix:
-                return "%s%s" % (prefix, key)
+        key_entry = self.api_key.get(identifier)
+        if not isinstance(key_entry, dict):
+            raise Exception("The api_key attribute must be a dictionary")
+        if key_entry:
+            key = key_entry["value"]
+            if "prefix" in key_entry:
+                return "%s%s" % (key_entry["prefix"], key)
             else:
                 return key
 

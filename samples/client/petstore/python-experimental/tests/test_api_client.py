@@ -29,8 +29,10 @@ class ApiClientTests(unittest.TestCase):
         config = petstore_api.Configuration()
         config.host = 'http://localhost/'
 
-        config.api_key['api_key'] = '123456'
-        config.api_key_prefix['api_key'] = 'PREFIX '
+        config.api_key['api_key'] = {'value': '123456', 'prefix': 'PREFIX'}
+        # api key prefix used to be set with the api_key_prefix attribute.
+        # Now the key prefix is set in the 'api_key' dictionary.
+        #config.api_key_prefix['api_key'] = 'PREFIX'
         config.username = 'test_username'
         config.password = 'test_password'
 
@@ -41,19 +43,31 @@ class ApiClientTests(unittest.TestCase):
         client = petstore_api.ApiClient(config)
 
         # test prefix
-        self.assertEqual('PREFIX ', client.configuration.api_key_prefix['api_key'])
+        self.assertEqual('PREFIX', client.configuration.api_key['api_key']['prefix'])
 
         # update parameters based on auth setting
         client.update_params_for_auth(header_params, query_params, auth_settings)
 
         # test api key auth
         self.assertEqual(header_params['test1'], 'value1')
-        self.assertEqual(header_params['api_key'], 'PREFIX 123456')
+        self.assertEqual(header_params['api_key'], 'PREFIX123456')
         self.assertEqual(query_params['test2'], 'value2')
 
         # test basic auth
         self.assertEqual('test_username', client.configuration.username)
         self.assertEqual('test_password', client.configuration.password)
+
+        # test api key without prefix
+        config.api_key['api_key'] = {'value': '123456'}
+        # update parameters based on auth setting
+        client.update_params_for_auth(header_params, query_params, auth_settings)
+        self.assertEqual(header_params['api_key'], '123456')
+
+        # test api key with wrong type
+        config.api_key['api_key'] = '123456'
+        with self.assertRaises(Exception):
+            # update parameters based on auth setting
+            client.update_params_for_auth(header_params, query_params, auth_settings)
 
     def test_select_header_accept(self):
         accepts = ['APPLICATION/JSON', 'APPLICATION/XML']
