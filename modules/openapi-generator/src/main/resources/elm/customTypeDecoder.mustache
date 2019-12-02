@@ -1,5 +1,5 @@
-{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}{{nameInCamelCase}}Decoder : Json.Decode.Decoder {{classname}}{{nameInCamelCase}}
-{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}{{nameInCamelCase}}Decoder =
+{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}{{enumName}}Decoder : Json.Decode.Decoder {{classname}}{{nameInCamelCase}}
+{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}{{enumName}}Decoder =
     Json.Decode.string
         |> Json.Decode.andThen
             (\str ->
@@ -7,7 +7,7 @@
 {{#allowableValues}}
 {{#enumVars}}
                     {{{value}}} ->
-                        Json.Decode.succeed {{classname}}{{nameInCamelCase}}{{name}}
+                        Json.Decode.succeed {{classname}}{{enumName}}{{name}}
 
 {{/enumVars}}
 {{/allowableValues}}

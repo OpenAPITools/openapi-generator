@@ -1,0 +1,10 @@
+stringFrom{{^paramName}}{{classname}}{{/paramName}}{{enumName}} : {{^paramName}}{{classname}}{{/paramName}}{{enumName}} -> String
+stringFrom{{^paramName}}{{classname}}{{/paramName}}{{enumName}} model =
+    case model of
+{{#allowableValues}}
+{{#enumVars}}
+        {{^paramName}}{{classname}}{{/paramName}}{{enumName}}{{name}} ->
+            {{{value}}}
+
+{{/enumVars}}
+{{/allowableValues}}

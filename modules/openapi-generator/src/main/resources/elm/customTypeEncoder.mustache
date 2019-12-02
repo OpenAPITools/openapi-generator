@@ -1,15 +1,6 @@
-encode{{classname}}{{nameInCamelCase}} : {{classname}}{{nameInCamelCase}} -> Json.Encode.Value
-encode{{classname}}{{nameInCamelCase}} =
-    Json.Encode.string << stringFrom{{classname}}{{nameInCamelCase}}
+encode{{classname}}{{enumName}} : {{classname}}{{enumName}} -> Json.Encode.Value
+encode{{classname}}{{enumName}} =
+    Json.Encode.string << stringFrom{{classname}}{{enumName}}
 
 
-stringFrom{{classname}}{{nameInCamelCase}} : {{classname}}{{nameInCamelCase}} -> String
-stringFrom{{classname}}{{nameInCamelCase}} model =
-    case model of
-{{#allowableValues}}
-{{#enumVars}}
-        {{classname}}{{nameInCamelCase}}{{name}} ->
-            {{{value}}}
-
-{{/enumVars}}
-{{/allowableValues}}
+{{>customTypeToString}}

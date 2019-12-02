@@ -6,6 +6,7 @@ module Api.Data exposing
 {{/model}}{{/models}}{{#models}}{{#model}}    , {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder
 {{/model}}{{/models}}    )
 
+import Api
 import Dict{{#includeTime}}
 import Iso8601{{/includeTime}}
 import Json.Decode
@@ -28,11 +29,12 @@ import Uuid exposing (Uuid){{/includeUuid}}
 
 {{/model}}
 {{/models}}{{#includeTime}}
-type alias Date = Time.Posix
+type alias Date =
+    Time.Posix
 
 
-type alias DateTime = Time.Posix
-{{/includeTime}}
+type alias DateTime =
+    Time.Posix{{/includeTime}}
 
 
 -- ENCODER
@@ -52,8 +54,7 @@ encodeDate =
 
 encodeDateTime : DateTime -> Json.Encode.Value
 encodeDateTime =
-    Json.Encode.string << Iso8601.fromTime
-{{/includeTime}}
+    Json.Encode.string << Iso8601.fromTime{{/includeTime}}
 
 
 -- DECODER
@@ -79,7 +80,7 @@ decodeDateIsoString str =
             Json.Decode.succeed posix
 
         Result.Err _ ->
-            Json.Decode.fail <| "Invalid date: " ++ str
+            Json.Decode.fail ("Invalid date: " ++ str)
 
 
 dateTimeDecoder : Json.Decode.Decoder DateTime
@@ -95,7 +96,7 @@ decodeDateTimeIsoString str =
             Json.Decode.succeed posix
 
         Result.Err _ ->
-            Json.Decode.fail <| "Invalid date: " ++ str
+            Json.Decode.fail ("Invalid date: " ++ str)
 {{/includeTime}}
 
 

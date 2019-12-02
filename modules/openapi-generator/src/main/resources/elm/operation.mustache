@@ -1,0 +1,65 @@
+{{>licenseInfo}}
+
+module Api.Request.{{classname}} exposing
+{{#operations}}{{#operation}}    {{#-first}}( {{/-first}}{{^-first}}, {{/-first}}{{operationId}}{{#allParams}}{{#isEnum}}, {{enumName}}(..){{/isEnum}}{{/allParams}}
+{{/operation}}{{/operations}}    )
+
+import Api
+import Api.Data
+import Dict
+import Http{{#includeTime}}
+import Iso8601{{/includeTime}}
+import Json.Decode
+import Json.Encode{{#includeTime}}
+import Time{{/includeTime}}{{#includeUuid}}
+import Uuid exposing (Uuid){{/includeUuid}}
+{{#operations}}
+{{#operation}}
+{{#allParams}}
+{{#isEnum}}
+
+
+{{>customType}}
+
+
+{{>customTypeToString}}
+{{/isEnum}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+{{#operations}}{{#operation}}
+
+
+{{#notes}}
+{-| {{{notes}}}
+-}
+{{/notes}}
+{{operationId}} : {{#allParams}}{{^required}}Maybe {{/required}}{{#isListContainer}}List {{/isListContainer}}{{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{#isModel}}Api.Data.{{/isModel}}{{dataType}}{{/datatypeWithEnum}} -> {{/allParams}}Api.Request {{^responses}}(){{/responses}}{{#responses}}{{#-first}}{{^dataType}}(){{/dataType}}{{#isMapContainer}}(Dict.Dict String {{/isMapContainer}}{{#isListContainer}}(List {{/isListContainer}}{{#isModel}}Api.Data.{{/isModel}}{{#items}}{{#isModel}}Api.Data.{{/isModel}}{{/items}}{{dataType}}{{#isListContainer}}){{/isListContainer}}{{#isMapContainer}}){{/isMapContainer}}{{/-first}}{{/responses}}
+{{operationId}}{{#allParams}} {{paramName}}{{/allParams}} =
+    Api.request
+        "{{httpMethod}}"
+        "{{path}}"
+        [{{#headerParams}} ( "{{baseName}}", {{#required}}Just <| {{/required}}{{^required}}Maybe.map {{/required}}{{>paramToString}} {{paramName}} ){{#-last}} {{/-last}}{{^-last}},{{/-last}}{{/headerParams}}]
+        [{{#pathParams}} ( "{{paramName}}", {{>paramToString}} {{paramName}} ){{#-last}} {{/-last}}{{^-last}},{{/-last}}{{/pathParams}}]
+        [{{#queryParams}} ( "{{baseName}}", {{#required}}Just <| {{/required}}{{^required}}Maybe.map {{/required}}{{>paramToString}} {{paramName}} ){{#-last}} {{/-last}}{{^-last}},{{/-last}}{{/queryParams}}]
+        {{#bodyParam}}({{#required}}Just ({{/required}}{{^required}}Maybe.map {{/required}}{{#isModel}}Api.Data.{{/isModel}}{{>recordFieldValueEncoder}} {{paramName}}{{#required}}){{/required}}){{/bodyParam}}{{^bodyParam}}Nothing{{/bodyParam}}
+        {{^responses}}(Json.Decode.succeed ()){{/responses}}{{#responses}}{{#-first}}{{^dataType}}(Json.Decode.succeed ()){{/dataType}}{{#dataType}}{{#isModel}}Api.Data.{{/isModel}}{{>recordFieldValueDecoder}}{{/dataType}}{{/-first}}{{/responses}}
+{{/operation}}{{/operations}}{{#includeTime}}
+
+
+type alias Date =
+    Time.Posix
+
+
+type alias DateTime =
+    Time.Posix
+
+
+stringFromDate : Date -> String
+stringFromDate =
+    String.left 10 << Iso8601.fromTime
+
+
+stringFromDateTime : DateTime -> String
+stringFromDateTime =
+    Iso8601.fromTime{{/includeTime}}
