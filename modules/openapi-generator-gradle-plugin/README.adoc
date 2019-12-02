@@ -45,7 +45,7 @@ compileJava.dependsOn tasks.openApiGenerate
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "4.2.2"
+  id "org.openapi.generator" version "4.2.3-SNAPSHOT"
 }
 ----
 
