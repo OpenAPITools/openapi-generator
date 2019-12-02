@@ -4,7 +4,7 @@
 {{#models}}
 {{#model}}
 {{#imports}}
-{{#jsonFormat}}import 'package:{{pubName}}/model/{{.}}.dart';{{/jsonFormat}}
+{{#jsonFormat}}import '{{.}}.dart';{{/jsonFormat}}
 {{#protoFormat}}import "{{.}}.proto";{{/protoFormat}}
 {{/imports}}
 {{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}{{>class}}{{/isEnum}}
