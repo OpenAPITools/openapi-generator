@@ -17,4 +17,4 @@ sidebar_label: fsharp-functions
 |packageName|F# module name (convention: Title.Case).| |OpenAPI|
 |packageVersion|F# package version.| |1.0.0|
 |packageGuid|The GUID that will be associated with the C# project| |null|
-|sourceFolder|source folder for generated code| |OpenAPI/src|
+|sourceFolder|source folder for generated code| |OpenAPI\src|
