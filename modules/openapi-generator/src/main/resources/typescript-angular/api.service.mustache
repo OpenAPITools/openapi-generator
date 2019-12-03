@@ -386,7 +386,7 @@ export class {{classname}} {
 {{/hasFormParams}}
 {{#useHttpClient}}
     {{^isResponseFile}}
-        let responseType: 'text' | 'json' = undefined;
+        let responseType: 'text' | 'json' = 'json';
         if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
