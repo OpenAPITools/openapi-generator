@@ -17,8 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -733,6 +735,17 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
         }
 
         return codegenModel;
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+
+        if (codegenOperation.returnType != null && codegenOperation.returnType.equals("Any")) {
+            codegenOperation.returnType = null;
+        }
+
+        return codegenOperation;
     }
 
     public void setProjectName(String projectName) {
