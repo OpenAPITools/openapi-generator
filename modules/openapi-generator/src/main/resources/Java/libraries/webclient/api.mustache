@@ -70,7 +70,8 @@ public class {{classname}} {
         {{/required}}{{/allParams}}
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();{{#hasPathParams}}{{#pathParams}}
-        pathParams.put("{{baseName}}", {{{paramName}}});{{/pathParams}}{{/hasPathParams}}
+        pathParams.put("{{baseName}}", {{#collectionFormat}}apiClient.collectionPathParameterToString(ApiClient.CollectionFormat.valueOf("csv".toUpperCase()), {{/collectionFormat}}{{{paramName}}}{{#collectionFormat}}){{/collectionFormat}});{{/pathParams}}{{/hasPathParams}}
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
