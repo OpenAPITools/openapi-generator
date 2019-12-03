@@ -100,7 +100,7 @@ export var PetApiFetchParamCreator = function PetApiFetchParamCreator(configurat
       delete localVarUrlObj.search;
       localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
       var needsSerialization = typeof body !== "string" || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-      localVarRequestOptions.body = needsSerialization ? JSON.stringify(body != null ? body : {}) : body || "";
+      localVarRequestOptions.body = needsSerialization ? JSON.stringify(body) : body;
       return {
         url: url.format(localVarUrlObj),
         options: localVarRequestOptions
@@ -289,7 +289,7 @@ export var PetApiFetchParamCreator = function PetApiFetchParamCreator(configurat
       delete localVarUrlObj.search;
       localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
       var needsSerialization = typeof body !== "string" || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-      localVarRequestOptions.body = needsSerialization ? JSON.stringify(body != null ? body : {}) : body || "";
+      localVarRequestOptions.body = needsSerialization ? JSON.stringify(body) : body;
       return {
         url: url.format(localVarUrlObj),
         options: localVarRequestOptions
@@ -649,7 +649,7 @@ export var StoreApiFetchParamCreator = function StoreApiFetchParamCreator(config
       delete localVarUrlObj.search;
       localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
       var needsSerialization = typeof body !== "string" || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-      localVarRequestOptions.body = needsSerialization ? JSON.stringify(body != null ? body : {}) : body || "";
+      localVarRequestOptions.body = needsSerialization ? JSON.stringify(body) : body;
       return {
         url: url.format(localVarUrlObj),
         options: localVarRequestOptions
@@ -766,7 +766,7 @@ export var UserApiFetchParamCreator = function UserApiFetchParamCreator(configur
       delete localVarUrlObj.search;
       localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
       var needsSerialization = typeof body !== "string" || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-      localVarRequestOptions.body = needsSerialization ? JSON.stringify(body != null ? body : {}) : body || "";
+      localVarRequestOptions.body = needsSerialization ? JSON.stringify(body) : body;
       return {
         url: url.format(localVarUrlObj),
         options: localVarRequestOptions
@@ -797,7 +797,7 @@ export var UserApiFetchParamCreator = function UserApiFetchParamCreator(configur
       delete localVarUrlObj.search;
       localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
       var needsSerialization = typeof body !== "string" || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-      localVarRequestOptions.body = needsSerialization ? JSON.stringify(body != null ? body : {}) : body || "";
+      localVarRequestOptions.body = needsSerialization ? JSON.stringify(body) : body;
       return {
         url: url.format(localVarUrlObj),
         options: localVarRequestOptions
@@ -828,7 +828,7 @@ export var UserApiFetchParamCreator = function UserApiFetchParamCreator(configur
       delete localVarUrlObj.search;
       localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
       var needsSerialization = typeof body !== "string" || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-      localVarRequestOptions.body = needsSerialization ? JSON.stringify(body != null ? body : {}) : body || "";
+      localVarRequestOptions.body = needsSerialization ? JSON.stringify(body) : body;
       return {
         url: url.format(localVarUrlObj),
         options: localVarRequestOptions
@@ -985,7 +985,7 @@ export var UserApiFetchParamCreator = function UserApiFetchParamCreator(configur
       delete localVarUrlObj.search;
       localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
       var needsSerialization = typeof body !== "string" || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-      localVarRequestOptions.body = needsSerialization ? JSON.stringify(body != null ? body : {}) : body || "";
+      localVarRequestOptions.body = needsSerialization ? JSON.stringify(body) : body;
       return {
         url: url.format(localVarUrlObj),
         options: localVarRequestOptions
