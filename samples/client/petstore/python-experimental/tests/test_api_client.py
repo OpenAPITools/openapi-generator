@@ -29,10 +29,10 @@ class ApiClientTests(unittest.TestCase):
         config = petstore_api.Configuration()
         config.host = 'http://localhost/'
 
-        config.api_key['api_key'] = {'value': '123456', 'prefix': 'PREFIX'}
+        config.api_key['api_key'] = {'value': '123456', 'prefix': 'PREFIX='}
         # api key prefix used to be set with the api_key_prefix attribute.
         # Now the key prefix is set in the 'api_key' dictionary.
-        #config.api_key_prefix['api_key'] = 'PREFIX'
+        #config.api_key_prefix['api_key'] = 'PREFIX='
         config.username = 'test_username'
         config.password = 'test_password'
 
@@ -43,7 +43,7 @@ class ApiClientTests(unittest.TestCase):
         client = petstore_api.ApiClient(config)
 
         # test prefix
-        self.assertEqual('PREFIX', client.configuration.api_key['api_key']['prefix'])
+        self.assertEqual('PREFIX=', client.configuration.api_key['api_key']['prefix'])
 
         # update parameters based on auth setting
         client.update_params_for_auth(header_params, query_params, auth_settings)
