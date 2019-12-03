@@ -72,8 +72,6 @@ abstract class AbstractFakeApi
         $body = $request->getParsedBody();
         $message = "How about implementing createXmlItem as a POST method in OpenAPIServer\Api\FakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -93,8 +91,6 @@ abstract class AbstractFakeApi
         $body = $request->getParsedBody();
         $message = "How about implementing fakeOuterBooleanSerialize as a POST method in OpenAPIServer\Api\FakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -114,8 +110,6 @@ abstract class AbstractFakeApi
         $body = $request->getParsedBody();
         $message = "How about implementing fakeOuterCompositeSerialize as a POST method in OpenAPIServer\Api\FakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -135,8 +129,6 @@ abstract class AbstractFakeApi
         $body = $request->getParsedBody();
         $message = "How about implementing fakeOuterNumberSerialize as a POST method in OpenAPIServer\Api\FakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -156,8 +148,6 @@ abstract class AbstractFakeApi
         $body = $request->getParsedBody();
         $message = "How about implementing fakeOuterStringSerialize as a POST method in OpenAPIServer\Api\FakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -176,8 +166,6 @@ abstract class AbstractFakeApi
         $body = $request->getParsedBody();
         $message = "How about implementing testBodyWithFileSchema as a PUT method in OpenAPIServer\Api\FakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -197,8 +185,6 @@ abstract class AbstractFakeApi
         $body = $request->getParsedBody();
         $message = "How about implementing testBodyWithQueryParams as a PUT method in OpenAPIServer\Api\FakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -219,8 +205,6 @@ abstract class AbstractFakeApi
         $body = $request->getParsedBody();
         $message = "How about implementing testClientModel as a PATCH method in OpenAPIServer\Api\FakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -253,8 +237,6 @@ abstract class AbstractFakeApi
         $callback = $request->getParsedBodyParam('callback');
         $message = "How about implementing testEndpointParameters as a POST method in OpenAPIServer\Api\FakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -283,8 +265,6 @@ abstract class AbstractFakeApi
         $enumFormString = $request->getParsedBodyParam('enum_form_string');
         $message = "How about implementing testEnumParameters as a GET method in OpenAPIServer\Api\FakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -311,8 +291,6 @@ abstract class AbstractFakeApi
         $int64Group = $request->getQueryParam('int64_group');
         $message = "How about implementing testGroupParameters as a DELETE method in OpenAPIServer\Api\FakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -331,8 +309,6 @@ abstract class AbstractFakeApi
         $body = $request->getParsedBody();
         $message = "How about implementing testInlineAdditionalProperties as a POST method in OpenAPIServer\Api\FakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -352,8 +328,6 @@ abstract class AbstractFakeApi
         $param2 = $request->getParsedBodyParam('param2');
         $message = "How about implementing testJsonFormData as a GET method in OpenAPIServer\Api\FakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -377,7 +351,5 @@ abstract class AbstractFakeApi
         $context = $request->getQueryParam('context');
         $message = "How about implementing testQueryParameterCollectionFormat as a PUT method in OpenAPIServer\Api\FakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 }

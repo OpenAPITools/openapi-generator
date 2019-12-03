@@ -156,21 +156,6 @@ class DefaultApi
                         $response->getHeaders()
                     ];
             }
-
-            $returnType = '\OpenAPI\Client\Model\InlineResponseDefault';
-            $responseBody = $response->getBody();
-            if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
-            } else {
-                $content = $responseBody->getContents();
-            }
-
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 default:

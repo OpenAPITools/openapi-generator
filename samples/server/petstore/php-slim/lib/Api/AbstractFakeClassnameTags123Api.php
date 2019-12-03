@@ -73,7 +73,5 @@ abstract class AbstractFakeClassnameTags123Api
         $body = $request->getParsedBody();
         $message = "How about implementing testClassname as a PATCH method in OpenAPIServer\Api\FakeClassnameTags123Api class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 }

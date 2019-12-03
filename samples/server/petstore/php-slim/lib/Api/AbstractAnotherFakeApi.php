@@ -73,7 +73,5 @@ abstract class AbstractAnotherFakeApi
         $body = $request->getParsedBody();
         $message = "How about implementing call123TestSpecialTags as a PATCH method in OpenAPIServer\Api\AnotherFakeApi class?";
         throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
     }
 }
