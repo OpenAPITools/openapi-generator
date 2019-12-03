@@ -114,15 +114,15 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        let responseType: any = undefined;
-        if(httpHeaderAcceptSelected !== undefined) {
-            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
         }
 
         return this.httpClient.post<any>(`${this.configuration.basePath}/user`,
             body,
             {
-                responseType: responseType,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -165,15 +165,15 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        let responseType: any = undefined;
-        if(httpHeaderAcceptSelected !== undefined) {
-            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
         }
 
         return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithArray`,
             body,
             {
-                responseType: responseType,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -216,15 +216,15 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        let responseType: any = undefined;
-        if(httpHeaderAcceptSelected !== undefined) {
-            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
         }
 
         return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithList`,
             body,
             {
-                responseType: responseType,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -260,14 +260,14 @@ export class UserService {
         }
 
 
-        let responseType: any = undefined;
-        if(httpHeaderAcceptSelected !== undefined) {
-            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
         }
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             {
-                responseType: responseType,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -304,14 +304,14 @@ export class UserService {
         }
 
 
-        let responseType: any = undefined;
-        if(httpHeaderAcceptSelected !== undefined) {
-            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
         }
 
         return this.httpClient.get<User>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             {
-                responseType: responseType,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -360,15 +360,15 @@ export class UserService {
         }
 
 
-        let responseType: any = undefined;
-        if(httpHeaderAcceptSelected !== undefined) {
-            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
         }
 
         return this.httpClient.get<string>(`${this.configuration.basePath}/user/login`,
             {
                 params: queryParameters,
-                responseType: responseType,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -398,14 +398,14 @@ export class UserService {
         }
 
 
-        let responseType: any = undefined;
-        if(httpHeaderAcceptSelected !== undefined) {
-            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
         }
 
         return this.httpClient.get<any>(`${this.configuration.basePath}/user/logout`,
             {
-                responseType: responseType,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -453,15 +453,15 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        let responseType: any = undefined;
-        if(httpHeaderAcceptSelected !== undefined) {
-            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
         }
 
         return this.httpClient.put<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
             body,
             {
-                responseType: responseType,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

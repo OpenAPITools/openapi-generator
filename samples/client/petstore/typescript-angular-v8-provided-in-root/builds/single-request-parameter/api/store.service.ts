@@ -88,14 +88,14 @@ export class StoreService {
         }
 
 
-        let responseType: any = undefined;
-        if(httpHeaderAcceptSelected !== undefined) {
-            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
         }
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
-                responseType: responseType,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -132,14 +132,14 @@ export class StoreService {
         }
 
 
-        let responseType: any = undefined;
-        if(httpHeaderAcceptSelected !== undefined) {
-            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
         }
 
         return this.httpClient.get<{ [key: string]: number; }>(`${this.configuration.basePath}/store/inventory`,
             {
-                responseType: responseType,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -177,14 +177,14 @@ export class StoreService {
         }
 
 
-        let responseType: any = undefined;
-        if(httpHeaderAcceptSelected !== undefined) {
-            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
         }
 
         return this.httpClient.get<Order>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
             {
-                responseType: responseType,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -229,15 +229,15 @@ export class StoreService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        let responseType: any = undefined;
-        if(httpHeaderAcceptSelected !== undefined) {
-            responseType = httpHeaderAcceptSelected.startsWith('text') ? 'text' : 'json';
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
         }
 
         return this.httpClient.post<Order>(`${this.configuration.basePath}/store/order`,
             body,
             {
-                responseType: responseType,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
