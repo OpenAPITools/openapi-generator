@@ -48,6 +48,7 @@ type Configuration struct {
 	Scheme        string            `json:"scheme,omitempty"`
 	DefaultHeader map[string]string `json:"defaultHeader,omitempty"`
 	UserAgent     string            `json:"userAgent,omitempty"`
+	Debug         bool              `json:"debug,omitempty"`
 	HTTPClient    *http.Client
 }
 
@@ -57,6 +58,7 @@ func NewConfiguration() *Configuration {
 		BasePath:      "{{{basePath}}}",
 		DefaultHeader: make(map[string]string),
 		UserAgent:     "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/go{{/httpUserAgent}}",
+		Debug:         false,
 	}
 	return cfg
 }
