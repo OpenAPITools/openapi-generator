@@ -36,6 +36,13 @@ public interface FakeClassnameTestApi {
         return Optional.empty();
     }
 
+    /**
+     * PATCH /fake_classname_test : To test class name in snake case
+     * To test class name in snake case
+     *
+     * @param body client model (required)
+     * @return the response
+     */
     @ApiOperation(value = "To test class name in snake case", nickname = "testClassname", notes = "To test class name in snake case", response = Client.class, authorizations = {
         @Authorization(value = "api_key_query")
     }, tags={ "fake_classname_tags 123#$%^", })

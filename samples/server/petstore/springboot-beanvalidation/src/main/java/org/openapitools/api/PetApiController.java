@@ -33,16 +33,39 @@ public class PetApiController implements PetApi {
         this.request = request;
     }
 
+    /**
+     * POST /pet : Add a new pet to the store
+     *
+     * @param body Pet object that needs to be added to the store (required)
+     * @return the response
+     * @see PetApi#addPet
+     */
     public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
+    /**
+     * DELETE /pet/{petId} : Deletes a pet
+     *
+     * @param petId Pet id to delete (required)
+     * @param apiKey  (optional)
+     * @return the response
+     * @see PetApi#deletePet
+     */
     public ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
+    /**
+     * GET /pet/findByStatus : Finds Pets by status
+     * Multiple status values can be provided with comma separated strings
+     *
+     * @param status Status values that need to be considered for filter (required)
+     * @return the response
+     * @see PetApi#findPetsByStatus
+     */
     public ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -60,6 +83,15 @@ public class PetApiController implements PetApi {
 
     }
 
+    /**
+     * GET /pet/findByTags : Finds Pets by tags
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     *
+     * @param tags Tags to filter by (required)
+     * @return the response
+     * @deprecated
+     * @see PetApi#findPetsByTags
+     */
     public ResponseEntity<List<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -77,6 +109,14 @@ public class PetApiController implements PetApi {
 
     }
 
+    /**
+     * GET /pet/{petId} : Find pet by ID
+     * Returns a single pet
+     *
+     * @param petId ID of pet to return (required)
+     * @return the response
+     * @see PetApi#getPetById
+     */
     public ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return",required=true) @PathVariable("petId") Long petId) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -94,16 +134,41 @@ public class PetApiController implements PetApi {
 
     }
 
+    /**
+     * PUT /pet : Update an existing pet
+     *
+     * @param body Pet object that needs to be added to the store (required)
+     * @return the response
+     * @see PetApi#updatePet
+     */
     public ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
+    /**
+     * POST /pet/{petId} : Updates a pet in the store with form data
+     *
+     * @param petId ID of pet that needs to be updated (required)
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
+     * @return the response
+     * @see PetApi#updatePetWithForm
+     */
     public ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet") @RequestParam(value="status", required=false)  String status) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
+    /**
+     * POST /pet/{petId}/uploadImage : uploads an image
+     *
+     * @param petId ID of pet to update (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
+     * @return the response
+     * @see PetApi#uploadFile
+     */
     public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

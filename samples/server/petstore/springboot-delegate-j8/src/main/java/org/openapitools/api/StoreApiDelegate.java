@@ -25,6 +25,11 @@ public interface StoreApiDelegate {
     }
 
     /**
+     * DELETE /store/order/{order_id} : Delete purchase order by ID
+     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     *
+     * @param orderId ID of the order that needs to be deleted (required)
+     * @return the response
      * @see StoreApi#deleteOrder
      */
     default ResponseEntity<Void> deleteOrder(String orderId) {
@@ -33,6 +38,10 @@ public interface StoreApiDelegate {
     }
 
     /**
+     * GET /store/inventory : Returns pet inventories by status
+     * Returns a map of status codes to quantities
+     *
+     * @return the response
      * @see StoreApi#getInventory
      */
     default ResponseEntity<Map<String, Integer>> getInventory() {
@@ -41,6 +50,11 @@ public interface StoreApiDelegate {
     }
 
     /**
+     * GET /store/order/{order_id} : Find purchase order by ID
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     *
+     * @param orderId ID of pet that needs to be fetched (required)
+     * @return the response
      * @see StoreApi#getOrderById
      */
     default ResponseEntity<Order> getOrderById(Long orderId) {
@@ -63,6 +77,10 @@ public interface StoreApiDelegate {
     }
 
     /**
+     * POST /store/order : Place an order for a pet
+     *
+     * @param body order placed for purchasing the pet (required)
+     * @return the response
      * @see StoreApi#placeOrder
      */
     default ResponseEntity<Order> placeOrder(Order body) {

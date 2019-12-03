@@ -33,6 +33,12 @@ public interface PetApi {
         return new PetApiDelegate() {};
     }
 
+    /**
+     * POST /pet : Add a new pet to the store
+     *
+     * @param body Pet object that needs to be added to the store (required)
+     * @return the response
+     */
     @ApiOperation(value = "Add a new pet to the store", nickname = "addPet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -50,6 +56,13 @@ public interface PetApi {
     }
 
 
+    /**
+     * DELETE /pet/{petId} : Deletes a pet
+     *
+     * @param petId Pet id to delete (required)
+     * @param apiKey  (optional)
+     * @return the response
+     */
     @ApiOperation(value = "Deletes a pet", nickname = "deletePet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -66,6 +79,13 @@ public interface PetApi {
     }
 
 
+    /**
+     * GET /pet/findByStatus : Finds Pets by status
+     * Multiple status values can be provided with comma separated strings
+     *
+     * @param status Status values that need to be considered for filter (required)
+     * @return the response
+     */
     @ApiOperation(value = "Finds Pets by status", nickname = "findPetsByStatus", notes = "Multiple status values can be provided with comma separated strings", response = Pet.class, responseContainer = "List", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -83,6 +103,14 @@ public interface PetApi {
     }
 
 
+    /**
+     * GET /pet/findByTags : Finds Pets by tags
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     *
+     * @param tags Tags to filter by (required)
+     * @return the response
+     * @deprecated
+     */
     @ApiOperation(value = "Finds Pets by tags", nickname = "findPetsByTags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -100,6 +128,13 @@ public interface PetApi {
     }
 
 
+    /**
+     * GET /pet/{petId} : Find pet by ID
+     * Returns a single pet
+     *
+     * @param petId ID of pet to return (required)
+     * @return the response
+     */
     @ApiOperation(value = "Find pet by ID", nickname = "getPetById", notes = "Returns a single pet", response = Pet.class, authorizations = {
         @Authorization(value = "api_key")
     }, tags={ "pet", })
@@ -115,6 +150,12 @@ public interface PetApi {
     }
 
 
+    /**
+     * PUT /pet : Update an existing pet
+     *
+     * @param body Pet object that needs to be added to the store (required)
+     * @return the response
+     */
     @ApiOperation(value = "Update an existing pet", nickname = "updatePet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -134,6 +175,14 @@ public interface PetApi {
     }
 
 
+    /**
+     * POST /pet/{petId} : Updates a pet in the store with form data
+     *
+     * @param petId ID of pet that needs to be updated (required)
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
+     * @return the response
+     */
     @ApiOperation(value = "Updates a pet in the store with form data", nickname = "updatePetWithForm", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -150,6 +199,14 @@ public interface PetApi {
     }
 
 
+    /**
+     * POST /pet/{petId}/uploadImage : uploads an image
+     *
+     * @param petId ID of pet to update (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
+     * @return the response
+     */
     @ApiOperation(value = "uploads an image", nickname = "uploadFile", notes = "", response = ModelApiResponse.class, authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),

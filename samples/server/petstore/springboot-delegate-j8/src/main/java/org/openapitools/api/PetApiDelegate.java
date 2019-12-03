@@ -26,6 +26,10 @@ public interface PetApiDelegate {
     }
 
     /**
+     * POST /pet : Add a new pet to the store
+     *
+     * @param body Pet object that needs to be added to the store (required)
+     * @return the response
      * @see PetApi#addPet
      */
     default ResponseEntity<Void> addPet(Pet body) {
@@ -34,6 +38,11 @@ public interface PetApiDelegate {
     }
 
     /**
+     * DELETE /pet/{petId} : Deletes a pet
+     *
+     * @param petId Pet id to delete (required)
+     * @param apiKey  (optional)
+     * @return the response
      * @see PetApi#deletePet
      */
     default ResponseEntity<Void> deletePet(Long petId,
@@ -43,6 +52,11 @@ public interface PetApiDelegate {
     }
 
     /**
+     * GET /pet/findByStatus : Finds Pets by status
+     * Multiple status values can be provided with comma separated strings
+     *
+     * @param status Status values that need to be considered for filter (required)
+     * @return the response
      * @see PetApi#findPetsByStatus
      */
     default ResponseEntity<List<Pet>> findPetsByStatus(List<String> status) {
@@ -65,6 +79,12 @@ public interface PetApiDelegate {
     }
 
     /**
+     * GET /pet/findByTags : Finds Pets by tags
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     *
+     * @param tags Tags to filter by (required)
+     * @return the response
+     * @deprecated
      * @see PetApi#findPetsByTags
      */
     default ResponseEntity<List<Pet>> findPetsByTags(List<String> tags) {
@@ -87,6 +107,11 @@ public interface PetApiDelegate {
     }
 
     /**
+     * GET /pet/{petId} : Find pet by ID
+     * Returns a single pet
+     *
+     * @param petId ID of pet to return (required)
+     * @return the response
      * @see PetApi#getPetById
      */
     default ResponseEntity<Pet> getPetById(Long petId) {
@@ -109,6 +134,10 @@ public interface PetApiDelegate {
     }
 
     /**
+     * PUT /pet : Update an existing pet
+     *
+     * @param body Pet object that needs to be added to the store (required)
+     * @return the response
      * @see PetApi#updatePet
      */
     default ResponseEntity<Void> updatePet(Pet body) {
@@ -117,6 +146,12 @@ public interface PetApiDelegate {
     }
 
     /**
+     * POST /pet/{petId} : Updates a pet in the store with form data
+     *
+     * @param petId ID of pet that needs to be updated (required)
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
+     * @return the response
      * @see PetApi#updatePetWithForm
      */
     default ResponseEntity<Void> updatePetWithForm(Long petId,
@@ -127,6 +162,12 @@ public interface PetApiDelegate {
     }
 
     /**
+     * POST /pet/{petId}/uploadImage : uploads an image
+     *
+     * @param petId ID of pet to update (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
+     * @return the response
      * @see PetApi#uploadFile
      */
     default ResponseEntity<ModelApiResponse> uploadFile(Long petId,

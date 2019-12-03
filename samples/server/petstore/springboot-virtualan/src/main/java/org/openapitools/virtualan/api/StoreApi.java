@@ -39,6 +39,13 @@ public interface StoreApi {
         return Optional.empty();
     }
 
+    /**
+     * DELETE /store/order/{order_id} : Delete purchase order by ID
+     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     *
+     * @param orderId ID of the order that needs to be deleted (required)
+     * @return the response
+     */
     @ApiVirtual
     @ApiOperation(value = "Delete purchase order by ID", nickname = "deleteOrder", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", tags={ "store", })
     @ApiResponses(value = { 
@@ -52,6 +59,12 @@ public interface StoreApi {
     }
 
 
+    /**
+     * GET /store/inventory : Returns pet inventories by status
+     * Returns a map of status codes to quantities
+     *
+     * @return the response
+     */
     @ApiVirtual
     @ApiOperation(value = "Returns pet inventories by status", nickname = "getInventory", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map", authorizations = {
         @Authorization(value = "api_key")
@@ -67,6 +80,13 @@ public interface StoreApi {
     }
 
 
+    /**
+     * GET /store/order/{order_id} : Find purchase order by ID
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     *
+     * @param orderId ID of pet that needs to be fetched (required)
+     * @return the response
+     */
     @ApiVirtual
     @ApiOperation(value = "Find purchase order by ID", nickname = "getOrderById", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions", response = Order.class, tags={ "store", })
     @ApiResponses(value = { 
@@ -96,6 +116,12 @@ public interface StoreApi {
     }
 
 
+    /**
+     * POST /store/order : Place an order for a pet
+     *
+     * @param body order placed for purchasing the pet (required)
+     * @return the response
+     */
     @ApiVirtual
     @ApiOperation(value = "Place an order for a pet", nickname = "placeOrder", notes = "", response = Order.class, tags={ "store", })
     @ApiResponses(value = { 

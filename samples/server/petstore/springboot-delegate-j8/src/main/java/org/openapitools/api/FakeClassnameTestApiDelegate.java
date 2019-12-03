@@ -24,6 +24,11 @@ public interface FakeClassnameTestApiDelegate {
     }
 
     /**
+     * PATCH /fake_classname_test : To test class name in snake case
+     * To test class name in snake case
+     *
+     * @param body client model (required)
+     * @return the response
      * @see FakeClassnameTestApi#testClassname
      */
     default ResponseEntity<Client> testClassname(Client body) {

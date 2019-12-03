@@ -32,16 +32,39 @@ public class StoreApiController implements StoreApi {
         this.request = request;
     }
 
+    /**
+     * DELETE /store/order/{order_id} : Delete purchase order by ID
+     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     *
+     * @param orderId ID of the order that needs to be deleted (required)
+     * @return the response
+     * @see StoreApi#deleteOrder
+     */
     public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
+    /**
+     * GET /store/inventory : Returns pet inventories by status
+     * Returns a map of status codes to quantities
+     *
+     * @return the response
+     * @see StoreApi#getInventory
+     */
     public ResponseEntity<Map<String, Integer>> getInventory() {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
+    /**
+     * GET /store/order/{order_id} : Find purchase order by ID
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     *
+     * @param orderId ID of pet that needs to be fetched (required)
+     * @return the response
+     * @see StoreApi#getOrderById
+     */
     public ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -59,6 +82,13 @@ public class StoreApiController implements StoreApi {
 
     }
 
+    /**
+     * POST /store/order : Place an order for a pet
+     *
+     * @param body order placed for purchasing the pet (required)
+     * @return the response
+     * @see StoreApi#placeOrder
+     */
     public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

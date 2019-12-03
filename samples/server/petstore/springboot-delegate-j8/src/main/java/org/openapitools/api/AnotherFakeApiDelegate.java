@@ -24,6 +24,11 @@ public interface AnotherFakeApiDelegate {
     }
 
     /**
+     * PATCH /another-fake/dummy : To test special tags
+     * To test special tags and operation ID starting with number
+     *
+     * @param body client model (required)
+     * @return the response
      * @see AnotherFakeApi#call123testSpecialTags
      */
     default ResponseEntity<Client> call123testSpecialTags(Client body) {
