@@ -30,5 +30,3 @@ export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="generate -t modules/openapi-generator/src/main/resources/kotlin-client -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g kotlin --artifact-id kotlin-petstore-retrofit2 --library retrofit2 -o samples/client/petstore/kotlin-retrofit2 $@"
 
 java ${JAVA_OPTS} -jar ${executable} ${ags}
-
-cp CI/samples.ci/client/petstore/kotlin-threetenbp/pom.xml samples/client/petstore/kotlin-threetenbp/pom.xml
