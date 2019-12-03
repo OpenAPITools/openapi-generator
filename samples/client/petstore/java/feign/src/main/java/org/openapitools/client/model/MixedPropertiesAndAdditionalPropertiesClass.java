@@ -37,7 +37,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@java.lang.Deprecated
 @javax.annotation.concurrent.Immutable
 
 public class MixedPropertiesAndAdditionalPropertiesClass {

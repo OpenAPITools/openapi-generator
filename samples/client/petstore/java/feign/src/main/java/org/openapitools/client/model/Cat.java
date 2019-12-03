@@ -31,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   Cat.JSON_PROPERTY_DECLAWED
 })
-@java.lang.Deprecated
 @javax.annotation.concurrent.Immutable
 
 public class Cat extends Animal {

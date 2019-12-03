@@ -20,7 +20,6 @@ import javax.validation.constraints.*;
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
 })
-@java.lang.Deprecated
 
 public class Animal   {
   @JsonProperty("className")

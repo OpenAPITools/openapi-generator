@@ -13,7 +13,6 @@
 /**
  * A tag for a pet
  */
-
 public class OASTag {
     /**
      * Get id

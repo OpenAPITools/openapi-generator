@@ -17,7 +17,6 @@ import javax.validation.constraints.*;
 /**
  * Pet
  */
-@java.lang.Deprecated
 
 public class Pet   {
   @JsonProperty("id")

@@ -30,7 +30,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   ModelReturn.JSON_PROPERTY_RETURN
 })
-@java.lang.Deprecated
 @javax.annotation.concurrent.Immutable
 
 public class ModelReturn {

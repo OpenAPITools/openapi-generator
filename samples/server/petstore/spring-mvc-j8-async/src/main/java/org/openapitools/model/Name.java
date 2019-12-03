@@ -13,7 +13,6 @@ import javax.validation.constraints.*;
  * Model for testing model name same as property name
  */
 @ApiModel(description = "Model for testing model name same as property name")
-@java.lang.Deprecated
 
 public class Name   {
   @JsonProperty("name")

@@ -29,7 +29,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-@java.lang.Deprecated
 
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";

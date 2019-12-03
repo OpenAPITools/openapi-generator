@@ -13,7 +13,6 @@ import javax.validation.constraints.*;
 /**
  * OuterComposite
  */
-@java.lang.Deprecated
 
 public class OuterComposite   {
   @JsonProperty("my_number")

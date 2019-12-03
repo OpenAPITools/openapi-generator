@@ -31,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Model200Response.JSON_PROPERTY_NAME,
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
-@java.lang.Deprecated
 @javax.annotation.concurrent.Immutable
 
 public class Model200Response {

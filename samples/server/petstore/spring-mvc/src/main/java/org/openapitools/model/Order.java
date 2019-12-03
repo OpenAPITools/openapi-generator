@@ -14,7 +14,6 @@ import javax.validation.constraints.*;
 /**
  * Order
  */
-@java.lang.Deprecated
 
 public class Order   {
   @JsonProperty("id")

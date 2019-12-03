@@ -15,7 +15,6 @@ import javax.validation.constraints.*;
 /**
  * EnumArrays
  */
-@java.lang.Deprecated
 
 public class EnumArrays   {
   /**

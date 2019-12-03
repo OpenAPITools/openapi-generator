@@ -35,7 +35,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@java.lang.Deprecated
 @javax.annotation.concurrent.Immutable
 
 public class MapTest {

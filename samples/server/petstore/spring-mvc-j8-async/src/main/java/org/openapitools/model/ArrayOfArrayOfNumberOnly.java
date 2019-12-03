@@ -15,7 +15,6 @@ import javax.validation.constraints.*;
 /**
  * ArrayOfArrayOfNumberOnly
  */
-@java.lang.Deprecated
 
 public class ArrayOfArrayOfNumberOnly   {
   @JsonProperty("ArrayArrayNumber")

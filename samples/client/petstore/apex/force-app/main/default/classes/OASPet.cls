@@ -13,7 +13,6 @@
 /**
  * A pet for sale in the pet store
  */
-
 public class OASPet {
     /**
      * Get id

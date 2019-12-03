@@ -13,7 +13,6 @@
 /**
  * An order for a pets from the pet store
  */
-
 public class OASOrder {
     /**
      * Get id

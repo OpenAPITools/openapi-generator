@@ -12,7 +12,6 @@ import javax.validation.constraints.*;
 /**
  * ModelApiResponse
  */
-@java.lang.Deprecated
 
 public class ModelApiResponse   {
   @JsonProperty("code")

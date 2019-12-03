@@ -13,7 +13,6 @@ import javax.validation.constraints.*;
  * Model for testing model name starting with number
  */
 @ApiModel(description = "Model for testing model name starting with number")
-@java.lang.Deprecated
 
 public class Model200Response   {
   @JsonProperty("name")

@@ -35,7 +35,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@java.lang.Deprecated
 @javax.annotation.concurrent.Immutable
 
 public class Order {

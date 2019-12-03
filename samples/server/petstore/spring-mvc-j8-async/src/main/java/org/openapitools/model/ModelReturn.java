@@ -13,7 +13,6 @@ import javax.validation.constraints.*;
  * Model for testing reserved words
  */
 @ApiModel(description = "Model for testing reserved words")
-@java.lang.Deprecated
 
 public class ModelReturn   {
   @JsonProperty("return")

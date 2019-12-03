@@ -32,7 +32,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   AdditionalPropertiesArray.JSON_PROPERTY_NAME
 })
-@java.lang.Deprecated
 @javax.annotation.concurrent.Immutable
 
 public class AdditionalPropertiesArray extends HashMap<String, List> {

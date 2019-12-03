@@ -12,7 +12,6 @@ import javax.validation.constraints.*;
 /**
  * User
  */
-@java.lang.Deprecated
 
 public class User   {
   @JsonProperty("id")

@@ -14,7 +14,6 @@ import javax.validation.constraints.*;
 /**
  * EnumTest
  */
-@java.lang.Deprecated
 
 public class EnumTest   {
   /**

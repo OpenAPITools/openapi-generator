@@ -14,7 +14,6 @@ import javax.validation.constraints.*;
 /**
  * AdditionalPropertiesAnyType
  */
-@java.lang.Deprecated
 
 public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
   @JsonProperty("name")

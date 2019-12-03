@@ -15,7 +15,6 @@ import javax.validation.constraints.*;
 /**
  * TypeHolderDefault
  */
-@java.lang.Deprecated
 
 public class TypeHolderDefault   {
   @JsonProperty("string_item")

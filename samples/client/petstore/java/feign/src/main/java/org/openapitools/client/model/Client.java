@@ -29,7 +29,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-@java.lang.Deprecated
 @javax.annotation.concurrent.Immutable
 
 public class Client {

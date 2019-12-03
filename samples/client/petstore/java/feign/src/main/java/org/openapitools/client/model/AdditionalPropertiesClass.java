@@ -43,7 +43,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
 })
-@java.lang.Deprecated
 @javax.annotation.concurrent.Immutable
 
 public class AdditionalPropertiesClass {

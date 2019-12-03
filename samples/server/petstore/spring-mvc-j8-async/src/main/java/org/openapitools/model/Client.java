@@ -12,7 +12,6 @@ import javax.validation.constraints.*;
 /**
  * Client
  */
-@java.lang.Deprecated
 
 public class Client   {
   @JsonProperty("client")

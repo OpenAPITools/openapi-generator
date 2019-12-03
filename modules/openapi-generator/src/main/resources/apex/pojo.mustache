@@ -1,7 +1,6 @@
 /**
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
- */
-{{>additionalModelTypeAnnotations}}
+ */{{>additionalModelTypeAnnotations}}
 public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfaces}}{{#-first}} implements {{/-first}}{{^-first}}, {{/-first}}{{.}}{{/interfaces}} {
   {{#vars}}
     {{#isEnum}}

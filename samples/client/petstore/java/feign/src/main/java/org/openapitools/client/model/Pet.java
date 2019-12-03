@@ -38,7 +38,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@java.lang.Deprecated
 @javax.annotation.concurrent.Immutable
 
 public class Pet {

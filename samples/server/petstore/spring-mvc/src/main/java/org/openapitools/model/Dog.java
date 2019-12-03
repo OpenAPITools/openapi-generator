@@ -14,7 +14,6 @@ import javax.validation.constraints.*;
 /**
  * Dog
  */
-@java.lang.Deprecated
 
 public class Dog extends Animal  {
   @JsonProperty("breed")

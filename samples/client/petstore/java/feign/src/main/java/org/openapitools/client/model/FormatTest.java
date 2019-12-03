@@ -47,7 +47,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   FormatTest.JSON_PROPERTY_PASSWORD,
   FormatTest.JSON_PROPERTY_BIG_DECIMAL
 })
-@java.lang.Deprecated
 @javax.annotation.concurrent.Immutable
 
 public class FormatTest {
