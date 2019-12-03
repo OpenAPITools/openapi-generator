@@ -25,6 +25,7 @@ Method | HTTP request | Description
 
 > createXmlItem(xmlItem)
 
+
 creates an XmlItem
 
 this route creates an XmlItem
@@ -46,8 +47,10 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         XmlItem xmlItem = new XmlItem(); // XmlItem | XmlItem Body
-        try {
+        try { 
             apiInstance.createXmlItem(xmlItem);
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#createXmlItem");
             System.err.println("Status code: " + e.getCode());
@@ -91,6 +94,7 @@ No authorization required
 
 
 
+
 Test serialization of outer boolean types
 
 ### Example
@@ -110,8 +114,9 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Boolean body = true; // Boolean | Input boolean as post body
-        try {
+        try { 
             Boolean result = apiInstance.fakeOuterBooleanSerialize(body);
+            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterBooleanSerialize");
@@ -156,6 +161,7 @@ No authorization required
 
 
 
+
 Test serialization of object with outer number type
 
 ### Example
@@ -175,8 +181,9 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         OuterComposite body = new OuterComposite(); // OuterComposite | Input composite as post body
-        try {
+        try { 
             OuterComposite result = apiInstance.fakeOuterCompositeSerialize(body);
+            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterCompositeSerialize");
@@ -221,6 +228,7 @@ No authorization required
 
 
 
+
 Test serialization of outer number types
 
 ### Example
@@ -240,8 +248,9 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         BigDecimal body = new BigDecimal(); // BigDecimal | Input number as post body
-        try {
+        try { 
             BigDecimal result = apiInstance.fakeOuterNumberSerialize(body);
+            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterNumberSerialize");
@@ -286,6 +295,7 @@ No authorization required
 
 
 
+
 Test serialization of outer string types
 
 ### Example
@@ -305,8 +315,9 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         String body = "body_example"; // String | Input string as post body
-        try {
+        try { 
             String result = apiInstance.fakeOuterStringSerialize(body);
+            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterStringSerialize");
@@ -351,6 +362,7 @@ No authorization required
 
 
 
+
 For this test, the body for this request much reference a schema named &#x60;File&#x60;.
 
 ### Example
@@ -370,8 +382,10 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         FileSchemaTestClass body = new FileSchemaTestClass(); // FileSchemaTestClass | 
-        try {
+        try { 
             apiInstance.testBodyWithFileSchema(body);
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testBodyWithFileSchema");
             System.err.println("Status code: " + e.getCode());
@@ -415,6 +429,7 @@ No authorization required
 
 
 
+
 ### Example
 
 ```java
@@ -433,8 +448,10 @@ public class Example {
         FakeApi apiInstance = new FakeApi(defaultClient);
         String query = "query_example"; // String | 
         User body = new User(); // User | 
-        try {
+        try { 
             apiInstance.testBodyWithQueryParams(query, body);
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testBodyWithQueryParams");
             System.err.println("Status code: " + e.getCode());
@@ -477,6 +494,7 @@ No authorization required
 
 > Client testClientModel(body)
 
+
 To test \&quot;client\&quot; model
 
 To test \&quot;client\&quot; model
@@ -498,8 +516,9 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Client body = new Client(); // Client | client model
-        try {
+        try { 
             Client result = apiInstance.testClientModel(body);
+            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testClientModel");
@@ -582,8 +601,10 @@ public class Example {
         OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
-        try {
+        try { 
             apiInstance.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testEndpointParameters");
             System.err.println("Status code: " + e.getCode());
@@ -639,6 +660,7 @@ null (empty response body)
 
 > testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
 
+
 To test enum parameters
 
 To test enum parameters
@@ -667,8 +689,10 @@ public class Example {
         Double enumQueryDouble = 3.4D; // Double | Query parameter enum test (double)
         List<String> enumFormStringArray = "$"; // List<String> | Form parameter enum test (string array)
         String enumFormString = "-efg"; // String | Form parameter enum test (string)
-        try {
+        try { 
             apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testEnumParameters");
             System.err.println("Status code: " + e.getCode());
@@ -716,7 +740,8 @@ No authorization required
 
 ## testGroupParameters
 
-> testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group)
+
+> testGroupParameters().requiredStringGroup(requiredStringGroup).requiredBooleanGroup(requiredBooleanGroup).requiredInt64Group(requiredInt64Group).stringGroup(stringGroup).booleanGroup(booleanGroup).int64Group(int64Group).execute();
 
 Fake endpoint to test group parameters (optional)
 
@@ -744,8 +769,16 @@ public class Example {
         Integer stringGroup = 56; // Integer | String in group parameters
         Boolean booleanGroup = true; // Boolean | Boolean in group parameters
         Long int64Group = 56L; // Long | Integer in group parameters
-        try {
-            apiInstance.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+        try { 
+            api.testGroupParameters()
+                .requiredStringGroup(requiredStringGroup)
+                .requiredBooleanGroup(requiredBooleanGroup)
+                .requiredInt64Group(requiredInt64Group)
+                .stringGroup(stringGroup)
+                .booleanGroup(booleanGroup)
+                .int64Group(int64Group)
+                .execute();
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testGroupParameters");
             System.err.println("Status code: " + e.getCode());
@@ -792,6 +825,7 @@ No authorization required
 
 > testInlineAdditionalProperties(param)
 
+
 test inline additionalProperties
 
 ### Example
@@ -811,8 +845,10 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Map<String, String> param = new HashMap(); // Map<String, String> | request body
-        try {
+        try { 
             apiInstance.testInlineAdditionalProperties(param);
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testInlineAdditionalProperties");
             System.err.println("Status code: " + e.getCode());
@@ -854,6 +890,7 @@ No authorization required
 
 > testJsonFormData(param, param2)
 
+
 test json serialization of form data
 
 ### Example
@@ -874,8 +911,10 @@ public class Example {
         FakeApi apiInstance = new FakeApi(defaultClient);
         String param = "param_example"; // String | field1
         String param2 = "param2_example"; // String | field2
-        try {
+        try { 
             apiInstance.testJsonFormData(param, param2);
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testJsonFormData");
             System.err.println("Status code: " + e.getCode());
@@ -920,6 +959,7 @@ No authorization required
 
 
 
+
 To test the collection format in query parameters
 
 ### Example
@@ -943,8 +983,10 @@ public class Example {
         List<String> http = Arrays.asList(); // List<String> | 
         List<String> url = Arrays.asList(); // List<String> | 
         List<String> context = Arrays.asList(); // List<String> | 
-        try {
+        try { 
             apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testQueryParameterCollectionFormat");
             System.err.println("Status code: " + e.getCode());
@@ -984,4 +1026,3 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Success |  -  |
-

@@ -931,6 +931,7 @@ if (booleanGroup != null)
    * Fake endpoint to test group parameters (optional)
    
    * @return testGroupParametersRequest
+   * @throws ApiException if fails to make API call
    
    
    */
