@@ -56,6 +56,8 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 
 [![NamSor](https://openapi-generator.tech/img/companies/namsor.png)](https://www.namsor.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [![LightBow](https://openapi-generator.tech/img/companies/lightbow.png)](https://www.lightbow.net/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[![DocSpring](https://openapi-generator.tech/img/companies/docspring.png)](https://docspring.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+
 
 #### Thank you GoDaddy for sponsoring the domain names and Linode for sponsoring the VPS
 
@@ -583,11 +585,11 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Crossover Health](https://crossoverhealth.com/)
 - [Cupix](https://www.cupix.com/)
 - [DB Systel](https://www.dbsystel.de)
+- [DocSpring](https://docspring.com/)
 - [dwango](https://dwango.co.jp/)
 - [Edge Impulse](https://www.edgeimpulse.com/)
 - [Element AI](https://www.elementai.com/)
 - [Fenergo](https://www.fenergo.com/)
-- [FormAPI](https://formapi.io/)
 - [FreshCells](https://www.freshcells.de/)
 - [Fuse](https://www.fuse.no/)
 - [Gantner](https://www.gantner.com)
