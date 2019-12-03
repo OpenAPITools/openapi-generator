@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public enum EnumClass: String {
     case abc = "_abc"
     case efg = "-efg"

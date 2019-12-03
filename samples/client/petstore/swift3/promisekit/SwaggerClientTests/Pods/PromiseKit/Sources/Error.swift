@@ -82,7 +82,6 @@ public enum JSONError: Error {
     case unexpectedRootNode(Any)
 }
 
-
 //////////////////////////////////////////////////////////// Cancellation
 
 public protocol CancellableError: Error {
@@ -129,11 +128,10 @@ extension NSError {
 private var cancelledErrorIdentifiers = Set([
     ErrorPair(PMKErrorDomain, PMKOperationCancelled),
     ErrorPair(NSCocoaErrorDomain, NSUserCancelledError),
-    ErrorPair(NSURLErrorDomain, NSURLErrorCancelled),
+    ErrorPair(NSURLErrorDomain, NSURLErrorCancelled)
 ])
 
 #endif
-
 
 extension Error {
     public var isCancelledError: Bool {
@@ -149,7 +147,6 @@ extension Error {
         }
     }
 }
-
 
 //////////////////////////////////////////////////////// Unhandled Errors
 class ErrorConsumptionToken {

@@ -33,14 +33,13 @@ extension Observable {
     }
 }
 
-final fileprivate class CombineLatestCollectionTypeSink<C: Collection, O: ObserverType>
-    : Sink<O> where C.Iterator.Element : ObservableConvertibleType {
+final private class CombineLatestCollectionTypeSink<C: Collection, O: ObserverType>: Sink<O> where C.Iterator.Element: ObservableConvertibleType {
     typealias R = O.E
     typealias Parent = CombineLatestCollectionType<C, R>
     typealias SourceElement = C.Iterator.Element.E
-    
+
     let _parent: Parent
-    
+
     let _lock = RecursiveLock()
 
     // state
@@ -49,21 +48,21 @@ final fileprivate class CombineLatestCollectionTypeSink<C: Collection, O: Observ
     var _isDone: [Bool]
     var _numberOfDone = 0
     var _subscriptions: [SingleAssignmentDisposable]
-    
+
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
         _values = [SourceElement?](repeating: nil, count: parent._count)
         _isDone = [Bool](repeating: false, count: parent._count)
-        _subscriptions = Array<SingleAssignmentDisposable>()
+        _subscriptions = [SingleAssignmentDisposable]()
         _subscriptions.reserveCapacity(parent._count)
-        
+
         for _ in 0 ..< parent._count {
             _subscriptions.append(SingleAssignmentDisposable())
         }
-        
+
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func on(_ event: Event<SourceElement>, atIndex: Int) {
         _lock.lock(); defer { _lock.unlock() } // {
             switch event {
@@ -71,9 +70,9 @@ final fileprivate class CombineLatestCollectionTypeSink<C: Collection, O: Observ
                 if _values[atIndex] == nil {
                    _numberOfValues += 1
                 }
-                
+
                 _values[atIndex] = element
-                
+
                 if _numberOfValues < _parent._count {
                     let numberOfOthersThatAreDone = self._numberOfDone - (_isDone[atIndex] ? 1 : 0)
                     if numberOfOthersThatAreDone == self._parent._count - 1 {
@@ -82,16 +81,15 @@ final fileprivate class CombineLatestCollectionTypeSink<C: Collection, O: Observ
                     }
                     return
                 }
-                
+
                 do {
                     let result = try _parent._resultSelector(_values.map { $0! })
                     forwardOn(.next(result))
-                }
-                catch let error {
+                } catch let error {
                     forwardOn(.error(error))
                     dispose()
                 }
-                
+
             case .error(let error):
                 forwardOn(.error(error))
                 dispose()
@@ -99,21 +97,20 @@ final fileprivate class CombineLatestCollectionTypeSink<C: Collection, O: Observ
                 if _isDone[atIndex] {
                     return
                 }
-                
+
                 _isDone[atIndex] = true
                 _numberOfDone += 1
-                
+
                 if _numberOfDone == self._parent._count {
                     forwardOn(.completed)
                     dispose()
-                }
-                else {
+                } else {
                     _subscriptions[atIndex].dispose()
                 }
             }
         // }
     }
-    
+
     func run() -> Disposable {
         var j = 0
         for i in _parent._sources {
@@ -124,21 +121,21 @@ final fileprivate class CombineLatestCollectionTypeSink<C: Collection, O: Observ
             })
 
             _subscriptions[j].setDisposable(disposable)
-            
+
             j += 1
         }
 
         if _parent._sources.isEmpty {
             self.forwardOn(.completed)
         }
-        
+
         return Disposables.create(_subscriptions)
     }
 }
 
-final fileprivate class CombineLatestCollectionType<C: Collection, R> : Producer<R> where C.Iterator.Element : ObservableConvertibleType {
+final private class CombineLatestCollectionType<C: Collection, R>: Producer<R> where C.Iterator.Element: ObservableConvertibleType {
     typealias ResultSelector = ([C.Iterator.Element.E]) throws -> R
-    
+
     let _sources: C
     let _resultSelector: ResultSelector
     let _count: Int
@@ -148,8 +145,8 @@ final fileprivate class CombineLatestCollectionType<C: Collection, R> : Producer
         _resultSelector = resultSelector
         _count = Int(self._sources.count.toIntMax())
     }
-    
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == R {
+
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == R {
         let sink = CombineLatestCollectionTypeSink(parent: self, observer: observer, cancel: cancel)
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)

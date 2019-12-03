@@ -39,8 +39,7 @@ extension ObservableType {
 
             if let disposed = onDisposed {
                 disposable = Disposables.create(with: disposed)
-            }
-            else {
+            } else {
                 disposable = Disposables.create()
             }
 
@@ -60,8 +59,7 @@ extension ObservableType {
                 case .error(let e):
                     if let onError = onError {
                         onError(e)
-                    }
-                    else {
+                    } else {
                         print("Received unhandled error: \(file):\(line):\(function) -> \(e)")
                     }
                     disposable.dispose()
@@ -93,8 +91,7 @@ extension ObservableType {
 
             if let disposed = onDisposed {
                 disposable = Disposables.create(with: disposed)
-            }
-            else {
+            } else {
                 disposable = Disposables.create()
             }
 

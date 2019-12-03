@@ -60,7 +60,7 @@ class JSONEncodingWrapper: ParameterEncoding {
 private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManager>()
 
 open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
-    required public init(method: String, URLString: String, parameters: Any?, isBody: Bool, headers: [String : String] = [:]) {
+    required public init(method: String, URLString: String, parameters: Any?, isBody: Bool, headers: [String: String] = [:]) {
         super.init(method: method, URLString: URLString, parameters: parameters, isBody: isBody, headers: headers)
     }
 
@@ -89,17 +89,17 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
      May be overridden by a subclass if you want to control the request
      configuration (e.g. to override the cache policy).
      */
-    open func makeRequest(manager: SessionManager, method: HTTPMethod, encoding: ParameterEncoding, headers: [String:String]) -> DataRequest {
+    open func makeRequest(manager: SessionManager, method: HTTPMethod, encoding: ParameterEncoding, headers: [String: String]) -> DataRequest {
         return manager.request(URLString, method: method, parameters: parameters as? Parameters, encoding: encoding, headers: headers)
     }
 
     override open func execute(_ completion: @escaping (_ response: Response<T>?, _ error: ErrorResponse?) -> Void) {
-        let managerId:String = UUID().uuidString
+        let managerId: String = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createSessionManager()
         managerStore[managerId] = manager
 
-        let encoding:ParameterEncoding = isBody ? JSONEncodingWrapper(parameters: parameters) : URLEncoding()
+        let encoding: ParameterEncoding = isBody ? JSONEncodingWrapper(parameters: parameters) : URLEncoding()
 
         let xMethod = Alamofire.HTTPMethod(rawValue: method)
 
@@ -114,8 +114,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                     case let fileURL as URL:
                         if let mimeType = self.contentTypeForFormPart(fileURL: fileURL) {
                             mpForm.append(fileURL, withName: k, fileName: fileURL.lastPathComponent, mimeType: mimeType)
-                        }
-                        else {
+                        } else {
                             mpForm.append(fileURL, withName: k)
                         }
                     case let string as String:
@@ -262,7 +261,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                     )
 
                 } catch let requestParserError as DownloadException {
-                    completion(nil, ErrorResponse.HttpError(statusCode: 400, data:  dataResponse.data, error: requestParserError))
+                    completion(nil, ErrorResponse.HttpError(statusCode: 400, data: dataResponse.data, error: requestParserError))
                 } catch let error {
                     completion(nil, ErrorResponse.HttpError(statusCode: 400, data: dataResponse.data, error: error))
                 }
@@ -279,7 +278,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
                 // handle HTTP 204 No Content
                 // NSNull would crash decoders
-                if response.response?.statusCode == 204 && response.result.value is NSNull{
+                if response.response?.statusCode == 204 && response.result.value is NSNull {
                     completion(nil, nil)
                     return
                 }
@@ -313,7 +312,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         return httpHeaders
     }
 
-    fileprivate func getFileName(fromContentDisposition contentDisposition : String?) -> String? {
+    fileprivate func getFileName(fromContentDisposition contentDisposition: String?) -> String? {
 
         guard let contentDisposition = contentDisposition else {
             return nil
@@ -321,7 +320,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
         let items = contentDisposition.components(separatedBy: ";")
 
-        var filename : String? = nil
+        var filename: String?
 
         for contentItem in items {
 
@@ -332,7 +331,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
             filename = contentItem
             return filename?
-                .replacingCharacters(in: range, with:"")
+                .replacingCharacters(in: range, with: "")
                 .replacingOccurrences(of: "\"", with: "")
                 .trimmingCharacters(in: .whitespacesAndNewlines)
         }
@@ -341,7 +340,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
     }
 
-    fileprivate func getPath(from url : URL) throws -> String {
+    fileprivate func getPath(from url: URL) throws -> String {
 
         guard var path = URLComponents(url: url, resolvingAgainstBaseURL: true)?.path else {
             throw DownloadException.requestMissingPath
@@ -355,7 +354,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
     }
 
-    fileprivate func getURL(from urlRequest : URLRequest) throws -> URL {
+    fileprivate func getURL(from urlRequest: URLRequest) throws -> URL {
 
         guard let url = urlRequest.url else {
             throw DownloadException.requestMissingURL
@@ -365,7 +364,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
     }
 }
 
-fileprivate enum DownloadException : Error {
+private enum DownloadException: Error {
     case responseDataMissing
     case responseFailed
     case requestMissing

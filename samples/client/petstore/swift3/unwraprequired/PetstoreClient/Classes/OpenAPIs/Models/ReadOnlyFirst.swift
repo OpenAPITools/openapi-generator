@@ -7,12 +7,10 @@
 
 import Foundation
 
-
 open class ReadOnlyFirst: JSONEncodable {
 
     public var bar: String?
     public var baz: String?
-
 
     public init(bar: String?=nil, baz: String?=nil) {
         self.bar = bar
@@ -20,12 +18,11 @@ open class ReadOnlyFirst: JSONEncodable {
     }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["bar"] = self.bar
         nillableDictionary["baz"] = self.baz
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

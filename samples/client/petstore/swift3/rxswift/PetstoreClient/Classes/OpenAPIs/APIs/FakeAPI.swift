@@ -9,7 +9,6 @@ import Foundation
 import Alamofire
 import RxSwift
 
-
 open class FakeAPI: APIBase {
     /**
      - parameter body: (body) Input boolean as post body (optional)
@@ -263,7 +262,7 @@ open class FakeAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int32? = nil, int32: Int32? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: ISOFullDate? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (response, error) -> Void in
+        testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (_, error) -> Void in
             completion(error)
         }
     }
@@ -326,7 +325,7 @@ open class FakeAPI: APIBase {
     open class func testEndpointParametersWithRequestBuilder(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int32? = nil, int32: Int32? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: ISOFullDate? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
-        let formParams: [String:Any?] = [
+        let formParams: [String: Any?] = [
             "integer": integer?.encodeToJSON(),
             "int32": int32?.encodeToJSON(),
             "int64": int64?.encodeToJSON(),
@@ -345,7 +344,7 @@ open class FakeAPI: APIBase {
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
-        
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -356,7 +355,7 @@ open class FakeAPI: APIBase {
     /**
      * enum for parameter enumHeaderStringArray
      */
-    public enum EnumHeaderStringArray_testEnumParameters: String { 
+    public enum EnumHeaderStringArray_testEnumParameters: String {
         case greaterThan = "">""
         case dollar = ""$""
     }
@@ -364,7 +363,7 @@ open class FakeAPI: APIBase {
     /**
      * enum for parameter enumHeaderString
      */
-    public enum EnumHeaderString_testEnumParameters: String { 
+    public enum EnumHeaderString_testEnumParameters: String {
         case abc = "_abc"
         case efg = "-efg"
         case xyz = "(xyz)"
@@ -373,7 +372,7 @@ open class FakeAPI: APIBase {
     /**
      * enum for parameter enumQueryStringArray
      */
-    public enum EnumQueryStringArray_testEnumParameters: String { 
+    public enum EnumQueryStringArray_testEnumParameters: String {
         case greaterThan = "">""
         case dollar = ""$""
     }
@@ -381,7 +380,7 @@ open class FakeAPI: APIBase {
     /**
      * enum for parameter enumQueryString
      */
-    public enum EnumQueryString_testEnumParameters: String { 
+    public enum EnumQueryString_testEnumParameters: String {
         case abc = "_abc"
         case efg = "-efg"
         case xyz = "(xyz)"
@@ -390,7 +389,7 @@ open class FakeAPI: APIBase {
     /**
      * enum for parameter enumQueryInteger
      */
-    public enum EnumQueryInteger_testEnumParameters: Int32 { 
+    public enum EnumQueryInteger_testEnumParameters: Int32 {
         case _1 = 1
         case number2 = -2
     }
@@ -398,7 +397,7 @@ open class FakeAPI: APIBase {
     /**
      * enum for parameter enumFormStringArray
      */
-    public enum EnumFormStringArray_testEnumParameters: String { 
+    public enum EnumFormStringArray_testEnumParameters: String {
         case greaterThan = "">""
         case dollar = ""$""
     }
@@ -406,7 +405,7 @@ open class FakeAPI: APIBase {
     /**
      * enum for parameter enumFormString
      */
-    public enum EnumFormString_testEnumParameters: String { 
+    public enum EnumFormString_testEnumParameters: String {
         case abc = "_abc"
         case efg = "-efg"
         case xyz = "(xyz)"
@@ -415,7 +414,7 @@ open class FakeAPI: APIBase {
     /**
      * enum for parameter enumQueryDouble
      */
-    public enum EnumQueryDouble_testEnumParameters: Double { 
+    public enum EnumQueryDouble_testEnumParameters: Double {
         case _11 = 1.1
         case number12 = -1.2
     }
@@ -433,7 +432,7 @@ open class FakeAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, enumQueryDouble: enumQueryDouble).execute { (response, error) -> Void in
+        testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, enumQueryDouble: enumQueryDouble).execute { (_, error) -> Void in
             completion(error)
         }
     }
@@ -481,7 +480,7 @@ open class FakeAPI: APIBase {
     open class func testEnumParametersWithRequestBuilder(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
-        let formParams: [String:Any?] = [
+        let formParams: [String: Any?] = [
             "enum_form_string_array": enumFormStringArray,
             "enum_form_string": enumFormString?.rawValue,
             "enum_query_double": enumQueryDouble?.rawValue
@@ -489,9 +488,9 @@ open class FakeAPI: APIBase {
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
-        
+
         var url = URLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+        url?.queryItems = APIHelper.mapValuesToQueryItems(values: [
             "enum_query_string_array": enumQueryStringArray,
             "enum_query_string": enumQueryString?.rawValue,
             "enum_query_integer": enumQueryInteger?.rawValue
@@ -514,7 +513,7 @@ open class FakeAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func testJsonFormData(param: String, param2: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { (response, error) -> Void in
+        testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { (_, error) -> Void in
             completion(error)
         }
     }
@@ -549,14 +548,14 @@ open class FakeAPI: APIBase {
     open class func testJsonFormDataWithRequestBuilder(param: String, param2: String) -> RequestBuilder<Void> {
         let path = "/fake/jsonFormData"
         let URLString = PetstoreClientAPI.basePath + path
-        let formParams: [String:Any?] = [
+        let formParams: [String: Any?] = [
             "param": param,
             "param2": param2
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
-        
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()

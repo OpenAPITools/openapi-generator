@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /** Model for testing reserved words */
 open class Return: JSONEncodable {
 
@@ -22,11 +21,10 @@ open class Return: JSONEncodable {
 
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["return"] = self._return?.encodeToJSON()
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

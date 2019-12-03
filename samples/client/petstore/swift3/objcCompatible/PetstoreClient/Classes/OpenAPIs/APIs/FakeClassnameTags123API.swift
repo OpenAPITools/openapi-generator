@@ -8,7 +8,6 @@
 import Foundation
 import Alamofire
 
-
 open class FakeClassnameTags123API: APIBase {
     /**
      To test class name in snake case
@@ -20,7 +19,6 @@ open class FakeClassnameTags123API: APIBase {
             completion(response?.body, error)
         }
     }
-
 
     /**
      To test class name in snake case

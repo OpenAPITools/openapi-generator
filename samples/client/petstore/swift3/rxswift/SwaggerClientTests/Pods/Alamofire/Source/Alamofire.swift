@@ -135,8 +135,7 @@ public func request(
     parameters: Parameters? = nil,
     encoding: ParameterEncoding = URLEncoding.default,
     headers: HTTPHeaders? = nil)
-    -> DataRequest
-{
+    -> DataRequest {
     return SessionManager.default.request(
         url,
         method: method,
@@ -183,8 +182,7 @@ public func download(
     encoding: ParameterEncoding = URLEncoding.default,
     headers: HTTPHeaders? = nil,
     to destination: DownloadRequest.DownloadFileDestination? = nil)
-    -> DownloadRequest
-{
+    -> DownloadRequest {
     return SessionManager.default.download(
         url,
         method: method,
@@ -209,8 +207,7 @@ public func download(
 public func download(
     _ urlRequest: URLRequestConvertible,
     to destination: DownloadRequest.DownloadFileDestination? = nil)
-    -> DownloadRequest
-{
+    -> DownloadRequest {
     return SessionManager.default.download(urlRequest, to: destination)
 }
 
@@ -239,8 +236,7 @@ public func download(
 public func download(
     resumingWith resumeData: Data,
     to destination: DownloadRequest.DownloadFileDestination? = nil)
-    -> DownloadRequest
-{
+    -> DownloadRequest {
     return SessionManager.default.download(resumingWith: resumeData, to: destination)
 }
 
@@ -263,8 +259,7 @@ public func upload(
     to url: URLConvertible,
     method: HTTPMethod = .post,
     headers: HTTPHeaders? = nil)
-    -> UploadRequest
-{
+    -> UploadRequest {
     return SessionManager.default.upload(fileURL, to: url, method: method, headers: headers)
 }
 
@@ -297,8 +292,7 @@ public func upload(
     to url: URLConvertible,
     method: HTTPMethod = .post,
     headers: HTTPHeaders? = nil)
-    -> UploadRequest
-{
+    -> UploadRequest {
     return SessionManager.default.upload(data, to: url, method: method, headers: headers)
 }
 
@@ -331,8 +325,7 @@ public func upload(
     to url: URLConvertible,
     method: HTTPMethod = .post,
     headers: HTTPHeaders? = nil)
-    -> UploadRequest
-{
+    -> UploadRequest {
     return SessionManager.default.upload(stream, to: url, method: method, headers: headers)
 }
 
@@ -379,8 +372,7 @@ public func upload(
     to url: URLConvertible,
     method: HTTPMethod = .post,
     headers: HTTPHeaders? = nil,
-    encodingCompletion: ((SessionManager.MultipartFormDataEncodingResult) -> Void)?)
-{
+    encodingCompletion: ((SessionManager.MultipartFormDataEncodingResult) -> Void)?) {
     return SessionManager.default.upload(
         multipartFormData: multipartFormData,
         usingThreshold: encodingMemoryThreshold,
@@ -416,8 +408,7 @@ public func upload(
     multipartFormData: @escaping (MultipartFormData) -> Void,
     usingThreshold encodingMemoryThreshold: UInt64 = SessionManager.multipartFormDataEncodingMemoryThreshold,
     with urlRequest: URLRequestConvertible,
-    encodingCompletion: ((SessionManager.MultipartFormDataEncodingResult) -> Void)?)
-{
+    encodingCompletion: ((SessionManager.MultipartFormDataEncodingResult) -> Void)?) {
     return SessionManager.default.upload(
         multipartFormData: multipartFormData,
         usingThreshold: encodingMemoryThreshold,

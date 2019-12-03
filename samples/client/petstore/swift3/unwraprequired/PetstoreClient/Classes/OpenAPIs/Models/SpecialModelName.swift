@@ -7,22 +7,19 @@
 
 import Foundation
 
-
 open class SpecialModelName: JSONEncodable {
 
     public var specialPropertyName: Int64?
-
 
     public init(specialPropertyName: Int64?=nil) {
         self.specialPropertyName = specialPropertyName
     }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["$special[property.name]"] = self.specialPropertyName?.encodeToJSON()
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

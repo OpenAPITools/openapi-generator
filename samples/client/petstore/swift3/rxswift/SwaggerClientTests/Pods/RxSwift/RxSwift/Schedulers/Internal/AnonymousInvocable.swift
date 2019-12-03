@@ -6,10 +6,10 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-struct AnonymousInvocable : InvocableType {
-    private let _action: () -> ()
+struct AnonymousInvocable: InvocableType {
+    private let _action: () -> Void
 
-    init(_ action: @escaping () -> ()) {
+    init(_ action: @escaping () -> Void) {
         _action = action
     }
 

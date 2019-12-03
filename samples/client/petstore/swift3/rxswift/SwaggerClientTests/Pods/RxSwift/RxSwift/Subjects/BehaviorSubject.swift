@@ -9,17 +9,12 @@
 /// Represents a value that changes over time.
 ///
 /// Observers can subscribe to the subject to receive the last (or initial) value and all subsequent notifications.
-public final class BehaviorSubject<Element>
-    : Observable<Element>
-    , SubjectType
-    , ObserverType
-    , SynchronizedUnsubscribeType
-    , Disposable {
+public final class BehaviorSubject<Element>: Observable<Element>, SubjectType, ObserverType, SynchronizedUnsubscribeType, Disposable {
     public typealias SubjectObserverType = BehaviorSubject<Element>
 
     typealias Observers = AnyObserver<Element>.s
     typealias DisposeKey = Observers.KeyType
-    
+
     /// Indicates whether the subject has any observers
     public var hasObservers: Bool {
         _lock.lock()
@@ -27,9 +22,9 @@ public final class BehaviorSubject<Element>
         _lock.unlock()
         return value
     }
-    
+
     let _lock = RecursiveLock()
-    
+
     // state
     private var _isDisposed = false
     private var _element: Element
@@ -44,7 +39,7 @@ public final class BehaviorSubject<Element>
     public var isDisposed: Bool {
         return _isDisposed
     }
- 
+
     /// Initializes a new instance of the subject that caches its last value and starts with the specified value.
     ///
     /// - parameter value: Initial value sent to observers when no other value has been received by the subject yet.
@@ -55,7 +50,7 @@ public final class BehaviorSubject<Element>
             _ = Resources.incrementTotal()
         #endif
     }
-    
+
     /// Gets the current value or throws an error.
     ///
     /// - returns: Latest value.
@@ -64,17 +59,16 @@ public final class BehaviorSubject<Element>
             if _isDisposed {
                 throw RxError.disposed(object: self)
             }
-            
+
             if let error = _stoppedEvent?.error {
                 // intentionally throw exception
                 throw error
-            }
-            else {
+            } else {
                 return _element
             }
         //}
     }
-    
+
     /// Notifies all subscribed observers about next event.
     ///
     /// - parameter event: Event to send to the observers.
@@ -91,42 +85,42 @@ public final class BehaviorSubject<Element>
         if _stoppedEvent != nil || _isDisposed {
             return Observers()
         }
-        
+
         switch event {
         case .next(let element):
             _element = element
         case .error, .completed:
             _stoppedEvent = event
         }
-        
+
         return _observers
     }
-    
+
     /// Subscribes an observer to the subject.
     ///
     /// - parameter observer: Observer to subscribe to the subject.
     /// - returns: Disposable object that can be used to unsubscribe the observer from the subject.
-    public override func subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == Element {
+    public override func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == Element {
         _lock.lock()
         let subscription = _synchronized_subscribe(observer)
         _lock.unlock()
         return subscription
     }
 
-    func _synchronized_subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == E {
+    func _synchronized_subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == E {
         if _isDisposed {
             observer.on(.error(RxError.disposed(object: self)))
             return Disposables.create()
         }
-        
+
         if let stoppedEvent = _stoppedEvent {
             observer.on(stoppedEvent)
             return Disposables.create()
         }
-        
+
         let key = _observers.insert(observer.on)
         observer.on(.next(_element))
-    
+
         return SubscriptionDisposable(owner: self, key: key)
     }
 

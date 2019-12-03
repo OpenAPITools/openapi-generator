@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 open class User: JSONEncodable {
 
     public var id: Int64?
@@ -19,7 +18,6 @@ open class User: JSONEncodable {
     public var phone: String?
     /** User Status */
     public var userStatus: Int32?
-
 
     public init(id: Int64?=nil, username: String?=nil, firstName: String?=nil, lastName: String?=nil, email: String?=nil, password: String?=nil, phone: String?=nil, userStatus: Int32?=nil) {
         self.id = id
@@ -33,7 +31,7 @@ open class User: JSONEncodable {
     }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["username"] = self.username
         nillableDictionary["firstName"] = self.firstName
@@ -43,8 +41,7 @@ open class User: JSONEncodable {
         nillableDictionary["phone"] = self.phone
         nillableDictionary["userStatus"] = self.userStatus?.encodeToJSON()
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

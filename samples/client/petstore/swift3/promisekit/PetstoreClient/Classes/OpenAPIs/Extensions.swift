@@ -114,7 +114,7 @@ public final class ISOFullDate: CustomStringConvertible {
             [
                 .year,
                 .month,
-                .day,
+                .day
             ],
             from: date
         )
@@ -186,7 +186,7 @@ extension ISOFullDate: JSONEncodable {
 }
 
 extension RequestBuilder {
-    public func execute() -> Promise<Response<T>>  {
+    public func execute() -> Promise<Response<T>> {
         let deferred = Promise<Response<T>>.pending()
         self.execute { (response: Response<T>?, error: Error?) in
             if let response = response {

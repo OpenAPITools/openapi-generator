@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public enum OuterEnum: String {
     case placed = "placed"
     case approved = "approved"

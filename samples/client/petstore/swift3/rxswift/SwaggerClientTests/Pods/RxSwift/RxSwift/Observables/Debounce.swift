@@ -23,11 +23,7 @@ extension ObservableType {
     }
 }
 
-final fileprivate class DebounceSink<O: ObserverType>
-    : Sink<O>
-    , ObserverType
-    , LockOwnerType
-    , SynchronizedOnType {
+final private class DebounceSink<O: ObserverType>: Sink<O>, ObserverType, LockOwnerType, SynchronizedOnType {
     typealias Element = O.E
     typealias ParentType = Debounce<Element>
 
@@ -37,7 +33,7 @@ final fileprivate class DebounceSink<O: ObserverType>
 
     // state
     private var _id = 0 as UInt64
-    private var _value: Element? = nil
+    private var _value: Element?
 
     let cancellable = SerialDisposable()
 
@@ -63,7 +59,6 @@ final fileprivate class DebounceSink<O: ObserverType>
             _id = _id &+ 1
             let currentId = _id
             _value = element
-
 
             let scheduler = _parent._scheduler
             let dueTime = _parent._dueTime
@@ -98,7 +93,7 @@ final fileprivate class DebounceSink<O: ObserverType>
     }
 }
 
-final fileprivate class Debounce<Element> : Producer<Element> {
+final private class Debounce<Element>: Producer<Element> {
 
     fileprivate let _source: Observable<Element>
     fileprivate let _dueTime: RxTimeInterval
@@ -115,5 +110,5 @@ final fileprivate class Debounce<Element> : Producer<Element> {
         let subscription = sink.run()
         return (sink: sink, subscription: subscription)
     }
-    
+
 }

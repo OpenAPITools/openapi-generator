@@ -35,7 +35,7 @@ final class SchedulePeriodicRecursive<State> {
         return _scheduler.scheduleRecursive(SchedulePeriodicRecursiveCommand.tick, dueTime: _startAfter, action: self.tick)
     }
 
-    func tick(_ command: SchedulePeriodicRecursiveCommand, scheduler: RecursiveScheduler) -> Void {
+    func tick(_ command: SchedulePeriodicRecursiveCommand, scheduler: RecursiveScheduler) {
         // Tries to emulate periodic scheduling as best as possible.
         // The problem that could arise is if handling periodic ticks take too long, or
         // tick interval is short.

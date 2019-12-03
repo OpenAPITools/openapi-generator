@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 open class SpecialModelName: JSONEncodable {
 
     public var specialPropertyName: Int64?
@@ -16,11 +15,10 @@ open class SpecialModelName: JSONEncodable {
 
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["$special[property.name]"] = self.specialPropertyName?.encodeToJSON()
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

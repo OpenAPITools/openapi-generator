@@ -36,14 +36,14 @@ extension ObservableType {
     }
 }
 
-final fileprivate class MapSink<SourceType, O : ObserverType> : Sink<O>, ObserverType {
+final private class MapSink<SourceType, O: ObserverType>: Sink<O>, ObserverType {
     typealias Transform = (SourceType) throws -> ResultType
 
     typealias ResultType = O.E
     typealias Element = SourceType
 
     private let _transform: Transform
-    
+
     init(transform: @escaping Transform, observer: O, cancel: Cancelable) {
         _transform = transform
         super.init(observer: observer, cancel: cancel)
@@ -55,8 +55,7 @@ final fileprivate class MapSink<SourceType, O : ObserverType> : Sink<O>, Observe
             do {
                 let mappedElement = try _transform(element)
                 forwardOn(.next(mappedElement))
-            }
-            catch let e {
+            } catch let e {
                 forwardOn(.error(e))
                 dispose()
             }
@@ -70,13 +69,13 @@ final fileprivate class MapSink<SourceType, O : ObserverType> : Sink<O>, Observe
     }
 }
 
-final fileprivate class MapWithIndexSink<SourceType, O : ObserverType> : Sink<O>, ObserverType {
+final private class MapWithIndexSink<SourceType, O: ObserverType>: Sink<O>, ObserverType {
     typealias Selector = (SourceType, Int) throws -> ResultType
 
     typealias ResultType = O.E
     typealias Element = SourceType
     typealias Parent = MapWithIndex<SourceType, ResultType>
-    
+
     private let _selector: Selector
 
     private var _index = 0
@@ -92,8 +91,7 @@ final fileprivate class MapWithIndexSink<SourceType, O : ObserverType> : Sink<O>
             do {
                 let mappedElement = try _selector(element, try incrementChecked(&_index))
                 forwardOn(.next(mappedElement))
-            }
-            catch let e {
+            } catch let e {
                 forwardOn(.error(e))
                 dispose()
             }
@@ -107,7 +105,7 @@ final fileprivate class MapWithIndexSink<SourceType, O : ObserverType> : Sink<O>
     }
 }
 
-final fileprivate class MapWithIndex<SourceType, ResultType> : Producer<ResultType> {
+final private class MapWithIndex<SourceType, ResultType>: Producer<ResultType> {
     typealias Selector = (SourceType, Int) throws -> ResultType
 
     private let _source: Observable<SourceType>
@@ -127,7 +125,7 @@ final fileprivate class MapWithIndex<SourceType, ResultType> : Producer<ResultTy
 }
 
 #if TRACE_RESOURCES
-    fileprivate var _numberOfMapOperators: AtomicInt = 0
+    private var _numberOfMapOperators: AtomicInt = 0
     extension Resources {
         public static var numberOfMapOperators: Int32 {
             return _numberOfMapOperators.valueSnapshot()
@@ -139,7 +137,7 @@ internal func _map<Element, R>(source: Observable<Element>, transform: @escaping
     return Map(source: source, transform: transform)
 }
 
-final fileprivate class Map<SourceType, ResultType>: Producer<ResultType> {
+final private class Map<SourceType, ResultType>: Producer<ResultType> {
     typealias Transform = (SourceType) throws -> ResultType
 
     private let _source: Observable<SourceType>
@@ -151,7 +149,7 @@ final fileprivate class Map<SourceType, ResultType>: Producer<ResultType> {
         _transform = transform
 
 #if TRACE_RESOURCES
-        let _ = AtomicIncrement(&_numberOfMapOperators)
+        _ = AtomicIncrement(&_numberOfMapOperators)
 #endif
     }
 
@@ -162,7 +160,7 @@ final fileprivate class Map<SourceType, ResultType>: Producer<ResultType> {
             return try selector(r)
         })
     }
-    
+
     override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == ResultType {
         let sink = MapSink(transform: _transform, observer: observer, cancel: cancel)
         let subscription = _source.subscribe(sink)
@@ -171,7 +169,7 @@ final fileprivate class Map<SourceType, ResultType>: Producer<ResultType> {
 
     #if TRACE_RESOURCES
     deinit {
-        let _ = AtomicDecrement(&_numberOfMapOperators)
+        _ = AtomicDecrement(&_numberOfMapOperators)
     }
     #endif
 }

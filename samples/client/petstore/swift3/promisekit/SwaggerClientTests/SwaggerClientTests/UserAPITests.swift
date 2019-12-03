@@ -14,7 +14,7 @@ import XCTest
 class UserAPITests: XCTestCase {
 
     let testTimeout = 10.0
-        
+
     func testLogin() {
         let expectation = self.expectation(description: "testLogin")
         UserAPI.loginUser(username: "swiftTester", password: "swift").then { _ -> Void in
@@ -22,7 +22,7 @@ class UserAPITests: XCTestCase {
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func testLogout() {
         let expectation = self.expectation(description: "testLogout")
         UserAPI.logoutUser().then {
@@ -30,7 +30,7 @@ class UserAPITests: XCTestCase {
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test1CreateUser() {
         let expectation = self.expectation(description: "testCreateUser")
         let newUser = User()
@@ -47,7 +47,7 @@ class UserAPITests: XCTestCase {
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func testCreateUserWithArray() {
         let expectation = self.expectation(description: "testCreateUserWithArray")
         let newUser = User()
@@ -59,7 +59,7 @@ class UserAPITests: XCTestCase {
         newUser.phone = "867-5309"
         newUser.username = "test@test.com"
         newUser.userStatus = 0
-        
+
         let newUser2 = User()
         newUser2.email = "test2@test.com"
         newUser2.firstName = "Test2"
@@ -69,13 +69,13 @@ class UserAPITests: XCTestCase {
         newUser2.phone = "867-5302"
         newUser2.username = "test2@test.com"
         newUser2.userStatus = 0
-        
+
         _ = UserAPI.createUsersWithArrayInput(body: [newUser, newUser2]).then {
             expectation.fulfill()
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test2GetUser() {
         let expectation = self.expectation(description: "testGetUser")
         UserAPI.getUserByName(username: "test@test.com").then {user -> Void in
@@ -88,12 +88,12 @@ class UserAPITests: XCTestCase {
                 expectation.fulfill()
             }.always {
                 // Noop for now
-            }.catch { errorType in
+            }.catch { _ in
                 XCTFail("error getting user")
         }
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test3DeleteUser() {
         let expectation = self.expectation(description: "testDeleteUser")
         UserAPI.deleteUser(username: "test@test.com").then {

@@ -113,7 +113,7 @@ public final class ISOFullDate: CustomStringConvertible {
             [
                 .year,
                 .month,
-                .day,
+                .day
             ],
             from: date
         )
@@ -183,5 +183,3 @@ extension ISOFullDate: JSONEncodable {
         return "\(year)-\(month)-\(day)"
     }
 }
-
-

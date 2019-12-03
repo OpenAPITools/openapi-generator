@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 open class List: JSONEncodable {
 
     public var _123list: String?
@@ -16,11 +15,10 @@ open class List: JSONEncodable {
 
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["123-list"] = self._123list
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

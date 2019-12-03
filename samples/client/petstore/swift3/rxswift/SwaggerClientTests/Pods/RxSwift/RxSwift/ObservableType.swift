@@ -7,10 +7,10 @@
 //
 
 /// Represents a push style sequence.
-public protocol ObservableType : ObservableConvertibleType {
+public protocol ObservableType: ObservableConvertibleType {
     /// Type of elements in sequence.
     associatedtype E
-    
+
     /**
     Subscribes `observer` to receive events for this sequence.
     
@@ -38,7 +38,7 @@ public protocol ObservableType : ObservableConvertibleType {
 }
 
 extension ObservableType {
-    
+
     /// Default implementation of converting `ObservableType` to `Observable`.
     public func asObservable() -> Observable<E> {
         // temporary workaround

@@ -9,7 +9,6 @@ import Foundation
 import Alamofire
 import PromiseKit
 
-
 open class StoreAPI: APIBase {
     /**
      Delete purchase order by ID
@@ -17,7 +16,7 @@ open class StoreAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func deleteOrder(orderId: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        deleteOrderWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
+        deleteOrderWithRequestBuilder(orderId: orderId).execute { (_, error) -> Void in
             completion(error)
         }
     }
@@ -52,8 +51,8 @@ open class StoreAPI: APIBase {
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -65,7 +64,7 @@ open class StoreAPI: APIBase {
      Returns pet inventories by status
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getInventory(completion: @escaping ((_ data: [String:Int32]?, _ error: ErrorResponse?) -> Void)) {
+    open class func getInventory(completion: @escaping ((_ data: [String: Int32]?, _ error: ErrorResponse?) -> Void)) {
         getInventoryWithRequestBuilder().execute { (response, error) -> Void in
             completion(response?.body, error)
         }
@@ -75,9 +74,9 @@ open class StoreAPI: APIBase {
      Returns pet inventories by status
      - returns: Promise<[String:Int32]>
      */
-    open class func getInventory() -> Promise<[String:Int32]> {
-        let deferred = Promise<[String:Int32]>.pending()
-        getInventory() { data, error in
+    open class func getInventory() -> Promise<[String: Int32]> {
+        let deferred = Promise<[String: Int32]>.pending()
+        getInventory { data, error in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -96,14 +95,14 @@ open class StoreAPI: APIBase {
        - name: api_key
      - returns: RequestBuilder<[String:Int32]> 
      */
-    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String:Int32]> {
+    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int32]> {
         let path = "/store/inventory"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
-        let requestBuilder: RequestBuilder<[String:Int32]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<[String: Int32]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -149,8 +148,8 @@ open class StoreAPI: APIBase {
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()

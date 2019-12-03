@@ -19,19 +19,19 @@ public protocol ObserverType {
 
 /// Convenience API extensions to provide alternate next, error, completed events
 extension ObserverType {
-    
+
     /// Convenience method equivalent to `on(.next(element: E))`
     ///
     /// - parameter element: Next element to send to observer(s)
     public final func onNext(_ element: E) {
         on(.next(element))
     }
-    
+
     /// Convenience method equivalent to `on(.completed)`
     public final func onCompleted() {
         on(.completed)
     }
-    
+
     /// Convenience method equivalent to `on(.error(Swift.Error))`
     /// - parameter error: Swift.Error to send to observer(s)
     public final func onError(_ error: Swift.Error) {

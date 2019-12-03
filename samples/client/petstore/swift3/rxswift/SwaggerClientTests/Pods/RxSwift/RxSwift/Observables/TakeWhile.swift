@@ -37,9 +37,7 @@ extension ObservableType {
     }
 }
 
-final fileprivate class TakeWhileSink<O: ObserverType>
-    : Sink<O>
-    , ObserverType {
+final private class TakeWhileSink<O: ObserverType>: Sink<O>, ObserverType {
     typealias Element = O.E
     typealias Parent = TakeWhile<Element>
 
@@ -51,14 +49,14 @@ final fileprivate class TakeWhileSink<O: ObserverType>
         _parent = parent
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func on(_ event: Event<Element>) {
         switch event {
         case .next(let value):
             if !_running {
                 return
             }
-            
+
             do {
                 _running = try _parent._predicate(value)
             } catch let e {
@@ -66,7 +64,7 @@ final fileprivate class TakeWhileSink<O: ObserverType>
                 dispose()
                 return
             }
-            
+
             if _running {
                 forwardOn(.next(value))
             } else {
@@ -78,41 +76,39 @@ final fileprivate class TakeWhileSink<O: ObserverType>
             dispose()
         }
     }
-    
+
 }
 
-final fileprivate class TakeWhileSinkWithIndex<O: ObserverType>
-    : Sink<O>
-    , ObserverType {
+final private class TakeWhileSinkWithIndex<O: ObserverType>: Sink<O>, ObserverType {
     typealias Element = O.E
     typealias Parent = TakeWhile<Element>
-    
+
     fileprivate let _parent: Parent
-    
+
     fileprivate var _running = true
     fileprivate var _index = 0
-    
+
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func on(_ event: Event<Element>) {
         switch event {
         case .next(let value):
             if !_running {
                 return
             }
-            
+
             do {
                 _running = try _parent._predicateWithIndex(value, _index)
-                let _ = try incrementChecked(&_index)
+                _ = try incrementChecked(&_index)
             } catch let e {
                 forwardOn(.error(e))
                 dispose()
                 return
             }
-            
+
             if _running {
                 forwardOn(.next(value))
             } else {
@@ -124,10 +120,10 @@ final fileprivate class TakeWhileSinkWithIndex<O: ObserverType>
             dispose()
         }
     }
-    
+
 }
 
-final fileprivate class TakeWhile<Element>: Producer<Element> {
+final private class TakeWhile<Element>: Producer<Element> {
     typealias Predicate = (Element) throws -> Bool
     typealias PredicateWithIndex = (Element, Int) throws -> Bool
 
@@ -140,14 +136,14 @@ final fileprivate class TakeWhile<Element>: Producer<Element> {
         _predicate = predicate
         _predicateWithIndex = nil
     }
-    
+
     init(source: Observable<Element>, predicate: @escaping PredicateWithIndex) {
         _source = source
         _predicate = nil
         _predicateWithIndex = predicate
     }
-    
-    override func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+
+    override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         if let _ = _predicate {
             let sink = TakeWhileSink(parent: self, observer: observer, cancel: cancel)
             let subscription = _source.subscribe(sink)

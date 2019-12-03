@@ -37,7 +37,7 @@ class StoreAPITests: XCTestCase {
                 "Date should be idempotent")
 
             expectation.fulfill()
-        }, onError: { errorType in
+        }, onError: { _ in
             XCTFail("error placing order")
         }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
@@ -50,7 +50,7 @@ class StoreAPITests: XCTestCase {
             XCTAssert(order.quantity == 10, "invalid quantity")
             XCTAssert(order.status == .placed, "invalid status")
             expectation.fulfill()
-            }, onError: { errorType in
+            }, onError: { _ in
                 XCTFail("error placing order")
             }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)

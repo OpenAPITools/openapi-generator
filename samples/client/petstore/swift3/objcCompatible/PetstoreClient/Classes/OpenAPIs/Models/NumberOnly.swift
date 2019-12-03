@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 open class NumberOnly: JSONEncodable {
 
     public var justNumber: Double?
@@ -21,11 +20,10 @@ open class NumberOnly: JSONEncodable {
 
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["JustNumber"] = self.justNumber
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

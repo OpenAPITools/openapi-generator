@@ -9,7 +9,6 @@ import Foundation
 import Alamofire
 import RxSwift
 
-
 open class PetAPI: APIBase {
     /**
      Add a new pet to the store
@@ -17,7 +16,7 @@ open class PetAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func addPet(pet: Pet, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        addPetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
+        addPetWithRequestBuilder(pet: pet).execute { (_, error) -> Void in
             completion(error)
         }
     }
@@ -69,7 +68,7 @@ open class PetAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func deletePet(petId: Int64, apiKey: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (response, error) -> Void in
+        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (_, error) -> Void in
             completion(error)
         }
     }
@@ -110,8 +109,8 @@ open class PetAPI: APIBase {
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
         let nillableHeaders: [String: Any?] = [
             "api_key": apiKey
@@ -126,7 +125,7 @@ open class PetAPI: APIBase {
     /**
      * enum for parameter status
      */
-    public enum Status_findPetsByStatus: String { 
+    public enum Status_findPetsByStatus: String {
         case available = ""available""
         case pending = ""pending""
         case sold = ""sold""
@@ -175,10 +174,10 @@ open class PetAPI: APIBase {
     open class func findPetsByStatusWithRequestBuilder(status: [String]) -> RequestBuilder<[Pet]> {
         let path = "/pet/findByStatus"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         var url = URLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+        url?.queryItems = APIHelper.mapValuesToQueryItems(values: [
             "status": status
         ])
 
@@ -230,10 +229,10 @@ open class PetAPI: APIBase {
     open class func findPetsByTagsWithRequestBuilder(tags: [String]) -> RequestBuilder<[Pet]> {
         let path = "/pet/findByTags"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         var url = URLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+        url?.queryItems = APIHelper.mapValuesToQueryItems(values: [
             "tags": tags
         ])
 
@@ -288,8 +287,8 @@ open class PetAPI: APIBase {
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Pet>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -303,7 +302,7 @@ open class PetAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func updatePet(pet: Pet, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        updatePetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
+        updatePetWithRequestBuilder(pet: pet).execute { (_, error) -> Void in
             completion(error)
         }
     }
@@ -356,7 +355,7 @@ open class PetAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (response, error) -> Void in
+        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (_, error) -> Void in
             completion(error)
         }
     }
@@ -399,14 +398,14 @@ open class PetAPI: APIBase {
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let formParams: [String:Any?] = [
+        let formParams: [String: Any?] = [
             "name": name,
             "status": status
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
-        
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -465,14 +464,14 @@ open class PetAPI: APIBase {
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let formParams: [String:Any?] = [
+        let formParams: [String: Any?] = [
             "additionalMetadata": additionalMetadata,
             "file": file
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
         let parameters = APIHelper.convertBoolToString(nonNullParameters)
-        
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<ApiResponse>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()

@@ -7,22 +7,19 @@
 
 import Foundation
 
-
 open class List: JSONEncodable {
 
     public var _123list: String?
-
 
     public init(_123list: String?=nil) {
         self._123list = _123list
     }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["123-list"] = self._123list
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

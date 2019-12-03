@@ -13,13 +13,13 @@ import XCTest
 class StoreAPITests: XCTestCase {
 
     let isoDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
-    
+
     let testTimeout = 10.0
 
     func test1PlaceOrder() {
         let expectation = self.expectation(description: "testPlaceOrder")
         let shipDate = Date()
-        
+
         let newOrder = Order()
         newOrder.id = 1000
         newOrder.petId = 1000
@@ -28,51 +28,51 @@ class StoreAPITests: XCTestCase {
         newOrder.shipDate = shipDate
         // use explicit naming to reference the enum so that we test we don't regress on enum naming
         newOrder.status = Order.Status.placed
-        
+
         StoreAPI.placeOrder(body: newOrder) { (order, error) in
             guard error == nil else {
                 XCTFail("error placing order: \(error.debugDescription)")
                 return
             }
-            
+
             if let order = order {
                 XCTAssert(order.id == 1000, "invalid id")
                 XCTAssert(order.quantity == 10, "invalid quantity")
                 XCTAssert(order.status == .placed, "invalid status")
                 XCTAssert(order.shipDate!.isEqual(shipDate, format: self.isoDateFormat),
                           "Date should be idempotent")
-                
+
                 expectation.fulfill()
             }
         }
-        
+
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test2GetOrder() {
         let expectation = self.expectation(description: "testGetOrder")
-        
+
         StoreAPI.getOrderById(orderId: 1000) { (order, error) in
             guard error == nil else {
                 XCTFail("error retrieving order: \(error.debugDescription)")
                 return
             }
-            
+
             if let order = order {
                 XCTAssert(order.id == 1000, "invalid id")
                 XCTAssert(order.quantity == 10, "invalid quantity")
                 XCTAssert(order.status == .placed, "invalid status")
-                
+
                 expectation.fulfill()
             }
         }
-        
+
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test3DeleteOrder() {
         let expectation = self.expectation(description: "testDeleteOrder")
-        
+
         StoreAPI.deleteOrder(orderId: "1000") { (error) in
             guard error == nil else {
                 XCTFail("error deleting order")
@@ -81,7 +81,7 @@ class StoreAPITests: XCTestCase {
 
             expectation.fulfill()
         }
-        
+
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
@@ -94,7 +94,7 @@ class StoreAPITests: XCTestCase {
             progressExpectation.fulfill()
         }
 
-        requestBuilder.execute { (response, error) in
+        requestBuilder.execute { (_, _) in
             responseExpectation.fulfill()
         }
 

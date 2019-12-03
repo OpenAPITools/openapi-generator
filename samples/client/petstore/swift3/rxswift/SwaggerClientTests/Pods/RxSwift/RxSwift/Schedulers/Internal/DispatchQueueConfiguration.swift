@@ -30,7 +30,6 @@ extension DispatchQueueConfiguration {
                 return
             }
 
-
             cancel.setDisposable(action(state))
         }
 
@@ -98,7 +97,7 @@ extension DispatchQueueConfiguration {
             timerState = action(timerState)
         })
         timer.resume()
-        
+
         return cancelTimer
     }
 }

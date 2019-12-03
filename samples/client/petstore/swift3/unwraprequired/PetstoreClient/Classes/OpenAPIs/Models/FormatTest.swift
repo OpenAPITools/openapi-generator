@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 open class FormatTest: JSONEncodable {
 
     public var integer: Int32?
@@ -23,7 +22,6 @@ open class FormatTest: JSONEncodable {
     public var dateTime: Date?
     public var uuid: UUID?
     public var password: String
-
 
     public init(integer: Int32?=nil, int32: Int32?=nil, int64: Int64?=nil, number: Double, float: Float?=nil, double: Double?=nil, string: String?=nil, byte: Data, binary: URL?=nil, date: ISOFullDate, dateTime: Date?=nil, uuid: UUID?=nil, password: String) {
         self.integer = integer
@@ -42,7 +40,7 @@ open class FormatTest: JSONEncodable {
     }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["integer"] = self.integer?.encodeToJSON()
         nillableDictionary["int32"] = self.int32?.encodeToJSON()
         nillableDictionary["int64"] = self.int64?.encodeToJSON()
@@ -57,8 +55,7 @@ open class FormatTest: JSONEncodable {
         nillableDictionary["uuid"] = self.uuid?.encodeToJSON()
         nillableDictionary["password"] = self.password
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

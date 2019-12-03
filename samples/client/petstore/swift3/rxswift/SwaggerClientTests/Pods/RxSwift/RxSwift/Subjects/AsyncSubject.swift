@@ -10,11 +10,7 @@
 /// and only after that source Observable completes.
 ///
 /// (If the source Observable does not emit any values, the AsyncSubject also completes without emitting any values.)
-public final class AsyncSubject<Element>
-    : Observable<Element>
-    , SubjectType
-    , ObserverType
-    , SynchronizedUnsubscribeType {
+public final class AsyncSubject<Element>: Observable<Element>, SubjectType, ObserverType, SynchronizedUnsubscribeType {
     public typealias SubjectObserverType = AsyncSubject<Element>
 
     typealias Observers = AnyObserver<Element>.s
@@ -41,7 +37,6 @@ public final class AsyncSubject<Element>
     #if DEBUG
         fileprivate let _synchronizationTracker = SynchronizationTracker()
     #endif
-
 
     /// Creates a subject.
     public override init() {
@@ -96,8 +91,7 @@ public final class AsyncSubject<Element>
             if let lastElement = _lastElement {
                 _stoppedEvent = .next(lastElement)
                 return (observers, .next(lastElement))
-            }
-            else {
+            } else {
                 _stoppedEvent = event
                 return (observers, .completed)
             }
@@ -108,12 +102,12 @@ public final class AsyncSubject<Element>
     ///
     /// - parameter observer: Observer to subscribe to the subject.
     /// - returns: Disposable object that can be used to unsubscribe the observer from the subject.
-    public override func subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == Element {
+    public override func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == Element {
         _lock.lock(); defer { _lock.unlock() }
         return _synchronized_subscribe(observer)
     }
 
-    func _synchronized_subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == E {
+    func _synchronized_subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == E {
         if let stoppedEvent = _stoppedEvent {
             switch stoppedEvent {
             case .next:
@@ -136,11 +130,11 @@ public final class AsyncSubject<Element>
         _lock.lock(); defer { _lock.unlock() }
         _synchronized_unsubscribe(disposeKey)
     }
-    
+
     func _synchronized_unsubscribe(_ disposeKey: DisposeKey) {
         _ = _observers.removeKey(disposeKey)
     }
-    
+
     /// Returns observer interface for subject.
     public func asObserver() -> AsyncSubject<Element> {
         return self
@@ -152,4 +146,3 @@ public final class AsyncSubject<Element>
     }
     #endif
 }
-

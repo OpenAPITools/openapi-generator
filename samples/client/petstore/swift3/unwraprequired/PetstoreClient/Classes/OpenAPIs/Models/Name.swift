@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /** Model for testing model name same as property name */
 open class Name: JSONEncodable {
 
@@ -15,7 +14,6 @@ open class Name: JSONEncodable {
     public var snakeCase: Int32?
     public var property: String?
     public var _123number: Int32?
-
 
     public init(name: Int32, snakeCase: Int32?=nil, property: String?=nil, _123number: Int32?=nil) {
         self.name = name
@@ -25,14 +23,13 @@ open class Name: JSONEncodable {
     }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["name"] = self.name.encodeToJSON()
         nillableDictionary["snake_case"] = self.snakeCase?.encodeToJSON()
         nillableDictionary["property"] = self.property
         nillableDictionary["123Number"] = self._123number?.encodeToJSON()
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

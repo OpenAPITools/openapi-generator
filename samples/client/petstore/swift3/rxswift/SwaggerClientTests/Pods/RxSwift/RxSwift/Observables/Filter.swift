@@ -39,17 +39,17 @@ extension ObservableType {
     }
 }
 
-final fileprivate class FilterSink<O : ObserverType>: Sink<O>, ObserverType {
+final private class FilterSink<O: ObserverType>: Sink<O>, ObserverType {
     typealias Predicate = (Element) throws -> Bool
     typealias Element = O.E
-    
+
     private let _predicate: Predicate
-    
+
     init(predicate: @escaping Predicate, observer: O, cancel: Cancelable) {
         _predicate = predicate
         super.init(observer: observer, cancel: cancel)
     }
-    
+
     func on(_ event: Event<Element>) {
         switch event {
             case .next(let value):
@@ -58,8 +58,7 @@ final fileprivate class FilterSink<O : ObserverType>: Sink<O>, ObserverType {
                     if satisfies {
                         forwardOn(.next(value))
                     }
-                }
-                catch let e {
+                } catch let e {
                     forwardOn(.error(e))
                     dispose()
                 }
@@ -70,17 +69,17 @@ final fileprivate class FilterSink<O : ObserverType>: Sink<O>, ObserverType {
     }
 }
 
-final fileprivate class Filter<Element> : Producer<Element> {
+final private class Filter<Element>: Producer<Element> {
     typealias Predicate = (Element) throws -> Bool
-    
+
     private let _source: Observable<Element>
     private let _predicate: Predicate
-    
+
     init(source: Observable<Element>, predicate: @escaping Predicate) {
         _source = source
         _predicate = predicate
     }
-    
+
     override func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         let sink = FilterSink(predicate: _predicate, observer: observer, cancel: cancel)
         let subscription = _source.subscribe(sink)

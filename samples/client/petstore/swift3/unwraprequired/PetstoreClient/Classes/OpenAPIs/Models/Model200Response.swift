@@ -7,13 +7,11 @@
 
 import Foundation
 
-
 /** Model for testing model name starting with number */
 open class Model200Response: JSONEncodable {
 
     public var name: Int32?
     public var _class: String?
-
 
     public init(name: Int32?=nil, _class: String?=nil) {
         self.name = name
@@ -21,12 +19,11 @@ open class Model200Response: JSONEncodable {
     }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["name"] = self.name?.encodeToJSON()
         nillableDictionary["class"] = self._class
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

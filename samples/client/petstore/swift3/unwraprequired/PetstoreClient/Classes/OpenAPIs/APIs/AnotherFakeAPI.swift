@@ -8,7 +8,6 @@
 import Foundation
 import Alamofire
 
-
 open class AnotherFakeAPI: APIBase {
     /**
      To test special tags
@@ -20,7 +19,6 @@ open class AnotherFakeAPI: APIBase {
             completion(response?.body, error)
         }
     }
-
 
     /**
      To test special tags

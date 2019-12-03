@@ -7,13 +7,11 @@
 
 import Foundation
 
-
 open class ApiResponse: JSONEncodable {
 
     public var code: Int32?
     public var type: String?
     public var message: String?
-
 
     public init(code: Int32?=nil, type: String?=nil, message: String?=nil) {
         self.code = code
@@ -22,13 +20,12 @@ open class ApiResponse: JSONEncodable {
     }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["code"] = self.code?.encodeToJSON()
         nillableDictionary["type"] = self.type
         nillableDictionary["message"] = self.message
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

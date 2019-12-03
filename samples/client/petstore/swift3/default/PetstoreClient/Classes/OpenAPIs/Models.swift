@@ -10,7 +10,7 @@ protocol JSONEncodable {
     func encodeToJSON() -> Any
 }
 
-public enum ErrorResponse : Error {
+public enum ErrorResponse: Error {
     case HttpError(statusCode: Int, data: Data?, error: Error)
     case DecodeError(response: Data?, decodeError: DecodeError)
 }
@@ -28,7 +28,7 @@ open class Response<T> {
 
     public convenience init(response: HTTPURLResponse, body: T?) {
         let rawHeader = response.allHeaderFields
-        var header = [String:String]()
+        var header = [String: String]()
         for case let (key, value) as (String, String) in rawHeader {
             header[key] = value
         }
@@ -60,7 +60,7 @@ public enum DecodeError {
 
 private var once = Int()
 class Decoders {
-    static fileprivate var decoders = Dictionary<String, ((AnyObject, AnyObject?) -> AnyObject)>()
+    static fileprivate var decoders = [String: ((AnyObject: AnyObject?) -] AnyObject)>()
 
     static func addDecoder<T>(clazz: T.Type, decoder: @escaping ((AnyObject, AnyObject?) -> Decoded<T>)) {
         let key = "\(T.self)"
@@ -114,9 +114,9 @@ class Decoders {
         }
     }
 
-    static func decode<T, Key: Hashable>(clazz: [Key:T].Type, source: AnyObject) -> Decoded<[Key:T]> {
+    static func decode<T, Key: Hashable>(clazz: [Key: T].Type, source: AnyObject) -> Decoded<[Key: T]> {
         if let sourceDictionary = source as? [Key: AnyObject] {
-            var dictionary = [Key:T]()
+            var dictionary = [Key: T]()
             for (key, value) in sourceDictionary {
                 switch Decoders.decode(clazz: T.self, source: value, instance: nil) {
                 case let .success(value):
@@ -216,9 +216,9 @@ class Decoders {
         }
     }
 
-    static func decodeOptional<T, Key: Hashable>(clazz: [Key:T].Type, source: AnyObject?) -> Decoded<[Key:T]?> {
+    static func decodeOptional<T, Key: Hashable>(clazz: [Key: T].Type, source: AnyObject?) -> Decoded<[Key: T]?> {
         if let sourceDictionary = source as? [Key: AnyObject] {
-            var dictionary = [Key:T]()
+            var dictionary = [Key: T]()
             for (key, value) in sourceDictionary {
                 switch Decoders.decode(clazz: T.self, source: value, instance: nil) {
                 case let .success(value): dictionary[key] = value
@@ -243,7 +243,6 @@ class Decoders {
         }
     }
 
-
     private static var __once: () = {
         let formatters = [
             "yyyy-MM-dd",
@@ -259,7 +258,7 @@ class Decoders {
             return formatter
         }
         // Decoder for Date
-        Decoders.addDecoder(clazz: Date.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<Date> in
+        Decoders.addDecoder(clazz: Date.self) { (source: AnyObject, _: AnyObject?) -> Decoded<Date> in
            if let sourceString = source as? String {
                 for formatter in formatters {
                     if let date = formatter.date(from: sourceString) {
@@ -279,7 +278,7 @@ class Decoders {
         }
 
         // Decoder for ISOFullDate
-        Decoders.addDecoder(clazz: ISOFullDate.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<ISOFullDate> in
+        Decoders.addDecoder(clazz: ISOFullDate.self) { (source: AnyObject, _: AnyObject?) -> Decoded<ISOFullDate> in
             if let string = source as? String,
                let isoDate = ISOFullDate.from(string: string) {
                 return .success(isoDate)
@@ -289,7 +288,7 @@ class Decoders {
         }
 
         // Decoder for [AdditionalPropertiesClass]
-        Decoders.addDecoder(clazz: [AdditionalPropertiesClass].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[AdditionalPropertiesClass]> in
+        Decoders.addDecoder(clazz: [AdditionalPropertiesClass].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[AdditionalPropertiesClass]> in
             return Decoders.decode(clazz: [AdditionalPropertiesClass].self, source: source)
         }
 
@@ -297,17 +296,17 @@ class Decoders {
         Decoders.addDecoder(clazz: AdditionalPropertiesClass.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<AdditionalPropertiesClass> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? AdditionalPropertiesClass() : instance as! AdditionalPropertiesClass
-                switch Decoders.decodeOptional(clazz: [String:String].self, source: sourceDictionary["map_property"] as AnyObject?) {
-                
+                switch Decoders.decodeOptional(clazz: [String: String].self, source: sourceDictionary["map_property"] as AnyObject?) {
+
                 case let .success(value): _result.mapProperty = value
                 case let .failure(error): break
-                
+
                 }
-                switch Decoders.decodeOptional(clazz: [String:[String:String]].self, source: sourceDictionary["map_of_map_property"] as AnyObject?) {
-                
+                switch Decoders.decodeOptional(clazz: [String: [String: String]].self, source: sourceDictionary["map_of_map_property"] as AnyObject?) {
+
                 case let .success(value): _result.mapOfMapProperty = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -315,7 +314,7 @@ class Decoders {
             }
         }
         // Decoder for [Animal]
-        Decoders.addDecoder(clazz: [Animal].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Animal]> in
+        Decoders.addDecoder(clazz: [Animal].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[Animal]> in
             return Decoders.decode(clazz: [Animal].self, source: source)
         }
 
@@ -328,16 +327,16 @@ class Decoders {
                 }
                 let _result = instance == nil ? Animal() : instance as! Animal
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["className"] as AnyObject?) {
-                
+
                 case let .success(value): _result.className = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["color"] as AnyObject?) {
-                
+
                 case let .success(value): _result.color = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -345,7 +344,7 @@ class Decoders {
             }
         }
         // Decoder for [ApiResponse]
-        Decoders.addDecoder(clazz: [ApiResponse].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[ApiResponse]> in
+        Decoders.addDecoder(clazz: [ApiResponse].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[ApiResponse]> in
             return Decoders.decode(clazz: [ApiResponse].self, source: source)
         }
 
@@ -354,22 +353,22 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? ApiResponse() : instance as! ApiResponse
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"] as AnyObject?) {
-                
+
                 case let .success(value): _result.code = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["type"] as AnyObject?) {
-                
+
                 case let .success(value): _result.type = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"] as AnyObject?) {
-                
+
                 case let .success(value): _result.message = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -377,7 +376,7 @@ class Decoders {
             }
         }
         // Decoder for [ArrayOfArrayOfNumberOnly]
-        Decoders.addDecoder(clazz: [ArrayOfArrayOfNumberOnly].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[ArrayOfArrayOfNumberOnly]> in
+        Decoders.addDecoder(clazz: [ArrayOfArrayOfNumberOnly].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[ArrayOfArrayOfNumberOnly]> in
             return Decoders.decode(clazz: [ArrayOfArrayOfNumberOnly].self, source: source)
         }
 
@@ -386,10 +385,10 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? ArrayOfArrayOfNumberOnly() : instance as! ArrayOfArrayOfNumberOnly
                 switch Decoders.decodeOptional(clazz: [[Double]].self, source: sourceDictionary["ArrayArrayNumber"] as AnyObject?) {
-                
+
                 case let .success(value): _result.arrayArrayNumber = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -397,7 +396,7 @@ class Decoders {
             }
         }
         // Decoder for [ArrayOfNumberOnly]
-        Decoders.addDecoder(clazz: [ArrayOfNumberOnly].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[ArrayOfNumberOnly]> in
+        Decoders.addDecoder(clazz: [ArrayOfNumberOnly].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[ArrayOfNumberOnly]> in
             return Decoders.decode(clazz: [ArrayOfNumberOnly].self, source: source)
         }
 
@@ -406,10 +405,10 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? ArrayOfNumberOnly() : instance as! ArrayOfNumberOnly
                 switch Decoders.decodeOptional(clazz: [Double].self, source: sourceDictionary["ArrayNumber"] as AnyObject?) {
-                
+
                 case let .success(value): _result.arrayNumber = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -417,7 +416,7 @@ class Decoders {
             }
         }
         // Decoder for [ArrayTest]
-        Decoders.addDecoder(clazz: [ArrayTest].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[ArrayTest]> in
+        Decoders.addDecoder(clazz: [ArrayTest].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[ArrayTest]> in
             return Decoders.decode(clazz: [ArrayTest].self, source: source)
         }
 
@@ -426,22 +425,22 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? ArrayTest() : instance as! ArrayTest
                 switch Decoders.decodeOptional(clazz: [String].self, source: sourceDictionary["array_of_string"] as AnyObject?) {
-                
+
                 case let .success(value): _result.arrayOfString = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: [[Int64]].self, source: sourceDictionary["array_array_of_integer"] as AnyObject?) {
-                
+
                 case let .success(value): _result.arrayArrayOfInteger = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: [[ReadOnlyFirst]].self, source: sourceDictionary["array_array_of_model"] as AnyObject?) {
-                
+
                 case let .success(value): _result.arrayArrayOfModel = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -449,7 +448,7 @@ class Decoders {
             }
         }
         // Decoder for [Capitalization]
-        Decoders.addDecoder(clazz: [Capitalization].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Capitalization]> in
+        Decoders.addDecoder(clazz: [Capitalization].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[Capitalization]> in
             return Decoders.decode(clazz: [Capitalization].self, source: source)
         }
 
@@ -458,40 +457,40 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? Capitalization() : instance as! Capitalization
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["smallCamel"] as AnyObject?) {
-                
+
                 case let .success(value): _result.smallCamel = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["CapitalCamel"] as AnyObject?) {
-                
+
                 case let .success(value): _result.capitalCamel = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["small_Snake"] as AnyObject?) {
-                
+
                 case let .success(value): _result.smallSnake = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["Capital_Snake"] as AnyObject?) {
-                
+
                 case let .success(value): _result.capitalSnake = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["SCA_ETH_Flow_Points"] as AnyObject?) {
-                
+
                 case let .success(value): _result.sCAETHFlowPoints = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["ATT_NAME"] as AnyObject?) {
-                
+
                 case let .success(value): _result.ATT_NAME = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -499,7 +498,7 @@ class Decoders {
             }
         }
         // Decoder for [Cat]
-        Decoders.addDecoder(clazz: [Cat].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Cat]> in
+        Decoders.addDecoder(clazz: [Cat].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[Cat]> in
             return Decoders.decode(clazz: [Cat].self, source: source)
         }
 
@@ -511,22 +510,22 @@ class Decoders {
                   _ = Decoders.decode(clazz: Animal.self, source: source, instance: _result)
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["className"] as AnyObject?) {
-                
+
                 case let .success(value): _result.className = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["color"] as AnyObject?) {
-                
+
                 case let .success(value): _result.color = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["declawed"] as AnyObject?) {
-                
+
                 case let .success(value): _result.declawed = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -534,7 +533,7 @@ class Decoders {
             }
         }
         // Decoder for [Category]
-        Decoders.addDecoder(clazz: [Category].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Category]> in
+        Decoders.addDecoder(clazz: [Category].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[Category]> in
             return Decoders.decode(clazz: [Category].self, source: source)
         }
 
@@ -543,16 +542,16 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? Category() : instance as! Category
                 switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?) {
-                
+
                 case let .success(value): _result.id = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                
+
                 case let .success(value): _result.name = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -560,7 +559,7 @@ class Decoders {
             }
         }
         // Decoder for [ClassModel]
-        Decoders.addDecoder(clazz: [ClassModel].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[ClassModel]> in
+        Decoders.addDecoder(clazz: [ClassModel].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[ClassModel]> in
             return Decoders.decode(clazz: [ClassModel].self, source: source)
         }
 
@@ -569,10 +568,10 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? ClassModel() : instance as! ClassModel
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["_class"] as AnyObject?) {
-                
+
                 case let .success(value): _result._class = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -580,7 +579,7 @@ class Decoders {
             }
         }
         // Decoder for [Client]
-        Decoders.addDecoder(clazz: [Client].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Client]> in
+        Decoders.addDecoder(clazz: [Client].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[Client]> in
             return Decoders.decode(clazz: [Client].self, source: source)
         }
 
@@ -589,10 +588,10 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? Client() : instance as! Client
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client"] as AnyObject?) {
-                
+
                 case let .success(value): _result.client = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -600,7 +599,7 @@ class Decoders {
             }
         }
         // Decoder for [Dog]
-        Decoders.addDecoder(clazz: [Dog].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Dog]> in
+        Decoders.addDecoder(clazz: [Dog].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[Dog]> in
             return Decoders.decode(clazz: [Dog].self, source: source)
         }
 
@@ -612,22 +611,22 @@ class Decoders {
                   _ = Decoders.decode(clazz: Animal.self, source: source, instance: _result)
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["className"] as AnyObject?) {
-                
+
                 case let .success(value): _result.className = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["color"] as AnyObject?) {
-                
+
                 case let .success(value): _result.color = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["breed"] as AnyObject?) {
-                
+
                 case let .success(value): _result.breed = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -635,7 +634,7 @@ class Decoders {
             }
         }
         // Decoder for [EnumArrays]
-        Decoders.addDecoder(clazz: [EnumArrays].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[EnumArrays]> in
+        Decoders.addDecoder(clazz: [EnumArrays].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[EnumArrays]> in
             return Decoders.decode(clazz: [EnumArrays].self, source: source)
         }
 
@@ -644,16 +643,16 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? EnumArrays() : instance as! EnumArrays
                 switch Decoders.decodeOptional(clazz: EnumArrays.JustSymbol.self, source: sourceDictionary["just_symbol"] as AnyObject?) {
-                
+
                 case let .success(value): _result.justSymbol = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Array<EnumArrays.ArrayEnum>.self, source: sourceDictionary["array_enum"] as AnyObject?) {
-                
+
                 case let .success(value): _result.arrayEnum = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -661,7 +660,7 @@ class Decoders {
             }
         }
         // Decoder for [EnumClass]
-        Decoders.addDecoder(clazz: [EnumClass].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[EnumClass]> in
+        Decoders.addDecoder(clazz: [EnumClass].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[EnumClass]> in
             return Decoders.decode(clazz: [EnumClass].self, source: source)
         }
 
@@ -671,7 +670,7 @@ class Decoders {
             return Decoders.decode(clazz: EnumClass.self, source: source, instance: instance)
         }
         // Decoder for [EnumTest]
-        Decoders.addDecoder(clazz: [EnumTest].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[EnumTest]> in
+        Decoders.addDecoder(clazz: [EnumTest].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[EnumTest]> in
             return Decoders.decode(clazz: [EnumTest].self, source: source)
         }
 
@@ -680,28 +679,28 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? EnumTest() : instance as! EnumTest
                 switch Decoders.decodeOptional(clazz: EnumTest.EnumString.self, source: sourceDictionary["enum_string"] as AnyObject?) {
-                
+
                 case let .success(value): _result.enumString = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: EnumTest.EnumInteger.self, source: sourceDictionary["enum_integer"] as AnyObject?) {
-                
+
                 case let .success(value): _result.enumInteger = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: EnumTest.EnumNumber.self, source: sourceDictionary["enum_number"] as AnyObject?) {
-                
+
                 case let .success(value): _result.enumNumber = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: OuterEnum.self, source: sourceDictionary["outerEnum"] as AnyObject?) {
-                
+
                 case let .success(value): _result.outerEnum = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -709,7 +708,7 @@ class Decoders {
             }
         }
         // Decoder for [FormatTest]
-        Decoders.addDecoder(clazz: [FormatTest].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[FormatTest]> in
+        Decoders.addDecoder(clazz: [FormatTest].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[FormatTest]> in
             return Decoders.decode(clazz: [FormatTest].self, source: source)
         }
 
@@ -718,82 +717,82 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? FormatTest() : instance as! FormatTest
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["integer"] as AnyObject?) {
-                
+
                 case let .success(value): _result.integer = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["int32"] as AnyObject?) {
-                
+
                 case let .success(value): _result.int32 = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["int64"] as AnyObject?) {
-                
+
                 case let .success(value): _result.int64 = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["number"] as AnyObject?) {
-                
+
                 case let .success(value): _result.number = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Float.self, source: sourceDictionary["float"] as AnyObject?) {
-                
+
                 case let .success(value): _result.float = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["double"] as AnyObject?) {
-                
+
                 case let .success(value): _result.double = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["string"] as AnyObject?) {
-                
+
                 case let .success(value): _result.string = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Data.self, source: sourceDictionary["byte"] as AnyObject?) {
-                
+
                 case let .success(value): _result.byte = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: URL.self, source: sourceDictionary["binary"] as AnyObject?) {
-                
+
                 case let .success(value): _result.binary = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["date"] as AnyObject?) {
-                
+
                 case let .success(value): _result.date = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["dateTime"] as AnyObject?) {
-                
+
                 case let .success(value): _result.dateTime = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: UUID.self, source: sourceDictionary["uuid"] as AnyObject?) {
-                
+
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"] as AnyObject?) {
-                
+
                 case let .success(value): _result.password = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -801,7 +800,7 @@ class Decoders {
             }
         }
         // Decoder for [HasOnlyReadOnly]
-        Decoders.addDecoder(clazz: [HasOnlyReadOnly].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[HasOnlyReadOnly]> in
+        Decoders.addDecoder(clazz: [HasOnlyReadOnly].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[HasOnlyReadOnly]> in
             return Decoders.decode(clazz: [HasOnlyReadOnly].self, source: source)
         }
 
@@ -810,16 +809,16 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? HasOnlyReadOnly() : instance as! HasOnlyReadOnly
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["bar"] as AnyObject?) {
-                
+
                 case let .success(value): _result.bar = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["foo"] as AnyObject?) {
-                
+
                 case let .success(value): _result.foo = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -827,7 +826,7 @@ class Decoders {
             }
         }
         // Decoder for [List]
-        Decoders.addDecoder(clazz: [List].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[List]> in
+        Decoders.addDecoder(clazz: [List].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[List]> in
             return Decoders.decode(clazz: [List].self, source: source)
         }
 
@@ -836,10 +835,10 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? List() : instance as! List
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["123-list"] as AnyObject?) {
-                
+
                 case let .success(value): _result._123list = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -847,7 +846,7 @@ class Decoders {
             }
         }
         // Decoder for [MapTest]
-        Decoders.addDecoder(clazz: [MapTest].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[MapTest]> in
+        Decoders.addDecoder(clazz: [MapTest].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[MapTest]> in
             return Decoders.decode(clazz: [MapTest].self, source: source)
         }
 
@@ -855,11 +854,11 @@ class Decoders {
         Decoders.addDecoder(clazz: MapTest.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<MapTest> in
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? MapTest() : instance as! MapTest
-                switch Decoders.decodeOptional(clazz: [String:[String:String]].self, source: sourceDictionary["map_map_of_string"] as AnyObject?) {
-                
+                switch Decoders.decodeOptional(clazz: [String: [String: String]].self, source: sourceDictionary["map_map_of_string"] as AnyObject?) {
+
                 case let .success(value): _result.mapMapOfString = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: MapTest.MapOfEnumString.self, source: sourceDictionary["map_of_enum_string"] as AnyObject?) {
                 /*
@@ -873,7 +872,7 @@ class Decoders {
             }
         }
         // Decoder for [MixedPropertiesAndAdditionalPropertiesClass]
-        Decoders.addDecoder(clazz: [MixedPropertiesAndAdditionalPropertiesClass].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[MixedPropertiesAndAdditionalPropertiesClass]> in
+        Decoders.addDecoder(clazz: [MixedPropertiesAndAdditionalPropertiesClass].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[MixedPropertiesAndAdditionalPropertiesClass]> in
             return Decoders.decode(clazz: [MixedPropertiesAndAdditionalPropertiesClass].self, source: source)
         }
 
@@ -882,22 +881,22 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? MixedPropertiesAndAdditionalPropertiesClass() : instance as! MixedPropertiesAndAdditionalPropertiesClass
                 switch Decoders.decodeOptional(clazz: UUID.self, source: sourceDictionary["uuid"] as AnyObject?) {
-                
+
                 case let .success(value): _result.uuid = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["dateTime"] as AnyObject?) {
-                
+
                 case let .success(value): _result.dateTime = value
                 case let .failure(error): break
-                
+
                 }
-                switch Decoders.decodeOptional(clazz: [String:Animal].self, source: sourceDictionary["map"] as AnyObject?) {
-                
+                switch Decoders.decodeOptional(clazz: [String: Animal].self, source: sourceDictionary["map"] as AnyObject?) {
+
                 case let .success(value): _result.map = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -905,7 +904,7 @@ class Decoders {
             }
         }
         // Decoder for [Model200Response]
-        Decoders.addDecoder(clazz: [Model200Response].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Model200Response]> in
+        Decoders.addDecoder(clazz: [Model200Response].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[Model200Response]> in
             return Decoders.decode(clazz: [Model200Response].self, source: source)
         }
 
@@ -914,16 +913,16 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? Model200Response() : instance as! Model200Response
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["name"] as AnyObject?) {
-                
+
                 case let .success(value): _result.name = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["class"] as AnyObject?) {
-                
+
                 case let .success(value): _result._class = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -931,7 +930,7 @@ class Decoders {
             }
         }
         // Decoder for [Name]
-        Decoders.addDecoder(clazz: [Name].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Name]> in
+        Decoders.addDecoder(clazz: [Name].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[Name]> in
             return Decoders.decode(clazz: [Name].self, source: source)
         }
 
@@ -940,28 +939,28 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? Name() : instance as! Name
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["name"] as AnyObject?) {
-                
+
                 case let .success(value): _result.name = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["snake_case"] as AnyObject?) {
-                
+
                 case let .success(value): _result.snakeCase = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["property"] as AnyObject?) {
-                
+
                 case let .success(value): _result.property = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["123Number"] as AnyObject?) {
-                
+
                 case let .success(value): _result._123number = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -969,7 +968,7 @@ class Decoders {
             }
         }
         // Decoder for [NumberOnly]
-        Decoders.addDecoder(clazz: [NumberOnly].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[NumberOnly]> in
+        Decoders.addDecoder(clazz: [NumberOnly].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[NumberOnly]> in
             return Decoders.decode(clazz: [NumberOnly].self, source: source)
         }
 
@@ -978,10 +977,10 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? NumberOnly() : instance as! NumberOnly
                 switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["JustNumber"] as AnyObject?) {
-                
+
                 case let .success(value): _result.justNumber = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -989,7 +988,7 @@ class Decoders {
             }
         }
         // Decoder for [Order]
-        Decoders.addDecoder(clazz: [Order].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Order]> in
+        Decoders.addDecoder(clazz: [Order].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[Order]> in
             return Decoders.decode(clazz: [Order].self, source: source)
         }
 
@@ -998,40 +997,40 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? Order() : instance as! Order
                 switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?) {
-                
+
                 case let .success(value): _result.id = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["petId"] as AnyObject?) {
-                
+
                 case let .success(value): _result.petId = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["quantity"] as AnyObject?) {
-                
+
                 case let .success(value): _result.quantity = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Date.self, source: sourceDictionary["shipDate"] as AnyObject?) {
-                
+
                 case let .success(value): _result.shipDate = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Order.Status.self, source: sourceDictionary["status"] as AnyObject?) {
-                
+
                 case let .success(value): _result.status = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["complete"] as AnyObject?) {
-                
+
                 case let .success(value): _result.complete = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -1039,7 +1038,7 @@ class Decoders {
             }
         }
         // Decoder for [OuterComposite]
-        Decoders.addDecoder(clazz: [OuterComposite].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[OuterComposite]> in
+        Decoders.addDecoder(clazz: [OuterComposite].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[OuterComposite]> in
             return Decoders.decode(clazz: [OuterComposite].self, source: source)
         }
 
@@ -1048,22 +1047,22 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? OuterComposite() : instance as! OuterComposite
                 switch Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["my_number"] as AnyObject?) {
-                
+
                 case let .success(value): _result.myNumber = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["my_string"] as AnyObject?) {
-                
+
                 case let .success(value): _result.myString = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["my_boolean"] as AnyObject?) {
-                
+
                 case let .success(value): _result.myBoolean = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -1071,7 +1070,7 @@ class Decoders {
             }
         }
         // Decoder for [OuterEnum]
-        Decoders.addDecoder(clazz: [OuterEnum].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[OuterEnum]> in
+        Decoders.addDecoder(clazz: [OuterEnum].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[OuterEnum]> in
             return Decoders.decode(clazz: [OuterEnum].self, source: source)
         }
 
@@ -1081,7 +1080,7 @@ class Decoders {
             return Decoders.decode(clazz: OuterEnum.self, source: source, instance: instance)
         }
         // Decoder for [Pet]
-        Decoders.addDecoder(clazz: [Pet].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Pet]> in
+        Decoders.addDecoder(clazz: [Pet].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[Pet]> in
             return Decoders.decode(clazz: [Pet].self, source: source)
         }
 
@@ -1090,40 +1089,40 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? Pet() : instance as! Pet
                 switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?) {
-                
+
                 case let .success(value): _result.id = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Category.self, source: sourceDictionary["category"] as AnyObject?) {
-                
+
                 case let .success(value): _result.category = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                
+
                 case let .success(value): _result.name = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: [String].self, source: sourceDictionary["photoUrls"] as AnyObject?) {
-                
+
                 case let .success(value): _result.photoUrls = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: [Tag].self, source: sourceDictionary["tags"] as AnyObject?) {
-                
+
                 case let .success(value): _result.tags = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Pet.Status.self, source: sourceDictionary["status"] as AnyObject?) {
-                
+
                 case let .success(value): _result.status = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -1131,7 +1130,7 @@ class Decoders {
             }
         }
         // Decoder for [ReadOnlyFirst]
-        Decoders.addDecoder(clazz: [ReadOnlyFirst].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[ReadOnlyFirst]> in
+        Decoders.addDecoder(clazz: [ReadOnlyFirst].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[ReadOnlyFirst]> in
             return Decoders.decode(clazz: [ReadOnlyFirst].self, source: source)
         }
 
@@ -1140,16 +1139,16 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? ReadOnlyFirst() : instance as! ReadOnlyFirst
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["bar"] as AnyObject?) {
-                
+
                 case let .success(value): _result.bar = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["baz"] as AnyObject?) {
-                
+
                 case let .success(value): _result.baz = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -1157,7 +1156,7 @@ class Decoders {
             }
         }
         // Decoder for [Return]
-        Decoders.addDecoder(clazz: [Return].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Return]> in
+        Decoders.addDecoder(clazz: [Return].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[Return]> in
             return Decoders.decode(clazz: [Return].self, source: source)
         }
 
@@ -1166,10 +1165,10 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? Return() : instance as! Return
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["return"] as AnyObject?) {
-                
+
                 case let .success(value): _result._return = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -1177,7 +1176,7 @@ class Decoders {
             }
         }
         // Decoder for [SpecialModelName]
-        Decoders.addDecoder(clazz: [SpecialModelName].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[SpecialModelName]> in
+        Decoders.addDecoder(clazz: [SpecialModelName].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[SpecialModelName]> in
             return Decoders.decode(clazz: [SpecialModelName].self, source: source)
         }
 
@@ -1186,10 +1185,10 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? SpecialModelName() : instance as! SpecialModelName
                 switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["$special[property.name]"] as AnyObject?) {
-                
+
                 case let .success(value): _result.specialPropertyName = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -1197,7 +1196,7 @@ class Decoders {
             }
         }
         // Decoder for [Tag]
-        Decoders.addDecoder(clazz: [Tag].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Tag]> in
+        Decoders.addDecoder(clazz: [Tag].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[Tag]> in
             return Decoders.decode(clazz: [Tag].self, source: source)
         }
 
@@ -1206,16 +1205,16 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? Tag() : instance as! Tag
                 switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?) {
-                
+
                 case let .success(value): _result.id = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?) {
-                
+
                 case let .success(value): _result.name = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {
@@ -1223,7 +1222,7 @@ class Decoders {
             }
         }
         // Decoder for [User]
-        Decoders.addDecoder(clazz: [User].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[User]> in
+        Decoders.addDecoder(clazz: [User].self) { (source: AnyObject, _: AnyObject?) -> Decoded<[User]> in
             return Decoders.decode(clazz: [User].self, source: source)
         }
 
@@ -1232,52 +1231,52 @@ class Decoders {
             if let sourceDictionary = source as? [AnyHashable: Any] {
                 let _result = instance == nil ? User() : instance as! User
                 switch Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"] as AnyObject?) {
-                
+
                 case let .success(value): _result.id = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"] as AnyObject?) {
-                
+
                 case let .success(value): _result.username = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["firstName"] as AnyObject?) {
-                
+
                 case let .success(value): _result.firstName = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["lastName"] as AnyObject?) {
-                
+
                 case let .success(value): _result.lastName = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"] as AnyObject?) {
-                
+
                 case let .success(value): _result.email = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"] as AnyObject?) {
-                
+
                 case let .success(value): _result.password = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["phone"] as AnyObject?) {
-                
+
                 case let .success(value): _result.phone = value
                 case let .failure(error): break
-                
+
                 }
                 switch Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["userStatus"] as AnyObject?) {
-                
+
                 case let .success(value): _result.userStatus = value
                 case let .failure(error): break
-                
+
                 }
                 return .success(_result)
             } else {

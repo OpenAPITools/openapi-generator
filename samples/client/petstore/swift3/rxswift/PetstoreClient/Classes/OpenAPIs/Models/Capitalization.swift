@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 open class Capitalization: JSONEncodable {
 
     public var smallCamel: String?
@@ -22,7 +21,7 @@ open class Capitalization: JSONEncodable {
 
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["smallCamel"] = self.smallCamel
         nillableDictionary["CapitalCamel"] = self.capitalCamel
         nillableDictionary["small_Snake"] = self.smallSnake
@@ -30,8 +29,7 @@ open class Capitalization: JSONEncodable {
         nillableDictionary["SCA_ETH_Flow_Points"] = self.sCAETHFlowPoints
         nillableDictionary["ATT_NAME"] = self.ATT_NAME
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

@@ -9,7 +9,6 @@ import Foundation
 import Alamofire
 import PromiseKit
 
-
 open class UserAPI: APIBase {
     /**
      Create user
@@ -17,7 +16,7 @@ open class UserAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createUser(user: User, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        createUserWithRequestBuilder(user: user).execute { (response, error) -> Void in
+        createUserWithRequestBuilder(user: user).execute { (_, error) -> Void in
             completion(error)
         }
     }
@@ -64,7 +63,7 @@ open class UserAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createUsersWithArrayInput(user: [User], completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        createUsersWithArrayInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
+        createUsersWithArrayInputWithRequestBuilder(user: user).execute { (_, error) -> Void in
             completion(error)
         }
     }
@@ -110,7 +109,7 @@ open class UserAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createUsersWithListInput(user: [User], completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        createUsersWithListInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
+        createUsersWithListInputWithRequestBuilder(user: user).execute { (_, error) -> Void in
             completion(error)
         }
     }
@@ -156,7 +155,7 @@ open class UserAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func deleteUser(username: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
+        deleteUserWithRequestBuilder(username: username).execute { (_, error) -> Void in
             completion(error)
         }
     }
@@ -191,8 +190,8 @@ open class UserAPI: APIBase {
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -240,8 +239,8 @@ open class UserAPI: APIBase {
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -267,7 +266,7 @@ open class UserAPI: APIBase {
      - parameter password: (query) The password for login in clear text 
      - returns: Promise<String>
      */
-    open class func loginUser( username: String,  password: String) -> Promise<String> {
+    open class func loginUser( username: String, password: String) -> Promise<String> {
         let deferred = Promise<String>.pending()
         loginUser(username: username, password: password) { data, error in
             if let error = error {
@@ -290,10 +289,10 @@ open class UserAPI: APIBase {
     open class func loginUserWithRequestBuilder(username: String, password: String) -> RequestBuilder<String> {
         let path = "/user/login"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         var url = URLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+        url?.queryItems = APIHelper.mapValuesToQueryItems(values: [
             "username": username,
             "password": password
         ])
@@ -308,7 +307,7 @@ open class UserAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func logoutUser(completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        logoutUserWithRequestBuilder().execute { (response, error) -> Void in
+        logoutUserWithRequestBuilder().execute { (_, error) -> Void in
             completion(error)
         }
     }
@@ -319,7 +318,7 @@ open class UserAPI: APIBase {
      */
     open class func logoutUser() -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        logoutUser() { error in
+        logoutUser { error in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -337,8 +336,8 @@ open class UserAPI: APIBase {
     open class func logoutUserWithRequestBuilder() -> RequestBuilder<Void> {
         let path = "/user/logout"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
+        let parameters: [String: Any]? = nil
+
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -353,7 +352,7 @@ open class UserAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func updateUser(username: String, user: User, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
-        updateUserWithRequestBuilder(username: username, user: user).execute { (response, error) -> Void in
+        updateUserWithRequestBuilder(username: username, user: user).execute { (_, error) -> Void in
             completion(error)
         }
     }
@@ -364,7 +363,7 @@ open class UserAPI: APIBase {
      - parameter user: (body) Updated user object 
      - returns: Promise<Void>
      */
-    open class func updateUser( username: String,  user: User) -> Promise<Void> {
+    open class func updateUser( username: String, user: User) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         updateUser(username: username, user: user) { error in
             if let error = error {

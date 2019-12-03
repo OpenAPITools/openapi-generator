@@ -17,7 +17,7 @@
 
     typealias AtomicInt = Int32
 
-    fileprivate func castToUInt32Pointer(_ pointer: UnsafeMutablePointer<Int32>) -> UnsafeMutablePointer<UInt32> {
+    private func castToUInt32Pointer(_ pointer: UnsafeMutablePointer<Int32>) -> UnsafeMutablePointer<UInt32> {
         let raw = UnsafeMutableRawPointer(pointer)
         return raw.assumingMemoryBound(to: UInt32.self)
     }
@@ -25,10 +25,10 @@
     let AtomicCompareAndSwap = OSAtomicCompareAndSwap32Barrier
     let AtomicIncrement = OSAtomicIncrement32Barrier
     let AtomicDecrement = OSAtomicDecrement32Barrier
-    func AtomicOr(_ mask: UInt32, _ theValue : UnsafeMutablePointer<Int32>) -> Int32 {
+    func AtomicOr(_ mask: UInt32, _ theValue: UnsafeMutablePointer<Int32>) -> Int32 {
         return OSAtomicOr32OrigBarrier(mask, castToUInt32Pointer(theValue))
     }
-    func AtomicFlagSet(_ mask: UInt32, _ theValue : UnsafeMutablePointer<Int32>) -> Bool {
+    func AtomicFlagSet(_ mask: UInt32, _ theValue: UnsafeMutablePointer<Int32>) -> Bool {
         // just used to create a barrier
         OSAtomicXor32OrigBarrier(0, castToUInt32Pointer(theValue))
         return (theValue.pointee & Int32(mask)) != 0
@@ -43,8 +43,7 @@
 
             if let newValue = value {
                 threadDictionary[key] = newValue
-            }
-            else {
+            } else {
                 threadDictionary[key] = nil
             }
 
@@ -52,7 +51,7 @@
         static func getThreadLocalStorageValueForKey<T>(_ key: NSCopying) -> T? {
             let currentThread = Thread.current
             let threadDictionary = currentThread.threadDictionary
-            
+
             return threadDictionary[key] as? T
         }
     }
@@ -62,5 +61,5 @@
             return self
         }
     }
-    
+
 #endif

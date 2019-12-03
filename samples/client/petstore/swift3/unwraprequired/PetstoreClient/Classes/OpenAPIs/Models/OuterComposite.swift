@@ -7,13 +7,11 @@
 
 import Foundation
 
-
 open class OuterComposite: JSONEncodable {
 
     public var myNumber: Double?
     public var myString: String?
     public var myBoolean: Bool?
-
 
     public init(myNumber: Double?=nil, myString: String?=nil, myBoolean: Bool?=nil) {
         self.myNumber = myNumber
@@ -22,13 +20,12 @@ open class OuterComposite: JSONEncodable {
     }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["my_number"] = self.myNumber
         nillableDictionary["my_string"] = self.myString
         nillableDictionary["my_boolean"] = self.myBoolean
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

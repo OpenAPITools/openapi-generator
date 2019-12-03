@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /** Model for testing model with \&quot;_class\&quot; property */
 open class ClassModel: JSONEncodable {
 
@@ -17,11 +16,10 @@ open class ClassModel: JSONEncodable {
 
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["_class"] = self._class
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

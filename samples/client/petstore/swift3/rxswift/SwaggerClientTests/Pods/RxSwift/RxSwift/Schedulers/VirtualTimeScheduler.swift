@@ -7,17 +7,16 @@
 //
 
 /// Base class for virtual time schedulers using a priority queue for scheduled items.
-open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
-    : SchedulerType {
+open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>: SchedulerType {
 
     public typealias VirtualTime = Converter.VirtualTimeUnit
     public typealias VirtualTimeInterval = Converter.VirtualTimeIntervalUnit
 
-    private var _running : Bool
+    private var _running: Bool
 
     private var _clock: VirtualTime
 
-    fileprivate var _schedulerQueue : PriorityQueue<VirtualSchedulerItem<VirtualTime>>
+    fileprivate var _schedulerQueue: PriorityQueue<VirtualSchedulerItem<VirtualTime>>
     private var _converter: Converter
 
     private var _nextId = 0
@@ -50,7 +49,7 @@ open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
             }
         }, isEqual: { $0 === $1 })
         #if TRACE_RESOURCES
-            let _ = Resources.incrementTotal()
+            _ = Resources.incrementTotal()
         #endif
     }
 
@@ -116,9 +115,9 @@ open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
         _nextId += 1
 
         _schedulerQueue.enqueue(item)
-        
+
         _ = compositeDisposable.insert(item)
-        
+
         return compositeDisposable
     }
 
@@ -141,7 +140,7 @@ open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
                 break
             }
 
-            if _converter.compareVirtualTime(next.time, self.clock).greaterThan  {
+            if _converter.compareVirtualTime(next.time, self.clock).greaterThan {
                 _clock = next.time
             }
 
@@ -185,7 +184,7 @@ open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
                 break
             }
 
-            if _converter.compareVirtualTime(next.time, self.clock).greaterThan  {
+            if _converter.compareVirtualTime(next.time, self.clock).greaterThan {
                 _clock = next.time
             }
 
@@ -232,10 +231,9 @@ extension VirtualTimeScheduler: CustomDebugStringConvertible {
     }
 }
 
-final class VirtualSchedulerItem<Time>
-    : Disposable {
+final class VirtualSchedulerItem<Time>: Disposable {
     typealias Action = () -> Disposable
-    
+
     let action: Action
     let time: Time
     let id: Int
@@ -243,9 +241,9 @@ final class VirtualSchedulerItem<Time>
     var isDisposed: Bool {
         return disposable.isDisposed
     }
-    
+
     var disposable = SingleAssignmentDisposable()
-    
+
     init(action: @escaping Action, time: Time, id: Int) {
         self.action = action
         self.time = time
@@ -255,14 +253,13 @@ final class VirtualSchedulerItem<Time>
     func invoke() {
          self.disposable.setDisposable(action())
     }
-    
+
     func dispose() {
         self.disposable.dispose()
     }
 }
 
-extension VirtualSchedulerItem
-    : CustomDebugStringConvertible {
+extension VirtualSchedulerItem: CustomDebugStringConvertible {
     var debugDescription: String {
         return "\(time)"
     }

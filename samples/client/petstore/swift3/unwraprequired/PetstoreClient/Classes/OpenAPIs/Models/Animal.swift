@@ -7,12 +7,10 @@
 
 import Foundation
 
-
 open class Animal: JSONEncodable {
 
     public var className: String
     public var color: String?
-
 
     public init(className: String, color: String?=nil) {
         self.className = className
@@ -20,12 +18,11 @@ open class Animal: JSONEncodable {
     }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["className"] = self.className
         nillableDictionary["color"] = self.color
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

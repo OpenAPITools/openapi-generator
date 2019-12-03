@@ -6,12 +6,12 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-class Producer<Element> : Observable<Element> {
+class Producer<Element>: Observable<Element> {
     override init() {
         super.init()
     }
-    
-    override func subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == Element {
+
+    override func subscribe<O: ObserverType>(_ observer: O) -> Disposable where O.E == Element {
         if !CurrentThreadScheduler.isScheduleRequired {
             // The returned disposable needs to release all references once it was disposed.
             let disposer = SinkDisposer()
@@ -19,8 +19,7 @@ class Producer<Element> : Observable<Element> {
             disposer.setSinkAndSubscription(sink: sinkAndSubscription.sink, subscription: sinkAndSubscription.subscription)
 
             return disposer
-        }
-        else {
+        } else {
             return CurrentThreadScheduler.instance.schedule(()) { _ in
                 let disposer = SinkDisposer()
                 let sinkAndSubscription = self.run(observer, cancel: disposer)
@@ -30,8 +29,8 @@ class Producer<Element> : Observable<Element> {
             }
         }
     }
-    
-    func run<O : ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
+
+    func run<O: ObserverType>(_ observer: O, cancel: Cancelable) -> (sink: Disposable, subscription: Disposable) where O.E == Element {
         rxAbstractMethod()
     }
 }
@@ -47,10 +46,10 @@ fileprivate final class SinkDisposer: Cancelable {
         case disposed = 1
         case sinkAndSubscriptionSet = 2
     }
-    
+
     private var _state: AtomicInt = 0
-    private var _sink: Disposable? = nil
-    private var _subscription: Disposable? = nil
+    private var _sink: Disposable?
+    private var _subscription: Disposable?
 
     var isDisposed: Bool {
         return AtomicFlagSet(DisposeState.disposed.rawValue, &_state)
@@ -72,7 +71,7 @@ fileprivate final class SinkDisposer: Cancelable {
             _subscription = nil
         }
     }
-    
+
     func dispose() {
         let previousState = AtomicOr(DisposeState.disposed.rawValue, &_state)
 

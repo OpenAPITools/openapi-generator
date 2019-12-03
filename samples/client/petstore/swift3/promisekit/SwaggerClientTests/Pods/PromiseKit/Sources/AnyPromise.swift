@@ -100,7 +100,7 @@ import Foundation
         state.catch(on: q, policy: policy, else: { _ in }, execute: body)
     }
 
-//MARK: ObjC methods
+// MARK: ObjC methods
 
     /**
      A promise starts pending and eventually resolves.
@@ -253,7 +253,6 @@ import Foundation
         }
     }
 }
-
 
 extension AnyPromise {
     /**

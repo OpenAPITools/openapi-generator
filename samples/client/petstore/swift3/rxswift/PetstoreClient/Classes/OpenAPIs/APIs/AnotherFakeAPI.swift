@@ -9,7 +9,6 @@ import Foundation
 import Alamofire
 import RxSwift
 
-
 open class AnotherFakeAPI: APIBase {
     /**
      To test special tags

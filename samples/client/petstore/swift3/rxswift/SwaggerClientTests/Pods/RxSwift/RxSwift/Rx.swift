@@ -7,7 +7,7 @@
 //
 
 #if TRACE_RESOURCES
-    fileprivate var resourceCount: AtomicInt = 0
+    private var resourceCount: AtomicInt = 0
 
     /// Resource utilization information
     public struct Resources {
@@ -37,7 +37,7 @@ func rxAbstractMethod(file: StaticString = #file, line: UInt = #line) -> Swift.N
     rxFatalError("Abstract method", file: file, line: line)
 }
 
-func rxFatalError(_ lastMessage: @autoclosure () -> String, file: StaticString = #file, line: UInt = #line) -> Swift.Never  {
+func rxFatalError(_ lastMessage: @autoclosure () -> String, file: StaticString = #file, line: UInt = #line) -> Swift.Never {
     // The temptation to comment this line is great, but please don't, it's for your own good. The choice is yours.
     fatalError(lastMessage(), file: file, line: line)
 }
@@ -76,7 +76,7 @@ func decrementChecked(_ i: inout Int) throws -> Int {
             case `default` = "Two different unsynchronized threads are trying to send some event simultaneously.\n    This is undefined behavior because the ordering of the effects caused by these events is nondeterministic and depends on the \n    operating system thread scheduler. This will result in a random behavior of your program.\n"
         }
 
-        private var _threads = Dictionary<UnsafeMutableRawPointer, Int>()
+        private var _threads = [UnsafeMutableRawPointer: Int]()
 
         private func synchronizationError(_ message: String) {
             #if FATAL_SYNCHRONIZATION
@@ -85,7 +85,7 @@ func decrementChecked(_ i: inout Int) throws -> Int {
                 print(message)
             #endif
         }
-        
+
         func register(synchronizationErrorMessage: SychronizationErrorMessages) {
             _lock.lock(); defer { _lock.unlock() }
             let pointer = Unmanaged.passUnretained(Thread.current).toOpaque()
@@ -104,7 +104,7 @@ func decrementChecked(_ i: inout Int) throws -> Int {
                     "    or by enqueing sequence events in some other way.\n"
                 )
             }
-            
+
             _threads[pointer] = count
 
             if _threads.count > 1 {

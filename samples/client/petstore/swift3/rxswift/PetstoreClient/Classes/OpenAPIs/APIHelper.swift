@@ -7,8 +7,8 @@
 import Foundation
 
 class APIHelper {
-    static func rejectNil(_ source: [String:Any?]) -> [String:Any]? {
-        var destination = [String:Any]()
+    static func rejectNil(_ source: [String: Any?]) -> [String: Any]? {
+        var destination = [String: Any]()
         for (key, nillableValue) in source {
             if let value: Any = nillableValue {
                 destination[key] = value
@@ -21,8 +21,8 @@ class APIHelper {
         return destination
     }
 
-    static func rejectNilHeaders(_ source: [String:Any?]) -> [String:String] {
-        var destination = [String:String]()
+    static func rejectNilHeaders(_ source: [String: Any?]) -> [String: String] {
+        var destination = [String: String]()
         for (key, nillableValue) in source {
             if let value: Any = nillableValue {
                 destination[key] = "\(value)"
@@ -31,11 +31,11 @@ class APIHelper {
         return destination
     }
 
-    static func convertBoolToString(_ source: [String: Any]?) -> [String:Any]? {
+    static func convertBoolToString(_ source: [String: Any]?) -> [String: Any]? {
         guard let source = source else {
             return nil
         }
-        var destination = [String:Any]()
+        var destination = [String: Any]()
         let theTrue = NSNumber(value: true as Bool)
         let theFalse = NSNumber(value: false as Bool)
         for (key, value) in source {
@@ -49,11 +49,11 @@ class APIHelper {
         return destination
     }
 
-    static func mapValuesToQueryItems(values: [String:Any?]) -> [URLQueryItem]? {
+    static func mapValuesToQueryItems(values: [String: Any?]) -> [URLQueryItem]? {
         let returnValues = values
             .filter { $0.1 != nil }
             .map { (item: (_key: String, _value: Any?)) -> [URLQueryItem] in
-                if let value = item._value as? Array<String> {
+                if let value = item._value as? [String] {
                     return value.map { (v) -> URLQueryItem in
                         URLQueryItem(
                             name: item._key,

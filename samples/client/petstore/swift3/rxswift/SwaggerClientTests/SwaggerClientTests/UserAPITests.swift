@@ -93,7 +93,7 @@ class UserAPITests: XCTestCase {
             }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func testCreateUserWithArray() {
         let expectation = self.expectation(description: "testCreateUserWithArray")
         let newUser = User()
@@ -105,7 +105,7 @@ class UserAPITests: XCTestCase {
         newUser.phone = "867-5309"
         newUser.username = "test@test.com"
         newUser.userStatus = 0
-        
+
         let newUser2 = User()
         newUser2.email = "test2@test.com"
         newUser2.firstName = "Test2"
@@ -134,7 +134,7 @@ class UserAPITests: XCTestCase {
             XCTAssert(user.password == "test!", "invalid password")
             XCTAssert(user.phone == "867-5309", "invalid phone")
             expectation.fulfill()
-            }, onError: { errorType in
+            }, onError: { _ in
                 XCTFail("error getting user")
             }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)

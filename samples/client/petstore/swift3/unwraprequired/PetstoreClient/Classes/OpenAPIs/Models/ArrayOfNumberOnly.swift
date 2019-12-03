@@ -7,22 +7,19 @@
 
 import Foundation
 
-
 open class ArrayOfNumberOnly: JSONEncodable {
 
     public var arrayNumber: [Double]?
-
 
     public init(arrayNumber: [Double]?=nil) {
         self.arrayNumber = arrayNumber
     }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["ArrayNumber"] = self.arrayNumber?.encodeToJSON()
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-

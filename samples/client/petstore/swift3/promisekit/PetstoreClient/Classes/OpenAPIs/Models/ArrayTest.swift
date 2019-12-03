@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 open class ArrayTest: JSONEncodable {
 
     public var arrayOfString: [String]?
@@ -18,13 +17,12 @@ open class ArrayTest: JSONEncodable {
 
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
+        var nillableDictionary = [String: Any?]()
         nillableDictionary["array_of_string"] = self.arrayOfString?.encodeToJSON()
         nillableDictionary["array_array_of_integer"] = self.arrayArrayOfInteger?.encodeToJSON()
         nillableDictionary["array_array_of_model"] = self.arrayArrayOfModel?.encodeToJSON()
 
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        let dictionary: [String: Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
-
