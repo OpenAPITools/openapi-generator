@@ -425,7 +425,7 @@ export class {{classname}} {
             responseType: ResponseContentType.Blob,
 {{/isResponseFile}}
 {{^isResponseFile}}
-            responseType: httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
 {{/isResponseFile}}
 {{#hasQueryParams}}
             search: queryParameters,
