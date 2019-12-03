@@ -944,7 +944,7 @@ public class ModelUtils {
             return refedParentNames.get(0);
         }
 
-        return null;
+        return "";
     }
 
     public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {

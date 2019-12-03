@@ -235,4 +235,13 @@ public class ModelUtilsTest {
         // Test a null schema
         Assert.assertFalse(ModelUtils.isFreeFormObject(null));
     }
+
+    @Test
+    public void canHandleAllOfWithInlineSchema() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf-inline.yaml");
+        List<String> allUsedSchemas = ModelUtils.getAllUsedSchemas(openAPI);
+
+        Assert.assertEquals(allUsedSchemas.size(), 1);
+        Assert.assertTrue(allUsedSchemas.contains("allOfInline"), "contains 'allOfInline'");
+    }
 }
