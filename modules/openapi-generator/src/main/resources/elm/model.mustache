@@ -1,7 +1,7 @@
 {{>licenseInfo}}
 
 module Api.Data exposing
-{{#models}}{{#model}}    {{#-first}}( {{/-first}}{{^-first}}, {{/-first}}{{classname}}{{#oneOf}}{{#-first}}(..){{/-first}}{{/oneOf}}{{#isEnum}}(..){{/isEnum}}{{^isEnum}}{{#vars}}{{#isEnum}}, {{classname}}{{nameInCamelCase}}(..){{/isEnum}}{{/vars}}{{/isEnum}}
+{{#models}}{{#model}}    {{#-first}}( {{/-first}}{{^-first}}, {{/-first}}{{classname}}{{#oneOf}}{{#-first}}(..){{/-first}}{{/oneOf}}{{#isEnum}}(..), {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Variants{{/isEnum}}{{^isEnum}}{{#vars}}{{#isEnum}}, {{classname}}{{nameInCamelCase}}(..), {{#lambda.camelcase}}{{classname}}{{nameInCamelCase}}{{/lambda.camelcase}}Variants{{/isEnum}}{{/vars}}{{/isEnum}}
 {{/model}}{{/models}}{{#models}}{{#model}}    , encode{{classname}}
 {{/model}}{{/models}}{{#models}}{{#model}}    , {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder
 {{/model}}{{/models}}    )

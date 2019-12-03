@@ -1,7 +1,7 @@
 {{>licenseInfo}}
 
 module Api.Request.{{classname}} exposing
-{{#operations}}{{#operation}}    {{#-first}}( {{/-first}}{{^-first}}, {{/-first}}{{operationId}}{{#allParams}}{{#isEnum}}, {{enumName}}(..){{/isEnum}}{{/allParams}}
+{{#operations}}{{#operation}}    {{#-first}}( {{/-first}}{{^-first}}, {{/-first}}{{operationId}}{{#allParams}}{{#isEnum}}, {{enumName}}(..), {{#lambda.camelcase}}{{enumName}}{{/lambda.camelcase}}Variants{{/isEnum}}{{/allParams}}
 {{/operation}}{{/operations}}    )
 
 import Api

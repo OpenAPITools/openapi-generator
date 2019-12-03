@@ -1,5 +1,5 @@
 type alias {{classname}} =
-{{#vars}}    {{#-first}}{ {{/-first}}{{^-first}}, {{/-first}}{{baseName}} : {{#isNullable}}Maybe {{#isContainer}}({{/isContainer}}{{/isNullable}}{{^isNullable}}{{^required}}Maybe {{#isContainer}}({{/isContainer}}{{/required}}{{/isNullable}}{{#isListContainer}}List {{/isListContainer}}{{#isMapContainer}}Dict.Dict String {{/isMapContainer}}{{dataType}}{{#isContainer}}{{#isNullable}}){{/isNullable}}{{^isNullable}}{{^required}}){{/required}}{{/isNullable}}{{/isContainer}}
+{{#vars}}    {{#-first}}{ {{/-first}}{{^-first}}, {{/-first}}{{name}} : {{#isNullable}}Maybe {{#isContainer}}({{/isContainer}}{{/isNullable}}{{^isNullable}}{{^required}}Maybe {{#isContainer}}({{/isContainer}}{{/required}}{{/isNullable}}{{#isListContainer}}List {{/isListContainer}}{{#isMapContainer}}Dict.Dict String {{/isMapContainer}}{{dataType}}{{#isContainer}}{{#isNullable}}){{/isNullable}}{{^isNullable}}{{^required}}){{/required}}{{/isNullable}}{{/isContainer}}
 {{/vars}}
     }
 
