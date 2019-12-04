@@ -457,6 +457,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
         }
 
+        additionalProperties.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, getSortParamsByRequiredFlag());
+        
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
 

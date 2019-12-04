@@ -29,11 +29,18 @@ import java.io.Serializable
 {{/parcelizeModels}}
 {{#multiplatform}}@Serializable{{/multiplatform}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}data class {{classname}} (
+{{#sortParamsByRequiredFlag}}
 {{#requiredVars}}
-{{>data_class_req_var}}{{^-last}},
+{{>data_class_var}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
-{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_opt_var}}{{^-last}},
+{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_var}}{{^-last}},
 {{/-last}}{{/optionalVars}}
+{{/sortParamsByRequiredFlag}}
+{{^sortParamsByRequiredFlag}}
+{{#vars}}
+{{>data_class_var}}{{^-last}},{{/-last}}
+{{/vars}}
+{{/sortParamsByRequiredFlag}}
 ) {{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}
 {{^parcelizeModels}}{{#serializableModel}}: Serializable {{/serializableModel}}{{/parcelizeModels}}
 {{#parcelizeModels}}{{#serializableModel}} : Parcelable, Serializable {{/serializableModel}}{{/parcelizeModels}}
