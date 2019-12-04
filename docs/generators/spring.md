@@ -50,7 +50,7 @@ sidebar_label: spring
 |skipDefaultInterface|Whether to generate default implementations for java8 interfaces| |false|
 |async|use async Callable controllers| |false|
 |reactive|wrap responses in Mono/Flux Reactor types (spring-boot only)| |false|
-|responseWrapper|wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)| |null|
+|responseWrapper|wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, HystrixCommand, RxObservable, RxSingle or fully qualified type)| |null|
 |virtualService|Generates the virtual service. For more details refer - https://github.com/elan-venture/virtualan/wiki| |false|
 |useTags|use tags for creating interface and controller classnames| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
