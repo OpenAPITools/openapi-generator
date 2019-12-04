@@ -18,8 +18,10 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -112,7 +114,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         }
         return camelize(name) + apiSuffix;
     }
-    
+
     @Override
     public String toApiFilename(String name) {
         if (name.length() == 0) {
@@ -150,7 +152,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
         return modelPackage() + "/" + camelize(toModelName(name), true);
     }
-    
+
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         Map<String, Object> result = super.postProcessAllModels(objs);
@@ -167,7 +169,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         }
         return result;
     }
-    
+
     private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
         List<Map<String, String>> tsImports = new ArrayList<>();
         for (String im : imports) {
@@ -180,31 +182,31 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         }
         return tsImports;
     }
-    
+
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
-        
+
         // The api.mustache template requires all of the auth methods for the whole api
         // Loop over all the operations and pick out each unique auth method
         Map<String, CodegenSecurity> authMethodsMap = new HashMap<>();
         for (CodegenOperation op : (List<CodegenOperation>) objs.get("operation")) {
-            if(op.hasAuthMethods){
-                for(CodegenSecurity sec : op.authMethods){
+            if (op.hasAuthMethods) {
+                for (CodegenSecurity sec : op.authMethods) {
                     authMethodsMap.put(sec.name, sec);
                 }
             }
         }
-        
+
         // If there wer any auth methods specified add them to the operations context
         if (!authMethodsMap.isEmpty()) {
             operations.put("authMethods", authMethodsMap.values());
             operations.put("hasAuthMethods", true);
         }
-        
+
         // Add filename information for api imports
         objs.put("apiFilename", getApiFilenameFromClassname(objs.get("classname").toString()));
-        
+
         // Add additional filename information for model imports in the apis
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
@@ -231,7 +233,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         supportingFiles.add(new SupportingFile("api.mustache", getIndexDirectory(), "api.ts"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
-        
+
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
@@ -247,7 +249,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         supportingFiles.add(new SupportingFile("package.mustache", getPackageRootDirectory(), "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", getPackageRootDirectory(), "tsconfig.json"));
     }
-    
+
     private String getIndexDirectory() {
         String indexPackage = modelPackage.substring(0, Math.max(0, modelPackage.lastIndexOf('.')));
         return indexPackage.replace('.', File.separatorChar);
@@ -270,7 +272,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         }
         return type;
     }
-    
+
     private boolean isLanguagePrimitive(String type) {
         return languageSpecificPrimitives.contains(type);
     }
@@ -289,14 +291,23 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         String indexPackage = modelPackage.substring(0, Math.max(0, modelPackage.lastIndexOf('.')));
         return indexPackage.replace('.', File.separatorChar);
     }
-    
+
     private String getApiFilenameFromClassname(String classname) {
         String name = classname.substring(0, classname.length() - apiSuffix.length());
         return toApiFilename(name);
     }
-    
+
     private String getModelnameFromModelFilename(String filename) {
         String name = filename.substring((modelPackage() + File.separator).length());
         return camelize(name);
+    }
+
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+        codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
+        if ("array".equalsIgnoreCase(codegenModel.additionalPropertiesType)) {
+            codegenModel.additionalPropertiesType += '<' + getSchemaType(((ArraySchema) additionalProperties).getItems()) + '>';
+        }
+        addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 }
