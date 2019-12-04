@@ -27,7 +27,7 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/swift4 -i modules/openapi-generator/src/test/resources/2_0/swift/petstore-with-fake-endpoints-models-for-testing.yaml -g swift4 -c ./bin/swift4-petstore.json -o samples/client/petstore/swift4/default --generate-alias-as-model $@"
+ags="generate -t modules/openapi-generator/src/main/resources/swift4 -i modules/openapi-generator/src/test/resources/2_0/swift/petstore-with-fake-endpoints-models-for-testing.yaml -g swift4 -c ./bin/swift4-petstore.json -o samples/client/petstore/swift4/default --generate-alias-as-model --additional-properties sortParamsByRequiredFlag=false $@"
 
 java $JAVA_OPTS -jar $executable $ags
 

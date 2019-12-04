@@ -228,15 +228,15 @@ open class FakeAPI {
     /**
      Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      
-     - parameter number: (form) None 
-     - parameter double: (form) None 
-     - parameter patternWithoutDelimiter: (form) None 
-     - parameter byte: (form) None 
      - parameter integer: (form) None (optional)
      - parameter int32: (form) None (optional)
      - parameter int64: (form) None (optional)
+     - parameter number: (form) None 
      - parameter float: (form) None (optional)
+     - parameter double: (form) None 
      - parameter string: (form) None (optional)
+     - parameter patternWithoutDelimiter: (form) None 
+     - parameter byte: (form) None 
      - parameter binary: (form) None (optional)
      - parameter date: (form) None (optional)
      - parameter dateTime: (form) None (optional)
@@ -244,8 +244,8 @@ open class FakeAPI {
      - parameter callback: (form) None (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (_, error) -> Void in
+    open class func testEndpointParameters(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: Data, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
+        testEndpointParametersWithRequestBuilder(integer: integer, int32: int32, int64: int64, number: number, float: float, double: double, string: string, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (_, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -261,15 +261,15 @@ open class FakeAPI {
      - BASIC:
        - type: http
        - name: http_basic_test
-     - parameter number: (form) None 
-     - parameter double: (form) None 
-     - parameter patternWithoutDelimiter: (form) None 
-     - parameter byte: (form) None 
      - parameter integer: (form) None (optional)
      - parameter int32: (form) None (optional)
      - parameter int64: (form) None (optional)
+     - parameter number: (form) None 
      - parameter float: (form) None (optional)
+     - parameter double: (form) None 
      - parameter string: (form) None (optional)
+     - parameter patternWithoutDelimiter: (form) None 
+     - parameter byte: (form) None 
      - parameter binary: (form) None (optional)
      - parameter date: (form) None (optional)
      - parameter dateTime: (form) None (optional)
@@ -277,7 +277,7 @@ open class FakeAPI {
      - parameter callback: (form) None (optional)
      - returns: RequestBuilder<Void> 
      */
-    open class func testEndpointParametersWithRequestBuilder(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> RequestBuilder<Void> {
+    open class func testEndpointParametersWithRequestBuilder(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: Data, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
