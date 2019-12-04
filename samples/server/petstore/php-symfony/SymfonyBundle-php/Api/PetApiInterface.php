@@ -44,15 +44,6 @@ interface PetApiInterface
 {
 
     /**
-     * Sets authentication method petstore_auth
-     *
-     * @param string $value Value of the petstore_auth authentication method.
-     *
-     * @return void
-     */
-    public function setpetstore_auth($value);
-
-    /**
      * Sets authentication method api_key
      *
      * @param string $value Value of the api_key authentication method.
@@ -60,6 +51,15 @@ interface PetApiInterface
      * @return void
      */
     public function setapi_key($value);
+
+    /**
+     * Sets authentication method petstore_auth
+     *
+     * @param string $value Value of the petstore_auth authentication method.
+     *
+     * @return void
+     */
+    public function setpetstore_auth($value);
 
     /**
      * Operation addPet
