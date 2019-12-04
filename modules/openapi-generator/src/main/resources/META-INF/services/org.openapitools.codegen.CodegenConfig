@@ -117,6 +117,7 @@ org.openapitools.codegen.languages.TypeScriptFetchClientCodegen
 org.openapitools.codegen.languages.TypeScriptInversifyClientCodegen
 org.openapitools.codegen.languages.TypeScriptJqueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptNodeClientCodegen
+org.openapitools.codegen.languages.TypeScriptReduxQueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
 org.openapitools.codegen.languages.FsharpGiraffeServerCodegen
 org.openapitools.codegen.languages.AsciidocDocumentationCodegen
