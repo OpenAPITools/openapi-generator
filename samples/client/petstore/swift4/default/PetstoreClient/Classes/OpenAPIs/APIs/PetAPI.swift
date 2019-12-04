@@ -48,12 +48,12 @@ open class PetAPI {
     /**
      Deletes a pet
      
-     - parameter apiKey: (header)  (optional)
      - parameter petId: (path) Pet id to delete 
+     - parameter apiKey: (header)  (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deletePet(apiKey: String? = nil, petId: Int64, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        deletePetWithRequestBuilder(apiKey: apiKey, petId: petId).execute { (_, error) -> Void in
+    open class func deletePet(petId: Int64, apiKey: String? = nil, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
+        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (_, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -68,11 +68,11 @@ open class PetAPI {
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - parameter apiKey: (header)  (optional)
      - parameter petId: (path) Pet id to delete 
+     - parameter apiKey: (header)  (optional)
      - returns: RequestBuilder<Void> 
      */
-    open class func deletePetWithRequestBuilder(apiKey: String? = nil, petId: Int64) -> RequestBuilder<Void> {
+    open class func deletePetWithRequestBuilder(petId: Int64, apiKey: String? = nil) -> RequestBuilder<Void> {
         var path = "/pet/{petId}"
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -348,12 +348,12 @@ open class PetAPI {
      uploads an image (required)
      
      - parameter petId: (path) ID of pet to update 
-     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter requiredFile: (form) file to upload 
+     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func uploadFileWithRequiredFile(petId: Int64, additionalMetadata: String? = nil, requiredFile: URL, completion: @escaping ((_ data: ApiResponse?, _ error: Error?) -> Void)) {
-        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, requiredFile: requiredFile).execute { (response, error) -> Void in
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, completion: @escaping ((_ data: ApiResponse?, _ error: Error?) -> Void)) {
+        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -365,11 +365,11 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter petId: (path) ID of pet to update 
-     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter requiredFile: (form) file to upload 
+     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - returns: RequestBuilder<ApiResponse> 
      */
-    open class func uploadFileWithRequiredFileWithRequestBuilder(petId: Int64, additionalMetadata: String? = nil, requiredFile: URL) -> RequestBuilder<ApiResponse> {
+    open class func uploadFileWithRequiredFileWithRequestBuilder(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> RequestBuilder<ApiResponse> {
         var path = "/fake/{petId}/uploadImageWithRequiredFile"
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
