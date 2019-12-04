@@ -99,6 +99,11 @@
   infoLink: "https://www.dbsystel.de"
   pinned: false
 -
+  caption: "DocSpring"
+  image: "img/companies/docspring.png"
+  infoLink: "https://docspring.com"
+  pinned: false
+-
   caption: "dwango"
   image: "img/companies/dwango.png"
   infoLink: "https://dwango.co.jp/"
@@ -117,11 +122,6 @@
   caption: "Fenergo"
   image: "img/companies/fenergo.png"
   infoLink: "https://www.fenergo.com/"
-  pinned: false
--
-  caption: "FormAPI"
-  image: "img/companies/formapi.png"
-  infoLink: "https://formapi.io/"
   pinned: false
 -
   caption: "FreshCells"
