@@ -19,7 +19,7 @@ void PetApiTests::findPetsByStatusTest() {
 
     connect(&api, &PFXPetApi::findPetsByStatusSignal, [&](QList<PFXPet> pets) {
         petFound = true;
-        foreach(PFXPet pet, pets) {
+        foreach (PFXPet pet, pets) {
             QVERIFY(pet.getStatus().startsWith("available") || pet.getStatus().startsWith("sold"));
         }
         loop.quit();
@@ -74,7 +74,7 @@ void PetApiTests::updatePetTest() {
     QEventLoop loop;
     bool petAdded = false;
 
-    connect(&api, &PFXPetApi::addPetSignal, [&](){
+    connect(&api, &PFXPetApi::addPetSignal, [&]() {
         petAdded = true;
         loop.quit();
     });
@@ -89,9 +89,9 @@ void PetApiTests::updatePetTest() {
 
     bool petFetched = false;
     connect(&api, &PFXPetApi::getPetByIdSignal, this, [&](PFXPet pet) {
-            petFetched = true;
-            petToCheck = pet;
-            loop.quit();
+        petFetched = true;
+        petToCheck = pet;
+        loop.quit();
     });
 
     // create pet
@@ -138,7 +138,7 @@ void PetApiTests::updatePetWithFormTest() {
 
     // create pet
     bool petAdded = false;
-    connect(&api, &PFXPetApi::addPetSignal, [&](){
+    connect(&api, &PFXPetApi::addPetSignal, [&]() {
         petAdded = true;
         loop.quit();
     });
@@ -163,7 +163,7 @@ void PetApiTests::updatePetWithFormTest() {
 
     // update it
     bool petUpdated = false;
-    connect(&api, &PFXPetApi::updatePetWithFormSignal, [&](){
+    connect(&api, &PFXPetApi::updatePetWithFormSignal, [&]() {
         petUpdated = true;
         loop.quit();
     });

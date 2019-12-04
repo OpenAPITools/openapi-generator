@@ -78,6 +78,7 @@ declare -a samples=(
 "${root}/bin/dart2-petstore.sh"
 "${root}/bin/java-play-framework-petstore-server-all.sh"
 #"${root}/bin/elm-petstore-all.sh"
+"${root}/bin/typescript-redux-query-petstore-with-npm-version.sh"
 )
 
 # Some special case generators may expect to be run as a stanalone process (e.g. modifying classpath)

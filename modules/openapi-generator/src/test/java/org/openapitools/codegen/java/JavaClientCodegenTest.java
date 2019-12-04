@@ -492,6 +492,26 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testAuthorizationsHasMoreWhenFiltered() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue4584.yaml");
+
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.setOpenAPI(openAPI);
+        clientOptInput.setConfig(new JavaClientCodegen());
+
+        defaultGenerator.opts(clientOptInput);
+        final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
+
+        final CodegenOperation getCodegenOperation = codegenOperations.stream().filter(it -> it.httpMethod.equals("GET")).collect(Collectors.toList()).get(0);
+        assertTrue(getCodegenOperation.hasAuthMethods);
+        assertEquals(getCodegenOperation.authMethods.size(), 2);
+        assertTrue(getCodegenOperation.authMethods.get(0).hasMore);
+        Assert.assertFalse(getCodegenOperation.authMethods.get(1).hasMore);
+   }
+
+    @Test
     public void testFreeFormObjects() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue796.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();

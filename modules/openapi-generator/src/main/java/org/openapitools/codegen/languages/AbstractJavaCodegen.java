@@ -54,6 +54,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String SUPPORT_JAVA6 = "supportJava6";
     public static final String DISABLE_HTML_ESCAPING = "disableHtmlEscaping";
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
+    public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
     public static final String USE_DOCUMENTATION_ANNOTATIONS = "useDocumentationAnnotations";
 
     protected String dateLibrary = "threetenbp";
@@ -93,6 +94,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String parentVersion = "";
     protected boolean parentOverridden = false;
     protected boolean useDocumentationAnnotations = true;
+    protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
 
     public AbstractJavaCodegen() {
         super();
@@ -387,12 +389,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         importMapping.put("List", "java.util.List");
 
-        if (additionalProperties.containsKey(USE_DOCUMENTATION_ANNOTATIONS)) {
-            this.setUseDocumentationAnnotations(Boolean.valueOf(additionalProperties.get(USE_DOCUMENTATION_ANNOTATIONS).toString()));
-        } else {
-            additionalProperties.put(USE_DOCUMENTATION_ANNOTATIONS, this.isUseDocumentationAnnotations());
-        }
-
         if (fullJavaUtil) {
             typeMapping.put("array", "java.util.List");
             typeMapping.put("map", "java.util.Map");
@@ -419,10 +415,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
 
         // imports for pojos
-        if (useDocumentationAnnotations) {
-            importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
-            importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
-        }
+        importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
+        importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
@@ -941,7 +935,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public CodegenModel fromModel(String name, Schema model) {
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel codegenModel = super.fromModel(name, model);
-        if (codegenModel.description != null && useDocumentationAnnotations) {
+        if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
         }
         if (codegenModel.discriminator != null && additionalProperties.containsKey("jackson")) {
@@ -980,7 +974,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        if (useDocumentationAnnotations && !BooleanUtils.toBoolean(model.isEnum)) {
+        if (!BooleanUtils.toBoolean(model.isEnum)) {
             // needed by all pojos, but not enums
             model.imports.add("ApiModelProperty");
             model.imports.add("ApiModel");
@@ -1411,14 +1405,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setBooleanGetterPrefix(String booleanGetterPrefix) {
         this.booleanGetterPrefix = booleanGetterPrefix;
-    }
-
-    public boolean isUseDocumentationAnnotations() {
-        return useDocumentationAnnotations;
-    }
-
-    public void setUseDocumentationAnnotations(boolean useDocumentationAnnotations) {
-        this.useDocumentationAnnotations = useDocumentationAnnotations;
     }
 
     @Override
