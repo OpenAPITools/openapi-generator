@@ -1,0 +1,28 @@
+
+{{#isEnum}}
+#' @export
+{{#allowableValues}}
+{{name}}_Enum <- function() {
+    res <- gsub("\\[|\\]|,", "",
+        "{{values}}"
+    )
+    htmlEncoded <- any(grepl("[&;]", res))
+    if (htmlEncoded && !requireNamespace("XML", quietly = TRUE))
+        stop("Install 'XML' package for converting html encoded characters")
+    if (htmlEncoded) {
+        html2txt <- function(str) {
+            XML::xpathApply(XML::htmlParse(str, asText=TRUE),
+            "//body//text()", 
+            xmlValue)[[1L]] 
+        }
+        res <- strsplit(xml2txt(res), "\n")[[1]]
+    } else
+        res <- unlist(strsplit(res, " "))
+    res <- unlist(strsplit(res, " "))
+    res <- setNames(res, res)
+    res <- as.environment(as.list(res))
+    lockEnvironment(res, bindings = TRUE)
+    res
+}
+{{/allowableValues}}
+{{/isEnum}}

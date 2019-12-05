@@ -1,5 +1,6 @@
 {{#models}}
 {{#model}}
+{{> modelEnum}}
 {{>partial_header}}
 #' @docType class
 #' @title {{classname}}
@@ -21,6 +22,11 @@
     {{/vars}}
     initialize = function({{#requiredVars}}`{{baseName}}`{{#hasMore}}, {{/hasMore}}{{/requiredVars}}{{#optionalVars}}{{#-first}}{{#requiredVars.0}}, {{/requiredVars.0}}{{/-first}}`{{baseName}}`={{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}NULL{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalVars}}, ...){
       local.optional.var <- list(...)
+        {{#isEnum}}
+        {{#allowableValues}}
+        # WIP:  enumenv <- {{name}}_Enum()
+        {{/allowableValues}}
+        {{/isEnum}}
       {{#requiredVars}}
       if (!missing(`{{baseName}}`)) {
         {{^isContainer}}
