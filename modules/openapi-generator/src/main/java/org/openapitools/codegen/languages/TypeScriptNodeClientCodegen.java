@@ -301,7 +301,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         String name = filename.substring((modelPackage() + File.separator).length());
         return camelize(name);
     }
-
+@Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
         codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
