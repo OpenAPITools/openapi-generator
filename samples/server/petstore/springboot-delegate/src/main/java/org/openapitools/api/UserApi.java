@@ -33,7 +33,7 @@ public interface UserApi {
      * This can only be done by the logged in user.
      *
      * @param body Created user object (required)
-     * @return the response
+     * @return successful operation (status code 200)
      */
     @ApiOperation(value = "Create user", nickname = "createUser", notes = "This can only be done by the logged in user.", tags={ "user", })
     @ApiResponses(value = { 
@@ -47,7 +47,7 @@ public interface UserApi {
      * POST /user/createWithArray : Creates list of users with given input array
      *
      * @param body List of user object (required)
-     * @return the response
+     * @return successful operation (status code 200)
      */
     @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithArrayInput", notes = "", tags={ "user", })
     @ApiResponses(value = { 
@@ -61,7 +61,7 @@ public interface UserApi {
      * POST /user/createWithList : Creates list of users with given input array
      *
      * @param body List of user object (required)
-     * @return the response
+     * @return successful operation (status code 200)
      */
     @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithListInput", notes = "", tags={ "user", })
     @ApiResponses(value = { 
@@ -76,7 +76,8 @@ public interface UserApi {
      * This can only be done by the logged in user.
      *
      * @param username The name that needs to be deleted (required)
-     * @return the response
+     * @return Invalid username supplied (status code 400)
+     *         or User not found (status code 404)
      */
     @ApiOperation(value = "Delete user", nickname = "deleteUser", notes = "This can only be done by the logged in user.", tags={ "user", })
     @ApiResponses(value = { 
@@ -91,7 +92,9 @@ public interface UserApi {
      * GET /user/{username} : Get user by user name
      *
      * @param username The name that needs to be fetched. Use user1 for testing. (required)
-     * @return the response
+     * @return successful operation (status code 200)
+     *         or Invalid username supplied (status code 400)
+     *         or User not found (status code 404)
      */
     @ApiOperation(value = "Get user by user name", nickname = "getUserByName", notes = "", response = User.class, tags={ "user", })
     @ApiResponses(value = { 
@@ -109,7 +112,8 @@ public interface UserApi {
      *
      * @param username The user name for login (required)
      * @param password The password for login in clear text (required)
-     * @return the response
+     * @return successful operation (status code 200)
+     *         or Invalid username/password supplied (status code 400)
      */
     @ApiOperation(value = "Logs user into the system", nickname = "loginUser", notes = "", response = String.class, tags={ "user", })
     @ApiResponses(value = { 
@@ -124,7 +128,7 @@ public interface UserApi {
     /**
      * GET /user/logout : Logs out current logged in user session
      *
-     * @return the response
+     * @return successful operation (status code 200)
      */
     @ApiOperation(value = "Logs out current logged in user session", nickname = "logoutUser", notes = "", tags={ "user", })
     @ApiResponses(value = { 
@@ -140,7 +144,8 @@ public interface UserApi {
      *
      * @param username name that need to be deleted (required)
      * @param body Updated user object (required)
-     * @return the response
+     * @return Invalid user supplied (status code 400)
+     *         or User not found (status code 404)
      */
     @ApiOperation(value = "Updated user", nickname = "updateUser", notes = "This can only be done by the logged in user.", tags={ "user", })
     @ApiResponses(value = { 

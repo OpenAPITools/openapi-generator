@@ -31,7 +31,7 @@ public interface FakeClassnameTestApiDelegate {
      * To test class name in snake case
      *
      * @param body client model (required)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see FakeClassnameTestApi#testClassname
      */
     default Mono<ResponseEntity<Client>> testClassname(Mono<Client> body,

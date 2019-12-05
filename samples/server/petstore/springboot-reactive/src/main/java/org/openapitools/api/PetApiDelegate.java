@@ -32,7 +32,8 @@ public interface PetApiDelegate {
      * POST /pet : Add a new pet to the store
      *
      * @param body Pet object that needs to be added to the store (required)
-     * @return the response
+     * @return successful operation (status code 200)
+     *         or Invalid input (status code 405)
      * @see PetApi#addPet
      */
     default Mono<ResponseEntity<Void>> addPet(Mono<Pet> body,
@@ -48,7 +49,8 @@ public interface PetApiDelegate {
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
-     * @return the response
+     * @return successful operation (status code 200)
+     *         or Invalid pet value (status code 400)
      * @see PetApi#deletePet
      */
     default Mono<ResponseEntity<Void>> deletePet(Long petId,
@@ -65,7 +67,8 @@ public interface PetApiDelegate {
      * Multiple status values can be provided with comma separated strings
      *
      * @param status Status values that need to be considered for filter (required)
-     * @return the response
+     * @return successful operation (status code 200)
+     *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
     default Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(List<String> status,
@@ -93,7 +96,8 @@ public interface PetApiDelegate {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
      * @param tags Tags to filter by (required)
-     * @return the response
+     * @return successful operation (status code 200)
+     *         or Invalid tag value (status code 400)
      * @deprecated
      * @see PetApi#findPetsByTags
      */
@@ -122,7 +126,9 @@ public interface PetApiDelegate {
      * Returns a single pet
      *
      * @param petId ID of pet to return (required)
-     * @return the response
+     * @return successful operation (status code 200)
+     *         or Invalid ID supplied (status code 400)
+     *         or Pet not found (status code 404)
      * @see PetApi#getPetById
      */
     default Mono<ResponseEntity<Pet>> getPetById(Long petId,
@@ -149,7 +155,10 @@ public interface PetApiDelegate {
      * PUT /pet : Update an existing pet
      *
      * @param body Pet object that needs to be added to the store (required)
-     * @return the response
+     * @return successful operation (status code 200)
+     *         or Invalid ID supplied (status code 400)
+     *         or Pet not found (status code 404)
+     *         or Validation exception (status code 405)
      * @see PetApi#updatePet
      */
     default Mono<ResponseEntity<Void>> updatePet(Mono<Pet> body,
@@ -166,7 +175,7 @@ public interface PetApiDelegate {
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
      * @param status Updated status of the pet (optional)
-     * @return the response
+     * @return Invalid input (status code 405)
      * @see PetApi#updatePetWithForm
      */
     default Mono<ResponseEntity<Void>> updatePetWithForm(Long petId,
@@ -185,7 +194,7 @@ public interface PetApiDelegate {
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param file file to upload (optional)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
     default Mono<ResponseEntity<ModelApiResponse>> uploadFile(Long petId,

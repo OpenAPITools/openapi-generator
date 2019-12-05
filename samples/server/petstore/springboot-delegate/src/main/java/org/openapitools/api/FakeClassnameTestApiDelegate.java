@@ -20,7 +20,7 @@ public interface FakeClassnameTestApiDelegate {
      * To test class name in snake case
      *
      * @param body client model (required)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see FakeClassnameTestApi#testClassname
      */
     ResponseEntity<Client> testClassname(Client body);

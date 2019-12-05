@@ -36,7 +36,7 @@ public interface FakeClassnameTestApi {
      * To test class name in snake case
      *
      * @param body client model (required)
-     * @return the response
+     * @return successful operation (status code 200)
      */
     @ApiOperation(value = "To test class name in snake case", nickname = "testClassname", notes = "To test class name in snake case", response = Client.class, authorizations = {
         @Authorization(value = "api_key_query")

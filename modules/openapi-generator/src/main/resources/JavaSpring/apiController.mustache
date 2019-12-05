@@ -98,7 +98,8 @@ public class {{classname}}Controller implements {{classname}} {
     {{#allParams}}
      * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
     {{/allParams}}
-     * @return the response
+     * @return {{#responses}}{{message}} (status code {{code}}){{#hasMore}}
+     *         or {{/hasMore}}{{/responses}}
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}

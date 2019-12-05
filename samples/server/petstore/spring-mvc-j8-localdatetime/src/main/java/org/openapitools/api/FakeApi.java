@@ -50,7 +50,7 @@ public interface FakeApi {
      * this route creates an XmlItem
      *
      * @param xmlItem XmlItem Body (required)
-     * @return the response
+     * @return successful operation (status code 200)
      */
     @ApiOperation(value = "creates an XmlItem", nickname = "createXmlItem", notes = "this route creates an XmlItem", tags={ "fake", })
     @ApiResponses(value = { 
@@ -69,7 +69,7 @@ public interface FakeApi {
      * Test serialization of outer boolean types
      *
      * @param body Input boolean as post body (optional)
-     * @return the response
+     * @return Output boolean (status code 200)
      */
     @ApiOperation(value = "", nickname = "fakeOuterBooleanSerialize", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
     @ApiResponses(value = { 
@@ -88,7 +88,7 @@ public interface FakeApi {
      * Test serialization of object with outer number type
      *
      * @param body Input composite as post body (optional)
-     * @return the response
+     * @return Output composite (status code 200)
      */
     @ApiOperation(value = "", nickname = "fakeOuterCompositeSerialize", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
     @ApiResponses(value = { 
@@ -116,7 +116,7 @@ public interface FakeApi {
      * Test serialization of outer number types
      *
      * @param body Input number as post body (optional)
-     * @return the response
+     * @return Output number (status code 200)
      */
     @ApiOperation(value = "", nickname = "fakeOuterNumberSerialize", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
     @ApiResponses(value = { 
@@ -135,7 +135,7 @@ public interface FakeApi {
      * Test serialization of outer string types
      *
      * @param body Input string as post body (optional)
-     * @return the response
+     * @return Output string (status code 200)
      */
     @ApiOperation(value = "", nickname = "fakeOuterStringSerialize", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
     @ApiResponses(value = { 
@@ -154,7 +154,7 @@ public interface FakeApi {
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *
      * @param body  (required)
-     * @return the response
+     * @return Success (status code 200)
      */
     @ApiOperation(value = "", nickname = "testBodyWithFileSchema", notes = "For this test, the body for this request much reference a schema named `File`.", tags={ "fake", })
     @ApiResponses(value = { 
@@ -173,7 +173,7 @@ public interface FakeApi {
      *
      * @param query  (required)
      * @param body  (required)
-     * @return the response
+     * @return Success (status code 200)
      */
     @ApiOperation(value = "", nickname = "testBodyWithQueryParams", notes = "", tags={ "fake", })
     @ApiResponses(value = { 
@@ -192,7 +192,7 @@ public interface FakeApi {
      * To test \&quot;client\&quot; model
      *
      * @param body client model (required)
-     * @return the response
+     * @return successful operation (status code 200)
      */
     @ApiOperation(value = "To test \"client\" model", nickname = "testClientModel", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
     @ApiResponses(value = { 
@@ -234,7 +234,8 @@ public interface FakeApi {
      * @param dateTime None (optional)
      * @param password None (optional)
      * @param paramCallback None (optional)
-     * @return the response
+     * @return Invalid username supplied (status code 400)
+     *         or User not found (status code 404)
      */
     @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", nickname = "testEndpointParameters", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", authorizations = {
         @Authorization(value = "http_basic_test")
@@ -263,7 +264,8 @@ public interface FakeApi {
      * @param enumQueryDouble Query parameter enum test (double) (optional)
      * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
-     * @return the response
+     * @return Invalid request (status code 400)
+     *         or Not found (status code 404)
      */
     @ApiOperation(value = "To test enum parameters", nickname = "testEnumParameters", notes = "To test enum parameters", tags={ "fake", })
     @ApiResponses(value = { 
@@ -288,7 +290,7 @@ public interface FakeApi {
      * @param stringGroup String in group parameters (optional)
      * @param booleanGroup Boolean in group parameters (optional)
      * @param int64Group Integer in group parameters (optional)
-     * @return the response
+     * @return Someting wrong (status code 400)
      */
     @ApiOperation(value = "Fake endpoint to test group parameters (optional)", nickname = "testGroupParameters", notes = "Fake endpoint to test group parameters (optional)", tags={ "fake", })
     @ApiResponses(value = { 
@@ -305,7 +307,7 @@ public interface FakeApi {
      * POST /fake/inline-additionalProperties : test inline additionalProperties
      *
      * @param param request body (required)
-     * @return the response
+     * @return successful operation (status code 200)
      */
     @ApiOperation(value = "test inline additionalProperties", nickname = "testInlineAdditionalProperties", notes = "", tags={ "fake", })
     @ApiResponses(value = { 
@@ -324,7 +326,7 @@ public interface FakeApi {
      *
      * @param param field1 (required)
      * @param param2 field2 (required)
-     * @return the response
+     * @return successful operation (status code 200)
      */
     @ApiOperation(value = "test json serialization of form data", nickname = "testJsonFormData", notes = "", tags={ "fake", })
     @ApiResponses(value = { 
@@ -347,7 +349,7 @@ public interface FakeApi {
      * @param http  (required)
      * @param url  (required)
      * @param context  (required)
-     * @return the response
+     * @return Success (status code 200)
      */
     @ApiOperation(value = "", nickname = "testQueryParameterCollectionFormat", notes = "To test the collection format in query parameters", tags={ "fake", })
     @ApiResponses(value = { 
@@ -366,7 +368,7 @@ public interface FakeApi {
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @return the response
+     * @return successful operation (status code 200)
      */
     @ApiOperation(value = "uploads an image (required)", nickname = "uploadFileWithRequiredFile", notes = "", response = ModelApiResponse.class, authorizations = {
         @Authorization(value = "petstore_auth", scopes = {

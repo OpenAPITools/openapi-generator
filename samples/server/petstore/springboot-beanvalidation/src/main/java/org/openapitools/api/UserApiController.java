@@ -37,7 +37,7 @@ public class UserApiController implements UserApi {
      * This can only be done by the logged in user.
      *
      * @param body Created user object (required)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see UserApi#createUser
      */
     public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body) {
@@ -49,7 +49,7 @@ public class UserApiController implements UserApi {
      * POST /user/createWithArray : Creates list of users with given input array
      *
      * @param body List of user object (required)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
     public ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body) {
@@ -61,7 +61,7 @@ public class UserApiController implements UserApi {
      * POST /user/createWithList : Creates list of users with given input array
      *
      * @param body List of user object (required)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
     public ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body) {
@@ -74,7 +74,8 @@ public class UserApiController implements UserApi {
      * This can only be done by the logged in user.
      *
      * @param username The name that needs to be deleted (required)
-     * @return the response
+     * @return Invalid username supplied (status code 400)
+     *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
     public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
@@ -86,7 +87,9 @@ public class UserApiController implements UserApi {
      * GET /user/{username} : Get user by user name
      *
      * @param username The name that needs to be fetched. Use user1 for testing. (required)
-     * @return the response
+     * @return successful operation (status code 200)
+     *         or Invalid username supplied (status code 400)
+     *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
     public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username) {
@@ -111,7 +114,8 @@ public class UserApiController implements UserApi {
      *
      * @param username The user name for login (required)
      * @param password The password for login in clear text (required)
-     * @return the response
+     * @return successful operation (status code 200)
+     *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
     public ResponseEntity<String> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password) {
@@ -122,7 +126,7 @@ public class UserApiController implements UserApi {
     /**
      * GET /user/logout : Logs out current logged in user session
      *
-     * @return the response
+     * @return successful operation (status code 200)
      * @see UserApi#logoutUser
      */
     public ResponseEntity<Void> logoutUser() {
@@ -136,7 +140,8 @@ public class UserApiController implements UserApi {
      *
      * @param username name that need to be deleted (required)
      * @param body Updated user object (required)
-     * @return the response
+     * @return Invalid user supplied (status code 400)
+     *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
     public ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body) {

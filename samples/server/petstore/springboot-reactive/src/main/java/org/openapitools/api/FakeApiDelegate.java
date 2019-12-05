@@ -41,7 +41,7 @@ public interface FakeApiDelegate {
      * this route creates an XmlItem
      *
      * @param xmlItem XmlItem Body (required)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see FakeApi#createXmlItem
      */
     default Mono<ResponseEntity<Void>> createXmlItem(Mono<XmlItem> xmlItem,
@@ -57,7 +57,7 @@ public interface FakeApiDelegate {
      * Test serialization of outer boolean types
      *
      * @param body Input boolean as post body (optional)
-     * @return the response
+     * @return Output boolean (status code 200)
      * @see FakeApi#fakeOuterBooleanSerialize
      */
     default Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(Mono<Boolean> body,
@@ -73,7 +73,7 @@ public interface FakeApiDelegate {
      * Test serialization of object with outer number type
      *
      * @param body Input composite as post body (optional)
-     * @return the response
+     * @return Output composite (status code 200)
      * @see FakeApi#fakeOuterCompositeSerialize
      */
     default Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(Mono<OuterComposite> body,
@@ -96,7 +96,7 @@ public interface FakeApiDelegate {
      * Test serialization of outer number types
      *
      * @param body Input number as post body (optional)
-     * @return the response
+     * @return Output number (status code 200)
      * @see FakeApi#fakeOuterNumberSerialize
      */
     default Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(Mono<BigDecimal> body,
@@ -112,7 +112,7 @@ public interface FakeApiDelegate {
      * Test serialization of outer string types
      *
      * @param body Input string as post body (optional)
-     * @return the response
+     * @return Output string (status code 200)
      * @see FakeApi#fakeOuterStringSerialize
      */
     default Mono<ResponseEntity<String>> fakeOuterStringSerialize(Mono<String> body,
@@ -128,7 +128,7 @@ public interface FakeApiDelegate {
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *
      * @param body  (required)
-     * @return the response
+     * @return Success (status code 200)
      * @see FakeApi#testBodyWithFileSchema
      */
     default Mono<ResponseEntity<Void>> testBodyWithFileSchema(Mono<FileSchemaTestClass> body,
@@ -144,7 +144,7 @@ public interface FakeApiDelegate {
      *
      * @param query  (required)
      * @param body  (required)
-     * @return the response
+     * @return Success (status code 200)
      * @see FakeApi#testBodyWithQueryParams
      */
     default Mono<ResponseEntity<Void>> testBodyWithQueryParams(String query,
@@ -161,7 +161,7 @@ public interface FakeApiDelegate {
      * To test \&quot;client\&quot; model
      *
      * @param body client model (required)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see FakeApi#testClientModel
      */
     default Mono<ResponseEntity<Client>> testClientModel(Mono<Client> body,
@@ -197,7 +197,8 @@ public interface FakeApiDelegate {
      * @param dateTime None (optional)
      * @param password None (optional)
      * @param paramCallback None (optional)
-     * @return the response
+     * @return Invalid username supplied (status code 400)
+     *         or User not found (status code 404)
      * @see FakeApi#testEndpointParameters
      */
     default Mono<ResponseEntity<Void>> testEndpointParameters(BigDecimal number,
@@ -233,7 +234,8 @@ public interface FakeApiDelegate {
      * @param enumQueryDouble Query parameter enum test (double) (optional)
      * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
-     * @return the response
+     * @return Invalid request (status code 400)
+     *         or Not found (status code 404)
      * @see FakeApi#testEnumParameters
      */
     default Mono<ResponseEntity<Void>> testEnumParameters(List<String> enumHeaderStringArray,
@@ -261,7 +263,7 @@ public interface FakeApiDelegate {
      * @param stringGroup String in group parameters (optional)
      * @param booleanGroup Boolean in group parameters (optional)
      * @param int64Group Integer in group parameters (optional)
-     * @return the response
+     * @return Someting wrong (status code 400)
      * @see FakeApi#testGroupParameters
      */
     default Mono<ResponseEntity<Void>> testGroupParameters(Integer requiredStringGroup,
@@ -281,7 +283,7 @@ public interface FakeApiDelegate {
      * POST /fake/inline-additionalProperties : test inline additionalProperties
      *
      * @param param request body (required)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see FakeApi#testInlineAdditionalProperties
      */
     default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(Mono<String> param,
@@ -297,7 +299,7 @@ public interface FakeApiDelegate {
      *
      * @param param field1 (required)
      * @param param2 field2 (required)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see FakeApi#testJsonFormData
      */
     default Mono<ResponseEntity<Void>> testJsonFormData(String param,
@@ -318,7 +320,7 @@ public interface FakeApiDelegate {
      * @param http  (required)
      * @param url  (required)
      * @param context  (required)
-     * @return the response
+     * @return Success (status code 200)
      * @see FakeApi#testQueryParameterCollectionFormat
      */
     default Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(List<String> pipe,
@@ -339,7 +341,7 @@ public interface FakeApiDelegate {
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see FakeApi#uploadFileWithRequiredFile
      */
     default Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(Long petId,

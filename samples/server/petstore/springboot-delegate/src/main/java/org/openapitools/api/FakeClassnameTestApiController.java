@@ -34,7 +34,7 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
      * To test class name in snake case
      *
      * @param body client model (required)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see FakeClassnameTestApi#testClassname
      */
     public ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {

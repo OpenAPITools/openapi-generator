@@ -21,7 +21,7 @@ public interface UserApiDelegate {
      * This can only be done by the logged in user.
      *
      * @param body Created user object (required)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see UserApi#createUser
      */
     ResponseEntity<Void> createUser(User body);
@@ -30,7 +30,7 @@ public interface UserApiDelegate {
      * POST /user/createWithArray : Creates list of users with given input array
      *
      * @param body List of user object (required)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
     ResponseEntity<Void> createUsersWithArrayInput(List<User> body);
@@ -39,7 +39,7 @@ public interface UserApiDelegate {
      * POST /user/createWithList : Creates list of users with given input array
      *
      * @param body List of user object (required)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
     ResponseEntity<Void> createUsersWithListInput(List<User> body);
@@ -49,7 +49,8 @@ public interface UserApiDelegate {
      * This can only be done by the logged in user.
      *
      * @param username The name that needs to be deleted (required)
-     * @return the response
+     * @return Invalid username supplied (status code 400)
+     *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
     ResponseEntity<Void> deleteUser(String username);
@@ -58,7 +59,9 @@ public interface UserApiDelegate {
      * GET /user/{username} : Get user by user name
      *
      * @param username The name that needs to be fetched. Use user1 for testing. (required)
-     * @return the response
+     * @return successful operation (status code 200)
+     *         or Invalid username supplied (status code 400)
+     *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
     ResponseEntity<User> getUserByName(String username);
@@ -68,7 +71,8 @@ public interface UserApiDelegate {
      *
      * @param username The user name for login (required)
      * @param password The password for login in clear text (required)
-     * @return the response
+     * @return successful operation (status code 200)
+     *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
     ResponseEntity<String> loginUser(String username,
@@ -77,7 +81,7 @@ public interface UserApiDelegate {
     /**
      * GET /user/logout : Logs out current logged in user session
      *
-     * @return the response
+     * @return successful operation (status code 200)
      * @see UserApi#logoutUser
      */
     ResponseEntity<Void> logoutUser();
@@ -88,7 +92,8 @@ public interface UserApiDelegate {
      *
      * @param username name that need to be deleted (required)
      * @param body Updated user object (required)
-     * @return the response
+     * @return Invalid user supplied (status code 400)
+     *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
     ResponseEntity<Void> updateUser(String username,

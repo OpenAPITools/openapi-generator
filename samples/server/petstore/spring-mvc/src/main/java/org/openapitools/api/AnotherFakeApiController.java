@@ -36,7 +36,7 @@ public class AnotherFakeApiController implements AnotherFakeApi {
      * To test special tags and operation ID starting with number
      *
      * @param body client model (required)
-     * @return the response
+     * @return successful operation (status code 200)
      * @see AnotherFakeApi#call123testSpecialTags
      */
     public ResponseEntity<Client> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
