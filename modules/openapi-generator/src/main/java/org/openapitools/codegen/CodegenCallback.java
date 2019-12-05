@@ -44,6 +44,7 @@ public class CodegenCallback {
         public int hashCode() {
             return Objects.hash(expression, hasMore, requests, vendorExtensions);
         }
+
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
@@ -64,10 +65,12 @@ public class CodegenCallback {
         return Objects.equals(that.name, name) && Objects.equals(that.hasMore, hasMore) &&
                 Objects.equals(that.urls, urls) && Objects.equals(that.vendorExtensions, vendorExtensions);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(name, hasMore, urls, vendorExtensions);
     }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -77,4 +80,6 @@ public class CodegenCallback {
         sb.append("}");
         return sb.toString();
     }
+
+
 }

@@ -10,7 +10,9 @@
 package openapi
 
 import (
+	"fmt"
 	"net/http"
+	"strings"
 )
 
 // contextKeys are used to identify the type of value in the context.
@@ -49,6 +51,20 @@ type APIKey struct {
 	Prefix string
 }
 
+// ServerVariable stores the information about a server variable
+type ServerVariable struct {
+	Description  string
+	DefaultValue string
+	EnumValues   []string
+}
+
+// ServerConfiguration stores the information about a server
+type ServerConfiguration struct {
+	Url string
+	Description string
+	Variables map[string]ServerVariable
+}
+
 // Configuration stores the configuration of the API client
 type Configuration struct {
 	BasePath      string            `json:"basePath,omitempty"`
@@ -57,6 +73,7 @@ type Configuration struct {
 	DefaultHeader map[string]string `json:"defaultHeader,omitempty"`
 	UserAgent     string            `json:"userAgent,omitempty"`
 	Debug         bool              `json:"debug,omitempty"`
+	Servers       []ServerConfiguration
 	HTTPClient    *http.Client
 }
 
@@ -67,6 +84,43 @@ func NewConfiguration() *Configuration {
 		DefaultHeader: make(map[string]string),
 		UserAgent:     "OpenAPI-Generator/1.0.0/go",
 		Debug:         false,
+		Servers:       []ServerConfiguration{{
+			Url: "http://{server}.swagger.io:{port}/v2",
+			Description: "petstore server",
+			Variables: map[string]ServerVariable{
+				"server": ServerVariable{
+					Description: "No description provided",
+					DefaultValue: "petstore",
+					EnumValues: []string{
+						"petstore",
+						"qa-petstore",
+						"dev-petstore",
+					},
+				},
+				"port": ServerVariable{
+					Description: "No description provided",
+					DefaultValue: "80",
+					EnumValues: []string{
+						"80",
+						"8080",
+					},
+				},
+			},
+		},
+			Url: "https://localhost:8080/{version}",
+			Description: "The local server",
+			Variables: map[string]ServerVariable{
+				"version": ServerVariable{
+					Description: "No description provided",
+					DefaultValue: "v2",
+					EnumValues: []string{
+						"v1",
+						"v2",
+					},
+				},
+			},
+		},
+		},
 	}
 	return cfg
 }
@@ -74,4 +128,32 @@ func NewConfiguration() *Configuration {
 // AddDefaultHeader adds a new HTTP header to the default header in the request
 func (c *Configuration) AddDefaultHeader(key string, value string) {
 	c.DefaultHeader[key] = value
+}
+
+// ServerUrl returns URL based on server settings
+func (c *Configuration) ServerUrl(index int, variables map[string]string) (string, error) {
+	if index < 0 || len(c.Servers) <= index {
+		return "", fmt.Errorf("Index %v out of range %v", index, len(c.Servers) - 1)
+	}
+	server := c.Servers[index]
+	url := server.Url
+
+	// go through variables and replace placeholders
+	for name, variable := range server.Variables {
+		if value, ok := variables[name]; ok {
+			found := bool(len(variable.EnumValues) == 0)
+			for _, enumValue := range variable.EnumValues {
+				if value == enumValue {
+					found = true
+				}
+			}
+			if !found {
+				return "", fmt.Errorf("The variable %s in the server URL has invalid value %v. Must be %v", name, value, variable.EnumValues)
+			}
+			url = strings.Replace(url, "{"+name+"}", value, -1)
+		} else {
+			url = strings.Replace(url, "{"+name+"}", variable.DefaultValue, -1)
+		}
+	}
+	return url, nil
 }
