@@ -41,67 +41,6 @@ public class CodegenSecurity {
     public List<Map<String, Object>> scopes;
     public Boolean isCode, isPassword, isApplication, isImplicit;
 
-    @Override
-    public String toString() {
-        return String.format(Locale.ROOT, "%s(%s)", name, type);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        CodegenSecurity that = (CodegenSecurity) o;
-
-        return Objects.equals(name, that.name) &&
-            Objects.equals(type, that.type) &&
-            Objects.equals(hasMore, that.hasMore) &&
-            Objects.equals(isBasic, that.isBasic) &&
-            Objects.equals(isBasicBasic, that.isBasicBasic) &&
-            Objects.equals(isBasicBearer, that.isBasicBearer) &&
-            Objects.equals(bearerFormat, that.bearerFormat) &&
-            Objects.equals(isOAuth, that.isOAuth) &&
-            Objects.equals(isApiKey, that.isApiKey) &&
-            Objects.equals(vendorExtensions, that.vendorExtensions) &&
-            Objects.equals(keyParamName, that.keyParamName) &&
-            Objects.equals(isKeyInQuery, that.isKeyInQuery) &&
-            Objects.equals(isKeyInHeader, that.isKeyInHeader) &&
-            Objects.equals(flow, that.flow) &&
-            Objects.equals(authorizationUrl, that.authorizationUrl) &&
-            Objects.equals(tokenUrl, that.tokenUrl) &&
-            Objects.equals(isCode, that.isCode) &&
-            Objects.equals(isPassword, that.isPassword) &&
-            Objects.equals(isApplication, that.isApplication) &&
-            Objects.equals(isImplicit, that.isImplicit) &&
-            Objects.equals(scopes, that.scopes);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(
-            name,
-            type,
-            hasMore,
-            isBasic,
-            isBasicBasic,
-            isBasicBearer,
-            bearerFormat,
-            isOAuth,
-            isApiKey,
-            vendorExtensions,
-            keyParamName,
-            isKeyInQuery,
-            isKeyInHeader,
-            flow,
-            authorizationUrl,
-            tokenUrl,
-            isCode,
-            isPassword,
-            isApplication,
-            isImplicit,
-            scopes);
-    }
-
     // Return a copy of the security object, filtering out any scopes from the passed-in list.
     public CodegenSecurity filterByScopeNames(List<String> filterScopes) {
         CodegenSecurity filteredSecurity = new CodegenSecurity();
@@ -143,5 +82,73 @@ public class CodegenSecurity {
         filteredSecurity.scopes = returnedScopes;
 
         return filteredSecurity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CodegenSecurity that = (CodegenSecurity) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(type, that.type) &&
+                Objects.equals(scheme, that.scheme) &&
+                Objects.equals(hasMore, that.hasMore) &&
+                Objects.equals(isBasic, that.isBasic) &&
+                Objects.equals(isOAuth, that.isOAuth) &&
+                Objects.equals(isApiKey, that.isApiKey) &&
+                Objects.equals(isBasicBasic, that.isBasicBasic) &&
+                Objects.equals(isBasicBearer, that.isBasicBearer) &&
+                Objects.equals(bearerFormat, that.bearerFormat) &&
+                Objects.equals(vendorExtensions, that.vendorExtensions) &&
+                Objects.equals(keyParamName, that.keyParamName) &&
+                Objects.equals(isKeyInQuery, that.isKeyInQuery) &&
+                Objects.equals(isKeyInHeader, that.isKeyInHeader) &&
+                Objects.equals(isKeyInCookie, that.isKeyInCookie) &&
+                Objects.equals(flow, that.flow) &&
+                Objects.equals(authorizationUrl, that.authorizationUrl) &&
+                Objects.equals(tokenUrl, that.tokenUrl) &&
+                Objects.equals(scopes, that.scopes) &&
+                Objects.equals(isCode, that.isCode) &&
+                Objects.equals(isPassword, that.isPassword) &&
+                Objects.equals(isApplication, that.isApplication) &&
+                Objects.equals(isImplicit, that.isImplicit);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, type, scheme, hasMore, isBasic, isOAuth, isApiKey, isBasicBasic, isBasicBearer,
+                bearerFormat, vendorExtensions, keyParamName, isKeyInQuery, isKeyInHeader, isKeyInCookie, flow,
+                authorizationUrl, tokenUrl, scopes, isCode, isPassword, isApplication, isImplicit);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("CodegenSecurity{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", type='").append(type).append('\'');
+        sb.append(", scheme='").append(scheme).append('\'');
+        sb.append(", hasMore=").append(hasMore);
+        sb.append(", isBasic=").append(isBasic);
+        sb.append(", isOAuth=").append(isOAuth);
+        sb.append(", isApiKey=").append(isApiKey);
+        sb.append(", isBasicBasic=").append(isBasicBasic);
+        sb.append(", isBasicBearer=").append(isBasicBearer);
+        sb.append(", bearerFormat='").append(bearerFormat).append('\'');
+        sb.append(", vendorExtensions=").append(vendorExtensions);
+        sb.append(", keyParamName='").append(keyParamName).append('\'');
+        sb.append(", isKeyInQuery=").append(isKeyInQuery);
+        sb.append(", isKeyInHeader=").append(isKeyInHeader);
+        sb.append(", isKeyInCookie=").append(isKeyInCookie);
+        sb.append(", flow='").append(flow).append('\'');
+        sb.append(", authorizationUrl='").append(authorizationUrl).append('\'');
+        sb.append(", tokenUrl='").append(tokenUrl).append('\'');
+        sb.append(", scopes=").append(scopes);
+        sb.append(", isCode=").append(isCode);
+        sb.append(", isPassword=").append(isPassword);
+        sb.append(", isApplication=").append(isApplication);
+        sb.append(", isImplicit=").append(isImplicit);
+        sb.append('}');
+        return sb.toString();
     }
 }
