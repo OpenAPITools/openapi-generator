@@ -283,7 +283,7 @@ export class JSONApiResponse<T> {
 export class VoidApiResponse {
     constructor(public raw: Response) {}
 
-    async value() : Promise<any> {
+    async value(): Promise<void> {
         return undefined;
     }
 }
