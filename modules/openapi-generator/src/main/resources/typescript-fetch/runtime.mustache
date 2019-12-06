@@ -299,7 +299,7 @@ export class BlobApiResponse {
 export class TextApiResponse {
     constructor(public raw: Response) {}
 
-    async value() : Promise<string>{
+    async value(): Promise<string> {
         return await this.raw.text();
     };
 }
