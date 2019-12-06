@@ -449,6 +449,45 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJdkHttpAsyncClient() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.ASYNC_NATIVE, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/pingSomeObj.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        Map<String, String> generatedFiles = generator.getFiles();
+        Assert.assertEquals(generatedFiles.size(), 26);
+        validateJavaSourceFiles(generatedFiles);
+        String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/PingApi.java").getAbsolutePath().replace("\\", "/");
+        String defaultApiContent = generatedFiles.get(defaultApiFilename);
+        assertTrue(defaultApiContent.contains("public class PingApi"));
+        assertTrue(defaultApiContent.contains("import java.net.http.HttpClient;"));
+        assertTrue(defaultApiContent.contains("import java.net.http.HttpRequest;"));
+        assertTrue(defaultApiContent.contains("import java.net.http.HttpResponse;"));
+        assertTrue(defaultApiContent.contains("import java.util.concurrent.CompletableFuture;"));
+
+        String apiClientFilename = new File(output, "src/main/java/xyz/abcdef/ApiClient.java").getAbsolutePath().replace("\\", "/");
+        String apiClientContent = generatedFiles.get(apiClientFilename);
+        assertTrue(apiClientContent.contains("public class ApiClient"));
+        assertTrue(apiClientContent.contains("import java.net.http.HttpClient;"));
+        assertTrue(apiClientContent.contains("import java.net.http.HttpRequest;"));
+    }
+
+    @Test
     public void testReferencedHeader() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue855.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
