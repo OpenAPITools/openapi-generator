@@ -291,7 +291,7 @@ export class VoidApiResponse {
 export class BlobApiResponse {
     constructor(public raw: Response) {}
 
-    async value() : Promise<Blob>{
+    async value(): Promise<Blob> {
         return await this.raw.blob();
     };
 }
