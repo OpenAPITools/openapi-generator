@@ -56,6 +56,8 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 
 [![NamSor](https://openapi-generator.tech/img/companies/namsor.png)](https://www.namsor.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [![LightBow](https://openapi-generator.tech/img/companies/lightbow.png)](https://www.lightbow.net/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img src="https://openapi-generator.tech/img/companies/docspring.png" width="128" height="128">](https://docspring.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+
 
 #### Thank you GoDaddy for sponsoring the domain names and Linode for sponsoring the VPS
 
@@ -583,11 +585,12 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Crossover Health](https://crossoverhealth.com/)
 - [Cupix](https://www.cupix.com/)
 - [DB Systel](https://www.dbsystel.de)
+- [DocSpring](https://docspring.com/)
 - [dwango](https://dwango.co.jp/)
 - [Edge Impulse](https://www.edgeimpulse.com/)
 - [Element AI](https://www.elementai.com/)
+- [Embotics](https://www.embotics.com/)
 - [Fenergo](https://www.fenergo.com/)
-- [FormAPI](https://formapi.io/)
 - [FreshCells](https://www.freshcells.de/)
 - [Fuse](https://www.fuse.no/)
 - [Gantner](https://www.gantner.com)
@@ -703,9 +706,11 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-11-11 - [One Spec to Rule them all - OpenAPI in Action](https://www.youtube.com/watch?v=MMay_nht8ec) by [Andreas Litt](https://github.com/littldr) at [code.talks 2019](https://www.codetalks.com/)
 - 2019-11-17 - [OpenAPI Generator YouTube playlist](https://www.youtube.com/playlist?list=PLtJyHVMdzfF6fBkOUV5VDVErP23CGgHIy) at [YouTube](https://www.youtube.com)
 - 2019-11-20 - [Introduction to OpenAPI](https://noti.st/lornajane/HvDH7U/introduction-to-openapi) by [Lorna Mitchell](https://twitter.com/lornajane) at [GOTO Copenhagen 2019](https://gotocph.com/2019/)
+- 2019-11-20 - [How to Generate Angular code from OpenAPI specifications](https://dotnetthoughts.net/how-to-generate-angular-code-from-openapi-specifications/) by Anuraj
 - 2019/11/23 - [Swagger ではない OpenAPI Specification 3.0 による API サーバー開発](https://www.slideshare.net/techblogyahoo/swagger-openapi-specification-30-api) by [Tetsuya Morimoto](https://github.com/t2y) at [JJUG CCC 2019 Fall](https://ccc2019fall.java-users.jp/)
 - 2019-11-25 - [openapi-generatorで手軽にスタブサーバとクライアントの生成](https://qiita.com/pochopocho13/items/8db662e1934fb2b408b8) by [@pochopocho13](https://twitter.com/pochopocho13)
 - 2019-11-26 - [CordaCon 2019 Highlights: Braid Server and OpenAPI Generator for Corda Client API’s](https://blog.b9lab.com/cordacon-2019-highlights-braid-server-and-openapi-generator-for-corda-flows-api-s-d24179ccb27c) by [Adel Rustum](https://blog.b9lab.com/@adelrestom) at [B9lab](https://blog.b9lab.com/)
+- 2020-12-04 - [Angular＋NestJS＋OpenAPI（Swagger）でマイクロサービスを視野に入れた環境を考える](https://qiita.com/teracy55/items/0327c7a170ec772970c6) by [てらしー](https://twitter.com/teracy55)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -914,7 +919,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Ruby      | @cliffano (2017/07) @zlx (2017/09) @autopp (2019/02) |
 | Rust      | @frol (2017/07) @farcaller (2017/08) @bjgill (2017/12) @richardwhiuk (2019/07) |
 | Scala     | @clasnake (2017/07), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @shijinkui  (2018/01), @ramzimaalej (2018/03) |
-| Swift     | @jgavris (2017/07) @ehyche (2017/08) @Edubits (2017/09) @jaz-ah (2017/09) @d-date  (2018/03) @4brunu (2019/11) |
+| Swift     | @jgavris (2017/07) @ehyche (2017/08) @Edubits (2017/09) @jaz-ah (2017/09) @4brunu (2019/11) |
 | TypeScript | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) @nicokoenig (2018/09) @topce (2018/10) @akehir (2019/07) @petejohansonxo (2019/11) |
 
 :heart: = Link to support the contributor directly

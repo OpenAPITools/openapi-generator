@@ -91,21 +91,25 @@ public class CodegenDiscriminator {
         if (o == null || getClass() != o.getClass()) return false;
         CodegenDiscriminator that = (CodegenDiscriminator) o;
         return Objects.equals(propertyName, that.propertyName) &&
+                Objects.equals(propertyBaseName, that.propertyBaseName) &&
                 Objects.equals(mapping, that.mapping) &&
                 Objects.equals(mappedModels, that.mappedModels);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(propertyName, mapping, mappedModels);
+
+        return Objects.hash(propertyName, propertyBaseName, mapping, mappedModels);
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("propertyName", propertyName)
-                .append("mapping", mapping)
-                .append("mappedModels", mappedModels)
-                .toString();
+        final StringBuffer sb = new StringBuffer("CodegenDiscriminator{");
+        sb.append("propertyName='").append(propertyName).append('\'');
+        sb.append(", propertyBaseName='").append(propertyBaseName).append('\'');
+        sb.append(", mapping=").append(mapping);
+        sb.append(", mappedModels=").append(mappedModels);
+        sb.append('}');
+        return sb.toString();
     }
 }

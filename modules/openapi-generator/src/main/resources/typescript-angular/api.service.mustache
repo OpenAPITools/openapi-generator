@@ -385,15 +385,25 @@ export class {{classname}} {
 
 {{/hasFormParams}}
 {{#useHttpClient}}
+    {{^isResponseFile}}
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+    {{/isResponseFile}}
         return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.configuration.basePath}{{{path}}}`,{{#isBodyAllowed}}
             {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
             {
-{{#hasQueryParams}}
+    {{#hasQueryParams}}
                 params: queryParameters,
-{{/hasQueryParams}}
-{{#isResponseFile}}
+    {{/hasQueryParams}}
+    {{#isResponseFile}}
                 responseType: "blob",
-{{/isResponseFile}}
+    {{/isResponseFile}}
+    {{^isResponseFile}}
+                responseType: <any>responseType,
+    {{/isResponseFile}}
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -413,6 +423,9 @@ export class {{classname}} {
 {{/hasFormParams}}
 {{#isResponseFile}}
             responseType: ResponseContentType.Blob,
+{{/isResponseFile}}
+{{^isResponseFile}}
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
 {{/isResponseFile}}
 {{#hasQueryParams}}
             search: queryParameters,

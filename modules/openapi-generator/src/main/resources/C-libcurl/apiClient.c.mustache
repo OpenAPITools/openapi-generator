@@ -50,7 +50,7 @@ void apiClient_free(apiClient_t *apiClient) {
     }
     {{/isOAuth}}
     {{#isApiKey}}
-    if(apiClient->accessToken) {
+    if(apiClient->apiKeys) {
         list_free(apiClient->apiKeys);
     }
     {{/isApiKey}}
