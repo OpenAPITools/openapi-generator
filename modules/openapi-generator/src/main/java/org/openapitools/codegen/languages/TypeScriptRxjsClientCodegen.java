@@ -343,7 +343,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         this.reservedWords.add("HttpHeaders");
         this.reservedWords.add("HttpQuery");
         this.reservedWords.add("HttpBody");
-        this.reservedWords.add("ModelPropertyNaming");
         this.reservedWords.add("RequestArgs");
         this.reservedWords.add("RequestOpts");
         this.reservedWords.add("ResponseArgs");
