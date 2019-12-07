@@ -120,6 +120,7 @@ public class DefaultGeneratorTest {
         CodegenResponse codegenResponse = config.fromResponse("200", response);
 
         Assert.assertEquals(((Schema)codegenResponse.schema).getPattern(), expectedPattern);
+        Assert.assertEquals(codegenResponse.pattern, escapedPattern);
     }
 
     @Test
