@@ -1788,11 +1788,19 @@ public class DefaultCodegen implements CodegenConfig {
             Map<String, Schema> allProperties = new LinkedHashMap<String, Schema>();
             List<String> allRequired = new ArrayList<String>();
 
+            // if schema has properties outside of allOf/oneOf/anyOf also add them to m
+            if (composed.getProperties() != null && !composed.getProperties().isEmpty()) {
+                if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
+                    LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
+                            "For more details, see https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3 and the OAS section on 'Composition and Inheritance'.");
+                }
+                addVars(m, unaliasPropertySchema(composed.getProperties()), composed.getRequired(), null, null);
+            }
+
             // parent model
             final String parentName = ModelUtils.getParentName(composed, allDefinitions);
             final List<String> allParents = ModelUtils.getAllParentsName(composed, allDefinitions);
             final Schema parent = StringUtils.isBlank(parentName) || allDefinitions == null ? null : allDefinitions.get(parentName);
-            final boolean hasParent = StringUtils.isNotBlank(parentName);
 
             // TODO revise the logic below to set dicriminator, xml attributes
             if (supportsInheritance || supportsMixins) {

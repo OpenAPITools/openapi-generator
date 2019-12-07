@@ -4,7 +4,7 @@
 
 using namespace test_namespace;
 
-class UserApiTests: public QObject {
+class UserApiTests : public QObject {
     Q_OBJECT
 
     PFXUser createRandomUser();

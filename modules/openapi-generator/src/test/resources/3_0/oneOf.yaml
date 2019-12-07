@@ -22,6 +22,9 @@ components:
          oneOf:
             - $ref: '#/components/schemas/apple'
             - $ref: '#/components/schemas/banana'
+         # additionalProperties:
+         #    type: string
+         # uncomment this when https://github.com/swagger-api/swagger-parser/issues/1252 is resolved
       apple:
          title: apple
          type: object

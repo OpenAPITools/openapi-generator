@@ -26,6 +26,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g kotlin-vertx -o samples/server/petstore/kotlin/vertx"
+ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g kotlin-vertx -o samples/server/petstore/kotlin/vertx --additional-properties=modelMutable=false"
 
 java ${JAVA_OPTS} -jar ${executable} ${ags}

@@ -40,6 +40,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected boolean withGoCodegenComment = false;
     protected boolean withXml = false;
     protected boolean enumClassPrefix = false;
+    protected boolean structPrefix = false;
 
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
@@ -114,10 +115,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("object", "map[string]interface{}");
 
         numberTypes = new HashSet<String>(
-            Arrays.asList(
-                "uint", "uint8", "uint16", "uint32", "uint64",
-                "int", "int8", "int16","int32", "int64",
-                "float32", "float64")
+                Arrays.asList(
+                        "uint", "uint8", "uint16", "uint32", "uint64",
+                        "int", "int8", "int16", "int32", "int64",
+                        "float32", "float64")
         );
 
         importMapping = new HashMap<String, String>();
@@ -279,10 +280,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return "[]" + getTypeDeclaration(inner);
+            return "[]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(inner);
+            return getSchemaType(p) + "[string]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
         }
         //return super.getTypeDeclaration(p);
 
@@ -506,7 +507,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 CodegenModel model = (CodegenModel) v;
                 for (CodegenProperty param : model.vars) {
                     if (!addedTimeImport
-                        && ("time.Time".equals(param.dataType) || ("[]time.Time".equals(param.dataType)))) {
+                            && ("time.Time".equals(param.dataType) || ("[]time.Time".equals(param.dataType)))) {
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
                     }
@@ -640,6 +641,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     public void setEnumClassPrefix(boolean enumClassPrefix) {
         this.enumClassPrefix = enumClassPrefix;
+    }
+
+    public void setStructPrefix(boolean structPrefix) {
+        this.structPrefix = structPrefix;
     }
 
     @Override
