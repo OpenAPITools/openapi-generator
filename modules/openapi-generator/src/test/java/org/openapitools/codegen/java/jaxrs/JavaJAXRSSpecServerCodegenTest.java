@@ -57,6 +57,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         Assert.assertEquals(codegen.additionalProperties().get(JavaJAXRSSpecServerCodegen.SERVER_PORT), "8082");
         Assert.assertEquals(codegen.getOpenApiSpecFileLocation(), "src/main/openapi/openapi.yaml");
         Assert.assertEquals(codegen.additionalProperties().get(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION), "src/main/openapi/openapi.yaml");
+        Assert.assertEquals(codegen.additionalProperties().get(JavaJAXRSSpecServerCodegen.JACKSON), Boolean.TRUE.toString());
+        Assert.assertNull(codegen.additionalProperties().get(JavaJAXRSSpecServerCodegen.USE_JSONB_ANNOTATIONS));
     }
 
     @Test

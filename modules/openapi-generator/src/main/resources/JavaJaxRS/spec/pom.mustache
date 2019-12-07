@@ -62,24 +62,30 @@
       <scope>provided</scope>
     </dependency>
   {{#java8}}
+    {{#jackson}}
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-jsr310</artifactId>
         <version>${jackson-version}</version>
     </dependency>
+    {{/jackson}}
   {{/java8}}
   {{^java8}}
+    {{#jackson}}
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-joda</artifactId>
         <version>${jackson-version}</version>
     </dependency>
+    {{/jackson}}
   {{/java8}}
+    {{#jackson}}
     <dependency>
       <groupId>com.fasterxml.jackson.jaxrs</groupId>
       <artifactId>jackson-jaxrs-json-provider</artifactId>
       <version>${jackson-version}</version>
     </dependency>
+    {{/jackson}}
     {{#useSwaggerAnnotations}}
     <dependency>
       <groupId>io.swagger</groupId>
@@ -128,7 +134,21 @@
         <version>1.1.0.Final</version>
         <scope>provided</scope>
     </dependency>
-{{/useBeanValidation}}
+    {{/useBeanValidation}}
+    {{#useJsonbAnnotations}}
+    <dependency>
+        <groupId>javax.json.bind</groupId>
+        <artifactId>javax.json.bind-api</artifactId>
+        <version>1.0</version>
+        <scope>provided</scope>
+    </dependency>
+    {{/useJsonbAnnotations}}
+    <dependency>
+        <groupId>javax.annotation</groupId>
+        <artifactId>javax.annotation-api</artifactId>
+        <version>1.2</version>
+        <scope>provided</scope>
+    </dependency>
   </dependencies>
   <properties>
     <jackson-version>2.9.9</jackson-version>

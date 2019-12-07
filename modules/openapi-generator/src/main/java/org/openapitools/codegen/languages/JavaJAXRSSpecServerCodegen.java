@@ -40,6 +40,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String RETURN_RESPONSE = "returnResponse";
     public static final String GENERATE_POM = "generatePom";
     public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
+    public static final String USE_JSONB_ANNOTATIONS = "useJsonbAnnotations";
     public static final String JACKSON = "jackson";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
 
@@ -52,7 +53,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean returnResponse = false;
     private boolean generatePom = true;
     private boolean useSwaggerAnnotations = true;
-    private boolean useJackson = false;
+    private boolean useJsonbAnnotations = false;
+    private boolean useJackson = true;
     private String openApiSpecFileLocation = "src/main/openapi/openapi.yaml";
 
     private String primaryResourceName;
@@ -105,6 +107,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
+        cliOptions.add(CliOption.newBoolean(USE_JSONB_ANNOTATIONS, "Whether to generate Jsonb annotations.", useJsonbAnnotations));
+        cliOptions.add(CliOption.newBoolean(JACKSON, "Whether to use Jackson.", useJackson));
         cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
     }
 
@@ -112,6 +116,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public void processOpts() {
         if (additionalProperties.containsKey(GENERATE_POM)) {
             generatePom = Boolean.valueOf(additionalProperties.get(GENERATE_POM).toString());
+        }
+        if (additionalProperties.containsKey(USE_JSONB_ANNOTATIONS)) {
+            useJsonbAnnotations = Boolean.valueOf(additionalProperties.get(USE_JSONB_ANNOTATIONS).toString());
         }
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
             interfaceOnly = Boolean.valueOf(additionalProperties.get(INTERFACE_ONLY).toString());
@@ -260,6 +267,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             codegenModel.imports.remove("ToStringSerializer");
             codegenModel.imports.remove("JsonValue");
             codegenModel.imports.remove("JsonProperty");
+        }
+        if (!useJsonbAnnotations) {
+            codegenModel.imports.remove("JsonbProperty");
+            codegenModel.imports.remove("JsonbCreator");
         }
         return codegenModel;
     }

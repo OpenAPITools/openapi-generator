@@ -2,6 +2,9 @@
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 {{/jackson}}
+{{#useJsonbAnnotations}}
+import javax.json.bind.annotation.JsonbCreator;
+{{/useJsonbAnnotations}}
 
 /**
  * {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
@@ -26,12 +29,19 @@ public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum
   }
 
   @Override
+  {{#jackson}}
   @JsonValue
+  {{/jackson}}
   public String toString() {
     return String.valueOf(value);
   }
 
+  {{#jackson}}
   @JsonCreator
+  {{/jackson}}
+  {{#useJsonbAnnotations}}
+  @JsonbCreator
+  {{/useJsonbAnnotations}}
   public static {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
     for ({{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
       if (b.value.equals(value)) {

@@ -49,6 +49,12 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-openapi</artifactId>
     </dependency>
+    {{#useJsonbAnnotations}}
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jsonb</artifactId>
+    </dependency>
+    {{/useJsonbAnnotations}}
   </dependencies>
   <build>
     <plugins>
