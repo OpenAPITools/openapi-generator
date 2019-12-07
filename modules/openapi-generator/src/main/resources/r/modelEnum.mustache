@@ -1,4 +1,3 @@
-
 {{#isEnum}}
 #' @export
 {{#allowableValues}}
@@ -7,17 +6,18 @@
         "{{values}}"
     )
     htmlEncoded <- any(grepl("[&;]", res))
-    if (htmlEncoded && !requireNamespace("XML", quietly = TRUE))
-        stop("Install 'XML' package for converting html encoded characters")
+    if (htmlEncoded && !requireNamespace("xml2", quietly = TRUE))
+        stop("Install 'xml2' package for converting html encoded characters")
     if (htmlEncoded) {
         html2txt <- function(str) {
-            XML::xpathApply(XML::htmlParse(str, asText=TRUE),
-            "//body//text()", 
-            xmlValue)[[1L]] 
+            xml2::xml_text(
+                xml2::read_html(
+                    paste0("<x>", str, "</x>")
+                )
+            )
         }
-        res <- strsplit(xml2txt(res), "\n")[[1]]
-    } else
-        res <- unlist(strsplit(res, " "))
+        res <- html2txt(res)
+    }
     res <- unlist(strsplit(res, " "))
     res <- setNames(res, res)
     res <- as.environment(as.list(res))
