@@ -33,6 +33,7 @@ import java.util.Optional;
 public interface UserApi {
 
     default Optional<NativeWebRequest> getRequest() {
+
         return Optional.empty();
     }
 
@@ -43,7 +44,7 @@ public interface UserApi {
     })
     @RequestMapping(value = "/user",
         method = RequestMethod.POST)
-    default ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body) {
+    default ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true ) @Valid @RequestBody User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -56,7 +57,7 @@ public interface UserApi {
     })
     @RequestMapping(value = "/user/createWithArray",
         method = RequestMethod.POST)
-    default ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body) {
+    default ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody List<User> body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -69,7 +70,7 @@ public interface UserApi {
     })
     @RequestMapping(value = "/user/createWithList",
         method = RequestMethod.POST)
-    default ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body) {
+    default ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody List<User> body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -155,7 +156,7 @@ public interface UserApi {
     })
     @RequestMapping(value = "/user/{username}",
         method = RequestMethod.PUT)
-    default ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body) {
+    default ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true ) @Valid @RequestBody User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

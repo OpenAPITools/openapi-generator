@@ -33,7 +33,7 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user",
         method = RequestMethod.POST)
-    ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body);
+    ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true ) @Valid @RequestBody User body);
 
 
     @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithArrayInput", notes = "", tags={ "user", })
@@ -41,7 +41,7 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/createWithArray",
         method = RequestMethod.POST)
-    ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
+    ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody List<User> body);
 
 
     @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithListInput", notes = "", tags={ "user", })
@@ -49,7 +49,7 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/createWithList",
         method = RequestMethod.POST)
-    ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
+    ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody List<User> body);
 
 
     @ApiOperation(value = "Delete user", nickname = "deleteUser", notes = "This can only be done by the logged in user.", tags={ "user", })
@@ -96,6 +96,6 @@ public interface UserApi {
         @ApiResponse(code = 404, message = "User not found") })
     @RequestMapping(value = "/user/{username}",
         method = RequestMethod.PUT)
-    ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body);
+    ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true ) @Valid @RequestBody User body);
 
 }

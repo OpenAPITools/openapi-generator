@@ -147,6 +147,7 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.2.11</version>
         </dependency>
+{{#useDocumentationAnnotations}}
         {{#useSpringfox}}
         <!--SpringFox dependencies-->
         <dependency>
@@ -166,7 +167,10 @@
             <version>${springfox-version}</version>
         </dependency>
         {{/useSpringfox}}
+{{/useDocumentationAnnotations}}
+
         {{^useSpringfox}}
+{{#useDocumentationAnnotations}}
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>swagger-ui</artifactId>
@@ -177,6 +181,7 @@
             <artifactId>swagger-annotations</artifactId>
             <version>1.5.14</version>
         </dependency>
+{{/useDocumentationAnnotations}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -260,7 +265,9 @@
         <slf4j-version>1.7.21</slf4j-version>
         <junit-version>4.12</junit-version>
         <servlet-api-version>2.5</servlet-api-version>
+{{#useDocumentationAnnotations}}
         <springfox-version>2.8.0</springfox-version>
+{{/useDocumentationAnnotations}}
         <jackson-version>2.9.9</jackson-version>
         <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>
 {{#useBeanValidation}}

@@ -36,6 +36,6 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body);
+    ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true ) @Valid @RequestBody Client body);
 
 }

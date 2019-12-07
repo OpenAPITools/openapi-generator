@@ -12,7 +12,6 @@ import javax.validation.constraints.*;
 /**
  * Tag
  */
-
 public class Tag   {
   @JsonProperty("id")
   private Long id;

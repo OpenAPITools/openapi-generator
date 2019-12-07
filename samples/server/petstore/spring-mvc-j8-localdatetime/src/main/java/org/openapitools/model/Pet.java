@@ -17,7 +17,6 @@ import javax.validation.constraints.*;
 /**
  * Pet
  */
-
 public class Pet   {
   @JsonProperty("id")
   private Long id;

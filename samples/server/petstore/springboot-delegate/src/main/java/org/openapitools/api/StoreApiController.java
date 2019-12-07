@@ -42,7 +42,7 @@ public class StoreApiController implements StoreApi {
         return delegate.getOrderById(orderId);
     }
 
-    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body) {
+    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @Valid @RequestBody Order body) {
         return delegate.placeOrder(body);
     }
 

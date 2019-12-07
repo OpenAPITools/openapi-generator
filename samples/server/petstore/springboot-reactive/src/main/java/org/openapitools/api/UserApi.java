@@ -40,7 +40,7 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user",
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody Mono<User> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object" ,required=true ) @Valid @RequestBody Mono<User> body, ServerWebExchange exchange) {
         return getDelegate().createUser(body, exchange);
     }
 
@@ -50,7 +50,7 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/createWithArray",
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody Flux<User> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody Flux<User> body, ServerWebExchange exchange) {
         return getDelegate().createUsersWithArrayInput(body, exchange);
     }
 
@@ -60,7 +60,7 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/createWithList",
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody Flux<User> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody Flux<User> body, ServerWebExchange exchange) {
         return getDelegate().createUsersWithListInput(body, exchange);
     }
 
@@ -117,7 +117,7 @@ public interface UserApi {
         @ApiResponse(code = 404, message = "User not found") })
     @RequestMapping(value = "/user/{username}",
         method = RequestMethod.PUT)
-    default Mono<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody Mono<User> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true ) @Valid @RequestBody Mono<User> body, ServerWebExchange exchange) {
         return getDelegate().updateUser(username, body, exchange);
     }
 

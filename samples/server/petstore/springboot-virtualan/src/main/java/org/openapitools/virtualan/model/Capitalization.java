@@ -12,7 +12,6 @@ import javax.validation.constraints.*;
 /**
  * Capitalization
  */
-
 public class Capitalization   {
   @JsonProperty("smallCamel")
   private String smallCamel;

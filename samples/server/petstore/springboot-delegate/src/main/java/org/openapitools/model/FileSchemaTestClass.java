@@ -14,7 +14,6 @@ import javax.validation.constraints.*;
 /**
  * FileSchemaTestClass
  */
-
 public class FileSchemaTestClass   {
   @JsonProperty("file")
   private java.io.File file;

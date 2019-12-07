@@ -1,0 +1,77 @@
+openapi: 3.0.0
+servers:
+  - url: 'localhost:8080'
+info:
+  version: 1.0.0
+  title: OpenAPI Zoo
+  license:
+    name: Apache-2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /monkey:
+    get:
+      operationId: getAllMonkeys
+      summary: load all monkey by query
+      responses:
+        "200":
+          description: ok.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MonkeyList"
+        "403":
+          description: No persmissions
+      parameters:
+        - in: query
+          name: monkeyType
+          description: Type of monkey
+          schema:
+            type: string
+  /monkey/{id}:
+    get:
+      operationId: getMonkey
+      summary: load monkey by id
+      responses:
+        "200":
+          description: ok.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Monkey"
+        "403":
+          description: No persmissions
+        "404":
+          description: No Monkey found for id
+      parameters:
+        - $ref: '#/components/parameters/id'
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      description: concrete id of resource
+      required: true
+      schema:
+        type: integer
+  schemas:
+    Monkey:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/MonkeyType'
+    MonkeyList:
+      type: object
+      properties:
+        monkeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/Monkey'
+    MonkeyType:
+      type: string
+      description: Type of Monkey
+      enum:
+        - BLUE_MONKEY
+        - GIBBON
+        - GOLDEN_LION_TAMARIN

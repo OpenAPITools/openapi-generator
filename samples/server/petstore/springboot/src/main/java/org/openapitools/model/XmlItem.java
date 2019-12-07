@@ -15,7 +15,6 @@ import javax.validation.constraints.*;
 /**
  * XmlItem
  */
-
 public class XmlItem   {
   @JsonProperty("attribute_string")
   private String attributeString;

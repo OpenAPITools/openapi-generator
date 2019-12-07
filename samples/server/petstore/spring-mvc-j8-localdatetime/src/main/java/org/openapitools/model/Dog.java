@@ -14,7 +14,6 @@ import javax.validation.constraints.*;
 /**
  * Dog
  */
-
 public class Dog extends Animal  {
   @JsonProperty("breed")
   private String breed;

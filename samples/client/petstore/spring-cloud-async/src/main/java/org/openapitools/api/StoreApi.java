@@ -71,6 +71,6 @@ public interface StoreApi {
     @RequestMapping(value = "/store/order",
         produces = "application/json", 
         method = RequestMethod.POST)
-    CompletableFuture<ResponseEntity<Order>> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body);
+    CompletableFuture<ResponseEntity<Order>> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @Valid @RequestBody Order body);
 
 }

@@ -9,7 +9,9 @@
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+{{#useDocumentationAnnotations}}
         <swagger-core-version>1.5.18</swagger-core-version>
+{{/useDocumentationAnnotations}}
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -44,6 +46,7 @@
 
 {{/parentOverridden}}
     <dependencies>
+{{#useDocumentationAnnotations}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
@@ -51,6 +54,7 @@
             <version>${swagger-core-version}</version>
 {{/parentOverridden}}
         </dependency>
+{{/useDocumentationAnnotations}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>

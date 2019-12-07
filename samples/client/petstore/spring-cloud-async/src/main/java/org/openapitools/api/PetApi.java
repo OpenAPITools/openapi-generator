@@ -45,7 +45,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet",
         consumes = "application/json",
         method = RequestMethod.POST)
-    CompletableFuture<ResponseEntity<Void>> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body);
+    CompletableFuture<ResponseEntity<Void>> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody Pet body);
 
 
     @ApiOperation(value = "Deletes a pet", nickname = "deletePet", notes = "", authorizations = {
@@ -117,7 +117,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet",
         consumes = "application/json",
         method = RequestMethod.PUT)
-    CompletableFuture<ResponseEntity<Void>> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body);
+    CompletableFuture<ResponseEntity<Void>> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody Pet body);
 
 
     @ApiOperation(value = "Updates a pet in the store with form data", nickname = "updatePetWithForm", notes = "", authorizations = {
