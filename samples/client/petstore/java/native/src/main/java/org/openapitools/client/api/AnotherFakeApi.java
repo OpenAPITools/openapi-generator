@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 public class AnotherFakeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -62,10 +63,10 @@ public class AnotherFakeApi {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client call123testSpecialTags(Client body) throws ApiException {
+  public Client call123testSpecialTags (Client body) throws ApiException {
     // verify the required parameter 'body' is set
     if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling call123testSpecialTags");
+        throw new ApiException(400, "Missing the required parameter 'body' when calling call123testSpecialTags");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -86,21 +87,20 @@ public class AnotherFakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "call123testSpecialTags call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "call123testSpecialTags call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {});
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }

@@ -75,9 +75,9 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-          public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     {{#allParams}}
-      {{#required}}
+    {{#required}}
     // verify the required parameter '{{paramName}}' is set
     if ({{paramName}} == null) {
     {{#asyncNative}}
@@ -87,7 +87,7 @@ public class {{classname}} {
         throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
     {{/asyncNative}}
     }
-      {{/required}}
+    {{/required}}
     {{/allParams}}
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -132,11 +132,11 @@ public class {{classname}} {
     {{^asyncNative}}
     try {
     {{/asyncNative}}
-      {{#asyncNative}}
-          {{#bodyParam}}
-              try {
-          {{/bodyParam}}
-      {{/asyncNative}}
+    {{#asyncNative}}
+      {{#bodyParam}}
+    try {
+      {{/bodyParam}}
+    {{/asyncNative}}
       {{#bodyParam}}
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes({{paramName}});
       localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
@@ -150,64 +150,61 @@ public class {{classname}} {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       {{^asyncNative}}
-              HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (localVarResponse.statusCode()/ 100 != 2) {
+          throw new ApiException(localVarResponse.statusCode(),
+              "{{operationId}} call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+      }
+      {{#returnType}}
+      return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {});
+      {{/returnType}}
+      {{/asyncNative}}
+      {{#asyncNative}}
+      return memberVarHttpClient.sendAsync(
               localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofInputStream());
-              if (localVarResponse.statusCode()/ 100 != 2) {
-                  throw new ApiException(localVarResponse.statusCode(),
-                      "{{operationId}} call received non-success response",
-                      localVarResponse.headers(),
-                      localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
-              }
-
-          {{#returnType}}
-                  return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {});
-          {{/returnType}}
-      {{/asyncNative}}
-      {{#asyncNative}}
-              return memberVarHttpClient.sendAsync(
-                      localVarRequestBuilder.build(),
-                      HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-                  if (localVarResponse.statusCode()/ 100 != 2) {
-                      return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                          "{{operationId}} call received non-success response",
-                          localVarResponse.headers(),
-                          localVarResponse.body())
-                      );
-                  } else {
-                      return CompletableFuture.completedFuture(
-                          {{#returnValue}}
-                                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
-                          {{/returnValue}}
-                          {{^returnValue}}
-                              null
-                          {{/returnValue}}
-                      );
-                  }
-              });
-      {{/asyncNative}}
-
-      {{#asyncNative}}
-          {{#bodyParam}}
-              } catch (IOException e) {
-                  return CompletableFuture.failedFuture(new ApiException(e));
-              }
-          {{/bodyParam}}
-      {{/asyncNative}}
-      {{^asyncNative}}
-          } catch (IOException e) {
-              throw new ApiException(e);
+              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+          if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                  "{{operationId}} call received non-success response",
+                  localVarResponse.headers(),
+                  localVarResponse.body())
+              );
+          } else {
+              return CompletableFuture.completedFuture(
+                  {{#returnValue}}
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
+                  {{/returnValue}}
+                  {{^returnValue}}
+                      null
+                  {{/returnValue}}
+              );
           }
+      });
       {{/asyncNative}}
-      {{^asyncNative}}
-      catch (InterruptedException e) {
-        Thread.currentThread().interrupt();
-          throw new ApiException(e);
-      }
-      {{/asyncNative}}
-      }
+    {{#asyncNative}}
+    {{#bodyParam}}
+    } catch (IOException e) {
+      return CompletableFuture.failedFuture(new ApiException(e));
+    }
+    {{/bodyParam}}
+    {{/asyncNative}}
+    {{^asyncNative}}
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    {{/asyncNative}}
+    {{^asyncNative}}
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+    {{/asyncNative}}
+  }
   {{/operation}}
 }
 {{/operations}}
