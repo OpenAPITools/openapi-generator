@@ -111,8 +111,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("string", "String");
         typeMapping.put("array", "List");
         typeMapping.put("map", "Dict");
-        typeMapping.put("date", "Date");
-        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "Posix");
+        typeMapping.put("DateTime", "Posix");
         typeMapping.put("password", "String");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("file", "String");
@@ -137,6 +137,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiTemplateFiles.put("operation.mustache", ".elm");
         modelTemplateFiles.put("model.mustache", ".elm");
         supportingFiles.add(new SupportingFile("Api.mustache", "", "src" + File.separator + "Api.elm"));
+        supportingFiles.add(new SupportingFile("Time.mustache", "", "src" + File.separator + "Api" + File.separator + "Time.elm"));
         supportingFiles.add(new SupportingFile("elm.mustache", "", "elm.json"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));

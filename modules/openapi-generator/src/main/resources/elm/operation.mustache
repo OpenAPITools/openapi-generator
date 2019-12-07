@@ -5,13 +5,12 @@ module Api.Request.{{classname}} exposing
 {{/operation}}{{/operations}}    )
 
 import Api
-import Api.Data
+import Api.Data{{#includeTime}}
+import Api.Time exposing (Posix){{/includeTime}}
 import Dict
-import Http{{#includeTime}}
-import Iso8601{{/includeTime}}
+import Http
 import Json.Decode
-import Json.Encode{{#includeTime}}
-import Time{{/includeTime}}{{#includeUuid}}
+import Json.Encode{{#includeUuid}}
 import Uuid exposing (Uuid){{/includeUuid}}
 {{#operations}}
 {{#operation}}
@@ -44,22 +43,4 @@ import Uuid exposing (Uuid){{/includeUuid}}
         [{{#queryParams}} ( "{{baseName}}", {{#required}}Just <| {{/required}}{{^required}}Maybe.map {{/required}}{{>paramToString}} {{paramName}} ){{#-last}} {{/-last}}{{^-last}},{{/-last}}{{/queryParams}}]
         {{#bodyParam}}({{#required}}Just ({{/required}}{{^required}}Maybe.map {{/required}}{{#isModel}}Api.Data.{{/isModel}}{{>recordFieldValueEncoder}} {{paramName}}{{#required}}){{/required}}){{/bodyParam}}{{^bodyParam}}Nothing{{/bodyParam}}
         {{^responses}}(Json.Decode.succeed ()){{/responses}}{{#responses}}{{#-first}}{{^dataType}}(Json.Decode.succeed ()){{/dataType}}{{#dataType}}{{#isModel}}Api.Data.{{/isModel}}{{>recordFieldValueDecoder}}{{/dataType}}{{/-first}}{{/responses}}
-{{/operation}}{{/operations}}{{#includeTime}}
-
-
-type alias Date =
-    Time.Posix
-
-
-type alias DateTime =
-    Time.Posix
-
-
-stringFromDate : Date -> String
-stringFromDate =
-    String.left 10 << Iso8601.fromTime
-
-
-stringFromDateTime : DateTime -> String
-stringFromDateTime =
-    Iso8601.fromTime{{/includeTime}}
+{{/operation}}{{/operations}}
