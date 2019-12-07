@@ -55,7 +55,6 @@ public class ModelUtils {
         return Boolean.parseBoolean(GlobalSettings.getProperty(generateAliasAsModelKey, "false"));
     }
 
-
     /**
      * Searches for the model by name in the map of models and returns it
      *
