@@ -30,8 +30,8 @@ type Request a =
         }
 
 
-request : String -> String -> List (String, Maybe String) -> List ( String, String ) -> List (String, Maybe String) -> Maybe Json.Encode.Value -> Json.Decode.Decoder a -> Request a
-request method path headerParams pathParams queryParams body decoder =
+request : String -> String -> List ( String, String ) -> List (String, Maybe String) -> List (String, Maybe String) -> Maybe Json.Encode.Value -> Json.Decode.Decoder a -> Request a
+request method path pathParams queryParams headerParams body decoder =
     Request
         { method = method
         , headers = headers headerParams

@@ -214,6 +214,13 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         return name + "_";
     }
 
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        if (property.getAllowableValues() != null && !property.getAllowableValues().isEmpty()) {
+            property.isModel = true;
+        }
+    }
+
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(final Map<String, Object> orgObjs) {
         final Map<String, Object> objs = super.postProcessAllModels(orgObjs);
@@ -259,12 +266,16 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
-        operations.entrySet().forEach(e -> LOGGER.info("KEY="+e.getKey()));
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
 
         ops.forEach(op -> {
             op.allParams = op.allParams.stream().sorted(new ParameterSorter()).collect(Collectors.toList());
+            op.responses.forEach(response -> {
+                if (response.isDefault) {
+                    response.isModel = !response.primitiveType;
+                }
+            });
         });
 
         final boolean includeTime =
@@ -285,13 +296,13 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         private int index(final CodegenParameter p) {
-            if (p.isHeaderParam) {
+            if (p.isPathParam) {
                 return 1;
             }
-            if (p.isPathParam) {
+            if (p.isQueryParam) {
                 return 2;
             }
-            if (p.isQueryParam) {
+            if (p.isHeaderParam) {
                 return 3;
             }
             if (p.isBodyParam) {
