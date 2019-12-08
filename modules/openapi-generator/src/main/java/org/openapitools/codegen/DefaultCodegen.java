@@ -1821,7 +1821,7 @@ public class DefaultCodegen implements CodegenConfig {
                             m.xmlName = innerSchema.getXml().getName();
                         }
                         if (modelDiscriminators > 1) {
-                            LOGGER.error("Allof composed schema is inherriting >1 descriminator. Only use one discriminator: {}", composed);
+                            LOGGER.error("Allof composed schema is inheriting >1 discriminator. Only use one discriminator: {}", composed);
                         }
 
                         if (modelImplCnt++ > 1) {
