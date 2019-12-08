@@ -68,7 +68,9 @@ class AdditionalPropertiesObject(ModelNormal):
 
     additional_properties_type = ({str: (bool, date, datetime, dict, float, int, list, str,)},)  # noqa: E501
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'name': 'name',  # noqa: E501

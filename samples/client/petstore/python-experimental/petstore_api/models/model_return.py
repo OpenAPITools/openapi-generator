@@ -68,7 +68,9 @@ class ModelReturn(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         '_return': 'return',  # noqa: E501

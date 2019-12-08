@@ -74,7 +74,9 @@ class MixedPropertiesAndAdditionalPropertiesClass(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'uuid': 'uuid',  # noqa: E501

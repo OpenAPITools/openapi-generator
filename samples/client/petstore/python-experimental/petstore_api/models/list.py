@@ -68,7 +68,9 @@ class List(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         '_123_list': '123-list',  # noqa: E501

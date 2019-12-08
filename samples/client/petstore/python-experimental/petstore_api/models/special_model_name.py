@@ -68,7 +68,9 @@ class SpecialModelName(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'special_property_name': '$special[property.name]',  # noqa: E501

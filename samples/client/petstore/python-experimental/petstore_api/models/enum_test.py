@@ -94,7 +94,9 @@ class EnumTest(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'enum_string_required': 'enum_string_required',  # noqa: E501

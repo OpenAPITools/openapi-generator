@@ -68,7 +68,9 @@ class File(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'source_uri': 'sourceURI',  # noqa: E501

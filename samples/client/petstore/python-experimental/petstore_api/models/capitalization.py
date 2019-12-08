@@ -73,7 +73,9 @@ class Capitalization(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'small_camel': 'smallCamel',  # noqa: E501

@@ -69,7 +69,9 @@ class OuterEnum(ModelSimple):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     @staticmethod
     def _composed_schemas():

@@ -68,7 +68,9 @@ class AdditionalPropertiesInteger(ModelNormal):
 
     additional_properties_type = (int,)  # noqa: E501
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'name': 'name',  # noqa: E501

@@ -74,7 +74,9 @@ class ArrayTest(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'array_of_string': 'array_of_string',  # noqa: E501

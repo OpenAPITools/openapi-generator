@@ -77,7 +77,9 @@ class ChildCat(ModelComposed):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'pet_type': 'pet_type',  # noqa: E501

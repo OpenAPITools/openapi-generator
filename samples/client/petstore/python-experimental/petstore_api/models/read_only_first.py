@@ -69,7 +69,9 @@ class ReadOnlyFirst(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'bar': 'bar',  # noqa: E501

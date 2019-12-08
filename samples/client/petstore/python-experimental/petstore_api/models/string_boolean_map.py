@@ -67,7 +67,9 @@ class StringBooleanMap(ModelNormal):
 
     additional_properties_type = (bool,)  # noqa: E501
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
     }

@@ -68,7 +68,9 @@ class DogAllOf(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'breed': 'breed',  # noqa: E501

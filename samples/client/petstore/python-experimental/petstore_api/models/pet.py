@@ -86,7 +86,9 @@ class Pet(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'name': 'name',  # noqa: E501

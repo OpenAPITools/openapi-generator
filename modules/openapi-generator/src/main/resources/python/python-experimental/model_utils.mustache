@@ -591,7 +591,7 @@ def deserialize_model(model_data, model_class, path_to_item, check_type,
                    _from_server=from_server)
 
     used_model_class = model_class
-    if model_class.discriminator is not None:
+    if model_class.discriminator() is not None:
         used_model_class = model_class.get_discriminator_class(
             from_server, model_data)
 

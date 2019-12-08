@@ -79,7 +79,9 @@ class MapTest(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'map_map_of_string': 'map_map_of_string',  # noqa: E501

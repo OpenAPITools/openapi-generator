@@ -68,7 +68,9 @@ class NumberOnly(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'just_number': 'JustNumber',  # noqa: E501

@@ -1807,16 +1807,21 @@ public class DefaultCodegen implements CodegenConfig {
                 m.allVars = new ArrayList<CodegenProperty>();
                 if (composed.getAllOf() != null) {
                     int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
+                    int modelDiscriminators = 0; // only one discriminator allowed in a ComposedModel
                     for (Schema innerSchema : composed.getAllOf()) { // TOOD need to work with anyOf, oneOf as well
-                        if (m.discriminator == null) {
+                        if (m.discriminator == null && innerSchema.getDiscriminator() != null) {
                             LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", name);
-                            m.discriminator = createDiscriminator(name, schema);
+                            m.discriminator = createDiscriminator(name, innerSchema);
+                            modelDiscriminators++;
                         }
 
                         if (innerSchema.getXml() != null) {
                             m.xmlPrefix = innerSchema.getXml().getPrefix();
                             m.xmlNamespace = innerSchema.getXml().getNamespace();
                             m.xmlName = innerSchema.getXml().getName();
+                        }
+                        if (modelDiscriminators > 1) {
+                            LOGGER.error("Allof composed schema is inherriting >1 descriminator. Only use one discriminator: {}", composed);
                         }
 
                         if (modelImplCnt++ > 1) {

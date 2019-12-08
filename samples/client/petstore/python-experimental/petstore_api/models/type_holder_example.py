@@ -81,7 +81,9 @@ class TypeHolderExample(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'string_item': 'string_item',  # noqa: E501

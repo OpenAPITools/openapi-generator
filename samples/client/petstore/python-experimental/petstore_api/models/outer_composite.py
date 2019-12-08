@@ -74,7 +74,9 @@ class OuterComposite(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'my_number': 'my_number',  # noqa: E501

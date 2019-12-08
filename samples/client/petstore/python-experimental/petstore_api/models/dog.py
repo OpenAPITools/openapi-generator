@@ -78,7 +78,9 @@ class Dog(ModelComposed):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'class_name': 'className',  # noqa: E501

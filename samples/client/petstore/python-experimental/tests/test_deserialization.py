@@ -121,6 +121,19 @@ class DeserializationTests(unittest.TestCase):
         self.assertEqual(dog.color, "white")
         self.assertEqual(dog.breed, "Jack Russel Terrier")
 
+    def test_deserialize_lizard(self):
+        """ deserialize ChildLizard, use discriminator"""
+        data = {
+            "pet_type": "ChildLizard",
+            "lovesRocks": True
+        }
+        response = MockResponse(data=json.dumps(data))
+
+        lizard = self.deserialize(response,
+            (petstore_api.ParentPet,), True)
+        self.assertTrue(isinstance(lizard, petstore_api.ChildLizard))
+        self.assertEqual(lizard.pet_type, "ChildLizard")
+        self.assertEqual(lizard.loves_rocks, True)
 
     def test_deserialize_dict_str_int(self):
         """ deserialize dict(str, int) """

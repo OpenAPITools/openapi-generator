@@ -70,7 +70,9 @@ class Tag(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'id': 'id',  # noqa: E501

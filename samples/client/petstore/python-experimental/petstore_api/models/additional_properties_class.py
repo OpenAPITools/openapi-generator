@@ -78,7 +78,9 @@ class AdditionalPropertiesClass(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'map_string': 'map_string',  # noqa: E501
