@@ -23,12 +23,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 {{/jvm-okhttp4}}
 import okhttp3.Request
 import java.io.File
-{{^threetenbp}}
-import java.time.LocalDateTime
-{{/threetenbp}}
-{{#threetenbp}}
-import org.threeten.bp.LocalDateTime
-{{/threetenbp}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(val baseUrl: String) {
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
@@ -256,19 +250,17 @@ import org.threeten.bp.LocalDateTime
         }
     }
 
-    protected fun <T: Any?> parseRequestDate(value : T?): String? {
-        if(value == null) return null
-
+    protected fun <T: Any> parseRequestDate(value : T): String {
         {{#toJson}}
         {{#moshi}}
-        return Serializer.moshi.adapter(T::class.java).toJson(content)
+        return Serializer.moshi.adapter(T::class.java).toJson(value)
         {{/moshi}}
         {{#gson}}
-        return Serializer.gson.toJson(content, T::class.java)
+        return Serializer.gson.toJson(value, T::class.java)
         {{/gson}}
         {{/toJson}}
         {{^toJson}}
-        return value.ToString()
+        return value.toString()
         {{/toJson}}
     }
 }
