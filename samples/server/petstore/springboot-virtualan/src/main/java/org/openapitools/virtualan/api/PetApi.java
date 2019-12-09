@@ -40,6 +40,13 @@ public interface PetApi {
         return Optional.empty();
     }
 
+    /**
+     * POST /pet : Add a new pet to the store
+     *
+     * @param body Pet object that needs to be added to the store (required)
+     * @return successful operation (status code 200)
+     *         or Invalid input (status code 405)
+     */
     @ApiVirtual
     @ApiOperation(value = "Add a new pet to the store", nickname = "addPet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
@@ -59,6 +66,14 @@ public interface PetApi {
     }
 
 
+    /**
+     * DELETE /pet/{petId} : Deletes a pet
+     *
+     * @param petId Pet id to delete (required)
+     * @param apiKey  (optional)
+     * @return successful operation (status code 200)
+     *         or Invalid pet value (status code 400)
+     */
     @ApiVirtual
     @ApiOperation(value = "Deletes a pet", nickname = "deletePet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
@@ -77,6 +92,14 @@ public interface PetApi {
     }
 
 
+    /**
+     * GET /pet/findByStatus : Finds Pets by status
+     * Multiple status values can be provided with comma separated strings
+     *
+     * @param status Status values that need to be considered for filter (required)
+     * @return successful operation (status code 200)
+     *         or Invalid status value (status code 400)
+     */
     @ApiVirtual
     @ApiOperation(value = "Finds Pets by status", nickname = "findPetsByStatus", notes = "Multiple status values can be provided with comma separated strings", response = Pet.class, responseContainer = "List", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
@@ -110,6 +133,15 @@ public interface PetApi {
     }
 
 
+    /**
+     * GET /pet/findByTags : Finds Pets by tags
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     *
+     * @param tags Tags to filter by (required)
+     * @return successful operation (status code 200)
+     *         or Invalid tag value (status code 400)
+     * @deprecated
+     */
     @ApiVirtual
     @ApiOperation(value = "Finds Pets by tags", nickname = "findPetsByTags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
@@ -143,6 +175,15 @@ public interface PetApi {
     }
 
 
+    /**
+     * GET /pet/{petId} : Find pet by ID
+     * Returns a single pet
+     *
+     * @param petId ID of pet to return (required)
+     * @return successful operation (status code 200)
+     *         or Invalid ID supplied (status code 400)
+     *         or Pet not found (status code 404)
+     */
     @ApiVirtual
     @ApiOperation(value = "Find pet by ID", nickname = "getPetById", notes = "Returns a single pet", response = Pet.class, authorizations = {
         @Authorization(value = "api_key")
@@ -174,6 +215,15 @@ public interface PetApi {
     }
 
 
+    /**
+     * PUT /pet : Update an existing pet
+     *
+     * @param body Pet object that needs to be added to the store (required)
+     * @return successful operation (status code 200)
+     *         or Invalid ID supplied (status code 400)
+     *         or Pet not found (status code 404)
+     *         or Validation exception (status code 405)
+     */
     @ApiVirtual
     @ApiOperation(value = "Update an existing pet", nickname = "updatePet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
@@ -195,6 +245,14 @@ public interface PetApi {
     }
 
 
+    /**
+     * POST /pet/{petId} : Updates a pet in the store with form data
+     *
+     * @param petId ID of pet that needs to be updated (required)
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
+     * @return Invalid input (status code 405)
+     */
     @ApiVirtual
     @ApiOperation(value = "Updates a pet in the store with form data", nickname = "updatePetWithForm", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
@@ -213,6 +271,14 @@ public interface PetApi {
     }
 
 
+    /**
+     * POST /pet/{petId}/uploadImage : uploads an image
+     *
+     * @param petId ID of pet to update (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
+     * @return successful operation (status code 200)
+     */
     @ApiVirtual
     @ApiOperation(value = "uploads an image", nickname = "uploadFile", notes = "", response = ModelApiResponse.class, authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
