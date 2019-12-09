@@ -675,10 +675,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel codegenModel = super.fromModel(name, model);
         if (MICROPROFILE.equals(getLibrary())) {
-	        if (codegenModel.imports.contains("ApiModel")) {
-	            // Remove io.swagger.annotations.ApiModel import
-	            codegenModel.imports.remove("ApiModel");
-	        }
+            if (codegenModel.imports.contains("ApiModel")) {
+                // Remove io.swagger.annotations.ApiModel import
+                codegenModel.imports.remove("ApiModel");
+            }
         }
         return codegenModel;
     }
