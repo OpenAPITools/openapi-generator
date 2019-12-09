@@ -41,7 +41,6 @@ func (a *DefaultApiService) FooGet(ctx _context.Context) (InlineResponseDefault,
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/foo"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
