@@ -44,7 +44,6 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context, bod
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/another-fake/dummy"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}

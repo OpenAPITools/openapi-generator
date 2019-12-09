@@ -1,4 +1,4 @@
-@JsonInclude(JsonInclude.Include.NON_NULL) 
+{{>additionalModelTypeAnnotations}}@JsonInclude(JsonInclude.Include.NON_NULL)
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 

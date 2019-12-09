@@ -30,12 +30,12 @@ public class ClientOptInput {
     private List<AuthorizationValue> auths;
 
     public ClientOptInput openAPI(OpenAPI openAPI) {
-        this.openAPI = openAPI;
+        this.setOpenAPI(openAPI);
         return this;
     }
 
     public ClientOptInput config(CodegenConfig codegenConfig) {
-        this.config = codegenConfig;
+        this.setConfig(codegenConfig);
         return this;
     }
 
@@ -72,6 +72,10 @@ public class ClientOptInput {
     @Deprecated
     public void setConfig(CodegenConfig config) {
         this.config = config;
+        // TODO: ClientOptInputs needs to be retired
+        if (this.openAPI != null) {
+            this.config.setOpenAPI(this.openAPI);
+        }
     }
 
     @Deprecated
@@ -86,5 +90,9 @@ public class ClientOptInput {
     @Deprecated
     public void setOpenAPI(OpenAPI openAPI) {
         this.openAPI = openAPI;
+        // TODO: ClientOptInputs needs to be retired
+        if (this.config != null) {
+            this.config.setOpenAPI(this.openAPI);
+        }
     }
 }

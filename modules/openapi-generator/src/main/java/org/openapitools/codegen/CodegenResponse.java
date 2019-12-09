@@ -24,7 +24,7 @@ public class CodegenResponse {
     public String code, message;
     public boolean hasMore;
     public List<Map<String, Object>> examples;
-    public String dataType, baseType, containerType;
+    public String dataType, baseType, containerType, pattern;
     public boolean hasHeaders;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
             isDateTime, isUuid, isEmail, isModel, isFreeFormObject;
@@ -44,49 +44,9 @@ public class CodegenResponse {
     }
 
     @Override
-    public String toString() {
-        return "CodegenResponse{" +
-                "headers=" + headers +
-                ", code='" + code + '\'' +
-                ", message='" + message + '\'' +
-                ", hasMore=" + hasMore +
-                ", examples=" + examples +
-                ", dataType='" + dataType + '\'' +
-                ", baseType='" + baseType + '\'' +
-                ", containerType='" + containerType + '\'' +
-                ", hasHeaders=" + hasHeaders +
-                ", isString=" + isString +
-                ", isNumeric=" + isNumeric +
-                ", isInteger=" + isInteger +
-                ", isLong=" + isLong +
-                ", isNumber=" + isNumber +
-                ", isFloat=" + isFloat +
-                ", isDouble=" + isDouble +
-                ", isByteArray=" + isByteArray +
-                ", isBoolean=" + isBoolean +
-                ", isDate=" + isDate +
-                ", isDateTime=" + isDateTime +
-                ", isUuid=" + isUuid +
-                ", isEmail=" + isEmail +
-                ", isFreeFormObject=" + isFreeFormObject +
-                ", isModel=" + isModel +
-                ", isDefault=" + isDefault +
-                ", simpleType=" + simpleType +
-                ", primitiveType=" + primitiveType +
-                ", isMapContainer=" + isMapContainer +
-                ", isListContainer=" + isListContainer +
-                ", isBinary=" + isBinary +
-                ", isFile=" + isFile +
-                ", schema=" + schema +
-                ", jsonSchema='" + jsonSchema + '\'' +
-                ", vendorExtensions=" + vendorExtensions +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof CodegenResponse)) return false;
         CodegenResponse that = (CodegenResponse) o;
         return hasMore == that.hasMore &&
                 hasHeaders == that.hasHeaders &&
@@ -103,8 +63,8 @@ public class CodegenResponse {
                 isDateTime == that.isDateTime &&
                 isUuid == that.isUuid &&
                 isEmail == that.isEmail &&
-                isFreeFormObject == that.isFreeFormObject &&
                 isModel == that.isModel &&
+                isFreeFormObject == that.isFreeFormObject &&
                 isDefault == that.isDefault &&
                 simpleType == that.simpleType &&
                 primitiveType == that.primitiveType &&
@@ -119,6 +79,7 @@ public class CodegenResponse {
                 Objects.equals(dataType, that.dataType) &&
                 Objects.equals(baseType, that.baseType) &&
                 Objects.equals(containerType, that.containerType) &&
+                Objects.equals(pattern, that.pattern) &&
                 Objects.equals(schema, that.schema) &&
                 Objects.equals(jsonSchema, that.jsonSchema) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions);
@@ -126,9 +87,51 @@ public class CodegenResponse {
 
     @Override
     public int hashCode() {
-        return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders,
-                isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
-                isDateTime, isUuid, isEmail, isFreeFormObject, isModel, isDefault, simpleType, primitiveType, isMapContainer,
-                isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions);
+        return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, pattern,
+                hasHeaders, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray,
+                isBoolean, isDate, isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isDefault, simpleType,
+                primitiveType, isMapContainer, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("CodegenResponse{");
+        sb.append("headers=").append(headers);
+        sb.append(", code='").append(code).append('\'');
+        sb.append(", message='").append(message).append('\'');
+        sb.append(", hasMore=").append(hasMore);
+        sb.append(", examples=").append(examples);
+        sb.append(", dataType='").append(dataType).append('\'');
+        sb.append(", pattern='").append(pattern).append('\'');
+        sb.append(", baseType='").append(baseType).append('\'');
+        sb.append(", containerType='").append(containerType).append('\'');
+        sb.append(", hasHeaders=").append(hasHeaders);
+        sb.append(", isString=").append(isString);
+        sb.append(", isNumeric=").append(isNumeric);
+        sb.append(", isInteger=").append(isInteger);
+        sb.append(", isLong=").append(isLong);
+        sb.append(", isNumber=").append(isNumber);
+        sb.append(", isFloat=").append(isFloat);
+        sb.append(", isDouble=").append(isDouble);
+        sb.append(", isByteArray=").append(isByteArray);
+        sb.append(", isBoolean=").append(isBoolean);
+        sb.append(", isDate=").append(isDate);
+        sb.append(", isDateTime=").append(isDateTime);
+        sb.append(", isUuid=").append(isUuid);
+        sb.append(", isEmail=").append(isEmail);
+        sb.append(", isModel=").append(isModel);
+        sb.append(", isFreeFormObject=").append(isFreeFormObject);
+        sb.append(", isDefault=").append(isDefault);
+        sb.append(", simpleType=").append(simpleType);
+        sb.append(", primitiveType=").append(primitiveType);
+        sb.append(", isMapContainer=").append(isMapContainer);
+        sb.append(", isListContainer=").append(isListContainer);
+        sb.append(", isBinary=").append(isBinary);
+        sb.append(", isFile=").append(isFile);
+        sb.append(", schema=").append(schema);
+        sb.append(", jsonSchema='").append(jsonSchema).append('\'');
+        sb.append(", vendorExtensions=").append(vendorExtensions);
+        sb.append('}');
+        return sb.toString();
     }
 }
