@@ -46,6 +46,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
 
+    public static final String ALLOW_REQUIRED_AS_NULLABLE = "allowRequiredAsNullable";
+    public static final String ALLOW_REQUIRED_AS_NULLABLE_DESC = "Consumes the OpenApi 3.0 nullable field definition; if defined, even required fields will be nullable;";
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 
     protected String artifactId;
@@ -230,6 +233,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
 
         cliOptions.add(CliOption.newBoolean(MODEL_MUTABLE, MODEL_MUTABLE_DESC, false));
+        cliOptions.add(CliOption.newBoolean(ALLOW_REQUIRED_AS_NULLABLE, ALLOW_REQUIRED_AS_NULLABLE_DESC, false));
     }
 
     @Override
