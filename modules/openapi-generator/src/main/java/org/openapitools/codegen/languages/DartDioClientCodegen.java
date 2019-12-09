@@ -142,6 +142,22 @@ public class DartDioClientCodegen extends DartClientCodegen {
     }
 
     @Override
+    public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "empty";
+        }
+        if ("number".equalsIgnoreCase(datatype) || "int".equalsIgnoreCase(datatype)) {
+            name = "Number" + name;
+        }
+        name = camelize(name, true);
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+        return name;
+    }
+
+    @Override
     public void processOpts() {
         if (additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)) {
             this.setTemplateDir((String) additionalProperties.get(CodegenConstants.TEMPLATE_DIR));
