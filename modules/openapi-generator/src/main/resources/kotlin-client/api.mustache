@@ -15,6 +15,7 @@ import {{packageName}}.infrastructure.RequestMethod
 import {{packageName}}.infrastructure.ResponseType
 import {{packageName}}.infrastructure.Success
 import {{packageName}}.infrastructure.toMultiValue
+import {{packageName}}.infrastructure.LocalDateAdapter
 
 {{#operations}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(basePath) {
@@ -39,17 +40,17 @@ import {{packageName}}.infrastructure.toMultiValue
                 {{#queryParams}}
                 {{^required}}
                 if ({{paramName}} != null) {
-                    put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})
+                    put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}super.parseRequestDate(({{paramName}}){{/isDateTime}}{{^isDateTime}}{{paramName}}.toString(){{/isDateTime}}){{/isContainer}})
                 }
                 {{/required}}
                 {{#required}}
                 {{#isNullable}}
                 if ({{paramName}} != null) {
-                    put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})
+                    put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}super.parseRequestDate(({{paramName}}){{/isDateTime}}{{^isDateTime}}{{paramName}}.toString(){{/isDateTime}})
                 }
                 {{/isNullable}}
                 {{^isNullable}}
-                put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})
+                put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}super.parseRequestDate(({{paramName}}){{/isDateTime}}{{^isDateTime}}{{paramName}}.toString(){{/isDateTime}})
                 {{/isNullable}}
                 {{/required}}
                 {{/queryParams}}
