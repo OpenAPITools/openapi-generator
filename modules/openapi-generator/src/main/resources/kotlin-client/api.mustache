@@ -15,7 +15,6 @@ import {{packageName}}.infrastructure.RequestMethod
 import {{packageName}}.infrastructure.ResponseType
 import {{packageName}}.infrastructure.Success
 import {{packageName}}.infrastructure.toMultiValue
-import {{packageName}}.infrastructure.LocalDateAdapter
 
 {{#operations}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(basePath) {
