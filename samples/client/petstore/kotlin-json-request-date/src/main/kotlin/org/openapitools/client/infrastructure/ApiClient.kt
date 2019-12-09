@@ -1,6 +1,5 @@
 package org.openapitools.client.infrastructure
 
-import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -172,6 +171,6 @@ open class ApiClient(val baseUrl: String) {
     }
 
     protected inline fun <reified T: Any> parseDateToString(value : T): String {
-        return value.toString()
+        return Serializer.moshi.adapter(T::class.java).toJson(value)
     }
 }

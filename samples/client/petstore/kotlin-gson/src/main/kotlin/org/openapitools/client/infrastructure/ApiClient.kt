@@ -170,4 +170,8 @@ open class ApiClient(val baseUrl: String) {
             )
         }
     }
+
+    protected inline fun <reified T: Any> parseDateToString(value : T): String {
+        return value.toString()
+    }
 }
