@@ -208,6 +208,6 @@ public interface PetApi {
         produces = "application/json", 
         consumes = "multipart/form-data",
         method = RequestMethod.POST)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<ModelApiResponse>> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file detail") @RequestParam("file") MultipartFile file);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<ModelApiResponse>> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file to upload") @RequestParam("file") MultipartFile file);
 
 }
