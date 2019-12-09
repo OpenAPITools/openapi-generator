@@ -428,7 +428,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             try {
                 //don't generate models that have an import mapping
                 if (config.importMapping().containsKey(name)) {
-                    LOGGER.debug("Model " + name + " not imported due to import mapping");
+                    Schema schema = schemas.get(name);
+                    Map<String, Schema> schemaMap = new HashMap<>();
+                     schemaMap.put(name, schema);
+                     Map<String, Object> models = processModels(config, schemaMap);
+                     name+="Model";
+                     models.put("classname", config.toModelName(name));
+                     models.putAll(config.additionalProperties());
+                     allProcessedModels.put(name, models);
                     continue;
                 }
 
@@ -486,32 +493,61 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             try {
                 //don't generate models that have an import mapping
                 if (config.importMapping().containsKey(modelName)) {
+                    modelName += "Model";
                     continue;
                 }
 
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
                 Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
+                CodegenModel m = (CodegenModel) modelTemplate.get("model");
                 if (modelTemplate != null && modelTemplate.containsKey("model")) {
-                    CodegenModel m = (CodegenModel) modelTemplate.get("model");
                     if (m.isAlias && !(config instanceof PythonClientExperimentalCodegen))  {
                         // alias to number, string, enum, etc, which should not be generated as model
                         // for PythonClientExperimentalCodegen, all aliases are generated as models
                         continue;  // Don't create user-defined classes for aliases
                     }
                 }
+                
 
-                allModels.add(modelTemplate);
+                
+                if(m.oneOf.isEmpty()) {
+                	allModels.add(modelTemplate);
 
-                // to generate model files
-                generateModel(files, models, modelName);
+                	// to generate model files
+                	generateModel(files, models, modelName);
 
-                if (generateModelTests) {
-                    // to generate model test files
-                    generateModelTests(files, models, modelName);
-                }
-                if (generateModelDocumentation) {
-                    // to generate model documentation files
-                    generateModelDocumentation(files, models, modelName);
+                	if (generateModelTests) {
+                		// to generate model test files
+                		generateModelTests(files, models, modelName);
+                	}
+                	if (generateModelDocumentation) {
+                		// to generate model documentation files
+                		generateModelDocumentation(files, models, modelName);
+                	}
+                }else {
+                	//Creates interface to answer to the oneOf's
+    					File file = new File(config.outputFolder() + "/src/main/java/" + config.modelPackage().replace('.','/')  + "/" + m.getName()+ ".java");
+    					try {
+    						if (!file.isFile()) {
+    							if (file.createNewFile()) {
+    								LOGGER.info("writing file" + file.getAbsolutePath());
+    							} else {
+    								LOGGER.info("File exists. Skipped overwriting " + file.getAbsolutePath());
+    							}
+    						}
+    					} catch (IOException e) {
+    						e.printStackTrace();
+    					}
+    					try {
+    						FileWriter writer = new FileWriter(file);
+    						writer.write("\npackage " + config.modelPackage() + ";");
+    						String name = file.getName();
+    						writer.write("\n\npublic interface " + name.substring(0,name.indexOf(".java")) + " {");
+    						writer.write("\n\n}");
+    						writer.close();
+    					} catch (IOException e) {
+    						e.printStackTrace();
+    					}
                 }
             } catch (Exception e) {
                 throw new RuntimeException("Could not generate model '" + modelName + "'", e);
@@ -1125,7 +1161,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 mapping = config.toModelImport(nextImport);
             }
 
-            if (mapping != null && !mappingSet.contains(mapping)) { // ensure import (mapping) is unique
+            if(nextImport.equals("List")) {
+                nextImport += "Model";
+                mapping = config.toModelImport(nextImport);
+            }
+
+            if (mapping != null && !mappingSet.contains(mapping) && !nextImport.equals("List")) { // ensure import (mapping) is unique
                 mappingSet.add(mapping);
                 im.put("import", mapping);
                 im.put("classname", nextImport);

@@ -33,6 +33,7 @@ public class CodegenModel {
     public CodegenModel parentModel;
     public List<CodegenModel> interfaceModels;
     public List<CodegenModel> children;
+    public List<CodegenModel> implementsClasses;
 
     // anyOf, oneOf, allOf
     public Set<String> anyOf = new TreeSet<String>();
@@ -120,6 +121,14 @@ public class CodegenModel {
 
     public List<CodegenModel> getChildren() {
         return children;
+    }
+    
+    public List<CodegenModel> getImplementsClasses() {
+        return implementsClasses;
+    }
+
+    public void setImplementsClasses(List<CodegenModel> implementsClasses) {
+        this.implementsClasses = implementsClasses;
     }
 
     public void setChildren(List<CodegenModel> children) {
@@ -514,13 +523,14 @@ public class CodegenModel {
                 Objects.equals(imports, that.imports) &&
                 Objects.equals(externalDocumentation, that.externalDocumentation) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
-                Objects.equals(additionalPropertiesType, that.additionalPropertiesType);
+                Objects.equals(additionalPropertiesType, that.additionalPropertiesType) &&
+                Objects.equals(implementsClasses,that.implementsClasses);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(parent, parentSchema, interfaces, allParents, parentModel, interfaceModels, children,
+        return Objects.hash(parent, parentSchema, interfaces, allParents, parentModel, interfaceModels, children,implementsClasses,
                 anyOf, oneOf, allOf, name, classname, title, description, classVarName, modelJson, dataType,
                 xmlPrefix, xmlNamespace, xmlName, classFilename, unescapedDescription, discriminator, defaultValue,
                 arrayModelType, isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
@@ -540,6 +550,7 @@ public class CodegenModel {
         sb.append(", parentModel=").append(parentModel);
         sb.append(", interfaceModels=").append(interfaceModels);
         sb.append(", children=").append(children);
+        sb.append(", implementsClasses=").append(implementsClasses);
         sb.append(", anyOf=").append(anyOf);
         sb.append(", oneOf=").append(oneOf);
         sb.append(", allOf=").append(allOf);

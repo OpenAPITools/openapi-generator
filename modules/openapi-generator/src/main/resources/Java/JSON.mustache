@@ -4,6 +4,8 @@ package {{invokerPackage}};
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.internal.bind.util.ISO8601Utils;
@@ -21,6 +23,7 @@ import org.joda.time.format.ISODateTimeFormat;
 {{/joda}}
 {{#threetenbp}}
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 {{/threetenbp}}
@@ -83,6 +86,12 @@ public class JSON {
         {{/models}}
         ;
         GsonBuilder builder = fireBuilder.createGsonBuilder();
+        builder.registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+            @Override
+            public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+                return LocalDateTime.parse(json.getAsJsonPrimitive().getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            }
+        }).create();
         {{#disableHtmlEscaping}}
         builder.disableHtmlEscaping();
         {{/disableHtmlEscaping}}
