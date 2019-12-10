@@ -15,7 +15,7 @@ public struct TypeHolderExample: Codable {
     public var boolItem: Bool
     public var arrayItem: [Int]
 
-    public init(stringItem: String?, numberItem: Double?, integerItem: Int?, boolItem: Bool?, arrayItem: [Int]?) {
+    public init(stringItem: String, numberItem: Double, integerItem: Int, boolItem: Bool, arrayItem: [Int]) {
         self.stringItem = stringItem
         self.numberItem = numberItem
         self.integerItem = integerItem
