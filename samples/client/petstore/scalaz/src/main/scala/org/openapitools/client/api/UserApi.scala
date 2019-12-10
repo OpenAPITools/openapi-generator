@@ -21,13 +21,15 @@ import scalaz.concurrent.Task
 
 import HelperCodecs._
 
+import org.openapitools.client.api.User
+
 object UserApi {
 
   val client = PooledHttp1Client()
 
   def escape(value: String): String = URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20")
 
-  def createUser(host: String, user: User): Task[Unit] = {
+  def createUser(host: String, body: User): Task[Unit] = {
     val path = "/user"
     
     val httpMethod = Method.POST
@@ -40,13 +42,13 @@ object UserApi {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(host + path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
 
     } yield resp
   }
   
-  def createUsersWithArrayInput(host: String, user: List[User]): Task[Unit] = {
+  def createUsersWithArrayInput(host: String, body: List[User]): Task[Unit] = {
     val path = "/user/createWithArray"
     
     val httpMethod = Method.POST
@@ -59,13 +61,13 @@ object UserApi {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(host + path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
 
     } yield resp
   }
   
-  def createUsersWithListInput(host: String, user: List[User]): Task[Unit] = {
+  def createUsersWithListInput(host: String, body: List[User]): Task[Unit] = {
     val path = "/user/createWithList"
     
     val httpMethod = Method.POST
@@ -78,7 +80,7 @@ object UserApi {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(host + path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
 
     } yield resp
@@ -164,7 +166,7 @@ object UserApi {
     } yield resp
   }
   
-  def updateUser(host: String, username: String, user: User): Task[Unit] = {
+  def updateUser(host: String, username: String, body: User): Task[Unit] = {
     val path = "/user/{username}".replaceAll("\\{" + "username" + "\\}",escape(username.toString))
     
     val httpMethod = Method.PUT
@@ -177,7 +179,7 @@ object UserApi {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(host + path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
 
     } yield resp
@@ -190,7 +192,7 @@ class HttpServiceUserApi(service: HttpService) {
 
   def escape(value: String): String = URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20")
 
-  def createUser(user: User): Task[Unit] = {
+  def createUser(body: User): Task[Unit] = {
     val path = "/user"
     
     val httpMethod = Method.POST
@@ -203,13 +205,13 @@ class HttpServiceUserApi(service: HttpService) {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
 
     } yield resp
   }
   
-  def createUsersWithArrayInput(user: List[User]): Task[Unit] = {
+  def createUsersWithArrayInput(body: List[User]): Task[Unit] = {
     val path = "/user/createWithArray"
     
     val httpMethod = Method.POST
@@ -222,13 +224,13 @@ class HttpServiceUserApi(service: HttpService) {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
 
     } yield resp
   }
   
-  def createUsersWithListInput(user: List[User]): Task[Unit] = {
+  def createUsersWithListInput(body: List[User]): Task[Unit] = {
     val path = "/user/createWithList"
     
     val httpMethod = Method.POST
@@ -241,7 +243,7 @@ class HttpServiceUserApi(service: HttpService) {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
 
     } yield resp
@@ -327,7 +329,7 @@ class HttpServiceUserApi(service: HttpService) {
     } yield resp
   }
   
-  def updateUser(username: String, user: User): Task[Unit] = {
+  def updateUser(username: String, body: User): Task[Unit] = {
     val path = "/user/{username}".replaceAll("\\{" + "username" + "\\}",escape(username.toString))
     
     val httpMethod = Method.PUT
@@ -340,7 +342,7 @@ class HttpServiceUserApi(service: HttpService) {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(user)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
 
     } yield resp

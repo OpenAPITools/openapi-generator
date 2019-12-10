@@ -61,7 +61,7 @@ Code change should conform to the programming style guide of the respective lang
 - Go: https://github.com/golang/go/wiki/CodeReviewComments
 - ObjC: https://github.com/NYTimes/objective-c-style-guide
 - Perl: http://perldoc.perl.org/perlstyle.html
-- PHP: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
+- PHP: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-12-extended-coding-style-guide.md
 - PowerShell: https://msdn.microsoft.com/en-us/library/dd878270(v=vs.85).aspx
 - Python: https://www.python.org/dev/peps/pep-0008/
 - R: https://google.github.io/styleguide/Rguide.xml

@@ -4,7 +4,7 @@
 
 using namespace test_namespace;
 
-class StoreApiTests: public QObject {
+class StoreApiTests : public QObject {
     Q_OBJECT
 
 private slots:

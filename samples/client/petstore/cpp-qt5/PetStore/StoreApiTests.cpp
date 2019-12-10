@@ -1,8 +1,8 @@
 #include "StoreApiTests.h"
 
+#include <QDebug>
 #include <QTest>
 #include <QTimer>
-#include <QDebug>
 
 void StoreApiTests::placeOrderTest() {
     PFXStoreApi api;
@@ -16,7 +16,7 @@ void StoreApiTests::placeOrderTest() {
         qDebug() << order.getShipDate();
         loop.quit();
     });
-    connect(&api, &PFXStoreApi::placeOrderSignalE, [&](){
+    connect(&api, &PFXStoreApi::placeOrderSignalE, [&]() {
         QFAIL("shouldn't trigger error");
         loop.quit();
     });
@@ -60,7 +60,7 @@ void StoreApiTests::getInventoryTest() {
 
     connect(&api, &PFXStoreApi::getInventorySignal, [&](QMap<QString, qint32> status) {
         inventoryFetched = true;
-        for(const auto& key : status.keys()) {
+        for (const auto &key : status.keys()) {
             qDebug() << (key) << " Quantities " << status.value(key);
         }
         loop.quit();

@@ -1,0 +1,1 @@
+{{#isFormParam}}{{^isFile}}@Multipart(value = "{{baseName}}"{{^required}}, required = false{{/required}})  {{{dataType}}} {{paramName}}{{/isFile}}{{#isFile}} @Multipart(value = "{{baseName}}" {{^required}}, required = false{{/required}}) Attachment {{paramName}}Detail{{/isFile}}{{/isFormParam}}

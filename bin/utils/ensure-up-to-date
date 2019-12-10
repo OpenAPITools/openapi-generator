@@ -21,9 +21,7 @@ echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
 
 sleep 5
 
-# LIST OF SCRIPTS:
-declare -a scripts=(
-# SAMPLES
+declare -a samples=(
 "${root}/bin/ruby-client-petstore.sh"
 "${root}/bin/ruby-client-petstore-faraday.sh"
 "${root}/bin/openapi3/ruby-client-petstore.sh"
@@ -80,11 +78,17 @@ declare -a scripts=(
 "${root}/bin/dart2-petstore.sh"
 "${root}/bin/java-play-framework-petstore-server-all.sh"
 #"${root}/bin/elm-petstore-all.sh"
+"${root}/bin/typescript-redux-query-petstore-with-npm-version.sh"
+)
+
+# Some special case generators may expect to be run as a stanalone process (e.g. modifying classpath)
+# Docs should always be run, regardless of batch or operation.
+declare -a always_iterate=(
 "${root}/bin/meta-codegen.sh"
-# OTHERS
 "${root}/bin/utils/export_docs_generators.sh"
 "${root}/bin/utils/copy-to-website.sh"
-"${root}/bin/utils/export_generators_readme.sh")
+"${root}/bin/utils/export_generators_readme.sh"
+)
 
 export JAVA_OPTS="${JAVA_OPTS} -Djava.awt.headless=true"
 
@@ -96,7 +100,7 @@ if [ "true" = "$batch_mode" ]; then
   # shellcheck disable=SC2086
   java $JAVA_OPTS -jar "$executable" batch --includes-base-dir "${root}" --fail-fast  -- "${root}"/bin/ci/*
 else
-  for script in "${scripts[@]}"; do
+  for script in "${samples[@]}"; do
     if eval "$script" > /dev/null 2>&1; then
       echo "Executed $script successfully!"
     else
@@ -105,6 +109,15 @@ else
     fi
   done
 fi
+
+for i in "${always_iterate[@]}"; do
+    if eval "$i" > /dev/null 2>&1; then
+      echo "Executed $i successfully!"
+    else
+      echo "ERROR: Failed to run $i"
+      exit 1
+    fi
+done
 
 # Check:
 if [ -n "$(git status --porcelain)" ]; then
@@ -119,3 +132,4 @@ if [ -n "$(git status --porcelain)" ]; then
 else
     echo "Git working tree is clean"
 fi
+

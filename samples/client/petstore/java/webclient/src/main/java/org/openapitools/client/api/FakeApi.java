@@ -71,6 +71,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -101,6 +102,7 @@ public class FakeApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -133,6 +135,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -164,6 +167,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -194,6 +198,7 @@ public class FakeApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -229,6 +234,7 @@ public class FakeApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -271,6 +277,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -308,6 +315,7 @@ public class FakeApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -374,6 +382,7 @@ public class FakeApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -442,6 +451,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -458,7 +468,7 @@ public class FakeApi {
         headerParams.add("enum_header_string", apiClient.parameterToString(enumHeaderString));
 
         if (enumFormStringArray != null)
-            formParams.add("enum_form_string_array", enumFormStringArray);
+            formParams.addAll("enum_form_string_array", enumFormStringArray);
         if (enumFormString != null)
             formParams.add("enum_form_string", enumFormString);
 
@@ -507,6 +517,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -550,6 +561,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -590,6 +602,7 @@ public class FakeApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -654,6 +667,7 @@ public class FakeApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
