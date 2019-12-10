@@ -18,7 +18,7 @@ using namespace {{modelNamespace}};
 	{{#operation}}
 	std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource> sp{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource = std::make_shared<{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource>();
 	this->publish(sp{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource);
-	
+
 	{{/operation}}
 }
 
@@ -48,6 +48,10 @@ void {{classname}}::stopService() {
 		std::bind(&{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler, this,
 			std::placeholders::_1));
 	{{/vendorExtensions.x-codegen-otherMethods}}
+
+	{{#allParams}}{{#defaultValue}}{{^isListContainer}}{{paramName}} = {{{defaultValue}}};
+	{{/isListContainer}}{{/defaultValue}}{{^defaultValue}}{{#isModel}}{{paramName}} = std::make_shared<{{baseType}}>();
+	{{/isModel}}{{/defaultValue}}{{/allParams}}
 }
 
 {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::~{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource()

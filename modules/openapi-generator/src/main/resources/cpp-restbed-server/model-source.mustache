@@ -5,6 +5,9 @@
 
 #include <string>
 #include <sstream>
+{{#hasEnums}}
+#include <algorithm>
+{{/hasEnums}}
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
@@ -18,36 +21,37 @@ namespace {{this}} {
 
 {{classname}}::{{classname}}()
 {
-    {{#vars}}{{^isContainer}}{{#isPrimitiveType}}m_{{name}} = {{{defaultValue}}};
-    {{/isPrimitiveType}}{{^isPrimitiveType}}{{#isString}}m_{{name}} = {{{defaultValue}}};
-    {{/isString}}{{#isDateTime}}m_{{name}} = {{{defaultValue}}};
-    {{/isDateTime}}{{/isPrimitiveType}}{{/isContainer}}{{/vars}}
+    {{#vars}}
+	{{^isContainer}}
+	{{#isPrimitiveType}}
+	m_{{name}} = {{{defaultValue}}};
+	{{/isPrimitiveType}}
+	{{^isPrimitiveType}}
+	{{#isString}}
+	m_{{name}} = {{{defaultValue}}};
+	{{/isString}}
+	{{#isDate}}
+	m_{{name}} = {{{defaultValue}}};
+	{{/isDate}}
+	{{#isDateTime}}
+	m_{{name}} = {{{defaultValue}}};
+	{{/isDateTime}}
+	{{#isEnum}}
+	m_{{enumName}} = { {{#allowableValues}}{{#enumVars}}{{^-first}}, {{/-first}}{{{value}}}{{/enumVars}}{{/allowableValues}} };
+    {{/isEnum}}
+	{{/isPrimitiveType}}
+	{{/isContainer}}
+	{{/vars}}
 }
 
 {{classname}}::~{{classname}}()
 {
 }
 
-std::string {{classname}}::toJsonString()
+std::string {{classname}}::toJsonString(bool prettyJson)
 {
 	std::stringstream ss;
-	ptree pt;
-	{{#vars}}
-	{{^isContainer}}
-	{{#isPrimitiveType}}
-	pt.put("{{baseName}}", m_{{name}});
-	{{/isPrimitiveType}}
-	{{^isPrimitiveType}}
-	{{#isString}}
-	pt.put("{{baseName}}", m_{{name}});
-	{{/isString}}
-	{{#isDateTime}}
-	pt.put("{{baseName}}", m_{{name}});
-	{{/isDateTime}}
-	{{/isPrimitiveType}}
-	{{/isContainer}}
-	{{/vars}}
-	write_json(ss, pt, false);
+	write_json(ss, this->toPropertyTree(), prettyJson);
 	return ss.str();
 }
 
@@ -56,8 +60,69 @@ void {{classname}}::fromJsonString(std::string const& jsonString)
 	std::stringstream ss(jsonString);
 	ptree pt;
 	read_json(ss,pt);
+	this->fromPropertyTree(pt);
+}
+
+ptree {{classname}}::toPropertyTree()
+{
+	ptree pt;
+	ptree tmp_node;
 	{{#vars}}
 	{{^isContainer}}
+	{{#isPrimitiveType}}
+	pt.put("{{baseName}}", m_{{name}});
+	{{/isPrimitiveType}}
+	{{^isPrimitiveType}}
+	{{#isString}}
+	pt.put("{{baseName}}", m_{{name}});
+	{{/isString}}
+	{{#isDate}}
+	pt.put("{{baseName}}", m_{{name}});
+	{{/isDate}}
+	{{#isDateTime}}
+	pt.put("{{baseName}}", m_{{name}});
+	{{/isDateTime}}
+	{{#isModel}}
+	if (m_{{name}} != nullptr) {
+		pt.add_child("{{baseName}}", m_{{name}}->toPropertyTree());
+	}
+	{{/isModel}}
+	{{/isPrimitiveType}}
+	{{/isContainer}}
+	{{#isContainer}}
+	{{^isModelContainer}}
+	// generate tree for {{name}}
+	if (!m_{{name}}.empty()) {
+		for (const auto &childEntry : m_{{name}}) {
+			ptree {{name}}_node;
+			{{name}}_node.put("", childEntry);
+			tmp_node.push_back(std::make_pair("", {{name}}_node));
+		}
+		pt.add_child("{{baseName}}", tmp_node);
+		tmp_node.clear();
+	}
+	{{/isModelContainer}}
+	{{#isModelContainer}}
+	// generate tree for vector of pointers of {{name}}
+	if (!m_{{name}}.empty()) {
+		for (const auto &childEntry : m_{{name}}) {
+			tmp_node.push_back(std::make_pair("", childEntry->toPropertyTree()));
+		}
+		pt.add_child("{{baseName}}", tmp_node);
+		tmp_node.clear();
+	}
+	{{/isModelContainer}}
+	{{/isContainer}}
+	{{/vars}}
+	return pt;
+}
+
+void {{classname}}::fromPropertyTree(ptree const &pt)
+{
+	ptree tmp_node;
+	{{#vars}}
+	{{^isContainer}}
+	{{^isEnum}}
 	{{#isPrimitiveType}}
 	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
 	{{/isPrimitiveType}}
@@ -65,10 +130,46 @@ void {{classname}}::fromJsonString(std::string const& jsonString)
 	{{#isString}}
 	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
 	{{/isString}}
+	{{#isDate}}
+	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
+	{{/isDate}}
 	{{#isDateTime}}
 	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
 	{{/isDateTime}}
 	{{/isPrimitiveType}}
+	{{/isEnum}}
+	{{#isEnum}}
+	{{setter}}(pt.get("{{baseName}}", {{{defaultValue}}}));
+	{{/isEnum}}
+	{{#isModel}}
+	if (pt.get_child_optional("{{baseName}}")) {
+		m_{{name}} = {{{defaultValue}}};
+		m_{{name}}->fromPropertyTree(pt.get_child("{{baseName}}"));
+	}
+	{{/isModel}}
+	{{/isContainer}}
+	{{#isContainer}}
+	{{^isModelContainer}}
+	// push all items of {{name}} into member vector
+	if (pt.get_child_optional("{{baseName}}")) {
+		for (const auto &childTree : pt.get_child("{{baseName}}")) {
+		{{#mostInnerItems}}
+			m_{{name}}.emplace_back({{#isNumeric}}{{^isFloat}}{{^isLong}}{{^isInteger}}std::stod{{/isInteger}}{{/isLong}}{{/isFloat}}{{#isDouble}}std::stod{{/isDouble}}{{#isFloat}}std::stof{{/isFloat}}{{#isInteger}}std::stoi{{/isInteger}}{{#isLong}}std::stol{{/isLong}}({{/isNumeric}}childTree.second.data()){{#isNumeric}}){{/isNumeric}};
+		{{/mostInnerItems}}
+		}
+	}
+	{{/isModelContainer}}
+	{{#isModelContainer}}
+	// generate new {{complexType}} Object for each item and assign it to the current
+	if (pt.get_child_optional("{{baseName}}")) {
+		for (const auto &childTree : pt.get_child("{{baseName}}")) {
+		{{#mostInnerItems}}
+			m_{{name}}.emplace_back({{{defaultValue}}});
+			m_{{name}}.back()->fromPropertyTree(childTree.second);
+		{{/mostInnerItems}}
+		}
+	}
+	{{/isModelContainer}}
 	{{/isContainer}}
 	{{/vars}}
 }
@@ -80,7 +181,9 @@ void {{classname}}::fromJsonString(std::string const& jsonString)
 }
 void {{classname}}::{{setter}}({{{dataType}}} value)
 {
-    m_{{name}} = value;
+	{{#isEnum}}if (std::find(m_{{enumName}}.begin(), m_{{enumName}}.end(), value) != m_{{enumName}}.end()) {
+		{{/isEnum}}m_{{name}} = value;{{#isEnum}}
+	}{{/isEnum}}
 }
 {{/vars}}
 
