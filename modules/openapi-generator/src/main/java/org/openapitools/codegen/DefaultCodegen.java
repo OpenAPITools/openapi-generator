@@ -328,8 +328,59 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         }
+        setCircularReferences(allModels);
 
         return objs;
+    }
+
+    public void setCircularReferences(Map<String, CodegenModel> models) {
+        final Map<String, List<CodegenProperty>> dependencyMap = models.entrySet().stream()
+            .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue())));
+        
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, dependencyMap));
+    }
+
+    private List<CodegenProperty> getModelDependencies(CodegenModel model) {
+        return model.getAllVars().stream()
+            .map(prop -> {
+                if (prop.isContainer) {
+                    return prop.items.dataType == null ? null : prop;
+                }
+                return prop.dataType == null ? null : prop;
+            })
+            .filter(prop -> prop != null)
+            .collect(Collectors.toList());
+    }
+
+    private void setCircularReferencesOnProperties(final String root,
+                                                   final Map<String, List<CodegenProperty>> dependencyMap) {
+        dependencyMap.getOrDefault(root, new ArrayList<>()).stream()
+            .forEach(prop -> {
+                final List<String> unvisited =
+                    Collections.singletonList(prop.isContainer ? prop.items.dataType : prop.dataType);
+                prop.isCircularReference = isCircularReference(root,
+                                                               new HashSet<>(),
+                                                               new ArrayList<>(unvisited),
+                                                               dependencyMap);
+            });
+    }
+
+    private boolean isCircularReference(final String root,
+                                        final Set<String> visited,
+                                        final List<String> unvisited,
+                                        final Map<String, List<CodegenProperty>> dependencyMap) {
+        for (int i = 0; i < unvisited.size(); i++) {
+            final String next = unvisited.get(i);
+            if (!visited.contains(next)) {
+                if (next.equals(root)) {
+                    return true;
+                }
+                dependencyMap.getOrDefault(next, new ArrayList<>())
+                    .forEach(prop -> unvisited.add(prop.isContainer ? prop.items.dataType : prop.dataType));
+                visited.add(next);
+            }
+        }
+        return false;
     }
 
     // override with any special post-processing
