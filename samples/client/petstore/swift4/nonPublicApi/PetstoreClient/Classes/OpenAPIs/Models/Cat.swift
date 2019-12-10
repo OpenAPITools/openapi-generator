@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 internal struct Cat: Codable {
 
     internal var className: String

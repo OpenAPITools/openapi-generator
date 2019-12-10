@@ -8,7 +8,6 @@
 import Foundation
 
 /** Model for testing model name starting with number */
-
 internal struct Model200Response: Codable {
 
     internal var name: Int?
@@ -19,7 +18,7 @@ internal struct Model200Response: Codable {
         self._class = _class
     }
 
-    internal enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey { 
         case name
         case _class = "class"
     }

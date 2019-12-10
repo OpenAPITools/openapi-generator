@@ -23,30 +23,30 @@ import Foundation
         get { return self.customJSONEncoder ?? self.defaultJSONEncoder }
         set { self.customJSONEncoder = newValue }
     }
-    
+
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func decode<T>(_ type: T.Type, from data: Data) -> (decodableObj: T?, error: Error?) where T : Decodable {
         var returnedDecodable: T? = nil
         var returnedError: Error? = nil
-        
+
         do {
             returnedDecodable = try self.jsonDecoder.decode(type, from: data)
         } catch {
             returnedError = error
         }
-        
+
         return (returnedDecodable, returnedError)
     }
-    
+
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func encode<T>(_ value: T) -> EncodeResult where T : Encodable {
         var returnedData: Data?
         var returnedError: Error? = nil
-        
+
         do {
             returnedData = try self.jsonEncoder.encode(value)
         } catch {
             returnedError = error
         }
-        
+
         return (returnedData, returnedError)
     }
 }

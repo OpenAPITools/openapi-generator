@@ -34,6 +34,10 @@ extension String: JSONEncodable {
     func encodeToJSON() -> Any { return self as Any }
 }
 
+extension RawRepresentable where RawValue: JSONEncodable {
+    func encodeToJSON() -> Any { return self.rawValue as Any }
+}
+
 private func encodeIfPossible<T>(_ object: T) -> Any {
     if let encodableObject = object as? JSONEncodable {
         return encodableObject.encodeToJSON()
@@ -64,22 +68,15 @@ extension Data: JSONEncodable {
     }
 }
 
-private let dateFormatter: DateFormatter = {
-    if let formatter = CodableHelper.dateformatter {
-        return formatter
-    } else {
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.dateFormat = Configuration.dateFormat
-        return formatter
-    }
-}()
-
 extension Date: JSONEncodable {
     func encodeToJSON() -> Any {
-        return dateFormatter.string(from: self) as Any
+        return CodableHelper.dateFormatter.string(from: self) as Any
+    }
+}
+
+extension URL: JSONEncodable {
+    func encodeToJSON() -> Any {
+        return self
     }
 }
 
@@ -111,24 +108,24 @@ extension String: CodingKey {
 
 extension KeyedEncodingContainerProtocol {
 
-    internal mutating func encodeArray<T>(_ values: [T], forKey key: Self.Key) throws where T: Encodable {
+    internal mutating func encodeArray<T>(_ values: [T], forKey key: Self.Key) throws where T : Encodable {
         var arrayContainer = nestedUnkeyedContainer(forKey: key)
         try arrayContainer.encode(contentsOf: values)
     }
 
-    internal mutating func encodeArrayIfPresent<T>(_ values: [T]?, forKey key: Self.Key) throws where T: Encodable {
+    internal mutating func encodeArrayIfPresent<T>(_ values: [T]?, forKey key: Self.Key) throws where T : Encodable {
         if let values = values {
             try encodeArray(values, forKey: key)
         }
     }
 
-    internal mutating func encodeMap<T>(_ pairs: [Self.Key: T]) throws where T: Encodable {
+    internal mutating func encodeMap<T>(_ pairs: [Self.Key: T]) throws where T : Encodable {
         for (key, value) in pairs {
             try encode(value, forKey: key)
         }
     }
 
-    internal mutating func encodeMapIfPresent<T>(_ pairs: [Self.Key: T]?) throws where T: Encodable {
+    internal mutating func encodeMapIfPresent<T>(_ pairs: [Self.Key: T]?) throws where T : Encodable {
         if let pairs = pairs {
             try encodeMap(pairs)
         }
@@ -138,7 +135,7 @@ extension KeyedEncodingContainerProtocol {
 
 extension KeyedDecodingContainerProtocol {
 
-    internal func decodeArray<T>(_ type: T.Type, forKey key: Self.Key) throws -> [T] where T: Decodable {
+    internal func decodeArray<T>(_ type: T.Type, forKey key: Self.Key) throws -> [T] where T : Decodable {
         var tmpArray = [T]()
 
         var nestedContainer = try nestedUnkeyedContainer(forKey: key)
@@ -150,8 +147,8 @@ extension KeyedDecodingContainerProtocol {
         return tmpArray
     }
 
-    internal func decodeArrayIfPresent<T>(_ type: T.Type, forKey key: Self.Key) throws -> [T]? where T: Decodable {
-        var tmpArray: [T]?
+    internal func decodeArrayIfPresent<T>(_ type: T.Type, forKey key: Self.Key) throws -> [T]? where T : Decodable {
+        var tmpArray: [T]? = nil
 
         if contains(key) {
             tmpArray = try decodeArray(T.self, forKey: key)
@@ -160,8 +157,8 @@ extension KeyedDecodingContainerProtocol {
         return tmpArray
     }
 
-    internal func decodeMap<T>(_ type: T.Type, excludedKeys: Set<Self.Key>) throws -> [Self.Key: T] where T: Decodable {
-        var map: [Self.Key: T] = [:]
+    internal func decodeMap<T>(_ type: T.Type, excludedKeys: Set<Self.Key>) throws -> [Self.Key: T] where T : Decodable {
+        var map: [Self.Key : T] = [:]
 
         for key in allKeys {
             if !excludedKeys.contains(key) {
@@ -174,3 +171,5 @@ extension KeyedDecodingContainerProtocol {
     }
 
 }
+
+

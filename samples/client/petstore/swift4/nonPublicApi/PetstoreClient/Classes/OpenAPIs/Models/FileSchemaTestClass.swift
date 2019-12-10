@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 internal struct FileSchemaTestClass: Codable {
 
     internal var file: File?
