@@ -6,6 +6,10 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 {{#gson}}
 import retrofit2.converter.gson.GsonConverterFactory
 {{/gson}}
+{{#moshi}}
+import retrofit2.converter.moshi.MoshiConverterFactory
+{{/moshi}}
+
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
     private var baseUrl: String = "{{{basePath}}}",
