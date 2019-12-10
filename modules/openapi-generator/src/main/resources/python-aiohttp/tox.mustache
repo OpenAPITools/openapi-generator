@@ -1,9 +1,9 @@
 [tox]
-envlist = py27, py3
+envlist = py3
 
 [testenv]
 deps=-r{toxinidir}/requirements.txt
      -r{toxinidir}/test-requirements.txt
 
 commands=
-   pytest --cov=petstore_api
+   {{^useNose}}pytest --cov={{{packageName}}}{{/useNose}}{{#useNose}}nosetests{{/useNose}}
