@@ -1972,6 +1972,10 @@ public class DefaultCodegen implements CodegenConfig {
                 addAdditionPropertiesToCodeGenModel(m, schema);
                 m.isMapModel = true;
             } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
+                // NOTE: Integral schemas as CodegenModel is a rare use case and may be removed at a later date.
+                // Sync of properties is done for consistency with other data types like CodegenParameter/CodegenProperty.
+                ModelUtils.syncValidationProperties(schema, m);
+
                 m.isNumeric = Boolean.TRUE;
                 if (ModelUtils.isLongSchema(schema)) { // int64/long format
                     m.isLong = Boolean.TRUE;
@@ -1979,8 +1983,14 @@ public class DefaultCodegen implements CodegenConfig {
                     m.isInteger = Boolean.TRUE;
                 }
             } else if (ModelUtils.isStringSchema(schema)) {
+                // NOTE: String schemas as CodegenModel is a rare use case and may be removed at a later date.
+                // Sync of properties is done for consistency with other data types like CodegenParameter/CodegenProperty.
+                ModelUtils.syncValidationProperties(schema, m);
                 m.isString = Boolean.TRUE;
             } else if (ModelUtils.isNumberSchema(schema)) {
+                // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.
+                // Sync of properties is done for consistency with other data types like CodegenParameter/CodegenProperty.
+                ModelUtils.syncValidationProperties(schema, m);
                 m.isNumeric = Boolean.TRUE;
                 if (ModelUtils.isFloatSchema(schema)) { // float
                     m.isFloat = Boolean.TRUE;
@@ -2122,6 +2132,9 @@ public class DefaultCodegen implements CodegenConfig {
         p = ModelUtils.unaliasSchema(this.openAPI, p);
 
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
+
+        ModelUtils.syncValidationProperties(p, property);
+
         property.name = toVarName(name);
         property.baseName = name;
         if (p.getType() == null) {
@@ -2926,6 +2939,21 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
         CodegenResponse r = CodegenModelFactory.newInstance(CodegenModelType.RESPONSE);
+
+        if (response.getContent() != null && response.getContent().size() > 0) {
+            // Ensure validation properties from a target schema are persisted on CodegenResponse.
+            // This ignores any edge case where different schemas have different validations because we don't
+            // have a way to indicate a preference for response schema and are effective 1:1.
+            Schema contentSchema = null;
+            for (MediaType mt : response.getContent().values()) {
+                if (contentSchema != null) break;
+                contentSchema = mt.getSchema();
+            }
+            if (contentSchema != null) {
+                ModelUtils.syncValidationProperties(contentSchema, r);
+            }
+        }
+
         if ("default".equals(responseCode)) {
             r.code = "0";
         } else {
@@ -2939,7 +2967,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         r.schema = responseSchema;
         if (responseSchema != null && responseSchema.getPattern() != null) {
-            r.pattern = toRegularExpression(responseSchema.getPattern());
+            r.setPattern(toRegularExpression(responseSchema.getPattern()));
         }
 
         r.message = escapeText(response.getDescription());
@@ -3118,6 +3146,21 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+
+        if (parameter.getContent() != null && parameter.getContent().size() > 0) {
+            // Ensure validation properties from a target schema are persisted on CodegenParameter.
+            // This ignores any edge case where different schemas have different validations because we don't
+            // have a way to indicate a preference for parameter schema and are effective 1:1.
+            Schema contentSchema = null;
+            for (MediaType mt : parameter.getContent().values()) {
+                if (contentSchema != null) break;
+                contentSchema = mt.getSchema();
+            }
+            if (contentSchema != null) {
+                ModelUtils.syncValidationProperties(contentSchema, codegenParameter);
+            }
+        }
+
         codegenParameter.baseName = parameter.getName();
         codegenParameter.description = escapeText(parameter.getDescription());
         codegenParameter.unescapedDescription = parameter.getDescription();
@@ -4785,6 +4828,8 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("Debugging fromFormProperty {}: {}", name, propertySchema);
         CodegenProperty codegenProperty = fromProperty(name, propertySchema);
 
+        ModelUtils.syncValidationProperties(propertySchema, codegenProperty);
+
         codegenParameter.isFormParam = Boolean.TRUE;
         codegenParameter.baseName = codegenProperty.baseName;
         codegenParameter.paramName = toParamName((codegenParameter.baseName));
@@ -4885,6 +4930,8 @@ public class DefaultCodegen implements CodegenConfig {
             name = ModelUtils.getSimpleRef(schema.get$ref());
         }
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+
+        ModelUtils.syncValidationProperties(schema, codegenParameter);
 
         if (ModelUtils.isMapSchema(schema)) {
             Schema inner = ModelUtils.getAdditionalProperties(schema);
