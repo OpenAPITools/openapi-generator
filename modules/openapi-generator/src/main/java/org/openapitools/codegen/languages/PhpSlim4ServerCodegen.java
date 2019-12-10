@@ -132,6 +132,8 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
 
         // mocking feature
         supportingFiles.add(new SupportingFile("openapi_data_mocker_interface.mustache", toSrcPath(mockPackage, srcBasePath), toInterfaceName("OpenApiDataMocker") + ".php"));
+        supportingFiles.add(new SupportingFile("openapi_data_mocker.mustache", toSrcPath(mockPackage, srcBasePath), "OpenApiDataMocker.php"));
+        supportingFiles.add(new SupportingFile("openapi_data_mocker_test.mustache", toSrcPath(mockPackage, testBasePath), "OpenApiDataMockerTest.php"));
     }
 
     /**
