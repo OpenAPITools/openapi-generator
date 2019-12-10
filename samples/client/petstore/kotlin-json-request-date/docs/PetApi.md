@@ -6,8 +6,8 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 [**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 [**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
+[**getAllPets**](PetApi.md#getAllPets) | **GET** /pet/getAll | Get all pets
 [**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
 [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
@@ -108,55 +108,6 @@ Configure petstore_auth:
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="findPetsByStatus"></a>
-# **findPetsByStatus**
-> kotlin.Array&lt;Pet&gt; findPetsByStatus(status)
-
-Finds Pets by status
-
-Multiple status values can be provided with comma separated strings
-
-### Example
-```kotlin
-// Import classes:
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
-
-val apiInstance = PetApi()
-val status : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | Status values that need to be considered for filter
-try {
-    val result : kotlin.Array<Pet> = apiInstance.findPetsByStatus(status)
-    println(result)
-} catch (e: ClientException) {
-    println("4xx response calling PetApi#findPetsByStatus")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling PetApi#findPetsByStatus")
-    e.printStackTrace()
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **status** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
-
-### Return type
-
-[**kotlin.Array&lt;Pet&gt;**](Pet.md)
-
-### Authorization
-
-
-Configure petstore_auth:
-    ApiClient.accessToken = ""
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
-
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
 > kotlin.Array&lt;Pet&gt; findPetsByTags(tags)
@@ -190,6 +141,53 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tags** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by |
+
+### Return type
+
+[**kotlin.Array&lt;Pet&gt;**](Pet.md)
+
+### Authorization
+
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
+
+<a name="getAllPets"></a>
+# **getAllPets**
+> kotlin.Array&lt;Pet&gt; getAllPets(lastUpdated)
+
+Get all pets
+
+### Example
+```kotlin
+// Import classes:
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
+
+val apiInstance = PetApi()
+val lastUpdated : java.time.LocalDateTime = 2013-10-20T19:20:30+01:00 // java.time.LocalDateTime | When this endpoint was hit last to help indentify if the client already has the latest copy.
+try {
+    val result : kotlin.Array<Pet> = apiInstance.getAllPets(lastUpdated)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling PetApi#getAllPets")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling PetApi#getAllPets")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **lastUpdated** | **java.time.LocalDateTime**| When this endpoint was hit last to help indentify if the client already has the latest copy. | [optional]
 
 ### Return type
 
