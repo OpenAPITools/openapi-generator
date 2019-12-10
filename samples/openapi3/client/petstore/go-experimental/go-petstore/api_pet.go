@@ -14,7 +14,6 @@ import (
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"fmt"
 	"strings"
 	"github.com/antihax/optional"
 	"os"
@@ -42,8 +41,12 @@ func (a *PetApiService) AddPet(ctx _context.Context, pet Pet) (*_nethttp.Respons
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/pet"
+	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.AddPet")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/pet"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -116,9 +119,13 @@ func (a *PetApiService) DeletePet(ctx _context.Context, petId int64, localVarOpt
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(fmt.Sprintf("%v", petId)), -1)
+	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.DeletePet")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/pet/{petId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -188,8 +195,12 @@ func (a *PetApiService) FindPetsByStatus(ctx _context.Context, status []string) 
 		localVarReturnValue  []Pet
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/pet/findByStatus"
+	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.FindPetsByStatus")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/pet/findByStatus"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -277,8 +288,12 @@ func (a *PetApiService) FindPetsByTags(ctx _context.Context, tags []string) ([]P
 		localVarReturnValue  []Pet
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/pet/findByTags"
+	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.FindPetsByTags")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/pet/findByTags"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -366,9 +381,13 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 		localVarReturnValue  Pet
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(fmt.Sprintf("%v", petId)), -1)
+	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.GetPetById")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/pet/{petId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -466,8 +485,12 @@ func (a *PetApiService) UpdatePet(ctx _context.Context, pet Pet) (*_nethttp.Resp
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/pet"
+	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.UpdatePet")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/pet"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -542,9 +565,13 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, loc
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(fmt.Sprintf("%v", petId)), -1)
+	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.UpdatePetWithForm")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/pet/{petId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -625,9 +652,13 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 		localVarReturnValue  ApiResponse
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/pet/{petId}/uploadImage"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(fmt.Sprintf("%v", petId)), -1)
+	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.UploadFile")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/pet/{petId}/uploadImage"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -737,9 +768,13 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 		localVarReturnValue  ApiResponse
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake/{petId}/uploadImageWithRequiredFile"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(fmt.Sprintf("%v", petId)), -1)
+	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.UploadFileWithRequiredFile")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/{petId}/uploadImageWithRequiredFile"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
