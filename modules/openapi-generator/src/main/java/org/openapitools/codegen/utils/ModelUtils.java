@@ -652,6 +652,17 @@ public class ModelUtils {
         return references;
     }
 
+    /**
+     * If a Schema contains circular references, stores detected schema names in 'set', does skip self reference
+     * and supports cross reference.
+     *
+     * @param openAPI specification being checked
+     * @param name    name of the model
+     * @param model   potentially containing a '$ref'
+     * @param set     set which stores all schemas in a cycle referencing the schema of param name
+     * @param visited set which stores already visited schemas
+     * @return        'true' if a cycle for given schema is detected, false if not
+     */
     private static boolean detectCircularReferences(OpenAPI openAPI, String name, Schema model, Set<String> set, Set<String> visited) {
         boolean cycleDetected = false;
         Map<String, Schema> properties = model.getProperties();
