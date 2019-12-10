@@ -11,6 +11,29 @@ internal typealias EncodeResult = (data: Data?, error: Error?)
 
 internal class CodableHelper {
 
+    private static var customDateFormatter: DateFormatter?
+    private static var defaultDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.calendar = Calendar(identifier: .iso8601)
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.dateFormat = Configuration.dateFormat
+        return dateFormatter
+    }()
+    private static var customJSONDecoder: JSONDecoder?
+    private static var defaultJSONDecoder: JSONDecoder = {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(CodableHelper.dateFormatter)
+        return decoder
+    }()
+    private static var customJSONEncoder: JSONEncoder?
+    private static var defaultJSONEncoder: JSONEncoder = {
+       let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .formatted(CodableHelper.dateFormatter)
+        encoder.outputFormatting = .prettyPrinted
+        return encoder
+    }()
+
     internal static var dateFormatter: DateFormatter {
         get { return self.customDateFormatter ?? self.defaultDateFormatter }
         set { self.customDateFormatter = newValue }
