@@ -1,6 +1,6 @@
 package org.openapitools.client.apis
 
-
+import org.openapitools.client.infrastructure.CollectionFormats.*
 import retrofit2.http.*
 import retrofit2.Call
 
@@ -26,7 +26,7 @@ interface UserApi {
     fun loginUser(@Query("username") username: kotlin.String, @Query("password") password: kotlin.String): Call<kotlin.String>
 
     @GET("/user/logout")
-    fun logoutUser(: Call<Unit>
+    fun logoutUser(): Call<Unit>
 
     @PUT("/user/{username}")
     fun updateUser(@Path("username") username: kotlin.String, @Body body: User): Call<Unit>

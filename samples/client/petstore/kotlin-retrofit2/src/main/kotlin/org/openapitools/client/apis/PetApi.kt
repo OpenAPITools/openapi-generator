@@ -1,6 +1,6 @@
 package org.openapitools.client.apis
 
-
+import org.openapitools.client.infrastructure.CollectionFormats.*
 import retrofit2.http.*
 import retrofit2.Call
 

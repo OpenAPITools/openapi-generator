@@ -1,6 +1,6 @@
 package org.openapitools.client.apis
 
-
+import org.openapitools.client.infrastructure.CollectionFormats.*
 import retrofit2.http.*
 import retrofit2.Call
 
@@ -11,7 +11,7 @@ interface StoreApi {
     fun deleteOrder(@Path("orderId") orderId: kotlin.String): Call<Unit>
 
     @GET("/store/inventory")
-    fun getInventory(: Call<kotlin.collections.Map<kotlin.String, kotlin.Int>>
+    fun getInventory(): Call<kotlin.collections.Map<kotlin.String, kotlin.Int>>
 
     @GET("/store/order/{orderId}")
     fun getOrderById(@Path("orderId") orderId: kotlin.Long): Call<Order>
