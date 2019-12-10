@@ -231,6 +231,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     private void processRetrofit2Library(String infrastructureFolder) {
         additionalProperties.put(RETROFIT2, true);
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
         addSupportingSerializerAdapters(infrastructureFolder);
     }
 
