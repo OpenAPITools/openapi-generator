@@ -58,7 +58,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/boolean",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody Boolean body) {
+    default ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody(required=false) Boolean body) {
         return getDelegate().fakeOuterBooleanSerialize(body);
     }
 
@@ -69,7 +69,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/composite",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody OuterComposite body) {
+    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody(required=false) OuterComposite body) {
         return getDelegate().fakeOuterCompositeSerialize(body);
     }
 
@@ -80,7 +80,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/number",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody BigDecimal body) {
+    default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody(required=false) BigDecimal body) {
         return getDelegate().fakeOuterNumberSerialize(body);
     }
 
@@ -91,7 +91,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/string",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody String body) {
+    default ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody(required=false) String body) {
         return getDelegate().fakeOuterStringSerialize(body);
     }
 
