@@ -10,7 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 {{/moshi}}
 
-
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
     private var baseUrl: String = "{{{basePath}}}",
     private var okHttpClient: OkHttpClient
