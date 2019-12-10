@@ -42,6 +42,8 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
     protected String psr7Implementation = "slim-psr7";
     protected List<Map<String, String>> composerPackages = new ArrayList<Map<String, String>>();
     protected List<Map<String, String>> composerDevPackages = new ArrayList<Map<String, String>>();
+    protected String mockDirName = "Mock";
+    protected String mockPackage = "";
 
     public PhpSlim4ServerCodegen() {
         super();
@@ -50,6 +52,7 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
                 .stability(Stability.STABLE)
                 .build();
 
+        mockPackage = invokerPackage + "\\" + mockDirName;
         outputFolder = "generated-code" + File.separator + "slim4";
         embeddedTemplateDir = templateDir = "php-slim4-server";
 
@@ -84,6 +87,16 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
     public void processOpts() {
         super.processOpts();
 
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            // Update the invokerPackage for the default mockPackage
+            mockPackage = invokerPackage + "\\" + mockDirName;
+        }
+
+        // make mock src path available in mustache template
+        additionalProperties.put("mockPackage", mockPackage);
+        additionalProperties.put("mockSrcPath", "./" + toSrcPath(mockPackage, srcBasePath));
+        additionalProperties.put("mockTestPath", "./" + toSrcPath(mockPackage, testBasePath));
+
         if (additionalProperties.containsKey(PSR7_IMPLEMENTATION)) {
             this.setPsr7Implementation((String) additionalProperties.get(PSR7_IMPLEMENTATION));
         }
@@ -116,6 +129,9 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
         // Slim 4 doesn't parse JSON body anymore we need to add suggested middleware
         // ref: https://www.slimframework.com/docs/v4/objects/request.html#the-request-body
         supportingFiles.add(new SupportingFile("json_body_parser_middleware.mustache", toSrcPath(invokerPackage + "\\Middleware", srcBasePath), "JsonBodyParserMiddleware.php"));
+
+        // mocking feature
+        supportingFiles.add(new SupportingFile("openapi_data_mocker_interface.mustache", toSrcPath(mockPackage, srcBasePath), toInterfaceName("OpenApiDataMocker") + ".php"));
     }
 
     /**
