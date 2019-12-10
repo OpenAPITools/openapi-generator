@@ -39,6 +39,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class ModelUtils {
@@ -632,6 +634,54 @@ public class ModelUtils {
             }
         }
         return schema;
+    }
+
+    /**
+     * If a Schema contains circular references, returns detected schema names, does not include self.
+     * e.g. Pet - Toy - Owner - Pet - Toy ... returns: Toy, Owner for schema Pet
+     *
+     * @param openAPI specification being checked
+     * @param name    name of the model
+     * @param model   potentially containing a '$ref'
+     * @return        List of schema names referencing the passed schema in a cycle
+     */
+    public static Set<String> getCircularReferencedSchemaNames(OpenAPI openAPI, String name, Schema model) {
+        Set<String> references = new TreeSet<String>();
+        Set<String> visited = new TreeSet<String>();
+        detectCircularReferences(openAPI, name, model, references, visited);
+        return references;
+    }
+
+    private static boolean detectCircularReferences(OpenAPI openAPI, String name, Schema model, Set<String> set, Set<String> visited) {
+        boolean cycleDetected = false;
+        Map<String, Schema> properties = model.getProperties();
+
+        if (properties != null && !properties.isEmpty()) {
+            for (Map.Entry<String, Schema> property : properties.entrySet()) {
+                if (property.getValue().get$ref() != null) {
+                    String ref = ModelUtils.getSimpleRef(property.getValue().get$ref());
+                    // already visited the schema
+                    if (!visited.contains(ref)) {
+                        Schema innerModel = getSchema(openAPI, ref);
+                        if (innerModel != null && isObjectSchema(innerModel)) {
+                            if (name.equals(ref)) {
+                                // starting schema has been found
+                                cycleDetected = true;
+                            } else {
+                                visited.add(ref);
+                                if (detectCircularReferences(openAPI, name, innerModel, set, visited)) {
+                                    // add the schema to the set and remove it from visited to allow checking for more occurences
+                                    set.add(ref);
+                                    visited.remove(ref);
+                                    cycleDetected = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return cycleDetected;
     }
 
     public static Schema getSchema(OpenAPI openAPI, String name) {

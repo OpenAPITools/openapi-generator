@@ -45,6 +45,7 @@ public class CodegenModel {
     public CodegenDiscriminator discriminator;
     public String defaultValue;
     public String arrayModelType;
+    public Set<String> circularReferences = new TreeSet<String>(); // store all classes cross referencing this
     public boolean isAlias; // Is this effectively an alias of another simple type
     public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
@@ -248,6 +249,14 @@ public class CodegenModel {
 
     public void setArrayModelType(String arrayModelType) {
         this.arrayModelType = arrayModelType;
+    }
+
+    public Set<String> getCircularReferencess() {
+        return circularReferences;
+    }
+
+    public void setCircularReferences(Set<String> circularReferences) {
+        this.circularReferences = circularReferences;
     }
 
     public List<CodegenProperty> getVars() {
@@ -501,6 +510,7 @@ public class CodegenModel {
                 Objects.equals(discriminator, that.discriminator) &&
                 Objects.equals(defaultValue, that.defaultValue) &&
                 Objects.equals(arrayModelType, that.arrayModelType) &&
+                Objects.equals(circularReferences, that.circularReferences) &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(allVars, that.allVars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
@@ -523,7 +533,7 @@ public class CodegenModel {
         return Objects.hash(parent, parentSchema, interfaces, allParents, parentModel, interfaceModels, children,
                 anyOf, oneOf, allOf, name, classname, title, description, classVarName, modelJson, dataType,
                 xmlPrefix, xmlNamespace, xmlName, classFilename, unescapedDescription, discriminator, defaultValue,
-                arrayModelType, isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
+                arrayModelType, circularReferences, isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
                 vars, allVars, requiredVars, optionalVars, readOnlyVars, readWriteVars, parentVars, allowableValues,
                 mandatory, allMandatory, imports, hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, isNullable,
                 hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel, hasOnlyReadOnly,
@@ -558,6 +568,7 @@ public class CodegenModel {
         sb.append(", discriminator=").append(discriminator);
         sb.append(", defaultValue='").append(defaultValue).append('\'');
         sb.append(", arrayModelType='").append(arrayModelType).append('\'');
+        sb.append(", circularReferences='").append(circularReferences).append('\'');
         sb.append(", isAlias=").append(isAlias);
         sb.append(", isString=").append(isString);
         sb.append(", isInteger=").append(isInteger);

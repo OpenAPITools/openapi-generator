@@ -56,7 +56,7 @@ public class CodegenProperty implements Cloneable {
     public boolean isPrimitiveType, isModel, isContainer;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
             isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject;
-    public boolean isListContainer, isMapContainer;
+    public boolean isListContainer, isMapContainer, isModelContainer;
     public boolean isEnum;
     public boolean isReadOnly;
     public boolean isWriteOnly;
@@ -493,6 +493,7 @@ public class CodegenProperty implements Cloneable {
         sb.append(", isFreeFormObject=").append(isFreeFormObject);
         sb.append(", isListContainer=").append(isListContainer);
         sb.append(", isMapContainer=").append(isMapContainer);
+        sb.append(", isModelContainer=").append(isModelContainer);
         sb.append(", isEnum=").append(isEnum);
         sb.append(", isReadOnly=").append(isReadOnly);
         sb.append(", isWriteOnly=").append(isWriteOnly);
@@ -553,6 +554,7 @@ public class CodegenProperty implements Cloneable {
                 isFreeFormObject == that.isFreeFormObject &&
                 isListContainer == that.isListContainer &&
                 isMapContainer == that.isMapContainer &&
+                isModelContainer == that.isModelContainer &&
                 isEnum == that.isEnum &&
                 isReadOnly == that.isReadOnly &&
                 isWriteOnly == that.isWriteOnly &&
@@ -612,8 +614,8 @@ public class CodegenProperty implements Cloneable {
                 minimum, maximum, exclusiveMinimum, exclusiveMaximum, hasMore, required, secondaryParam,
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric, isInteger,
                 isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime,
-                isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isEnum, isReadOnly,
-                isWriteOnly, isNullable, isSelfReference, _enum, allowableValues, items, mostInnerItems,
+                isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isModelContainer, isEnum,
+                isReadOnly, isWriteOnly, isNullable, isSelfReference, _enum, allowableValues, items, mostInnerItems,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase, nameInSnakeCase,
                 enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName, xmlNamespace, isXmlWrapped);
     }
