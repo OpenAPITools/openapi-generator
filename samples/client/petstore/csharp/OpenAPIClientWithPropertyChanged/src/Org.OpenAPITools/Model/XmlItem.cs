@@ -101,175 +101,175 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AttributeString
         /// </summary>
-        [DataMember(Name="attribute_string", EmitDefaultValue=false)]
+        [DataMember(Name="attribute_string", EmitDefaultValue=true)]
         public string AttributeString { get; set; }
 
         /// <summary>
         /// Gets or Sets AttributeNumber
         /// </summary>
-        [DataMember(Name="attribute_number", EmitDefaultValue=false)]
+        [DataMember(Name="attribute_number", EmitDefaultValue=true)]
         public decimal AttributeNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets AttributeInteger
         /// </summary>
-        [DataMember(Name="attribute_integer", EmitDefaultValue=false)]
+        [DataMember(Name="attribute_integer", EmitDefaultValue=true)]
         public int AttributeInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets AttributeBoolean
         /// </summary>
-        [DataMember(Name="attribute_boolean", EmitDefaultValue=false)]
+        [DataMember(Name="attribute_boolean", EmitDefaultValue=true)]
         public bool AttributeBoolean { get; set; }
 
         /// <summary>
         /// Gets or Sets WrappedArray
         /// </summary>
-        [DataMember(Name="wrapped_array", EmitDefaultValue=false)]
+        [DataMember(Name="wrapped_array", EmitDefaultValue=true)]
         public List<int> WrappedArray { get; set; }
 
         /// <summary>
         /// Gets or Sets NameString
         /// </summary>
-        [DataMember(Name="name_string", EmitDefaultValue=false)]
+        [DataMember(Name="name_string", EmitDefaultValue=true)]
         public string NameString { get; set; }
 
         /// <summary>
         /// Gets or Sets NameNumber
         /// </summary>
-        [DataMember(Name="name_number", EmitDefaultValue=false)]
+        [DataMember(Name="name_number", EmitDefaultValue=true)]
         public decimal NameNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets NameInteger
         /// </summary>
-        [DataMember(Name="name_integer", EmitDefaultValue=false)]
+        [DataMember(Name="name_integer", EmitDefaultValue=true)]
         public int NameInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets NameBoolean
         /// </summary>
-        [DataMember(Name="name_boolean", EmitDefaultValue=false)]
+        [DataMember(Name="name_boolean", EmitDefaultValue=true)]
         public bool NameBoolean { get; set; }
 
         /// <summary>
         /// Gets or Sets NameArray
         /// </summary>
-        [DataMember(Name="name_array", EmitDefaultValue=false)]
+        [DataMember(Name="name_array", EmitDefaultValue=true)]
         public List<int> NameArray { get; set; }
 
         /// <summary>
         /// Gets or Sets NameWrappedArray
         /// </summary>
-        [DataMember(Name="name_wrapped_array", EmitDefaultValue=false)]
+        [DataMember(Name="name_wrapped_array", EmitDefaultValue=true)]
         public List<int> NameWrappedArray { get; set; }
 
         /// <summary>
         /// Gets or Sets PrefixString
         /// </summary>
-        [DataMember(Name="prefix_string", EmitDefaultValue=false)]
+        [DataMember(Name="prefix_string", EmitDefaultValue=true)]
         public string PrefixString { get; set; }
 
         /// <summary>
         /// Gets or Sets PrefixNumber
         /// </summary>
-        [DataMember(Name="prefix_number", EmitDefaultValue=false)]
+        [DataMember(Name="prefix_number", EmitDefaultValue=true)]
         public decimal PrefixNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets PrefixInteger
         /// </summary>
-        [DataMember(Name="prefix_integer", EmitDefaultValue=false)]
+        [DataMember(Name="prefix_integer", EmitDefaultValue=true)]
         public int PrefixInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets PrefixBoolean
         /// </summary>
-        [DataMember(Name="prefix_boolean", EmitDefaultValue=false)]
+        [DataMember(Name="prefix_boolean", EmitDefaultValue=true)]
         public bool PrefixBoolean { get; set; }
 
         /// <summary>
         /// Gets or Sets PrefixArray
         /// </summary>
-        [DataMember(Name="prefix_array", EmitDefaultValue=false)]
+        [DataMember(Name="prefix_array", EmitDefaultValue=true)]
         public List<int> PrefixArray { get; set; }
 
         /// <summary>
         /// Gets or Sets PrefixWrappedArray
         /// </summary>
-        [DataMember(Name="prefix_wrapped_array", EmitDefaultValue=false)]
+        [DataMember(Name="prefix_wrapped_array", EmitDefaultValue=true)]
         public List<int> PrefixWrappedArray { get; set; }
 
         /// <summary>
         /// Gets or Sets NamespaceString
         /// </summary>
-        [DataMember(Name="namespace_string", EmitDefaultValue=false)]
+        [DataMember(Name="namespace_string", EmitDefaultValue=true)]
         public string NamespaceString { get; set; }
 
         /// <summary>
         /// Gets or Sets NamespaceNumber
         /// </summary>
-        [DataMember(Name="namespace_number", EmitDefaultValue=false)]
+        [DataMember(Name="namespace_number", EmitDefaultValue=true)]
         public decimal NamespaceNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets NamespaceInteger
         /// </summary>
-        [DataMember(Name="namespace_integer", EmitDefaultValue=false)]
+        [DataMember(Name="namespace_integer", EmitDefaultValue=true)]
         public int NamespaceInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets NamespaceBoolean
         /// </summary>
-        [DataMember(Name="namespace_boolean", EmitDefaultValue=false)]
+        [DataMember(Name="namespace_boolean", EmitDefaultValue=true)]
         public bool NamespaceBoolean { get; set; }
 
         /// <summary>
         /// Gets or Sets NamespaceArray
         /// </summary>
-        [DataMember(Name="namespace_array", EmitDefaultValue=false)]
+        [DataMember(Name="namespace_array", EmitDefaultValue=true)]
         public List<int> NamespaceArray { get; set; }
 
         /// <summary>
         /// Gets or Sets NamespaceWrappedArray
         /// </summary>
-        [DataMember(Name="namespace_wrapped_array", EmitDefaultValue=false)]
+        [DataMember(Name="namespace_wrapped_array", EmitDefaultValue=true)]
         public List<int> NamespaceWrappedArray { get; set; }
 
         /// <summary>
         /// Gets or Sets PrefixNsString
         /// </summary>
-        [DataMember(Name="prefix_ns_string", EmitDefaultValue=false)]
+        [DataMember(Name="prefix_ns_string", EmitDefaultValue=true)]
         public string PrefixNsString { get; set; }
 
         /// <summary>
         /// Gets or Sets PrefixNsNumber
         /// </summary>
-        [DataMember(Name="prefix_ns_number", EmitDefaultValue=false)]
+        [DataMember(Name="prefix_ns_number", EmitDefaultValue=true)]
         public decimal PrefixNsNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets PrefixNsInteger
         /// </summary>
-        [DataMember(Name="prefix_ns_integer", EmitDefaultValue=false)]
+        [DataMember(Name="prefix_ns_integer", EmitDefaultValue=true)]
         public int PrefixNsInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets PrefixNsBoolean
         /// </summary>
-        [DataMember(Name="prefix_ns_boolean", EmitDefaultValue=false)]
+        [DataMember(Name="prefix_ns_boolean", EmitDefaultValue=true)]
         public bool PrefixNsBoolean { get; set; }
 
         /// <summary>
         /// Gets or Sets PrefixNsArray
         /// </summary>
-        [DataMember(Name="prefix_ns_array", EmitDefaultValue=false)]
+        [DataMember(Name="prefix_ns_array", EmitDefaultValue=true)]
         public List<int> PrefixNsArray { get; set; }
 
         /// <summary>
         /// Gets or Sets PrefixNsWrappedArray
         /// </summary>
-        [DataMember(Name="prefix_ns_wrapped_array", EmitDefaultValue=false)]
+        [DataMember(Name="prefix_ns_wrapped_array", EmitDefaultValue=true)]
         public List<int> PrefixNsWrappedArray { get; set; }
 
         /// <summary>

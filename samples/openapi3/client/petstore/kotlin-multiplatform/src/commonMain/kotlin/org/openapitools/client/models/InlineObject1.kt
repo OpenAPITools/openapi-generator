@@ -24,6 +24,8 @@ data class InlineObject1 (
     /* Additional data to pass to server */
     @SerialName(value = "additionalMetadata") val additionalMetadata: kotlin.String? = null,
     /* file to upload */
-    @SerialName(value = "file") val file: io.ktor.client.request.forms.InputProvider? = null
-)
+    @SerialName(value = "file") val file: org.openapitools.client.infrastructure.OctetByteArray? = null
+) 
+
+
 

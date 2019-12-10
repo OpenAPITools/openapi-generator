@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-java-undertow-server
 title: Config Options for java-undertow-server
 sidebar_label: java-undertow-server
 ---
@@ -38,6 +36,7 @@ sidebar_label: java-undertow-server
 |java8|Option. Use Java8 classes instead of third party equivalents|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd><dl>|false|
 |disableHtmlEscaping|Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
+|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations)| |null|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|

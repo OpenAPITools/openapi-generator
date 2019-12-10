@@ -31,4 +31,9 @@ data class OuterComposite (
 ) 
 : Serializable 
 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

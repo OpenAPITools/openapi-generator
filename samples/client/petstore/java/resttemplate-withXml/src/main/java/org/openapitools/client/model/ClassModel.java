@@ -37,8 +37,8 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ClassModel")
 public class ClassModel {
-  @XmlElement(name = "_class")
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
+  @XmlElement(name = "_class")
   private String propertyClass;
 
 
@@ -61,7 +61,6 @@ public class ClassModel {
   public String getPropertyClass() {
     return propertyClass;
   }
-
 
 
   public void setPropertyClass(String propertyClass) {

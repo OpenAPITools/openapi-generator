@@ -48,6 +48,8 @@ public class Swift4OptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setResponseAs(Swift4OptionsProvider.RESPONSE_AS_VALUE.split(","));
             times = 1;
+            clientCodegen.setNonPublicApi(Boolean.valueOf(Swift4OptionsProvider.NON_PUBLIC_API_REQUIRED_VALUE));
+            times = 1;
             clientCodegen.setObjcCompatible(Boolean.valueOf(Swift4OptionsProvider.OBJC_COMPATIBLE_VALUE));
             times = 1;
             clientCodegen.setLenientTypeCast(Boolean.valueOf(Swift4OptionsProvider.LENIENT_TYPE_CAST_VALUE));

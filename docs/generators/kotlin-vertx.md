@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-kotlin-vertx
 title: Config Options for kotlin-vertx
 sidebar_label: kotlin-vertx
 ---
@@ -17,3 +15,4 @@ sidebar_label: kotlin-vertx
 |serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson'| |moshi|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
+|modelMutable|Create mutable models| |false|

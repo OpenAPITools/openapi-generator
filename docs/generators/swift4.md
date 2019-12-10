@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-swift4
 title: Config Options for swift4
 sidebar_label: swift4
 ---
@@ -12,7 +10,8 @@ sidebar_label: swift4
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |projectName|Project name in Xcode| |null|
-|responseAs|Optionally use libraries to manage response.  Currently PromiseKit, RxSwift are available.| |null|
+|responseAs|Optionally use libraries to manage response.  Currently PromiseKit, RxSwift, Result are available.| |null|
+|nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.(default: false)| |null|
 |objcCompatible|Add additional properties and methods for Objective-C compatibility (default: false)| |null|
 |podSource|Source information used for Podspec| |null|
 |podVersion|Version used for Podspec| |null|

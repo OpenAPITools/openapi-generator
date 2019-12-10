@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-cpp-qt5-qhttpengine-server
 title: Config Options for cpp-qt5-qhttpengine-server
 sidebar_label: cpp-qt5-qhttpengine-server
 ---

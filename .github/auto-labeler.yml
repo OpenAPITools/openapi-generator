@@ -138,6 +138,7 @@ labels:
       - '\s*?-[gl] swift[34]+\s*?'
       - '\s*?-[gl] swift2-deprecated\s*?'
     'Client: TypeScript':
+      - '\s*?\[typescript\]\s*?'
       - '\s*?\[typescript-[\-a-z]+\]\s*?'
       - '\s*?-[gl] typescript-[\-a-z]+\s*?'
     # 'Client: VB/VB.net': # NOTE: Not yet implemented

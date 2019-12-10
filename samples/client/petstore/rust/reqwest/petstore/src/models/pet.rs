@@ -11,7 +11,8 @@
 /// Pet : A pet for sale in the pet store
 
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Pet {
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<i64>,
@@ -34,8 +35,8 @@ impl Pet {
         Pet {
             id: None,
             category: None,
-            name: name,
-            photo_urls: photo_urls,
+            name,
+            photo_urls,
             tags: None,
             status: None,
         }
@@ -43,7 +44,7 @@ impl Pet {
 }
 
 /// pet status in the store
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Status {
     #[serde(rename = "available")]
     Available,

@@ -60,7 +60,6 @@ public class AdditionalPropertiesArray extends HashMap<String, List> implements 
   }
 
 
-
   public void setName(String name) {
     this.name = name;
   }

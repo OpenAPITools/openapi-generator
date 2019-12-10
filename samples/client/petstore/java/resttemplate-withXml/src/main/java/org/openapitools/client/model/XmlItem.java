@@ -67,152 +67,152 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(namespace="http://a.com/schema", localName = "XmlItem")
 public class XmlItem {
-  @XmlAttribute(name = "attribute_string")
   public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";
+  @XmlAttribute(name = "attribute_string")
   private String attributeString;
 
-  @XmlAttribute(name = "attribute_number")
   public static final String JSON_PROPERTY_ATTRIBUTE_NUMBER = "attribute_number";
+  @XmlAttribute(name = "attribute_number")
   private BigDecimal attributeNumber;
 
-  @XmlAttribute(name = "attribute_integer")
   public static final String JSON_PROPERTY_ATTRIBUTE_INTEGER = "attribute_integer";
+  @XmlAttribute(name = "attribute_integer")
   private Integer attributeInteger;
 
-  @XmlAttribute(name = "attribute_boolean")
   public static final String JSON_PROPERTY_ATTRIBUTE_BOOLEAN = "attribute_boolean";
+  @XmlAttribute(name = "attribute_boolean")
   private Boolean attributeBoolean;
 
+  public static final String JSON_PROPERTY_WRAPPED_ARRAY = "wrapped_array";
   // Is a container wrapped=true
   // items.name=wrappedArray items.baseName=wrappedArray items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "wrappedArray")
   @XmlElementWrapper(name = "wrapped_array")
-  public static final String JSON_PROPERTY_WRAPPED_ARRAY = "wrapped_array";
   private List<Integer> wrappedArray = null;
 
-  @XmlElement(name = "xml_name_string")
   public static final String JSON_PROPERTY_NAME_STRING = "name_string";
+  @XmlElement(name = "xml_name_string")
   private String nameString;
 
-  @XmlElement(name = "xml_name_number")
   public static final String JSON_PROPERTY_NAME_NUMBER = "name_number";
+  @XmlElement(name = "xml_name_number")
   private BigDecimal nameNumber;
 
-  @XmlElement(name = "xml_name_integer")
   public static final String JSON_PROPERTY_NAME_INTEGER = "name_integer";
+  @XmlElement(name = "xml_name_integer")
   private Integer nameInteger;
 
-  @XmlElement(name = "xml_name_boolean")
   public static final String JSON_PROPERTY_NAME_BOOLEAN = "name_boolean";
+  @XmlElement(name = "xml_name_boolean")
   private Boolean nameBoolean;
 
+  public static final String JSON_PROPERTY_NAME_ARRAY = "name_array";
   // Is a container wrapped=false
   // items.name=nameArray items.baseName=nameArray items.xmlName=xml_name_array_item items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "xml_name_array_item")
-  public static final String JSON_PROPERTY_NAME_ARRAY = "name_array";
   private List<Integer> nameArray = null;
 
+  public static final String JSON_PROPERTY_NAME_WRAPPED_ARRAY = "name_wrapped_array";
   // Is a container wrapped=true
   // items.name=nameWrappedArray items.baseName=nameWrappedArray items.xmlName=xml_name_wrapped_array_item items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "xml_name_wrapped_array_item")
   @XmlElementWrapper(name = "xml_name_wrapped_array")
-  public static final String JSON_PROPERTY_NAME_WRAPPED_ARRAY = "name_wrapped_array";
   private List<Integer> nameWrappedArray = null;
 
-  @XmlElement(name = "prefix_string")
   public static final String JSON_PROPERTY_PREFIX_STRING = "prefix_string";
+  @XmlElement(name = "prefix_string")
   private String prefixString;
 
-  @XmlElement(name = "prefix_number")
   public static final String JSON_PROPERTY_PREFIX_NUMBER = "prefix_number";
+  @XmlElement(name = "prefix_number")
   private BigDecimal prefixNumber;
 
-  @XmlElement(name = "prefix_integer")
   public static final String JSON_PROPERTY_PREFIX_INTEGER = "prefix_integer";
+  @XmlElement(name = "prefix_integer")
   private Integer prefixInteger;
 
-  @XmlElement(name = "prefix_boolean")
   public static final String JSON_PROPERTY_PREFIX_BOOLEAN = "prefix_boolean";
+  @XmlElement(name = "prefix_boolean")
   private Boolean prefixBoolean;
 
+  public static final String JSON_PROPERTY_PREFIX_ARRAY = "prefix_array";
   // Is a container wrapped=false
   // items.name=prefixArray items.baseName=prefixArray items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "prefixArray")
-  public static final String JSON_PROPERTY_PREFIX_ARRAY = "prefix_array";
   private List<Integer> prefixArray = null;
 
+  public static final String JSON_PROPERTY_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
   // Is a container wrapped=true
   // items.name=prefixWrappedArray items.baseName=prefixWrappedArray items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "prefixWrappedArray")
   @XmlElementWrapper(name = "prefix_wrapped_array")
-  public static final String JSON_PROPERTY_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
   private List<Integer> prefixWrappedArray = null;
 
-  @XmlElement(namespace="http://a.com/schema", name = "namespace_string")
   public static final String JSON_PROPERTY_NAMESPACE_STRING = "namespace_string";
+  @XmlElement(namespace="http://a.com/schema", name = "namespace_string")
   private String namespaceString;
 
-  @XmlElement(namespace="http://b.com/schema", name = "namespace_number")
   public static final String JSON_PROPERTY_NAMESPACE_NUMBER = "namespace_number";
+  @XmlElement(namespace="http://b.com/schema", name = "namespace_number")
   private BigDecimal namespaceNumber;
 
-  @XmlElement(namespace="http://c.com/schema", name = "namespace_integer")
   public static final String JSON_PROPERTY_NAMESPACE_INTEGER = "namespace_integer";
+  @XmlElement(namespace="http://c.com/schema", name = "namespace_integer")
   private Integer namespaceInteger;
 
-  @XmlElement(namespace="http://d.com/schema", name = "namespace_boolean")
   public static final String JSON_PROPERTY_NAMESPACE_BOOLEAN = "namespace_boolean";
+  @XmlElement(namespace="http://d.com/schema", name = "namespace_boolean")
   private Boolean namespaceBoolean;
 
+  public static final String JSON_PROPERTY_NAMESPACE_ARRAY = "namespace_array";
   // Is a container wrapped=false
   // items.name=namespaceArray items.baseName=namespaceArray items.xmlName= items.xmlNamespace=http://e.com/schema
   // items.example= items.type=Integer
   @XmlElement(namespace="http://e.com/schema", name = "namespaceArray")
-  public static final String JSON_PROPERTY_NAMESPACE_ARRAY = "namespace_array";
   private List<Integer> namespaceArray = null;
 
+  public static final String JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
   // Is a container wrapped=true
   // items.name=namespaceWrappedArray items.baseName=namespaceWrappedArray items.xmlName= items.xmlNamespace=http://g.com/schema
   // items.example= items.type=Integer
   @XmlElement(namespace="http://g.com/schema", name = "namespaceWrappedArray")
   @XmlElementWrapper(namespace="http://f.com/schema", name = "namespace_wrapped_array")
-  public static final String JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
   private List<Integer> namespaceWrappedArray = null;
 
-  @XmlElement(namespace="http://a.com/schema", name = "prefix_ns_string")
   public static final String JSON_PROPERTY_PREFIX_NS_STRING = "prefix_ns_string";
+  @XmlElement(namespace="http://a.com/schema", name = "prefix_ns_string")
   private String prefixNsString;
 
-  @XmlElement(namespace="http://b.com/schema", name = "prefix_ns_number")
   public static final String JSON_PROPERTY_PREFIX_NS_NUMBER = "prefix_ns_number";
+  @XmlElement(namespace="http://b.com/schema", name = "prefix_ns_number")
   private BigDecimal prefixNsNumber;
 
-  @XmlElement(namespace="http://c.com/schema", name = "prefix_ns_integer")
   public static final String JSON_PROPERTY_PREFIX_NS_INTEGER = "prefix_ns_integer";
+  @XmlElement(namespace="http://c.com/schema", name = "prefix_ns_integer")
   private Integer prefixNsInteger;
 
-  @XmlElement(namespace="http://d.com/schema", name = "prefix_ns_boolean")
   public static final String JSON_PROPERTY_PREFIX_NS_BOOLEAN = "prefix_ns_boolean";
+  @XmlElement(namespace="http://d.com/schema", name = "prefix_ns_boolean")
   private Boolean prefixNsBoolean;
 
+  public static final String JSON_PROPERTY_PREFIX_NS_ARRAY = "prefix_ns_array";
   // Is a container wrapped=false
   // items.name=prefixNsArray items.baseName=prefixNsArray items.xmlName= items.xmlNamespace=http://e.com/schema
   // items.example= items.type=Integer
   @XmlElement(namespace="http://e.com/schema", name = "prefixNsArray")
-  public static final String JSON_PROPERTY_PREFIX_NS_ARRAY = "prefix_ns_array";
   private List<Integer> prefixNsArray = null;
 
+  public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   // Is a container wrapped=true
   // items.name=prefixNsWrappedArray items.baseName=prefixNsWrappedArray items.xmlName= items.xmlNamespace=http://g.com/schema
   // items.example= items.type=Integer
   @XmlElement(namespace="http://g.com/schema", name = "prefixNsWrappedArray")
   @XmlElementWrapper(namespace="http://f.com/schema", name = "prefix_ns_wrapped_array")
-  public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   private List<Integer> prefixNsWrappedArray = null;
 
 
@@ -235,7 +235,6 @@ public class XmlItem {
   public String getAttributeString() {
     return attributeString;
   }
-
 
 
   public void setAttributeString(String attributeString) {
@@ -264,7 +263,6 @@ public class XmlItem {
   }
 
 
-
   public void setAttributeNumber(BigDecimal attributeNumber) {
     this.attributeNumber = attributeNumber;
   }
@@ -291,7 +289,6 @@ public class XmlItem {
   }
 
 
-
   public void setAttributeInteger(Integer attributeInteger) {
     this.attributeInteger = attributeInteger;
   }
@@ -316,7 +313,6 @@ public class XmlItem {
   public Boolean getAttributeBoolean() {
     return attributeBoolean;
   }
-
 
 
   public void setAttributeBoolean(Boolean attributeBoolean) {
@@ -354,7 +350,6 @@ public class XmlItem {
   }
 
 
-
   public void setWrappedArray(List<Integer> wrappedArray) {
     this.wrappedArray = wrappedArray;
   }
@@ -379,7 +374,6 @@ public class XmlItem {
   public String getNameString() {
     return nameString;
   }
-
 
 
   public void setNameString(String nameString) {
@@ -408,7 +402,6 @@ public class XmlItem {
   }
 
 
-
   public void setNameNumber(BigDecimal nameNumber) {
     this.nameNumber = nameNumber;
   }
@@ -435,7 +428,6 @@ public class XmlItem {
   }
 
 
-
   public void setNameInteger(Integer nameInteger) {
     this.nameInteger = nameInteger;
   }
@@ -460,7 +452,6 @@ public class XmlItem {
   public Boolean getNameBoolean() {
     return nameBoolean;
   }
-
 
 
   public void setNameBoolean(Boolean nameBoolean) {
@@ -494,7 +485,6 @@ public class XmlItem {
   public List<Integer> getNameArray() {
     return nameArray;
   }
-
 
 
   public void setNameArray(List<Integer> nameArray) {
@@ -532,7 +522,6 @@ public class XmlItem {
   }
 
 
-
   public void setNameWrappedArray(List<Integer> nameWrappedArray) {
     this.nameWrappedArray = nameWrappedArray;
   }
@@ -557,7 +546,6 @@ public class XmlItem {
   public String getPrefixString() {
     return prefixString;
   }
-
 
 
   public void setPrefixString(String prefixString) {
@@ -586,7 +574,6 @@ public class XmlItem {
   }
 
 
-
   public void setPrefixNumber(BigDecimal prefixNumber) {
     this.prefixNumber = prefixNumber;
   }
@@ -613,7 +600,6 @@ public class XmlItem {
   }
 
 
-
   public void setPrefixInteger(Integer prefixInteger) {
     this.prefixInteger = prefixInteger;
   }
@@ -638,7 +624,6 @@ public class XmlItem {
   public Boolean getPrefixBoolean() {
     return prefixBoolean;
   }
-
 
 
   public void setPrefixBoolean(Boolean prefixBoolean) {
@@ -672,7 +657,6 @@ public class XmlItem {
   public List<Integer> getPrefixArray() {
     return prefixArray;
   }
-
 
 
   public void setPrefixArray(List<Integer> prefixArray) {
@@ -710,7 +694,6 @@ public class XmlItem {
   }
 
 
-
   public void setPrefixWrappedArray(List<Integer> prefixWrappedArray) {
     this.prefixWrappedArray = prefixWrappedArray;
   }
@@ -735,7 +718,6 @@ public class XmlItem {
   public String getNamespaceString() {
     return namespaceString;
   }
-
 
 
   public void setNamespaceString(String namespaceString) {
@@ -764,7 +746,6 @@ public class XmlItem {
   }
 
 
-
   public void setNamespaceNumber(BigDecimal namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }
@@ -791,7 +772,6 @@ public class XmlItem {
   }
 
 
-
   public void setNamespaceInteger(Integer namespaceInteger) {
     this.namespaceInteger = namespaceInteger;
   }
@@ -816,7 +796,6 @@ public class XmlItem {
   public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
   }
-
 
 
   public void setNamespaceBoolean(Boolean namespaceBoolean) {
@@ -850,7 +829,6 @@ public class XmlItem {
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
   }
-
 
 
   public void setNamespaceArray(List<Integer> namespaceArray) {
@@ -888,7 +866,6 @@ public class XmlItem {
   }
 
 
-
   public void setNamespaceWrappedArray(List<Integer> namespaceWrappedArray) {
     this.namespaceWrappedArray = namespaceWrappedArray;
   }
@@ -913,7 +890,6 @@ public class XmlItem {
   public String getPrefixNsString() {
     return prefixNsString;
   }
-
 
 
   public void setPrefixNsString(String prefixNsString) {
@@ -942,7 +918,6 @@ public class XmlItem {
   }
 
 
-
   public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }
@@ -969,7 +944,6 @@ public class XmlItem {
   }
 
 
-
   public void setPrefixNsInteger(Integer prefixNsInteger) {
     this.prefixNsInteger = prefixNsInteger;
   }
@@ -994,7 +968,6 @@ public class XmlItem {
   public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
   }
-
 
 
   public void setPrefixNsBoolean(Boolean prefixNsBoolean) {
@@ -1030,7 +1003,6 @@ public class XmlItem {
   }
 
 
-
   public void setPrefixNsArray(List<Integer> prefixNsArray) {
     this.prefixNsArray = prefixNsArray;
   }
@@ -1064,7 +1036,6 @@ public class XmlItem {
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
   }
-
 
 
   public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {

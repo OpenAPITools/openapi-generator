@@ -32,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
+@javax.annotation.concurrent.Immutable
 
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
@@ -64,7 +65,6 @@ public class OuterComposite {
   }
 
 
-
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
@@ -90,7 +90,6 @@ public class OuterComposite {
   }
 
 
-
   public void setMyString(String myString) {
     this.myString = myString;
   }
@@ -114,7 +113,6 @@ public class OuterComposite {
   public Boolean isMyBoolean() {
     return myBoolean;
   }
-
 
 
   public void setMyBoolean(Boolean myBoolean) {

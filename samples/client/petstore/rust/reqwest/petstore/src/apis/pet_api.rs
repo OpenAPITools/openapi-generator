@@ -10,6 +10,8 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+#[allow(unused_imports)]
+use std::option::Option;
 
 use reqwest;
 
@@ -22,20 +24,20 @@ pub struct PetApiClient {
 impl PetApiClient {
     pub fn new(configuration: Rc<configuration::Configuration>) -> PetApiClient {
         PetApiClient {
-            configuration: configuration,
+            configuration,
         }
     }
 }
 
 pub trait PetApi {
     fn add_pet(&self, body: crate::models::Pet) -> Result<(), Error>;
-    fn delete_pet(&self, pet_id: i64, api_key: &str) -> Result<(), Error>;
+    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<(), Error>;
     fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error>;
     fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error>;
     fn get_pet_by_id(&self, pet_id: i64) -> Result<crate::models::Pet, Error>;
     fn update_pet(&self, body: crate::models::Pet) -> Result<(), Error>;
-    fn update_pet_with_form(&self, pet_id: i64, name: &str, status: &str) -> Result<(), Error>;
-    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: std::path::PathBuf) -> Result<crate::models::ApiResponse, Error>;
+    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error>;
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error>;
 }
 
 impl PetApi for PetApiClient {
@@ -61,7 +63,7 @@ impl PetApi for PetApiClient {
         Ok(())
     }
 
-    fn delete_pet(&self, pet_id: i64, api_key: &str) -> Result<(), Error> {
+    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<(), Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -71,7 +73,9 @@ impl PetApi for PetApiClient {
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-        req_builder = req_builder.header("api_key", api_key.to_string());
+        if let Some(param_value) = api_key {
+            req_builder = req_builder.header("api_key", param_value.to_string());
+        }
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
@@ -172,7 +176,7 @@ impl PetApi for PetApiClient {
         Ok(())
     }
 
-    fn update_pet_with_form(&self, pet_id: i64, name: &str, status: &str) -> Result<(), Error> {
+    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -186,8 +190,12 @@ impl PetApi for PetApiClient {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
         let mut form_params = std::collections::HashMap::new();
-        form_params.insert("name", name.to_string());
-        form_params.insert("status", status.to_string());
+        if let Some(param_value) = name {
+            form_params.insert("name", param_value.to_string());
+        }
+        if let Some(param_value) = status {
+            form_params.insert("status", param_value.to_string());
+        }
         req_builder = req_builder.form(&form_params);
 
         // send request
@@ -197,7 +205,7 @@ impl PetApi for PetApiClient {
         Ok(())
     }
 
-    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: std::path::PathBuf) -> Result<crate::models::ApiResponse, Error> {
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -210,10 +218,14 @@ impl PetApi for PetApiClient {
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
-        let mut form_params = std::collections::HashMap::new();
-        form_params.insert("additionalMetadata", additional_metadata.to_string());
-        form_params.insert("file", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
-        req_builder = req_builder.form(&form_params);
+        let mut form = reqwest::multipart::Form::new();
+        if let Some(param_value) = additional_metadata {
+            form = form.text("additionalMetadata", param_value.to_string());
+        }
+        if let Some(param_value) = file {
+            form = form.file("file", param_value)?;
+        }
+        req_builder = req_builder.multipart(form);
 
         // send request
         let req = req_builder.build()?;

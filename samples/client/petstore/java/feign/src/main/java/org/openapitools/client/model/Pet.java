@@ -38,6 +38,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
+@javax.annotation.concurrent.Immutable
 
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
@@ -116,7 +117,6 @@ public class Pet {
   }
 
 
-
   public void setId(Long id) {
     this.id = id;
   }
@@ -142,7 +142,6 @@ public class Pet {
   }
 
 
-
   public void setCategory(Category category) {
     this.category = category;
   }
@@ -165,7 +164,6 @@ public class Pet {
   public String getName() {
     return name;
   }
-
 
 
   public void setName(String name) {
@@ -195,7 +193,6 @@ public class Pet {
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
-
 
 
   public void setPhotoUrls(List<String> photoUrls) {
@@ -231,7 +228,6 @@ public class Pet {
   }
 
 
-
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
@@ -255,7 +251,6 @@ public class Pet {
   public StatusEnum getStatus() {
     return status;
   }
-
 
 
   public void setStatus(StatusEnum status) {

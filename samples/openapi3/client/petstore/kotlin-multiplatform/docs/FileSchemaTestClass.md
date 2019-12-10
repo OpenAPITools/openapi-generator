@@ -4,8 +4,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**file** | [**io.ktor.client.request.forms.InputProvider**](io.ktor.client.request.forms.InputProvider.md) |  |  [optional]
-**files** | [**kotlin.Array&lt;io.ktor.client.request.forms.InputProvider&gt;**](io.ktor.client.request.forms.InputProvider.md) |  |  [optional]
+**file** | [**org.openapitools.client.infrastructure.OctetByteArray**](org.openapitools.client.infrastructure.OctetByteArray.md) |  |  [optional]
+**files** | [**kotlin.Array&lt;org.openapitools.client.infrastructure.OctetByteArray&gt;**](org.openapitools.client.infrastructure.OctetByteArray.md) |  |  [optional]
 
 
 

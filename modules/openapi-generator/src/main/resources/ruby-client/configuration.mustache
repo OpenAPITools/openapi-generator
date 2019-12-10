@@ -217,13 +217,13 @@ module {{moduleName}}
       {{#servers}}
         {
           url: "{{{url}}}",
-          description: "{{{description}}}{{^description}}No descriptoin provided{{/description}}",
+          description: "{{{description}}}{{^description}}No description provided{{/description}}",
           {{#variables}}
           {{#-first}}
           variables: {
           {{/-first}}
             {{{name}}}: {
-                description: "{{{description}}}{{^description}}No descriptoin provided{{/description}}",
+                description: "{{{description}}}{{^description}}No description provided{{/description}}",
                 default_value: "{{{defaultValue}}}",
                 {{#enumValues}}
                 {{#-first}}

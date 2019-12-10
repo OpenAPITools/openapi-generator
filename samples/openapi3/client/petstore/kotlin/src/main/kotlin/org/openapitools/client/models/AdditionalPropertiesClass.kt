@@ -28,4 +28,9 @@ data class AdditionalPropertiesClass (
 ) 
 : Serializable 
 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

@@ -50,72 +50,72 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AdditionalPropertiesClass")
 public class AdditionalPropertiesClass {
+  public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   private Map<String, String> mapString = null;
 
+  public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=BigDecimal
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
   private Map<String, BigDecimal> mapNumber = null;
 
+  public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
   private Map<String, Integer> mapInteger = null;
 
+  public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Boolean
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
   private Map<String, Boolean> mapBoolean = null;
 
+  public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;Integer&gt;
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
   private Map<String, List<Integer>> mapArrayInteger = null;
 
+  public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;Object&gt;
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   private Map<String, List<Object>> mapArrayAnytype = null;
 
+  public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Map&lt;String, String&gt;
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
   private Map<String, Map<String, String>> mapMapString = null;
 
+  public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Map&lt;String, Object&gt;
   @XmlElement(name = "inner")
-  public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
   private Map<String, Map<String, Object>> mapMapAnytype = null;
 
-  @XmlElement(name = "anytype_1")
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
+  @XmlElement(name = "anytype_1")
   private Object anytype1;
 
-  @XmlElement(name = "anytype_2")
   public static final String JSON_PROPERTY_ANYTYPE2 = "anytype_2";
+  @XmlElement(name = "anytype_2")
   private Object anytype2;
 
-  @XmlElement(name = "anytype_3")
   public static final String JSON_PROPERTY_ANYTYPE3 = "anytype_3";
+  @XmlElement(name = "anytype_3")
   private Object anytype3;
 
 
@@ -145,7 +145,6 @@ public class AdditionalPropertiesClass {
   public Map<String, String> getMapString() {
     return mapString;
   }
-
 
 
   public void setMapString(Map<String, String> mapString) {
@@ -181,7 +180,6 @@ public class AdditionalPropertiesClass {
   }
 
 
-
   public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
@@ -213,7 +211,6 @@ public class AdditionalPropertiesClass {
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
-
 
 
   public void setMapInteger(Map<String, Integer> mapInteger) {
@@ -249,7 +246,6 @@ public class AdditionalPropertiesClass {
   }
 
 
-
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
@@ -281,7 +277,6 @@ public class AdditionalPropertiesClass {
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
-
 
 
   public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
@@ -317,7 +312,6 @@ public class AdditionalPropertiesClass {
   }
 
 
-
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
@@ -349,7 +343,6 @@ public class AdditionalPropertiesClass {
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
-
 
 
   public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
@@ -385,7 +378,6 @@ public class AdditionalPropertiesClass {
   }
 
 
-
   public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
   }
@@ -410,7 +402,6 @@ public class AdditionalPropertiesClass {
   public Object getAnytype1() {
     return anytype1;
   }
-
 
 
   public void setAnytype1(Object anytype1) {
@@ -439,7 +430,6 @@ public class AdditionalPropertiesClass {
   }
 
 
-
   public void setAnytype2(Object anytype2) {
     this.anytype2 = anytype2;
   }
@@ -464,7 +454,6 @@ public class AdditionalPropertiesClass {
   public Object getAnytype3() {
     return anytype3;
   }
-
 
 
   public void setAnytype3(Object anytype3) {

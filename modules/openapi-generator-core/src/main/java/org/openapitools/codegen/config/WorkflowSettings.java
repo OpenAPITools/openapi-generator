@@ -103,7 +103,9 @@ public class WorkflowSettings {
         builder.strictSpecBehavior = copy.isStrictSpecBehavior();
         builder.templatingEngineName = copy.getTemplatingEngineName();
         builder.ignoreFileOverride = copy.getIgnoreFileOverride();
-        builder.systemProperties = ImmutableMap.copyOf(copy.getSystemProperties());
+
+        // this, and any other collections, must be mutable in the builder.
+        builder.systemProperties = new HashMap<>(copy.getSystemProperties());
 
         // force builder "with" methods to invoke side effects
         builder.withTemplateDir(copy.getTemplateDir());
@@ -272,6 +274,8 @@ public class WorkflowSettings {
         private String templateDir;
         private String templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
         private String ignoreFileOverride;
+
+        // NOTE: All collections must be mutable in the builder, and copied to a new immutable collection in .build()
         private Map<String, String> systemProperties = new HashMap<>();;
 
         private Builder() {

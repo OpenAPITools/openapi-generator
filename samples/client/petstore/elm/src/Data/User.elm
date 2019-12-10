@@ -10,7 +10,7 @@
 -}
 
 
-module Data.User exposing (User, decoder, encode)
+module Data.User exposing (User, decoder, encode, encodeWithTag, toString)
 
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
@@ -21,14 +21,14 @@ import Json.Encode as Encode
 {-| A User who is purchasing from the pet store
 -}
 type alias User =
-    { id : Maybe (Int)
-    , username : Maybe (String)
-    , firstName : Maybe (String)
-    , lastName : Maybe (String)
-    , email : Maybe (String)
-    , password : Maybe (String)
-    , phone : Maybe (String)
-    , userStatus : Maybe (Int)
+    { id : Maybe Int
+    , username : Maybe String
+    , firstName : Maybe String
+    , lastName : Maybe String
+    , email : Maybe String
+    , password : Maybe String
+    , phone : Maybe String
+    , userStatus : Maybe Int
     }
 
 
@@ -45,19 +45,29 @@ decoder =
         |> optional "userStatus" (Decode.nullable Decode.int) Nothing
 
 
-
 encode : User -> Encode.Value
-encode model =
-    Encode.object
-        [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
-        , ( "username", Maybe.withDefault Encode.null (Maybe.map Encode.string model.username) )
-        , ( "firstName", Maybe.withDefault Encode.null (Maybe.map Encode.string model.firstName) )
-        , ( "lastName", Maybe.withDefault Encode.null (Maybe.map Encode.string model.lastName) )
-        , ( "email", Maybe.withDefault Encode.null (Maybe.map Encode.string model.email) )
-        , ( "password", Maybe.withDefault Encode.null (Maybe.map Encode.string model.password) )
-        , ( "phone", Maybe.withDefault Encode.null (Maybe.map Encode.string model.phone) )
-        , ( "userStatus", Maybe.withDefault Encode.null (Maybe.map Encode.int model.userStatus) )
-
-        ]
+encode =
+    Encode.object << encodePairs
 
 
+encodeWithTag : ( String, String ) -> User -> Encode.Value
+encodeWithTag ( tagField, tag ) model =
+    Encode.object <| encodePairs model ++ [ ( tagField, Encode.string tag ) ]
+
+
+encodePairs : User -> List ( String, Encode.Value )
+encodePairs model =
+    [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
+    , ( "username", Maybe.withDefault Encode.null (Maybe.map Encode.string model.username) )
+    , ( "firstName", Maybe.withDefault Encode.null (Maybe.map Encode.string model.firstName) )
+    , ( "lastName", Maybe.withDefault Encode.null (Maybe.map Encode.string model.lastName) )
+    , ( "email", Maybe.withDefault Encode.null (Maybe.map Encode.string model.email) )
+    , ( "password", Maybe.withDefault Encode.null (Maybe.map Encode.string model.password) )
+    , ( "phone", Maybe.withDefault Encode.null (Maybe.map Encode.string model.phone) )
+    , ( "userStatus", Maybe.withDefault Encode.null (Maybe.map Encode.int model.userStatus) )
+    ]
+
+
+toString : User -> String
+toString =
+    Encode.encode 0 << encode

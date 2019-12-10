@@ -39,6 +39,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean optionalAssemblyInfoFlag = true;
+    protected boolean optionalEmitDefaultValuesFlag = false;
     protected boolean optionalProjectFileFlag = true;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;

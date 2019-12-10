@@ -30,4 +30,9 @@ data class InlineObject (
 ) 
 : Serializable 
 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

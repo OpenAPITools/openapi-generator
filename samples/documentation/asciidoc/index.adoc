@@ -6,9 +6,9 @@ team@openapitools.org
 :toclevels: 3
 :source-highlighter: highlightjs
 :keywords: openapi, rest, OpenAPI Petstore 
-:specDir: modules/openapi-generator/src/main/resources/asciidoc-documentation
+:specDir: modules\openapi-generator\src\main\resources\asciidoc-documentation
 :snippetDir: .
-:generator-template: v1 2019-09-03
+:generator-template: v1 2019-11-19
 :info-url: https://openapi-generator.tech
 :app-name: OpenAPI Petstore
 
@@ -17,7 +17,15 @@ team@openapitools.org
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
 
-// markup not found, no include ::intro.adoc[]
+// markup not found, no include ::intro.adoc[opts=optional]
+
+
+== Access
+
+
+* *APIKey* KeyParamName:     _api_key_,     KeyInQuery: _false_, KeyInHeader: _true_
+* *OAuth*  AuthorizationUrl: _http://petstore.swagger.io/api/oauth/dialog_, TokenUrl:   __ 
+
 
 
 == Endpoints
@@ -39,7 +47,7 @@ Add a new pet to the store
 
 
 
-// markup not found, no include ::pet/POST/spec.adoc[]
+// markup not found, no include ::pet/POST/spec.adoc[opts=optional]
 
 
 
@@ -59,6 +67,7 @@ Add a new pet to the store
 |  
 
 |===         
+
 
 
 
@@ -87,10 +96,10 @@ Add a new pet to the store
 ===== Samples
 
 
-// markup not found, no include ::pet/POST/http-request.adoc[]
+// markup not found, no include ::pet/POST/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::pet/POST/http-response.adoc[]
+// markup not found, no include ::pet/POST/http-response.adoc[opts=optional]
 
 
 
@@ -100,7 +109,7 @@ Add a new pet to the store
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::pet/POST/implementation.adoc[]
+// markup not found, no include ::pet/POST/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -118,7 +127,7 @@ Deletes a pet
 
 
 
-// markup not found, no include ::pet/{petId}/DELETE/spec.adoc[]
+// markup not found, no include ::pet/{petId}/DELETE/spec.adoc[opts=optional]
 
 
 
@@ -139,13 +148,14 @@ Deletes a pet
 |===         
 
 
+
 ====== Header Parameters
 
 [cols="2,3,1,1,1"]
 |===         
 |Name| Description| Required| Default| Pattern
 
-| apiKey 
+| api_key 
 |   
 | - 
 | null 
@@ -179,10 +189,10 @@ Deletes a pet
 ===== Samples
 
 
-// markup not found, no include ::pet/{petId}/DELETE/http-request.adoc[]
+// markup not found, no include ::pet/{petId}/DELETE/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::pet/{petId}/DELETE/http-response.adoc[]
+// markup not found, no include ::pet/{petId}/DELETE/http-response.adoc[opts=optional]
 
 
 
@@ -192,7 +202,7 @@ Deletes a pet
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::pet/{petId}/DELETE/implementation.adoc[]
+// markup not found, no include ::pet/{petId}/DELETE/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -210,11 +220,12 @@ Finds Pets by status
 Multiple status values can be provided with comma separated strings
 
 
-// markup not found, no include ::pet/findByStatus/GET/spec.adoc[]
+// markup not found, no include ::pet/findByStatus/GET/spec.adoc[opts=optional]
 
 
 
 ===== Parameters
+
 
 
 
@@ -266,10 +277,10 @@ array[<<Pet>>]
 ===== Samples
 
 
-// markup not found, no include ::pet/findByStatus/GET/http-request.adoc[]
+// markup not found, no include ::pet/findByStatus/GET/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::pet/findByStatus/GET/http-response.adoc[]
+// markup not found, no include ::pet/findByStatus/GET/http-response.adoc[opts=optional]
 
 
 
@@ -279,7 +290,7 @@ array[<<Pet>>]
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::pet/findByStatus/GET/implementation.adoc[]
+// markup not found, no include ::pet/findByStatus/GET/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -297,11 +308,12 @@ Finds Pets by tags
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 
-// markup not found, no include ::pet/findByTags/GET/spec.adoc[]
+// markup not found, no include ::pet/findByTags/GET/spec.adoc[opts=optional]
 
 
 
 ===== Parameters
+
 
 
 
@@ -353,10 +365,10 @@ array[<<Pet>>]
 ===== Samples
 
 
-// markup not found, no include ::pet/findByTags/GET/http-request.adoc[]
+// markup not found, no include ::pet/findByTags/GET/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::pet/findByTags/GET/http-response.adoc[]
+// markup not found, no include ::pet/findByTags/GET/http-response.adoc[opts=optional]
 
 
 
@@ -366,7 +378,7 @@ array[<<Pet>>]
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::pet/findByTags/GET/implementation.adoc[]
+// markup not found, no include ::pet/findByTags/GET/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -384,7 +396,7 @@ Find pet by ID
 Returns a single pet
 
 
-// markup not found, no include ::pet/{petId}/GET/spec.adoc[]
+// markup not found, no include ::pet/{petId}/GET/spec.adoc[opts=optional]
 
 
 
@@ -403,6 +415,7 @@ Returns a single pet
 |  
 
 |===         
+
 
 
 
@@ -445,10 +458,10 @@ Returns a single pet
 ===== Samples
 
 
-// markup not found, no include ::pet/{petId}/GET/http-request.adoc[]
+// markup not found, no include ::pet/{petId}/GET/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::pet/{petId}/GET/http-response.adoc[]
+// markup not found, no include ::pet/{petId}/GET/http-response.adoc[opts=optional]
 
 
 
@@ -458,7 +471,7 @@ Returns a single pet
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::pet/{petId}/GET/implementation.adoc[]
+// markup not found, no include ::pet/{petId}/GET/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -476,7 +489,7 @@ Update an existing pet
 
 
 
-// markup not found, no include ::pet/PUT/spec.adoc[]
+// markup not found, no include ::pet/PUT/spec.adoc[opts=optional]
 
 
 
@@ -496,6 +509,7 @@ Update an existing pet
 |  
 
 |===         
+
 
 
 
@@ -534,10 +548,10 @@ Update an existing pet
 ===== Samples
 
 
-// markup not found, no include ::pet/PUT/http-request.adoc[]
+// markup not found, no include ::pet/PUT/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::pet/PUT/http-response.adoc[]
+// markup not found, no include ::pet/PUT/http-response.adoc[opts=optional]
 
 
 
@@ -547,7 +561,7 @@ Update an existing pet
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::pet/PUT/implementation.adoc[]
+// markup not found, no include ::pet/PUT/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -565,7 +579,7 @@ Updates a pet in the store with form data
 
 
 
-// markup not found, no include ::pet/{petId}/POST/spec.adoc[]
+// markup not found, no include ::pet/{petId}/POST/spec.adoc[opts=optional]
 
 
 
@@ -585,6 +599,26 @@ Updates a pet in the store with form data
 
 |===         
 
+
+===== Form Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| name 
+| Updated name of the pet <<string>> 
+| - 
+| null 
+|  
+
+| status 
+| Updated status of the pet <<string>> 
+| - 
+| null 
+|  
+
+|===         
 
 
 
@@ -613,10 +647,10 @@ Updates a pet in the store with form data
 ===== Samples
 
 
-// markup not found, no include ::pet/{petId}/POST/http-request.adoc[]
+// markup not found, no include ::pet/{petId}/POST/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::pet/{petId}/POST/http-response.adoc[]
+// markup not found, no include ::pet/{petId}/POST/http-response.adoc[opts=optional]
 
 
 
@@ -626,7 +660,7 @@ Updates a pet in the store with form data
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::pet/{petId}/POST/implementation.adoc[]
+// markup not found, no include ::pet/{petId}/POST/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -644,7 +678,7 @@ uploads an image
 
 
 
-// markup not found, no include ::pet/{petId}/uploadImage/POST/spec.adoc[]
+// markup not found, no include ::pet/{petId}/uploadImage/POST/spec.adoc[opts=optional]
 
 
 
@@ -664,6 +698,26 @@ uploads an image
 
 |===         
 
+
+===== Form Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| additionalMetadata 
+| Additional data to pass to server <<string>> 
+| - 
+| null 
+|  
+
+| file 
+| file to upload <<file>> 
+| - 
+| null 
+|  
+
+|===         
 
 
 
@@ -694,10 +748,10 @@ uploads an image
 ===== Samples
 
 
-// markup not found, no include ::pet/{petId}/uploadImage/POST/http-request.adoc[]
+// markup not found, no include ::pet/{petId}/uploadImage/POST/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::pet/{petId}/uploadImage/POST/http-response.adoc[]
+// markup not found, no include ::pet/{petId}/uploadImage/POST/http-response.adoc[opts=optional]
 
 
 
@@ -707,7 +761,7 @@ uploads an image
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::pet/{petId}/uploadImage/POST/implementation.adoc[]
+// markup not found, no include ::pet/{petId}/uploadImage/POST/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -729,7 +783,7 @@ Delete purchase order by ID
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
 
-// markup not found, no include ::store/order/{orderId}/DELETE/spec.adoc[]
+// markup not found, no include ::store/order/{orderId}/DELETE/spec.adoc[opts=optional]
 
 
 
@@ -748,6 +802,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 |  
 
 |===         
+
 
 
 
@@ -782,10 +837,10 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ===== Samples
 
 
-// markup not found, no include ::store/order/{orderId}/DELETE/http-request.adoc[]
+// markup not found, no include ::store/order/{orderId}/DELETE/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::store/order/{orderId}/DELETE/http-response.adoc[]
+// markup not found, no include ::store/order/{orderId}/DELETE/http-response.adoc[opts=optional]
 
 
 
@@ -795,7 +850,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::store/order/{orderId}/DELETE/implementation.adoc[]
+// markup not found, no include ::store/order/{orderId}/DELETE/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -813,11 +868,12 @@ Returns pet inventories by status
 Returns a map of status codes to quantities
 
 
-// markup not found, no include ::store/inventory/GET/spec.adoc[]
+// markup not found, no include ::store/inventory/GET/spec.adoc[opts=optional]
 
 
 
 ===== Parameters
+
 
 
 
@@ -851,10 +907,10 @@ Returns a map of status codes to quantities
 ===== Samples
 
 
-// markup not found, no include ::store/inventory/GET/http-request.adoc[]
+// markup not found, no include ::store/inventory/GET/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::store/inventory/GET/http-response.adoc[]
+// markup not found, no include ::store/inventory/GET/http-response.adoc[opts=optional]
 
 
 
@@ -864,7 +920,7 @@ Returns a map of status codes to quantities
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::store/inventory/GET/implementation.adoc[]
+// markup not found, no include ::store/inventory/GET/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -882,7 +938,7 @@ Find purchase order by ID
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
 
-// markup not found, no include ::store/order/{orderId}/GET/spec.adoc[]
+// markup not found, no include ::store/order/{orderId}/GET/spec.adoc[opts=optional]
 
 
 
@@ -901,6 +957,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 |  
 
 |===         
+
 
 
 
@@ -943,10 +1000,10 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ===== Samples
 
 
-// markup not found, no include ::store/order/{orderId}/GET/http-request.adoc[]
+// markup not found, no include ::store/order/{orderId}/GET/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::store/order/{orderId}/GET/http-response.adoc[]
+// markup not found, no include ::store/order/{orderId}/GET/http-response.adoc[opts=optional]
 
 
 
@@ -956,7 +1013,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::store/order/{orderId}/GET/implementation.adoc[]
+// markup not found, no include ::store/order/{orderId}/GET/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -974,7 +1031,7 @@ Place an order for a pet
 
 
 
-// markup not found, no include ::store/order/POST/spec.adoc[]
+// markup not found, no include ::store/order/POST/spec.adoc[opts=optional]
 
 
 
@@ -994,6 +1051,7 @@ Place an order for a pet
 |  
 
 |===         
+
 
 
 
@@ -1030,10 +1088,10 @@ Place an order for a pet
 ===== Samples
 
 
-// markup not found, no include ::store/order/POST/http-request.adoc[]
+// markup not found, no include ::store/order/POST/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::store/order/POST/http-response.adoc[]
+// markup not found, no include ::store/order/POST/http-response.adoc[opts=optional]
 
 
 
@@ -1043,7 +1101,7 @@ Place an order for a pet
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::store/order/POST/implementation.adoc[]
+// markup not found, no include ::store/order/POST/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -1065,7 +1123,7 @@ Create user
 This can only be done by the logged in user.
 
 
-// markup not found, no include ::user/POST/spec.adoc[]
+// markup not found, no include ::user/POST/spec.adoc[opts=optional]
 
 
 
@@ -1089,6 +1147,7 @@ This can only be done by the logged in user.
 
 
 
+
 ===== Return Type
 
 
@@ -1113,10 +1172,10 @@ This can only be done by the logged in user.
 ===== Samples
 
 
-// markup not found, no include ::user/POST/http-request.adoc[]
+// markup not found, no include ::user/POST/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::user/POST/http-response.adoc[]
+// markup not found, no include ::user/POST/http-response.adoc[opts=optional]
 
 
 
@@ -1126,7 +1185,7 @@ This can only be done by the logged in user.
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::user/POST/implementation.adoc[]
+// markup not found, no include ::user/POST/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -1144,7 +1203,7 @@ Creates list of users with given input array
 
 
 
-// markup not found, no include ::user/createWithArray/POST/spec.adoc[]
+// markup not found, no include ::user/createWithArray/POST/spec.adoc[opts=optional]
 
 
 
@@ -1164,6 +1223,7 @@ Creates list of users with given input array
 |  
 
 |===         
+
 
 
 
@@ -1192,10 +1252,10 @@ Creates list of users with given input array
 ===== Samples
 
 
-// markup not found, no include ::user/createWithArray/POST/http-request.adoc[]
+// markup not found, no include ::user/createWithArray/POST/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::user/createWithArray/POST/http-response.adoc[]
+// markup not found, no include ::user/createWithArray/POST/http-response.adoc[opts=optional]
 
 
 
@@ -1205,7 +1265,7 @@ Creates list of users with given input array
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::user/createWithArray/POST/implementation.adoc[]
+// markup not found, no include ::user/createWithArray/POST/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -1223,7 +1283,7 @@ Creates list of users with given input array
 
 
 
-// markup not found, no include ::user/createWithList/POST/spec.adoc[]
+// markup not found, no include ::user/createWithList/POST/spec.adoc[opts=optional]
 
 
 
@@ -1243,6 +1303,7 @@ Creates list of users with given input array
 |  
 
 |===         
+
 
 
 
@@ -1271,10 +1332,10 @@ Creates list of users with given input array
 ===== Samples
 
 
-// markup not found, no include ::user/createWithList/POST/http-request.adoc[]
+// markup not found, no include ::user/createWithList/POST/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::user/createWithList/POST/http-response.adoc[]
+// markup not found, no include ::user/createWithList/POST/http-response.adoc[opts=optional]
 
 
 
@@ -1284,7 +1345,7 @@ Creates list of users with given input array
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::user/createWithList/POST/implementation.adoc[]
+// markup not found, no include ::user/createWithList/POST/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -1302,7 +1363,7 @@ Delete user
 This can only be done by the logged in user.
 
 
-// markup not found, no include ::user/{username}/DELETE/spec.adoc[]
+// markup not found, no include ::user/{username}/DELETE/spec.adoc[opts=optional]
 
 
 
@@ -1321,6 +1382,7 @@ This can only be done by the logged in user.
 |  
 
 |===         
+
 
 
 
@@ -1355,10 +1417,10 @@ This can only be done by the logged in user.
 ===== Samples
 
 
-// markup not found, no include ::user/{username}/DELETE/http-request.adoc[]
+// markup not found, no include ::user/{username}/DELETE/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::user/{username}/DELETE/http-response.adoc[]
+// markup not found, no include ::user/{username}/DELETE/http-response.adoc[opts=optional]
 
 
 
@@ -1368,7 +1430,7 @@ This can only be done by the logged in user.
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::user/{username}/DELETE/implementation.adoc[]
+// markup not found, no include ::user/{username}/DELETE/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -1386,7 +1448,7 @@ Get user by user name
 
 
 
-// markup not found, no include ::user/{username}/GET/spec.adoc[]
+// markup not found, no include ::user/{username}/GET/spec.adoc[opts=optional]
 
 
 
@@ -1405,6 +1467,7 @@ Get user by user name
 |  
 
 |===         
+
 
 
 
@@ -1447,10 +1510,10 @@ Get user by user name
 ===== Samples
 
 
-// markup not found, no include ::user/{username}/GET/http-request.adoc[]
+// markup not found, no include ::user/{username}/GET/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::user/{username}/GET/http-response.adoc[]
+// markup not found, no include ::user/{username}/GET/http-response.adoc[opts=optional]
 
 
 
@@ -1460,7 +1523,7 @@ Get user by user name
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::user/{username}/GET/implementation.adoc[]
+// markup not found, no include ::user/{username}/GET/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -1478,11 +1541,12 @@ Logs user into the system
 
 
 
-// markup not found, no include ::user/login/GET/spec.adoc[]
+// markup not found, no include ::user/login/GET/spec.adoc[opts=optional]
 
 
 
 ===== Parameters
+
 
 
 
@@ -1541,10 +1605,10 @@ Logs user into the system
 ===== Samples
 
 
-// markup not found, no include ::user/login/GET/http-request.adoc[]
+// markup not found, no include ::user/login/GET/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::user/login/GET/http-response.adoc[]
+// markup not found, no include ::user/login/GET/http-response.adoc[opts=optional]
 
 
 
@@ -1554,7 +1618,7 @@ Logs user into the system
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::user/login/GET/implementation.adoc[]
+// markup not found, no include ::user/login/GET/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -1572,11 +1636,12 @@ Logs out current logged in user session
 
 
 
-// markup not found, no include ::user/logout/GET/spec.adoc[]
+// markup not found, no include ::user/logout/GET/spec.adoc[opts=optional]
 
 
 
 ===== Parameters
+
 
 
 
@@ -1607,10 +1672,10 @@ Logs out current logged in user session
 ===== Samples
 
 
-// markup not found, no include ::user/logout/GET/http-request.adoc[]
+// markup not found, no include ::user/logout/GET/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::user/logout/GET/http-response.adoc[]
+// markup not found, no include ::user/logout/GET/http-response.adoc[opts=optional]
 
 
 
@@ -1620,7 +1685,7 @@ Logs out current logged in user session
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::user/logout/GET/implementation.adoc[]
+// markup not found, no include ::user/logout/GET/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -1638,7 +1703,7 @@ Updated user
 This can only be done by the logged in user.
 
 
-// markup not found, no include ::user/{username}/PUT/spec.adoc[]
+// markup not found, no include ::user/{username}/PUT/spec.adoc[opts=optional]
 
 
 
@@ -1675,6 +1740,7 @@ This can only be done by the logged in user.
 
 
 
+
 ===== Return Type
 
 
@@ -1704,10 +1770,10 @@ This can only be done by the logged in user.
 ===== Samples
 
 
-// markup not found, no include ::user/{username}/PUT/http-request.adoc[]
+// markup not found, no include ::user/{username}/PUT/http-request.adoc[opts=optional]
 
 
-// markup not found, no include ::user/{username}/PUT/http-response.adoc[]
+// markup not found, no include ::user/{username}/PUT/http-response.adoc[opts=optional]
 
 
 
@@ -1717,7 +1783,7 @@ This can only be done by the logged in user.
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include ::user/{username}/PUT/implementation.adoc[]
+// markup not found, no include ::user/{username}/PUT/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -1728,7 +1794,7 @@ endif::internal-generation[]
 
 
 [#ApiResponse]
-==== _ApiResponse_ An uploaded response
+=== _ApiResponse_ An uploaded response
 
 Describes the result of uploading an image resource
 
@@ -1741,25 +1807,25 @@ Describes the result of uploading an image resource
 |  
 | Integer  
 | 
-| int32  _
+| int32 
 
 | type 
 |  
 | String  
 | 
-|   _
+|  
 
 | message 
 |  
 | String  
 | 
-|   _
+|  
 
 |===
 
 
 [#Category]
-==== _Category_ Pet category
+=== _Category_ Pet category
 
 A category for a pet
 
@@ -1772,19 +1838,19 @@ A category for a pet
 |  
 | Long  
 | 
-| int64  _
+| int64 
 
 | name 
 |  
 | String  
 | 
-|   _
+|  
 
 |===
 
 
 [#Order]
-==== _Order_ Pet Order
+=== _Order_ Pet Order
 
 An order for a pets from the pet store
 
@@ -1797,43 +1863,43 @@ An order for a pets from the pet store
 |  
 | Long  
 | 
-| int64  _
+| int64 
 
 | petId 
 |  
 | Long  
 | 
-| int64  _
+| int64 
 
 | quantity 
 |  
 | Integer  
 | 
-| int32  _
+| int32 
 
 | shipDate 
 |  
 | Date  
 | 
-| date-time  _
+| date-time 
 
 | status 
 |  
 | String  
 | Order Status
-|  Enum: _ placed, approved, delivered,  _
+|  _Enum:_ placed, approved, delivered, 
 
 | complete 
 |  
 | Boolean  
 | 
-|   _
+|  
 
 |===
 
 
 [#Pet]
-==== _Pet_ a Pet
+=== _Pet_ a Pet
 
 A pet for sale in the pet store
 
@@ -1846,43 +1912,43 @@ A pet for sale in the pet store
 |  
 | Long  
 | 
-| int64  _
+| int64 
 
 | category 
 |  
 | Category  
 | 
-|   _
+|  
 
 | name 
 | X 
 | String  
 | 
-|   _
+|  
 
 | photoUrls 
 | X 
 | List  of <<string>> 
 | 
-|   _
+|  
 
 | tags 
 |  
 | List  of <<Tag>> 
 | 
-|   _
+|  
 
 | status 
 |  
 | String  
 | pet status in the store
-|  Enum: _ available, pending, sold,  _
+|  _Enum:_ available, pending, sold, 
 
 |===
 
 
 [#Tag]
-==== _Tag_ Pet Tag
+=== _Tag_ Pet Tag
 
 A tag for a pet
 
@@ -1895,19 +1961,19 @@ A tag for a pet
 |  
 | Long  
 | 
-| int64  _
+| int64 
 
 | name 
 |  
 | String  
 | 
-|   _
+|  
 
 |===
 
 
 [#User]
-==== _User_ a User
+=== _User_ a User
 
 A User who is purchasing from the pet store
 
@@ -1920,49 +1986,49 @@ A User who is purchasing from the pet store
 |  
 | Long  
 | 
-| int64  _
+| int64 
 
 | username 
 |  
 | String  
 | 
-|   _
+|  
 
 | firstName 
 |  
 | String  
 | 
-|   _
+|  
 
 | lastName 
 |  
 | String  
 | 
-|   _
+|  
 
 | email 
 |  
 | String  
 | 
-|   _
+|  
 
 | password 
 |  
 | String  
 | 
-|   _
+|  
 
 | phone 
 |  
 | String  
 | 
-|   _
+|  
 
 | userStatus 
 |  
 | Integer  
 | User Status
-| int32  _
+| int32 
 
 |===
 

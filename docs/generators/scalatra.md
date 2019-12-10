@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-scalatra
 title: Config Options for scalatra
 sidebar_label: scalatra
 ---
