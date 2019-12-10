@@ -21,7 +21,7 @@ namespace {{this}} {
 
 {{classname}}::{{classname}}()
 {
-    {{#vars}}
+	{{#vars}}
 	{{^isContainer}}
 	{{#isPrimitiveType}}
 	m_{{name}} = {{{defaultValue}}};
@@ -38,7 +38,7 @@ namespace {{this}} {
 	{{/isDateTime}}
 	{{#isEnum}}
 	m_{{enumName}} = { {{#allowableValues}}{{#enumVars}}{{^-first}}, {{/-first}}{{{value}}}{{/enumVars}}{{/allowableValues}} };
-    {{/isEnum}}
+	{{/isEnum}}
 	{{/isPrimitiveType}}
 	{{/isContainer}}
 	{{/vars}}
