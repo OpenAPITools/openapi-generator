@@ -9,7 +9,7 @@
 {{#allVars}}
 {{#isEnum}}
     {{#description}}/** {{description}} */
-    {{/description}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var {{name}}: {{{datatypeWithEnum}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
+    {{/description}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var {{name}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
 {{/isEnum}}
 {{^isEnum}}
     {{#description}}/** {{description}} */
@@ -27,7 +27,7 @@
 {{/allVars}}
 
 {{#hasVars}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#hasMore}}, {{/hasMore}}{{/allVars}}) {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allVars}}) {
         {{#allVars}}
         self.{{name}} = {{name}}
         {{/allVars}}
@@ -56,7 +56,7 @@
         var container = encoder.container(keyedBy: String.self)
 
         {{#allVars}}
-        try container.encode{{#unwrapRequired}}IfPresent{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}IfPresent{{/required}}{{/unwrapRequired}}({{{name}}}, forKey: "{{{baseName}}}")
+        try container.encode{{#required}}{{#isNullable}}IfPresent{{/isNullable}}{{/required}}{{^required}}IfPresent{{/required}}({{{name}}}, forKey: "{{{baseName}}}")
         {{/allVars}}
         try container.encodeMap(additionalProperties)
     }
@@ -67,7 +67,7 @@
         let container = try decoder.container(keyedBy: String.self)
 
         {{#allVars}}
-        {{name}} = try container.decode{{#unwrapRequired}}IfPresent{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}IfPresent{{/required}}{{/unwrapRequired}}({{{datatypeWithEnum}}}.self, forKey: "{{{baseName}}}")
+        {{name}} = try container.decode{{#required}}{{#isNullable}}IfPresent{{/isNullable}}{{/required}}{{^required}}IfPresent{{/required}}({{{datatypeWithEnum}}}.self, forKey: "{{{baseName}}}")
         {{/allVars}}
         var nonAdditionalPropertyKeys = Set<String>()
         {{#allVars}}
