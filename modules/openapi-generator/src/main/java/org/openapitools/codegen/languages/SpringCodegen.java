@@ -21,6 +21,8 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -28,6 +30,7 @@ import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -848,5 +851,84 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void setUseOptional(boolean useOptional) {
         this.useOptional = useOptional;
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        // we use a custom version of this function to remove the l, d, and f suffixes from integer and double values
+        // these values are later converted from strings to the primitive types using parseInt, parseLong etc so they
+        // should not include type suffix literals
+        // https://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10
+        if (ModelUtils.isArraySchema(p)) {
+            final ArraySchema ap = (ArraySchema) p;
+            final String pattern;
+            if (fullJavaUtil) {
+                pattern = "new java.util.ArrayList<%s>()";
+            } else {
+                pattern = "new ArrayList<%s>()";
+            }
+            if (ap.getItems() == null) {
+                return null;
+            }
+
+            String typeDeclaration = getTypeDeclaration(ap.getItems());
+            Object java8obj = additionalProperties.get("java8");
+            if (java8obj != null) {
+                Boolean java8 = Boolean.valueOf(java8obj.toString());
+                if (java8 != null && java8) {
+                    typeDeclaration = "";
+                }
+            }
+
+            return String.format(Locale.ROOT, pattern, typeDeclaration);
+        } else if (ModelUtils.isMapSchema(p)) {
+            final String pattern;
+            if (fullJavaUtil) {
+                pattern = "new java.util.HashMap<%s>()";
+            } else {
+                pattern = "new HashMap<%s>()";
+            }
+            if (ModelUtils.getAdditionalProperties(p) == null) {
+                return null;
+            }
+
+            String typeDeclaration = String.format(Locale.ROOT, "String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(p)));
+            Object java8obj = additionalProperties.get("java8");
+            if (java8obj != null) {
+                Boolean java8 = Boolean.valueOf(java8obj.toString());
+                if (java8 != null && java8) {
+                    typeDeclaration = "";
+                }
+            }
+
+            return String.format(Locale.ROOT, pattern, typeDeclaration);
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            return null;
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            return null;
+        } else if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            return null;
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                String _default = (String) p.getDefault();
+                if (p.getEnum() == null) {
+                    return "\"" + escapeText(_default) + "\"";
+                } else {
+                    // convert to enum var name later in postProcessModels
+                    return _default;
+                }
+            }
+            return null;
+        }
+        return super.toDefaultValue(p);
     }
 }
