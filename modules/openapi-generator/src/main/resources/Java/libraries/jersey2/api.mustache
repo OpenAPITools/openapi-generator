@@ -71,7 +71,7 @@ public class {{classname}} {
   @Deprecated
   {{/isDeprecated}}
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
-    {{#returnType}}return {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).getData();
+    {{#returnType}}return {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}.getData(){{/returnType}};
   }
   {{/vendorExtensions.x-group-parameters}}
 
@@ -160,15 +160,12 @@ public class {{classname}} {
     private {{#isRequired}}final {{/isRequired}}{{{dataType}}} {{localVariablePrefix}}{{paramName}};
     {{/allParams}}
 
-    private API{{operationId}}Request({{#pathParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{#bodyParam}}{{#hasPathParams}}, {{/hasPathParams}}{{{dataType}}} {{paramName}}{{/bodyParam}}) {
+    private API{{operationId}}Request({{#pathParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}) {
       {{#pathParams}}
       this.{{localVariablePrefix}}{{paramName}} = {{paramName}};
       {{/pathParams}}
-      {{#bodyParam}}
-      this.{{localVariablePrefix}}{{paramName}} = {{paramName}};
-      {{/bodyParam}}
     }
-    {{#allParams}}{{^isPathParam}}{{^isBodyParam}}
+    {{#allParams}}{{^isPathParam}}
 
     /**
      * Set {{paramName}}
@@ -179,7 +176,7 @@ public class {{classname}} {
       this.{{localVariablePrefix}}{{paramName}} = {{paramName}};
       return this;
     }
-    {{/isBodyParam}}{{/isPathParam}}{{/allParams}}
+    {{/isPathParam}}{{/allParams}}
 
     /**
      * Execute {{operationId}} request
@@ -226,7 +223,6 @@ public class {{classname}} {
    * {{summary}}
    * {{notes}}{{#pathParams}}
    * @param {{paramName}} {{description}} (required){{/pathParams}}
-   {{#bodyParam}}* @param {{paramName}} {{description}} (require){{/bodyParam}}
    * @return {{operationId}}Request
    * @throws ApiException if fails to make API call
    {{#isDeprecated}}* @deprecated{{/isDeprecated}}
@@ -234,8 +230,8 @@ public class {{classname}} {
    * @see <a href="{{url}}">{{summary}} Documentation</a>{{/externalDocs}}
    */
   {{#isDeprecated}}@Deprecated{{/isDeprecated}}
-  public API{{operationId}}Request {{operationId}}({{#pathParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{#bodyParam}}{{#hasPathParams}}, {{/hasPathParams}}{{{dataType}}} {{paramName}}{{/bodyParam}}) throws ApiException {
-    return new API{{operationId}}Request({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{#bodyParam}}{{#hasPathParams}}, {{/hasPathParams}}{{paramName}}{{/bodyParam}});
+  public API{{operationId}}Request {{operationId}}({{#pathParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}) throws ApiException {
+    return new API{{operationId}}Request({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}});
   }
   {{/vendorExtensions.x-group-parameters}}
   {{/operation}}
