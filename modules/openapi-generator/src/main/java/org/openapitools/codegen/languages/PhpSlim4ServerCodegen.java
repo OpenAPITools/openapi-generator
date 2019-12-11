@@ -40,8 +40,6 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
     public static final String PSR7_IMPLEMENTATION = "psr7Implementation";
 
     protected String psr7Implementation = "slim-psr7";
-    protected List<Map<String, String>> composerPackages = new ArrayList<Map<String, String>>();
-    protected List<Map<String, String>> composerDevPackages = new ArrayList<Map<String, String>>();
     protected String mockDirName = "Mock";
     protected String mockPackage = "";
 
