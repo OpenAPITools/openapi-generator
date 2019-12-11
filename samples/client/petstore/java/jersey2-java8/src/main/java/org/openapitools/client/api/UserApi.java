@@ -46,7 +46,7 @@ public class UserApi {
      </table>
    */
   public void createUser(User body) throws ApiException {
-    createUserWithHttpInfo(body).getData();
+    createUserWithHttpInfo(body);
   }
 
   /**
@@ -109,7 +109,7 @@ public class UserApi {
      </table>
    */
   public void createUsersWithArrayInput(List<User> body) throws ApiException {
-    createUsersWithArrayInputWithHttpInfo(body).getData();
+    createUsersWithArrayInputWithHttpInfo(body);
   }
 
   /**
@@ -172,7 +172,7 @@ public class UserApi {
      </table>
    */
   public void createUsersWithListInput(List<User> body) throws ApiException {
-    createUsersWithListInputWithHttpInfo(body).getData();
+    createUsersWithListInputWithHttpInfo(body);
   }
 
   /**
@@ -236,7 +236,7 @@ public class UserApi {
      </table>
    */
   public void deleteUser(String username) throws ApiException {
-    deleteUserWithHttpInfo(username).getData();
+    deleteUserWithHttpInfo(username);
   }
 
   /**
@@ -444,7 +444,7 @@ public class UserApi {
      </table>
    */
   public void logoutUser() throws ApiException {
-    logoutUserWithHttpInfo().getData();
+    logoutUserWithHttpInfo();
   }
 
   /**
@@ -503,7 +503,7 @@ public class UserApi {
      </table>
    */
   public void updateUser(String username, User body) throws ApiException {
-    updateUserWithHttpInfo(username, body).getData();
+    updateUserWithHttpInfo(username, body);
   }
 
   /**

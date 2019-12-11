@@ -54,7 +54,7 @@ public class FakeApi {
      </table>
    */
   public void createXmlItem(XmlItem xmlItem) throws ApiException {
-    createXmlItemWithHttpInfo(xmlItem).getData();
+    createXmlItemWithHttpInfo(xmlItem);
   }
 
   /**
@@ -353,7 +353,7 @@ public class FakeApi {
      </table>
    */
   public void testBodyWithFileSchema(FileSchemaTestClass body) throws ApiException {
-    testBodyWithFileSchemaWithHttpInfo(body).getData();
+    testBodyWithFileSchemaWithHttpInfo(body);
   }
 
   /**
@@ -417,7 +417,7 @@ public class FakeApi {
      </table>
    */
   public void testBodyWithQueryParams(String query, User body) throws ApiException {
-    testBodyWithQueryParamsWithHttpInfo(query, body).getData();
+    testBodyWithQueryParamsWithHttpInfo(query, body);
   }
 
   /**
@@ -565,7 +565,7 @@ public class FakeApi {
      </table>
    */
   public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
-    testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback).getData();
+    testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
   }
 
   /**
@@ -693,7 +693,7 @@ if (paramCallback != null)
      </table>
    */
   public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
-    testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString).getData();
+    testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
   }
 
   /**
@@ -929,7 +929,6 @@ if (booleanGroup != null)
   /**
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
-   
    * @return testGroupParametersRequest
    * @throws ApiException if fails to make API call
    
@@ -951,7 +950,7 @@ if (booleanGroup != null)
      </table>
    */
   public void testInlineAdditionalProperties(Map<String, String> param) throws ApiException {
-    testInlineAdditionalPropertiesWithHttpInfo(param).getData();
+    testInlineAdditionalPropertiesWithHttpInfo(param);
   }
 
   /**
@@ -1015,7 +1014,7 @@ if (booleanGroup != null)
      </table>
    */
   public void testJsonFormData(String param, String param2) throws ApiException {
-    testJsonFormDataWithHttpInfo(param, param2).getData();
+    testJsonFormDataWithHttpInfo(param, param2);
   }
 
   /**
@@ -1092,7 +1091,7 @@ if (param2 != null)
      </table>
    */
   public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {
-    testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context).getData();
+    testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
   }
 
   /**

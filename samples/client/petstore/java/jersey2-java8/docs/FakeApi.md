@@ -363,7 +363,7 @@ No authorization required
 
 
 
-For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+For this test, the body for this request much reference a schema named `File`.
 
 ### Example
 
@@ -497,7 +497,7 @@ No authorization required
 
 To test \&quot;client\&quot; model
 
-To test \&quot;client\&quot; model
+To test "client" model
 
 ### Example
 

@@ -47,7 +47,7 @@ public class StoreApi {
      </table>
    */
   public void deleteOrder(String orderId) throws ApiException {
-    deleteOrderWithHttpInfo(orderId).getData();
+    deleteOrderWithHttpInfo(orderId);
   }
 
   /**
