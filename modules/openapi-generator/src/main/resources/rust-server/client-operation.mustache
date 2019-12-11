@@ -15,7 +15,7 @@
             "{{vendorExtensions.x-path-format-string}}"
 {{/isCallbackRequest}}
 {{^isCallbackRequest}}
-            "{}{{{basePathWithoutHost}}}{{vendorExtensions.x-path-format-string}}",
+            "{}{{^servers}}{{{basePathWithoutHost}}}{{/servers}}{{#servers.0}}{{{url}}}{{/servers.0}}{{vendorExtensions.x-path-format-string}}",
             self.base_path
 {{/isCallbackRequest}}
 {{#pathParams}}
