@@ -49,7 +49,7 @@ public class PetApi {
      </table>
    */
   public void addPet(Pet body) throws ApiException {
-    addPetWithHttpInfo(body).getData();
+    addPetWithHttpInfo(body);
   }
 
   /**
@@ -115,7 +115,7 @@ public class PetApi {
      </table>
    */
   public void deletePet(Long petId, String apiKey) throws ApiException {
-    deletePetWithHttpInfo(petId, apiKey).getData();
+    deletePetWithHttpInfo(petId, apiKey);
   }
 
   /**
@@ -393,7 +393,7 @@ public class PetApi {
      </table>
    */
   public void updatePet(Pet body) throws ApiException {
-    updatePetWithHttpInfo(body).getData();
+    updatePetWithHttpInfo(body);
   }
 
   /**
@@ -461,7 +461,7 @@ public class PetApi {
      </table>
    */
   public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
-    updatePetWithFormWithHttpInfo(petId, name, status).getData();
+    updatePetWithFormWithHttpInfo(petId, name, status);
   }
 
   /**
