@@ -77,6 +77,13 @@
       {{/parentModel}}
       {{/useInheritance}}
       {{#vars}}
+      {{#requiredValidate}}
+      {{#required}}
+      if (data['{{baseName}}'] === null || data['{{baseName}}'] === undefined) {
+          throw new Error("Missing the required parameter '{{baseName}}' when calling constructFromObject");
+      }
+      {{/required}}
+      {{/requiredValidate}}
       if (data.hasOwnProperty('{{baseName}}')) {
         obj['{{baseName}}']{{{defaultValueWithParam}}}
       }
