@@ -30,8 +30,6 @@ class CollectionFormats {
         }
     }
 
-    class SPACEParams : SSVParams()
-
     class TSVParams : CSVParams {
 
         constructor(params: List<String>) : super(params)
@@ -53,4 +51,6 @@ class CollectionFormats {
             return params.joinToString("|")
         }
     }
+
+    class SPACEParams : SSVParams()
 }
