@@ -34,6 +34,10 @@ extension String: JSONEncodable {
     func encodeToJSON() -> Any { return self as Any }
 }
 
+extension RawRepresentable where RawValue: JSONEncodable {
+    func encodeToJSON() -> Any { return self.rawValue as Any }
+}
+
 private func encodeIfPossible<T>(_ object: T) -> Any {
     if let encodableObject = object as? JSONEncodable {
         return encodableObject.encodeToJSON()
@@ -67,6 +71,12 @@ extension Data: JSONEncodable {
 extension Date: JSONEncodable {
     func encodeToJSON() -> Any {
         return CodableHelper.dateFormatter.string(from: self) as Any
+    }
+}
+
+extension URL: JSONEncodable {
+    func encodeToJSON() -> Any {
+        return self
     }
 }
 
