@@ -42,6 +42,6 @@ import org.hibernate.validator.constraints.*;
 
 {{#models}}
 {{#model}}
-{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>pojo}}{{/isEnum}}
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{#vendorExtensions.isOneOfInterface}}{{>oneof_interface}}{{/vendorExtensions.isOneOfInterface}}{{^vendorExtensions.isOneOfInterface}}{{>pojo}}{{/vendorExtensions.isOneOfInterface}}{{/isEnum}}
 {{/model}}
 {{/models}}

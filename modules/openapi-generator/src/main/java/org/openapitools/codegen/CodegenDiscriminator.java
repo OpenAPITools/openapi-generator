@@ -10,6 +10,8 @@ import java.util.Set;
 public class CodegenDiscriminator {
     private String propertyName;
     private String propertyBaseName;
+    private String propertyGetter;
+    private String propertyType;
     private Map<String, String> mapping;
     private Set<MappedModel> mappedModels = new LinkedHashSet<>();
 
@@ -21,12 +23,28 @@ public class CodegenDiscriminator {
         this.propertyName = propertyName;
     }
 
+    public String getPropertyGetter() {
+        return propertyGetter;
+    }
+
+    public void setPropertyGetter(String propertyGetter) {
+        this.propertyGetter = propertyGetter;
+    }
+
     public String getPropertyBaseName() {
         return propertyBaseName;
     }
 
     public void setPropertyBaseName(String propertyBaseName) {
         this.propertyBaseName = propertyBaseName;
+    }
+
+    public String getPropertyType() {
+        return propertyType;
+    }
+
+    public void setPropertyType(String propertyType) {
+        this.propertyType = propertyType;
     }
 
     public Map<String, String> getMapping() {

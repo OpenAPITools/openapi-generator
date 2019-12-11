@@ -21,6 +21,7 @@ import java.util.Map;
 public class {{classname}}Test {
     {{#models}}
     {{#model}}
+    {{^vendorExtensions.isOneOfInterface}}
     {{^isEnum}}
     private final {{classname}} model = new {{classname}}();
 
@@ -43,6 +44,7 @@ public class {{classname}}Test {
     }
 
     {{/allVars}}
+    {{/vendorExtensions.isOneOfInterface}}
     {{/model}}
     {{/models}}
 }

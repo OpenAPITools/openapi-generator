@@ -1654,6 +1654,10 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @SuppressWarnings("static-method")
     public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+        Map<String, Object> exts = composedSchema.getExtensions();
+        if (exts != null && exts.containsKey("x-oneOfName")) {
+            return (String) exts.get("x-oneOfName");
+        }
         return "oneOf<" + String.join(",", names) + ">";
     }
 
@@ -2117,13 +2121,16 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
-    private CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
+    protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
         if (schema.getDiscriminator() == null) {
             return null;
         }
         CodegenDiscriminator discriminator = new CodegenDiscriminator();
         discriminator.setPropertyName(toVarName(schema.getDiscriminator().getPropertyName()));
         discriminator.setPropertyBaseName(schema.getDiscriminator().getPropertyName());
+        discriminator.setPropertyGetter(toGetter(discriminator.getPropertyName()));
+        // FIXME: for now, we assume that the discriminator property is String
+        discriminator.setPropertyType(typeMapping.get("string"));
         discriminator.setMapping(schema.getDiscriminator().getMapping());
         if (schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
             for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
