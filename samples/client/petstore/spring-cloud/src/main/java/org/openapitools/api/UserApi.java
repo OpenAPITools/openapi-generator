@@ -32,6 +32,13 @@ import java.util.Optional;
 @Api(value = "User", description = "the User API")
 public interface UserApi {
 
+    /**
+     * POST /user : Create user
+     * This can only be done by the logged in user.
+     *
+     * @param body Created user object (required)
+     * @return successful operation (status code 200)
+     */
     @ApiOperation(value = "Create user", nickname = "createUser", notes = "This can only be done by the logged in user.", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -40,6 +47,12 @@ public interface UserApi {
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body);
 
 
+    /**
+     * POST /user/createWithArray : Creates list of users with given input array
+     *
+     * @param body List of user object (required)
+     * @return successful operation (status code 200)
+     */
     @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithArrayInput", notes = "", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -48,6 +61,12 @@ public interface UserApi {
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
 
 
+    /**
+     * POST /user/createWithList : Creates list of users with given input array
+     *
+     * @param body List of user object (required)
+     * @return successful operation (status code 200)
+     */
     @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithListInput", notes = "", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -56,6 +75,14 @@ public interface UserApi {
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
 
 
+    /**
+     * DELETE /user/{username} : Delete user
+     * This can only be done by the logged in user.
+     *
+     * @param username The name that needs to be deleted (required)
+     * @return Invalid username supplied (status code 400)
+     *         or User not found (status code 404)
+     */
     @ApiOperation(value = "Delete user", nickname = "deleteUser", notes = "This can only be done by the logged in user.", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied"),
@@ -65,6 +92,14 @@ public interface UserApi {
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username);
 
 
+    /**
+     * GET /user/{username} : Get user by user name
+     *
+     * @param username The name that needs to be fetched. Use user1 for testing. (required)
+     * @return successful operation (status code 200)
+     *         or Invalid username supplied (status code 400)
+     *         or User not found (status code 404)
+     */
     @ApiOperation(value = "Get user by user name", nickname = "getUserByName", notes = "", response = User.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
@@ -76,6 +111,14 @@ public interface UserApi {
     com.netflix.hystrix.HystrixCommand<ResponseEntity<User>> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username);
 
 
+    /**
+     * GET /user/login : Logs user into the system
+     *
+     * @param username The user name for login (required)
+     * @param password The password for login in clear text (required)
+     * @return successful operation (status code 200)
+     *         or Invalid username/password supplied (status code 400)
+     */
     @ApiOperation(value = "Logs user into the system", nickname = "loginUser", notes = "", response = String.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
@@ -86,6 +129,11 @@ public interface UserApi {
     com.netflix.hystrix.HystrixCommand<ResponseEntity<String>> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password);
 
 
+    /**
+     * GET /user/logout : Logs out current logged in user session
+     *
+     * @return successful operation (status code 200)
+     */
     @ApiOperation(value = "Logs out current logged in user session", nickname = "logoutUser", notes = "", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -94,6 +142,15 @@ public interface UserApi {
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> logoutUser();
 
 
+    /**
+     * PUT /user/{username} : Updated user
+     * This can only be done by the logged in user.
+     *
+     * @param username name that need to be deleted (required)
+     * @param body Updated user object (required)
+     * @return Invalid user supplied (status code 400)
+     *         or User not found (status code 404)
+     */
     @ApiOperation(value = "Updated user", nickname = "updateUser", notes = "This can only be done by the logged in user.", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied"),

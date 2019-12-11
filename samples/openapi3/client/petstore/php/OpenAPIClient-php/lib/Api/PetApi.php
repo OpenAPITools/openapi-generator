@@ -163,7 +163,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -406,7 +406,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -642,7 +642,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -667,7 +667,7 @@ class PetApi
                     if ('\OpenAPI\Client\Model\Pet[]' === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -682,7 +682,7 @@ class PetApi
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
             } else {
-                $content = $responseBody->getContents();
+                $content = (string) $responseBody;
             }
 
             return [
@@ -749,7 +749,7 @@ class PetApi
                     if ($returnType === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -917,7 +917,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -942,7 +942,7 @@ class PetApi
                     if ('\OpenAPI\Client\Model\Pet[]' === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -957,7 +957,7 @@ class PetApi
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
             } else {
-                $content = $responseBody->getContents();
+                $content = (string) $responseBody;
             }
 
             return [
@@ -1024,7 +1024,7 @@ class PetApi
                     if ($returnType === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -1192,7 +1192,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -1217,7 +1217,7 @@ class PetApi
                     if ('\OpenAPI\Client\Model\Pet' === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -1232,7 +1232,7 @@ class PetApi
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
             } else {
-                $content = $responseBody->getContents();
+                $content = (string) $responseBody;
             }
 
             return [
@@ -1299,7 +1299,7 @@ class PetApi
                     if ($returnType === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -1476,7 +1476,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -1721,7 +1721,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -1968,7 +1968,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -1993,7 +1993,7 @@ class PetApi
                     if ('\OpenAPI\Client\Model\ApiResponse' === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -2008,7 +2008,7 @@ class PetApi
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
             } else {
-                $content = $responseBody->getContents();
+                $content = (string) $responseBody;
             }
 
             return [
@@ -2079,7 +2079,7 @@ class PetApi
                     if ($returnType === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -2263,7 +2263,7 @@ class PetApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -2288,7 +2288,7 @@ class PetApi
                     if ('\OpenAPI\Client\Model\ApiResponse' === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -2303,7 +2303,7 @@ class PetApi
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
             } else {
-                $content = $responseBody->getContents();
+                $content = (string) $responseBody;
             }
 
             return [
@@ -2374,7 +2374,7 @@ class PetApi
                     if ($returnType === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [

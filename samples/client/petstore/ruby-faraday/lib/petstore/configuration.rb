@@ -224,7 +224,7 @@ module Petstore
       [
         {
           url: "http://petstore.swagger.io:80/v2",
-          description: "No descriptoin provided",
+          description: "No description provided",
         }
       ]
     end

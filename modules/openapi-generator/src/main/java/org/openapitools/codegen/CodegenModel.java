@@ -70,157 +70,6 @@ public class CodegenModel {
     //The type of the value from additional properties. Used in map like objects.
     public String additionalPropertiesType;
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("parent", parent)
-                .append("parentSchema", parentSchema)
-                .append("interfaces", interfaces)
-                .append("parentModel", parentModel)
-                .append("interfaceModels", interfaceModels)
-                .append("children", children)
-                .append("name", name)
-                .append("classname", classname)
-                .append("title", title)
-                .append("description", description)
-                .append("classVarName", classVarName)
-                .append("modelJson", modelJson)
-                .append("dataType", dataType)
-                .append("xmlPrefix", xmlPrefix)
-                .append("xmlNamespace", xmlNamespace)
-                .append("xmlName", xmlName)
-                .append("classFilename", classFilename)
-                .append("unescapedDescription", unescapedDescription)
-                .append("discriminator", discriminator)
-                .append("defaultValue", defaultValue)
-                .append("arrayModelType", arrayModelType)
-                .append("isAlias", isAlias)
-                .append("isString", isString)
-                .append("isNumeric", isNumeric)
-                .append("isInteger", isInteger)
-                .append("isLong", isLong)
-                .append("isNumber", isNumber)
-                .append("isFloat", isFloat)
-                .append("isDouble", isDouble)
-                .append("vars", vars)
-                .append("requiredVars", requiredVars)
-                .append("optionalVars", optionalVars)
-                .append("readOnlyVars", readOnlyVars)
-                .append("readWriteVars", readWriteVars)
-                .append("allVars", allVars)
-                .append("parentVars", parentVars)
-                .append("allowableValues", allowableValues)
-                .append("mandatory", mandatory)
-                .append("allMandatory", allMandatory)
-                .append("imports", imports)
-                .append("hasVars", hasVars)
-                .append("emptyVars", emptyVars)
-                .append("hasMoreModels", hasMoreModels)
-                .append("hasEnums", hasEnums)
-                .append("isEnum", isEnum)
-                .append("isNullable", isNullable)
-                .append("hasRequired", hasRequired)
-                .append("hasOptional", hasOptional)
-                .append("isArrayModel", isArrayModel)
-                .append("hasChildren", hasChildren)
-                .append("isMapModel", isMapModel)
-                .append("hasOnlyReadOnly", hasOnlyReadOnly)
-                .append("externalDocumentation", externalDocumentation)
-                .append("vendorExtensions", vendorExtensions)
-                .append("additionalPropertiesType", additionalPropertiesType)
-                .toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        CodegenModel that = (CodegenModel) o;
-
-        return Objects.equals(parent, that.parent) &&
-                Objects.equals(parentSchema, that.parentSchema) &&
-                Objects.equals(interfaces, that.interfaces) &&
-                Objects.equals(allParents, that.allParents) &&
-                Objects.equals(parentModel, that.parentModel) &&
-                Objects.equals(interfaceModels, that.interfaceModels) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(classname, that.classname) &&
-                Objects.equals(title, that.title) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(classVarName, that.classVarName) &&
-                Objects.equals(modelJson, that.modelJson) &&
-                Objects.equals(dataType, that.dataType) &&
-                Objects.equals(xmlPrefix, that.xmlPrefix) &&
-                Objects.equals(xmlNamespace, that.xmlNamespace) &&
-                Objects.equals(xmlName, that.xmlName) &&
-                Objects.equals(classFilename, that.classFilename) &&
-                Objects.equals(unescapedDescription, that.unescapedDescription) &&
-                Objects.equals(discriminator, that.discriminator) &&
-                Objects.equals(defaultValue, that.defaultValue) &&
-                Objects.equals(vars, that.vars) &&
-                Objects.equals(requiredVars, that.requiredVars) &&
-                Objects.equals(optionalVars, that.optionalVars) &&
-                Objects.equals(allVars, that.allVars) &&
-                Objects.equals(allowableValues, that.allowableValues) &&
-                Objects.equals(mandatory, that.mandatory) &&
-                Objects.equals(allMandatory, that.allMandatory) &&
-                Objects.equals(imports, that.imports) &&
-                Objects.equals(hasVars, that.hasVars) &&
-                Objects.equals(emptyVars, that.emptyVars) &&
-                Objects.equals(hasMoreModels, that.hasMoreModels) &&
-                Objects.equals(hasEnums, that.hasEnums) &&
-                Objects.equals(isEnum, that.isEnum) &&
-                Objects.equals(externalDocumentation, that.externalDocumentation) &&
-                Objects.equals(hasOnlyReadOnly, that.hasOnlyReadOnly) &&
-                Objects.equals(hasChildren, that.hasChildren) &&
-                Objects.equals(parentVars, that.parentVars) &&
-                Objects.equals(vendorExtensions, that.vendorExtensions);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(
-                parent,
-                parentSchema,
-                interfaces,
-                allParents,
-                parentModel,
-                interfaceModels,
-                name,
-                classname,
-                title,
-                description,
-                classVarName,
-                modelJson,
-                dataType,
-                xmlPrefix,
-                xmlNamespace,
-                xmlName,
-                classFilename,
-                unescapedDescription,
-                discriminator,
-                defaultValue,
-                vars,
-                requiredVars,
-                optionalVars,
-                allVars,
-                allowableValues,
-                mandatory,
-                allMandatory,
-                imports,
-                hasVars,
-                emptyVars,
-                hasMoreModels,
-                hasEnums,
-                isEnum,
-                externalDocumentation,
-                vendorExtensions,
-                hasOnlyReadOnly,
-                hasChildren,
-                parentVars);
-    }
-
     public String getParent() {
         return parent;
     }
@@ -600,5 +449,150 @@ public class CodegenModel {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CodegenModel that = (CodegenModel) o;
+        return isAlias == that.isAlias &&
+                isString == that.isString &&
+                isInteger == that.isInteger &&
+                isLong == that.isLong &&
+                isNumber == that.isNumber &&
+                isNumeric == that.isNumeric &&
+                isFloat == that.isFloat &&
+                isDouble == that.isDouble &&
+                hasVars == that.hasVars &&
+                emptyVars == that.emptyVars &&
+                hasMoreModels == that.hasMoreModels &&
+                hasEnums == that.hasEnums &&
+                isEnum == that.isEnum &&
+                isNullable == that.isNullable &&
+                hasRequired == that.hasRequired &&
+                hasOptional == that.hasOptional &&
+                isArrayModel == that.isArrayModel &&
+                hasChildren == that.hasChildren &&
+                isMapModel == that.isMapModel &&
+                hasOnlyReadOnly == that.hasOnlyReadOnly &&
+                Objects.equals(parent, that.parent) &&
+                Objects.equals(parentSchema, that.parentSchema) &&
+                Objects.equals(interfaces, that.interfaces) &&
+                Objects.equals(allParents, that.allParents) &&
+                Objects.equals(parentModel, that.parentModel) &&
+                Objects.equals(interfaceModels, that.interfaceModels) &&
+                Objects.equals(children, that.children) &&
+                Objects.equals(anyOf, that.anyOf) &&
+                Objects.equals(oneOf, that.oneOf) &&
+                Objects.equals(allOf, that.allOf) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(classname, that.classname) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(classVarName, that.classVarName) &&
+                Objects.equals(modelJson, that.modelJson) &&
+                Objects.equals(dataType, that.dataType) &&
+                Objects.equals(xmlPrefix, that.xmlPrefix) &&
+                Objects.equals(xmlNamespace, that.xmlNamespace) &&
+                Objects.equals(xmlName, that.xmlName) &&
+                Objects.equals(classFilename, that.classFilename) &&
+                Objects.equals(unescapedDescription, that.unescapedDescription) &&
+                Objects.equals(discriminator, that.discriminator) &&
+                Objects.equals(defaultValue, that.defaultValue) &&
+                Objects.equals(arrayModelType, that.arrayModelType) &&
+                Objects.equals(vars, that.vars) &&
+                Objects.equals(allVars, that.allVars) &&
+                Objects.equals(requiredVars, that.requiredVars) &&
+                Objects.equals(optionalVars, that.optionalVars) &&
+                Objects.equals(readOnlyVars, that.readOnlyVars) &&
+                Objects.equals(readWriteVars, that.readWriteVars) &&
+                Objects.equals(parentVars, that.parentVars) &&
+                Objects.equals(allowableValues, that.allowableValues) &&
+                Objects.equals(mandatory, that.mandatory) &&
+                Objects.equals(allMandatory, that.allMandatory) &&
+                Objects.equals(imports, that.imports) &&
+                Objects.equals(externalDocumentation, that.externalDocumentation) &&
+                Objects.equals(vendorExtensions, that.vendorExtensions) &&
+                Objects.equals(additionalPropertiesType, that.additionalPropertiesType);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(parent, parentSchema, interfaces, allParents, parentModel, interfaceModels, children,
+                anyOf, oneOf, allOf, name, classname, title, description, classVarName, modelJson, dataType,
+                xmlPrefix, xmlNamespace, xmlName, classFilename, unescapedDescription, discriminator, defaultValue,
+                arrayModelType, isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
+                vars, allVars, requiredVars, optionalVars, readOnlyVars, readWriteVars, parentVars, allowableValues,
+                mandatory, allMandatory, imports, hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, isNullable,
+                hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel, hasOnlyReadOnly,
+                externalDocumentation, vendorExtensions, additionalPropertiesType);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("CodegenModel{");
+        sb.append("parent='").append(parent).append('\'');
+        sb.append(", parentSchema='").append(parentSchema).append('\'');
+        sb.append(", interfaces=").append(interfaces);
+        sb.append(", allParents=").append(allParents);
+        sb.append(", parentModel=").append(parentModel);
+        sb.append(", interfaceModels=").append(interfaceModels);
+        sb.append(", children=").append(children);
+        sb.append(", anyOf=").append(anyOf);
+        sb.append(", oneOf=").append(oneOf);
+        sb.append(", allOf=").append(allOf);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", classname='").append(classname).append('\'');
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", classVarName='").append(classVarName).append('\'');
+        sb.append(", modelJson='").append(modelJson).append('\'');
+        sb.append(", dataType='").append(dataType).append('\'');
+        sb.append(", xmlPrefix='").append(xmlPrefix).append('\'');
+        sb.append(", xmlNamespace='").append(xmlNamespace).append('\'');
+        sb.append(", xmlName='").append(xmlName).append('\'');
+        sb.append(", classFilename='").append(classFilename).append('\'');
+        sb.append(", unescapedDescription='").append(unescapedDescription).append('\'');
+        sb.append(", discriminator=").append(discriminator);
+        sb.append(", defaultValue='").append(defaultValue).append('\'');
+        sb.append(", arrayModelType='").append(arrayModelType).append('\'');
+        sb.append(", isAlias=").append(isAlias);
+        sb.append(", isString=").append(isString);
+        sb.append(", isInteger=").append(isInteger);
+        sb.append(", isLong=").append(isLong);
+        sb.append(", isNumber=").append(isNumber);
+        sb.append(", isNumeric=").append(isNumeric);
+        sb.append(", isFloat=").append(isFloat);
+        sb.append(", isDouble=").append(isDouble);
+        sb.append(", vars=").append(vars);
+        sb.append(", allVars=").append(allVars);
+        sb.append(", requiredVars=").append(requiredVars);
+        sb.append(", optionalVars=").append(optionalVars);
+        sb.append(", readOnlyVars=").append(readOnlyVars);
+        sb.append(", readWriteVars=").append(readWriteVars);
+        sb.append(", parentVars=").append(parentVars);
+        sb.append(", allowableValues=").append(allowableValues);
+        sb.append(", mandatory=").append(mandatory);
+        sb.append(", allMandatory=").append(allMandatory);
+        sb.append(", imports=").append(imports);
+        sb.append(", hasVars=").append(hasVars);
+        sb.append(", emptyVars=").append(emptyVars);
+        sb.append(", hasMoreModels=").append(hasMoreModels);
+        sb.append(", hasEnums=").append(hasEnums);
+        sb.append(", isEnum=").append(isEnum);
+        sb.append(", isNullable=").append(isNullable);
+        sb.append(", hasRequired=").append(hasRequired);
+        sb.append(", hasOptional=").append(hasOptional);
+        sb.append(", isArrayModel=").append(isArrayModel);
+        sb.append(", hasChildren=").append(hasChildren);
+        sb.append(", isMapModel=").append(isMapModel);
+        sb.append(", hasOnlyReadOnly=").append(hasOnlyReadOnly);
+        sb.append(", externalDocumentation=").append(externalDocumentation);
+        sb.append(", vendorExtensions=").append(vendorExtensions);
+        sb.append(", additionalPropertiesType='").append(additionalPropertiesType).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }
