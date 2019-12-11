@@ -21,6 +21,7 @@ import okhttp3.ResponseBody
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 {{/jvm-okhttp4}}
 import okhttp3.Request
+import okhttp3.Credentials
 import java.io.File
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(val baseUrl: String) {
