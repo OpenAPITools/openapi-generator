@@ -27,6 +27,13 @@ import java.util.Map;
 @Api(value = "fake_classname_test", description = "the fake_classname_test API")
 public interface FakeClassnameTestApi {
 
+    /**
+     * PATCH /fake_classname_test : To test class name in snake case
+     * To test class name in snake case
+     *
+     * @param body client model (required)
+     * @return successful operation (status code 200)
+     */
     @ApiOperation(value = "To test class name in snake case", nickname = "testClassname", notes = "To test class name in snake case", response = Client.class, authorizations = {
         @Authorization(value = "api_key_query")
     }, tags={ "fake_classname_tags 123#$%^", })

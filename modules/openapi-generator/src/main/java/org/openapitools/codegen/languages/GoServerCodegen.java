@@ -144,10 +144,19 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof Integer) {
             this.setServerPort((int) additionalProperties.get("serverPort"));
+        } else if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof String){
+            try {
+                this.setServerPort(Integer.parseInt(additionalProperties.get("serverPort").toString()));
+                additionalProperties.put("serverPort", serverPort);
+            }
+            catch (NumberFormatException e)
+            {
+                LOGGER.warn("serverPort is not a valid integer... defaulting to {}", serverPort);
+                additionalProperties.put("serverPort", serverPort);
+            }
         } else {
             additionalProperties.put("serverPort", serverPort);
         }
-
         if (additionalProperties.containsKey("featureCORS")) {
             this.setFeatureCORS(convertPropertyToBooleanAndWriteBack("featureCORS"));
         } else {
@@ -165,6 +174,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
+        supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
         supportingFiles.add(new SupportingFile("routers.mustache", sourceFolder, "routers.go"));
         supportingFiles.add(new SupportingFile("logger.mustache", sourceFolder, "logger.go"));
         supportingFiles.add(new SupportingFile("api.mustache", sourceFolder, "api.go"));

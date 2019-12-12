@@ -155,7 +155,7 @@ class FakeApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -371,7 +371,7 @@ class FakeApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -396,7 +396,7 @@ class FakeApi
                     if ('bool' === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -411,7 +411,7 @@ class FakeApi
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
             } else {
-                $content = $responseBody->getContents();
+                $content = (string) $responseBody;
             }
 
             return [
@@ -478,7 +478,7 @@ class FakeApi
                     if ($returnType === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -628,7 +628,7 @@ class FakeApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -653,7 +653,7 @@ class FakeApi
                     if ('\OpenAPI\Client\Model\OuterComposite' === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -668,7 +668,7 @@ class FakeApi
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
             } else {
-                $content = $responseBody->getContents();
+                $content = (string) $responseBody;
             }
 
             return [
@@ -735,7 +735,7 @@ class FakeApi
                     if ($returnType === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -885,7 +885,7 @@ class FakeApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -910,7 +910,7 @@ class FakeApi
                     if ('float' === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -925,7 +925,7 @@ class FakeApi
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
             } else {
-                $content = $responseBody->getContents();
+                $content = (string) $responseBody;
             }
 
             return [
@@ -992,7 +992,7 @@ class FakeApi
                     if ($returnType === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -1142,7 +1142,7 @@ class FakeApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -1167,7 +1167,7 @@ class FakeApi
                     if ('string' === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -1182,7 +1182,7 @@ class FakeApi
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
             } else {
-                $content = $responseBody->getContents();
+                $content = (string) $responseBody;
             }
 
             return [
@@ -1249,7 +1249,7 @@ class FakeApi
                     if ($returnType === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -1398,7 +1398,7 @@ class FakeApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -1615,7 +1615,7 @@ class FakeApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -1848,7 +1848,7 @@ class FakeApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -1873,7 +1873,7 @@ class FakeApi
                     if ('\OpenAPI\Client\Model\Client' === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -1888,7 +1888,7 @@ class FakeApi
             if ($returnType === '\SplFileObject') {
                 $content = $responseBody; //stream goes to serializer
             } else {
-                $content = $responseBody->getContents();
+                $content = (string) $responseBody;
             }
 
             return [
@@ -1955,7 +1955,7 @@ class FakeApi
                     if ($returnType === '\SplFileObject') {
                         $content = $responseBody; //stream goes to serializer
                     } else {
-                        $content = $responseBody->getContents();
+                        $content = (string) $responseBody;
                     }
 
                     return [
@@ -2140,7 +2140,7 @@ class FakeApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -2535,7 +2535,7 @@ class FakeApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -2818,7 +2818,7 @@ class FakeApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -3099,7 +3099,7 @@ class FakeApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -3320,7 +3320,7 @@ class FakeApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 
@@ -3557,7 +3557,7 @@ class FakeApi
                     "[{$e->getCode()}] {$e->getMessage()}",
                     $e->getCode(),
                     $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
                 );
             }
 

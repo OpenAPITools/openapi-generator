@@ -376,7 +376,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // this will only import "fmt" and "strings" if there are items in pathParams
         for (CodegenOperation operation : operations) {
             if (operation.pathParams != null && operation.pathParams.size() > 0) {
-                imports.add(createMapping("import", "fmt"));
                 imports.add(createMapping("import", "strings"));
                 break; //just need to import once
             }

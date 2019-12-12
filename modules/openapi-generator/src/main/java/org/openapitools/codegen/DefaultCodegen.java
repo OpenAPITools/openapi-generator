@@ -328,8 +328,59 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         }
+        setCircularReferences(allModels);
 
         return objs;
+    }
+
+    public void setCircularReferences(Map<String, CodegenModel> models) {
+        final Map<String, List<CodegenProperty>> dependencyMap = models.entrySet().stream()
+            .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue())));
+        
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, dependencyMap));
+    }
+
+    private List<CodegenProperty> getModelDependencies(CodegenModel model) {
+        return model.getAllVars().stream()
+            .map(prop -> {
+                if (prop.isContainer) {
+                    return prop.items.dataType == null ? null : prop;
+                }
+                return prop.dataType == null ? null : prop;
+            })
+            .filter(prop -> prop != null)
+            .collect(Collectors.toList());
+    }
+
+    private void setCircularReferencesOnProperties(final String root,
+                                                   final Map<String, List<CodegenProperty>> dependencyMap) {
+        dependencyMap.getOrDefault(root, new ArrayList<>()).stream()
+            .forEach(prop -> {
+                final List<String> unvisited =
+                    Collections.singletonList(prop.isContainer ? prop.items.dataType : prop.dataType);
+                prop.isCircularReference = isCircularReference(root,
+                                                               new HashSet<>(),
+                                                               new ArrayList<>(unvisited),
+                                                               dependencyMap);
+            });
+    }
+
+    private boolean isCircularReference(final String root,
+                                        final Set<String> visited,
+                                        final List<String> unvisited,
+                                        final Map<String, List<CodegenProperty>> dependencyMap) {
+        for (int i = 0; i < unvisited.size(); i++) {
+            final String next = unvisited.get(i);
+            if (!visited.contains(next)) {
+                if (next.equals(root)) {
+                    return true;
+                }
+                dependencyMap.getOrDefault(next, new ArrayList<>())
+                    .forEach(prop -> unvisited.add(prop.isContainer ? prop.items.dataType : prop.dataType));
+                visited.add(next);
+            }
+        }
+        return false;
     }
 
     // override with any special post-processing
@@ -1788,11 +1839,19 @@ public class DefaultCodegen implements CodegenConfig {
             Map<String, Schema> allProperties = new LinkedHashMap<String, Schema>();
             List<String> allRequired = new ArrayList<String>();
 
+            // if schema has properties outside of allOf/oneOf/anyOf also add them to m
+            if (composed.getProperties() != null && !composed.getProperties().isEmpty()) {
+                if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
+                    LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
+                            "For more details, see https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3 and the OAS section on 'Composition and Inheritance'.");
+                }
+                addVars(m, unaliasPropertySchema(composed.getProperties()), composed.getRequired(), null, null);
+            }
+
             // parent model
             final String parentName = ModelUtils.getParentName(composed, allDefinitions);
             final List<String> allParents = ModelUtils.getAllParentsName(composed, allDefinitions);
             final Schema parent = StringUtils.isBlank(parentName) || allDefinitions == null ? null : allDefinitions.get(parentName);
-            final boolean hasParent = StringUtils.isNotBlank(parentName);
 
             // TODO revise the logic below to set dicriminator, xml attributes
             if (supportsInheritance || supportsMixins) {
@@ -2879,6 +2938,10 @@ public class DefaultCodegen implements CodegenConfig {
             responseSchema = ModelUtils.getSchemaFromResponse(response);
         }
         r.schema = responseSchema;
+        if (responseSchema != null && responseSchema.getPattern() != null) {
+            r.pattern = toRegularExpression(responseSchema.getPattern());
+        }
+
         r.message = escapeText(response.getDescription());
         // TODO need to revise and test examples in responses
         // ApiResponse does not support examples at the moment

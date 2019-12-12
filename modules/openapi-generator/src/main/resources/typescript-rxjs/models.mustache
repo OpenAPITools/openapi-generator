@@ -2,6 +2,6 @@
 {{>licenseInfo}}
 {{#models}}
 {{#model}}
-{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{^isEnum}}{{^oneOf}}{{>modelGeneric}}{{/oneOf}}{{/isEnum}}
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{#allOf}}{{#-first}}{{>modelAllOf}}{{/-first}}{{/allOf}}{{^isEnum}}{{^oneOf}}{{^allOf}}{{>modelGeneric}}{{/allOf}}{{/oneOf}}{{/isEnum}}
 {{/model}}
 {{/models}}

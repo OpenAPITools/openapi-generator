@@ -4,6 +4,9 @@
 # Core
 export(ApiClient)
 export(ApiResponse)
+{{#useRlangExceptionHandling}}
+export(ApiException) 
+{{/useRlangExceptionHandling}}
 
 # Models
 {{#models}}
