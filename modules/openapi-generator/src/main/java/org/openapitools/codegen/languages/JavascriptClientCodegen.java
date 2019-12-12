@@ -48,6 +48,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public static final String EMIT_MODEL_METHODS = "emitModelMethods";
     public static final String EMIT_JS_DOC = "emitJSDoc";
     public static final String USE_ES6 = "useES6";
+    public static final String REQUIRED_VALIDATE = "requiredValidate";
 
     final String[][] JAVASCRIPT_SUPPORTING_FILES = new String[][]{
             new String[]{"package.mustache", "package.json"},
@@ -79,6 +80,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected String invokerPackage;
     protected String sourceFolder = "src";
     protected boolean usePromises;
+    protected boolean requiredValidate;
     protected boolean emitModelMethods;
     protected boolean emitJSDoc = true;
     protected String apiDocPath = "docs/";
@@ -322,6 +324,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
         additionalProperties.put(USE_PROMISES, usePromises);
+        additionalProperties.put(REQUIRED_VALIDATE, requiredValidate);
         additionalProperties.put(USE_INHERITANCE, supportsInheritance);
         additionalProperties.put(EMIT_MODEL_METHODS, emitModelMethods);
         additionalProperties.put(EMIT_JS_DOC, emitJSDoc);
@@ -431,6 +434,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     public void setUsePromises(boolean usePromises) {
         this.usePromises = usePromises;
+    }
+
+    public void setRequiredValidate(boolean requiredValidate) {
+        this.requiredValidate = requiredValidate;
     }
 
     public void setUseES6(boolean useES6) {

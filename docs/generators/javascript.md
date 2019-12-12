@@ -19,6 +19,7 @@ sidebar_label: javascript
 |projectVersion|version of the project (Default: using info.version or &quot;1.0.0&quot;)| |null|
 |licenseName|name of the license the project uses (Default: using info.license.name)| |null|
 |usePromises|use Promises as return values from the client API, instead of superagent callbacks| |false|
+|requiredValidate|Validation does a required property| |false|
 |emitModelMethods|generate getters and setters for model properties| |false|
 |emitJSDoc|generate JSDoc comments| |true|
 |useInheritance|use JavaScript prototype chains &amp; delegation for inheritance| |true|
