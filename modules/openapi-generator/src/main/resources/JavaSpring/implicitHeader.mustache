@@ -1,1 +1,1 @@
-{{#isHeaderParam}}@Parameter(name = "{{{paramName}}}", description = "{{{description}}}", {{#required}}required=true,{{/required}}, in=ParameterIn.HEADER, schema = @Schema(implementation={{{dataType}}}.class)){{#hasMore}},{{/hasMore}}{{/isHeaderParam}}
+{{#isHeaderParam}}@Parameter(name = "{{{paramName}}}", description = "{{{description}}}", {{#required}}required=true,{{/required}} in=ParameterIn.HEADER, schema = @Schema(implementation={{{dataType}}}.class)){{#hasMore}},{{/hasMore}}{{/isHeaderParam}}

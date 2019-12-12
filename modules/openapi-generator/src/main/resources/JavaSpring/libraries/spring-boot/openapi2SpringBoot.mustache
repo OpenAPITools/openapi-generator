@@ -9,6 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 {{^reactive}}
+{{^useSpringDoc}}
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+{{/useSpringDoc}}
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
     {{^java8}}
@@ -16,6 +19,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
     {{/java8}}
 {{/reactive}}
 {{#reactive}}
+{{^useSpringDoc}}
+import org.springframework.web.reactive.config.ResourceHandlerRegistry;
+{{/useSpringDoc}}
 import org.springframework.web.reactive.config.CorsRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 {{/reactive}}

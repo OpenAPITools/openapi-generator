@@ -111,18 +111,8 @@ public interface {{classname}} {
     {{/virtualService}}
     @Operation(summary = "{{{summary}}}", operationId = "{{{operationId}}}", description = "{{{notes}}}", responses={ {{#responses}}
             @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = @Content(schema = @Schema(implementation = {{{baseType}}}.class)){{/baseType}}){{#hasMore}},{{/hasMore}}{{/responses}} }
-    {{#implicitHeaders}},  parameters = {
-        {{#headerParams}}
-            {{>implicitHeader}}
-        {{/headerParams}} }
-    {{/implicitHeaders}}
-    {{#hasAuthMethods}}, security = {
-        {{#authMethods}}@SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes = {
-            {{#scopes}}"{{scope}}"{{#hasMore}},
-            {{/hasMore}}{{/scopes}}
-            }{{/isOAuth}}){{#hasMore}},
-        {{/hasMore}}{{/authMethods}}
-    }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
+    {{#implicitHeaders}},  parameters = { {{#headerParams}}{{>implicitHeader}}{{/headerParams}} }{{/implicitHeaders}}
+    {{#hasAuthMethods}}, security = { {{#authMethods}}@SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes = { {{#scopes}}"{{scope}}"{{#hasMore}}, {{/hasMore}}{{/scopes}} }{{/isOAuth}}){{#hasMore}},{{/hasMore}}{{/authMethods}} }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
     @RequestMapping(value = "{{{path}}}",{{#singleContentTypes}}{{#hasProduces}}
         produces = "{{{vendorExtensions.x-accepts}}}", {{/hasProduces}}{{#hasConsumes}}
         consumes = "{{{vendorExtensions.x-contentType}}}",{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
