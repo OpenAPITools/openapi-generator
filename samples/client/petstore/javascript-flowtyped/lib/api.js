@@ -1,8 +1,8 @@
-import _classCallCheck from "/Users/akihito1/src/github.com/ackintosh/openapi-generator-1/samples/client/petstore/javascript-flowtyped/node_modules/@babel/runtime/helpers/esm/classCallCheck";
-import _possibleConstructorReturn from "/Users/akihito1/src/github.com/ackintosh/openapi-generator-1/samples/client/petstore/javascript-flowtyped/node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn";
-import _getPrototypeOf from "/Users/akihito1/src/github.com/ackintosh/openapi-generator-1/samples/client/petstore/javascript-flowtyped/node_modules/@babel/runtime/helpers/esm/getPrototypeOf";
-import _inherits from "/Users/akihito1/src/github.com/ackintosh/openapi-generator-1/samples/client/petstore/javascript-flowtyped/node_modules/@babel/runtime/helpers/esm/inherits";
-import _wrapNativeSuper from "/Users/akihito1/src/github.com/ackintosh/openapi-generator-1/samples/client/petstore/javascript-flowtyped/node_modules/@babel/runtime/helpers/esm/wrapNativeSuper";
+import _classCallCheck from "@babel/runtime/helpers/esm/classCallCheck";
+import _possibleConstructorReturn from "@babel/runtime/helpers/esm/possibleConstructorReturn";
+import _getPrototypeOf from "@babel/runtime/helpers/esm/getPrototypeOf";
+import _inherits from "@babel/runtime/helpers/esm/inherits";
+import _wrapNativeSuper from "@babel/runtime/helpers/esm/wrapNativeSuper";
 
 /* eslint-disable no-use-before-define */
 
