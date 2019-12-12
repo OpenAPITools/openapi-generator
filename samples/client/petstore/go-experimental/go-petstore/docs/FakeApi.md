@@ -23,19 +23,24 @@ Method | HTTP request | Description
 
 ## CreateXmlItem
 
-> CreateXmlItem(ctx, xmlItem)
+> CreateXmlItem(ctx).XmlItem(xmlItem).Execute()
 
 creates an XmlItem
 
-this route creates an XmlItem
 
-### Required Parameters
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateXmlItemRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**xmlItem** | [**XmlItem**](XmlItem.md)| XmlItem Body | 
+ **xmlItem** | [**XmlItem**](XmlItem.md) | XmlItem Body | 
 
 ### Return type
 
@@ -57,28 +62,24 @@ No authorization required
 
 ## FakeOuterBooleanSerialize
 
-> bool FakeOuterBooleanSerialize(ctx, optional)
+> bool FakeOuterBooleanSerialize(ctx).Body(body).Execute()
 
 
 
-Test serialization of outer boolean types
-
-### Required Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***FakeOuterBooleanSerializeOpts** | optional parameters | nil if no parameters
+### Path Parameters
 
-### Optional Parameters
 
-Optional parameters are passed through a pointer to a FakeOuterBooleanSerializeOpts struct
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFakeOuterBooleanSerializeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **optional.Bool**| Input boolean as post body | 
+ **body** | **bool** | Input boolean as post body | 
 
 ### Return type
 
@@ -100,28 +101,24 @@ No authorization required
 
 ## FakeOuterCompositeSerialize
 
-> OuterComposite FakeOuterCompositeSerialize(ctx, optional)
+> OuterComposite FakeOuterCompositeSerialize(ctx).Body(body).Execute()
 
 
 
-Test serialization of object with outer number type
-
-### Required Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***FakeOuterCompositeSerializeOpts** | optional parameters | nil if no parameters
+### Path Parameters
 
-### Optional Parameters
 
-Optional parameters are passed through a pointer to a FakeOuterCompositeSerializeOpts struct
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFakeOuterCompositeSerializeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**optional.Interface of OuterComposite**](OuterComposite.md)| Input composite as post body | 
+ **body** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | 
 
 ### Return type
 
@@ -143,28 +140,24 @@ No authorization required
 
 ## FakeOuterNumberSerialize
 
-> float32 FakeOuterNumberSerialize(ctx, optional)
+> float32 FakeOuterNumberSerialize(ctx).Body(body).Execute()
 
 
 
-Test serialization of outer number types
-
-### Required Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***FakeOuterNumberSerializeOpts** | optional parameters | nil if no parameters
+### Path Parameters
 
-### Optional Parameters
 
-Optional parameters are passed through a pointer to a FakeOuterNumberSerializeOpts struct
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFakeOuterNumberSerializeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **optional.Float32**| Input number as post body | 
+ **body** | **float32** | Input number as post body | 
 
 ### Return type
 
@@ -186,28 +179,24 @@ No authorization required
 
 ## FakeOuterStringSerialize
 
-> string FakeOuterStringSerialize(ctx, optional)
+> string FakeOuterStringSerialize(ctx).Body(body).Execute()
 
 
 
-Test serialization of outer string types
-
-### Required Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***FakeOuterStringSerializeOpts** | optional parameters | nil if no parameters
+### Path Parameters
 
-### Optional Parameters
 
-Optional parameters are passed through a pointer to a FakeOuterStringSerializeOpts struct
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFakeOuterStringSerializeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **optional.String**| Input string as post body | 
+ **body** | **string** | Input string as post body | 
 
 ### Return type
 
@@ -229,19 +218,24 @@ No authorization required
 
 ## TestBodyWithFileSchema
 
-> TestBodyWithFileSchema(ctx, body)
+> TestBodyWithFileSchema(ctx).Body(body).Execute()
 
 
 
-For this test, the body for this request much reference a schema named `File`.
 
-### Required Parameters
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestBodyWithFileSchemaRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md) |  | 
 
 ### Return type
 
@@ -263,18 +257,23 @@ No authorization required
 
 ## TestBodyWithQueryParams
 
-> TestBodyWithQueryParams(ctx, query, body)
+> TestBodyWithQueryParams(ctx).Query(query).Body(body).Execute()
 
 
 
-### Required Parameters
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestBodyWithQueryParamsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**query** | **string**|  | 
-**body** | [**User**](User.md)|  | 
+ **query** | **string** |  | 
+ **body** | [**User**](User.md) |  | 
 
 ### Return type
 
@@ -296,19 +295,24 @@ No authorization required
 
 ## TestClientModel
 
-> Client TestClientModel(ctx, body)
+> Client TestClientModel(ctx).Body(body).Execute()
 
 To test \"client\" model
 
-To test \"client\" model
 
-### Required Parameters
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestClientModelRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md) | client model | 
 
 ### Return type
 
@@ -330,45 +334,41 @@ No authorization required
 
 ## TestEndpointParameters
 
-> TestEndpointParameters(ctx, number, double, patternWithoutDelimiter, byte_, optional)
+> TestEndpointParameters(ctx).Number(number).Double(double).PatternWithoutDelimiter(patternWithoutDelimiter).Byte_(byte_).Integer(integer).Int32_(int32_).Int64_(int64_).Float(float).String_(string_).Binary(binary).Date(date).DateTime(dateTime).Password(password).Callback(callback).Execute()
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
+<<<<<<< HEAD
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+=======
+>>>>>>> [go-experimental] Use builder pattern for requests
 
-### Required Parameters
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestEndpointParametersRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**number** | **float32**| None | 
-**double** | **float64**| None | 
-**patternWithoutDelimiter** | **string**| None | 
-**byte_** | **string**| None | 
- **optional** | ***TestEndpointParametersOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a TestEndpointParametersOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
-
-
- **integer** | **optional.Int32**| None | 
- **int32_** | **optional.Int32**| None | 
- **int64_** | **optional.Int64**| None | 
- **float** | **optional.Float32**| None | 
- **string_** | **optional.String**| None | 
- **binary** | **optional.Interface of *os.File****optional.*os.File**| None | 
- **date** | **optional.String**| None | 
- **dateTime** | **optional.Time**| None | 
- **password** | **optional.String**| None | 
- **callback** | **optional.String**| None | 
+ **number** | **float32** | None | 
+ **double** | **float64** | None | 
+ **patternWithoutDelimiter** | **string** | None | 
+ **byte_** | **string** | None | 
+ **integer** | **int32** | None | 
+ **int32_** | **int32** | None | 
+ **int64_** | **int64** | None | 
+ **float** | **float32** | None | 
+ **string_** | **string** | None | 
+ **binary** | ***os.File** | None | 
+ **date** | **string** | None | 
+ **dateTime** | **time.Time** | None | 
+ **password** | **string** | None | 
+ **callback** | **string** | None | 
 
 ### Return type
 
@@ -390,35 +390,31 @@ Name | Type | Description  | Notes
 
 ## TestEnumParameters
 
-> TestEnumParameters(ctx, optional)
+> TestEnumParameters(ctx).EnumHeaderStringArray(enumHeaderStringArray).EnumHeaderString(enumHeaderString).EnumQueryStringArray(enumQueryStringArray).EnumQueryString(enumQueryString).EnumQueryInteger(enumQueryInteger).EnumQueryDouble(enumQueryDouble).EnumFormStringArray(enumFormStringArray).EnumFormString(enumFormString).Execute()
 
 To test enum parameters
 
-To test enum parameters
 
-### Required Parameters
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestEnumParametersRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***TestEnumParametersOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a TestEnumParametersOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**optional.Interface of []string**](string.md)| Header parameter enum test (string array) | 
- **enumHeaderString** | **optional.String**| Header parameter enum test (string) | [default to -efg]
- **enumQueryStringArray** | [**optional.Interface of []string**](string.md)| Query parameter enum test (string array) | 
- **enumQueryString** | **optional.String**| Query parameter enum test (string) | [default to -efg]
- **enumQueryInteger** | **optional.Int32**| Query parameter enum test (double) | 
- **enumQueryDouble** | **optional.Float64**| Query parameter enum test (double) | 
- **enumFormStringArray** | [**optional.Interface of []string**](string.md)| Form parameter enum test (string array) | [default to $]
- **enumFormString** | **optional.String**| Form parameter enum test (string) | [default to -efg]
+ **enumHeaderStringArray** | [**[]string**](string.md) | Header parameter enum test (string array) | 
+ **enumHeaderString** | **string** | Header parameter enum test (string) | [default to -efg]
+ **enumQueryStringArray** | [**[]string**](string.md) | Query parameter enum test (string array) | 
+ **enumQueryString** | **string** | Query parameter enum test (string) | [default to -efg]
+ **enumQueryInteger** | **int32** | Query parameter enum test (double) | 
+ **enumQueryDouble** | **float64** | Query parameter enum test (double) | 
+ **enumFormStringArray** | [**[]string**](string.md) | Form parameter enum test (string array) | [default to $]
+ **enumFormString** | **string** | Form parameter enum test (string) | [default to -efg]
 
 ### Return type
 
@@ -440,36 +436,29 @@ No authorization required
 
 ## TestGroupParameters
 
-> TestGroupParameters(ctx, requiredStringGroup, requiredBooleanGroup, requiredInt64Group, optional)
+> TestGroupParameters(ctx).RequiredStringGroup(requiredStringGroup).RequiredBooleanGroup(requiredBooleanGroup).RequiredInt64Group(requiredInt64Group).StringGroup(stringGroup).BooleanGroup(booleanGroup).Int64Group(int64Group).Execute()
 
 Fake endpoint to test group parameters (optional)
 
-Fake endpoint to test group parameters (optional)
 
-### Required Parameters
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestGroupParametersRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**requiredStringGroup** | **int32**| Required String in group parameters | 
-**requiredBooleanGroup** | **bool**| Required Boolean in group parameters | 
-**requiredInt64Group** | **int64**| Required Integer in group parameters | 
- **optional** | ***TestGroupParametersOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a TestGroupParametersOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
-
- **stringGroup** | **optional.Int32**| String in group parameters | 
- **booleanGroup** | **optional.Bool**| Boolean in group parameters | 
- **int64Group** | **optional.Int64**| Integer in group parameters | 
+ **requiredStringGroup** | **int32** | Required String in group parameters | 
+ **requiredBooleanGroup** | **bool** | Required Boolean in group parameters | 
+ **requiredInt64Group** | **int64** | Required Integer in group parameters | 
+ **stringGroup** | **int32** | String in group parameters | 
+ **booleanGroup** | **bool** | Boolean in group parameters | 
+ **int64Group** | **int64** | Integer in group parameters | 
 
 ### Return type
 
@@ -491,17 +480,22 @@ No authorization required
 
 ## TestInlineAdditionalProperties
 
-> TestInlineAdditionalProperties(ctx, param)
+> TestInlineAdditionalProperties(ctx).Param(param).Execute()
 
 test inline additionalProperties
 
-### Required Parameters
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestInlineAdditionalPropertiesRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**param** | [**map[string]string**](string.md)| request body | 
+ **param** | [**map[string]string**](string.md) | request body | 
 
 ### Return type
 
@@ -523,18 +517,23 @@ No authorization required
 
 ## TestJsonFormData
 
-> TestJsonFormData(ctx, param, param2)
+> TestJsonFormData(ctx).Param(param).Param2(param2).Execute()
 
 test json serialization of form data
 
-### Required Parameters
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestJsonFormDataRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**param** | **string**| field1 | 
-**param2** | **string**| field2 | 
+ **param** | **string** | field1 | 
+ **param2** | **string** | field2 | 
 
 ### Return type
 
@@ -556,23 +555,28 @@ No authorization required
 
 ## TestQueryParameterCollectionFormat
 
-> TestQueryParameterCollectionFormat(ctx, pipe, ioutil, http, url, context)
+> TestQueryParameterCollectionFormat(ctx).Pipe(pipe).Ioutil(ioutil).Http(http).Url(url).Context(context).Execute()
 
 
 
-To test the collection format in query parameters
 
-### Required Parameters
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestQueryParameterCollectionFormatRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**pipe** | [**[]string**](string.md)|  | 
-**ioutil** | [**[]string**](string.md)|  | 
-**http** | [**[]string**](string.md)|  | 
-**url** | [**[]string**](string.md)|  | 
-**context** | [**[]string**](string.md)|  | 
+ **pipe** | [**[]string**](string.md) |  | 
+ **ioutil** | [**[]string**](string.md) |  | 
+ **http** | [**[]string**](string.md) |  | 
+ **url** | [**[]string**](string.md) |  | 
+ **context** | [**[]string**](string.md) |  | 
 
 ### Return type
 

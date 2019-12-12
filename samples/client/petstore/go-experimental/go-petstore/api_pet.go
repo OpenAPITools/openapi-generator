@@ -15,7 +15,6 @@ import (
 	_nethttp "net/http"
 	_neturl "net/url"
 	"strings"
-	"github.com/antihax/optional"
 	"os"
 )
 
@@ -27,20 +26,45 @@ var (
 // PetApiService PetApi service
 type PetApiService service
 
+type apiAddPetRequest struct {
+    ctx _context.Context
+    apiService *PetApiService
+    body *Pet
+}
+
+
+func (r apiAddPetRequest) Body(body Pet) apiAddPetRequest {
+    r.body = &body
+    return r
+}
+
 /*
 AddPet Add a new pet to the store
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body Pet object that needs to be added to the store
+@return apiAddPetRequest
 */
-func (a *PetApiService) AddPet(ctx _context.Context, body Pet) (*_nethttp.Response, error) {
+func (a *PetApiService) AddPet(ctx _context.Context) apiAddPetRequest {
+    return apiAddPetRequest{
+        apiService: a,
+        ctx: ctx,
+    }
+}
+
+/*
+Execute executes the request
+
+*/
+func (r apiAddPetRequest) Execute() (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		
 	)
 
+<<<<<<< HEAD
 	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.AddPet")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
@@ -48,9 +72,17 @@ func (a *PetApiService) AddPet(ctx _context.Context, body Pet) (*_nethttp.Respon
 
 	localVarPath := localBasePath + "/pet"
 
+=======
+	// create path and map variables
+	localVarPath := r.apiService.client.cfg.BasePath + "/pet"
+>>>>>>> [go-experimental] Use builder pattern for requests
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	
+    if r.body == nil {
+        return nil, reportError("body is required and must be specified")
+    }
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json", "application/xml"}
@@ -70,13 +102,13 @@ func (a *PetApiService) AddPet(ctx _context.Context, body Pet) (*_nethttp.Respon
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = &body
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	localVarPostBody = *r.body
+	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
 	}
 
-	localVarHTTPResponse, err := a.client.callAPI(r)
+	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarHTTPResponse, err
 	}
@@ -97,28 +129,48 @@ func (a *PetApiService) AddPet(ctx _context.Context, body Pet) (*_nethttp.Respon
 
 	return localVarHTTPResponse, nil
 }
+type apiDeletePetRequest struct {
+    ctx _context.Context
+    apiService *PetApiService
+    petId int64
+    apiKey *string
+}
 
-// DeletePetOpts Optional parameters for the method 'DeletePet'
-type DeletePetOpts struct {
-    ApiKey optional.String
+
+func (r apiDeletePetRequest) ApiKey(apiKey string) apiDeletePetRequest {
+    r.apiKey = &apiKey
+    return r
 }
 
 /*
 DeletePet Deletes a pet
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId Pet id to delete
- * @param optional nil or *DeletePetOpts - Optional Parameters:
- * @param "ApiKey" (optional.String) - 
+@return apiDeletePetRequest
 */
-func (a *PetApiService) DeletePet(ctx _context.Context, petId int64, localVarOptionals *DeletePetOpts) (*_nethttp.Response, error) {
+func (a *PetApiService) DeletePet(ctx _context.Context, petId int64) apiDeletePetRequest {
+    return apiDeletePetRequest{
+        apiService: a,
+        ctx: ctx,
+        petId: petId,
+    }
+}
+
+/*
+Execute executes the request
+
+*/
+func (r apiDeletePetRequest) Execute() (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		
 	)
 
+<<<<<<< HEAD
 	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.DeletePet")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
@@ -126,11 +178,17 @@ func (a *PetApiService) DeletePet(ctx _context.Context, petId int64, localVarOpt
 
 	localVarPath := localBasePath + "/pet/{petId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+=======
+	// create path and map variables
+	localVarPath := r.apiService.client.cfg.BasePath + "/pet/{petId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(r.petId, "")) , -1)
+>>>>>>> [go-experimental] Use builder pattern for requests
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-
+	
+	
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -148,15 +206,15 @@ func (a *PetApiService) DeletePet(ctx _context.Context, petId int64, localVarOpt
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals.ApiKey.IsSet() {
-		localVarHeaderParams["api_key"] = parameterToString(localVarOptionals.ApiKey.Value(), "")
+	if r.apiKey != nil {
+		localVarHeaderParams["api_key"] = parameterToString(*r.apiKey, "")
 	}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
 	}
 
-	localVarHTTPResponse, err := a.client.callAPI(r)
+	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarHTTPResponse, err
 	}
@@ -177,15 +235,36 @@ func (a *PetApiService) DeletePet(ctx _context.Context, petId int64, localVarOpt
 
 	return localVarHTTPResponse, nil
 }
+type apiFindPetsByStatusRequest struct {
+    ctx _context.Context
+    apiService *PetApiService
+    status *[]string
+}
+
+
+func (r apiFindPetsByStatusRequest) Status(status []string) apiFindPetsByStatusRequest {
+    r.status = &status
+    return r
+}
 
 /*
 FindPetsByStatus Finds Pets by status
 Multiple status values can be provided with comma separated strings
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param status Status values that need to be considered for filter
-@return []Pet
+@return apiFindPetsByStatusRequest
 */
-func (a *PetApiService) FindPetsByStatus(ctx _context.Context, status []string) ([]Pet, *_nethttp.Response, error) {
+func (a *PetApiService) FindPetsByStatus(ctx _context.Context) apiFindPetsByStatusRequest {
+    return apiFindPetsByStatusRequest{
+        apiService: a,
+        ctx: ctx,
+    }
+}
+
+/*
+Execute executes the request
+ @return []Pet
+*/
+func (r apiFindPetsByStatusRequest) Execute() ([]Pet, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
@@ -195,6 +274,7 @@ func (a *PetApiService) FindPetsByStatus(ctx _context.Context, status []string) 
 		localVarReturnValue  []Pet
 	)
 
+<<<<<<< HEAD
 	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.FindPetsByStatus")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
@@ -202,11 +282,19 @@ func (a *PetApiService) FindPetsByStatus(ctx _context.Context, status []string) 
 
 	localVarPath := localBasePath + "/pet/findByStatus"
 
+=======
+	// create path and map variables
+	localVarPath := r.apiService.client.cfg.BasePath + "/pet/findByStatus"
+>>>>>>> [go-experimental] Use builder pattern for requests
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	
+    if r.status == nil {
+        return localVarReturnValue, nil, reportError("status is required and must be specified")
+    }
 
-	localVarQueryParams.Add("status", parameterToString(status, "csv"))
+	localVarQueryParams.Add("status", parameterToString(*r.status, "csv"))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -224,12 +312,12 @@ func (a *PetApiService) FindPetsByStatus(ctx _context.Context, status []string) 
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.client.callAPI(r)
+	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -247,7 +335,7 @@ func (a *PetApiService) FindPetsByStatus(ctx _context.Context, status []string) 
 		}
 		if localVarHTTPResponse.StatusCode == 200 {
 			var v []Pet
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = r.apiService.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
@@ -258,7 +346,7 @@ func (a *PetApiService) FindPetsByStatus(ctx _context.Context, status []string) 
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = r.apiService.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -269,15 +357,36 @@ func (a *PetApiService) FindPetsByStatus(ctx _context.Context, status []string) 
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
+type apiFindPetsByTagsRequest struct {
+    ctx _context.Context
+    apiService *PetApiService
+    tags *[]string
+}
+
+
+func (r apiFindPetsByTagsRequest) Tags(tags []string) apiFindPetsByTagsRequest {
+    r.tags = &tags
+    return r
+}
 
 /*
 FindPetsByTags Finds Pets by tags
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param tags Tags to filter by
-@return []Pet
+@return apiFindPetsByTagsRequest
 */
-func (a *PetApiService) FindPetsByTags(ctx _context.Context, tags []string) ([]Pet, *_nethttp.Response, error) {
+func (a *PetApiService) FindPetsByTags(ctx _context.Context) apiFindPetsByTagsRequest {
+    return apiFindPetsByTagsRequest{
+        apiService: a,
+        ctx: ctx,
+    }
+}
+
+/*
+Execute executes the request
+ @return []Pet
+*/
+func (r apiFindPetsByTagsRequest) Execute() ([]Pet, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
@@ -287,6 +396,7 @@ func (a *PetApiService) FindPetsByTags(ctx _context.Context, tags []string) ([]P
 		localVarReturnValue  []Pet
 	)
 
+<<<<<<< HEAD
 	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.FindPetsByTags")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
@@ -294,11 +404,19 @@ func (a *PetApiService) FindPetsByTags(ctx _context.Context, tags []string) ([]P
 
 	localVarPath := localBasePath + "/pet/findByTags"
 
+=======
+	// create path and map variables
+	localVarPath := r.apiService.client.cfg.BasePath + "/pet/findByTags"
+>>>>>>> [go-experimental] Use builder pattern for requests
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	
+    if r.tags == nil {
+        return localVarReturnValue, nil, reportError("tags is required and must be specified")
+    }
 
-	localVarQueryParams.Add("tags", parameterToString(tags, "csv"))
+	localVarQueryParams.Add("tags", parameterToString(*r.tags, "csv"))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -316,12 +434,12 @@ func (a *PetApiService) FindPetsByTags(ctx _context.Context, tags []string) ([]P
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.client.callAPI(r)
+	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -339,7 +457,7 @@ func (a *PetApiService) FindPetsByTags(ctx _context.Context, tags []string) ([]P
 		}
 		if localVarHTTPResponse.StatusCode == 200 {
 			var v []Pet
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = r.apiService.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
@@ -350,7 +468,7 @@ func (a *PetApiService) FindPetsByTags(ctx _context.Context, tags []string) ([]P
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = r.apiService.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -361,15 +479,33 @@ func (a *PetApiService) FindPetsByTags(ctx _context.Context, tags []string) ([]P
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
+type apiGetPetByIdRequest struct {
+    ctx _context.Context
+    apiService *PetApiService
+    petId int64
+}
+
 
 /*
 GetPetById Find pet by ID
 Returns a single pet
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet to return
-@return Pet
+@return apiGetPetByIdRequest
 */
-func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_nethttp.Response, error) {
+func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) apiGetPetByIdRequest {
+    return apiGetPetByIdRequest{
+        apiService: a,
+        ctx: ctx,
+        petId: petId,
+    }
+}
+
+/*
+Execute executes the request
+ @return Pet
+*/
+func (r apiGetPetByIdRequest) Execute() (Pet, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
@@ -379,6 +515,7 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 		localVarReturnValue  Pet
 	)
 
+<<<<<<< HEAD
 	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.GetPetById")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
@@ -386,10 +523,16 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 
 	localVarPath := localBasePath + "/pet/{petId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+=======
+	// create path and map variables
+	localVarPath := r.apiService.client.cfg.BasePath + "/pet/{petId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(r.petId, "")) , -1)
+>>>>>>> [go-experimental] Use builder pattern for requests
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -408,9 +551,9 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	if ctx != nil {
+	if r.ctx != nil {
 		// API Key Authentication
-		if auth, ok := ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if auth, ok := auth["api_key"]; ok {
 				var key string
 				if auth.Prefix != "" {
@@ -422,12 +565,12 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 			}
 		}
 	}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.client.callAPI(r)
+	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -445,7 +588,7 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 		}
 		if localVarHTTPResponse.StatusCode == 200 {
 			var v Pet
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = r.apiService.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
@@ -456,7 +599,7 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = r.apiService.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -467,21 +610,45 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
+type apiUpdatePetRequest struct {
+    ctx _context.Context
+    apiService *PetApiService
+    body *Pet
+}
+
+
+func (r apiUpdatePetRequest) Body(body Pet) apiUpdatePetRequest {
+    r.body = &body
+    return r
+}
 
 /*
 UpdatePet Update an existing pet
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body Pet object that needs to be added to the store
+@return apiUpdatePetRequest
 */
-func (a *PetApiService) UpdatePet(ctx _context.Context, body Pet) (*_nethttp.Response, error) {
+func (a *PetApiService) UpdatePet(ctx _context.Context) apiUpdatePetRequest {
+    return apiUpdatePetRequest{
+        apiService: a,
+        ctx: ctx,
+    }
+}
+
+/*
+Execute executes the request
+
+*/
+func (r apiUpdatePetRequest) Execute() (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPut
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		
 	)
 
+<<<<<<< HEAD
 	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.UpdatePet")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
@@ -489,9 +656,17 @@ func (a *PetApiService) UpdatePet(ctx _context.Context, body Pet) (*_nethttp.Res
 
 	localVarPath := localBasePath + "/pet"
 
+=======
+	// create path and map variables
+	localVarPath := r.apiService.client.cfg.BasePath + "/pet"
+>>>>>>> [go-experimental] Use builder pattern for requests
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	
+    if r.body == nil {
+        return nil, reportError("body is required and must be specified")
+    }
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json", "application/xml"}
@@ -511,13 +686,13 @@ func (a *PetApiService) UpdatePet(ctx _context.Context, body Pet) (*_nethttp.Res
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = &body
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	localVarPostBody = *r.body
+	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
 	}
 
-	localVarHTTPResponse, err := a.client.callAPI(r)
+	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarHTTPResponse, err
 	}
@@ -538,30 +713,54 @@ func (a *PetApiService) UpdatePet(ctx _context.Context, body Pet) (*_nethttp.Res
 
 	return localVarHTTPResponse, nil
 }
+type apiUpdatePetWithFormRequest struct {
+    ctx _context.Context
+    apiService *PetApiService
+    petId int64
+    name *string
+    status *string
+}
 
-// UpdatePetWithFormOpts Optional parameters for the method 'UpdatePetWithForm'
-type UpdatePetWithFormOpts struct {
-    Name optional.String
-    Status optional.String
+
+func (r apiUpdatePetWithFormRequest) Name(name string) apiUpdatePetWithFormRequest {
+    r.name = &name
+    return r
+}
+
+func (r apiUpdatePetWithFormRequest) Status(status string) apiUpdatePetWithFormRequest {
+    r.status = &status
+    return r
 }
 
 /*
 UpdatePetWithForm Updates a pet in the store with form data
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet that needs to be updated
- * @param optional nil or *UpdatePetWithFormOpts - Optional Parameters:
- * @param "Name" (optional.String) -  Updated name of the pet
- * @param "Status" (optional.String) -  Updated status of the pet
+@return apiUpdatePetWithFormRequest
 */
-func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, localVarOptionals *UpdatePetWithFormOpts) (*_nethttp.Response, error) {
+func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64) apiUpdatePetWithFormRequest {
+    return apiUpdatePetWithFormRequest{
+        apiService: a,
+        ctx: ctx,
+        petId: petId,
+    }
+}
+
+/*
+Execute executes the request
+
+*/
+func (r apiUpdatePetWithFormRequest) Execute() (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
+		
 	)
 
+<<<<<<< HEAD
 	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.UpdatePetWithForm")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
@@ -569,11 +768,17 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, loc
 
 	localVarPath := localBasePath + "/pet/{petId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+=======
+	// create path and map variables
+	localVarPath := r.apiService.client.cfg.BasePath + "/pet/{petId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(r.petId, "")) , -1)
+>>>>>>> [go-experimental] Use builder pattern for requests
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-
+	
+		
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
 
@@ -591,18 +796,18 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, loc
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals.Name.IsSet() {
-		localVarFormParams.Add("name", parameterToString(localVarOptionals.Name.Value(), ""))
+	if r.name != nil {
+		localVarFormParams.Add("name", parameterToString(*r.name, ""))
 	}
-	if localVarOptionals != nil && localVarOptionals.Status.IsSet() {
-		localVarFormParams.Add("status", parameterToString(localVarOptionals.Status.Value(), ""))
+	if r.status != nil {
+		localVarFormParams.Add("status", parameterToString(*r.status, ""))
 	}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
 	}
 
-	localVarHTTPResponse, err := a.client.callAPI(r)
+	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarHTTPResponse, err
 	}
@@ -623,23 +828,44 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, loc
 
 	return localVarHTTPResponse, nil
 }
+type apiUploadFileRequest struct {
+    ctx _context.Context
+    apiService *PetApiService
+    petId int64
+    additionalMetadata *string
+    file **os.File
+}
 
-// UploadFileOpts Optional parameters for the method 'UploadFile'
-type UploadFileOpts struct {
-    AdditionalMetadata optional.String
-    File optional.Interface
+
+func (r apiUploadFileRequest) AdditionalMetadata(additionalMetadata string) apiUploadFileRequest {
+    r.additionalMetadata = &additionalMetadata
+    return r
+}
+
+func (r apiUploadFileRequest) File(file *os.File) apiUploadFileRequest {
+    r.file = &file
+    return r
 }
 
 /*
 UploadFile uploads an image
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet to update
- * @param optional nil or *UploadFileOpts - Optional Parameters:
- * @param "AdditionalMetadata" (optional.String) -  Additional data to pass to server
- * @param "File" (optional.Interface of *os.File) -  file to upload
-@return ApiResponse
+@return apiUploadFileRequest
 */
-func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOptionals *UploadFileOpts) (ApiResponse, *_nethttp.Response, error) {
+func (a *PetApiService) UploadFile(ctx _context.Context, petId int64) apiUploadFileRequest {
+    return apiUploadFileRequest{
+        apiService: a,
+        ctx: ctx,
+        petId: petId,
+    }
+}
+
+/*
+Execute executes the request
+ @return ApiResponse
+*/
+func (r apiUploadFileRequest) Execute() (ApiResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -649,6 +875,7 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 		localVarReturnValue  ApiResponse
 	)
 
+<<<<<<< HEAD
 	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.UploadFile")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
@@ -656,11 +883,17 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 
 	localVarPath := localBasePath + "/pet/{petId}/uploadImage"
 	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+=======
+	// create path and map variables
+	localVarPath := r.apiService.client.cfg.BasePath + "/pet/{petId}/uploadImage"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(r.petId, "")) , -1)
+>>>>>>> [go-experimental] Use builder pattern for requests
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-
+	
+		
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"multipart/form-data"}
 
@@ -678,17 +911,13 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals.AdditionalMetadata.IsSet() {
-		localVarFormParams.Add("additionalMetadata", parameterToString(localVarOptionals.AdditionalMetadata.Value(), ""))
+	if r.additionalMetadata != nil {
+		localVarFormParams.Add("additionalMetadata", parameterToString(*r.additionalMetadata, ""))
 	}
 	localVarFormFileName = "file"
 	var localVarFile *os.File
-	if localVarOptionals != nil && localVarOptionals.File.IsSet() {
-		localVarFileOk := false
-		localVarFile, localVarFileOk = localVarOptionals.File.Value().(*os.File)
-		if !localVarFileOk {
-				return localVarReturnValue, nil, reportError("file should be *os.File")
-		}
+	if r.file != nil {
+		localVarFile = *r.file
 	}
 	if localVarFile != nil {
 		fbs, _ := _ioutil.ReadAll(localVarFile)
@@ -696,12 +925,12 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 		localVarFileName = localVarFile.Name()
 		localVarFile.Close()
 	}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.client.callAPI(r)
+	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -719,7 +948,7 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 		}
 		if localVarHTTPResponse.StatusCode == 200 {
 			var v ApiResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = r.apiService.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
@@ -729,7 +958,7 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = r.apiService.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -740,22 +969,44 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
+type apiUploadFileWithRequiredFileRequest struct {
+    ctx _context.Context
+    apiService *PetApiService
+    petId int64
+    requiredFile **os.File
+    additionalMetadata *string
+}
 
-// UploadFileWithRequiredFileOpts Optional parameters for the method 'UploadFileWithRequiredFile'
-type UploadFileWithRequiredFileOpts struct {
-    AdditionalMetadata optional.String
+
+func (r apiUploadFileWithRequiredFileRequest) RequiredFile(requiredFile *os.File) apiUploadFileWithRequiredFileRequest {
+    r.requiredFile = &requiredFile
+    return r
+}
+
+func (r apiUploadFileWithRequiredFileRequest) AdditionalMetadata(additionalMetadata string) apiUploadFileWithRequiredFileRequest {
+    r.additionalMetadata = &additionalMetadata
+    return r
 }
 
 /*
 UploadFileWithRequiredFile uploads an image (required)
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet to update
- * @param requiredFile file to upload
- * @param optional nil or *UploadFileWithRequiredFileOpts - Optional Parameters:
- * @param "AdditionalMetadata" (optional.String) -  Additional data to pass to server
-@return ApiResponse
+@return apiUploadFileWithRequiredFileRequest
 */
-func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId int64, requiredFile *os.File, localVarOptionals *UploadFileWithRequiredFileOpts) (ApiResponse, *_nethttp.Response, error) {
+func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId int64) apiUploadFileWithRequiredFileRequest {
+    return apiUploadFileWithRequiredFileRequest{
+        apiService: a,
+        ctx: ctx,
+        petId: petId,
+    }
+}
+
+/*
+Execute executes the request
+ @return ApiResponse
+*/
+func (r apiUploadFileWithRequiredFileRequest) Execute() (ApiResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -765,6 +1016,7 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 		localVarReturnValue  ApiResponse
 	)
 
+<<<<<<< HEAD
 	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.UploadFileWithRequiredFile")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
@@ -772,11 +1024,21 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 
 	localVarPath := localBasePath + "/fake/{petId}/uploadImageWithRequiredFile"
 	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+=======
+	// create path and map variables
+	localVarPath := r.apiService.client.cfg.BasePath + "/fake/{petId}/uploadImageWithRequiredFile"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(r.petId, "")) , -1)
+>>>>>>> [go-experimental] Use builder pattern for requests
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-
+	
+	
+    if r.requiredFile == nil {
+        return localVarReturnValue, nil, reportError("requiredFile is required and must be specified")
+    }
+	
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"multipart/form-data"}
 
@@ -794,23 +1056,23 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals.AdditionalMetadata.IsSet() {
-		localVarFormParams.Add("additionalMetadata", parameterToString(localVarOptionals.AdditionalMetadata.Value(), ""))
+	if r.additionalMetadata != nil {
+		localVarFormParams.Add("additionalMetadata", parameterToString(*r.additionalMetadata, ""))
 	}
 	localVarFormFileName = "requiredFile"
-	localVarFile := requiredFile
+	localVarFile := *r.requiredFile
 	if localVarFile != nil {
 		fbs, _ := _ioutil.ReadAll(localVarFile)
 		localVarFileBytes = fbs
 		localVarFileName = localVarFile.Name()
 		localVarFile.Close()
 	}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.client.callAPI(r)
+	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -828,7 +1090,7 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 		}
 		if localVarHTTPResponse.StatusCode == 200 {
 			var v ApiResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = r.apiService.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
@@ -838,7 +1100,7 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = r.apiService.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
