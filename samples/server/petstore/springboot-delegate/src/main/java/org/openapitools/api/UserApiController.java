@@ -2,7 +2,10 @@ package org.openapitools.api;
 
 import java.util.List;
 import org.openapitools.model.User;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.enums.*;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +41,12 @@ public class UserApiController implements UserApi {
      * @return successful operation (status code 200)
      * @see UserApi#createUser
      */
-    public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body) {
+    public ResponseEntity<Void> createUser(
+
+
+@Parameter(description = "Created user object" ,required=true)@Valid @RequestBody User body
+
+) {
         return delegate.createUser(body);
     }
 
@@ -49,7 +57,12 @@ public class UserApiController implements UserApi {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    public ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body) {
+    public ResponseEntity<Void> createUsersWithArrayInput(
+
+
+@Parameter(description = "List of user object" ,required=true)@Valid @RequestBody List<User> body
+
+) {
         return delegate.createUsersWithArrayInput(body);
     }
 
@@ -60,7 +73,12 @@ public class UserApiController implements UserApi {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    public ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body) {
+    public ResponseEntity<Void> createUsersWithListInput(
+
+
+@Parameter(description = "List of user object" ,required=true)@Valid @RequestBody List<User> body
+
+) {
         return delegate.createUsersWithListInput(body);
     }
 
@@ -73,7 +91,12 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
-    public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
+    public ResponseEntity<Void> deleteUser(
+@Parameter(description = "The name that needs to be deleted",required=true)@PathVariable("username") String username
+
+
+
+) {
         return delegate.deleteUser(username);
     }
 
@@ -86,7 +109,12 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username) {
+    public ResponseEntity<User> getUserByName(
+@Parameter(description = "The name that needs to be fetched. Use user1 for testing.",required=true)@PathVariable("username") String username
+
+
+
+) {
         return delegate.getUserByName(username);
     }
 
@@ -99,7 +127,17 @@ public class UserApiController implements UserApi {
      *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
-    public ResponseEntity<String> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password) {
+    public ResponseEntity<String> loginUser(@NotNull @Parameter(description = "The user name for login", required = true)@Valid @RequestParam(value = "username", required = true) String username
+
+
+
+
+,@NotNull @Parameter(description = "The password for login in clear text", required = true)@Valid @RequestParam(value = "password", required = true) String password
+
+
+
+
+) {
         return delegate.loginUser(username, password);
     }
 
@@ -123,7 +161,17 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    public ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body) {
+    public ResponseEntity<Void> updateUser(
+@Parameter(description = "name that need to be deleted",required=true)@PathVariable("username") String username
+
+
+
+,
+
+
+@Parameter(description = "Updated user object" ,required=true)@Valid @RequestBody User body
+
+) {
         return delegate.updateUser(username, body);
     }
 

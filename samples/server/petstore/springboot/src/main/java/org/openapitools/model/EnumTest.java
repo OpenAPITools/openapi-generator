@@ -4,9 +4,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.model.OuterEnum;
+import org.openapitools.model.OuterEnumDefaultValue;
+import org.openapitools.model.OuterEnumInteger;
+import org.openapitools.model.OuterEnumIntegerDefaultValue;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -157,7 +159,16 @@ public class EnumTest   {
   private EnumNumberEnum enumNumber;
 
   @JsonProperty("outerEnum")
-  private OuterEnum outerEnum;
+  private JsonNullable<OuterEnum> outerEnum = JsonNullable.undefined();
+
+  @JsonProperty("outerEnumInteger")
+  private OuterEnumInteger outerEnumInteger;
+
+  @JsonProperty("outerEnumDefaultValue")
+  private OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
+
+  @JsonProperty("outerEnumIntegerDefaultValue")
+  private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -168,7 +179,7 @@ public class EnumTest   {
    * Get enumString
    * @return enumString
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public EnumStringEnum getEnumString() {
@@ -188,7 +199,7 @@ public class EnumTest   {
    * Get enumStringRequired
    * @return enumStringRequired
   */
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @NotNull
 
 
@@ -209,7 +220,7 @@ public class EnumTest   {
    * Get enumInteger
    * @return enumInteger
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public EnumIntegerEnum getEnumInteger() {
@@ -229,7 +240,7 @@ public class EnumTest   {
    * Get enumNumber
    * @return enumNumber
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public EnumNumberEnum getEnumNumber() {
@@ -241,7 +252,7 @@ public class EnumTest   {
   }
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
-    this.outerEnum = outerEnum;
+    this.outerEnum = JsonNullable.of(outerEnum);
     return this;
   }
 
@@ -249,16 +260,79 @@ public class EnumTest   {
    * Get outerEnum
    * @return outerEnum
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
-  public OuterEnum getOuterEnum() {
+  public JsonNullable<OuterEnum> getOuterEnum() {
     return outerEnum;
   }
 
-  public void setOuterEnum(OuterEnum outerEnum) {
+  public void setOuterEnum(JsonNullable<OuterEnum> outerEnum) {
     this.outerEnum = outerEnum;
+  }
+
+  public EnumTest outerEnumInteger(OuterEnumInteger outerEnumInteger) {
+    this.outerEnumInteger = outerEnumInteger;
+    return this;
+  }
+
+  /**
+   * Get outerEnumInteger
+   * @return outerEnumInteger
+  */
+  @Schema(description = "")
+
+  @Valid
+
+  public OuterEnumInteger getOuterEnumInteger() {
+    return outerEnumInteger;
+  }
+
+  public void setOuterEnumInteger(OuterEnumInteger outerEnumInteger) {
+    this.outerEnumInteger = outerEnumInteger;
+  }
+
+  public EnumTest outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
+    this.outerEnumDefaultValue = outerEnumDefaultValue;
+    return this;
+  }
+
+  /**
+   * Get outerEnumDefaultValue
+   * @return outerEnumDefaultValue
+  */
+  @Schema(description = "")
+
+  @Valid
+
+  public OuterEnumDefaultValue getOuterEnumDefaultValue() {
+    return outerEnumDefaultValue;
+  }
+
+  public void setOuterEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
+    this.outerEnumDefaultValue = outerEnumDefaultValue;
+  }
+
+  public EnumTest outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+    this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+    return this;
+  }
+
+  /**
+   * Get outerEnumIntegerDefaultValue
+   * @return outerEnumIntegerDefaultValue
+  */
+  @Schema(description = "")
+
+  @Valid
+
+  public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
+    return outerEnumIntegerDefaultValue;
+  }
+
+  public void setOuterEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+    this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
   }
 
 
@@ -275,12 +349,15 @@ public class EnumTest   {
         Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
         Objects.equals(this.enumInteger, enumTest.enumInteger) &&
         Objects.equals(this.enumNumber, enumTest.enumNumber) &&
-        Objects.equals(this.outerEnum, enumTest.outerEnum);
+        Objects.equals(this.outerEnum, enumTest.outerEnum) &&
+        Objects.equals(this.outerEnumInteger, enumTest.outerEnumInteger) &&
+        Objects.equals(this.outerEnumDefaultValue, enumTest.outerEnumDefaultValue) &&
+        Objects.equals(this.outerEnumIntegerDefaultValue, enumTest.outerEnumIntegerDefaultValue);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
+    return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum, outerEnumInteger, outerEnumDefaultValue, outerEnumIntegerDefaultValue);
   }
 
   @Override
@@ -293,6 +370,9 @@ public class EnumTest   {
     sb.append("    enumInteger: ").append(toIndentedString(enumInteger)).append("\n");
     sb.append("    enumNumber: ").append(toIndentedString(enumNumber)).append("\n");
     sb.append("    outerEnum: ").append(toIndentedString(outerEnum)).append("\n");
+    sb.append("    outerEnumInteger: ").append(toIndentedString(outerEnumInteger)).append("\n");
+    sb.append("    outerEnumDefaultValue: ").append(toIndentedString(outerEnumDefaultValue)).append("\n");
+    sb.append("    outerEnumIntegerDefaultValue: ").append(toIndentedString(outerEnumIntegerDefaultValue)).append("\n");
     sb.append("}");
     return sb.toString();
   }

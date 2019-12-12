@@ -3,32 +3,32 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
-import java.util.Map;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * AdditionalPropertiesString
+ * InlineObject
  */
 
-public class AdditionalPropertiesString extends HashMap<String, String>  {
+public class InlineObject   {
   @JsonProperty("name")
   private String name;
 
-  public AdditionalPropertiesString name(String name) {
+  @JsonProperty("status")
+  private String status;
+
+  public InlineObject name(String name) {
     this.name = name;
     return this;
   }
 
   /**
-   * Get name
+   * Updated name of the pet
    * @return name
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "Updated name of the pet")
 
 
   public String getName() {
@@ -37,6 +37,26 @@ public class AdditionalPropertiesString extends HashMap<String, String>  {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public InlineObject status(String status) {
+    this.status = status;
+    return this;
+  }
+
+  /**
+   * Updated status of the pet
+   * @return status
+  */
+  @Schema(description = "Updated status of the pet")
+
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
   }
 
 
@@ -48,22 +68,23 @@ public class AdditionalPropertiesString extends HashMap<String, String>  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AdditionalPropertiesString additionalPropertiesString = (AdditionalPropertiesString) o;
-    return Objects.equals(this.name, additionalPropertiesString.name) &&
-        super.equals(o);
+    InlineObject inlineObject = (InlineObject) o;
+    return Objects.equals(this.name, inlineObject.name) &&
+        Objects.equals(this.status, inlineObject.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(name, status);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AdditionalPropertiesString {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("class InlineObject {\n");
+    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");
     return sb.toString();
   }

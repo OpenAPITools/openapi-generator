@@ -3,40 +3,39 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
-import java.util.Map;
+import io.swagger.v3.oas.annotations.media.Schema;
+import org.openapitools.model.Foo;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * AdditionalPropertiesAnyType
+ * InlineResponseDefault
  */
 
-public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
-  @JsonProperty("name")
-  private String name;
+public class InlineResponseDefault   {
+  @JsonProperty("string")
+  private Foo string;
 
-  public AdditionalPropertiesAnyType name(String name) {
-    this.name = name;
+  public InlineResponseDefault string(Foo string) {
+    this.string = string;
     return this;
   }
 
   /**
-   * Get name
-   * @return name
+   * Get string
+   * @return string
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
+  @Valid
 
-  public String getName() {
-    return name;
+  public Foo getString() {
+    return string;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setString(Foo string) {
+    this.string = string;
   }
 
 
@@ -48,22 +47,21 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AdditionalPropertiesAnyType additionalPropertiesAnyType = (AdditionalPropertiesAnyType) o;
-    return Objects.equals(this.name, additionalPropertiesAnyType.name) &&
-        super.equals(o);
+    InlineResponseDefault inlineResponseDefault = (InlineResponseDefault) o;
+    return Objects.equals(this.string, inlineResponseDefault.string);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(string);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AdditionalPropertiesAnyType {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("class InlineResponseDefault {\n");
+    
+    sb.append("    string: ").append(toIndentedString(string)).append("\n");
     sb.append("}");
     return sb.toString();
   }

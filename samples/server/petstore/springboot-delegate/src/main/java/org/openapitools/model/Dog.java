@@ -3,8 +3,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.model.Animal;
 import org.openapitools.model.DogAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -28,7 +27,7 @@ public class Dog extends Animal  {
    * Get breed
    * @return breed
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getBreed() {

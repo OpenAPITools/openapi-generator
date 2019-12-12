@@ -3,8 +3,7 @@ package org.openapitools.virtualan.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.virtualan.model.ReadOnlyFirst;
@@ -46,7 +45,7 @@ public class ArrayTest   {
    * Get arrayOfString
    * @return arrayOfString
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public List<String> getArrayOfString() {
@@ -74,7 +73,7 @@ public class ArrayTest   {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -103,7 +102,7 @@ public class ArrayTest   {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 

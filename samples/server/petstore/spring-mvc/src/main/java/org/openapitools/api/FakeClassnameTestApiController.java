@@ -1,7 +1,10 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Client;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.enums.*;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +42,12 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
      * @return successful operation (status code 200)
      * @see FakeClassnameTestApi#testClassname
      */
-    public ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
+    public ResponseEntity<Client> testClassname(
+
+
+@Parameter(description = "client model" ,required=true)@Valid @RequestBody Client body
+
+) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"client\" : \"client\" }";

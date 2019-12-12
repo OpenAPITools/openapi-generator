@@ -2,7 +2,10 @@ package org.openapitools.api;
 
 import java.util.Map;
 import org.openapitools.model.Order;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.enums.*;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +42,12 @@ public class StoreApiController implements StoreApi {
      *         or Order not found (status code 404)
      * @see StoreApi#deleteOrder
      */
-    public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
+    public ResponseEntity<Void> deleteOrder(
+@Parameter(description = "ID of the order that needs to be deleted",required=true)@PathVariable("order_id") String orderId
+
+
+
+) {
         return delegate.deleteOrder(orderId);
     }
 
@@ -64,7 +72,12 @@ public class StoreApiController implements StoreApi {
      *         or Order not found (status code 404)
      * @see StoreApi#getOrderById
      */
-    public ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId) {
+    public ResponseEntity<Order> getOrderById(
+@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true)@PathVariable("order_id") Long orderId
+
+
+
+) {
         return delegate.getOrderById(orderId);
     }
 
@@ -76,7 +89,12 @@ public class StoreApiController implements StoreApi {
      *         or Invalid Order (status code 400)
      * @see StoreApi#placeOrder
      */
-    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body) {
+    public ResponseEntity<Order> placeOrder(
+
+
+@Parameter(description = "order placed for purchasing the pet" ,required=true)@Valid @RequestBody Order body
+
+) {
         return delegate.placeOrder(body);
     }
 

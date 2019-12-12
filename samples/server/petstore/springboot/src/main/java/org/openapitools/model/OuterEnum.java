@@ -38,7 +38,7 @@ public enum OuterEnum {
         return b;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    return null;
   }
 }
 

@@ -3,8 +3,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -76,7 +75,7 @@ public class AdditionalPropertiesClass   {
    * Get mapString
    * @return mapString
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Map<String, String> getMapString() {
@@ -104,7 +103,7 @@ public class AdditionalPropertiesClass   {
    * Get mapNumber
    * @return mapNumber
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -133,7 +132,7 @@ public class AdditionalPropertiesClass   {
    * Get mapInteger
    * @return mapInteger
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Map<String, Integer> getMapInteger() {
@@ -161,7 +160,7 @@ public class AdditionalPropertiesClass   {
    * Get mapBoolean
    * @return mapBoolean
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Map<String, Boolean> getMapBoolean() {
@@ -189,7 +188,7 @@ public class AdditionalPropertiesClass   {
    * Get mapArrayInteger
    * @return mapArrayInteger
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -218,7 +217,7 @@ public class AdditionalPropertiesClass   {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -247,7 +246,7 @@ public class AdditionalPropertiesClass   {
    * Get mapMapString
    * @return mapMapString
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -276,7 +275,7 @@ public class AdditionalPropertiesClass   {
    * Get mapMapAnytype
    * @return mapMapAnytype
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -297,7 +296,7 @@ public class AdditionalPropertiesClass   {
    * Get anytype1
    * @return anytype1
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -318,7 +317,7 @@ public class AdditionalPropertiesClass   {
    * Get anytype2
    * @return anytype2
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -339,7 +338,7 @@ public class AdditionalPropertiesClass   {
    * Get anytype3
    * @return anytype3
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 

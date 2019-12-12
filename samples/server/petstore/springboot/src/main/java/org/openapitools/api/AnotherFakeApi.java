@@ -6,7 +6,11 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Client;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.enums.*;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
+import io.swagger.v3.oas.annotations.security.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +32,6 @@ import java.util.Map;
 import java.util.Optional;
 
 @Validated
-@Api(value = "another-fake", description = "the another-fake API")
 public interface AnotherFakeApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -39,17 +42,23 @@ public interface AnotherFakeApi {
      * PATCH /another-fake/dummy : To test special tags
      * To test special tags and operation ID starting with number
      *
-     * @param body client model (required)
+     * @param client client model (required)
      * @return successful operation (status code 200)
      */
-    @ApiOperation(value = "To test special tags", nickname = "call123testSpecialTags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
+    @Operation(summary = "To test special tags", operationId = "call123testSpecialTags", description = "To test special tags and operation ID starting with number", responses={ 
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(schema = @Schema(implementation = Client.class))) }
+    
+    , tags={ "$another-fake?", })
     @RequestMapping(value = "/another-fake/dummy",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default ResponseEntity<Client> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
+    default ResponseEntity<Client> call123testSpecialTags(
+
+
+@Parameter(description = "client model" ,required=true)@Valid @RequestBody Client client
+
+) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

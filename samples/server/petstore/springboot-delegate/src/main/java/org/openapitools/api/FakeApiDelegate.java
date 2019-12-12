@@ -11,7 +11,9 @@ import org.openapitools.model.OuterComposite;
 import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
