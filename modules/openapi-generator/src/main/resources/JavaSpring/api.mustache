@@ -7,7 +7,11 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.enums.*;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
+import io.swagger.v3.oas.annotations.security.*;
 {{#jdk8-no-delegate}}
 {{#virtualService}}
 import io.virtualan.annotation.ApiVirtual;
@@ -60,7 +64,6 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}
-@Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API")
 {{#operations}}
 {{#virtualService}}
 @VirtualService
@@ -106,22 +109,20 @@ public interface {{classname}} {
     {{#virtualService}}
     @ApiVirtual
     {{/virtualService}}
-    @ApiOperation(value = "{{{summary}}}", nickname = "{{{operationId}}}", notes = "{{{notes}}}"{{#returnBaseType}}, response = {{{returnBaseType}}}.class{{/returnBaseType}}{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
-        {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
-            {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
+    @Operation(summary = "{{{summary}}}", operationId = "{{{operationId}}}", description = "{{{notes}}}", responses={ {{#responses}}
+            @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = @Content(schema = @Schema(implementation = {{{baseType}}}.class)){{/baseType}}){{#hasMore}},{{/hasMore}}{{/responses}} }
+    {{#implicitHeaders}},  parameters = {
+        {{#headerParams}}
+            {{>implicitHeader}}
+        {{/headerParams}} }
+    {{/implicitHeaders}}
+    {{#hasAuthMethods}}, security = {
+        {{#authMethods}}@SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes = {
+            {{#scopes}}"{{scope}}"{{#hasMore}},
             {{/hasMore}}{{/scopes}}
             }{{/isOAuth}}){{#hasMore}},
         {{/hasMore}}{{/authMethods}}
     }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
-    @ApiResponses(value = { {{#responses}}
-        @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{baseType}}}.class{{/baseType}}{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}} })
-    {{#implicitHeaders}}
-    @ApiImplicitParams({
-    {{#headerParams}}
-    {{>implicitHeader}}
-    {{/headerParams}}
-    })
-    {{/implicitHeaders}}
     @RequestMapping(value = "{{{path}}}",{{#singleContentTypes}}{{#hasProduces}}
         produces = "{{{vendorExtensions.x-accepts}}}", {{/hasProduces}}{{#hasConsumes}}
         consumes = "{{{vendorExtensions.x-contentType}}}",{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}

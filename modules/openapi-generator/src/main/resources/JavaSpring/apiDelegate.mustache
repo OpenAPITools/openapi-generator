@@ -2,7 +2,9 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
 {{#jdk8}}
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

@@ -9,9 +9,9 @@ import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-{{#useSpringfox}}
+{{#useSpringDoc}}
 import org.springframework.context.annotation.Import;
-{{/useSpringfox}}
+{{/useSpringDoc}}
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -33,9 +33,9 @@ import java.util.List;
 @ComponentScan(basePackages = {"{{apiPackage}}", "{{configPackage}}"})
 @EnableWebMvc
 @PropertySource("classpath:application.properties")
-{{#useSpringfox}}
+{{#useSpringDoc}}
 @Import(OpenAPIDocumentationConfig.class)
-{{/useSpringfox}}
+{{/useSpringDoc}}
 public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {
   private static final String[] SERVLET_RESOURCE_LOCATIONS = { "/" };
 
@@ -69,11 +69,11 @@ public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {
     if (!registry.hasMappingForPattern("/**")) {
       registry.addResourceHandler("/**").addResourceLocations(RESOURCE_LOCATIONS);
     }
-    {{^useSpringfox}}
+    {{^useSpringDoc}}
     if (!registry.hasMappingForPattern("/swagger-ui/**")) {
       registry.addResourceHandler("/swagger-ui/**").addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/3.14.2/");
     }
-    {{/useSpringfox}}
+    {{/useSpringDoc}}
   }
 
   /*@Override

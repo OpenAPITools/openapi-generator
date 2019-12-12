@@ -10,9 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 {{^reactive}}
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-    {{^useSpringfox}}
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-    {{/useSpringfox}}
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
     {{^java8}}
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -20,9 +17,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 {{/reactive}}
 {{#reactive}}
 import org.springframework.web.reactive.config.CorsRegistry;
-    {{^useSpringfox}}
-import org.springframework.web.reactive.config.ResourceHandlerRegistry;
-    {{/useSpringfox}}
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 {{/reactive}}
 
@@ -61,13 +55,13 @@ public class OpenAPI2SpringBoot implements CommandLineRunner {
                         .allowedMethods("*")
                         .allowedHeaders("Content-Type");
             }*/
-{{^useSpringfox}}
+{{^useSpringDoc}}
 
             @Override
             public void addResourceHandlers(ResourceHandlerRegistry registry) {
                 registry.addResourceHandler("/swagger-ui/**").addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/3.14.2/");
             }
-{{/useSpringfox}}
+{{/useSpringDoc}}
         };
     }
 

@@ -1,35 +1,35 @@
 package {{configPackage}};
 
-{{^useSpringfox}}
+{{^useSpringDoc}}
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
-{{/useSpringfox}}
+{{/useSpringDoc}}
 import org.springframework.stereotype.Controller;
-{{^useSpringfox}}
+{{^useSpringDoc}}
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-{{/useSpringfox}}
+{{/useSpringDoc}}
 import org.springframework.web.bind.annotation.RequestMapping;
-{{^useSpringfox}}
+{{^useSpringDoc}}
 import org.springframework.web.bind.annotation.ResponseBody;
-{{/useSpringfox}}
+{{/useSpringDoc}}
 {{#reactive}}
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 {{/reactive}}
 
-{{^useSpringfox}}
+{{^useSpringDoc}}
 import java.io.IOException;
 import java.io.InputStream;
-{{/useSpringfox}}
+{{/useSpringDoc}}
 {{#reactive}}
 import java.net.URI;
 {{/reactive}}
-{{^useSpringfox}}
+{{^useSpringDoc}}
 import java.nio.charset.Charset;
-{{/useSpringfox}}
+{{/useSpringDoc}}
 {{#reactive}}
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
@@ -42,7 +42,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @Controller
 public class HomeController {
 
-{{^useSpringfox}}
+{{^useSpringDoc}}
     private static YAMLMapper yamlMapper = new YAMLMapper();
 
     @Value("classpath:/openapi.yaml")
@@ -67,20 +67,20 @@ public class HomeController {
         return yamlMapper.readValue(openapiContent(), Object.class);
     }
 
-{{/useSpringfox}}
+{{/useSpringDoc}}
 {{#reactive}}
     @Bean
     RouterFunction<ServerResponse> index() {
         return route(
             GET("/"),
-            req -> ServerResponse.temporaryRedirect(URI.create("{{#useSpringfox}}swagger-ui.html{{/useSpringfox}}{{^useSpringfox}}swagger-ui/index.html?url=../openapi.json{{/useSpringfox}}")).build()
+            req -> ServerResponse.temporaryRedirect(URI.create("{{#useSpringDoc}}swagger-ui.html{{/useSpringDoc}}{{^useSpringDoc}}swagger-ui/index.html?url=../openapi.json{{/useSpringDoc}}")).build()
         );
     }
 {{/reactive}}
 {{^reactive}}
     @RequestMapping("/")
     public String index() {
-        return "redirect:{{#useSpringfox}}swagger-ui.html{{/useSpringfox}}{{^useSpringfox}}swagger-ui/index.html?url=../openapi.json{{/useSpringfox}}";
+        return "redirect:{{#useSpringDoc}}swagger-ui.html{{/useSpringDoc}}{{^useSpringDoc}}swagger-ui/index.html?url=../openapi.json{{/useSpringDoc}}";
     }
 {{/reactive}}
 
