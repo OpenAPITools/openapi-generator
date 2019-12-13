@@ -3,7 +3,7 @@ package {{packageName}}.infrastructure
 {{#moshi}}
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+{{^moshiCodeGen}}import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory{{/moshiCodeGen}}
 {{/moshi}}
 {{#gson}}
 import com.google.gson.Gson
@@ -29,7 +29,7 @@ import java.util.Date
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
-        .add(KotlinJsonAdapterFactory())
+        {{^moshiCodeGen}}.add(KotlinJsonAdapterFactory()){{/moshiCodeGen}}
         .build()
 {{/moshi}}
 {{#gson}}
