@@ -76,12 +76,19 @@ final class OpenApiDataMocker implements IMocker
                 return $this->mockString($dataFormat, $minLength, $maxLength);
             case IMocker::DATA_TYPE_BOOLEAN:
                 return $this->mockBoolean();
+            case IMocker::DATA_TYPE_ARRAY:
+                $items = $options['items'] ?? null;
+                $minItems = $options['minItems'] ?? 0;
+                $maxItems = $options['maxItems'] ?? null;
+                $uniqueItems = $options['uniqueItems'] ?? false;
+                return $this->mockArray($items, $minItems, $maxItems, $uniqueItems);
             default:
                 throw new InvalidArgumentException('"dataType" must be one of ' . implode(', ', [
                     IMocker::DATA_TYPE_INTEGER,
                     IMocker::DATA_TYPE_NUMBER,
                     IMocker::DATA_TYPE_STRING,
                     IMocker::DATA_TYPE_BOOLEAN,
+                    IMocker::DATA_TYPE_ARRAY,
                 ]));
         }
     }
@@ -207,6 +214,81 @@ final class OpenApiDataMocker implements IMocker
     public function mockBoolean()
     {
         return (bool) mt_rand(0, 1);
+    }
+
+    /**
+     * Shortcut to mock array type
+     * Equivalent to mockData(DATA_TYPE_ARRAY);
+     *
+     * @param array     $items       Array of described items
+     * @param int|null  $minItems    (optional) An array instance is valid against "minItems" if its size is greater than, or equal to, the value of this keyword.
+     * @param int|null  $maxItems    (optional) An array instance is valid against "maxItems" if its size is less than, or equal to, the value of this keyword
+     * @param bool|null $uniqueItems (optional) If it has boolean value true, the instance validates successfully if all of its elements are unique
+     *
+     * @throws \InvalidArgumentException when invalid arguments passed
+     *
+     * @return array
+     */
+    public function mockArray(
+        $items,
+        $minItems = 0,
+        $maxItems = null,
+        $uniqueItems = false
+    ) {
+        $arr = [];
+        $minSize = 0;
+        $maxSize = \PHP_INT_MAX;
+
+        if (is_array($items) === false || array_key_exists('type', $items) === false) {
+            throw new InvalidArgumentException('"items" must be assoc array with "type" key');
+        }
+
+        if ($minItems !== null) {
+            if (is_integer($minItems) === false || $minItems < 0) {
+                throw new InvalidArgumentException('"mitItems" must be an integer. This integer must be greater than, or equal to, 0');
+            }
+            $minSize = $minItems;
+        }
+
+        if ($maxItems !== null) {
+            if (is_integer($maxItems) === false || $maxItems < 0) {
+                throw new InvalidArgumentException('"maxItems" must be an integer. This integer must be greater than, or equal to, 0.');
+            }
+            if ($maxItems < $minItems) {
+                throw new InvalidArgumentException('"maxItems" value cannot be less than "minItems"');
+            }
+            $maxSize = $maxItems;
+        }
+
+        $dataType = $items['type'];
+        $dataFormat = $items['format'] ?? null;
+
+        // extract json validation options from "items" property
+        $options = [];
+        foreach (
+            [
+                'minimum',
+                'maximum',
+                'exclusiveMinimum',
+                'exclusiveMaximum',
+                'minLength',
+                'maxLength',
+                'pattern',
+                'enum',
+                'items',
+            ] as $prop
+        ) {
+            if (array_key_exists($prop, $items)) {
+                $options[$prop] = $items[$prop];
+            }
+        }
+
+        // always genarate smallest possible array to avoid huge JSON responses
+        $arrSize = ($maxSize < 1) ? $maxSize : max($minSize, 1);
+        while (count($arr) < $arrSize) {
+            $arr[] = $this->mock($dataType, $dataFormat, $options);
+        }
+        return $arr;
     }
 
     /**
