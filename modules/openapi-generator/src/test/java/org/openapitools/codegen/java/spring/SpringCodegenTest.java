@@ -416,4 +416,45 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
         codegen.processOpts();
     }
+    
+    @Test
+    public void useBeanValidationTruePerformBeanValidationTrueJava8FalseForFormatEmail() throws IOException {
+        beanValidationForFormatEmail(true, true, false, "@org.hibernate.validator.constraints.Email", "@javax.validation.constraints.Email");
+    }
+
+    @Test
+    public void useBeanValidationTruePerformBeanValidationFalseJava8TrueForFormatEmail() throws IOException {
+      beanValidationForFormatEmail(true, false, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+    }
+
+    @Test
+    public void useBeanValidationTruePerformBeanValidationTrueJava8TrueForFormatEmail() throws IOException {
+      beanValidationForFormatEmail(true, true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+    }
+    
+    private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, boolean java8, String contains, String notContains) throws IOException {
+      File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+      output.deleteOnExit();
+      String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+      OpenAPI openAPI = new OpenAPIParser()
+              .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
+
+      SpringCodegen codegen = new SpringCodegen();
+      codegen.setOutputDir(output.getAbsolutePath());
+      codegen.setUseBeanValidation(useBeanValidation);
+      codegen.setPerformBeanValidation(performBeanValidation);
+      codegen.setJava8(java8);
+
+      ClientOptInput input = new ClientOptInput();
+      input.openAPI(openAPI);
+      input.config(codegen);
+
+      MockDefaultGenerator generator = new MockDefaultGenerator();
+      generator.opts(input).generate();
+
+      checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", contains);
+      checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", notContains);
+    }
+
 }
