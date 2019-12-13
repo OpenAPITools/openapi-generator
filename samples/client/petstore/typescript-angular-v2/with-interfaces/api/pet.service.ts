@@ -211,7 +211,7 @@ export class PetService implements PetServiceInterface {
      * Add a new pet to the store
      * @param body Pet object that needs to be added to the store
      */
-    public addPetWithHttpInfo(body: Pet, extraHttpRequestParams?: RequestOptionsArgs, httpHeaderAccept?: undefined): Observable<Response> {
+    public addPetWithHttpInfo(body: Pet, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: undefined}): Observable<Response> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling addPet.');
         }
@@ -226,8 +226,8 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        let httpHeaderAcceptSelected: string | undefined = httpHeaderAccept;
-        if(httpHeaderAcceptSelected === undefined) {
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
             ];
@@ -268,7 +268,7 @@ export class PetService implements PetServiceInterface {
      * @param petId Pet id to delete
      * @param apiKey 
      */
-    public deletePetWithHttpInfo(petId: number, apiKey?: string, extraHttpRequestParams?: RequestOptionsArgs, httpHeaderAccept?: undefined): Observable<Response> {
+    public deletePetWithHttpInfo(petId: number, apiKey?: string, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: undefined}): Observable<Response> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
@@ -286,8 +286,8 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        let httpHeaderAcceptSelected: string | undefined = httpHeaderAccept;
-        if(httpHeaderAcceptSelected === undefined) {
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
             ];
@@ -317,7 +317,7 @@ export class PetService implements PetServiceInterface {
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatusWithHttpInfo(status: Array<'available' | 'pending' | 'sold'>, extraHttpRequestParams?: RequestOptionsArgs, httpHeaderAccept?: 'application/xml' | 'application/json'): Observable<Response> {
+    public findPetsByStatusWithHttpInfo(status: Array<'available' | 'pending' | 'sold'>, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<Response> {
         if (status === null || status === undefined) {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
@@ -337,8 +337,8 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        let httpHeaderAcceptSelected: string | undefined = httpHeaderAccept;
-        if(httpHeaderAcceptSelected === undefined) {
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 'application/xml',
@@ -371,7 +371,7 @@ export class PetService implements PetServiceInterface {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
-    public findPetsByTagsWithHttpInfo(tags: Array<string>, extraHttpRequestParams?: RequestOptionsArgs, httpHeaderAccept?: 'application/xml' | 'application/json'): Observable<Response> {
+    public findPetsByTagsWithHttpInfo(tags: Array<string>, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<Response> {
         if (tags === null || tags === undefined) {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
@@ -391,8 +391,8 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        let httpHeaderAcceptSelected: string | undefined = httpHeaderAccept;
-        if(httpHeaderAcceptSelected === undefined) {
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 'application/xml',
@@ -425,7 +425,7 @@ export class PetService implements PetServiceInterface {
      * Returns a single pet
      * @param petId ID of pet to return
      */
-    public getPetByIdWithHttpInfo(petId: number, extraHttpRequestParams?: RequestOptionsArgs, httpHeaderAccept?: 'application/xml' | 'application/json'): Observable<Response> {
+    public getPetByIdWithHttpInfo(petId: number, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<Response> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
@@ -437,8 +437,8 @@ export class PetService implements PetServiceInterface {
             headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
-        let httpHeaderAcceptSelected: string | undefined = httpHeaderAccept;
-        if(httpHeaderAcceptSelected === undefined) {
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 'application/xml',
@@ -469,7 +469,7 @@ export class PetService implements PetServiceInterface {
      * Update an existing pet
      * @param body Pet object that needs to be added to the store
      */
-    public updatePetWithHttpInfo(body: Pet, extraHttpRequestParams?: RequestOptionsArgs, httpHeaderAccept?: undefined): Observable<Response> {
+    public updatePetWithHttpInfo(body: Pet, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: undefined}): Observable<Response> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling updatePet.');
         }
@@ -484,8 +484,8 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        let httpHeaderAcceptSelected: string | undefined = httpHeaderAccept;
-        if(httpHeaderAcceptSelected === undefined) {
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
             ];
@@ -527,7 +527,7 @@ export class PetService implements PetServiceInterface {
      * @param name Updated name of the pet
      * @param status Updated status of the pet
      */
-    public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, extraHttpRequestParams?: RequestOptionsArgs, httpHeaderAccept?: undefined): Observable<Response> {
+    public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: undefined}): Observable<Response> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
@@ -542,8 +542,8 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        let httpHeaderAcceptSelected: string | undefined = httpHeaderAccept;
-        if(httpHeaderAcceptSelected === undefined) {
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
             ];
@@ -601,7 +601,7 @@ export class PetService implements PetServiceInterface {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: Blob, extraHttpRequestParams?: RequestOptionsArgs, httpHeaderAccept?: 'application/json'): Observable<Response> {
+    public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: Blob, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: 'application/json'}): Observable<Response> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }
@@ -616,8 +616,8 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        let httpHeaderAcceptSelected: string | undefined = httpHeaderAccept;
-        if(httpHeaderAcceptSelected === undefined) {
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 'application/json'

@@ -68,10 +68,10 @@ export class StoreService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteOrder(requestParameters: DeleteOrderRequestParams, observe?: 'body', reportProgress?: boolean, httpHeaderAccept?: undefined): Observable<any>;
-    public deleteOrder(requestParameters: DeleteOrderRequestParams, observe?: 'response', reportProgress?: boolean, httpHeaderAccept?: undefined): Observable<HttpResponse<any>>;
-    public deleteOrder(requestParameters: DeleteOrderRequestParams, observe?: 'events', reportProgress?: boolean, httpHeaderAccept?: undefined): Observable<HttpEvent<any>>;
-    public deleteOrder(requestParameters: DeleteOrderRequestParams, observe: any = 'body', reportProgress: boolean = false, httpHeaderAccept?: undefined): Observable<any> {
+    public deleteOrder(requestParameters: DeleteOrderRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public deleteOrder(requestParameters: DeleteOrderRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public deleteOrder(requestParameters: DeleteOrderRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public deleteOrder(requestParameters: DeleteOrderRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         const orderId = requestParameters.orderId;
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
@@ -79,8 +79,8 @@ export class StoreService {
 
         let headers = this.defaultHeaders;
 
-        let httpHeaderAcceptSelected: string | undefined = httpHeaderAccept;
-        if(httpHeaderAcceptSelected === undefined) {
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
             ];
@@ -113,10 +113,10 @@ export class StoreService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getInventory(observe?: 'body', reportProgress?: boolean, httpHeaderAccept?: 'application/json'): Observable<{ [key: string]: number; }>;
-    public getInventory(observe?: 'response', reportProgress?: boolean, httpHeaderAccept?: 'application/json'): Observable<HttpResponse<{ [key: string]: number; }>>;
-    public getInventory(observe?: 'events', reportProgress?: boolean, httpHeaderAccept?: 'application/json'): Observable<HttpEvent<{ [key: string]: number; }>>;
-    public getInventory(observe: any = 'body', reportProgress: boolean = false, httpHeaderAccept?: 'application/json'): Observable<any> {
+    public getInventory(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<{ [key: string]: number; }>;
+    public getInventory(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<{ [key: string]: number; }>>;
+    public getInventory(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<{ [key: string]: number; }>>;
+    public getInventory(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -125,8 +125,8 @@ export class StoreService {
             headers = headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
-        let httpHeaderAcceptSelected: string | undefined = httpHeaderAccept;
-        if(httpHeaderAcceptSelected === undefined) {
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 'application/json'
@@ -161,10 +161,10 @@ export class StoreService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getOrderById(requestParameters: GetOrderByIdRequestParams, observe?: 'body', reportProgress?: boolean, httpHeaderAccept?: 'application/xml' | 'application/json'): Observable<Order>;
-    public getOrderById(requestParameters: GetOrderByIdRequestParams, observe?: 'response', reportProgress?: boolean, httpHeaderAccept?: 'application/xml' | 'application/json'): Observable<HttpResponse<Order>>;
-    public getOrderById(requestParameters: GetOrderByIdRequestParams, observe?: 'events', reportProgress?: boolean, httpHeaderAccept?: 'application/xml' | 'application/json'): Observable<HttpEvent<Order>>;
-    public getOrderById(requestParameters: GetOrderByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, httpHeaderAccept?: 'application/xml' | 'application/json'): Observable<any> {
+    public getOrderById(requestParameters: GetOrderByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<Order>;
+    public getOrderById(requestParameters: GetOrderByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<HttpResponse<Order>>;
+    public getOrderById(requestParameters: GetOrderByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<HttpEvent<Order>>;
+    public getOrderById(requestParameters: GetOrderByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<any> {
         const orderId = requestParameters.orderId;
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
@@ -172,8 +172,8 @@ export class StoreService {
 
         let headers = this.defaultHeaders;
 
-        let httpHeaderAcceptSelected: string | undefined = httpHeaderAccept;
-        if(httpHeaderAcceptSelected === undefined) {
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 'application/xml',
@@ -208,10 +208,10 @@ export class StoreService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public placeOrder(requestParameters: PlaceOrderRequestParams, observe?: 'body', reportProgress?: boolean, httpHeaderAccept?: 'application/xml' | 'application/json'): Observable<Order>;
-    public placeOrder(requestParameters: PlaceOrderRequestParams, observe?: 'response', reportProgress?: boolean, httpHeaderAccept?: 'application/xml' | 'application/json'): Observable<HttpResponse<Order>>;
-    public placeOrder(requestParameters: PlaceOrderRequestParams, observe?: 'events', reportProgress?: boolean, httpHeaderAccept?: 'application/xml' | 'application/json'): Observable<HttpEvent<Order>>;
-    public placeOrder(requestParameters: PlaceOrderRequestParams, observe: any = 'body', reportProgress: boolean = false, httpHeaderAccept?: 'application/xml' | 'application/json'): Observable<any> {
+    public placeOrder(requestParameters: PlaceOrderRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<Order>;
+    public placeOrder(requestParameters: PlaceOrderRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<HttpResponse<Order>>;
+    public placeOrder(requestParameters: PlaceOrderRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<HttpEvent<Order>>;
+    public placeOrder(requestParameters: PlaceOrderRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<any> {
         const body = requestParameters.body;
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling placeOrder.');
@@ -219,8 +219,8 @@ export class StoreService {
 
         let headers = this.defaultHeaders;
 
-        let httpHeaderAcceptSelected: string | undefined = httpHeaderAccept;
-        if(httpHeaderAcceptSelected === undefined) {
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 'application/xml',
