@@ -13,4 +13,8 @@ Name | Type | Description | Notes
 **arrayItem** | **List&lt;Integer&gt;** |  | 
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

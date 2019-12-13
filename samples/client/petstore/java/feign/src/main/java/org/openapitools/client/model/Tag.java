@@ -30,7 +30,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Tag.JSON_PROPERTY_ID,
   Tag.JSON_PROPERTY_NAME
 })
-@javax.annotation.concurrent.Immutable
 
 public class Tag {
   public static final String JSON_PROPERTY_ID = "id";

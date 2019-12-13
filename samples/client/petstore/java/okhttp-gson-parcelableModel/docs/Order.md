@@ -24,4 +24,8 @@ APPROVED | &quot;approved&quot;
 DELIVERED | &quot;delivered&quot;
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

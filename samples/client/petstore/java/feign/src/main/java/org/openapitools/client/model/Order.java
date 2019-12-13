@@ -35,7 +35,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@javax.annotation.concurrent.Immutable
 
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";

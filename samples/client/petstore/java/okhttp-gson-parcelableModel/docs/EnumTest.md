@@ -51,4 +51,8 @@ NUMBER_1_DOT_1 | 1.1
 NUMBER_MINUS_1_DOT_2 | -1.2
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

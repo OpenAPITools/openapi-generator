@@ -32,7 +32,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
-@javax.annotation.concurrent.Immutable
 
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
