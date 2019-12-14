@@ -133,6 +133,8 @@ final class OpenApiDataMocker implements IMocker
      * @param string|null $dataFormat (optional) one of byte, binary, date, date-time, password
      * @param int|null    $minLength  (optional) Default is 0
      * @param int|null    $maxLength  (optional) Default is 100 chars
+     * @param array       $enum       (optional) This array should have at least one element.
+     * Elements in the array should be unique.
      * @param string|null $pattern    (optional) This string should be a valid regular expression, according to the ECMA 262 regular expression dialect.
      * Recall: regular expressions are not implicitly anchored.
      *
@@ -144,6 +146,7 @@ final class OpenApiDataMocker implements IMocker
         $dataFormat = null,
         $minLength = 0,
         $maxLength = null,
+        $enum = null,
         $pattern = null
     ) {
         if ($minLength !== 0 && $minLength !== null) {
