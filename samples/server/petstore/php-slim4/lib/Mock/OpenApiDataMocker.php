@@ -149,6 +149,19 @@ final class OpenApiDataMocker implements IMocker
         $enum = null,
         $pattern = null
     ) {
+        if ($enum !== null) {
+            if (
+                is_array($enum) === false
+                || empty($enum)
+                || count($enum) > count(array_unique($enum))
+            ) {
+                throw new InvalidArgumentException('"enum" must be an array. This array should have at least one element. Elements in the array should be unique.');
+            }
+
+            // return random variant
+            return $enum[mt_rand(0, count($enum) - 1)];
+        }
+
         if ($minLength !== 0 && $minLength !== null) {
             if (is_int($minLength) === false) {
                 throw new InvalidArgumentException('"minLength" must be an integer');
