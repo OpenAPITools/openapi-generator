@@ -3,6 +3,9 @@ package org.openapitools.client.apis
 import org.openapitools.client.infrastructure.CollectionFormats.*
 import retrofit2.http.*
 import retrofit2.Call
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import okhttp3.MultipartBody
 
 import org.openapitools.client.models.Order
 

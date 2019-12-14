@@ -3,6 +3,9 @@ package org.openapitools.client.apis
 import org.openapitools.client.infrastructure.CollectionFormats.*
 import retrofit2.http.*
 import retrofit2.Call
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import okhttp3.MultipartBody
 
 import org.openapitools.client.models.ApiResponse
 import org.openapitools.client.models.Pet
@@ -17,7 +20,7 @@ interface PetApi {
     @GET("/pet/findByStatus")
     fun findPetsByStatus(@Query("status") status: CSVParams): Call<kotlin.Array<Pet>>
 
-    @Deprecated
+    @Deprecated("This api was deprecated")
     @GET("/pet/findByTags")
     fun findPetsByTags(@Query("tags") tags: CSVParams): Call<kotlin.Array<Pet>>
 
