@@ -77,22 +77,32 @@ class OpenApiDataMockerTest extends TestCase
         $minimum = null,
         $maximum = null,
         $exclusiveMinimum = false,
-        $exclusiveMaximum = false
+        $exclusiveMaximum = false,
+        $matchingInternalTypes = [],
+        $notMatchingInternalTypes = []
     ) {
         $mocker = new OpenApiDataMocker();
         $integer = $mocker->mockInteger($dataFormat, $minimum, $maximum, $exclusiveMinimum, $exclusiveMaximum);
 
-        $matchingInternalTypes = [
+        $this->internalAssertNumber(
+            $integer,
+            $minimum,
+            $maximum,
+            $exclusiveMinimum,
+            $exclusiveMaximum,
+            $matchingInternalTypes,
+            $notMatchingInternalTypes
+        );
+    }
+
+    public function provideMockIntegerCorrectArguments()
+    {
+        $types = [
             IsType::TYPE_INT,
             IsType::TYPE_NUMERIC,
             IsType::TYPE_SCALAR,
         ];
-
-        foreach ($matchingInternalTypes as $matchType) {
-            $this->assertInternalType($matchType, $integer);
-        }
-
-        $notMatchingInternalTypes = [
+        $notTypes = [
             IsType::TYPE_ARRAY,
             IsType::TYPE_BOOL,
             IsType::TYPE_FLOAT,
@@ -103,36 +113,13 @@ class OpenApiDataMockerTest extends TestCase
             IsType::TYPE_CALLABLE,
         ];
 
-        foreach ($notMatchingInternalTypes as $notMatchType) {
-            $this->assertNotInternalType($notMatchType, $integer);
-        }
-
-        if ($minimum !== null) {
-            if ($exclusiveMinimum) {
-                $this->assertGreaterThan($minimum, $integer);
-            } else {
-                $this->assertGreaterThanOrEqual($minimum, $integer);
-            }
-        }
-
-        if ($maximum !== null) {
-            if ($exclusiveMaximum) {
-                $this->assertLessThan($maximum, $integer);
-            } else {
-                $this->assertLessThanOrEqual($maximum, $integer);
-            }
-        }
-    }
-
-    public function provideMockIntegerCorrectArguments()
-    {
         return [
-            [null, -100, 100, false, false],
-            [null, -100, null, false, false],
-            [null, null, 100, false, false],
-            [null, -99.5, null, true, false],
-            [null, null, 99.5, false, true],
-            [null, -99.5, 99.5, true, true],
+            [null, -100, 100, false, false, $types, $notTypes],
+            [null, -100, null, false, false, $types, $notTypes],
+            [null, null, 100, false, false, $types, $notTypes],
+            [null, -99.5, null, true, false, $types, $notTypes],
+            [null, null, 99.5, false, true, $types, $notTypes],
+            [null, -99.5, 99.5, true, true, $types, $notTypes],
         ];
     }
 
@@ -172,22 +159,32 @@ class OpenApiDataMockerTest extends TestCase
         $minimum = null,
         $maximum = null,
         $exclusiveMinimum = false,
-        $exclusiveMaximum = false
+        $exclusiveMaximum = false,
+        $matchingInternalTypes = [],
+        $notMatchingInternalTypes = []
     ) {
         $mocker = new OpenApiDataMocker();
         $number = $mocker->mockNumber($dataFormat, $minimum, $maximum, $exclusiveMinimum, $exclusiveMaximum);
 
-        $matchingInternalTypes = [
+        $this->internalAssertNumber(
+            $number,
+            $minimum,
+            $maximum,
+            $exclusiveMinimum,
+            $exclusiveMaximum,
+            $matchingInternalTypes,
+            $notMatchingInternalTypes
+        );
+    }
+
+    public function provideMockNumberCorrectArguments()
+    {
+        $types = [
             IsType::TYPE_SCALAR,
             IsType::TYPE_NUMERIC,
             IsType::TYPE_FLOAT,
         ];
-
-        foreach ($matchingInternalTypes as $matchType) {
-            $this->assertInternalType($matchType, $number);
-        }
-
-        $notMatchingInternalTypes = [
+        $notTypes = [
             IsType::TYPE_INT,
             IsType::TYPE_ARRAY,
             IsType::TYPE_BOOL,
@@ -198,36 +195,13 @@ class OpenApiDataMockerTest extends TestCase
             IsType::TYPE_CALLABLE,
         ];
 
-        foreach ($notMatchingInternalTypes as $notMatchType) {
-            $this->assertNotInternalType($notMatchType, $number);
-        }
-
-        if ($minimum !== null) {
-            if ($exclusiveMinimum) {
-                $this->assertGreaterThan($minimum, $number);
-            } else {
-                $this->assertGreaterThanOrEqual($minimum, $number);
-            }
-        }
-
-        if ($maximum !== null) {
-            if ($exclusiveMaximum) {
-                $this->assertLessThan($maximum, $number);
-            } else {
-                $this->assertLessThanOrEqual($maximum, $number);
-            }
-        }
-    }
-
-    public function provideMockNumberCorrectArguments()
-    {
         return [
-            [null, -100, 100, false, false],
-            [null, -100, null, false, false],
-            [null, null, 100, false, false],
-            [null, -99.5, null, true, false],
-            [null, null, 99.5, false, true],
-            [null, -99.5, 99.5, true, true],
+            [null, -100, 100, false, false, $types, $notTypes],
+            [null, -100, null, false, false, $types, $notTypes],
+            [null, null, 100, false, false, $types, $notTypes],
+            [null, -99.5, null, true, false, $types, $notTypes],
+            [null, null, 99.5, false, true, $types, $notTypes],
+            [null, -99.5, 99.5, true, true, $types, $notTypes],
         ];
     }
 
@@ -376,6 +350,40 @@ class OpenApiDataMockerTest extends TestCase
 
         foreach ($notMatchingInternalTypes as $notMatchType) {
             $this->assertNotInternalType($notMatchType, $bool);
+        }
+    }
+
+    private function internalAssertNumber(
+        $number,
+        $minimum = null,
+        $maximum = null,
+        $exclusiveMinimum = false,
+        $exclusiveMaximum = false,
+        $matchingInternalTypes = [],
+        $notMatchingInternalTypes = []
+    ) {
+        foreach ($matchingInternalTypes as $matchType) {
+            $this->assertInternalType($matchType, $number);
+        }
+
+        foreach ($notMatchingInternalTypes as $notMatchType) {
+            $this->assertNotInternalType($notMatchType, $number);
+        }
+
+        if ($minimum !== null) {
+            if ($exclusiveMinimum) {
+                $this->assertGreaterThan($minimum, $number);
+            } else {
+                $this->assertGreaterThanOrEqual($minimum, $number);
+            }
+        }
+
+        if ($maximum !== null) {
+            if ($exclusiveMaximum) {
+                $this->assertLessThan($maximum, $number);
+            } else {
+                $this->assertLessThanOrEqual($maximum, $number);
+            }
         }
     }
 }
