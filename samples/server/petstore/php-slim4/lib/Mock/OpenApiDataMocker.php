@@ -54,17 +54,17 @@ final class OpenApiDataMocker implements IMocker
         switch ($dataType) {
             case IMocker::DATA_TYPE_INTEGER:
             case IMocker::DATA_TYPE_NUMBER:
-                $minimum = (isset($options['minimum'])) ? $options['minimum'] : null;
-                $maximum = (isset($options['maximum'])) ? $options['maximum'] : null;
-                $exclusiveMinimum = (isset($options['exclusiveMinimum'])) ? $options['exclusiveMinimum'] : false;
-                $exclusiveMaximum = (isset($options['exclusiveMaximum'])) ? $options['exclusiveMaximum'] : false;
+                $minimum = $options['minimum'] ?? null;
+                $maximum = $options['maximum'] ?? null;
+                $exclusiveMinimum = $options['exclusiveMinimum'] ?? false;
+                $exclusiveMaximum = $options['exclusiveMaximum'] ?? false;
                 if ($dataType === IMocker::DATA_TYPE_INTEGER) {
                     return $this->mockInteger($dataFormat, $minimum, $maximum, $exclusiveMinimum, $exclusiveMaximum);
                 }
                 return $this->mockNumber($dataFormat, $minimum, $maximum, $exclusiveMinimum, $exclusiveMaximum);
             case IMocker::DATA_TYPE_STRING:
-                $minLength = (isset($options['minLength'])) ? $options['minLength'] : 0;
-                $maxLength = (isset($options['maxLength'])) ? $options['maxLength'] : null;
+                $minLength = $options['minLength'] ?? 0;
+                $maxLength = $options['maxLength'] ?? null;
                 return $this->mockString($dataFormat, $minLength, $maxLength);
             case IMocker::DATA_TYPE_BOOLEAN:
                 return $this->mockBoolean();
