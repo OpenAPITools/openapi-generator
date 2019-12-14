@@ -3,6 +3,9 @@ package {{apiPackage}}
 import {{packageName}}.infrastructure.CollectionFormats.*
 import retrofit2.http.*
 import retrofit2.Call
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import okhttp3.MultipartBody
 
 {{#imports}}import {{import}}
 {{/imports}}
@@ -11,7 +14,7 @@ import retrofit2.Call
 interface {{classname}} {
     {{#operation}}
     {{#isDeprecated}}
-    @Deprecated
+    @Deprecated("This api was deprecated")
     {{/isDeprecated}}
     {{#formParams}}
     {{#-first}}
