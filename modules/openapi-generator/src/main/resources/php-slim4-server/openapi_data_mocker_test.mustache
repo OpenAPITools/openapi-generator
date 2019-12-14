@@ -239,21 +239,29 @@ class OpenApiDataMockerTest extends TestCase
     public function testMockStringWithCorrectArguments(
         $dataFormat = null,
         $minLength = 0,
-        $maxLength = null
+        $maxLength = null,
+        $matchingInternalTypes = [],
+        $notMatchingInternalTypes = []
     ) {
         $mocker = new OpenApiDataMocker();
         $str = $mocker->mockString($dataFormat, $minLength, $maxLength);
 
-        $matchingInternalTypes = [
+        $this->internalAssertString(
+            $str,
+            $minLength,
+            $maxLength,
+            $matchingInternalTypes,
+            $notMatchingInternalTypes
+        );
+    }
+
+    public function provideMockStringCorrectArguments()
+    {
+        $types = [
             IsType::TYPE_SCALAR,
             IsType::TYPE_STRING,
         ];
-
-        foreach ($matchingInternalTypes as $matchType) {
-            $this->assertInternalType($matchType, $str);
-        }
-
-        $notMatchingInternalTypes = [
+        $notTypes = [
             IsType::TYPE_NUMERIC,
             IsType::TYPE_FLOAT,
             IsType::TYPE_INT,
@@ -265,29 +273,14 @@ class OpenApiDataMockerTest extends TestCase
             IsType::TYPE_CALLABLE,
         ];
 
-        foreach ($notMatchingInternalTypes as $notMatchType) {
-            $this->assertNotInternalType($notMatchType, $str);
-        }
-
-        if ($minLength !== null) {
-            $this->assertGreaterThanOrEqual($minLength, mb_strlen($str, 'UTF-8'));
-        }
-
-        if ($maxLength !== null) {
-            $this->assertLessThanOrEqual($maxLength, mb_strlen($str, 'UTF-8'));
-        }
-    }
-
-    public function provideMockStringCorrectArguments()
-    {
         return [
-            [null, 0, null],
-            [null, 10, null],
-            [null, 0, 100],
-            [null, 10, 50],
-            [null, 10, 10],
-            [null, 0, 0],
-            [null, null, null],
+            [null, 0, null, $types, $notTypes],
+            [null, 10, null, $types, $notTypes],
+            [null, 0, 100, $types, $notTypes],
+            [null, 10, 50, $types, $notTypes],
+            [null, 10, 10, $types, $notTypes],
+            [null, 0, 0, $types, $notTypes],
+            [null, null, null, $types, $notTypes],
         ];
     }
 
@@ -384,6 +377,30 @@ class OpenApiDataMockerTest extends TestCase
             } else {
                 $this->assertLessThanOrEqual($maximum, $number);
             }
+        }
+    }
+
+    private function internalAssertString(
+        $str,
+        $minLength = null,
+        $maxLength = null,
+        $matchingInternalTypes = [],
+        $notMatchingInternalTypes = []
+    ) {
+        foreach ($matchingInternalTypes as $matchType) {
+            $this->assertInternalType($matchType, $str);
+        }
+
+        foreach ($notMatchingInternalTypes as $notMatchType) {
+            $this->assertNotInternalType($notMatchType, $str);
+        }
+
+        if ($minLength !== null) {
+            $this->assertGreaterThanOrEqual($minLength, mb_strlen($str, 'UTF-8'));
+        }
+
+        if ($maxLength !== null) {
+            $this->assertLessThanOrEqual($maxLength, mb_strlen($str, 'UTF-8'));
         }
     }
 }
