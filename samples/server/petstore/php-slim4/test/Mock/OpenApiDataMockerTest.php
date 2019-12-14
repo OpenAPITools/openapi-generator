@@ -232,16 +232,18 @@ class OpenApiDataMockerTest extends TestCase
         $dataFormat = null,
         $minLength = 0,
         $maxLength = null,
+        $enum = null,
         $matchingInternalTypes = [],
         $notMatchingInternalTypes = []
     ) {
         $mocker = new OpenApiDataMocker();
-        $str = $mocker->mockString($dataFormat, $minLength, $maxLength);
+        $str = $mocker->mockString($dataFormat, $minLength, $maxLength, $enum);
 
         $this->internalAssertString(
             $str,
             $minLength,
             $maxLength,
+            $enum,
             $matchingInternalTypes,
             $notMatchingInternalTypes
         );
@@ -266,13 +268,15 @@ class OpenApiDataMockerTest extends TestCase
         ];
 
         return [
-            [null, 0, null, $types, $notTypes],
-            [null, 10, null, $types, $notTypes],
-            [null, 0, 100, $types, $notTypes],
-            [null, 10, 50, $types, $notTypes],
-            [null, 10, 10, $types, $notTypes],
-            [null, 0, 0, $types, $notTypes],
-            [null, null, null, $types, $notTypes],
+            [null, 0, null, null, $types, $notTypes],
+            [null, 10, null, null, $types, $notTypes],
+            [null, 0, 100, null, $types, $notTypes],
+            [null, 10, 50, null, $types, $notTypes],
+            [null, 10, 10, null, $types, $notTypes],
+            [null, 0, 0, null, $types, $notTypes],
+            [null, null, null, null, $types, $notTypes],
+            [null, null, null, ['foobar', 'foobaz', 'hello world'], $types, $notTypes],
+            [null, null, null, ['foobar'], $types, $notTypes],
         ];
     }
 
@@ -284,23 +288,27 @@ class OpenApiDataMockerTest extends TestCase
     public function testMockStringWithInvalidArguments(
         $dataFormat = null,
         $minLength = 0,
-        $maxLength = null
+        $maxLength = null,
+        $enum = null
     ) {
         $mocker = new OpenApiDataMocker();
-        $str = $mocker->mockString($dataFormat, $minLength, $maxLength);
+        $str = $mocker->mockString($dataFormat, $minLength, $maxLength, $enum);
     }
 
     public function provideMockStringInvalidArguments()
     {
         return [
-            [null, -10, null],
-            [null, 0, -10],
-            [null, -10, -10],
-            [null, 0.5, 0.5],
-            [null, '10', null],
-            [null, 0, '50'],
-            [null, '10', '50'],
-            [null, 50, 10],
+            'negative minLength' => [null, -10, null],
+            'negative maxLength' => [null, 0, -10],
+            'both minLength maxLength negative' => [null, -10, -10],
+            'decimal minLength and maxLength' => [null, 0.5, 0.5],
+            'string minLength' => [null, '10', null],
+            'string maxLength' => [null, 0, '50'],
+            'string minLength and maxLength' => [null, '10', '50'],
+            'maxLength less than minLength' => [null, 50, 10],
+            'enum is string' => [null, null, null, 'foobar'],
+            'enum is empty array' => [null, null, null, []],
+            'enum array is not unique' => [null, null, null, ['foobar', 'foobaz', 'foobar']],
         ];
     }
 
@@ -376,6 +384,7 @@ class OpenApiDataMockerTest extends TestCase
         $str,
         $minLength = null,
         $maxLength = null,
+        $enum = null,
         $matchingInternalTypes = [],
         $notMatchingInternalTypes = []
     ) {
@@ -393,6 +402,10 @@ class OpenApiDataMockerTest extends TestCase
 
         if ($maxLength !== null) {
             $this->assertLessThanOrEqual($maxLength, mb_strlen($str, 'UTF-8'));
+        }
+
+        if (is_array($enum) && !empty($enum)) {
+            $this->assertContains($str, $enum);
         }
     }
 }
