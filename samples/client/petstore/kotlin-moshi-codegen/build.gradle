@@ -1,5 +1,5 @@
-group '{{groupId}}'
-version '{{artifactVersion}}'
+group 'org.openapitools'
+version '1.0.0'
 
 wrapper {
     gradleVersion = '4.9'
@@ -18,9 +18,7 @@ buildscript {
 }
 
 apply plugin: 'kotlin'
-{{#moshiCodeGen}}
 apply plugin: 'kotlin-kapt'
-{{/moshiCodeGen}}
 
 repositories {
     mavenCentral()
@@ -33,27 +31,9 @@ test {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    {{#moshi}}
-    {{^moshiCodeGen}}
-    compile "com.squareup.moshi:moshi-kotlin:1.9.2"
-    {{/moshiCodeGen}}
     compile "com.squareup.moshi:moshi-adapters:1.9.2"
-    {{#moshiCodeGen}} 
     compile "com.squareup.moshi:moshi:1.9.2"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:1.9.2"
-    {{/moshiCodeGen}} 
-    {{/moshi}}
-    {{#gson}}
-    compile "com.google.code.gson:gson:2.8.6"
-    {{/gson}}
-    {{#jvm-okhttp3}}
-    compile "com.squareup.okhttp3:okhttp:3.12.6"
-    {{/jvm-okhttp3}}
-    {{#jvm-okhttp4}}
     compile "com.squareup.okhttp3:okhttp:4.2.2"
-    {{/jvm-okhttp4}}
-    {{#threetenbp}}
-    compile "org.threeten:threetenbp:1.4.0"
-    {{/threetenbp}}
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.0"
 }

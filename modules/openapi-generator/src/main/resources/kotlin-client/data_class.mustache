@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName
 {{/gson}}
 {{#moshi}}
 import com.squareup.moshi.Json
+{{#moshiCodeGen}}
+import com.squareup.moshi.JsonClass
+{{/moshiCodeGen}}
 {{/moshi}}
 {{#parcelizeModels}}
 import android.os.Parcelable
@@ -27,7 +30,7 @@ import java.io.Serializable
 {{#parcelizeModels}}
 @Parcelize
 {{/parcelizeModels}}
-{{#multiplatform}}@Serializable{{/multiplatform}}
+{{#multiplatform}}@Serializable{{/multiplatform}}{{#moshi}}{{#moshiCodeGen}}@JsonClass(generateAdapter = true){{/moshiCodeGen}}{{/moshi}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}data class {{classname}} (
 {{#requiredVars}}
 {{>data_class_req_var}}{{^-last}},
