@@ -154,6 +154,8 @@ interface OpenApiDataMockerInterface
      * @param string|null $dataFormat (optional) one of byte, binary, date, date-time, password
      * @param int|null    $minLength  (optional) Default is 0
      * @param int|null    $maxLength  (optional) Default is 100 chars
+     * @param string|null $pattern    (optional) This string should be a valid regular expression, according to the ECMA 262 regular expression dialect.
+     * Recall: regular expressions are not implicitly anchored.
      *
      * @throws \InvalidArgumentException when invalid arguments passed
      *
@@ -162,7 +164,8 @@ interface OpenApiDataMockerInterface
     public function mockString(
         $dataFormat = null,
         $minLength = 0,
-        $maxLength = null
+        $maxLength = null,
+        $pattern = null
     );
 
     /**
