@@ -54,6 +54,9 @@ else
   java -version
   #cp CI/pom.xml.circleci.java7 pom.xml
   mvn --quiet verify -Psamples.circleci.jdk7
+
+  # run all scripts
+  ./bin/run-all-petstore
 fi
 
 
