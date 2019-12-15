@@ -73,20 +73,20 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         supportsInheritance = true;
 
         languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
-                "kotlin.Byte",
-                "kotlin.ByteArray",
-                "kotlin.Short",
-                "kotlin.Int",
-                "kotlin.Long",
-                "kotlin.Float",
-                "kotlin.Double",
-                "kotlin.Boolean",
-                "kotlin.Char",
-                "kotlin.String",
-                "kotlin.Array",
-                "kotlin.collections.List",
-                "kotlin.collections.Map",
-                "kotlin.collections.Set"
+                "Byte",
+                "ByteArray",
+                "Short",
+                "Int",
+                "Long",
+                "Float",
+                "Double",
+                "Boolean",
+                "Char",
+                "String",
+                "Array",
+                "List",
+                "Map",
+                "Set"
         ));
 
         // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
@@ -158,45 +158,45 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         ));
 
         defaultIncludes = new HashSet<String>(Arrays.asList(
-                "kotlin.Byte",
-                "kotlin.ByteArray",
-                "kotlin.Short",
-                "kotlin.Int",
-                "kotlin.Long",
-                "kotlin.Float",
-                "kotlin.Double",
-                "kotlin.Boolean",
-                "kotlin.Char",
-                "kotlin.Array",
-                "kotlin.collections.List",
-                "kotlin.collections.Set",
-                "kotlin.collections.Map"
+                "Byte",
+                "ByteArray",
+                "Short",
+                "Int",
+                "Long",
+                "Float",
+                "Double",
+                "Boolean",
+                "Char",
+                "Array",
+                "List",
+                "Set",
+                "Map"
         ));
 
         typeMapping = new HashMap<String, String>();
-        typeMapping.put("string", "kotlin.String");
-        typeMapping.put("boolean", "kotlin.Boolean");
-        typeMapping.put("integer", "kotlin.Int");
-        typeMapping.put("float", "kotlin.Float");
-        typeMapping.put("long", "kotlin.Long");
-        typeMapping.put("double", "kotlin.Double");
-        typeMapping.put("ByteArray", "kotlin.ByteArray");
+        typeMapping.put("string", "String");
+        typeMapping.put("boolean", "Boolean");
+        typeMapping.put("integer", "Int");
+        typeMapping.put("float", "Float");
+        typeMapping.put("long", "Long");
+        typeMapping.put("double", "Double");
+        typeMapping.put("ByteArray", "ByteArray");
         typeMapping.put("number", "java.math.BigDecimal");
         typeMapping.put("date-time", "java.time.LocalDateTime");
         typeMapping.put("date", "java.time.LocalDate");
         typeMapping.put("file", "java.io.File");
-        typeMapping.put("array", "kotlin.Array");
-        typeMapping.put("list", "kotlin.collections.List");
-        typeMapping.put("set", "kotlin.collections.Set");
-        typeMapping.put("map", "kotlin.collections.Map");
-        typeMapping.put("object", "kotlin.Any");
-        typeMapping.put("binary", "kotlin.Array<kotlin.Byte>");
+        typeMapping.put("array", "Array");
+        typeMapping.put("list", "List");
+        typeMapping.put("set", "Set");
+        typeMapping.put("map", "Map");
+        typeMapping.put("object", "Any");
+        typeMapping.put("binary", "Array<Byte>");
         typeMapping.put("Date", "java.time.LocalDate");
         typeMapping.put("DateTime", "java.time.LocalDateTime");
 
-        instantiationTypes.put("array", "kotlin.arrayOf");
-        instantiationTypes.put("list", "kotlin.arrayOf");
-        instantiationTypes.put("map", "kotlin.mapOf");
+        instantiationTypes.put("array", "arrayOf");
+        instantiationTypes.put("list", "arrayOf");
+        instantiationTypes.put("map", "mapOf");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("BigDecimal", "java.math.BigDecimal");
@@ -317,7 +317,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type;
-        // This maps, for example, long -> kotlin.Long based on hashes in this type's constructor
+        // This maps, for example, long -> Long based on hashes in this type's constructor
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
@@ -343,7 +343,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             Schema inner = ModelUtils.getAdditionalProperties(p);
 
             // Maps will be keyed only by primitive Kotlin string
-            return getSchemaType(p) + "<kotlin.String, " + getTypeDeclaration(inner) + ">";
+            return getSchemaType(p) + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }
@@ -613,8 +613,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public String toModelName(final String name) {
 
-        // Allow for explicitly configured kotlin.* and java.* types
-        if (name.startsWith("kotlin.") || name.startsWith("java.")) {
+        // Allow for explicitly configured java.* types
+        if (name.startsWith("java.")) {
             return name;
         }
 
@@ -792,8 +792,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     protected boolean needToImport(String type) {
         // provides extra protection against improperly trying to import language primitives and java types
-        boolean imports = !type.startsWith("kotlin.") && !type.startsWith("java.") && !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
-        return imports;
+        return !type.startsWith("java.") && !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
     }
 
     @Override
@@ -806,15 +805,15 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("kotlin.Int".equals(datatype) || "kotlin.Long".equals(datatype)) {
+        if ("Int".equals(datatype) || "Long".equals(datatype)) {
             return value;
-        } else if ("kotlin.Double".equals(datatype)) {
+        } else if ("Double".equals(datatype)) {
             if (value.contains(".")) {
                 return value;
             } else {
                 return value + ".0"; // Float and double must have .0
             }
-        } else if ("kotlin.Float".equals(datatype)) {
+        } else if ("Float".equals(datatype)) {
             return value + "f";
         } else {
             return "\"" + escapeText(value) + "\"";
@@ -823,7 +822,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public boolean isDataTypeString(final String dataType) {
-        return "String".equals(dataType) || "kotlin.String".equals(dataType);
+        return "String".equals(dataType);
     }
 
     @Override

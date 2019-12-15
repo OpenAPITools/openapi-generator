@@ -106,8 +106,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         CliOption collectionType = new CliOption(COLLECTION_TYPE, "Option. Collection type to use");
         Map<String, String> collectionOptions = new HashMap<>();
-        collectionOptions.put(CollectionType.ARRAY.value, "kotlin.Array");
-        collectionOptions.put(CollectionType.LIST.value, "kotlin.collections.List");
+        collectionOptions.put(CollectionType.ARRAY.value, "Array");
+        collectionOptions.put(CollectionType.LIST.value, "List");
         collectionType.setEnum(collectionOptions);
         collectionType.setDefault(this.collectionType);
         cliOptions.add(collectionType);
@@ -184,8 +184,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         if (CollectionType.LIST.value.equals(collectionType)) {
-            typeMapping.put("array", "kotlin.collections.List");
-            typeMapping.put("list", "kotlin.collections.List");
+            typeMapping.put("array", "List");
+            typeMapping.put("list", "List");
             additionalProperties.put("isList", true);
         }
     }
@@ -218,10 +218,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void processStringDate() {
-        typeMapping.put("date-time", "kotlin.String");
-        typeMapping.put("date", "kotlin.String");
-        typeMapping.put("Date", "kotlin.String");
-        typeMapping.put("DateTime", "kotlin.String");
+        typeMapping.put("date-time", "String");
+        typeMapping.put("date", "String");
+        typeMapping.put("Date", "String");
+        typeMapping.put("DateTime", "String");
     }
 
     private void processJava8Date() {
@@ -281,22 +281,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         defaultIncludes.add(packageName + ".infrastructure.OctetByteArray");
 
         // multiplatform type mapping
-        typeMapping.put("number", "kotlin.Double");
+        typeMapping.put("number", "Double");
         typeMapping.put("file", "OctetByteArray");
         typeMapping.put("binary", "OctetByteArray");
         typeMapping.put("ByteArray", "Base64ByteArray");
-        typeMapping.put("object", "kotlin.String");  // kotlin.Any not serializable
+        typeMapping.put("object", "String");  // Any not serializable
 
         // multiplatform import mapping
-        importMapping.put("BigDecimal", "kotlin.Double");
-        importMapping.put("UUID", "kotlin.String");
-        importMapping.put("URI", "kotlin.String");
+        importMapping.put("BigDecimal", "Double");
+        importMapping.put("UUID", "String");
+        importMapping.put("URI", "String");
         importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");
         importMapping.put("File", packageName + ".infrastructure.OctetByteArray");
-        importMapping.put("Timestamp", "kotlin.String");
-        importMapping.put("LocalDateTime", "kotlin.String");
-        importMapping.put("LocalDate", "kotlin.String");
-        importMapping.put("LocalTime", "kotlin.String");
+        importMapping.put("Timestamp", "String");
+        importMapping.put("LocalDateTime", "String");
+        importMapping.put("LocalDate", "String");
+        importMapping.put("LocalTime", "String");
         importMapping.put("Base64ByteArray", packageName + ".infrastructure.Base64ByteArray");
         importMapping.put("OctetByteArray", packageName + ".infrastructure.OctetByteArray");
 
