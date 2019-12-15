@@ -11,6 +11,9 @@ buildscript {
     {{#retrofit2}}
     ext.retrofitVersion = '2.6.2'
     {{/retrofit2}}
+    {{#joda}}
+    ext.jodaVersion = '2.10.5'
+    {{/joda}}
 
     repositories {
         mavenCentral()
@@ -68,5 +71,8 @@ dependencies {
     {{/moshi}}
     compile "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     {{/retrofit2}}
+    {{#joda}}
+    compile "joda-time:joda-time:$jodaVersion"
+    {{/joda}}
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.0"
 }
