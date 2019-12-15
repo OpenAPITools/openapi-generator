@@ -21,9 +21,9 @@ import com.google.gson.annotations.SerializedName
 
 data class Category (
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
     @SerializedName("name")
-    val name: kotlin.String? = null
+    val name: String? = null
 ) 
 
 

@@ -21,9 +21,9 @@ import com.squareup.moshi.Json
 
 internal data class Tag (
     @Json(name = "id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
     @Json(name = "name")
-    val name: kotlin.String? = null
+    val name: String? = null
 ) 
 
 

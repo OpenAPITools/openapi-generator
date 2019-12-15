@@ -43,7 +43,7 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
     * @param orderId ID of the order that needs to be deleted 
     * @return void
     */
-    suspend fun deleteOrder(orderId: kotlin.String) : HttpResponse<Unit> {
+    suspend fun deleteOrder(orderId: String) : HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -72,10 +72,10 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
     /**
     * Returns pet inventories by status
     * Returns a map of status codes to quantities
-    * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
+    * @return Map<String, Int>
     */
     @Suppress("UNCHECKED_CAST")
-    suspend fun getInventory() : HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
+    suspend fun getInventory() : HttpResponse<Map<String, Int>> {
 
         val localVariableAuthNames = listOf<String>("api_key")
 
@@ -101,10 +101,10 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
     }
 
     @Serializable
-private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
+private class GetInventoryResponse(val value: Map<kotlin.String, Int>) {
     @Serializer(GetInventoryResponse::class)
     companion object : KSerializer<GetInventoryResponse> {
-        private val serializer: KSerializer<Map<kotlin.String, kotlin.Int>> = (kotlin.String.serializer() to kotlin.Int.serializer()).map
+        private val serializer: KSerializer<Map<kotlin.String, Int>> = (kotlin.String.serializer() to Int.serializer()).map
             override val descriptor = StringDescriptor.withName("GetInventoryResponse")
             override fun serialize(encoder: Encoder, obj: GetInventoryResponse) = serializer.serialize(encoder, obj.value)
             override fun deserialize(decoder: Decoder) = GetInventoryResponse(serializer.deserialize(decoder))
@@ -118,7 +118,7 @@ private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
     * @return Order
     */
     @Suppress("UNCHECKED_CAST")
-    suspend fun getOrderById(orderId: kotlin.Long) : HttpResponse<Order> {
+    suspend fun getOrderById(orderId: Long) : HttpResponse<Order> {
 
         val localVariableAuthNames = listOf<String>()
 

@@ -11,13 +11,13 @@ import org.openapitools.client.models.Order
 
 interface StoreApi {
     @DELETE("/store/order/{orderId}")
-    fun deleteOrder(@Path("orderId") orderId: kotlin.String): Call<Unit>
+    fun deleteOrder(@Path("orderId") orderId: String): Call<Unit>
 
     @GET("/store/inventory")
-    fun getInventory(): Call<kotlin.collections.Map<kotlin.String, kotlin.Int>>
+    fun getInventory(): Call<Map<String, Int>>
 
     @GET("/store/order/{orderId}")
-    fun getOrderById(@Path("orderId") orderId: kotlin.Long): Call<Order>
+    fun getOrderById(@Path("orderId") orderId: Long): Call<Order>
 
     @POST("/store/order")
     fun placeOrder(@Body body: Order): Call<Order>

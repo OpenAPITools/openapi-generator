@@ -25,18 +25,18 @@ import com.google.gson.annotations.SerializedName
 
 data class Order (
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
     @SerializedName("petId")
-    val petId: kotlin.Long? = null,
+    val petId: Long? = null,
     @SerializedName("quantity")
-    val quantity: kotlin.Int? = null,
+    val quantity: Int? = null,
     @SerializedName("shipDate")
     val shipDate: java.time.LocalDateTime? = null,
     /* Order Status */
     @SerializedName("status")
     val status: Order.Status? = null,
     @SerializedName("complete")
-    val complete: kotlin.Boolean? = null
+    val complete: Boolean? = null
 ) 
 
 
@@ -46,7 +46,7 @@ data class Order (
     * Values: placed,approved,delivered
     */
     
-    enum class Status(val value: kotlin.String){
+    enum class Status(val value: String){
         @SerializedName(value="placed")  placed("placed"),
         @SerializedName(value="approved")  approved("approved"),
         @SerializedName(value="delivered")  delivered("delivered");

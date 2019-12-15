@@ -28,22 +28,22 @@ import java.io.Serializable
 
 data class User (
     @Json(name = "id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
     @Json(name = "username")
-    val username: kotlin.String? = null,
+    val username: String? = null,
     @Json(name = "firstName")
-    val firstName: kotlin.String? = null,
+    val firstName: String? = null,
     @Json(name = "lastName")
-    val lastName: kotlin.String? = null,
+    val lastName: String? = null,
     @Json(name = "email")
-    val email: kotlin.String? = null,
+    val email: String? = null,
     @Json(name = "password")
-    val password: kotlin.String? = null,
+    val password: String? = null,
     @Json(name = "phone")
-    val phone: kotlin.String? = null,
+    val phone: String? = null,
     /* User Status */
     @Json(name = "userStatus")
-    val userStatus: kotlin.Int? = null
+    val userStatus: Int? = null
 ) 
 : Serializable 
 

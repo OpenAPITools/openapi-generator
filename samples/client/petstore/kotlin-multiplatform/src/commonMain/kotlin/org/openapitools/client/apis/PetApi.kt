@@ -77,7 +77,7 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
     * @param apiKey  (optional)
     * @return void
     */
-    suspend fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?) : HttpResponse<Unit> {
+    suspend fun deletePet(petId: Long, apiKey: String?) : HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -108,10 +108,10 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
     * Finds Pets by status
     * Multiple status values can be provided with comma separated strings
     * @param status Status values that need to be considered for filter 
-    * @return kotlin.Array<Pet>
+    * @return Array<Pet>
     */
     @Suppress("UNCHECKED_CAST")
-    suspend fun findPetsByStatus(status: kotlin.Array<kotlin.String>) : HttpResponse<kotlin.Array<Pet>> {
+    suspend fun findPetsByStatus(status: Array<String>) : HttpResponse<Array<Pet>> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -152,10 +152,10 @@ private class FindPetsByStatusResponse(val value: List<Pet>) {
     * Finds Pets by tags
     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     * @param tags Tags to filter by 
-    * @return kotlin.Array<Pet>
+    * @return Array<Pet>
     */
     @Suppress("UNCHECKED_CAST")
-    suspend fun findPetsByTags(tags: kotlin.Array<kotlin.String>) : HttpResponse<kotlin.Array<Pet>> {
+    suspend fun findPetsByTags(tags: Array<String>) : HttpResponse<Array<Pet>> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -199,7 +199,7 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
     * @return Pet
     */
     @Suppress("UNCHECKED_CAST")
-    suspend fun getPetById(petId: kotlin.Long) : HttpResponse<Pet> {
+    suspend fun getPetById(petId: Long) : HttpResponse<Pet> {
 
         val localVariableAuthNames = listOf<String>("api_key")
 
@@ -265,7 +265,7 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
     * @param status Updated status of the pet (optional)
     * @return void
     */
-    suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : HttpResponse<Unit> {
+    suspend fun updatePetWithForm(petId: Long, name: String?, status: String?) : HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
@@ -303,7 +303,7 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
     * @return ApiResponse
     */
     @Suppress("UNCHECKED_CAST")
-    suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.InputProvider?) : HttpResponse<ApiResponse> {
+    suspend fun uploadFile(petId: Long, additionalMetadata: String?, file: io.ktor.client.request.forms.InputProvider?) : HttpResponse<ApiResponse> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 

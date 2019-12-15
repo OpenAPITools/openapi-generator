@@ -14,24 +14,24 @@ interface UserApi {
     fun createUser(@Body body: User): Call<Unit>
 
     @POST("/user/createWithArray")
-    fun createUsersWithArrayInput(@Body body: kotlin.Array<User>): Call<Unit>
+    fun createUsersWithArrayInput(@Body body: Array<User>): Call<Unit>
 
     @POST("/user/createWithList")
-    fun createUsersWithListInput(@Body body: kotlin.Array<User>): Call<Unit>
+    fun createUsersWithListInput(@Body body: Array<User>): Call<Unit>
 
     @DELETE("/user/{username}")
-    fun deleteUser(@Path("username") username: kotlin.String): Call<Unit>
+    fun deleteUser(@Path("username") username: String): Call<Unit>
 
     @GET("/user/{username}")
-    fun getUserByName(@Path("username") username: kotlin.String): Call<User>
+    fun getUserByName(@Path("username") username: String): Call<User>
 
     @GET("/user/login")
-    fun loginUser(@Query("username") username: kotlin.String, @Query("password") password: kotlin.String): Call<kotlin.String>
+    fun loginUser(@Query("username") username: String, @Query("password") password: String): Call<String>
 
     @GET("/user/logout")
     fun logoutUser(): Call<Unit>
 
     @PUT("/user/{username}")
-    fun updateUser(@Path("username") username: kotlin.String, @Body body: User): Call<Unit>
+    fun updateUser(@Path("username") username: String, @Body body: User): Call<Unit>
 
 }

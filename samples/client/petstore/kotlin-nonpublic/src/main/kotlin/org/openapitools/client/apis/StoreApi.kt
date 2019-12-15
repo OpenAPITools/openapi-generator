@@ -37,7 +37,7 @@ internal class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteOrder(orderId: kotlin.String) : Unit {
+    fun deleteOrder(orderId: String) : Unit {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -64,14 +64,14 @@ internal class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2
     /**
     * Returns pet inventories by status
     * Returns a map of status codes to quantities
-    * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
+    * @return Map<String, Int>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getInventory() : kotlin.collections.Map<kotlin.String, kotlin.Int> {
+    fun getInventory() : Map<String, Int> {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -81,13 +81,13 @@ internal class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val localVarResponse = request<kotlin.collections.Map<kotlin.String, kotlin.Int>>(
+        val localVarResponse = request<Map<String, Int>>(
             localVariableConfig,
             localVariableBody
         )
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.Map<kotlin.String, kotlin.Int>
+            ResponseType.Success -> (localVarResponse as Success<*>).data as Map<String, Int>
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
@@ -106,7 +106,7 @@ internal class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getOrderById(orderId: kotlin.Long) : Order {
+    fun getOrderById(orderId: Long) : Order {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
