@@ -53,7 +53,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public enum DateLibrary {
         STRING("string"),
         THREETENBP("threetenbp"),
-        JAVA8("java8");
+        JAVA8("java8"),
+        JODA("joda");
 
         public final String value;
 
@@ -100,6 +101,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         dateOptions.put(DateLibrary.THREETENBP.value, "Threetenbp (jvm only)");
         dateOptions.put(DateLibrary.STRING.value, "String");
         dateOptions.put(DateLibrary.JAVA8.value, "Java 8 native JSR310 (jvm only)");
+        dateOptions.put(DateLibrary.JODA.value, "Joda time (legacy)");
         dateLibrary.setEnum(dateOptions);
         dateLibrary.setDefault(this.dateLibrary);
         cliOptions.add(dateLibrary);
@@ -202,6 +204,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             case JAVA8:
                 processJava8Date();
                 break;
+            case JODA:
+                processJodaDate();
             default:
                 break;
         }
@@ -226,6 +230,16 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     private void processJava8Date() {
         additionalProperties.put(DateLibrary.JAVA8.value, true);
+    }
+
+    private void processJodaDate() {
+        additionalProperties.put(DateLibrary.JODA.value, true);
+        typeMapping.put("date", "LocalDate");
+        typeMapping.put("DateTime", "DateTime");
+        importMapping.put("LocalDate", "org.joda.time.LocalDate");
+        importMapping.put("DateTime", "org.joda.time.DateTime");
+        defaultIncludes.add("org.joda.time.LocalDate");
+        defaultIncludes.add("org.joda.time.DateTime");
     }
 
     private void processRetrofit2Library(String infrastructureFolder) {
