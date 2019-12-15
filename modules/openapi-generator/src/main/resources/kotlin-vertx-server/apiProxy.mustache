@@ -76,12 +76,12 @@ class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val servi
                          throw IllegalArgumentException("{{paramName}} is required")
                     }
                     val {{paramName}}:{{{dataType}}} = Gson().fromJson({{paramName}}Param.encode()
-                            , object : TypeToken<kotlin.collections.List<{{{baseType}}}>>(){}.type)
+                            , object : TypeToken<List<{{{baseType}}}>>(){}.type)
                         {{/required}}
                         {{^required}}
                     val {{paramName}}:{{{dataType}}}? = if({{paramName}}Param == null) {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
                             else Gson().fromJson({{paramName}}Param.encode(),
-                            , object : TypeToken<kotlin.collections.List<{{{baseType}}}>>(){}.type)
+                            , object : TypeToken<List<{{{baseType}}}>>(){}.type)
                         {{/required}}
                     {{/isListContainer}}
                     {{^isListContainer}}
