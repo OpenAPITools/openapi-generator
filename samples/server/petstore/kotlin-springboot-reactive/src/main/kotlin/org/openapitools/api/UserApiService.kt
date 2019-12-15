@@ -1,6 +1,5 @@
 package org.openapitools.api
 
-import org.openapitools.model.KotlincollectionsList
 import org.openapitools.model.User
 import kotlinx.coroutines.flow.Flow;
 interface UserApiService {

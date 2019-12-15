@@ -35,8 +35,6 @@ import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 
 import kotlinx.coroutines.flow.Flow;
-import kotlin.collections.List
-import kotlin.collections.Map
 
 @RestController
 @Validated
@@ -89,7 +87,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = ["/pet/findByStatus"],
         produces = ["application/xml", "application/json"], 
         method = [RequestMethod.GET])
-    fun findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<String>
+    fun findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) status: List<String>
 ): ResponseEntity<Flow<Pet>> {
         return ResponseEntity(service.findPetsByStatus(status), HttpStatus.valueOf(200))
     }
@@ -107,7 +105,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = ["/pet/findByTags"],
         produces = ["application/xml", "application/json"], 
         method = [RequestMethod.GET])
-    fun findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<String>
+    fun findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: List<String>
 ): ResponseEntity<Flow<Pet>> {
         return ResponseEntity(service.findPetsByTags(tags), HttpStatus.valueOf(200))
     }

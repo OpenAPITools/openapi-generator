@@ -106,7 +106,7 @@ class PetApiVertxProxyHandler(private val vertx: Vertx, private val service: Pet
                          throw IllegalArgumentException("status is required")
                     }
                     val status:Array<String> = Gson().fromJson(statusParam.encode()
-                            , object : TypeToken<kotlin.collections.List<String>>(){}.type)
+                            , object : TypeToken<List<String>>(){}.type)
                     GlobalScope.launch(vertx.dispatcher()){
                         val result = service.findPetsByStatus(status,context)
                         val payload = JsonArray(Json.encode(result.payload)).toBuffer()
@@ -124,7 +124,7 @@ class PetApiVertxProxyHandler(private val vertx: Vertx, private val service: Pet
                          throw IllegalArgumentException("tags is required")
                     }
                     val tags:Array<String> = Gson().fromJson(tagsParam.encode()
-                            , object : TypeToken<kotlin.collections.List<String>>(){}.type)
+                            , object : TypeToken<List<String>>(){}.type)
                     GlobalScope.launch(vertx.dispatcher()){
                         val result = service.findPetsByTags(tags,context)
                         val payload = JsonArray(Json.encode(result.payload)).toBuffer()

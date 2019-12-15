@@ -55,7 +55,7 @@ class PetApiTest {
     */
     @Test
     fun findPetsByStatusTest() {
-        val status:kotlin.collections.List<String>? = null
+        val status:List<String>? = null
         val response: ResponseEntity<List<Pet>> = api.findPetsByStatus(status!!)
 
         // TODO: test validations
@@ -71,7 +71,7 @@ class PetApiTest {
     */
     @Test
     fun findPetsByTagsTest() {
-        val tags:kotlin.collections.List<String>? = null
+        val tags:List<String>? = null
         val response: ResponseEntity<List<Pet>> = api.findPetsByTags(tags!!)
 
         // TODO: test validations

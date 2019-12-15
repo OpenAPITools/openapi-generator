@@ -1,6 +1,5 @@
 package org.openapitools.api
 
-import org.openapitools.model.KotlincollectionsList
 import org.openapitools.model.User
 import org.junit.jupiter.api.Test
 
@@ -38,7 +37,7 @@ class UserApiTest {
     */
     @Test
     fun createUsersWithArrayInputTest() {
-        val body:kotlin.collections.List<User>? = null
+        val body:List<User>? = null
         val response: ResponseEntity<Unit> = api.createUsersWithArrayInput(body!!)
 
         // TODO: test validations
@@ -54,7 +53,7 @@ class UserApiTest {
     */
     @Test
     fun createUsersWithListInputTest() {
-        val body:kotlin.collections.List<User>? = null
+        val body:List<User>? = null
         val response: ResponseEntity<Unit> = api.createUsersWithListInput(body!!)
 
         // TODO: test validations

@@ -1,6 +1,5 @@
 package org.openapitools.api
 
-import org.openapitools.model.KotlincollectionsList
 import org.openapitools.model.User
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -35,8 +34,6 @@ import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 
 import kotlinx.coroutines.flow.Flow;
-import kotlin.collections.List
-import kotlin.collections.Map
 
 @RestController
 @Validated

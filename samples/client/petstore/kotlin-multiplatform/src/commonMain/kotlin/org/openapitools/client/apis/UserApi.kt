@@ -25,14 +25,14 @@ import kotlinx.serialization.*
 import kotlinx.serialization.internal.StringDescriptor
 
 class UserApi @UseExperimental(UnstableDefault::class) constructor(
-        baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
+        baseUrl: String = "http://petstore.swagger.io/v2",
         httpClientEngine: HttpClientEngine? = null,
         serializer: KotlinxSerializer)
     : ApiClient(baseUrl, httpClientEngine, serializer) {
 
     @UseExperimental(UnstableDefault::class)
     constructor(
-        baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
+        baseUrl: String = "http://petstore.swagger.io/v2",
         httpClientEngine: HttpClientEngine? = null,
         jsonConfiguration: JsonConfiguration = JsonConfiguration.Default)
     : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))

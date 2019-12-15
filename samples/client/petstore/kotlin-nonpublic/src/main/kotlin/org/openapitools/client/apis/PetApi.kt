@@ -26,7 +26,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-internal class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiClient(basePath) {
+internal class PetApi(basePath: String = "http://petstore.swagger.io/v2") : ApiClient(basePath) {
 
     /**
     * Add a new pet to the store
@@ -39,7 +39,7 @@ internal class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2")
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun addPet(body: Pet) : Unit {
-        val localVariableBody: kotlin.Any? = body
+        val localVariableBody: Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -74,7 +74,7 @@ internal class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2")
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun deletePet(petId: Long, apiKey: String?) : Unit {
-        val localVariableBody: kotlin.Any? = null
+        val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("api_key" to apiKey.toString())
         val localVariableConfig = RequestConfig(
@@ -109,8 +109,8 @@ internal class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2")
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun findPetsByStatus(status: Array<String>) : Array<Pet> {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+        val localVariableBody: Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<String, List<String>>()
             .apply {
                 put("status", toMultiValue(status.toList(), "csv"))
             }
@@ -147,8 +147,8 @@ internal class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2")
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun findPetsByTags(tags: Array<String>) : Array<Pet> {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+        val localVariableBody: Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<String, List<String>>()
             .apply {
                 put("tags", toMultiValue(tags.toList(), "csv"))
             }
@@ -185,7 +185,7 @@ internal class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2")
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getPetById(petId: Long) : Pet {
-        val localVariableBody: kotlin.Any? = null
+        val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -219,7 +219,7 @@ internal class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2")
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun updatePet(body: Pet) : Unit {
-        val localVariableBody: kotlin.Any? = body
+        val localVariableBody: Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -255,7 +255,7 @@ internal class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2")
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun updatePetWithForm(petId: Long, name: String?, status: String?) : Unit {
-        val localVariableBody: kotlin.Any? = mapOf("name" to "$name", "status" to "$status")
+        val localVariableBody: Any? = mapOf("name" to "$name", "status" to "$status")
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "")
         val localVariableConfig = RequestConfig(
@@ -292,7 +292,7 @@ internal class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2")
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun uploadFile(petId: Long, additionalMetadata: String?, file: java.io.File?) : ApiResponse {
-        val localVariableBody: kotlin.Any? = mapOf("additionalMetadata" to "$additionalMetadata", "file" to "$file")
+        val localVariableBody: Any? = mapOf("additionalMetadata" to "$additionalMetadata", "file" to "$file")
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "")
         val localVariableConfig = RequestConfig(

@@ -5,7 +5,7 @@ interface StoreApiService {
 
 	fun deleteOrder(orderId: String): Unit
 
-	fun getInventory(): Map<String, Map<String, Int>>
+	fun getInventory(): Map<String, Int>
 
 	fun getOrderById(orderId: Long): Order
 

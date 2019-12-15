@@ -1,6 +1,5 @@
 package org.openapitools.api
 
-import org.openapitools.model.KotlincollectionsList
 import org.openapitools.model.User
 import org.springframework.stereotype.Service
 @Service
@@ -10,11 +9,11 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override fun createUsersWithArrayInput(body: kotlin.collections.List<User>): Unit {
+    override fun createUsersWithArrayInput(body: List<User>): Unit {
         TODO("Implement me")
     }
 
-    override fun createUsersWithListInput(body: kotlin.collections.List<User>): Unit {
+    override fun createUsersWithListInput(body: List<User>): Unit {
         TODO("Implement me")
     }
 

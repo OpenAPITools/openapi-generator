@@ -10,7 +10,7 @@ class StoreApiServiceImpl : StoreApiService {
         TODO("Implement me")
     }
 
-    override suspend fun getInventory(): Map<String, Map<String, Int>> {
+    override suspend fun getInventory(): Map<String, Int> {
         TODO("Implement me")
     }
 

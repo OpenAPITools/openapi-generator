@@ -1,6 +1,5 @@
 package org.openapitools.api
 
-import org.openapitools.model.KotlincollectionsList
 import org.openapitools.model.User
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -34,8 +33,6 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 
-import kotlin.collections.List
-import kotlin.collections.Map
 
 @RestController
 @Validated
@@ -66,7 +63,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
         value = ["/user/createWithArray"],
         method = [RequestMethod.POST])
-    fun createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: kotlin.collections.List<User>
+    fun createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: List<User>
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithArrayInput(body), HttpStatus.valueOf(200))
     }
@@ -80,7 +77,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
         value = ["/user/createWithList"],
         method = [RequestMethod.POST])
-    fun createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: kotlin.collections.List<User>
+    fun createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: List<User>
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithListInput(body), HttpStatus.valueOf(200))
     }

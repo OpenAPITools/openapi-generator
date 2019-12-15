@@ -8,9 +8,9 @@ interface PetApiService {
 
 	fun deletePet(petId: Long, apiKey: String?): Unit
 
-	fun findPetsByStatus(status: kotlin.collections.List<String>): List<Pet>
+	fun findPetsByStatus(status: List<String>): List<Pet>
 
-	fun findPetsByTags(tags: kotlin.collections.List<String>): List<Pet>
+	fun findPetsByTags(tags: List<String>): List<Pet>
 
 	fun getPetById(petId: Long): Pet
 

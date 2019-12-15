@@ -1,14 +1,13 @@
 package org.openapitools.api
 
-import org.openapitools.model.KotlincollectionsList
 import org.openapitools.model.User
 interface UserApiService {
 
 	fun createUser(body: User): Unit
 
-	fun createUsersWithArrayInput(body: kotlin.collections.List<User>): Unit
+	fun createUsersWithArrayInput(body: List<User>): Unit
 
-	fun createUsersWithListInput(body: kotlin.collections.List<User>): Unit
+	fun createUsersWithListInput(body: List<User>): Unit
 
 	fun deleteUser(username: String): Unit
 

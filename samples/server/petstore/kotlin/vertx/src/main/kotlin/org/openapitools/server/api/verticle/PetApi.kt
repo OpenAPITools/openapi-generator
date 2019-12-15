@@ -41,7 +41,7 @@ interface PetApi  {
     suspend fun updatePetWithForm(petId:Long?,name:String?,status:String?,context:OperationRequest):Response<Void>
     /* uploadFile
      * uploads an image */
-    suspend fun uploadFile(petId:Long?,additionalMetadata:String?,file:kotlin.collections.List<java.io.File>?,context:OperationRequest):Response<ApiResponse>
+    suspend fun uploadFile(petId:Long?,additionalMetadata:String?,file:List<java.io.File>?,context:OperationRequest):Response<ApiResponse>
     companion object {
         const val address = "PetApi-service"
         suspend fun createRouterFactory(vertx: Vertx,path:String): io.vertx.ext.web.api.contract.openapi3.OpenAPI3RouterFactory {

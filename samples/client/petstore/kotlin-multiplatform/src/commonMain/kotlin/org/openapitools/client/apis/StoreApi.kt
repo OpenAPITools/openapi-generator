@@ -25,14 +25,14 @@ import kotlinx.serialization.*
 import kotlinx.serialization.internal.StringDescriptor
 
 class StoreApi @UseExperimental(UnstableDefault::class) constructor(
-        baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
+        baseUrl: String = "http://petstore.swagger.io/v2",
         httpClientEngine: HttpClientEngine? = null,
         serializer: KotlinxSerializer)
     : ApiClient(baseUrl, httpClientEngine, serializer) {
 
     @UseExperimental(UnstableDefault::class)
     constructor(
-        baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
+        baseUrl: String = "http://petstore.swagger.io/v2",
         httpClientEngine: HttpClientEngine? = null,
         jsonConfiguration: JsonConfiguration = JsonConfiguration.Default)
     : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
@@ -101,10 +101,10 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
     }
 
     @Serializable
-private class GetInventoryResponse(val value: Map<kotlin.String, Int>) {
+private class GetInventoryResponse(val value: Map<String, Int>) {
     @Serializer(GetInventoryResponse::class)
     companion object : KSerializer<GetInventoryResponse> {
-        private val serializer: KSerializer<Map<kotlin.String, Int>> = (kotlin.String.serializer() to Int.serializer()).map
+        private val serializer: KSerializer<Map<String, Int>> = (String.serializer() to Int.serializer()).map
             override val descriptor = StringDescriptor.withName("GetInventoryResponse")
             override fun serialize(encoder: Encoder, obj: GetInventoryResponse) = serializer.serialize(encoder, obj.value)
             override fun deserialize(decoder: Decoder) = GetInventoryResponse(serializer.deserialize(decoder))

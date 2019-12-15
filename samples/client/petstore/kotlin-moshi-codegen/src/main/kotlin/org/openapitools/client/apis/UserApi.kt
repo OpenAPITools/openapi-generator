@@ -25,7 +25,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiClient(basePath) {
+class UserApi(basePath: String = "http://petstore.swagger.io/v2") : ApiClient(basePath) {
 
     /**
     * Create user
@@ -38,7 +38,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun createUser(body: User) : Unit {
-        val localVariableBody: kotlin.Any? = body
+        val localVariableBody: Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -72,7 +72,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun createUsersWithArrayInput(body: Array<User>) : Unit {
-        val localVariableBody: kotlin.Any? = body
+        val localVariableBody: Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -106,7 +106,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun createUsersWithListInput(body: Array<User>) : Unit {
-        val localVariableBody: kotlin.Any? = body
+        val localVariableBody: Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -140,7 +140,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun deleteUser(username: String) : Unit {
-        val localVariableBody: kotlin.Any? = null
+        val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -175,7 +175,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getUserByName(username: String) : User {
-        val localVariableBody: kotlin.Any? = null
+        val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -211,8 +211,8 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun loginUser(username: String, password: String) : String {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+        val localVariableBody: Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<String, List<String>>()
             .apply {
                 put("username", listOf(username.toString()))
                 put("password", listOf(password.toString()))
@@ -248,7 +248,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun logoutUser() : Unit {
-        val localVariableBody: kotlin.Any? = null
+        val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -283,7 +283,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun updateUser(username: String, body: User) : Unit {
-        val localVariableBody: kotlin.Any? = body
+        val localVariableBody: Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(

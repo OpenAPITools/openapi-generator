@@ -37,7 +37,7 @@ class StoreApiTest {
     */
     @Test
     fun getInventoryTest() {
-        val response: ResponseEntity<Map<String, Map<String, Int>>> = api.getInventory()
+        val response: ResponseEntity<Map<String, Int>> = api.getInventory()
 
         // TODO: test validations
     }

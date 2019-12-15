@@ -33,8 +33,6 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 
-import kotlin.collections.List
-import kotlin.collections.Map
 
 @RestController
 @Validated
@@ -61,15 +59,15 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         nickname = "getInventory",
         notes = "Returns a map of status codes to quantities",
         response = Int::class,
-        responseContainer = "map",
+        responseContainer = "Map",
         authorizations = [Authorization(value = "api_key")])
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation", response = Map::class, responseContainer = "map")])
+        value = [ApiResponse(code = 200, message = "successful operation", response = Map::class, responseContainer = "Map")])
     @RequestMapping(
         value = ["/store/inventory"],
         produces = ["application/json"], 
         method = [RequestMethod.GET])
-    fun getInventory(): ResponseEntity<Map<String, Map<String, Int>>> {
+    fun getInventory(): ResponseEntity<Map<String, Int>> {
         return ResponseEntity(service.getInventory(), HttpStatus.valueOf(200))
     }
 

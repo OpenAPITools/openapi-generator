@@ -4,9 +4,7 @@ import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.Category
-import org.openapitools.model.KotlincollectionsList
 import org.openapitools.model.Tag
-import org.openapitools.model.kotlin.collections.List
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Max
@@ -33,7 +31,7 @@ data class Pet (
 
         @get:NotNull 
         @ApiModelProperty(example = "null", required = true, value = "")
-        @JsonProperty("photoUrls") val photoUrls: kotlin.collections.List<String>,
+        @JsonProperty("photoUrls") val photoUrls: List<String>,
 
         @ApiModelProperty(example = "null", value = "")
         @JsonProperty("id") val id: Long? = null,
@@ -42,7 +40,7 @@ data class Pet (
         @JsonProperty("category") val category: Category? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+        @JsonProperty("tags") val tags: List<Tag>? = null,
 
         @ApiModelProperty(example = "null", value = "pet status in the store")
         @JsonProperty("status") val status: Pet.Status? = null
