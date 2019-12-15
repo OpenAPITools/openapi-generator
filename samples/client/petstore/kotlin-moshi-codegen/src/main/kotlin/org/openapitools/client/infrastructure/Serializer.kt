@@ -2,7 +2,6 @@ package org.openapitools.client.infrastructure
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
-
 import java.util.Date
 
 object Serializer {
@@ -13,6 +12,5 @@ object Serializer {
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
-        
         .build()
 }
