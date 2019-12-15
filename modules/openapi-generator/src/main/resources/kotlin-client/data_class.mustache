@@ -1,4 +1,4 @@
-{{#jvm}}
+{{^multiplatform}}
 {{#gson}}
 import com.google.gson.annotations.SerializedName
 {{/gson}}
@@ -13,7 +13,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 {{/parcelizeModels}}
-{{/jvm}}
+{{/multiplatform}}
 {{#multiplatform}}
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
@@ -59,14 +59,14 @@ import java.io.Serializable
     {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val value: {{#isListContainer}}{{{ nestedType }}}{{/isListContainer}}{{^isListContainer}}{{{dataType}}}{{/isListContainer}}){
     {{#allowableValues}}
     {{#enumVars}}
-        {{#jvm}}
+        {{^multiplatform}}
         {{#moshi}}
         @Json(name = {{{value}}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/moshi}}
         {{#gson}}
         @SerializedName(value={{{value}}})  {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/gson}}
-        {{/jvm}}
+        {{/multiplatform}}
         {{#multiplatform}}
         {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/multiplatform}}
