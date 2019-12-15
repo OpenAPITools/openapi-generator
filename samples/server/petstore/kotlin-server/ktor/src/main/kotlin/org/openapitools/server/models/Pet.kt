@@ -25,11 +25,11 @@ import java.io.Serializable
  * @param status pet status in the store
  */
 data class Pet (
-    val name: kotlin.String,
-    val photoUrls: kotlin.Array<kotlin.String>,
-    val id: kotlin.Long? = null,
+    val name: String,
+    val photoUrls: Array<String>,
+    val id: Long? = null,
     val category: Category? = null,
-    val tags: kotlin.Array<Tag>? = null,
+    val tags: Array<Tag>? = null,
     /* pet status in the store */
     val status: Pet.Status? = null
 ) : Serializable 
@@ -41,7 +41,7 @@ data class Pet (
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(val value: kotlin.String){
+    enum class Status(val value: String){
         available("available"),
         pending("pending"),
         sold("sold");

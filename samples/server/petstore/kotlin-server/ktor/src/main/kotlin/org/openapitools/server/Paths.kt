@@ -22,7 +22,7 @@ object Paths {
      * @param apiKey  (optional)
      */
     @KtorExperimentalLocationsAPI
-    @Location("/pet/{petId}") class deletePet(val petId: kotlin.Long, val apiKey: kotlin.String)
+    @Location("/pet/{petId}") class deletePet(val petId: Long, val apiKey: String)
 
     /**
      * Finds Pets by status
@@ -30,7 +30,7 @@ object Paths {
      * @param status Status values that need to be considered for filter 
      */
     @KtorExperimentalLocationsAPI
-    @Location("/pet/findByStatus") class findPetsByStatus(val status: kotlin.Array<kotlin.String>)
+    @Location("/pet/findByStatus") class findPetsByStatus(val status: Array<String>)
 
     /**
      * Finds Pets by tags
@@ -38,7 +38,7 @@ object Paths {
      * @param tags Tags to filter by 
      */
     @KtorExperimentalLocationsAPI
-    @Location("/pet/findByTags") class findPetsByTags(val tags: kotlin.Array<kotlin.String>)
+    @Location("/pet/findByTags") class findPetsByTags(val tags: Array<String>)
 
     /**
      * Find pet by ID
@@ -46,7 +46,7 @@ object Paths {
      * @param petId ID of pet to return 
      */
     @KtorExperimentalLocationsAPI
-    @Location("/pet/{petId}") class getPetById(val petId: kotlin.Long)
+    @Location("/pet/{petId}") class getPetById(val petId: Long)
 
     /**
      * Delete purchase order by ID
@@ -54,7 +54,7 @@ object Paths {
      * @param orderId ID of the order that needs to be deleted 
      */
     @KtorExperimentalLocationsAPI
-    @Location("/store/order/{orderId}") class deleteOrder(val orderId: kotlin.String)
+    @Location("/store/order/{orderId}") class deleteOrder(val orderId: String)
 
     /**
      * Returns pet inventories by status
@@ -69,7 +69,7 @@ object Paths {
      * @param orderId ID of pet that needs to be fetched 
      */
     @KtorExperimentalLocationsAPI
-    @Location("/store/order/{orderId}") class getOrderById(val orderId: kotlin.Long)
+    @Location("/store/order/{orderId}") class getOrderById(val orderId: Long)
 
     /**
      * Delete user
@@ -77,7 +77,7 @@ object Paths {
      * @param username The name that needs to be deleted 
      */
     @KtorExperimentalLocationsAPI
-    @Location("/user/{username}") class deleteUser(val username: kotlin.String)
+    @Location("/user/{username}") class deleteUser(val username: String)
 
     /**
      * Get user by user name
@@ -85,7 +85,7 @@ object Paths {
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
     @KtorExperimentalLocationsAPI
-    @Location("/user/{username}") class getUserByName(val username: kotlin.String)
+    @Location("/user/{username}") class getUserByName(val username: String)
 
     /**
      * Logs user into the system
@@ -94,7 +94,7 @@ object Paths {
      * @param password The password for login in clear text 
      */
     @KtorExperimentalLocationsAPI
-    @Location("/user/login") class loginUser(val username: kotlin.String, val password: kotlin.String)
+    @Location("/user/login") class loginUser(val username: String, val password: String)
 
     /**
      * Logs out current logged in user session

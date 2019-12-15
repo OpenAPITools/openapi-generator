@@ -1,5 +1,6 @@
 package org.openapitools.api
 
+import org.openapitools.model.KotlincollectionsList
 import org.openapitools.model.User
 import org.junit.jupiter.api.Test
 
@@ -69,7 +70,7 @@ class UserApiTest {
     */
     @Test
     fun deleteUserTest() {
-        val username:kotlin.String? = null
+        val username:String? = null
         val response: ResponseEntity<Unit> = api.deleteUser(username!!)
 
         // TODO: test validations
@@ -85,7 +86,7 @@ class UserApiTest {
     */
     @Test
     fun getUserByNameTest() {
-        val username:kotlin.String? = null
+        val username:String? = null
         val response: ResponseEntity<User> = api.getUserByName(username!!)
 
         // TODO: test validations
@@ -101,9 +102,9 @@ class UserApiTest {
     */
     @Test
     fun loginUserTest() {
-        val username:kotlin.String? = null
-        val password:kotlin.String? = null
-        val response: ResponseEntity<kotlin.String> = api.loginUser(username!!, password!!)
+        val username:String? = null
+        val password:String? = null
+        val response: ResponseEntity<String> = api.loginUser(username!!, password!!)
 
         // TODO: test validations
     }
@@ -133,7 +134,7 @@ class UserApiTest {
     */
     @Test
     fun updateUserTest() {
-        val username:kotlin.String? = null
+        val username:String? = null
         val body:User? = null
         val response: ResponseEntity<Unit> = api.updateUser(username!!, body!!)
 

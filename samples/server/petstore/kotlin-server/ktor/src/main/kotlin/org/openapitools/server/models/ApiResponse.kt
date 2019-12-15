@@ -20,9 +20,9 @@ import java.io.Serializable
  * @param message 
  */
 data class ApiResponse (
-    val code: kotlin.Int? = null,
-    val type: kotlin.String? = null,
-    val message: kotlin.String? = null
+    val code: Int? = null,
+    val type: String? = null,
+    val message: String? = null
 ) : Serializable 
 {
 	companion object {

@@ -1,5 +1,6 @@
 package org.openapitools.api
 
+import org.openapitools.model.KotlincollectionsList
 import org.openapitools.model.User
 interface UserApiService {
 
@@ -9,13 +10,13 @@ interface UserApiService {
 
 	fun createUsersWithListInput(body: kotlin.collections.List<User>): Unit
 
-	fun deleteUser(username: kotlin.String): Unit
+	fun deleteUser(username: String): Unit
 
-	fun getUserByName(username: kotlin.String): User
+	fun getUserByName(username: String): User
 
-	fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String
+	fun loginUser(username: String, password: String): String
 
 	fun logoutUser(): Unit
 
-	fun updateUser(username: kotlin.String, body: User): Unit
+	fun updateUser(username: String, body: User): Unit
 }

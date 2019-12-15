@@ -23,25 +23,25 @@ interface PetApi  {
     suspend fun addPet(body:Pet?,context:OperationRequest):Response<Void>
     /* deletePet
      * Deletes a pet */
-    suspend fun deletePet(petId:kotlin.Long?,apiKey:kotlin.String?,context:OperationRequest):Response<Void>
+    suspend fun deletePet(petId:Long?,apiKey:String?,context:OperationRequest):Response<Void>
     /* findPetsByStatus
      * Finds Pets by status */
-    suspend fun findPetsByStatus(status:kotlin.Array<kotlin.String>?,context:OperationRequest):Response<kotlin.Array<Pet>>
+    suspend fun findPetsByStatus(status:Array<String>?,context:OperationRequest):Response<Array<Pet>>
     /* findPetsByTags
      * Finds Pets by tags */
-    suspend fun findPetsByTags(tags:kotlin.Array<kotlin.String>?,context:OperationRequest):Response<kotlin.Array<Pet>>
+    suspend fun findPetsByTags(tags:Array<String>?,context:OperationRequest):Response<Array<Pet>>
     /* getPetById
      * Find pet by ID */
-    suspend fun getPetById(petId:kotlin.Long?,context:OperationRequest):Response<Pet>
+    suspend fun getPetById(petId:Long?,context:OperationRequest):Response<Pet>
     /* updatePet
      * Update an existing pet */
     suspend fun updatePet(body:Pet?,context:OperationRequest):Response<Void>
     /* updatePetWithForm
      * Updates a pet in the store with form data */
-    suspend fun updatePetWithForm(petId:kotlin.Long?,name:kotlin.String?,status:kotlin.String?,context:OperationRequest):Response<Void>
+    suspend fun updatePetWithForm(petId:Long?,name:String?,status:String?,context:OperationRequest):Response<Void>
     /* uploadFile
      * uploads an image */
-    suspend fun uploadFile(petId:kotlin.Long?,additionalMetadata:kotlin.String?,file:kotlin.collections.List<java.io.File>?,context:OperationRequest):Response<ApiResponse>
+    suspend fun uploadFile(petId:Long?,additionalMetadata:String?,file:kotlin.collections.List<java.io.File>?,context:OperationRequest):Response<ApiResponse>
     companion object {
         const val address = "PetApi-service"
         suspend fun createRouterFactory(vertx: Vertx,path:String): io.vertx.ext.web.api.contract.openapi3.OpenAPI3RouterFactory {

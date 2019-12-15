@@ -23,7 +23,7 @@ class StoreApiTest {
     */
     @Test
     fun deleteOrderTest() = runBlockingTest {
-        val orderId:kotlin.String? = null
+        val orderId:String? = null
         val response: ResponseEntity<Unit> = api.deleteOrder(orderId!!)
 
         // TODO: test validations
@@ -39,7 +39,7 @@ class StoreApiTest {
     */
     @Test
     fun getInventoryTest() = runBlockingTest {
-        val response: ResponseEntity<Map<String, kotlin.Int>> = api.getInventory()
+        val response: ResponseEntity<Map<String, Map<String, Int>>> = api.getInventory()
 
         // TODO: test validations
     }
@@ -54,7 +54,7 @@ class StoreApiTest {
     */
     @Test
     fun getOrderByIdTest() = runBlockingTest {
-        val orderId:kotlin.Long? = null
+        val orderId:Long? = null
         val response: ResponseEntity<Order> = api.getOrderById(orderId!!)
 
         // TODO: test validations

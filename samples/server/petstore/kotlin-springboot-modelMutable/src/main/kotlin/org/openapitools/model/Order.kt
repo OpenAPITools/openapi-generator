@@ -24,13 +24,13 @@ import io.swagger.annotations.ApiModelProperty
 data class Order (
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") var id: kotlin.Long? = null,
+        @JsonProperty("id") var id: Long? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("petId") var petId: kotlin.Long? = null,
+        @JsonProperty("petId") var petId: Long? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("quantity") var quantity: kotlin.Int? = null,
+        @JsonProperty("quantity") var quantity: Int? = null,
 
         @ApiModelProperty(example = "null", value = "")
         @JsonProperty("shipDate") var shipDate: java.time.OffsetDateTime? = null,
@@ -39,14 +39,14 @@ data class Order (
         @JsonProperty("status") var status: Order.Status? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("complete") var complete: kotlin.Boolean? = null
+        @JsonProperty("complete") var complete: Boolean? = null
 ) {
 
     /**
     * Order Status
     * Values: placed,approved,delivered
     */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
     
         @JsonProperty("placed") placed("placed"),
     

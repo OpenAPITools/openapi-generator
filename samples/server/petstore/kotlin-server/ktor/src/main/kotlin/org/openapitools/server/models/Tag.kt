@@ -19,8 +19,8 @@ import java.io.Serializable
  * @param name 
  */
 data class Tag (
-    val id: kotlin.Long? = null,
-    val name: kotlin.String? = null
+    val id: Long? = null,
+    val name: String? = null
 ) : Serializable 
 {
 	companion object {

@@ -28,20 +28,20 @@ import com.fasterxml.jackson.annotation.JsonInclude
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Order (
-    var id: kotlin.Long? = null,
-    var petId: kotlin.Long? = null,
-    var quantity: kotlin.Int? = null,
+    var id: Long? = null,
+    var petId: Long? = null,
+    var quantity: Int? = null,
     var shipDate: java.time.LocalDateTime? = null,
     /* Order Status */
     var status: Order.Status? = null,
-    var complete: kotlin.Boolean? = null
+    var complete: Boolean? = null
 ) {
 
     /**
     * Order Status
     * Values: placed,approved,delivered
     */
-    enum class Status(val value: kotlin.String){
+    enum class Status(val value: String){
     
         placed("placed"),
     

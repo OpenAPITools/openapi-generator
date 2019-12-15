@@ -4,7 +4,9 @@ import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.Category
+import org.openapitools.model.KotlincollectionsList
 import org.openapitools.model.Tag
+import org.openapitools.model.kotlin.collections.List
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Max
@@ -27,14 +29,14 @@ data class Pet (
 
         @get:NotNull 
         @ApiModelProperty(example = "doggie", required = true, value = "")
-        @JsonProperty("name") val name: kotlin.String,
+        @JsonProperty("name") val name: String,
 
         @get:NotNull 
         @ApiModelProperty(example = "null", required = true, value = "")
-        @JsonProperty("photoUrls") val photoUrls: kotlin.collections.List<kotlin.String>,
+        @JsonProperty("photoUrls") val photoUrls: kotlin.collections.List<String>,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") val id: kotlin.Long? = null,
+        @JsonProperty("id") val id: Long? = null,
 
         @ApiModelProperty(example = "null", value = "")
         @JsonProperty("category") val category: Category? = null,
@@ -50,7 +52,7 @@ data class Pet (
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
     
         @JsonProperty("available") available("available"),
     

@@ -40,8 +40,8 @@ class PetApiTest {
     */
     @Test
     fun deletePetTest() = runBlockingTest {
-        val petId:kotlin.Long? = null
-        val apiKey:kotlin.String? = null
+        val petId:Long? = null
+        val apiKey:String? = null
         val response: ResponseEntity<Unit> = api.deletePet(petId!!, apiKey!!)
 
         // TODO: test validations
@@ -57,7 +57,7 @@ class PetApiTest {
     */
     @Test
     fun findPetsByStatusTest() = runBlockingTest {
-        val status:kotlin.collections.List<kotlin.String>? = null
+        val status:kotlin.collections.List<String>? = null
         val response: ResponseEntity<Flow<Pet>> = api.findPetsByStatus(status!!)
 
         // TODO: test validations
@@ -73,7 +73,7 @@ class PetApiTest {
     */
     @Test
     fun findPetsByTagsTest() = runBlockingTest {
-        val tags:kotlin.collections.List<kotlin.String>? = null
+        val tags:kotlin.collections.List<String>? = null
         val response: ResponseEntity<Flow<Pet>> = api.findPetsByTags(tags!!)
 
         // TODO: test validations
@@ -89,7 +89,7 @@ class PetApiTest {
     */
     @Test
     fun getPetByIdTest() = runBlockingTest {
-        val petId:kotlin.Long? = null
+        val petId:Long? = null
         val response: ResponseEntity<Pet> = api.getPetById(petId!!)
 
         // TODO: test validations
@@ -121,9 +121,9 @@ class PetApiTest {
     */
     @Test
     fun updatePetWithFormTest() = runBlockingTest {
-        val petId:kotlin.Long? = null
-        val name:kotlin.String? = null
-        val status:kotlin.String? = null
+        val petId:Long? = null
+        val name:String? = null
+        val status:String? = null
         val response: ResponseEntity<Unit> = api.updatePetWithForm(petId!!, name!!, status!!)
 
         // TODO: test validations
@@ -139,8 +139,8 @@ class PetApiTest {
     */
     @Test
     fun uploadFileTest() = runBlockingTest {
-        val petId:kotlin.Long? = null
-        val additionalMetadata:kotlin.String? = null
+        val petId:Long? = null
+        val additionalMetadata:String? = null
         val file:org.springframework.core.io.Resource? = null
         val response: ResponseEntity<ModelApiResponse> = api.uploadFile(petId!!, additionalMetadata!!, file!!)
 

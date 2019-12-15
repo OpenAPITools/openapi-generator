@@ -1,5 +1,6 @@
 package org.openapitools.api
 
+import org.openapitools.model.KotlincollectionsList
 import org.openapitools.model.User
 import kotlinx.coroutines.flow.Flow;
 import org.springframework.stereotype.Service
@@ -18,15 +19,15 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override suspend fun deleteUser(username: kotlin.String): Unit {
+    override suspend fun deleteUser(username: String): Unit {
         TODO("Implement me")
     }
 
-    override suspend fun getUserByName(username: kotlin.String): User {
+    override suspend fun getUserByName(username: String): User {
         TODO("Implement me")
     }
 
-    override suspend fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String {
+    override suspend fun loginUser(username: String, password: String): String {
         TODO("Implement me")
     }
 
@@ -34,7 +35,7 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override suspend fun updateUser(username: kotlin.String, body: User): Unit {
+    override suspend fun updateUser(username: String, body: User): Unit {
         TODO("Implement me")
     }
 }

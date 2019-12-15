@@ -22,25 +22,25 @@ interface UserApi  {
     suspend fun createUser(body:User?,context:OperationRequest):Response<Void>
     /* createUsersWithArrayInput
      * Creates list of users with given input array */
-    suspend fun createUsersWithArrayInput(body:kotlin.Array<User>?,context:OperationRequest):Response<Void>
+    suspend fun createUsersWithArrayInput(body:Array<User>?,context:OperationRequest):Response<Void>
     /* createUsersWithListInput
      * Creates list of users with given input array */
-    suspend fun createUsersWithListInput(body:kotlin.Array<User>?,context:OperationRequest):Response<Void>
+    suspend fun createUsersWithListInput(body:Array<User>?,context:OperationRequest):Response<Void>
     /* deleteUser
      * Delete user */
-    suspend fun deleteUser(username:kotlin.String?,context:OperationRequest):Response<Void>
+    suspend fun deleteUser(username:String?,context:OperationRequest):Response<Void>
     /* getUserByName
      * Get user by user name */
-    suspend fun getUserByName(username:kotlin.String?,context:OperationRequest):Response<User>
+    suspend fun getUserByName(username:String?,context:OperationRequest):Response<User>
     /* loginUser
      * Logs user into the system */
-    suspend fun loginUser(username:kotlin.String?,password:kotlin.String?,context:OperationRequest):Response<kotlin.String>
+    suspend fun loginUser(username:String?,password:String?,context:OperationRequest):Response<String>
     /* logoutUser
      * Logs out current logged in user session */
     suspend fun logoutUser(context:OperationRequest):Response<Void>
     /* updateUser
      * Updated user */
-    suspend fun updateUser(username:kotlin.String?,body:User?,context:OperationRequest):Response<Void>
+    suspend fun updateUser(username:String?,body:User?,context:OperationRequest):Response<Void>
     companion object {
         const val address = "UserApi-service"
         suspend fun createRouterFactory(vertx: Vertx,path:String): io.vertx.ext.web.api.contract.openapi3.OpenAPI3RouterFactory {
