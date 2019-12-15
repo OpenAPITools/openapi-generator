@@ -12,8 +12,6 @@ import io.vertx.serviceproxy.ServiceBinder
 import io.vertx.ext.web.handler.CookieHandler
 import io.vertx.ext.web.handler.SessionHandler
 import io.vertx.ext.web.sstore.LocalSessionStore
-import java.util.List
-import java.util.Map
 
 
 interface PetApi  {
