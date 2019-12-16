@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+
 internal class UserAPI {
     /**
      Create user
@@ -14,8 +16,8 @@ internal class UserAPI {
      - parameter body: (body) Created user object 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    internal class func createUser(body: User, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        createUserWithRequestBuilder(body: body).execute { (_, error) -> Void in
+    internal class func createUser(body: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        createUserWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -49,8 +51,8 @@ internal class UserAPI {
      - parameter body: (body) List of user object 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    internal class func createUsersWithArrayInput(body: [User], completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        createUsersWithArrayInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
+    internal class func createUsersWithArrayInput(body: [User], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        createUsersWithArrayInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -83,8 +85,8 @@ internal class UserAPI {
      - parameter body: (body) List of user object 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    internal class func createUsersWithListInput(body: [User], completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        createUsersWithListInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
+    internal class func createUsersWithListInput(body: [User], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        createUsersWithListInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -117,8 +119,8 @@ internal class UserAPI {
      - parameter username: (path) The name that needs to be deleted 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    internal class func deleteUser(username: String, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        deleteUserWithRequestBuilder(username: username).execute { (_, error) -> Void in
+    internal class func deleteUser(username: String, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -140,8 +142,8 @@ internal class UserAPI {
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String: Any]? = nil
-
+        let parameters: [String:Any]? = nil
+        
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
@@ -155,7 +157,7 @@ internal class UserAPI {
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    internal class func getUserByName(username: String, completion: @escaping ((_ data: User?, _ error: Error?) -> Void)) {
+    internal class func getUserByName(username: String, completion: @escaping ((_ data: User?,_ error: Error?) -> Void)) {
         getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
@@ -173,8 +175,8 @@ internal class UserAPI {
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String: Any]? = nil
-
+        let parameters: [String:Any]? = nil
+        
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -189,7 +191,7 @@ internal class UserAPI {
      - parameter password: (query) The password for login in clear text 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    internal class func loginUser(username: String, password: String, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) {
+    internal class func loginUser(username: String, password: String, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
         loginUserWithRequestBuilder(username: username, password: password).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
@@ -206,12 +208,12 @@ internal class UserAPI {
     internal class func loginUserWithRequestBuilder(username: String, password: String) -> RequestBuilder<String> {
         let path = "/user/login"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String: Any]? = nil
-
+        let parameters: [String:Any]? = nil
+        
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "username": username,
-            "password": password
+            "username": username.encodeToJSON(), 
+            "password": password.encodeToJSON()
         ])
 
         let requestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -224,8 +226,8 @@ internal class UserAPI {
      
      - parameter completion: completion handler to receive the data and the error objects
      */
-    internal class func logoutUser(completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        logoutUserWithRequestBuilder().execute { (_, error) -> Void in
+    internal class func logoutUser(completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        logoutUserWithRequestBuilder().execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -242,8 +244,8 @@ internal class UserAPI {
     internal class func logoutUserWithRequestBuilder() -> RequestBuilder<Void> {
         let path = "/user/logout"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters: [String: Any]? = nil
-
+        let parameters: [String:Any]? = nil
+        
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
@@ -258,8 +260,8 @@ internal class UserAPI {
      - parameter body: (body) Updated user object 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    internal class func updateUser(username: String, body: User, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        updateUserWithRequestBuilder(username: username, body: body).execute { (_, error) -> Void in
+    internal class func updateUser(username: String, body: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        updateUserWithRequestBuilder(username: username, body: body).execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {

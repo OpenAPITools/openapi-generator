@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 public struct ReadOnlyFirst: Codable {
 
     public var bar: String?

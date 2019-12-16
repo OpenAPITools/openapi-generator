@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 public struct EnumTest: Codable {
 
     public enum EnumString: String, Codable {
@@ -41,7 +42,7 @@ public struct EnumTest: Codable {
         self.outerEnum = outerEnum
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey { 
         case enumString = "enum_string"
         case enumStringRequired = "enum_string_required"
         case enumInteger = "enum_integer"

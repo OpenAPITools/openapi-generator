@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 internal struct SpecialModelName: Codable {
 
     internal var specialPropertyName: Int64?
@@ -15,7 +16,7 @@ internal struct SpecialModelName: Codable {
         self.specialPropertyName = specialPropertyName
     }
 
-    internal enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey { 
         case specialPropertyName = "$special[property.name]"
     }
 

@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 internal struct List: Codable {
 
     internal var _123list: String?
@@ -15,7 +16,7 @@ internal struct List: Codable {
         self._123list = _123list
     }
 
-    internal enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey { 
         case _123list = "123-list"
     }
 

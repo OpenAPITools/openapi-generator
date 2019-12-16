@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 public struct Client: Codable {
 
     public var client: String?
