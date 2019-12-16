@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import Alamofire
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct JSONDataEncoding: ParameterEncoding {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct JSONDataEncoding {
 
     // MARK: Properties
 
@@ -25,8 +24,8 @@ import Alamofire
     /// - throws: An `Error` if the encoding process encounters an error.
     ///
     /// - returns: The encoded request.
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
-        var urlRequest = try urlRequest.asURLRequest()
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) -> URLRequest {
+        var urlRequest = urlRequest
 
         guard let jsonData = parameters?[JSONDataEncoding.jsonDataKey] as? Data, !jsonData.isEmpty else {
             return urlRequest
@@ -41,10 +40,10 @@ import Alamofire
         return urlRequest
     }
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func encodingParameters(jsonData: Data?) -> Parameters? {
-        var returnedParams: Parameters? = nil
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func encodingParameters(jsonData: Data?) -> [String: Any]? {
+        var returnedParams: [String: Any]? = nil
         if let jsonData = jsonData, !jsonData.isEmpty {
-            var params = Parameters()
+            var params: [String: Any] = [:]
             params[jsonDataKey] = jsonData
             returnedParams = params
         }

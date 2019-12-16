@@ -14,6 +14,22 @@ protocol JSONEncodable {
     case error(Int, Data?, Error)
 }
 
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum DownloadException : Error {
+    case responseDataMissing
+    case responseFailed
+    case requestMissing
+    case requestMissingPath
+    case requestMissingURL
+}
+
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum DecodableRequestBuilderError: Error {
+    case emptyDataResponse
+    case nilHTTPResponse
+    case jsonDecoding(DecodingError)
+    case generalError(Error)
+}
+
+
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class Response<T> {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let statusCode: Int
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let header: [String: String]

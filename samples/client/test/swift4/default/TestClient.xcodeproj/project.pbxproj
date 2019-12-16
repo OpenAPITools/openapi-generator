@@ -20,6 +20,7 @@
 		4D1CD48EC9034A49C536DF05 /* BaseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C209BA7D3B7026133ACB6149 /* BaseCard.swift */; };
 		561FBF0BA4127AAA4B2EB66D /* AllPrimitives.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE13D018B8E8F7283534E94 /* AllPrimitives.swift */; };
 		5C7477A5CDC76B3293CBBC53 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A140137667E350EAFDE010EA /* Models.swift */; };
+		61C214786C3EA609EFA4C609 /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B832520FF3AFCB54E7A0EF5 /* SynchronizedDictionary.swift */; };
 		633435C240C960AFE29EEF3A /* StringEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BD76CE1B85046CF575F42B /* StringEnum.swift */; };
 		6B1961ED41DFDFDB3029BE6F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D0164E2EEC228143968A2D /* Extensions.swift */; };
 		6CADD5CF7C8834F9ACA88E4F /* Swift4TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9E03057B35B32AC59ADC1B /* Swift4TestAPI.swift */; };
@@ -54,6 +55,7 @@
 		7C09C1DB6708AB2D8997BEE2 /* VariableNameTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableNameTest.swift; sourceTree = "<group>"; };
 		7EE13D018B8E8F7283534E94 /* AllPrimitives.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPrimitives.swift; sourceTree = "<group>"; };
 		889ABCD292051498ACCC66E8 /* PlaceCardAllOf.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCardAllOf.swift; sourceTree = "<group>"; };
+		8B832520FF3AFCB54E7A0EF5 /* SynchronizedDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedDictionary.swift; sourceTree = "<group>"; };
 		93BA682C97038055435A32D0 /* CodableHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableHelper.swift; sourceTree = "<group>"; };
 		9FD147676BF8F2DD7E471810 /* TestClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TestClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A140137667E350EAFDE010EA /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				D7DCE280D9FD953B91C0F18E /* JSONEncodableEncoding.swift */,
 				042A701F1D826A4F68808DE6 /* JSONEncodingHelper.swift */,
 				A140137667E350EAFDE010EA /* Models.swift */,
+				8B832520FF3AFCB54E7A0EF5 /* SynchronizedDictionary.swift */,
 				AC6589BAFE1BDABB49267C33 /* APIs */,
 				9A5460679035417A84B6C884 /* Models */,
 			);
@@ -272,6 +275,7 @@
 				2002BB13501E9D1F5952C760 /* SampleSubClassAllOf.swift in Sources */,
 				633435C240C960AFE29EEF3A /* StringEnum.swift in Sources */,
 				6CADD5CF7C8834F9ACA88E4F /* Swift4TestAPI.swift in Sources */,
+				61C214786C3EA609EFA4C609 /* SynchronizedDictionary.swift in Sources */,
 				FD7D9D3454F9C64656CDCB8B /* VariableNameTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

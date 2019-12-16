@@ -17,35 +17,6 @@ class AlamofireRequestBuilderFactory: RequestBuilderFactory {
     }
 }
 
-private struct SynchronizedDictionary<K: Hashable, V> {
-
-     private var dictionary = [K: V]()
-     private let queue = DispatchQueue(
-         label: "SynchronizedDictionary",
-         qos: DispatchQoS.userInitiated,
-         attributes: [DispatchQueue.Attributes.concurrent],
-         autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.inherit,
-         target: nil
-     )
-
-     public subscript(key: K) -> V? {
-         get {
-             var value: V?
-
-             queue.sync {
-                 value = self.dictionary[key]
-             }
-
-             return value
-         }
-         set {
-             queue.sync(flags: DispatchWorkItemFlags.barrier) {
-                 self.dictionary[key] = newValue
-             }
-         }
-     }
- }
-
 // Store manager to retain its reference
 private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManager>()
 
@@ -156,7 +127,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(completionHandler: { (stringResponse) in
+            validatedRequest.responseString(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (stringResponse) in
                 cleanupRequest()
 
                 if stringResponse.result.isFailure {
@@ -176,7 +147,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 )
             })
         case is URL.Type:
-            validatedRequest.responseData(completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (dataResponse) in
                 cleanupRequest()
 
                 do {
@@ -226,7 +197,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 return
             })
         case is Void.Type:
-            validatedRequest.responseData(completionHandler: { (voidResponse) in
+            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (voidResponse) in
                 cleanupRequest()
 
                 if voidResponse.result.isFailure {
@@ -245,7 +216,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 )
             })
         default:
-            validatedRequest.responseData(completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (dataResponse) in
                 cleanupRequest()
 
                 if dataResponse.result.isFailure {
@@ -328,21 +299,6 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
 }
 
-private enum DownloadException: Error {
-    case responseDataMissing
-    case responseFailed
-    case requestMissing
-    case requestMissingPath
-    case requestMissingURL
-}
-
-public enum AlamofireDecodableRequestBuilderError: Error {
-    case emptyDataResponse
-    case nilHTTPResponse
-    case jsonDecoding(DecodingError)
-    case generalError(Error)
-}
-
 open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuilder<T> {
 
     override fileprivate func processRequest(request: DataRequest, _ managerId: String, _ completion: @escaping (_ response: Response<T>?, _ error: Error?) -> Void) {
@@ -358,7 +314,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(completionHandler: { (stringResponse) in
+            validatedRequest.responseString(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (stringResponse) in
                 cleanupRequest()
 
                 if stringResponse.result.isFailure {
@@ -378,7 +334,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                 )
             })
         case is Void.Type:
-            validatedRequest.responseData(completionHandler: { (voidResponse) in
+            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (voidResponse) in
                 cleanupRequest()
 
                 if voidResponse.result.isFailure {
@@ -397,7 +353,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                 )
             })
         case is Data.Type:
-            validatedRequest.responseData(completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (dataResponse) in
                 cleanupRequest()
 
                 if dataResponse.result.isFailure {
@@ -417,7 +373,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                 )
             })
         default:
-            validatedRequest.responseData(completionHandler: { (dataResponse: DataResponse<Data>) in
+            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (dataResponse: DataResponse<Data>) in
                 cleanupRequest()
 
                 guard dataResponse.result.isSuccess else {
@@ -426,12 +382,12 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                 }
 
                 guard let data = dataResponse.data, !data.isEmpty else {
-                    completion(nil, ErrorResponse.error(-1, nil, AlamofireDecodableRequestBuilderError.emptyDataResponse))
+                    completion(nil, ErrorResponse.error(-1, nil, DecodableRequestBuilderError.emptyDataResponse))
                     return
                 }
 
                 guard let httpResponse = dataResponse.response else {
-                    completion(nil, ErrorResponse.error(-2, nil, AlamofireDecodableRequestBuilderError.nilHTTPResponse))
+                    completion(nil, ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse))
                     return
                 }
 
@@ -447,4 +403,24 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
         }
     }
 
+}
+
+extension JSONDataEncoding: ParameterEncoding {
+
+    // MARK: Encoding
+
+    /// Creates a URL request by encoding parameters and applying them onto an existing request.
+    ///
+    /// - parameter urlRequest: The request to have parameters applied.
+    /// - parameter parameters: The parameters to apply. This should have a single key/value
+    ///                         pair with "jsonData" as the key and a Data object as the value.
+    ///
+    /// - throws: An `Error` if the encoding process encounters an error.
+    ///
+    /// - returns: The encoded request.
+    public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
+        let urlRequest = try urlRequest.asURLRequest()
+
+        return self.encode(urlRequest, with: parameters)
+    }
 }

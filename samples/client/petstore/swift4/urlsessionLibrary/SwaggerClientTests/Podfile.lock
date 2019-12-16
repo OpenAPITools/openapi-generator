@@ -1,0 +1,16 @@
+PODS:
+  - PetstoreClient (1.0.0)
+
+DEPENDENCIES:
+  - PetstoreClient (from `../`)
+
+EXTERNAL SOURCES:
+  PetstoreClient:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  PetstoreClient: c483846c0c39bfb74e86a0367b5752519577d108
+
+PODFILE CHECKSUM: 509bec696cc1d8641751b52e4fe4bef04ac4542c
+
+COCOAPODS: 1.8.4

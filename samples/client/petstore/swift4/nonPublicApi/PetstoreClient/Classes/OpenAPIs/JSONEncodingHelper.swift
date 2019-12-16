@@ -6,12 +6,11 @@
 //
 
 import Foundation
-import Alamofire
 
 internal class JSONEncodingHelper {
 
-    internal class func encodingParameters<T: Encodable>(forEncodableObject encodableObj: T?) -> Parameters? {
-        var params: Parameters?
+    internal class func encodingParameters<T: Encodable>(forEncodableObject encodableObj: T?) -> [String: Any]? {
+        var params: [String: Any]?
 
         // Encode the Encodable object
         if let encodableObj = encodableObj {
@@ -24,8 +23,8 @@ internal class JSONEncodingHelper {
         return params
     }
 
-    internal class func encodingParameters(forEncodableObject encodableObj: Any?) -> Parameters? {
-        var params: Parameters?
+    internal class func encodingParameters(forEncodableObject encodableObj: Any?) -> [String: Any]? {
+        var params: [String: Any]?
 
         if let encodableObj = encodableObj {
             do {

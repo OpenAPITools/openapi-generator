@@ -50,6 +50,7 @@
 		A6E5A5629495DB0ED672B06F /* PetAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A019F500E546A3292CE716A /* PetAPI.swift */; };
 		A85E190556818FFA79896E92 /* ArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A0379CDFC55705AE76C998 /* ArrayTest.swift */; };
 		ACF3037926301D4D6E848745 /* EnumClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2C97AE6ACA1E5FB88F5BAA /* EnumClass.swift */; };
+		AD3A3107C12F2634CD22163B /* SynchronizedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D138F6DA6160301F9281383E /* SynchronizedDictionary.swift */; };
 		AD594BFB99E31A5E07579237 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = A913A57E72D723632E9A718F /* Client.swift */; };
 		B301DB1B80F37C757550AA17 /* MixedPropertiesAndAdditionalPropertiesClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD714C7CC59BDD18DE8DF4E /* MixedPropertiesAndAdditionalPropertiesClass.swift */; };
 		B3E35FE2773D4A8BA15CFA88 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2896F8BFD1AA2965C8A3015 /* Tag.swift */; };
@@ -119,6 +120,7 @@
 		C15008AABC804EB6FB4CDAC6 /* OuterEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OuterEnum.swift; sourceTree = "<group>"; };
 		C6C3E1129526A353B963EFD7 /* Dog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dog.swift; sourceTree = "<group>"; };
 		C81447828475F76C5CF4F08A /* Return.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Return.swift; sourceTree = "<group>"; };
+		D138F6DA6160301F9281383E /* SynchronizedDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronizedDictionary.swift; sourceTree = "<group>"; };
 		E5565A447062C7B8F695F451 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EBC76F6D4D2AA8084B7EB50E /* TypeHolderDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeHolderDefault.swift; sourceTree = "<group>"; };
 		ECFEB4C6C257B3BB3CEA36D1 /* Pet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pet.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				9791B840B8D6EAA35343B00F /* JSONEncodableEncoding.swift */,
 				35D710108A69DD8A5297F926 /* JSONEncodingHelper.swift */,
 				8699F7966F748ED026A6FB4C /* Models.swift */,
+				D138F6DA6160301F9281383E /* SynchronizedDictionary.swift */,
 				F956D0CCAE23BCFD1C7BDD5D /* APIs */,
 				4FBDCF1330A9AB9122780DB3 /* Models */,
 			);
@@ -376,6 +379,7 @@
 				294CDFA409BC369C0FDC5FB3 /* SpecialModelName.swift in Sources */,
 				CB68ABDBAADAF6B8D7B93A5D /* StoreAPI.swift in Sources */,
 				EDFC6C5121A43997014049CB /* StringBooleanMap.swift in Sources */,
+				AD3A3107C12F2634CD22163B /* SynchronizedDictionary.swift in Sources */,
 				B3E35FE2773D4A8BA15CFA88 /* Tag.swift in Sources */,
 				5695497F5DBF6C08842755A3 /* TypeHolderDefault.swift in Sources */,
 				FECA2E8C9D0BDFEC459E8996 /* TypeHolderExample.swift in Sources */,
