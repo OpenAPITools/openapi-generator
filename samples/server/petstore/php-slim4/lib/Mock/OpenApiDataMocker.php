@@ -254,9 +254,26 @@ final class OpenApiDataMocker implements IMocker
 
         $dataType = $items['type'];
         $dataFormat = $items['format'] ?? null;
+        $options = $this->extractSchemaProperties($items);
 
-        // extract json validation options from "items" property
-        $options = [];
+        // always genarate smallest possible array to avoid huge JSON responses
+        $arrSize = ($maxSize < 1) ? $maxSize : max($minSize, 1);
+        while (count($arr) < $arrSize) {
+            $arr[] = $this->mock($dataType, $dataFormat, $options);
+        }
+        return $arr;
+    }
+
+    /**
+     * @internal Extract OAS properties from array or object.
+     *
+     * @param array $arr Processed array
+     *
+     * @return array
+     */
+    private function extractSchemaProperties($arr)
+    {
+        $props = [];
         foreach (
             [
                 'minimum',
@@ -268,19 +285,22 @@ final class OpenApiDataMocker implements IMocker
                 'pattern',
                 'enum',
                 'items',
-            ] as $prop
+                'minItems',
+                'maxItems',
+                'uniqueItems',
+                'properties',
+                'minProperties',
+                'maxProperties',
+                'additionalProperties',
+                'required',
+                'example',
+            ] as $propName
         ) {
-            if (array_key_exists($prop, $items)) {
-                $options[$prop] = $items[$prop];
+            if (array_key_exists($propName, $arr)) {
+                $props[$propName] = $arr[$propName];
             }
         }
-
-        // always genarate smallest possible array to avoid huge JSON responses
-        $arrSize = ($maxSize < 1) ? $maxSize : max($minSize, 1);
-        while (count($arr) < $arrSize) {
-            $arr[] = $this->mock($dataType, $dataFormat, $options);
-        }
-        return $arr;
+        return $props;
     }
 
     /**
