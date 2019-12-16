@@ -4,6 +4,8 @@
 // https://openapi-generator.tech
 //
 
+import Foundation
+
 internal struct SynchronizedDictionary<K: Hashable, V> {
 
     private var dictionary = [K: V]()
