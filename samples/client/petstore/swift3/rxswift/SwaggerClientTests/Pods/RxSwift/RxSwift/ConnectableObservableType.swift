@@ -9,7 +9,7 @@
 /**
 Represents an observable sequence wrapper that can be connected and disconnected from its underlying observable sequence.
 */
-public protocol ConnectableObservableType : ObservableType {
+public protocol ConnectableObservableType: ObservableType {
     /**
     Connects the observable wrapper to its source. All subscribed observers will receive values from the underlying observable sequence as long as the connection is established.
     

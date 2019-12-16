@@ -8,7 +8,6 @@
 import Foundation
 
 /** Model for testing model with \&quot;_class\&quot; property */
-
 internal struct ClassModel: Codable {
 
     internal var _class: String?

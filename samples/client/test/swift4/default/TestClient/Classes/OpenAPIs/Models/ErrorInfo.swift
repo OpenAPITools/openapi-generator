@@ -8,7 +8,6 @@
 import Foundation
 
 /** Example Error object */
-
 public struct ErrorInfo: Codable {
 
     public var code: Int?
