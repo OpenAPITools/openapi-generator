@@ -83,7 +83,6 @@ type ServerConfigurations []ServerConfiguration
 
 // Configuration stores the configuration of the API client
 type Configuration struct {
-	BasePath         string            `json:"basePath,omitempty"`
 	Host             string            `json:"host,omitempty"`
 	Scheme           string            `json:"scheme,omitempty"`
 	DefaultHeader    map[string]string `json:"defaultHeader,omitempty"`
@@ -97,7 +96,6 @@ type Configuration struct {
 // NewConfiguration returns a new Configuration object
 func NewConfiguration() *Configuration {
 	cfg := &Configuration{
-		BasePath:         "http://petstore.swagger.io:80/v2",
 		DefaultHeader:    make(map[string]string),
 		UserAgent:        "OpenAPI-Generator/1.0.0/go",
 		Debug:            false,
@@ -259,7 +257,7 @@ func getServerOperationVariables(ctx context.Context, endpoint string) (map[stri
 // ServerURLWithContext returns a new server URL given an endpoint
 func (c *Configuration) ServerURLWithContext(ctx context.Context, endpoint string) (string, error) {
 	if ctx == nil {
-		return c.BasePath, nil
+		return sc.URL(0, nil)
 	}
 
 	sc, ok := c.OperationServers[endpoint]
@@ -277,10 +275,5 @@ func (c *Configuration) ServerURLWithContext(ctx context.Context, endpoint strin
 		return "", err
 	}
 
-	url, err := sc.URL(index, variables)
-	if err != nil {
-		return "", err
-	}
-
-	return url, nil
+	return sc.URL(index, variables)
 }
