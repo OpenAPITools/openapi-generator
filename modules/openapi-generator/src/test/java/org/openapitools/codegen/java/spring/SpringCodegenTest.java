@@ -416,4 +416,28 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
         codegen.processOpts();
     }
+
+    @Test
+    public void testDoGenerateRequestBodyRequiredAttribute_3134_Regression() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/3134-regression.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java",
+                "@RequestBody(required = false");
+    }
 }
