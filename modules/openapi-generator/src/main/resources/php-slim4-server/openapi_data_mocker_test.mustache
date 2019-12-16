@@ -37,6 +37,7 @@ use {{mockPackage}}\OpenApiDataMocker;
 use {{mockPackage}}\{{interfaceNamePrefix}}OpenApiDataMocker{{interfaceNameSuffix}} as IMocker;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Constraint\IsType;
+use StdClass;
 
 /**
  * OpenApiDataMockerTest Class Doc Comment
@@ -580,6 +581,126 @@ class OpenApiDataMockerTest extends TestCase
             ],
             'maxItems less than minItems' => [
                 $intItems, 5, 2, false,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMockObjectCorrectArguments
+     * @covers ::mockObject
+     */
+    public function testMockObjectWithCorrectArguments(
+        $properties,
+        $minProperties,
+        $maxProperties,
+        $additionalProperties,
+        $required,
+        $expectedKeys
+    ) {
+        $mocker = new OpenApiDataMocker();
+        $obj = $mocker->mockObject(
+            $properties,
+            $minProperties,
+            $maxProperties,
+            $additionalProperties,
+            $required
+        );
+
+        $this->assertInternalType(IsType::TYPE_OBJECT, $obj);
+        $this->assertSame($expectedKeys, array_keys(get_object_vars($obj)));
+    }
+
+    public function provideMockObjectCorrectArguments()
+    {
+        $additionProps = [
+            'extra' => [
+                'type' => IMocker::DATA_TYPE_STRING,
+            ],
+        ];
+        return [
+            'empty object' => [
+                [], 1, 10, true, null, [],
+            ],
+            'empty object from StdClass' => [
+                new StdClass(), 1, 5, false, null, [],
+            ],
+            'object with username property' => [
+                [
+                    'username' => [
+                        'type' => IMocker::DATA_TYPE_STRING,
+                    ],
+                ], 0, 5, $additionProps, null, ['username'],
+            ],
+            'object with foobar property' => [
+                (object) [
+                    'foobar' => [
+                        'type' => IMocker::DATA_TYPE_INTEGER,
+                    ],
+                ], 1, 1, (object) $additionProps, null, ['foobar'],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMockObjectInvalidArguments
+     * @expectedException \InvalidArgumentException
+     * @covers ::mockObject
+     */
+    public function testMockObjectWithInvalidArguments(
+        $properties,
+        $minProperties,
+        $maxProperties,
+        $additionalProperties,
+        $required
+    ) {
+        $mocker = new OpenApiDataMocker();
+        $obj = $mocker->mockObject($properties, $minProperties, $maxProperties, $additionalProperties, $required);
+    }
+
+    public function provideMockObjectInvalidArguments()
+    {
+        return [
+            'properties cannot be null' => [
+                null, 0, 10, false, null,
+            ],
+            'properties cannot be a string' => [
+                'foobar', 0, 10, false, null,
+            ],
+            'minProperties is not integer' => [
+                [], 3.12, null, false, null,
+            ],
+            'minProperties is negative' => [
+                [], -10, null, false, null,
+            ],
+            'minProperties is not number' => [
+                [], '1', null, false, null,
+            ],
+            'maxProperties is not integer' => [
+                [], null, 3.12, false, null,
+            ],
+            'maxProperties is negative' => [
+                [], null, -10, false, null,
+            ],
+            'maxProperties is not number' => [
+                [], null, 'foobaz', false, null,
+            ],
+            'maxProperties less than minProperties' => [
+                [], 5, 2, false, null,
+            ],
+            'additionalProperties is not object|array|boolean' => [
+                [], null, null, 'foobar', null,
+            ],
+            'required is object, not array' => [
+                [], null, null, null, new StdClass(),
+            ],
+            'required is not array' => [
+                [], null, null, null, 'foobar',
+            ],
+            'required array with duplicates' => [
+                [], null, null, null, ['username', 'username'],
+            ],
+            'required array of non-strings' => [
+                [], null, null, null, [1, 2, 3],
             ],
         ];
     }
