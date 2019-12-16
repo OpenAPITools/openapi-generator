@@ -42,7 +42,7 @@ func (a *FakeApiService) CreateXmlItem(ctx _context.Context, xmlItem XmlItem) (*
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeApiService.CreateXmlItem")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.CreateXmlItem")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -122,7 +122,7 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context, localVa
 		localVarReturnValue  bool
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeApiService.FakeOuterBooleanSerialize")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.FakeOuterBooleanSerialize")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -223,7 +223,7 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context, local
 		localVarReturnValue  OuterComposite
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeApiService.FakeOuterCompositeSerialize")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.FakeOuterCompositeSerialize")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -328,7 +328,7 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context, localVar
 		localVarReturnValue  float32
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeApiService.FakeOuterNumberSerialize")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.FakeOuterNumberSerialize")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -429,7 +429,7 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVar
 		localVarReturnValue  string
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeApiService.FakeOuterStringSerialize")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.FakeOuterStringSerialize")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -522,7 +522,7 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx _context.Context, body FileS
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeApiService.TestBodyWithFileSchema")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestBodyWithFileSchema")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -594,7 +594,7 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx _context.Context, query str
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeApiService.TestBodyWithQueryParams")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestBodyWithQueryParams")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -669,7 +669,7 @@ func (a *FakeApiService) TestClientModel(ctx _context.Context, body Client) (Cli
 		localVarReturnValue  Client
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeApiService.TestClientModel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestClientModel")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -787,7 +787,7 @@ func (a *FakeApiService) TestEndpointParameters(ctx _context.Context, number flo
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeApiService.TestEndpointParameters")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestEndpointParameters")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -935,7 +935,7 @@ func (a *FakeApiService) TestEnumParameters(ctx _context.Context, localVarOption
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeApiService.TestEnumParameters")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestEnumParameters")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -1042,7 +1042,7 @@ func (a *FakeApiService) TestGroupParameters(ctx _context.Context, requiredStrin
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeApiService.TestGroupParameters")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestGroupParameters")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -1123,7 +1123,7 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx _context.Context, pa
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeApiService.TestInlineAdditionalProperties")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestInlineAdditionalProperties")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -1195,7 +1195,7 @@ func (a *FakeApiService) TestJsonFormData(ctx _context.Context, param string, pa
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeApiService.TestJsonFormData")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestJsonFormData")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -1271,7 +1271,7 @@ func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx _context.Context
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeApiService.TestQueryParameterCollectionFormat")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestQueryParameterCollectionFormat")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}

@@ -76,7 +76,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 		{{/returnType}}
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "{{{classname}}}Service.{{{nickname}}}")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "{{{classname}}}Service.{{{nickname}}}")
 	if err != nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, GenericOpenAPIError{error: err.Error()}
 	}

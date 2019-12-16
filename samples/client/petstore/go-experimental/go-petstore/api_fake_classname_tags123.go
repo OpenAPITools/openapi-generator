@@ -41,7 +41,7 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context, bod
 		localVarReturnValue  Client
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "FakeClassnameTags123ApiService.TestClassname")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeClassnameTags123ApiService.TestClassname")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}

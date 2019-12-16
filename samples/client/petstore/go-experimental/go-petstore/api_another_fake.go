@@ -41,7 +41,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context, bod
 		localVarReturnValue  Client
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "AnotherFakeApiService.Call123TestSpecialTags")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "AnotherFakeApiService.Call123TestSpecialTags")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}

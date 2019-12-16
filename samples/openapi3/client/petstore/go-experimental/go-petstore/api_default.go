@@ -39,7 +39,7 @@ func (a *DefaultApiService) FooGet(ctx _context.Context) (InlineResponseDefault,
 		localVarReturnValue  InlineResponseDefault
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "DefaultApiService.FooGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "DefaultApiService.FooGet")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}

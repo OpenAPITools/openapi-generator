@@ -40,7 +40,7 @@ func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) (*_n
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "StoreApiService.DeleteOrder")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "StoreApiService.DeleteOrder")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -112,7 +112,7 @@ func (a *StoreApiService) GetInventory(ctx _context.Context) (map[string]int32, 
 		localVarReturnValue  map[string]int32
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "StoreApiService.GetInventory")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "StoreApiService.GetInventory")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -216,7 +216,7 @@ func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) (Ord
 		localVarReturnValue  Order
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "StoreApiService.GetOrderById")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "StoreApiService.GetOrderById")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -314,7 +314,7 @@ func (a *StoreApiService) PlaceOrder(ctx _context.Context, order Order) (Order, 
 		localVarReturnValue  Order
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "StoreApiService.PlaceOrder")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "StoreApiService.PlaceOrder")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}

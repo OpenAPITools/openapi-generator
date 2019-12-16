@@ -40,7 +40,7 @@ func (a *UserApiService) CreateUser(ctx _context.Context, body User) (*_nethttp.
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "UserApiService.CreateUser")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.CreateUser")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -111,7 +111,7 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx _context.Context, body []
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "UserApiService.CreateUsersWithArrayInput")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.CreateUsersWithArrayInput")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -182,7 +182,7 @@ func (a *UserApiService) CreateUsersWithListInput(ctx _context.Context, body []U
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "UserApiService.CreateUsersWithListInput")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.CreateUsersWithListInput")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -254,7 +254,7 @@ func (a *UserApiService) DeleteUser(ctx _context.Context, username string) (*_ne
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "UserApiService.DeleteUser")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.DeleteUser")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -326,7 +326,7 @@ func (a *UserApiService) GetUserByName(ctx _context.Context, username string) (U
 		localVarReturnValue  User
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "UserApiService.GetUserByName")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.GetUserByName")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -419,7 +419,7 @@ func (a *UserApiService) LoginUser(ctx _context.Context, username string, passwo
 		localVarReturnValue  string
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "UserApiService.LoginUser")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.LoginUser")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -509,7 +509,7 @@ func (a *UserApiService) LogoutUser(ctx _context.Context) (*_nethttp.Response, e
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "UserApiService.LogoutUser")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.LogoutUser")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -580,7 +580,7 @@ func (a *UserApiService) UpdateUser(ctx _context.Context, username string, body 
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "UserApiService.UpdateUser")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.UpdateUser")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}

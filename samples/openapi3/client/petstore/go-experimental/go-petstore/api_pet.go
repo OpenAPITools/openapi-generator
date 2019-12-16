@@ -41,7 +41,7 @@ func (a *PetApiService) AddPet(ctx _context.Context, pet Pet) (*_nethttp.Respons
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.AddPet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.AddPet")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -119,7 +119,7 @@ func (a *PetApiService) DeletePet(ctx _context.Context, petId int64, localVarOpt
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.DeletePet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.DeletePet")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -195,7 +195,7 @@ func (a *PetApiService) FindPetsByStatus(ctx _context.Context, status []string) 
 		localVarReturnValue  []Pet
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.FindPetsByStatus")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.FindPetsByStatus")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -288,7 +288,7 @@ func (a *PetApiService) FindPetsByTags(ctx _context.Context, tags []string) ([]P
 		localVarReturnValue  []Pet
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.FindPetsByTags")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.FindPetsByTags")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -381,7 +381,7 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 		localVarReturnValue  Pet
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.GetPetById")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.GetPetById")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -485,7 +485,7 @@ func (a *PetApiService) UpdatePet(ctx _context.Context, pet Pet) (*_nethttp.Resp
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.UpdatePet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.UpdatePet")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -565,7 +565,7 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, loc
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.UpdatePetWithForm")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.UpdatePetWithForm")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -652,7 +652,7 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 		localVarReturnValue  ApiResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.UploadFile")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.UploadFile")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -768,7 +768,7 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 		localVarReturnValue  ApiResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerUrlWithContext(ctx, "PetApiService.UploadFileWithRequiredFile")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "PetApiService.UploadFileWithRequiredFile")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}

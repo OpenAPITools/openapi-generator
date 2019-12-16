@@ -73,7 +73,7 @@ type ServerVariable struct {
 
 // ServerConfiguration stores the information about a server
 type ServerConfiguration struct {
-	Url string
+	URL string
 	Description string
 	Variables map[string]ServerVariable
 }
@@ -103,7 +103,7 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 		{
-			Url: "http://petstore.swagger.io:80/v2",
+			URL: "http://petstore.swagger.io:80/v2",
 			Description: "No description provided",
 		},
 		},
@@ -118,13 +118,13 @@ func (c *Configuration) AddDefaultHeader(key string, value string) {
 	c.DefaultHeader[key] = value
 }
 
-// ServerUrl returns URL based on variables
-func (sc ServerConfigurations) Url(index int, variables map[string]string) (string, error) {
+// URL formats template on a index using given variables
+func (sc ServerConfigurations) URL(index int, variables map[string]string) (string, error) {
 	if index < 0 || len(sc) <= index {
 		return "", fmt.Errorf("Index %v out of range %v", index, len(sc)-1)
 	}
 	server := sc[index]
-	url := server.Url
+	url := server.URL
 
 	// go through variables and replace placeholders
 	for name, variable := range server.Variables {
@@ -146,9 +146,9 @@ func (sc ServerConfigurations) Url(index int, variables map[string]string) (stri
 	return url, nil
 }
 
-// ServerUrl returns URL based on server settings
-func (c *Configuration) ServerUrl(index int, variables map[string]string) (string, error) {
-	return c.Servers.Url(index, variables)
+// ServerURL returns URL based on server settings
+func (c *Configuration) ServerURL(index int, variables map[string]string) (string, error) {
+	return c.Servers.URL(index, variables)
 }
 
 func getServerIndex(ctx context.Context) (int, error) {
@@ -203,8 +203,8 @@ func getServerOperationVariables(ctx context.Context, endpoint string) (map[stri
 	return getServerVariables(ctx)
 }
 
-// ServerUrlWithContext returns a new server URL given an endpoint
-func (c *Configuration) ServerUrlWithContext(ctx context.Context, endpoint string) (string, error) {
+// ServerURLWithContext returns a new server URL given an endpoint
+func (c *Configuration) ServerURLWithContext(ctx context.Context, endpoint string) (string, error) {
 	if ctx == nil {
 		return c.BasePath, nil
 	}
@@ -224,7 +224,7 @@ func (c *Configuration) ServerUrlWithContext(ctx context.Context, endpoint strin
 		return "", err
 	}
 
-	url, err := sc.Url(index, variables)
+	url, err := sc.URL(index, variables)
 	if err != nil {
 		return "", err
 	}
