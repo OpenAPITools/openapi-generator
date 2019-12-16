@@ -1,0 +1,33 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+from __future__ import absolute_import
+
+import unittest
+
+{{#models}}
+{{#model}}
+import {{packageName}}
+
+
+class Test{{unescapedDescription}}(unittest.TestCase):
+    """{{unescapedDescription}} unit test stubs"""
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test{{unescapedDescription}}(self):
+        """Test {{unescapedDescription}}"""
+        # FIXME: construct object with mandatory attributes with example values
+        # model = {{packageName}}.{{unescapedDescription}}()  # noqa: E501
+        pass
+
+{{/model}}
+{{/models}}
+
+if __name__ == '__main__':
+    unittest.main()

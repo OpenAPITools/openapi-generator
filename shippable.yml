@@ -10,6 +10,10 @@ build:
     - $HOME/.stack
     - $SHIPPABLE_REPO_DIR/samples/client/petstore/elixir/deps
   ci:
+    # fix shippable apt-get errors
+    - apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 23E7166788B63E1E 6A030B21BA07F4FB 4B8EC3BAABDC4346 EB3E94ADBE1229CF 960B2B2623A0BD5D 6B05F25D762E3157
+    - rm /etc/apt/sources.list.d/jonathonf-ubuntu-backports-xenial.list 
+    # 
     - java -version
     - mvn --quiet clean install -Dmaven.javadoc.skip=true
     # ensure all modifications created by 'mature' generators are in the git repo

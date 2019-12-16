@@ -1,4 +1,4 @@
-# FormatTest
+# format_test.FormatTest
 
 ## Properties
 Name | Type | Description | Notes

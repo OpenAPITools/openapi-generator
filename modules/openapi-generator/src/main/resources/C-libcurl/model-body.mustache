@@ -633,31 +633,31 @@ fail:
     {{/isPrimitiveType}}
     {{/isListContainer}}
     {{#isMapContainer}}
-    list_t *{{{complexType}}}List;
+    list_t *{{{name}}}List;
     {{^required}}if ({{{name}}}) { {{/required}}
-    cJSON *{{{complexType}}}_local_map;
+    cJSON *{{{name}}}_local_map;
     if(!cJSON_IsObject({{{name}}})) {
         goto end;//primitive map container
     }
-    {{{complexType}}}List = list_create();
+    {{{name}}}List = list_create();
     keyValuePair_t *localMapKeyPair;
-    cJSON_ArrayForEach({{{complexType}}}_local_map, {{{name}}})
+    cJSON_ArrayForEach({{{name}}}_local_map, {{{name}}})
     {
         {{#isString}}
-        if(!cJSON_IsString({{{complexType}}}_local_map))
+        if(!cJSON_IsString({{{name}}}_local_map))
         {
             goto end;
         }
-        localMapKeyPair = keyValuePair_create(strdup({{{complexType}}}_local_map->string),strdup({{{complexType}}}_local_map->valuestring))
-        list_addElement({{{complexType}}}List , localMapKeyPair);
+        localMapKeyPair = keyValuePair_create(strdup({{{name}}}_local_map->string),strdup({{{name}}}_local_map->valuestring))
+        list_addElement({{{name}}}List , localMapKeyPair);
         {{/isString}}
         {{^isString}}
-        if(!cJSON_IsNumber({{{complexType}}}_local_map))
+        if(!cJSON_IsNumber({{{name}}}_local_map))
         {
             goto end;
         }
-        localMapKeyPair = keyValuePair_create(strdup({{{complexType}}}_local_map->string),&{{{complexType}}}_local_map->valuedouble );
-        list_addElement({{{complexType}}}List , localMapKeyPair);
+        localMapKeyPair = keyValuePair_create(strdup({{{name}}}_local_map->string),&{{{name}}}_local_map->valuedouble );
+        list_addElement({{{name}}}List , localMapKeyPair);
         {{/isString}}
     }
     {{/isMapContainer}}
@@ -731,7 +731,7 @@ fail:
         {{/isPrimitiveType}}
         {{/isListContainer}}
         {{#isMapContainer}}
-        {{^required}}{{{name}}} ? {{/required}}{{{complexType}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isMapContainer}}
         {{/isContainer}}
         {{/vars}}
