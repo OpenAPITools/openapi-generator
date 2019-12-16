@@ -7,6 +7,7 @@ import (
 	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
+	"crypto/ecdsa"
 	"encoding/base64"
 	"encoding/json"
 	"encoding/xml"
@@ -233,17 +234,21 @@ func (c *APIClient) signRequest(
 	for _, header := range auth.SignedHeaders {
 		fmt.Fprintf(&sb, "\n%s: %s", strings.ToLower(header), r.Header.Get(header))
 	}
-
+	msg := []byte(sb.String())
 	msgHash := h.New()
-	if _, err = msgHash.Write([]byte(sb.String())); err != nil {
+	if _, err = msgHash.Write(msg); err != nil {
 		return err
 	}
 	d = msgHash.Sum(nil)
 
 	var signature []byte
-	switch auth.PrivateKey.(type) {
+	switch key := auth.PrivateKey.(type) {
 	case *rsa.PrivateKey:
-		signature, err = rsa.SignPKCS1v15(rand.Reader, auth.PrivateKey.(*rsa.PrivateKey), h, d)
+		signature, err = rsa.SignPKCS1v15(rand.Reader, key, h, d)
+	case *ecdsa.PrivateKey:
+		signature, err = key.Sign(rand.Reader, d, h)
+	//case ed25519.PrivateKey: requires go 1.13
+	//  signature, err = key.Sign(rand.Reader, msg, crypto.Hash(0))
 	default:
 		return fmt.Errorf("Unsupported private key")
 	}

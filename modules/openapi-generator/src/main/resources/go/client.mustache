@@ -4,10 +4,6 @@ package {{packageName}}
 import (
 	"bytes"
 	"context"
-	"crypto"
-	"crypto/rand"
-	"crypto/rsa"
-	"encoding/base64"
 	"encoding/json"
 	"encoding/xml"
 	"errors"
@@ -179,86 +175,6 @@ func (c *APIClient) GetConfig() *Configuration {
 	return c.cfg
 }
 
-// signRequest signs the request using HTTP signature.
-// See https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
-func (c *APIClient) signRequest(
-	ctx context.Context,
-	r *http.Request,
-	auth HttpSignatureAuth) error {
-
-	if auth.PrivateKey == nil {
-		return errors.New("Private key is not set")
-	}
-	date := time.Now().UTC().Format(http.TimeFormat)
-	var digest string
-	var h crypto.Hash
-	var err error
-	switch auth.Algorithm {
-	case "rsa-sha512", "hs2019":
-		h = crypto.SHA512
-		digest = "SHA-512="
-	case "rsa-sha256":
-		// This is deprecated and should not longer be used.
-		h = crypto.SHA256
-		digest = "SHA-256="
-	default:
-		return fmt.Errorf("Unsupported signature algorith: %v", auth.Algorithm)
-	}
-	if !h.Available() {
-		return fmt.Errorf("Hash '%v' is not available", h)
-	}
-	bodyHash := h.New()
-	if r.Body != nil {
-		if _, err = io.Copy(bodyHash, r.Body); err != nil {
-			return err
-		}
-	}
-	d := bodyHash.Sum(nil)
-	digest = digest + base64.StdEncoding.EncodeToString(d)
-
-	// Building the string to be signed.
-	var sb strings.Builder
-	// TODO: According to the proposed RFC, the value of the header should not be ToLower
-	fmt.Fprintf(&sb, "(request-target): %s %s", strings.ToLower(r.Method), strings.ToLower(r.URL.EscapedPath() + "?" + r.URL.RawQuery))
-	for _, header := range auth.SignedHeaders {
-		fmt.Fprintf(&sb, "\n%s: %s", strings.ToLower(header), r.Header.Get(header))
-	}
-	fmt.Fprintf(&sb, "\ndate: %s", date)
-	fmt.Fprintf(&sb, "\nhost: %s", r.Host)
-	fmt.Fprintf(&sb, "\ndigest: %s", digest)
-
-	msgHash := h.New()
-	if _, err = msgHash.Write([]byte(sb.String())); err != nil {
-		return err
-	}
-	d = msgHash.Sum(nil)
-
-	var signature []byte
-	switch auth.PrivateKey.(type) {
-	case *rsa.PrivateKey:
-		signature, err = rsa.SignPKCS1v15(rand.Reader, auth.PrivateKey.(*rsa.PrivateKey), h, d)
-	default:
-		return fmt.Errorf("Unsupported private key")
-	}
-	if err != nil {
-		return err
-	}
-
-	sb.Reset()
-	sb.WriteString("(request-target)")
-	if len(auth.SignedHeaders) > 0 {
-		sb.WriteString(" " + strings.Join(auth.SignedHeaders, " "))
-	}
-	sb.WriteString(" date host digest")
-	authStr := fmt.Sprintf(`Signature keyId="%s", algorithm="%s", headers="%s", signature="%s"`,
-		auth.KeyId, auth.Algorithm, sb.String(), base64.StdEncoding.EncodeToString(signature))
-	r.Header.Set("Host", r.Host)
-	r.Header.Set("Date", date)
-	r.Header.Set("Digest", digest)
-	r.Header.Set("Authorization", authStr)
-	return nil
-}
-
 // prepareRequest build the request
 func (c *APIClient) prepareRequest(
 	ctx context.Context,
@@ -419,16 +335,6 @@ func (c *APIClient) prepareRequest(
 		localVarRequest.Header.Add(header, value)
 	}
 
-	if ctx != nil {
-		// HTTP Signature Authentication. All request headers must be set (including default headers)
-		// because the headers may be included in the signature.
-		if auth, ok := ctx.Value(ContextHttpSignatureAuth).(HttpSignatureAuth); ok {
-			err = c.signRequest(ctx, localVarRequest, auth)
-			if err != nil {
-				return nil, err
-			}
-		}
-	}
 	return localVarRequest, nil
 }
 

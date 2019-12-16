@@ -73,8 +73,17 @@ func (h *HttpSignatureAuth) LoadPrivateKey(filename string) (err error) {
 		return err
 	}
 	privPem, _ := pem.Decode(priv)
-	if h.PrivateKey, err = x509.ParsePKCS1PrivateKey(privPem.Bytes); err != nil {
-		return err
+	switch privPem.Type {
+	case "RSA PRIVATE KEY":
+		if h.PrivateKey, err = x509.ParsePKCS1PrivateKey(privPem.Bytes); err != nil {
+			return err
+		}
+	case "ECDSA PRIVATE KEY":
+		if h.PrivateKey, err = x509.ParsePKCS8PrivateKey(block.Bytes); err != nil {
+			return err
+		}
+	default:
+		return fmt.Errorf("Key '%s' is not supported", privPem.Type)
 	}
 	return nil
 }
