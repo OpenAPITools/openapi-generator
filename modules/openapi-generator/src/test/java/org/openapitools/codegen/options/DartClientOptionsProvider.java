@@ -25,6 +25,7 @@ import java.util.Map;
 
 public class DartClientOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "true";
+    public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String BROWSER_CLIENT_VALUE = "true";
     public static final String PUB_NAME_VALUE = "swagger";
@@ -44,6 +45,7 @@ public class DartClientOptionsProvider implements OptionsProvider {
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
+                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(DartClientCodegen.BROWSER_CLIENT, BROWSER_CLIENT_VALUE)
                 .put(DartClientCodegen.PUB_NAME, PUB_NAME_VALUE)

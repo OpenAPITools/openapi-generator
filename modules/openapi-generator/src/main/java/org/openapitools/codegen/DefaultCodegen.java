@@ -109,7 +109,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
     protected String library;
     protected Boolean sortParamsByRequiredFlag = true;
-    protected Boolean sortModelPropertiesByNameFlag = false;
+    protected Boolean sortModelPropertiesByRequiredFlag = false;
     protected Boolean ensureUniqueParams = true;
     protected Boolean allowUnicodeIdentifiers = false;
     protected String gitHost, gitUserId, gitRepoId, releaseNote;
@@ -166,9 +166,9 @@ public class DefaultCodegen implements CodegenConfig {
                     .get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString()));
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.SORT_MODEL_PROPERTIES_BY_NAME_FLAG)) {
-            this.setSortModelPropertiesByNameFlag(Boolean.valueOf(additionalProperties
-                    .get(CodegenConstants.SORT_MODEL_PROPERTIES_BY_NAME_FLAG).toString()));
+        if (additionalProperties.containsKey(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG)) {
+            this.setSortModelPropertiesByRequiredFlag(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS)) {
@@ -809,12 +809,12 @@ public class DefaultCodegen implements CodegenConfig {
         this.sortParamsByRequiredFlag = sortParamsByRequiredFlag;
     }
 
-    public Boolean getSortModelPropertiesByNameFlag() {
-        return sortModelPropertiesByNameFlag;
+    public Boolean getSortModelPropertiesByRequiredFlag() {
+        return sortModelPropertiesByRequiredFlag;
     }
 
-    public void setSortModelPropertiesByNameFlag(Boolean sortModelPropertiesByNameFlag) {
-        this.sortModelPropertiesByNameFlag = sortModelPropertiesByNameFlag;
+    public void setSortModelPropertiesByRequiredFlag(Boolean sortModelPropertiesByRequiredFlag) {
+        this.sortModelPropertiesByRequiredFlag = sortModelPropertiesByRequiredFlag;
     }
 
     public Boolean getPrependFormOrBodyParameters() {
@@ -1127,8 +1127,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_MODEL_PROPERTIES_BY_NAME_FLAG,
-                CodegenConstants.SORT_MODEL_PROPERTIES_BY_NAME_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG,
+                CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants
                 .ENSURE_UNIQUE_PARAMS_DESC).defaultValue(Boolean.TRUE.toString()));
         // name formatting options
@@ -1977,11 +1977,13 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if (sortModelPropertiesByNameFlag) {
-            Collections.sort(m.allVars, new Comparator<CodegenProperty>() {
+        if (sortModelPropertiesByRequiredFlag) {
+            Collections.sort(m.vars, new Comparator<CodegenProperty>() {
                 @Override
                 public int compare(CodegenProperty one, CodegenProperty another) {
-                    return one.name.compareTo(another.name);
+                    if (one.required == another.required) return 0;
+                    else if (one.required) return -1;
+                    else return 1;
                 }
             });
         }
