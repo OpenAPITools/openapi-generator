@@ -1,4 +1,4 @@
-# Client
+# client.Client
 
 ## Properties
 Name | Type | Description | Notes

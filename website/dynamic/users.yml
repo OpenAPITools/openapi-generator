@@ -224,6 +224,11 @@
   infoLink: "https://www.optim.co.jp/"
   pinned: false
 -
+  caption: Oracle
+  image: "img/companies/oracle.png"
+  infoLink: "https://www.oracle.com"
+  pinned: false
+-
   caption: Paxos
   image: "img/companies/paxos.png"
   infoLink: "https://www.paxos.com/"
