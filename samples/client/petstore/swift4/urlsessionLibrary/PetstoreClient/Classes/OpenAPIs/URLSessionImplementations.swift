@@ -19,7 +19,7 @@ class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     }
 }
 
-// Store manager to retain its reference
+// Store the URLSession to retain its reference
 private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 
 open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
@@ -34,7 +34,17 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
     fileprivate let sessionDelegate = SessionDelegate()
 
+    /**
+     May be assigned if you want to control the authentication challenges.
+     */
     public var taskDidReceiveChallenge: ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))?
+
+    /**
+     May be assigned if you want to do any of those things:
+     - control the task completion
+     - intercept and handle errors like authorization
+     - retry the request.
+     */
     public var taskCompletionShouldRetry: ((Data?, URLResponse?, Error?, @escaping (Bool) -> Void) -> Void)?
 
     required public init(method: String, URLString: String, parameters: [String: Any]?, isBody: Bool, headers: [String: String] = [:]) {
@@ -42,7 +52,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     }
 
     /**
-     May be overridden by a subclass if you want to control the session
+     May be overridden by a subclass if you want to control the URLSession
      configuration.
      */
     open func createURLSession() -> URLSession {
@@ -65,7 +75,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
     }
 
     /**
-     May be overridden by a subclass if you want to control the request
+     May be overridden by a subclass if you want to control the URLRequest
      configuration (e.g. to override the cache policy).
      */
     open func createURLRequest(urlSession: URLSession, method: HTTPMethod, encoding: ParameterEncoding, headers: [String: String]) throws -> URLRequest {
