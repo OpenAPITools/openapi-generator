@@ -609,6 +609,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Myworkout](https://myworkout.com)
 - [NamSor](https://www.namsor.com/)
 - [Openet](https://www.openet.com/)
+- [Oracle](https://www.oracle.com/)
 - [Paxos](https://www.paxos.com)
 - [Ponicode](https://ponicode.dev/)
 - [Pricefx](https://www.pricefx.com/)
@@ -803,7 +804,7 @@ Here is a list of template creators:
    * TypeScript (Node):  @mhardorf
    * TypeScript (Rxjs): @denyo
    * TypeScript (Inversify): @gualtierim
-   * TypeSCript (redux-query): @petejohansonxo
+   * TypeScript (redux-query): @petejohansonxo
  * Server Stubs
    * Ada: @stcarrez
    * C# ASP.NET 5: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
@@ -897,7 +898,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | C++       | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08) |
 | C#        | @mandrean (2017/08), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert) @frankyjuang (2019/09) |
 | Clojure   |  |
-| Dart      | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) @nickmeinhold (2019/09)  |
+| Dart      | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) @nickmeinhold (2019/09) @athornz (2019/12) @amondnet (2019/12) |
 | Eiffel    | @jvelilla (2017/09) |
 | Elixir    | @mrmstn (2018/12) |
 | Elm       | @eriktim (2018/09) |
