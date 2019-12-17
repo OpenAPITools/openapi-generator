@@ -70,7 +70,8 @@ public class DartDioClientCodegen extends DartClientCodegen {
         super();
         browserClient = false;
         outputFolder = "generated-code/dart-dio";
-        embeddedTemplateDir = templateDir = "dart-dio";
+        embeddedTemplateDir = "dart-dio";
+        this.setTemplateDir(embeddedTemplateDir);
 
         //no tests at this time
         modelTestTemplateFiles.clear();
@@ -159,75 +160,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
     @Override
     public void processOpts() {
-        if (additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)) {
-            this.setTemplateDir((String) additionalProperties.get(CodegenConstants.TEMPLATE_DIR));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
-            this.setModelPackage((String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
-            this.setApiPackage((String) additionalProperties.get(CodegenConstants.API_PACKAGE));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            setHideGenerationTimestamp(convertPropertyToBooleanAndWriteBack(CodegenConstants.HIDE_GENERATION_TIMESTAMP));
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, hideGenerationTimestamp);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
-            this.setSortParamsByRequiredFlag(Boolean.valueOf(additionalProperties
-                .get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS)) {
-            this.setPrependFormOrBodyParameters(Boolean.valueOf(additionalProperties
-                .get(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.ENSURE_UNIQUE_PARAMS)) {
-            this.setEnsureUniqueParams(Boolean.valueOf(additionalProperties
-                .get(CodegenConstants.ENSURE_UNIQUE_PARAMS).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS)) {
-            this.setAllowUnicodeIdentifiers(Boolean.valueOf(additionalProperties
-                .get(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.API_NAME_SUFFIX)) {
-            this.setApiNameSuffix((String) additionalProperties.get(CodegenConstants.API_NAME_SUFFIX));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_NAME_PREFIX)) {
-            this.setModelNamePrefix((String) additionalProperties.get(CodegenConstants.MODEL_NAME_PREFIX));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_NAME_SUFFIX)) {
-            this.setModelNameSuffix((String) additionalProperties.get(CodegenConstants.MODEL_NAME_SUFFIX));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX)) {
-            this.setRemoveOperationIdPrefix(Boolean.valueOf(additionalProperties
-                .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.DOCEXTENSION)) {
-            this.setDocExtension(String.valueOf(additionalProperties
-                .get(CodegenConstants.DOCEXTENSION).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.ENABLE_POST_PROCESS_FILE)) {
-            this.setEnablePostProcessFile(Boolean.valueOf(additionalProperties
-                .get(CodegenConstants.ENABLE_POST_PROCESS_FILE).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.GENERATE_ALIAS_AS_MODEL)) {
-            ModelUtils.setGenerateAliasAsModel(Boolean.valueOf(additionalProperties
-                .get(CodegenConstants.GENERATE_ALIAS_AS_MODEL).toString()));
-        }
+        defaultProcessOpts();
 
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
