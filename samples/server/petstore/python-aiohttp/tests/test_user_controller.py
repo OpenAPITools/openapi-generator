@@ -32,7 +32,7 @@ async def test_create_users_with_array_input(client):
 
     Creates list of users with given input array
     """
-    body = []
+    body = [{}]
     headers = { 
         'Content-Type': 'application/json',
     }
@@ -51,7 +51,7 @@ async def test_create_users_with_list_input(client):
 
     Creates list of users with given input array
     """
-    body = []
+    body = [{}]
     headers = { 
         'Content-Type': 'application/json',
     }

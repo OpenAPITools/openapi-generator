@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -53,7 +54,6 @@ public class ModelUtils {
     public static boolean isGenerateAliasAsModel() {
         return Boolean.parseBoolean(GlobalSettings.getProperty(generateAliasAsModelKey, "false"));
     }
-
 
     /**
      * Searches for the model by name in the map of models and returns it
@@ -117,7 +117,18 @@ public class ModelUtils {
      * @return schemas a list of unused schemas
      */
     public static List<String> getUnusedSchemas(OpenAPI openAPI) {
-        Map<String, List<String>> childrenMap = getChildrenMap(openAPI);
+        final  Map<String, List<String>> childrenMap;
+        Map<String, List<String>> tmpChildrenMap;
+        try {
+            tmpChildrenMap = getChildrenMap(openAPI);
+        } catch (NullPointerException npe) {
+            // in rare cases, such as a spec document with only one top-level oneOf schema and multiple referenced schemas,
+            // the stream used in getChildrenMap will raise an NPE. Rather than modify getChildrenMap which is used by getAllUsedSchemas,
+            // we'll catch here as a workaround for this edge case.
+            tmpChildrenMap = new HashMap<>();
+        }
+
+        childrenMap = tmpChildrenMap;
         List<String> unusedSchemas = new ArrayList<String>();
 
         Map<String, Schema> schemas = getSchemas(openAPI);
@@ -875,6 +886,7 @@ public class ModelUtils {
     public static Map<String, List<String>> getChildrenMap(OpenAPI openAPI) {
         Map<String, Schema> allSchemas = getSchemas(openAPI);
 
+        // FIXME: The collect here will throw NPE if a spec document has only a single oneOf hierarchy.
         Map<String, List<Entry<String, Schema>>> groupedByParent = allSchemas.entrySet().stream()
             .filter(entry -> isComposedSchema(entry.getValue()))
             .collect(Collectors.groupingBy(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)));

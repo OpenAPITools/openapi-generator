@@ -44,7 +44,6 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context, bod
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake_classname_test"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}

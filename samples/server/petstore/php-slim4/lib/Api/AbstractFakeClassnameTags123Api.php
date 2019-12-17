@@ -1,4 +1,5 @@
 <?php
+
 /**
  * AbstractFakeClassnameTags123Api
  *

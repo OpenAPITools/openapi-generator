@@ -302,7 +302,7 @@ func (v NullableUser) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableUser) UnmarshalJSON(src []byte) error {
@@ -313,4 +313,3 @@ func (v *NullableUser) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

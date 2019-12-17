@@ -1,4 +1,4 @@
-# ReadOnlyFirst
+# read_only_first.ReadOnlyFirst
 
 ## Properties
 Name | Type | Description | Notes
