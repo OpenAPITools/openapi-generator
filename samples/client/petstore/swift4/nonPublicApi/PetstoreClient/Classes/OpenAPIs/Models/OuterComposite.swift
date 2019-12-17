@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 internal struct OuterComposite: Codable {
 
     internal var myNumber: Double?
@@ -20,7 +19,7 @@ internal struct OuterComposite: Codable {
         self.myBoolean = myBoolean
     }
 
-    internal enum CodingKeys: String, CodingKey { 
+    internal enum CodingKeys: String, CodingKey {
         case myNumber = "my_number"
         case myString = "my_string"
         case myBoolean = "my_boolean"

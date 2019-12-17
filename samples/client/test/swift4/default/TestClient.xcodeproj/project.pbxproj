@@ -20,6 +20,7 @@
 		4D1CD48EC9034A49C536DF05 /* BaseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C209BA7D3B7026133ACB6149 /* BaseCard.swift */; };
 		561FBF0BA4127AAA4B2EB66D /* AllPrimitives.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE13D018B8E8F7283534E94 /* AllPrimitives.swift */; };
 		5C7477A5CDC76B3293CBBC53 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A140137667E350EAFDE010EA /* Models.swift */; };
+		60CBE570B8DBA382B5D4628C /* OpenISO8601DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD27529F413FEDE10F4D1C3 /* OpenISO8601DateFormatter.swift */; };
 		633435C240C960AFE29EEF3A /* StringEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BD76CE1B85046CF575F42B /* StringEnum.swift */; };
 		6B1961ED41DFDFDB3029BE6F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D0164E2EEC228143968A2D /* Extensions.swift */; };
 		6CADD5CF7C8834F9ACA88E4F /* Swift4TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9E03057B35B32AC59ADC1B /* Swift4TestAPI.swift */; };
@@ -70,6 +71,7 @@
 		D7DCE280D9FD953B91C0F18E /* JSONEncodableEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncodableEncoding.swift; sourceTree = "<group>"; };
 		EA9C1F9551FB619240EC0F70 /* SampleSubClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleSubClass.swift; sourceTree = "<group>"; };
 		EE5A2A8F47EC101841093D2C /* ModelDoubleArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDoubleArray.swift; sourceTree = "<group>"; };
+		EFD27529F413FEDE10F4D1C3 /* OpenISO8601DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenISO8601DateFormatter.swift; sourceTree = "<group>"; };
 		F082FE9586189859619C91E5 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Alamofire.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +108,7 @@
 				D7DCE280D9FD953B91C0F18E /* JSONEncodableEncoding.swift */,
 				042A701F1D826A4F68808DE6 /* JSONEncodingHelper.swift */,
 				A140137667E350EAFDE010EA /* Models.swift */,
+				EFD27529F413FEDE10F4D1C3 /* OpenISO8601DateFormatter.swift */,
 				AC6589BAFE1BDABB49267C33 /* APIs */,
 				9A5460679035417A84B6C884 /* Models */,
 			);
@@ -263,6 +266,7 @@
 				493DB82F57B410C3C40CDD6B /* ModelWithPropertiesAndAdditionalProperties.swift in Sources */,
 				05AA5B59607A30F18E94292F /* ModelWithStringAdditionalPropertiesOnly.swift in Sources */,
 				5C7477A5CDC76B3293CBBC53 /* Models.swift in Sources */,
+				60CBE570B8DBA382B5D4628C /* OpenISO8601DateFormatter.swift in Sources */,
 				0061472DD11FF6D7742349C7 /* PersonCard.swift in Sources */,
 				D43D0FC46CD094545F0284F3 /* PersonCardAllOf.swift in Sources */,
 				8F02FB3DCBA785F15F6BA602 /* PlaceCard.swift in Sources */,

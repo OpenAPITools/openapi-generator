@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 internal enum EnumClass: String, Codable {
     case abc = "_abc"
     case efg = "-efg"

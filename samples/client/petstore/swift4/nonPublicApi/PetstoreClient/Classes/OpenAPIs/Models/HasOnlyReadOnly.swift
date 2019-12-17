@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 internal struct HasOnlyReadOnly: Codable {
 
     internal var bar: String?

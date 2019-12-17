@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 internal struct Animal: Codable {
 
     internal var className: String

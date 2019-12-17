@@ -12,14 +12,7 @@ public typealias EncodeResult = (data: Data?, error: Error?)
 open class CodableHelper {
 
     private static var customDateFormatter: DateFormatter?
-    private static var defaultDateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.calendar = Calendar(identifier: .iso8601)
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-        dateFormatter.dateFormat = Configuration.dateFormat
-        return dateFormatter
-    }()
+    private static var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()
     private static var customJSONDecoder: JSONDecoder?
     private static var defaultJSONDecoder: JSONDecoder = {
         let decoder = JSONDecoder()

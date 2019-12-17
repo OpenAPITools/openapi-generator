@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 internal struct Category: Codable {
 
     internal var id: Int64?

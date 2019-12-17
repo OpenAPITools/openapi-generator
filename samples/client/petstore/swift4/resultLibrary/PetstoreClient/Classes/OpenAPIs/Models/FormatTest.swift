@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public struct FormatTest: Codable {
 
     public var integer: Int?
