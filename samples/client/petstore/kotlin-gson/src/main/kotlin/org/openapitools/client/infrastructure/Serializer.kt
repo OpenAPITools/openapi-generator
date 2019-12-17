@@ -15,7 +15,7 @@ object Serializer {
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(UUID::class.java, UUIDAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
-        
+    
     @JvmStatic
     val gson: Gson by lazy {
         gsonBuilder.create()
