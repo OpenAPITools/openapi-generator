@@ -84,6 +84,11 @@
   infoLink: "https://www.commencis.com/"
   pinned: false
 -
+  caption: "Crossover Health"
+  image: "img/companies/crossover_health.png"
+  infoLink: "https://crossoverhealth.com/"
+  pinned: false
+-
   caption: Cupix
   image: "img/companies/cupix.png"
   infoLink: "https://www.cupix.com/"
@@ -92,6 +97,11 @@
   caption: "DB Systel"
   image: "img/companies/db-systel.png"
   infoLink: "https://www.dbsystel.de"
+  pinned: false
+-
+  caption: "DocSpring"
+  image: "img/companies/docspring.png"
+  infoLink: "https://docspring.com"
   pinned: false
 -
   caption: "dwango"
@@ -112,11 +122,6 @@
   caption: "Fenergo"
   image: "img/companies/fenergo.png"
   infoLink: "https://www.fenergo.com/"
-  pinned: false
--
-  caption: "FormAPI"
-  image: "img/companies/formapi.png"
-  infoLink: "https://formapi.io/"
   pinned: false
 -
   caption: "FreshCells"
@@ -169,6 +174,11 @@
   infoLink: "https://www.klarna.com/us/"
   pinned: false
 -
+  caption: "Linode"
+  image: "img/companies/linode.png"
+  infoLink: "https://www.linode.com/"
+  pinned: false
+-
   caption: "Kronsoft Development"
   image: "img/companies/kronsoft.png"
   infoLink: "https://www.kronsoft.ro/home/"
@@ -214,6 +224,11 @@
   infoLink: "https://www.optim.co.jp/"
   pinned: false
 -
+  caption: Oracle
+  image: "img/companies/oracle.png"
+  infoLink: "https://www.oracle.com"
+  pinned: false
+-
   caption: Paxos
   image: "img/companies/paxos.png"
   infoLink: "https://www.paxos.com/"
@@ -257,6 +272,11 @@
   caption: "REST United"
   image: "img/companies/rest-united.png"
   infoLink: "https://restunited.com/"
+  pinned: false
+-
+  caption: "Sony Interactive Entertainment"
+  image: "img/companies/sie.jpeg"
+  infoLink: "https://www.sie.com/en/index.html"
   pinned: false
 -
   caption: Stingray

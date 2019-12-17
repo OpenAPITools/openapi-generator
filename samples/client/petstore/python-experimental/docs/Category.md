@@ -1,4 +1,4 @@
-# Category
+# category.Category
 
 ## Properties
 Name | Type | Description | Notes
