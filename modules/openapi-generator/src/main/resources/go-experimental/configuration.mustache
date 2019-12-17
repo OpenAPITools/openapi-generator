@@ -79,7 +79,7 @@ func (h *HttpSignatureAuth) LoadPrivateKey(filename string) (err error) {
 			return err
 		}
 	case "ECDSA PRIVATE KEY":
-		if h.PrivateKey, err = x509.ParsePKCS8PrivateKey(block.Bytes); err != nil {
+		if h.PrivateKey, err = x509.ParsePKCS8PrivateKey(privPem.Bytes); err != nil {
 			return err
 		}
 	default:
