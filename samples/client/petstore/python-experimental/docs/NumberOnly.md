@@ -1,4 +1,4 @@
-# NumberOnly
+# number_only.NumberOnly
 
 ## Properties
 Name | Type | Description | Notes

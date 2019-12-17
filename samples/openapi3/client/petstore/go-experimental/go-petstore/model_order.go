@@ -235,7 +235,7 @@ func (v NullableOrder) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableOrder) UnmarshalJSON(src []byte) error {
@@ -246,4 +246,3 @@ func (v *NullableOrder) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

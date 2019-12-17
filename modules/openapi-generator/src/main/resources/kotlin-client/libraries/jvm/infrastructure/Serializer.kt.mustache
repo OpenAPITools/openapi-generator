@@ -3,7 +3,9 @@ package {{packageName}}.infrastructure
 {{#moshi}}
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
+{{^moshiCodeGen}}
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+{{/moshiCodeGen}}
 {{/moshi}}
 {{#gson}}
 import com.google.gson.Gson
@@ -29,7 +31,9 @@ import java.util.Date
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
+        {{^moshiCodeGen}}
         .add(KotlinJsonAdapterFactory())
+        {{/moshiCodeGen}}
 
     @JvmStatic
     val moshi: Moshi by lazy {
@@ -44,7 +48,7 @@ import java.util.Date
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(UUID::class.java, UUIDAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
-        
+    
     @JvmStatic
     val gson: Gson by lazy {
         gsonBuilder.create()
