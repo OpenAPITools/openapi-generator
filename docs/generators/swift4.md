@@ -28,3 +28,4 @@ sidebar_label: swift4
 |swiftUseApiNamespace|Flag to make all the API classes inner-class of {{projectName}}API| |null|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |lenientTypeCast|Accept and cast values for simple types (string-&gt;bool, string-&gt;int, int-&gt;string)| |false|
+|library|Library template (sub-template) to use|<dl><dt>**alamofire**</dt><dd>[DEFAULT] HTTP client: Alamofire</dd><dt>**urlsession**</dt><dd>HTTP client: URLSession</dd><dl>|alamofire|
