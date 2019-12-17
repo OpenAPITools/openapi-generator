@@ -646,7 +646,7 @@ public class ApiClient {
      * Build cookie header. Keeps a single value per cookie (as per <a href="https://tools.ietf.org/html/rfc6265#section-5.3">
      * RFC6265 section 5.3</a>).
      *
-     * @param cookies merged map of all cookies
+     * @param cookies map all cookies
      * @return header string for cookies.
      */
     private String buildCookieHeader(MultiValueMap<String, String> cookies) {
