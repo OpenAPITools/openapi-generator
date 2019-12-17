@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import java.util.HashMap;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -44,9 +45,10 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class DartDioClientCodegen extends DartClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
 
-    private static final String NULLABLE_FIELDS = "nullableFields";
+    public static final String NULLABLE_FIELDS = "nullableFields";
     private static final String IS_FORMAT_JSON = "jsonFormat";
     private static final String CLIENT_NAME = "clientName";
+    public static final String DATE_LIBRARY = "dateLibrary";
 
     private static Set<String> modelToIgnore = new HashSet<>();
 
@@ -62,6 +64,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
     private static final String SERIALIZATION_JSON = "json";
 
     private boolean nullableFields = true;
+    private String dateLibrary = "core";
 
     public DartDioClientCodegen() {
         super();
@@ -74,6 +77,12 @@ public class DartDioClientCodegen extends DartClientCodegen {
         apiTestTemplateFiles.clear();
 
         cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
+        CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
+        Map<String, String> dateOptions = new HashMap<>();
+        dateOptions.put("core", "Dart core library (DateTime)");
+        dateOptions.put("timemachine", "Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.");
+        dateLibrary.setEnum(dateOptions);
+        cliOptions.add(dateLibrary);
 
         typeMapping.put("file", "Uint8List");
         typeMapping.put("binary", "Uint8List");
@@ -84,6 +93,23 @@ public class DartDioClientCodegen extends DartClientCodegen {
         importMapping.put("Uint8List", "dart:typed_data");
     }
 
+    public String getDateLibrary() {
+        return dateLibrary;
+    }
+
+    public void setDateLibrary(String library) {
+        this.dateLibrary = library;
+    }
+
+    public boolean getNullableFields() {
+        return nullableFields;
+    }
+
+    public void setNullableFields(boolean nullableFields) {
+        this.nullableFields = nullableFields;
+    }
+
+
     @Override
     public String getName() {
         return "dart-dio";
@@ -92,6 +118,10 @@ public class DartDioClientCodegen extends DartClientCodegen {
     @Override
     public String getHelp() {
         return "Generates a Dart Dio client library.";
+    }
+
+    @Override public void setBrowserClient(boolean browserClient) {
+        super.browserClient  = browserClient;
     }
 
     @Override
@@ -105,11 +135,10 @@ public class DartDioClientCodegen extends DartClientCodegen {
     }
 
     @Override
-    public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return "_" + name;
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        //super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
+        codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));
+        addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
     @Override
@@ -117,12 +146,10 @@ public class DartDioClientCodegen extends DartClientCodegen {
         if (name.length() == 0) {
             return "empty";
         }
-        if ("number".equalsIgnoreCase(datatype) ||
-            "int".equalsIgnoreCase(datatype)) {
+        if ("number".equalsIgnoreCase(datatype) || "int".equalsIgnoreCase(datatype)) {
             name = "Number" + name;
         }
         name = camelize(name, true);
-
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
@@ -131,21 +158,91 @@ public class DartDioClientCodegen extends DartClientCodegen {
     }
 
     @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        //super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
-        codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));
-        addImport(codegenModel, codegenModel.additionalPropertiesType);
-    }
-
-    @Override
     public void processOpts() {
+        if (additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)) {
+            this.setTemplateDir((String) additionalProperties.get(CodegenConstants.TEMPLATE_DIR));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            this.setModelPackage((String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            this.setApiPackage((String) additionalProperties.get(CodegenConstants.API_PACKAGE));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
+            setHideGenerationTimestamp(convertPropertyToBooleanAndWriteBack(CodegenConstants.HIDE_GENERATION_TIMESTAMP));
+        } else {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, hideGenerationTimestamp);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
+            this.setSortParamsByRequiredFlag(Boolean.valueOf(additionalProperties
+                .get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS)) {
+            this.setPrependFormOrBodyParameters(Boolean.valueOf(additionalProperties
+                .get(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ENSURE_UNIQUE_PARAMS)) {
+            this.setEnsureUniqueParams(Boolean.valueOf(additionalProperties
+                .get(CodegenConstants.ENSURE_UNIQUE_PARAMS).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS)) {
+            this.setAllowUnicodeIdentifiers(Boolean.valueOf(additionalProperties
+                .get(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.API_NAME_SUFFIX)) {
+            this.setApiNameSuffix((String) additionalProperties.get(CodegenConstants.API_NAME_SUFFIX));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_NAME_PREFIX)) {
+            this.setModelNamePrefix((String) additionalProperties.get(CodegenConstants.MODEL_NAME_PREFIX));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_NAME_SUFFIX)) {
+            this.setModelNameSuffix((String) additionalProperties.get(CodegenConstants.MODEL_NAME_SUFFIX));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX)) {
+            this.setRemoveOperationIdPrefix(Boolean.valueOf(additionalProperties
+                .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DOCEXTENSION)) {
+            this.setDocExtension(String.valueOf(additionalProperties
+                .get(CodegenConstants.DOCEXTENSION).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ENABLE_POST_PROCESS_FILE)) {
+            this.setEnablePostProcessFile(Boolean.valueOf(additionalProperties
+                .get(CodegenConstants.ENABLE_POST_PROCESS_FILE).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_ALIAS_AS_MODEL)) {
+            ModelUtils.setGenerateAliasAsModel(Boolean.valueOf(additionalProperties
+                .get(CodegenConstants.GENERATE_ALIAS_AS_MODEL).toString()));
+        }
+
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
+        if (additionalProperties.containsKey(BROWSER_CLIENT)) {
+            this.setBrowserClient(convertPropertyToBooleanAndWriteBack(BROWSER_CLIENT));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(BROWSER_CLIENT, browserClient);
+        }
+
         if (additionalProperties.containsKey(NULLABLE_FIELDS)) {
-            nullableFields = convertPropertyToBooleanAndWriteBack(NULLABLE_FIELDS);
+            this.setNullableFields(convertPropertyToBooleanAndWriteBack(NULLABLE_FIELDS));
         } else {
             //not set, use to be passed to template
             additionalProperties.put(NULLABLE_FIELDS, nullableFields);
@@ -189,6 +286,9 @@ public class DartDioClientCodegen extends DartClientCodegen {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
+        if (additionalProperties.containsKey(DATE_LIBRARY)) {
+            this.setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
+        }
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -201,6 +301,24 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+        if ("core".equals(dateLibrary)) {
+            additionalProperties.put("core", "true");
+            typeMapping.put("Date", "DateTime");
+            typeMapping.put("date", "DateTime");
+            importMapping.put("DateTime", "DateTime");
+            importMapping.put("OffsetDateTime", "DateTime");
+        } else if ("timemachine".equals(dateLibrary)) {
+            additionalProperties.put("timeMachine", "true");
+            typeMapping.put("date", "LocalDate");
+            typeMapping.put("Date", "LocalDate");
+            typeMapping.put("DateTime", "OffsetDateTime");
+            typeMapping.put("datetime", "OffsetDateTime");
+            importMapping.put("LocalDate", "package:time_machine/time_machine.dart");
+            importMapping.put("OffsetDateTime", "package:time_machine/time_machine.dart");
+            supportingFiles.add(new SupportingFile("local_date_serializer.mustache", libFolder, "local_date_serializer.dart"));
+
+        }
     }
 
     @Override
@@ -321,4 +439,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
         return objs;
     }
+
+
 }
