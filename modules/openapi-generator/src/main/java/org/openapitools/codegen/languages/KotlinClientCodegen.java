@@ -37,6 +37,7 @@ import java.util.stream.Stream;
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     protected static final String JVM = "jvm";
+    protected static final String JVM_OKHTTP = "jvm-okhttp";
     protected static final String JVM_OKHTTP4 = "jvm-okhttp4";
     protected static final String JVM_OKHTTP3 = "jvm-okhttp3";
     protected static final String RETROFIT2 = "retrofit2";
@@ -165,7 +166,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         switch (getLibrary()) {
             case JVM_OKHTTP3:
             case JVM_OKHTTP4:
-                processJVMLibrary(infrastructureFolder);
+                processJVMOkHttpLibrary(infrastructureFolder);
                 break;
             case RETROFIT2:
                 processRetrofit2Library(infrastructureFolder);
@@ -229,6 +230,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void processRetrofit2Library(String infrastructureFolder) {
+        additionalProperties.put(JVM, true);
         additionalProperties.put(RETROFIT2, true);
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
@@ -236,23 +238,28 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void addSupportingSerializerAdapters(final String infrastructureFolder) {
-        supportingFiles.add(new SupportingFile("infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/ByteArrayAdapter.kt.mustache", infrastructureFolder, "ByteArrayAdapter.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
+        supportingFiles.add(new SupportingFile("jvm-common/infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
+        supportingFiles.add(new SupportingFile("jvm-common/infrastructure/ByteArrayAdapter.kt.mustache", infrastructureFolder, "ByteArrayAdapter.kt"));
+        supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
+        supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
 
-        if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.gson) {
-            supportingFiles.add(new SupportingFile("infrastructure/DateAdapter.kt.mustache", infrastructureFolder,
-                    "DateAdapter.kt"));
+        switch (getSerializationLibrary()) {
+            case moshi:
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
+                break;
+
+            case gson:
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/DateAdapter.kt.mustache", infrastructureFolder, "DateAdapter.kt"));
+                break;
         }
     }
 
-    private void processJVMLibrary(final String infrastructureFolder) {
+    private void processJVMOkHttpLibrary(final String infrastructureFolder) {
         commonJvmMultiplatformSupportingFiles(infrastructureFolder);
         addSupportingSerializerAdapters(infrastructureFolder);
 
         additionalProperties.put(JVM, true);
+        additionalProperties.put(JVM_OKHTTP, true);
 
         if (JVM_OKHTTP4.equals(getLibrary())) {
             additionalProperties.put(JVM_OKHTTP4, true);
@@ -260,8 +267,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(JVM_OKHTTP3, true);
         }
 
-        supportedLibraries.put(JVM, "A workaround to use the same template folder for both 'jvm-okhttp3' and 'jvm-okhttp4'.");
-        setLibrary(JVM);
+        supportedLibraries.put(JVM_OKHTTP, "A workaround to use the same template folder for both 'jvm-okhttp3' and 'jvm-okhttp4'.");
+        setLibrary(JVM_OKHTTP);
 
         // jvm specific supporting files
         supportingFiles.add(new SupportingFile("infrastructure/ApplicationDelegates.kt.mustache", infrastructureFolder, "ApplicationDelegates.kt"));
