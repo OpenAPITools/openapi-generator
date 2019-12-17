@@ -642,14 +642,20 @@ public class ApiClient {
         }
     }
 
+    /**
+     * Build cookie header. Keeps a single value per cookie (as per <a href="https://tools.ietf.org/html/rfc6265#section-5.3">
+     * RFC6265 section 5.3</a>).
+     *
+     * @param cookies merged map of all cookies
+     * @return header string for cookies.
+     */
     private String buildCookieHeader(MultiValueMap<String, String> cookies) {
         final StringBuilder cookieValue = new StringBuilder();
         String delimiter = "";
         for (final Map.Entry<String, List<String>> entry : cookies.entrySet()) {
-            for (String value : entry.getValue()) {
-                cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), entry.getValue()));
-                delimiter = "; ";
-            }
+            final String value = entry.getValue().get(entry.getValue().size() - 1);
+            cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), value));
+            delimiter = "; ";
         }
         return cookieValue.toString();
     }
