@@ -171,7 +171,7 @@ internal open class ApiClient(val baseUrl: String) {
         }
     }
 
-    protected inline fun <reified T: Any> parseDateToString(value : T): String {
+    protected inline fun <reified T: Any> parseDateToQueryString(value : T): String {
         return value.toString()
     }
 }
