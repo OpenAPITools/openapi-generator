@@ -1,4 +1,4 @@
-import _classCallCheck from "/Users/akihito1/src/github.com/ackintosh/openapi-generator-1/samples/client/petstore/javascript-flowtyped/node_modules/@babel/runtime/helpers/esm/classCallCheck";
+import _classCallCheck from "@babel/runtime/helpers/esm/classCallCheck";
 
 /**
  * OpenAPI Petstore

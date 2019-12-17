@@ -1,4 +1,4 @@
-# ArrayOfArrayOfNumberOnly
+# array_of_array_of_number_only.ArrayOfArrayOfNumberOnly
 
 ## Properties
 Name | Type | Description | Notes

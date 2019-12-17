@@ -24,7 +24,7 @@ public class CodegenResponse {
     public String code, message;
     public boolean hasMore;
     public List<Map<String, Object>> examples;
-    public String dataType, baseType, containerType;
+    public String dataType, baseType, containerType, pattern;
     public boolean hasHeaders;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
             isDateTime, isUuid, isEmail, isModel, isFreeFormObject;
@@ -46,7 +46,7 @@ public class CodegenResponse {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof CodegenResponse)) return false;
         CodegenResponse that = (CodegenResponse) o;
         return hasMore == that.hasMore &&
                 hasHeaders == that.hasHeaders &&
@@ -79,6 +79,7 @@ public class CodegenResponse {
                 Objects.equals(dataType, that.dataType) &&
                 Objects.equals(baseType, that.baseType) &&
                 Objects.equals(containerType, that.containerType) &&
+                Objects.equals(pattern, that.pattern) &&
                 Objects.equals(schema, that.schema) &&
                 Objects.equals(jsonSchema, that.jsonSchema) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions);
@@ -86,8 +87,7 @@ public class CodegenResponse {
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType,
+        return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, pattern,
                 hasHeaders, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray,
                 isBoolean, isDate, isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isDefault, simpleType,
                 primitiveType, isMapContainer, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions);
@@ -102,6 +102,7 @@ public class CodegenResponse {
         sb.append(", hasMore=").append(hasMore);
         sb.append(", examples=").append(examples);
         sb.append(", dataType='").append(dataType).append('\'');
+        sb.append(", pattern='").append(pattern).append('\'');
         sb.append(", baseType='").append(baseType).append('\'');
         sb.append(", containerType='").append(containerType).append('\'');
         sb.append(", hasHeaders=").append(hasHeaders);
