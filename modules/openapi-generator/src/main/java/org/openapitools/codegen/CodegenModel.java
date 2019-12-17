@@ -251,7 +251,7 @@ public class CodegenModel {
         this.arrayModelType = arrayModelType;
     }
 
-    public Set<String> getCircularReferencess() {
+    public Set<String> getCircularReferences() {
         return circularReferences;
     }
 
