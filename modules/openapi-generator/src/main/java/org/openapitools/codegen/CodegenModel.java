@@ -45,7 +45,7 @@ public class CodegenModel {
     public CodegenDiscriminator discriminator;
     public String defaultValue;
     public String arrayModelType;
-    public Set<String> circularReferences = new TreeSet<String>(); // store all classes cross referencing this
+    public Set<String> circularReferences = new TreeSet<String>(); // all schemas in a cycle referencing this
     public boolean isAlias; // Is this effectively an alias of another simple type
     public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
