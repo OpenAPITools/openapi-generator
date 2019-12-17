@@ -75,38 +75,39 @@ Examples:
 
 This script allows us to define a client, server, schema, or documentation generator. We'll focus on the simplest generator (documentation). The other generator types may require heavy extension of the "Config" base class, and these docs could very quickly become outdated. When creating a new generator, please review existing generators as a guideline for implementation.
 
-Create a new Markdown generator:
+Create a new Markdown generator, specifying CommonMark as the name to avoid conflicting with the built-in Markdown generator.
 
 ```bash
-./new.sh -n markdown -d
+./new.sh -n common-mark -d
 ```
 
 You should see output similar to the following:
 
 ```bash
-Creating modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/MarkdownDocumentationCodegen.java
-Creating modules/openapi-generator/src/main/resources/markdown-documentation/README.mustache
-Creating modules/openapi-generator/src/main/resources/markdown-documentation/model.mustache
-Creating modules/openapi-generator/src/main/resources/markdown-documentation/api.mustache
-Creating bin/windows/markdown-documentation-petstore.bat
-Creating bin/markdown-documentation-petstore.sh
+Creating modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CommonMarkDocumentationCodegen.java
+Creating modules/openapi-generator/src/main/resources/common-mark-documentation/README.mustache
+Creating modules/openapi-generator/src/main/resources/common-mark-documentation/model.mustache
+Creating modules/openapi-generator/src/main/resources/common-mark-documentation/api.mustache
+Creating bin/windows/common-mark-documentation-petstore.bat
+Creating bin/common-mark-documentation-petstore.sh
 Finished.
 ```
 
 ### Review Generated Config
 
-Beginning with the "Codegen" file (`MarkdownDocumentationCodegen.java`), the constructor was created:
+Beginning with the "Codegen" file (`CommonMarkDocumentationCodegen.java`), the constructor was created:
 
 ```java
-    public MarkdownDocumentationCodegen() {
+    public CommonMarkDocumentationCodegen() {
         super();
 
-        outputFolder = "generated-code" + File.separator + "markdown";
+        outputFolder = "generated-code" + File.separator + "common-mark";
         modelTemplateFiles.put("model.mustache", ".zz");
         apiTemplateFiles.put("api.mustache", ".zz");
-        embeddedTemplateDir = templateDir = "markdown-documentation";
+        embeddedTemplateDir = templateDir = "common-mark-documentation";
         apiPackage = File.separator + "Apis";
         modelPackage = File.separator + "Models";
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         // TODO: Fill this out.
     }
 ```
@@ -114,10 +115,10 @@ Beginning with the "Codegen" file (`MarkdownDocumentationCodegen.java`), the con
 These options are some defaults which may require updating. Let's look line-by-line at the config.
 
 ```java
-outputFolder = "generated-code" + File.separator + "markdown";
+outputFolder = "generated-code" + File.separator + "common-mark";
 ```
 
-This is the default output location. This will be `generated-code/markdown` on non-Windows machines and `generated-code\markdown` on Windows. You may change this to any value you'd like, but a user will almost always provide an output directory.
+This is the default output location. This will be `generated-code/common-mark` on non-Windows machines and `generated-code\common-mark` on Windows. You may change this to any value you'd like, but a user will almost always provide an output directory.
 
 > When joining paths, always use `File.seperator`
 
@@ -140,10 +141,10 @@ This is the template used for generating API related files. Similar to the above
 The path is considered relative to `embeddedTemplateDir`, `templateDir`, or a library subdirectory (refer to the Java client generator implementation for a prime example).
 
 ```java
-embeddedTemplateDir = templateDir = "markdown-documentation";
+embeddedTemplateDir = templateDir = "common-mark-documentation";
 ```
 
-This line sets the embedded and template directories to `markdown-documentation`. The `embeddedTemplateDir` refers to the directory which will exist under `modules/openapi-generator/src/main/resources` and will be published with every release in which your new generator is present.
+This line sets the embedded and template directories to `common-mark-documentation`. The `embeddedTemplateDir` refers to the directory which will exist under `modules/openapi-generator/src/main/resources` and will be published with every release in which your new generator is present.
 
 The `templateDir` variable refers to the "current" template directory setting, as defined by the user. That is, the user may invoke with `-t` or `--template-directory` (or plugin option variants), and override this directory.
 
@@ -161,7 +162,7 @@ Every templated output from `api.mustache` (registered via `apiTemplateFiles` ab
 modelPackage = File.separator + "Models";
 ```
 
-Similarly, this sets the packasge for `Models`.
+Similarly, this sets the package for `Models`.
 
 Every templated output from `model.mustache` (registered via `modelTemplateFiles` above) will end up in the directory defined by `modelPackage` here.
 
@@ -171,7 +172,7 @@ supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
 A "supporting file" is an extra file which isn't created once for every operation or model defined in your specification document. It is a single file which may or may not be templated (determined by the extension of the filename).
 
-A supporting file only passes through the Markdown template processor if the filename ends in `.mustache`.
+A supporting file only passes through the Mustache template processor if the filename ends in `.mustache`.
 
 The path is considered relative to `embeddedTemplateDir`, `templateDir`, or a library subdirectory (refer to the Java client generator implementation for a prime example).
 
@@ -329,7 +330,7 @@ To compile quickly to test this out, you can run `mvn clean package -DskipTests`
 
 ### Compile Sample
 
-The `new.sh` script created `bin/markdown-documentation-petstore.sh`:
+The `new.sh` script created `bin/common-mark-documentation-petstore.sh`:
 
 ```bash
 #!/bin/sh
@@ -359,15 +360,15 @@ then
 fi
 
 # if you've executed sbt assembly previously it will use that instead.
-export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g markdown -o samples/documentation/petstore/markdown"
+export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
+ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g common-mark -o samples/documentation/petstore/common/mark"
 
 java ${JAVA_OPTS} -jar ${executable} ${ags}
 ```
 
 This script is often used to apply default options for generation. A common option in most of these script is to define the template directory as the generator's directory under `resources`. This allows template maintainers to modify and test out template changes which don't require recompilation of the entire project. You'd still need to recompile the project in full if you add or modify behaviors to the generator (such as adding a `CliOption`).
 
-Add `-t modules/openapi-generator/src/main/resources/markdown-documentation` to `ags` line to simplify the evaluation of template-only modifications:
+Add `-t modules/openapi-generator/src/main/resources/common-mark-documentation` to `ags` line to simplify the evaluation of template-only modifications:
 
 ```diff
 diff --git a/bin/markdown-documentation-petstore.sh b/bin/markdown-documentation-petstore.sh
@@ -377,9 +378,9 @@ index d816771478..94b4ce6d12 100644
 @@ -26,6 +26,6 @@ fi
 
  # if you've executed sbt assembly previously it will use that instead.
- export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
--ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g markdown -o samples/documentation/petstore/markdown"
-+ags="$@ generate -t modules/openapi-generator/src/main/resources/markdown-documentation -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g markdown -o samples/documentation/petstore/markdown"
+ export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
+-ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g common-mark -o samples/documentation/petstore/common-mark"
++ags="$@ generate -t modules/openapi-generator/src/main/resources/common-mark-documentation -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g common-mark -o samples/documentation/petstore/common/markdown"
 
  java ${JAVA_OPTS} -jar ${executable} ${ags}
 ```
@@ -397,7 +398,7 @@ npm install --global markserv
 Now, you can serve the output directory directly and test your links:
 
 ```bash
-markserv samples/documentation/petstore/markdown
+markserv samples/documentation/petstore/common/markdown
 ```
 
 That's it! You've created your first generator!
