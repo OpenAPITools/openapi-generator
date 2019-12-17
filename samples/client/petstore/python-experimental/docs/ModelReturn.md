@@ -1,4 +1,4 @@
-# ModelReturn
+# model_return.ModelReturn
 
 Model for testing reserved words
 ## Properties

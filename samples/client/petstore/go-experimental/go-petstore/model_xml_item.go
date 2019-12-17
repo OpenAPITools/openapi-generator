@@ -1015,7 +1015,7 @@ func (v NullableXmlItem) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableXmlItem) UnmarshalJSON(src []byte) error {
@@ -1026,4 +1026,3 @@ func (v *NullableXmlItem) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

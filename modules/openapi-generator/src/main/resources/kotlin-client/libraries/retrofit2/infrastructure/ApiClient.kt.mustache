@@ -1,0 +1,43 @@
+package {{packageName}}.infrastructure
+
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.scalars.ScalarsConverterFactory
+{{#gson}}
+import retrofit2.converter.gson.GsonConverterFactory
+{{/gson}}
+{{#moshi}}
+import retrofit2.converter.moshi.MoshiConverterFactory
+{{/moshi}}
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
+    private var baseUrl: String = "{{{basePath}}}",
+    private var okHttpClient: OkHttpClient
+) {
+    init {
+        normalizeBaseUrl()
+    }
+
+    val retrofitBuilder: Retrofit.Builder by lazy {
+
+        Retrofit.Builder()
+        .baseUrl(baseUrl)
+        .addConverterFactory(ScalarsConverterFactory.create())
+        {{#gson}}
+        .addConverterFactory(GsonConverterFactory.create(Serializer.gson))
+        {{/gson}}
+        {{#moshi}}
+        .addConverterFactory(MoshiConverterFactory.create(Serializer.moshi))
+        {{/moshi}}
+    }
+
+    fun <S> createService(serviceClass: Class<S>): S {
+        return retrofitBuilder.client(okHttpClient).build().create(serviceClass)
+    }
+
+    private fun normalizeBaseUrl() {
+        if (!baseUrl.endsWith("/")) {
+            baseUrl += "/"
+        }
+    }
+}
