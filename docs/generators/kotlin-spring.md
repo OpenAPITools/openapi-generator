@@ -15,8 +15,6 @@ sidebar_label: kotlin-spring
 |serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson'| |moshi|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
-|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |modelMutable|Create mutable models| |false|
 |title|server title name or client service name| |OpenAPI Kotlin Spring|
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
