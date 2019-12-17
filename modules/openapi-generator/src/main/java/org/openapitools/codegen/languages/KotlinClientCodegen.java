@@ -207,7 +207,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         processDateLibrary();
-        processThreeTeBpDate();
+        processRequestDateConverter();
 
         if (additionalProperties.containsKey(COLLECTION_TYPE)) {
             setCollectionType(additionalProperties.get(COLLECTION_TYPE).toString());
@@ -237,7 +237,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
     }
 
-    private void processThreeTeBpDate() {
+    private void processRequestDateConverter() {
         if(RequestDateConverter.TO_JSON.value.equals(requestDateConverter)) {
             additionalProperties.put(RequestDateConverter.TO_JSON.value, true);
         } else if(RequestDateConverter.TO_STRING.value.equals(requestDateConverter)) {
