@@ -346,7 +346,7 @@ public class DefaultCodegen implements CodegenConfig {
     public void setCircularReferences(Map<String, CodegenModel> models) {
         final Map<String, List<CodegenProperty>> dependencyMap = models.entrySet().stream()
             .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue())));
-        
+
         models.keySet().forEach(name -> setCircularReferencesOnProperties(name, dependencyMap));
     }
 
@@ -3529,6 +3529,9 @@ public class DefaultCodegen implements CodegenConfig {
             cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = false;
             cs.isBasicBasic = cs.isBasicBearer = false;
             cs.scheme = securityScheme.getScheme();
+            if (securityScheme.getExtensions() != null) {
+                cs.vendorExtensions.putAll(securityScheme.getExtensions());
+            }
 
             if (SecurityScheme.Type.APIKEY.equals(securityScheme.getType())) {
                 cs.isBasic = cs.isOAuth = false;
