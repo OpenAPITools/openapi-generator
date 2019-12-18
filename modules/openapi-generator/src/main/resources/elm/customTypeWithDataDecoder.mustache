@@ -1,8 +1,7 @@
 {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder : Json.Decode.Decoder {{classname}}
 {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder ={{^discriminator}}
     Json.Decode.oneOf{{#oneOf}}
-        {{#-first}}[{{/-first}}{{^-first}},{{/-first}} Json.Decode.map {{classname}}{{{.}}} {{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}Decoder
-{{/oneOf}}
+        {{#-first}}[{{/-first}}{{^-first}},{{/-first}} Json.Decode.map {{classname}}{{{.}}} {{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}Decoder{{/oneOf}}
         ]
 {{/discriminator}}{{#discriminator}}
     Json.Decode.field "{{{propertyName}}}" Json.Decode.string

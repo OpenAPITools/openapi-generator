@@ -1,20 +1,32 @@
+{{#discriminator}}
 encode{{classname}} : {{classname}} -> Json.Encode.Value
-encode{{classname}} =
-    encodeObject << encode{{classname}}Pairs
+encode{{classname}} model =
+    case model of{{#mappedModels}}
+        {{classname}}{{modelName}} subModel ->
+            encode{{modelName}}WithTag ("{{discriminatorName}}", "{{mappingName}}") subModel
+{{/mappedModels}}
 
 
-encode{{classname}}WithTag : ( String, String ) -> {{classname}} -> Json.Encode.Value
-encode{{classname}}WithTag (tagField, tag) model =
-    encodeObject (encode{{classname}}Pairs model ++ [ encode tagField Json.Encode.string tag ])
+{{/discriminator}}
+encode{{#discriminator}}Base{{/discriminator}}{{classname}} : {{#discriminator}}Base{{/discriminator}}{{classname}} -> Json.Encode.Value
+encode{{#discriminator}}Base{{/discriminator}}{{classname}} =
+    encodeObject << encode{{#discriminator}}Base{{/discriminator}}{{classname}}Pairs
 
 
-encode{{classname}}Pairs : {{classname}} -> List EncodedField
-encode{{classname}}Pairs model =
-{{#vars}}
-    {{#-first}}[{{/-first}}{{^-first}},{{/-first}} {{>recordFieldEncoder}}
+encode{{#discriminator}}Base{{/discriminator}}{{classname}}WithTag : ( String, String ) -> {{#discriminator}}Base{{/discriminator}}{{classname}} -> Json.Encode.Value
+encode{{#discriminator}}Base{{/discriminator}}{{classname}}WithTag (tagField, tag) model =
+    encodeObject (encode{{#discriminator}}Base{{/discriminator}}{{classname}}Pairs model ++ [ encode tagField Json.Encode.string tag ])
+
+
+encode{{#discriminator}}Base{{/discriminator}}{{classname}}Pairs : {{#discriminator}}Base{{/discriminator}}{{classname}} -> List EncodedField
+encode{{#discriminator}}Base{{/discriminator}}{{classname}}Pairs model =
+    let
+        pairs =
+{{#vars}}            {{#-first}}[{{/-first}}{{^-first}},{{/-first}} {{>recordFieldEncoder}}
 {{/vars}}
-    ]{{#vars}}{{#isEnum}}
-
+            ]
+    in
+    {{#parent}}{{#allOf}}encode{{.}}Pairs model.{{#lambda.camelcase}}{{.}}{{/lambda.camelcase}} ++ {{/allOf}}{{/parent}}pairs{{#vars}}{{#isEnum}}
 
 {{>customTypeEncoder}}
 {{/isEnum}}{{/vars}}

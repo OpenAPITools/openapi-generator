@@ -1,8 +1,16 @@
-type alias {{classname}} =
-{{#vars}}    {{#-first}}{ {{/-first}}{{^-first}}, {{/-first}}{{name}} : {{#isNullable}}Maybe {{#isContainer}}({{/isContainer}}{{/isNullable}}{{^isNullable}}{{^required}}Maybe {{#isContainer}}({{/isContainer}}{{/required}}{{/isNullable}}{{#isListContainer}}List {{/isListContainer}}{{#isMapContainer}}Dict.Dict String {{/isMapContainer}}{{dataType}}{{#isContainer}}{{#isNullable}}){{/isNullable}}{{^isNullable}}{{^required}}){{/required}}{{/isNullable}}{{/isContainer}}
-{{/vars}}
-    }
+{{#discriminator}}
+type {{classname}}
+{{#mappedModels}}    {{#-first}}= {{/-first}}{{^-first}}| {{/-first}}{{classname}}{{modelName}} {{modelName}}
+{{/mappedModels}}
 
-{{#vars}}{{#isEnum}}
-{{>customType}}
-{{/isEnum}}{{/vars}}
+
+{{/discriminator}}
+type alias {{#discriminator}}Base{{/discriminator}}{{classname}} =
+{{#lambda.indented}}
+    { {{#parent}}{{#allOf}}{{^-first}}, {{/-first}}{{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}: {{.}}
+{{/allOf}}, {{/parent}}{{#vars}}{{^-first}}, {{/-first}}{{name}} : {{#isNullable}}Maybe {{#isContainer}}({{/isContainer}}{{/isNullable}}{{^isNullable}}{{^required}}Maybe {{#isContainer}}({{/isContainer}}{{/required}}{{/isNullable}}{{#isListContainer}}List {{/isListContainer}}{{#isMapContainer}}Dict.Dict String {{/isMapContainer}}{{#isEnum}}{{classname}}{{enumName}}{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isContainer}}{{#isNullable}}){{/isNullable}}{{^isNullable}}{{^required}}){{/required}}{{/isNullable}}{{/isContainer}}
+{{/vars}}
+}{{/lambda.indented}}{{#vars}}{{#isEnum}}
+
+
+{{>customType}}{{/isEnum}}{{/vars}}

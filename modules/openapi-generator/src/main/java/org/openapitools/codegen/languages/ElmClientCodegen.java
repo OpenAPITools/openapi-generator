@@ -129,6 +129,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
+        // TODO drop support for post processing
         if (StringUtils.isEmpty(System.getenv("ELM_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable ELM_POST_PROCESS_FILE not defined so the Elm code may not be properly formatted. To define it, try `export ELM_POST_PROCESS_FILE=\"/usr/local/bin/elm-format --elm-version={} --yes\"` (Linux/Mac)", "0.19");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
@@ -234,6 +235,24 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         final List<Map<String, Object>> models = objs.values().stream()
             .map(obj -> (Map<String, Object>) obj)
             .flatMap(obj -> ((List<Map<String, Object>>) obj.get("models")).stream())
+            .flatMap(obj -> {
+                final CodegenModel model = (CodegenModel) obj.get("model");
+                // discriminators
+                if (model.discriminator != null && model.getChildren() != null) {
+                    model.getChildren().forEach(child -> {
+                        child.allOf = child.allOf.stream()
+                            .map(v -> model.classname.equals(v) ? "Base" + v : v)
+                            .collect(Collectors.toSet());
+                    });
+                }
+                // remove *AllOf
+                if (model.classname.endsWith("AllOf")) {
+                    return Stream.empty();
+                } else {
+                    model.allOf.removeIf(name -> name.endsWith("AllOf"));
+                    return Stream.of(obj);
+                }
+            })
             .collect(Collectors.toList());
         dataObj.put("models", models);
         dataObj.put("includeTime", true); // TODO only if used, set to prop
@@ -268,7 +287,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
-
         ops.forEach(op -> {
             op.allParams = op.allParams.stream().sorted(new ParameterSorter()).collect(Collectors.toList());
             op.responses.forEach(response -> {

@@ -7,7 +7,7 @@ encode{{classname}} model =
 {{/oneOf}}{{/discriminator}}{{#discriminator}}
 {{#mappedModels}}
         {{classname}}{{modelName}} subModel ->
-            {{modelName}}.encodeWithTag ("{{discriminatorName}}", "{{mappingName}}") subModel
+            encode{{modelName}}WithTag ("{{discriminatorName}}", "{{mappingName}}") subModel
 
 {{/mappedModels}}
 {{/discriminator}}
