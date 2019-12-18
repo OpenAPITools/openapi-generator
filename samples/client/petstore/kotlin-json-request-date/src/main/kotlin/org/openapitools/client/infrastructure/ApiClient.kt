@@ -12,8 +12,8 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import java.io.File
 
-internal open class ApiClient(val baseUrl: String) {
-    internal companion object {
+open class ApiClient(val baseUrl: String) {
+    companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"
         protected const val Authorization = "Authorization"
@@ -172,6 +172,12 @@ internal open class ApiClient(val baseUrl: String) {
     }
 
     protected inline fun <reified T: Any> parseDateToQueryString(value : T): String {
-        return value.toString()
+        /*
+        .replace("\"", "") converts the json object string to an actual string for the query parameter.
+        The moshi or gson adapter allows a more generic solution instead of trying to use a native
+        formatter. It also easily allows to provide a simple way to define a custom date format pattern
+        inside a gson/moshi adapter.
+        */
+        return Serializer.moshi.adapter(T::class.java).toJson(value).replace("\"", "")
     }
 }
