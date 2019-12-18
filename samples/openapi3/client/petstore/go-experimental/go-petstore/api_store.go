@@ -14,7 +14,6 @@ import (
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"fmt"
 	"strings"
 )
 
@@ -41,9 +40,13 @@ func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) (*_n
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(fmt.Sprintf("%v", orderId)), -1)
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "StoreApiService.DeleteOrder")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/store/order/{order_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(parameterToString(orderId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -109,8 +112,12 @@ func (a *StoreApiService) GetInventory(ctx _context.Context) (map[string]int32, 
 		localVarReturnValue  map[string]int32
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/store/inventory"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "StoreApiService.GetInventory")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/store/inventory"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -209,9 +216,13 @@ func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) (Ord
 		localVarReturnValue  Order
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(fmt.Sprintf("%v", orderId)), -1)
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "StoreApiService.GetOrderById")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/store/order/{order_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(parameterToString(orderId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -302,8 +313,12 @@ func (a *StoreApiService) PlaceOrder(ctx _context.Context, order Order) (Order, 
 		localVarReturnValue  Order
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/store/order"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "StoreApiService.PlaceOrder")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/store/order"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
