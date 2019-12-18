@@ -639,7 +639,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public String toModelName(final String name) {
         // Allow for explicitly configured spring.*
-        if (name.startsWith("org.springframework.") ) {
+        if (name.startsWith("org.springframework.")) {
             return name;
         }
         return super.toModelName(name);
