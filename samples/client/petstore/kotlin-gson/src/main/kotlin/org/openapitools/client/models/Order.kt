@@ -31,7 +31,7 @@ data class Order (
     @SerializedName("quantity")
     val quantity: kotlin.Int? = null,
     @SerializedName("shipDate")
-    val shipDate: java.time.LocalDateTime? = null,
+    val shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
     @SerializedName("status")
     val status: Order.Status? = null,

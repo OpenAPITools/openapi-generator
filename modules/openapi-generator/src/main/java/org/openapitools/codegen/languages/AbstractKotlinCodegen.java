@@ -182,7 +182,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("double", "kotlin.Double");
         typeMapping.put("ByteArray", "kotlin.ByteArray");
         typeMapping.put("number", "java.math.BigDecimal");
-        typeMapping.put("date-time", "java.time.LocalDateTime");
+        typeMapping.put("date-time", "java.time.OffsetDateTime");
         typeMapping.put("date", "java.time.LocalDate");
         typeMapping.put("file", "java.io.File");
         typeMapping.put("array", "kotlin.Array");
@@ -192,7 +192,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("object", "kotlin.Any");
         typeMapping.put("binary", "kotlin.Array<kotlin.Byte>");
         typeMapping.put("Date", "java.time.LocalDate");
-        typeMapping.put("DateTime", "java.time.LocalDateTime");
+        typeMapping.put("DateTime", "java.time.OffsetDateTime");
 
         instantiationTypes.put("array", "kotlin.arrayOf");
         instantiationTypes.put("list", "kotlin.arrayOf");
@@ -205,7 +205,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         importMapping.put("File", "java.io.File");
         importMapping.put("Date", "java.util.Date");
         importMapping.put("Timestamp", "java.sql.Timestamp");
-        importMapping.put("DateTime", "java.time.LocalDateTime");
+        importMapping.put("DateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalDateTime", "java.time.LocalDateTime");
         importMapping.put("LocalDate", "java.time.LocalDate");
         importMapping.put("LocalTime", "java.time.LocalTime");

@@ -27,6 +27,7 @@ import java.util.Date
     @JvmStatic
     val moshi: Moshi = Moshi.Builder()
         .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
+        .add(OffsetDateTimeAdapter())
         .add(LocalDateTimeAdapter())
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
@@ -40,6 +41,7 @@ import java.util.Date
     @JvmStatic
     val gson: Gson = GsonBuilder()
         .registerTypeAdapter(Date::class.java, DateAdapter())
+        .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(UUID::class.java, UUIDAdapter())

@@ -11,6 +11,7 @@ object Serializer {
     @JvmStatic
     val gson: Gson = GsonBuilder()
         .registerTypeAdapter(Date::class.java, DateAdapter())
+        .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(UUID::class.java, UUIDAdapter())
