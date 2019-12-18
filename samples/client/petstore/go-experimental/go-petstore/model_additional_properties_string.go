@@ -63,7 +63,7 @@ func (v NullableAdditionalPropertiesString) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}
+	}	
 }
 
 func (v *NullableAdditionalPropertiesString) UnmarshalJSON(src []byte) error {
@@ -74,3 +74,4 @@ func (v *NullableAdditionalPropertiesString) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
+

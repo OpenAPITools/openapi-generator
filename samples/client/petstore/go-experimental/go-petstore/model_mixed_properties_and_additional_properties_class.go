@@ -132,7 +132,7 @@ func (v NullableMixedPropertiesAndAdditionalPropertiesClass) MarshalJSON() ([]by
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}
+	}	
 }
 
 func (v *NullableMixedPropertiesAndAdditionalPropertiesClass) UnmarshalJSON(src []byte) error {
@@ -143,3 +143,4 @@ func (v *NullableMixedPropertiesAndAdditionalPropertiesClass) UnmarshalJSON(src 
 
 	return json.Unmarshal(src, &v.Value)
 }
+

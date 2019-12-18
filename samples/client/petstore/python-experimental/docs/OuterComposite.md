@@ -1,9 +1,9 @@
-# outer_composite.OuterComposite
+# OuterComposite
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**my_number** | [**outer_number.OuterNumber**](OuterNumber.md) |  | [optional] 
+**my_number** | [**OuterNumber**](OuterNumber.md) |  | [optional] 
 **my_string** | **str** |  | [optional] 
 **my_boolean** | **bool** |  | [optional] 
 

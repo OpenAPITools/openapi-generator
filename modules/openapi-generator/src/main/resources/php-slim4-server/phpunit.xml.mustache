@@ -17,15 +17,11 @@
         <testsuite name="Models">
             <directory>{{modelTestPath}}</directory>
         </testsuite>
-        <testsuite name="Mock">
-            <directory>{{mockTestPath}}</directory>
-        </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">{{apiSrcPath}}</directory>
             <directory suffix=".php">{{modelSrcPath}}</directory>
-            <directory suffix=".php">{{mockSrcPath}}</directory>
         </whitelist>
     </filter>
     <php>

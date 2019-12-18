@@ -25,6 +25,32 @@ const (
 	{{/enumVars}}
 	{{/allowableValues}}
 )
+
+type Nullable{{{classname}}} struct {
+	Value {{{classname}}}
+	ExplicitNull bool
+}
+
+func (v Nullable{{{classname}}}) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull && v.Value != "":
+        return nil, ErrInvalidNullable
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}	
+}
+
+func (v *Nullable{{{classname}}}) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}
+
 {{/isEnum}}
 {{^isEnum}}
 // {{classname}}{{#description}} {{{description}}}{{/description}}{{^description}} struct for {{{classname}}}{{/description}}
@@ -95,7 +121,6 @@ func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
 
 {{/required}}
 {{/vars}}
-{{/isEnum}}
 type Nullable{{{classname}}} struct {
 	Value {{{classname}}}
 	ExplicitNull bool
@@ -107,7 +132,7 @@ func (v Nullable{{{classname}}}) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}
+	}	
 }
 
 func (v *Nullable{{{classname}}}) UnmarshalJSON(src []byte) error {
@@ -118,5 +143,7 @@ func (v *Nullable{{{classname}}}) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
+{{/isEnum}}
+
 {{/model}}
 {{/models}}

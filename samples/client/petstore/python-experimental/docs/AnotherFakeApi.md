@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **call_123_test_special_tags**
-> client.Client call_123_test_special_tags(body)
+> Client call_123_test_special_tags(body)
 
 To test special tags
 
@@ -20,18 +20,18 @@ To test special tags and operation ID starting with number
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.AnotherFakeApi()
-body = petstore_api.Client() # client.Client | client model
+body = petstore_api.Client() # Client | client model
 
-# example passing only required values which don't have defaults set
 try:
     # To test special tags
     api_response = api_instance.call_123_test_special_tags(body)
     pprint(api_response)
-except petstore_api.ApiException as e:
+except ApiException as e:
     print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
 ```
 
@@ -39,11 +39,11 @@ except petstore_api.ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**client.Client**](Client.md)| client model |
+ **body** | [**Client**](Client.md)| client model |
 
 ### Return type
 
-[**client.Client**](Client.md)
+[**Client**](Client.md)
 
 ### Authorization
 

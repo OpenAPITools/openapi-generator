@@ -23,7 +23,7 @@ pip install git+https://github.com/GIT_USER_ID/GIT_REPO_ID.git
 
 Then import the package:
 ```python
-import petstore_api
+import petstore_api 
 ```
 
 ### Setuptools
@@ -48,6 +48,7 @@ Please follow the [installation procedure](#installation--usage) and then run th
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.rest import ApiException
 from pprint import pprint
 
 
@@ -55,13 +56,13 @@ from pprint import pprint
 configuration.host = "http://petstore.swagger.io:80/v2"
 # Create an instance of the API class
 api_instance = petstore_api.AnotherFakeApi(petstore_api.ApiClient(configuration))
-body = petstore_api.Client() # client.Client | client model
+body = petstore_api.Client() # Client | client model
 
 try:
     # To test special tags
     api_response = api_instance.call_123_test_special_tags(body)
     pprint(api_response)
-except petstore_api.ApiException as e:
+except ApiException as e:
     print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
 
 ```
@@ -114,67 +115,54 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [additional_properties_any_type.AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
- - [additional_properties_array.AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
- - [additional_properties_boolean.AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
- - [additional_properties_class.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
- - [additional_properties_integer.AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
- - [additional_properties_number.AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
- - [additional_properties_object.AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
- - [additional_properties_string.AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
- - [animal.Animal](docs/Animal.md)
- - [api_response.ApiResponse](docs/ApiResponse.md)
- - [array_of_array_of_number_only.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
- - [array_of_number_only.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
- - [array_test.ArrayTest](docs/ArrayTest.md)
- - [capitalization.Capitalization](docs/Capitalization.md)
- - [cat.Cat](docs/Cat.md)
- - [cat_all_of.CatAllOf](docs/CatAllOf.md)
- - [category.Category](docs/Category.md)
- - [child.Child](docs/Child.md)
- - [child_all_of.ChildAllOf](docs/ChildAllOf.md)
- - [child_cat.ChildCat](docs/ChildCat.md)
- - [child_cat_all_of.ChildCatAllOf](docs/ChildCatAllOf.md)
- - [child_dog.ChildDog](docs/ChildDog.md)
- - [child_dog_all_of.ChildDogAllOf](docs/ChildDogAllOf.md)
- - [child_lizard.ChildLizard](docs/ChildLizard.md)
- - [child_lizard_all_of.ChildLizardAllOf](docs/ChildLizardAllOf.md)
- - [class_model.ClassModel](docs/ClassModel.md)
- - [client.Client](docs/Client.md)
- - [dog.Dog](docs/Dog.md)
- - [dog_all_of.DogAllOf](docs/DogAllOf.md)
- - [enum_arrays.EnumArrays](docs/EnumArrays.md)
- - [enum_class.EnumClass](docs/EnumClass.md)
- - [enum_test.EnumTest](docs/EnumTest.md)
- - [file.File](docs/File.md)
- - [file_schema_test_class.FileSchemaTestClass](docs/FileSchemaTestClass.md)
- - [format_test.FormatTest](docs/FormatTest.md)
- - [grandparent.Grandparent](docs/Grandparent.md)
- - [grandparent_animal.GrandparentAnimal](docs/GrandparentAnimal.md)
- - [has_only_read_only.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
- - [list.List](docs/List.md)
- - [map_test.MapTest](docs/MapTest.md)
- - [mixed_properties_and_additional_properties_class.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
- - [model200_response.Model200Response](docs/Model200Response.md)
- - [model_return.ModelReturn](docs/ModelReturn.md)
- - [name.Name](docs/Name.md)
- - [number_only.NumberOnly](docs/NumberOnly.md)
- - [order.Order](docs/Order.md)
- - [outer_composite.OuterComposite](docs/OuterComposite.md)
- - [outer_enum.OuterEnum](docs/OuterEnum.md)
- - [outer_number.OuterNumber](docs/OuterNumber.md)
- - [parent.Parent](docs/Parent.md)
- - [parent_all_of.ParentAllOf](docs/ParentAllOf.md)
- - [parent_pet.ParentPet](docs/ParentPet.md)
- - [pet.Pet](docs/Pet.md)
- - [read_only_first.ReadOnlyFirst](docs/ReadOnlyFirst.md)
- - [special_model_name.SpecialModelName](docs/SpecialModelName.md)
- - [string_boolean_map.StringBooleanMap](docs/StringBooleanMap.md)
- - [tag.Tag](docs/Tag.md)
- - [type_holder_default.TypeHolderDefault](docs/TypeHolderDefault.md)
- - [type_holder_example.TypeHolderExample](docs/TypeHolderExample.md)
- - [user.User](docs/User.md)
- - [xml_item.XmlItem](docs/XmlItem.md)
+ - [AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
+ - [AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
+ - [AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
+ - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
+ - [AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
+ - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
+ - [AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
+ - [Animal](docs/Animal.md)
+ - [ApiResponse](docs/ApiResponse.md)
+ - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
+ - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
+ - [ArrayTest](docs/ArrayTest.md)
+ - [Capitalization](docs/Capitalization.md)
+ - [Cat](docs/Cat.md)
+ - [CatAllOf](docs/CatAllOf.md)
+ - [Category](docs/Category.md)
+ - [ClassModel](docs/ClassModel.md)
+ - [Client](docs/Client.md)
+ - [Dog](docs/Dog.md)
+ - [DogAllOf](docs/DogAllOf.md)
+ - [EnumArrays](docs/EnumArrays.md)
+ - [EnumClass](docs/EnumClass.md)
+ - [EnumTest](docs/EnumTest.md)
+ - [File](docs/File.md)
+ - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [FormatTest](docs/FormatTest.md)
+ - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [List](docs/List.md)
+ - [MapTest](docs/MapTest.md)
+ - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
+ - [Model200Response](docs/Model200Response.md)
+ - [ModelReturn](docs/ModelReturn.md)
+ - [Name](docs/Name.md)
+ - [NumberOnly](docs/NumberOnly.md)
+ - [Order](docs/Order.md)
+ - [OuterComposite](docs/OuterComposite.md)
+ - [OuterEnum](docs/OuterEnum.md)
+ - [OuterNumber](docs/OuterNumber.md)
+ - [Pet](docs/Pet.md)
+ - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [SpecialModelName](docs/SpecialModelName.md)
+ - [StringBooleanMap](docs/StringBooleanMap.md)
+ - [Tag](docs/Tag.md)
+ - [TypeHolderDefault](docs/TypeHolderDefault.md)
+ - [TypeHolderExample](docs/TypeHolderExample.md)
+ - [User](docs/User.md)
+ - [XmlItem](docs/XmlItem.md)
 
 
 ## Documentation For Authorization

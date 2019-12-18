@@ -99,7 +99,7 @@ func (v NullableInlineObject2) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}
+	}	
 }
 
 func (v *NullableInlineObject2) UnmarshalJSON(src []byte) error {
@@ -110,3 +110,4 @@ func (v *NullableInlineObject2) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
+

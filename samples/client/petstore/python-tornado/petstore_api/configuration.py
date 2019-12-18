@@ -300,37 +300,41 @@ class Configuration(object):
             }
         ]
 
-    def get_host_from_settings(self, index, variables=None):
+    def get_host_from_settings(self, index, variables={}):
         """Gets host URL based on the index and variables
         :param index: array index of the host settings
         :param variables: hash of variable and the corresponding value
         :return: URL based on host settings
         """
-        variables = {} if variables is None else variables
+
         servers = self.get_host_settings()
 
-        try:
-            server = servers[index]
-        except IndexError:
+        # check array index out of bound
+        if index < 0 or index >= len(servers):
             raise ValueError(
-                "Invalid index {0} when selecting the host settings. "
-                "Must be less than {1}".format(index, len(servers)))
+                "Invalid index {} when selecting the host settings. Must be less than {}"  # noqa: E501
+                .format(index, len(servers)))
 
+        server = servers[index]
         url = server['url']
 
-        # go through variables and replace placeholders
-        for variable_name, variable in server['variables'].items():
-            used_value = variables.get(
-                variable_name, variable['default_value'])
-
-            if 'enum_values' in variable \
-                    and used_value not in variable['enum_values']:
-                raise ValueError(
-                    "The variable `{0}` in the host URL has invalid value "
-                    "{1}. Must be {2}.".format(
-                        variable_name, variables[variable_name],
-                        variable['enum_values']))
-
-            url = url.replace("{" + variable_name + "}", used_value)
+        # go through variable and assign a value
+        for variable_name in server['variables']:
+            if variable_name in variables:
+                if variables[variable_name] in server['variables'][
+                        variable_name]['enum_values']:
+                    url = url.replace("{" + variable_name + "}",
+                                      variables[variable_name])
+                else:
+                    raise ValueError(
+                        "The variable `{}` in the host URL has invalid value {}. Must be {}."  # noqa: E501
+                        .format(
+                            variable_name, variables[variable_name],
+                            server['variables'][variable_name]['enum_values']))
+            else:
+                # use default value
+                url = url.replace(
+                    "{" + variable_name + "}",
+                    server['variables'][variable_name]['default_value'])
 
         return url

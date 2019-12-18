@@ -1,4 +1,4 @@
-# dog_all_of.DogAllOf
+# DogAllOf
 
 ## Properties
 Name | Type | Description | Notes

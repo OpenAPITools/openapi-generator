@@ -131,7 +131,7 @@ func (v NullableApiResponse) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}
+	}	
 }
 
 func (v *NullableApiResponse) UnmarshalJSON(src []byte) error {
@@ -142,3 +142,4 @@ func (v *NullableApiResponse) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
+

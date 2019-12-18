@@ -97,7 +97,7 @@ func (v NullableEnumArrays) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}
+	}	
 }
 
 func (v *NullableEnumArrays) UnmarshalJSON(src []byte) error {
@@ -108,3 +108,4 @@ func (v *NullableEnumArrays) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
+

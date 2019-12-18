@@ -42,12 +42,10 @@
   "scripts": {
     "test": [
       "@test-apis",
-      "@test-models",
-      "@test-mock"
+      "@test-models"
     ],
     "test-apis": "phpunit --testsuite Apis",
     "test-models": "phpunit --testsuite Models",
-    "test-mock": "phpunit --testsuite Mock",
     "phpcs": "phpcs",
     "phplint": "phplint ./ --exclude=vendor"
   }

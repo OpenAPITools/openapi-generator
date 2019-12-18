@@ -31,11 +31,13 @@ type NullableOuterEnumInteger struct {
 
 func (v NullableOuterEnumInteger) MarshalJSON() ([]byte, error) {
     switch {
+    case v.ExplicitNull && v.Value != "":
+        return nil, ErrInvalidNullable
     case v.ExplicitNull:
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}
+	}	
 }
 
 func (v *NullableOuterEnumInteger) UnmarshalJSON(src []byte) error {
@@ -46,3 +48,6 @@ func (v *NullableOuterEnumInteger) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
+
+
+

@@ -125,7 +125,7 @@ func (v NullableTypeHolderExample) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}
+	}	
 }
 
 func (v *NullableTypeHolderExample) UnmarshalJSON(src []byte) error {
@@ -136,3 +136,4 @@ func (v *NullableTypeHolderExample) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
+

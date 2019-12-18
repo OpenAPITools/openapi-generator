@@ -1,4 +1,4 @@
-# additional_properties_array.AdditionalPropertiesArray
+# AdditionalPropertiesArray
 
 ## Properties
 Name | Type | Description | Notes

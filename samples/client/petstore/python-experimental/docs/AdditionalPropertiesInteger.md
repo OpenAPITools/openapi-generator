@@ -1,4 +1,4 @@
-# additional_properties_integer.AdditionalPropertiesInteger
+# AdditionalPropertiesInteger
 
 ## Properties
 Name | Type | Description | Notes

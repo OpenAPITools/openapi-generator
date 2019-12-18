@@ -34,7 +34,7 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
 
     switch (value.{{propertyName}}) {
     {{#mappedModels}}
-    case '{{mappingName}}': return {{modelName}}ToJSON(<{{modelName}}>value);
+    case '{{mappingName}}': return {{modelName}}ToJSON(value);
     {{/mappedModels}}
     default: throw new Error("Unexpected {{propertyName}} value.");
     }

@@ -11,15 +11,8 @@
 {{>modelOneOf}}
 {{/-first}}
 {{/oneOf}}
-{{#allOf}}
-{{#-first}}
-{{>modelAllOf}}
-{{/-first}}
-{{/allOf}}
 {{^oneOf}}
-{{^allOf}}
 {{>modelGeneric}}
-{{/allOf}}
 {{/oneOf}}
 {{/isEnum}}
 {{/model}}

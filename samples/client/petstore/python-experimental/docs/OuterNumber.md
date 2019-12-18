@@ -1,4 +1,4 @@
-# outer_number.OuterNumber
+# OuterNumber
 
 ## Properties
 Name | Type | Description | Notes

@@ -52,8 +52,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         // this may set datatype right for additional properties
         instantiationTypes.put("map", "dict");
-        languageSpecificPrimitives.add("file_type");
-        languageSpecificPrimitives.add("none_type");
 
         apiTemplateFiles.remove("api.mustache");
         apiTemplateFiles.put("python-experimental/api.mustache", ".py");
@@ -66,9 +64,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         modelTemplateFiles.remove("model.mustache");
         modelTemplateFiles.put("python-experimental/model.mustache", ".py");
-
-        modelTestTemplateFiles.remove("model_test.mustache", ".py");
-        modelTestTemplateFiles.put("python-experimental/model_test.mustache", ".py");
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.EXPERIMENTAL)
@@ -84,32 +79,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         supportingFiles.add(new SupportingFile("python-experimental/model_utils.mustache", packagePath(), "model_utils.py"));
 
-        supportingFiles.remove(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
-        supportingFiles.add(new SupportingFile("python-experimental/__init__model.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
-
-        supportingFiles.remove(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
-        supportingFiles.add(new SupportingFile("python-experimental/__init__package.mustache", packagePath(), "__init__.py"));
-
-
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
             generateSourceCodeOnly = Boolean.valueOf(additionalProperties.get(CodegenConstants.SOURCECODEONLY_GENERATION).toString());
         }
-
-        // remove what PythonClientCodegen did
-        String readmePath = "README.md";
-        String readmeTemplate = "README.mustache";
-        if (generateSourceCodeOnly) {
-            readmePath = packagePath() + "_" + readmePath;
-            readmeTemplate = "README_onlypackage.mustache";
-        }
-        supportingFiles.remove(new SupportingFile(readmeTemplate, "", readmePath));
-        // add the correct readme
-        readmeTemplate = "python-experimental/README.mustache";
-        if (generateSourceCodeOnly) {
-            readmeTemplate = "python-experimental/README_onlypackage.mustache";
-        }
-        supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
 
         if (!generateSourceCodeOnly) {
           supportingFiles.remove(new SupportingFile("setup.mustache", "", "setup.py"));
@@ -240,76 +213,19 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
     }
 
-    @Override
-    public String toModelImport(String name) {
-        // name looks like cat.Cat
-        String moduleName = name.split("\\.")[0];
-        // https://exceptionshub.com/circular-or-cyclic-imports-in-python.html
-        return "from " + modelPackage() + " import "+ moduleName;
-    }
-
-    private String robustImport(String name) {
-        // name looks like cat.Cat
-        String moduleName = name.split("\\.")[0];
-        // https://exceptionshub.com/circular-or-cyclic-imports-in-python.html
-        String modelImport = "try:\n    from " + modelPackage() + " import "+ moduleName+ "\nexcept ImportError:\n    "+moduleName+" = sys.modules['"+modelPackage() + "."+ moduleName+"']";
-        return modelImport;
-    }
-
-    private String getPythonClassName(String name) {
-        // name looks like cat.Cat or Cat
-        String[] pieces = name.split("\\.");
-        if (pieces.length == 1) {
-            return pieces[0];
-        }
-        return pieces[1];
-    }
-
-    private void fixOperationImports(Set<String> imports) {
-        if (imports.size() == 0) {
+    public void addModelImport(Map<String, Object> objs, CodegenModel cm, String otherModelName) {
+        // adds the absolute path to otherModelName as an import in CodegenModel cm
+        HashMap referencedModel = (HashMap) objs.get(otherModelName);
+        if (referencedModel == null) {
+            // this happens with a model where type=string and format=number which is a non-standard format
             return;
         }
-        String[] modelNames = imports.toArray(new String[0]);
-        imports.clear();
-        // loops through imports and converts them all from 'module.Class' to 'from  models.module import module'
-        for (String modelName : modelNames) {
-            // if a modelName lacks the module (Pet) then we convert it to pet.Pet
-            if (modelName.indexOf(".") == -1) {
-                modelName = toModelName(modelName);
-            }
-            imports.add(toModelImport(modelName));
-        }
-    }
-
-    @Override
-    @SuppressWarnings("static-method")
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        HashMap<String, Object> val = (HashMap<String, Object>)objs.get("operations");
-        ArrayList<CodegenOperation> operations = (ArrayList<CodegenOperation>) val.get("operation");
-        ArrayList<HashMap<String, String>> imports = (ArrayList<HashMap<String, String>>)objs.get("imports");
-        imports.clear();
-        for (CodegenOperation operation : operations) {
-            fixOperationImports(operation.imports);
-            for (String thisImport : operation.imports) {
-                HashMap<String, String> higherImport = new HashMap<String, String>();
-                higherImport.put("import", thisImport);
-                if (!imports.contains(higherImport)) {
-                    imports.add(higherImport);
-                }
-            }
-        }
-        return objs;
-    }
-
-    private void fixModelImports(Set<String> imports) {
-        // loops through imports and converts them all from 'module.Class' to 'import models.module as module'
-        if (imports.size() == 0) {
-            return;
-        }
-        String[] modelNames = imports.toArray(new String[0]);
-        imports.clear();
-        for (String modelName : modelNames) {
-            imports.add(robustImport(modelName));
+        ArrayList myModel = (ArrayList) referencedModel.get("models");
+        HashMap modelData = (HashMap) myModel.get(0);
+        String importPath = (String) modelData.get("importPath");
+        // only add importPath to parameters if it isn't in importPaths
+        if (!cm.imports.contains(importPath)) {
+            cm.imports.add(importPath);
         }
     }
 
@@ -325,29 +241,39 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             for (Map<String, Object> mo : models) {
                 CodegenModel cm = (CodegenModel) mo.get("model");
 
-                // make sure discrimonator models are included in imports
+                // fix the imports that each model has, change them to absolute
+                // imports
+                // clear out imports so we will only include full path imports
+                cm.imports.clear();
                 CodegenDiscriminator discriminator = cm.discriminator;
                 if (discriminator != null) {
                     Set<CodegenDiscriminator.MappedModel> mappedModels = discriminator.getMappedModels();
                     for (CodegenDiscriminator.MappedModel mappedModel : mappedModels) {
                         String otherModelName = mappedModel.getModelName();
-                        cm.imports.add(otherModelName);
+                        addModelImport(objs, cm, otherModelName);
                     }
                 }
-
-                // add imports for anyOf, allOf, oneOf
-                ArrayList<Set<String>> composedSchemaSets = new ArrayList<Set<String>>();
-                composedSchemaSets.add(cm.allOf);
-                composedSchemaSets.add(cm.anyOf);
-                composedSchemaSets.add(cm.oneOf);
-                for (Set<String> importSet : composedSchemaSets) {
-                    for (String otherModelName : importSet) {
-                        cm.imports.add(otherModelName);
-                    }
+                ArrayList<List<CodegenProperty>> listOfLists= new ArrayList<List<CodegenProperty>>();
+                listOfLists.add(cm.allVars);
+                listOfLists.add(cm.requiredVars);
+                listOfLists.add(cm.optionalVars);
+                listOfLists.add(cm.vars);
+                for (List<CodegenProperty> varList : listOfLists) {
+                  for (CodegenProperty cp : varList) {
+                      String otherModelName = null;
+                      if (cp.complexType != null) {
+                          otherModelName = cp.complexType;
+                      }
+                      if (cp.mostInnerItems != null) {
+                          if (cp.mostInnerItems.complexType != null) {
+                              otherModelName = cp.mostInnerItems.complexType;
+                          }
+                      }
+                      if (otherModelName != null) {
+                          addModelImport(objs, cm, otherModelName);
+                      }
+                  }
                 }
-
-                // fix the imports that each model has, change them to absolute
-                fixModelImports(cm.imports);
 
                 Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
                 CodegenProperty modelProperty = fromProperty("value", modelSchema);
@@ -470,20 +396,17 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         CodegenProperty modelProp = fromProperty("body", realSchema);
         if (modelProp.isPrimitiveType && (modelProp.hasValidation || modelProp.isEnum)) {
             String simpleDataType = result.dataType;
-            result.dataType = toModelName(modelName);
-            result.baseType = getPythonClassName(result.dataType);
-            imports.remove(modelName);
-            imports.add(result.dataType);
+            result.isPrimitiveType = false;
+            result.isModel = true;
+            result.dataType = modelName;
+            imports.add(modelName);
             // set the example value
             if (modelProp.isEnum) {
                 String value = modelProp._enum.get(0).toString();
-                result.example = this.packageName + "." + result.baseType + "(" + toEnumValue(value, simpleDataType) + ")";
+                result.example = modelName + "(" + toEnumValue(value, simpleDataType) + ")";
             } else {
-                result.example = this.packageName + "." + result.baseType + "(" + result.example + ")";
+                result.example = modelName + "(" + result.example + ")";
             }
-        } else if (!result.isPrimitiveType) {
-            // fix the baseType for the api docs so the .md link to the class's documentation file is correct
-            result.baseType = getPythonClassName(result.baseType);
         }
         return result;
     }
@@ -498,7 +421,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     @Override
     public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
         // if a response points at a model whose type != object and it has validations and/or enums, then we will
-        // generate the model, and response.baseType must be the name
+        // generate the model, and the response.isModel must be changed to true and response.baseType must be the name
         // of the model. Point responses at models if the model is python class type ModelSimple
         // When we serialize/deserialize ModelSimple models, validations and enums will be checked.
         Schema responseSchema;
@@ -512,13 +435,13 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (responseSchema != null) {
             CodegenProperty cp = fromProperty("response", responseSchema);
             if (cp.complexType != null) {
-                String modelName = getPythonClassName(cp.complexType);
-                Schema modelSchema = ModelUtils.getSchema(this.openAPI, modelName);
+                // check the referenced schema to see if it is an type=object model
+                Schema modelSchema = ModelUtils.getSchema(this.openAPI, cp.complexType);
                 if (modelSchema != null && !"object".equals(modelSchema.getType())) {
                     CodegenProperty modelProp = fromProperty("response", modelSchema);
                     if (modelProp.isEnum == true || modelProp.hasValidation == true) {
                         // this model has validations and/or enums so we will generate it
-                        newBaseType = modelName;
+                        newBaseType = cp.complexType;
                     }
                 }
             } else {
@@ -532,12 +455,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         CodegenResponse result = super.fromResponse(responseCode, response);
         if (newBaseType != null) {
-            result.dataType = toModelName(newBaseType);
-            // baseType is used to set the link to the model .md documentation
-            result.baseType = getPythonClassName(newBaseType);
-        } else if (!result.primitiveType) {
-            // fix the baseType for the api docs so the .md link to the class's documentation file is correct
-            result.baseType = getPythonClassName(result.baseType);
+            result.isModel = true;
+            result.baseType = newBaseType;
+            result.dataType = newBaseType;
         }
 
         return result;
@@ -633,31 +553,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
     }
 
-    @Override
-    public void postProcessModelProperty(CodegenModel model, CodegenProperty p) {
-        postProcessPattern(p.pattern, p.vendorExtensions);
-        // set property.complexType so the model docs will link to the ClassName.md
-        if (p.complexType != null && !languageSpecificPrimitives.contains(p.complexType)) {
-            p.complexType = getPythonClassName(p.complexType);
-        } else if (p.isListContainer && p.mostInnerItems.complexType != null && !languageSpecificPrimitives.contains(p.mostInnerItems.complexType)) {
-            // fix ListContainers
-            p.complexType = getPythonClassName(p.mostInnerItems.complexType);
-        }
-    }
-
-    @Override
-    public void postProcessParameter(CodegenParameter p) {
-        postProcessPattern(p.pattern, p.vendorExtensions);
-        // set baseType to null so the api docs will not point to a model for languageSpecificPrimitives
-        if (p.baseType != null && languageSpecificPrimitives.contains(p.baseType)){
-            p.baseType = null;
-        } else if (p.isListContainer && p.mostInnerItems.complexType != null && !languageSpecificPrimitives.contains(p.mostInnerItems.complexType)) {
-            // fix ListContainers
-            p.baseType = getPythonClassName(p.mostInnerItems.complexType);
-        }
-    }
-
-
     /**
      * Convert OAS Model object to Codegen Model object
      *
@@ -693,15 +588,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                     continue;
                 }
                 String modelName = ModelUtils.getSimpleRef(ref);
-                propertyToModelName.put(pythonPropertyName, toModelName(modelName));
+                propertyToModelName.put(pythonPropertyName, modelName);
             }
         }
         CodegenModel result = super.fromModel(name, schema);
-        // use this to store the model name like Cat
-        // we can't use result.name because that is used to lookup models in the spec
-        // we can't use result.classname because that stores cat.Cat
-        // we can't use result.classVarName because that stores the variable for making example instances
-        result.unescapedDescription = simpleModelName(name);
 
         // make non-object type models have one property so we can use it to store enums and validations
         if (result.isAlias || result.isEnum) {
@@ -746,11 +636,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 }
                 cp.isPrimitiveType = false;
                 String modelName = propertyToModelName.get(cp.name);
-                cp.complexType = getPythonClassName(modelName);
+                cp.complexType = modelName;
                 cp.dataType = modelName;
                 cp.isEnum = false;
                 cp.hasValidation = false;
-                result.imports.add(modelName);
             }
         }
         return result;
@@ -782,7 +671,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (ModelUtils.isFreeFormObject(p) && ModelUtils.getAdditionalProperties(p) == null) {
             return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
         }
-        if ((ModelUtils.isMapSchema(p) || p.getType() == "object") && ModelUtils.getAdditionalProperties(p) != null) {
+        if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return prefix + "{str: " + getTypeString(inner, "(", ")") + "}" + fullSuffix;
         } else if (ModelUtils.isArraySchema(p)) {
@@ -790,10 +679,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             Schema inner = ap.getItems();
             return prefix + "[" + getTypeString(inner, "", "") + "]" + fullSuffix;
         }
-        if (ModelUtils.isFileSchema(p)) {
-            return prefix + "file_type" + fullSuffix;
-        }
         String baseType = getSimpleTypeDeclaration(p);
+        if (ModelUtils.isFileSchema(p)) {
+            baseType = "file_type";
+        }
         return prefix + baseType + fullSuffix;
     }
 
@@ -883,8 +772,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             }
             example = "'" + escapeText(example) + "'";
         } else if (!languageSpecificPrimitives.contains(type)) {
-            // type is a model class, e.g. user.User
-            example = this.packageName + "." + getPythonClassName(type) + "()";
+            // type is a model class, e.g. User
+            example = this.packageName + "." + type + "()";
         } else {
             LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
         }
@@ -898,56 +787,5 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
 
         p.example = example;
-    }
-
-    private String simpleModelName(String name) {
-        // this returns a model name like Cat
-        String modelName = sanitizeName(name);
-        // remove dollar sign
-        modelName = modelName.replaceAll("$", "");
-
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(modelName)) {
-            LOGGER.warn(modelName + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + modelName));
-            modelName = "model_" + modelName; // e.g. return => ModelReturn (after camelize)
-        }
-
-        // model name starts with number
-        if (modelName.matches("^\\d.*")) {
-            LOGGER.warn(modelName + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + modelName));
-            modelName = "model_" + modelName; // e.g. 200Response => Model200Response (after camelize)
-        }
-
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
-            modelName = modelNamePrefix + "_" + modelName;
-        }
-
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
-            modelName = modelName + "_" + modelNameSuffix;
-        }
-
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(modelName);
-    }
-
-
-    @Override
-    public String toModelFilename(String name) {
-        // underscore the model file name
-        // PhoneNumber => phone_number
-        return underscore(dropDots(simpleModelName(name)));
-    }
-
-    @Override
-    public String toModelName(String name) {
-        // we have a custom version of this function so we can support circular references in python 2 and 3
-        return toModelFilename(name)+"."+simpleModelName(name);
-    }
-
-    @Override
-    public String toModelDocFilename(String name) {
-        // this is used to generate the model's .md documentation file
-        return simpleModelName(name);
     }
 }

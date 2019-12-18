@@ -13,7 +13,6 @@
 from __future__ import absolute_import
 
 import re  # noqa: F401
-import sys  # noqa: F401
 
 # python 2 and python 3 compatibility library
 import six
@@ -34,13 +33,13 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models import xml_item
-from petstore_api.models import outer_composite
-from petstore_api.models import outer_enum
-from petstore_api.models import outer_number
-from petstore_api.models import file_schema_test_class
-from petstore_api.models import user
-from petstore_api.models import client
+from petstore_api.models.client import Client
+from petstore_api.models.file_schema_test_class import FileSchemaTestClass
+from petstore_api.models.outer_composite import OuterComposite
+from petstore_api.models.outer_enum import OuterEnum
+from petstore_api.models.outer_number import OuterNumber
+from petstore_api.models.user import User
+from petstore_api.models.xml_item import XmlItem
 
 
 class FakeApi(object):
@@ -66,7 +65,7 @@ class FakeApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param xml_item.XmlItem xml_item: XmlItem Body (required)
+            :param XmlItem xml_item: XmlItem Body (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -140,7 +139,7 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'xml_item': (xml_item.XmlItem,),
+                    'xml_item': (XmlItem,),
                 },
                 'attribute_map': {
                 },
@@ -278,7 +277,7 @@ class FakeApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param outer_composite.OuterComposite body: Input composite as post body
+            :param OuterComposite body: Input composite as post body
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -297,7 +296,7 @@ class FakeApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: outer_composite.OuterComposite
+            :return: OuterComposite
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -324,7 +323,7 @@ class FakeApi(object):
 
         self.fake_outer_composite_serialize = Endpoint(
             settings={
-                'response_type': (outer_composite.OuterComposite,),
+                'response_type': (OuterComposite,),
                 'auth': [],
                 'endpoint_path': '/fake/outer/composite',
                 'operation_id': 'fake_outer_composite_serialize',
@@ -349,7 +348,7 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (outer_composite.OuterComposite,),
+                    'body': (OuterComposite,),
                 },
                 'attribute_map': {
                 },
@@ -380,7 +379,7 @@ class FakeApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param outer_enum.OuterEnum body: Input enum as post body
+            :param OuterEnum body: Input enum as post body
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -399,7 +398,7 @@ class FakeApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: outer_enum.OuterEnum
+            :return: OuterEnum
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -426,7 +425,7 @@ class FakeApi(object):
 
         self.fake_outer_enum_serialize = Endpoint(
             settings={
-                'response_type': (outer_enum.OuterEnum,),
+                'response_type': (OuterEnum,),
                 'auth': [],
                 'endpoint_path': '/fake/outer/enum',
                 'operation_id': 'fake_outer_enum_serialize',
@@ -451,7 +450,7 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (outer_enum.OuterEnum,),
+                    'body': (OuterEnum,),
                 },
                 'attribute_map': {
                 },
@@ -482,7 +481,7 @@ class FakeApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param outer_number.OuterNumber body: Input number as post body
+            :param OuterNumber body: Input number as post body
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -501,7 +500,7 @@ class FakeApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: outer_number.OuterNumber
+            :return: OuterNumber
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -528,7 +527,7 @@ class FakeApi(object):
 
         self.fake_outer_number_serialize = Endpoint(
             settings={
-                'response_type': (outer_number.OuterNumber,),
+                'response_type': (OuterNumber,),
                 'auth': [],
                 'endpoint_path': '/fake/outer/number',
                 'operation_id': 'fake_outer_number_serialize',
@@ -553,7 +552,7 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (outer_number.OuterNumber,),
+                    'body': (OuterNumber,),
                 },
                 'attribute_map': {
                 },
@@ -686,7 +685,7 @@ class FakeApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param file_schema_test_class.FileSchemaTestClass body: (required)
+            :param FileSchemaTestClass body: (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -760,7 +759,7 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (file_schema_test_class.FileSchemaTestClass,),
+                    'body': (FileSchemaTestClass,),
                 },
                 'attribute_map': {
                 },
@@ -791,7 +790,7 @@ class FakeApi(object):
             :param async_req bool: execute request asynchronously
                 Default is False.
             :param str query: (required)
-            :param user.User body: (required)
+            :param User body: (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -869,7 +868,7 @@ class FakeApi(object):
                 },
                 'openapi_types': {
                     'query': (str,),
-                    'body': (user.User,),
+                    'body': (User,),
                 },
                 'attribute_map': {
                     'query': 'query',
@@ -902,7 +901,7 @@ class FakeApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param client.Client body: client model (required)
+            :param Client body: client model (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -921,7 +920,7 @@ class FakeApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: client.Client
+            :return: Client
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -949,7 +948,7 @@ class FakeApi(object):
 
         self.test_client_model = Endpoint(
             settings={
-                'response_type': (client.Client,),
+                'response_type': (Client,),
                 'auth': [],
                 'endpoint_path': '/fake',
                 'operation_id': 'test_client_model',
@@ -976,7 +975,7 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (client.Client,),
+                    'body': (Client,),
                 },
                 'attribute_map': {
                 },

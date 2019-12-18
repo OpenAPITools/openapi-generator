@@ -273,7 +273,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     }
 
-    protected static String dropDots(String str) {
+    private static String dropDots(String str) {
         return str.replaceAll("\\.", "_");
     }
 

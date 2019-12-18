@@ -1,4 +1,4 @@
-# capitalization.Capitalization
+# Capitalization
 
 ## Properties
 Name | Type | Description | Notes

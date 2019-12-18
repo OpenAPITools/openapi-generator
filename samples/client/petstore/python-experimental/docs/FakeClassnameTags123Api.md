@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **test_classname**
-> client.Client test_classname(body)
+> Client test_classname(body)
 
 To test class name in snake case
 
@@ -21,6 +21,7 @@ To test class name in snake case
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.rest import ApiException
 from pprint import pprint
 configuration = petstore_api.Configuration()
 # Configure API key authorization: api_key_query
@@ -32,14 +33,13 @@ configuration.api_key['api_key_query'] = 'YOUR_API_KEY'
 configuration.host = "http://petstore.swagger.io:80/v2"
 # Create an instance of the API class
 api_instance = petstore_api.FakeClassnameTags123Api(petstore_api.ApiClient(configuration))
-body = petstore_api.Client() # client.Client | client model
+body = petstore_api.Client() # Client | client model
 
-# example passing only required values which don't have defaults set
 try:
     # To test class name in snake case
     api_response = api_instance.test_classname(body)
     pprint(api_response)
-except petstore_api.ApiException as e:
+except ApiException as e:
     print("Exception when calling FakeClassnameTags123Api->test_classname: %s\n" % e)
 ```
 
@@ -47,11 +47,11 @@ except petstore_api.ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**client.Client**](Client.md)| client model |
+ **body** | [**Client**](Client.md)| client model |
 
 ### Return type
 
-[**client.Client**](Client.md)
+[**Client**](Client.md)
 
 ### Authorization
 

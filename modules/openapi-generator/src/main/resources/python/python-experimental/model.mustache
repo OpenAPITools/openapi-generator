@@ -2,31 +2,37 @@
 
 {{>partial_header}}
 
-from __future__ import absolute_import
+import pprint  # noqa: F401
 import re  # noqa: F401
-import sys  # noqa: F401
 
 import six  # noqa: F401
 
+from {{packageName}}.exceptions import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+)
 from {{packageName}}.model_utils import (  # noqa: F401
-    ModelComposed,
     ModelNormal,
     ModelSimple,
+    check_allowed_values,
+    check_validations,
     date,
     datetime,
     file_type,
+    get_simple_class,
     int,
+    model_to_dict,
     none_type,
     str,
-    validate_get_composed_info,
+    type_error_message,
+    validate_and_convert_types
 )
+{{#models}}{{#model}}{{#imports}}{{.}}
+{{/imports}}{{/model}}{{/models}}
+
 {{#models}}
 {{#model}}
-{{#imports}}
-{{{.}}}
-{{/imports}}
-
-
 {{^interfaces}}
 {{#isAlias}}
 {{> python-experimental/model_templates/model_simple }}
@@ -37,7 +43,7 @@ from {{packageName}}.model_utils import (  # noqa: F401
 {{/interfaces}}
 {{#interfaces}}
 {{#-last}}
-{{> python-experimental/model_templates/model_composed }}
+{{> python-experimental/model_templates/model_normal }}
 {{/-last}}
 {{/interfaces}}
 {{/model}}

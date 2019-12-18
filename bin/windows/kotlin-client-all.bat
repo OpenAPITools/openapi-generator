@@ -1,5 +1,4 @@
 call powershell -command "& '%~dp0\kotlin-client-gson.bat'"
-call powershell -command "& '%~dp0\kotlin-client-moshi-codegen.bat'"
 call powershell -command "& '%~dp0\kotlin-client-nonpublic.bat'"
 call powershell -command "& '%~dp0\kotlin-client-okhttp3.bat'"
 call powershell -command "& '%~dp0\kotlin-client-petstore-multiplatform.bat'"

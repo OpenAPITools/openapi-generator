@@ -7,10 +7,7 @@ wrapper {
 }
 
 buildscript {
-    ext.kotlin_version = '1.3.61'
-    {{#retrofit2}}
-    ext.retrofitVersion = '2.6.2'
-    {{/retrofit2}}
+    ext.kotlin_version = '1.3.50'
 
     repositories {
         mavenCentral()
@@ -21,9 +18,6 @@ buildscript {
 }
 
 apply plugin: 'kotlin'
-{{#moshiCodeGen}}
-apply plugin: 'kotlin-kapt'
-{{/moshiCodeGen}}
 
 repositories {
     mavenCentral()
@@ -37,14 +31,8 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     {{#moshi}}
-    {{^moshiCodeGen}}
-    compile "com.squareup.moshi:moshi-kotlin:1.9.2"
-    {{/moshiCodeGen}}
-    compile "com.squareup.moshi:moshi-adapters:1.9.2"
-    {{#moshiCodeGen}}
-    compile "com.squareup.moshi:moshi:1.9.2"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.9.2"
-    {{/moshiCodeGen}}
+    compile "com.squareup.moshi:moshi-kotlin:1.8.0"
+    compile "com.squareup.moshi:moshi-adapters:1.8.0"
     {{/moshi}}
     {{#gson}}
     compile "com.google.code.gson:gson:2.8.6"
@@ -58,15 +46,5 @@ dependencies {
     {{#threetenbp}}
     compile "org.threeten:threetenbp:1.4.0"
     {{/threetenbp}}
-    {{#retrofit2}}
-    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    {{#gson}}
-    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    {{/gson}}
-    {{#moshi}}
-    compile "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-    {{/moshi}}
-    compile "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
-    {{/retrofit2}}
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.0"
 }

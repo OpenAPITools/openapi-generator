@@ -1,4 +1,4 @@
-# cat.Cat
+# Cat
 
 ## Properties
 Name | Type | Description | Notes

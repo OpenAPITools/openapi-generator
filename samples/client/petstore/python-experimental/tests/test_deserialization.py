@@ -28,7 +28,6 @@ from petstore_api.exceptions import (
 from petstore_api.model_utils import (
     file_type,
     int,
-    model_to_dict,
     str,
 )
 
@@ -88,7 +87,7 @@ class DeserializationTests(unittest.TestCase):
                 "tags": [
                     {
                         "id": 0,
-                        "fullName": "string"
+                        "name": "string"
                     }
                 ],
                 "status": "available"
@@ -115,25 +114,7 @@ class DeserializationTests(unittest.TestCase):
         deserialized = self.deserialize(response,
             ({str: (petstore_api.Animal,)},), True)
         self.assertTrue(isinstance(deserialized, dict))
-        dog = deserialized['dog']
-        self.assertTrue(isinstance(dog, petstore_api.Dog))
-        self.assertEqual(dog.class_name, "Dog")
-        self.assertEqual(dog.color, "white")
-        self.assertEqual(dog.breed, "Jack Russel Terrier")
-
-    def test_deserialize_lizard(self):
-        """ deserialize ChildLizard, use discriminator"""
-        data = {
-            "pet_type": "ChildLizard",
-            "lovesRocks": True
-        }
-        response = MockResponse(data=json.dumps(data))
-
-        lizard = self.deserialize(response,
-            (petstore_api.ParentPet,), True)
-        self.assertTrue(isinstance(lizard, petstore_api.ChildLizard))
-        self.assertEqual(lizard.pet_type, "ChildLizard")
-        self.assertEqual(lizard.loves_rocks, True)
+        self.assertTrue(isinstance(deserialized['dog'], petstore_api.Dog))
 
     def test_deserialize_dict_str_int(self):
         """ deserialize dict(str, int) """
@@ -185,7 +166,7 @@ class DeserializationTests(unittest.TestCase):
             "tags": [
                 {
                     "id": 0,
-                    "fullName": "string"
+                    "name": "string"
                 }
             ],
             "status": "available"
@@ -199,7 +180,7 @@ class DeserializationTests(unittest.TestCase):
         self.assertTrue(isinstance(deserialized.category, petstore_api.Category))
         self.assertEqual(deserialized.category.name, "string")
         self.assertTrue(isinstance(deserialized.tags, list))
-        self.assertEqual(deserialized.tags[0].full_name, "string")
+        self.assertEqual(deserialized.tags[0].name, "string")
 
     def test_deserialize_list_of_pet(self):
         """ deserialize list[Pet] """
@@ -217,7 +198,7 @@ class DeserializationTests(unittest.TestCase):
                 "tags": [
                     {
                         "id": 0,
-                        "fullName": "string"
+                        "name": "string"
                     }
                 ],
                 "status": "available"
@@ -235,7 +216,7 @@ class DeserializationTests(unittest.TestCase):
                 "tags": [
                     {
                         "id": 0,
-                        "fullName": "string"
+                        "name": "string"
                     }
                 ],
                 "status": "available"

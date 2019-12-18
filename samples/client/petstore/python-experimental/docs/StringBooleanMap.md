@@ -1,4 +1,4 @@
-# string_boolean_map.StringBooleanMap
+# StringBooleanMap
 
 ## Properties
 Name | Type | Description | Notes

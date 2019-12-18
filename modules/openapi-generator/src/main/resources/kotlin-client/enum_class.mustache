@@ -1,11 +1,11 @@
-{{^multiplatform}}
+{{#jvm}}
 {{#gson}}
 import com.google.gson.annotations.SerializedName
 {{/gson}}
 {{#moshi}}
 import com.squareup.moshi.Json
 {{/moshi}}
-{{/multiplatform}}
+{{/jvm}}
 {{#multiplatform}}
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
@@ -19,14 +19,14 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{classname}}(val value: {{{dataType}}}){
 
 {{#allowableValues}}{{#enumVars}}
-    {{^multiplatform}}
+    {{#jvm}}
     {{#moshi}}
     @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{/moshi}}
     {{#gson}}
     @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{/gson}}
-    {{/multiplatform}}
+    {{/jvm}}
     {{#isListContainer}}
     {{#isList}}
     {{&name}}(listOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}

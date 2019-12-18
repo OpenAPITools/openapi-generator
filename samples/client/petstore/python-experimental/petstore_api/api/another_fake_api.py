@@ -13,7 +13,6 @@
 from __future__ import absolute_import
 
 import re  # noqa: F401
-import sys  # noqa: F401
 
 # python 2 and python 3 compatibility library
 import six
@@ -34,7 +33,7 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models import client
+from petstore_api.models.client import Client
 
 
 class AnotherFakeApi(object):
@@ -60,7 +59,7 @@ class AnotherFakeApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param client.Client body: client model (required)
+            :param Client body: client model (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -79,7 +78,7 @@ class AnotherFakeApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: client.Client
+            :return: Client
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -107,7 +106,7 @@ class AnotherFakeApi(object):
 
         self.call_123_test_special_tags = Endpoint(
             settings={
-                'response_type': (client.Client,),
+                'response_type': (Client,),
                 'auth': [],
                 'endpoint_path': '/another-fake/dummy',
                 'operation_id': 'call_123_test_special_tags',
@@ -134,7 +133,7 @@ class AnotherFakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (client.Client,),
+                    'body': (Client,),
                 },
                 'attribute_map': {
                 },

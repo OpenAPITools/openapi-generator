@@ -1,4 +1,4 @@
-# file.File
+# File
 
 Must be named `File` for test.
 ## Properties
