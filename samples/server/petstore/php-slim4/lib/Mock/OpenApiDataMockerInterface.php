@@ -52,6 +52,9 @@ interface OpenApiDataMockerInterface
     /** @var string DATA_TYPE_FILE */
     public const DATA_TYPE_FILE = 'file';
 
+    /** @var string DATA_TYPE_ARRAY */
+    public const DATA_TYPE_ARRAY = 'array';
+
     /** @var string DATA_FORMAT_INT32 Signed 32 bits */
     public const DATA_FORMAT_INT32 = 'int32';
 
@@ -178,4 +181,24 @@ interface OpenApiDataMockerInterface
      * @return bool
      */
     public function mockBoolean();
+
+    /**
+     * Shortcut to mock array type
+     * Equivalent to mockData(DATA_TYPE_ARRAY);
+     *
+     * @param array     $items       Array of described items
+     * @param int|null  $minItems    (optional) An array instance is valid against "minItems" if its size is greater than, or equal to, the value of this keyword.
+     * @param int|null  $maxItems    (optional) An array instance is valid against "maxItems" if its size is less than, or equal to, the value of this keyword
+     * @param bool|null $uniqueItems (optional) If it has boolean value true, the instance validates successfully if all of its elements are unique
+     *
+     * @throws \InvalidArgumentException when invalid arguments passed
+     *
+     * @return array
+     */
+    public function mockArray(
+        $items,
+        $minItems = 0,
+        $maxItems = null,
+        $uniqueItems = false
+    );
 }

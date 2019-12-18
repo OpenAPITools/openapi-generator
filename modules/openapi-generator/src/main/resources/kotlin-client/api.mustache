@@ -39,17 +39,17 @@ import {{packageName}}.infrastructure.toMultiValue
                 {{#queryParams}}
                 {{^required}}
                 if ({{paramName}} != null) {
-                    put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})
+                    put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{paramName}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{paramName}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{paramName}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
                 }
                 {{/required}}
                 {{#required}}
                 {{#isNullable}}
                 if ({{paramName}} != null) {
-                    put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})
+                    put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{paramName}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{paramName}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{paramName}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
                 }
                 {{/isNullable}}
                 {{^isNullable}}
-                put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})
+                put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{paramName}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{paramName}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{paramName}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
                 {{/isNullable}}
                 {{/required}}
                 {{/queryParams}}

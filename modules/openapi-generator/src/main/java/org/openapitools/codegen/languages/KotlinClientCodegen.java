@@ -43,11 +43,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String MULTIPLATFORM = "multiplatform";
 
     public static final String DATE_LIBRARY = "dateLibrary";
+    public static final String REQUEST_DATE_CONVERTER = "requestDateConverter";
     public static final String COLLECTION_TYPE = "collectionType";
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
+    protected String requestDateConverter = RequestDateConverter.TO_STRING.value;
     protected String collectionType = CollectionType.ARRAY.value;
 
     public enum DateLibrary {
@@ -58,6 +60,17 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         public final String value;
 
         DateLibrary(String value) {
+            this.value = value;
+        }
+    }
+
+    public enum RequestDateConverter {
+        TO_STRING("toString"),
+        TO_JSON("toJson");
+
+        public final String value;
+
+        RequestDateConverter(String value) {
             this.value = value;
         }
     }
@@ -122,6 +135,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         libraryOption.setDefault(JVM_OKHTTP4);
         cliOptions.add(libraryOption);
         setLibrary(JVM_OKHTTP4);
+
+        CliOption requestDateConverter = new CliOption(REQUEST_DATE_CONVERTER, "JVM-Option. Defines in how to handle date-time objects that are used for a request (as query or parameter)");
+        Map<String, String> requestDateConverterOptions = new HashMap<>();
+        requestDateConverterOptions.put(RequestDateConverter.TO_STRING.value, "[DEFAULT] Use the 'toString'-method of the date-time object to retrieve the related string representation.");
+        requestDateConverterOptions.put(RequestDateConverter.TO_JSON.value, "Date formater option using a json converter.");
+        requestDateConverter.setEnum(requestDateConverterOptions);
+        requestDateConverter.setDefault(this.requestDateConverter);
+        cliOptions.add(requestDateConverter);
     }
 
     public CodegenType getTag() {
@@ -138,6 +159,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
+    }
+
+    public void setRequestDateConverter(String converter) {
+        this.requestDateConverter = converter;
     }
 
     public void setCollectionType(String collectionType) {
@@ -160,6 +185,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
         }
 
+        if (additionalProperties.containsKey(REQUEST_DATE_CONVERTER)) {
+            setRequestDateConverter(additionalProperties.get(REQUEST_DATE_CONVERTER).toString());
+        }
+
         commonSupportingFiles();
 
         switch (getLibrary()) {
@@ -178,6 +207,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         processDateLibrary();
+        processRequestDateConverter();
 
         if (additionalProperties.containsKey(COLLECTION_TYPE)) {
             setCollectionType(additionalProperties.get(COLLECTION_TYPE).toString());
@@ -204,6 +234,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 break;
             default:
                 break;
+        }
+    }
+
+    private void processRequestDateConverter() {
+        if(RequestDateConverter.TO_JSON.value.equals(requestDateConverter)) {
+            additionalProperties.put(RequestDateConverter.TO_JSON.value, true);
+        } else if(RequestDateConverter.TO_STRING.value.equals(requestDateConverter)) {
+            additionalProperties.put(RequestDateConverter.TO_STRING.value, true);
         }
     }
 
@@ -274,6 +312,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         commonJvmMultiplatformSupportingFiles(infrastructureFolder);
         additionalProperties.put(MULTIPLATFORM, true);
         setDateLibrary(DateLibrary.STRING.value);
+        setRequestDateConverter(RequestDateConverter.TO_STRING.value);
 
         // multiplatform default includes
         defaultIncludes.add("io.ktor.client.request.forms.InputProvider");
