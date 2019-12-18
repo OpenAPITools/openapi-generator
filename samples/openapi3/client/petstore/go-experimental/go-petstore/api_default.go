@@ -25,8 +25,8 @@ var (
 type DefaultApiService service
 
 type apiFooGetRequest struct {
-    ctx _context.Context
-    apiService *DefaultApiService
+	ctx _context.Context
+	apiService *DefaultApiService
 }
 
 
@@ -36,10 +36,10 @@ FooGet Method for FooGet
 @return apiFooGetRequest
 */
 func (a *DefaultApiService) FooGet(ctx _context.Context) apiFooGetRequest {
-    return apiFooGetRequest{
-        apiService: a,
-        ctx: ctx,
-    }
+	return apiFooGetRequest{
+		apiService: a,
+		ctx: ctx,
+	}
 }
 
 /*
@@ -56,18 +56,13 @@ func (r apiFooGetRequest) Execute() (InlineResponseDefault, *_nethttp.Response, 
 		localVarReturnValue  InlineResponseDefault
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "DefaultApiService.FooGet")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.FooGet")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/foo"
 
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/foo"
->>>>>>> [go-experimental] Use builder pattern for requests
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}

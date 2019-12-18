@@ -25,15 +25,15 @@ var (
 type FakeClassnameTags123ApiService service
 
 type apiTestClassnameRequest struct {
-    ctx _context.Context
-    apiService *FakeClassnameTags123ApiService
-    body *Client
+	ctx _context.Context
+	apiService *FakeClassnameTags123ApiService
+	body *Client
 }
 
 
 func (r apiTestClassnameRequest) Body(body Client) apiTestClassnameRequest {
-    r.body = &body
-    return r
+	r.body = &body
+	return r
 }
 
 /*
@@ -43,10 +43,10 @@ To test class name in snake case
 @return apiTestClassnameRequest
 */
 func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context) apiTestClassnameRequest {
-    return apiTestClassnameRequest{
-        apiService: a,
-        ctx: ctx,
-    }
+	return apiTestClassnameRequest{
+		apiService: a,
+		ctx: ctx,
+	}
 }
 
 /*
@@ -63,25 +63,20 @@ func (r apiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
 		localVarReturnValue  Client
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeClassnameTags123ApiService.TestClassname")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeClassnameTags123ApiService.TestClassname")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/fake_classname_test"
 
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/fake_classname_test"
->>>>>>> [go-experimental] Use builder pattern for requests
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	
-    if r.body == nil {
-        return localVarReturnValue, nil, reportError("body is required and must be specified")
-    }
+	if r.body == nil {
+		return localVarReturnValue, nil, reportError("body is required and must be specified")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -101,7 +96,7 @@ func (r apiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = *r.body
+	localVarPostBody = r.body
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {

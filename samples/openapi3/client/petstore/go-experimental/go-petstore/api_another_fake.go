@@ -25,15 +25,15 @@ var (
 type AnotherFakeApiService service
 
 type apiCall123TestSpecialTagsRequest struct {
-    ctx _context.Context
-    apiService *AnotherFakeApiService
-    client *Client
+	ctx _context.Context
+	apiService *AnotherFakeApiService
+	client *Client
 }
 
 
 func (r apiCall123TestSpecialTagsRequest) Client(client Client) apiCall123TestSpecialTagsRequest {
-    r.client = &client
-    return r
+	r.client = &client
+	return r
 }
 
 /*
@@ -43,10 +43,10 @@ To test special tags and operation ID starting with number
 @return apiCall123TestSpecialTagsRequest
 */
 func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context) apiCall123TestSpecialTagsRequest {
-    return apiCall123TestSpecialTagsRequest{
-        apiService: a,
-        ctx: ctx,
-    }
+	return apiCall123TestSpecialTagsRequest{
+		apiService: a,
+		ctx: ctx,
+	}
 }
 
 /*
@@ -63,25 +63,20 @@ func (r apiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response,
 		localVarReturnValue  Client
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "AnotherFakeApiService.Call123TestSpecialTags")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "AnotherFakeApiService.Call123TestSpecialTags")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/another-fake/dummy"
 
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/another-fake/dummy"
->>>>>>> [go-experimental] Use builder pattern for requests
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	
-    if r.client == nil {
-        return localVarReturnValue, nil, reportError("client is required and must be specified")
-    }
+	if r.client == nil {
+		return localVarReturnValue, nil, reportError("client is required and must be specified")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -101,7 +96,7 @@ func (r apiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response,
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = *r.client
+	localVarPostBody = r.client
 	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err

@@ -26,9 +26,9 @@ var (
 type StoreApiService service
 
 type apiDeleteOrderRequest struct {
-    ctx _context.Context
-    apiService *StoreApiService
-    orderId string
+	ctx _context.Context
+	apiService *StoreApiService
+	orderId string
 }
 
 
@@ -40,11 +40,11 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 @return apiDeleteOrderRequest
 */
 func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) apiDeleteOrderRequest {
-    return apiDeleteOrderRequest{
-        apiService: a,
-        ctx: ctx,
-        orderId: orderId,
-    }
+	return apiDeleteOrderRequest{
+		apiService: a,
+		ctx: ctx,
+		orderId: orderId,
+	}
 }
 
 /*
@@ -61,19 +61,13 @@ func (r apiDeleteOrderRequest) Execute() (*_nethttp.Response, error) {
 		
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "StoreApiService.DeleteOrder")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.DeleteOrder")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(parameterToString(orderId, "")) , -1)
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/store/order/{order_id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(parameterToString(r.orderId, "")) , -1)
->>>>>>> [go-experimental] Use builder pattern for requests
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -124,8 +118,8 @@ func (r apiDeleteOrderRequest) Execute() (*_nethttp.Response, error) {
 	return localVarHTTPResponse, nil
 }
 type apiGetInventoryRequest struct {
-    ctx _context.Context
-    apiService *StoreApiService
+	ctx _context.Context
+	apiService *StoreApiService
 }
 
 
@@ -136,10 +130,10 @@ Returns a map of status codes to quantities
 @return apiGetInventoryRequest
 */
 func (a *StoreApiService) GetInventory(ctx _context.Context) apiGetInventoryRequest {
-    return apiGetInventoryRequest{
-        apiService: a,
-        ctx: ctx,
-    }
+	return apiGetInventoryRequest{
+		apiService: a,
+		ctx: ctx,
+	}
 }
 
 /*
@@ -156,18 +150,13 @@ func (r apiGetInventoryRequest) Execute() (map[string]int32, *_nethttp.Response,
 		localVarReturnValue  map[string]int32
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "StoreApiService.GetInventory")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.GetInventory")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/store/inventory"
 
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/store/inventory"
->>>>>>> [go-experimental] Use builder pattern for requests
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -248,9 +237,9 @@ func (r apiGetInventoryRequest) Execute() (map[string]int32, *_nethttp.Response,
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 type apiGetOrderByIdRequest struct {
-    ctx _context.Context
-    apiService *StoreApiService
-    orderId int64
+	ctx _context.Context
+	apiService *StoreApiService
+	orderId int64
 }
 
 
@@ -262,11 +251,11 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 @return apiGetOrderByIdRequest
 */
 func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) apiGetOrderByIdRequest {
-    return apiGetOrderByIdRequest{
-        apiService: a,
-        ctx: ctx,
-        orderId: orderId,
-    }
+	return apiGetOrderByIdRequest{
+		apiService: a,
+		ctx: ctx,
+		orderId: orderId,
+	}
 }
 
 /*
@@ -283,28 +272,22 @@ func (r apiGetOrderByIdRequest) Execute() (Order, *_nethttp.Response, error) {
 		localVarReturnValue  Order
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "StoreApiService.GetOrderById")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.GetOrderById")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(parameterToString(orderId, "")) , -1)
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/store/order/{order_id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(parameterToString(r.orderId, "")) , -1)
->>>>>>> [go-experimental] Use builder pattern for requests
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	
-	if *r.orderId < 1 {
+	if r.orderId < 1 {
 		return localVarReturnValue, nil, reportError("orderId must be greater than 1")
 	}
-	if *r.orderId > 5 {
+	if r.orderId > 5 {
 		return localVarReturnValue, nil, reportError("orderId must be less than 5")
 	}
 
@@ -371,15 +354,15 @@ func (r apiGetOrderByIdRequest) Execute() (Order, *_nethttp.Response, error) {
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 type apiPlaceOrderRequest struct {
-    ctx _context.Context
-    apiService *StoreApiService
-    order *Order
+	ctx _context.Context
+	apiService *StoreApiService
+	order *Order
 }
 
 
 func (r apiPlaceOrderRequest) Order(order Order) apiPlaceOrderRequest {
-    r.order = &order
-    return r
+	r.order = &order
+	return r
 }
 
 /*
@@ -388,10 +371,10 @@ PlaceOrder Place an order for a pet
 @return apiPlaceOrderRequest
 */
 func (a *StoreApiService) PlaceOrder(ctx _context.Context) apiPlaceOrderRequest {
-    return apiPlaceOrderRequest{
-        apiService: a,
-        ctx: ctx,
-    }
+	return apiPlaceOrderRequest{
+		apiService: a,
+		ctx: ctx,
+	}
 }
 
 /*
@@ -408,25 +391,20 @@ func (r apiPlaceOrderRequest) Execute() (Order, *_nethttp.Response, error) {
 		localVarReturnValue  Order
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "StoreApiService.PlaceOrder")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.PlaceOrder")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/store/order"
 
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/store/order"
->>>>>>> [go-experimental] Use builder pattern for requests
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	
-    if r.order == nil {
-        return localVarReturnValue, nil, reportError("order is required and must be specified")
-    }
+	if r.order == nil {
+		return localVarReturnValue, nil, reportError("order is required and must be specified")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -446,7 +424,7 @@ func (r apiPlaceOrderRequest) Execute() (Order, *_nethttp.Response, error) {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = *r.order
+	localVarPostBody = r.order
 	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err

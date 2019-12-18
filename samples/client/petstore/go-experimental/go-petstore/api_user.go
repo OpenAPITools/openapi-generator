@@ -26,15 +26,15 @@ var (
 type UserApiService service
 
 type apiCreateUserRequest struct {
-    ctx _context.Context
-    apiService *UserApiService
-    body *User
+	ctx _context.Context
+	apiService *UserApiService
+	body *User
 }
 
 
 func (r apiCreateUserRequest) Body(body User) apiCreateUserRequest {
-    r.body = &body
-    return r
+	r.body = &body
+	return r
 }
 
 /*
@@ -44,10 +44,10 @@ This can only be done by the logged in user.
 @return apiCreateUserRequest
 */
 func (a *UserApiService) CreateUser(ctx _context.Context) apiCreateUserRequest {
-    return apiCreateUserRequest{
-        apiService: a,
-        ctx: ctx,
-    }
+	return apiCreateUserRequest{
+		apiService: a,
+		ctx: ctx,
+	}
 }
 
 /*
@@ -64,25 +64,20 @@ func (r apiCreateUserRequest) Execute() (*_nethttp.Response, error) {
 		
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.CreateUser")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.CreateUser")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user"
 
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/user"
->>>>>>> [go-experimental] Use builder pattern for requests
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	
-    if r.body == nil {
-        return nil, reportError("body is required and must be specified")
-    }
+	if r.body == nil {
+		return nil, reportError("body is required and must be specified")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -102,7 +97,7 @@ func (r apiCreateUserRequest) Execute() (*_nethttp.Response, error) {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = *r.body
+	localVarPostBody = r.body
 	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -130,15 +125,15 @@ func (r apiCreateUserRequest) Execute() (*_nethttp.Response, error) {
 	return localVarHTTPResponse, nil
 }
 type apiCreateUsersWithArrayInputRequest struct {
-    ctx _context.Context
-    apiService *UserApiService
-    body *[]User
+	ctx _context.Context
+	apiService *UserApiService
+	body *[]User
 }
 
 
 func (r apiCreateUsersWithArrayInputRequest) Body(body []User) apiCreateUsersWithArrayInputRequest {
-    r.body = &body
-    return r
+	r.body = &body
+	return r
 }
 
 /*
@@ -147,10 +142,10 @@ CreateUsersWithArrayInput Creates list of users with given input array
 @return apiCreateUsersWithArrayInputRequest
 */
 func (a *UserApiService) CreateUsersWithArrayInput(ctx _context.Context) apiCreateUsersWithArrayInputRequest {
-    return apiCreateUsersWithArrayInputRequest{
-        apiService: a,
-        ctx: ctx,
-    }
+	return apiCreateUsersWithArrayInputRequest{
+		apiService: a,
+		ctx: ctx,
+	}
 }
 
 /*
@@ -167,25 +162,20 @@ func (r apiCreateUsersWithArrayInputRequest) Execute() (*_nethttp.Response, erro
 		
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.CreateUsersWithArrayInput")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.CreateUsersWithArrayInput")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/createWithArray"
 
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/user/createWithArray"
->>>>>>> [go-experimental] Use builder pattern for requests
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	
-    if r.body == nil {
-        return nil, reportError("body is required and must be specified")
-    }
+	if r.body == nil {
+		return nil, reportError("body is required and must be specified")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -205,7 +195,7 @@ func (r apiCreateUsersWithArrayInputRequest) Execute() (*_nethttp.Response, erro
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = *r.body
+	localVarPostBody = r.body
 	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -233,15 +223,15 @@ func (r apiCreateUsersWithArrayInputRequest) Execute() (*_nethttp.Response, erro
 	return localVarHTTPResponse, nil
 }
 type apiCreateUsersWithListInputRequest struct {
-    ctx _context.Context
-    apiService *UserApiService
-    body *[]User
+	ctx _context.Context
+	apiService *UserApiService
+	body *[]User
 }
 
 
 func (r apiCreateUsersWithListInputRequest) Body(body []User) apiCreateUsersWithListInputRequest {
-    r.body = &body
-    return r
+	r.body = &body
+	return r
 }
 
 /*
@@ -250,10 +240,10 @@ CreateUsersWithListInput Creates list of users with given input array
 @return apiCreateUsersWithListInputRequest
 */
 func (a *UserApiService) CreateUsersWithListInput(ctx _context.Context) apiCreateUsersWithListInputRequest {
-    return apiCreateUsersWithListInputRequest{
-        apiService: a,
-        ctx: ctx,
-    }
+	return apiCreateUsersWithListInputRequest{
+		apiService: a,
+		ctx: ctx,
+	}
 }
 
 /*
@@ -270,25 +260,20 @@ func (r apiCreateUsersWithListInputRequest) Execute() (*_nethttp.Response, error
 		
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.CreateUsersWithListInput")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.CreateUsersWithListInput")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/createWithList"
 
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/user/createWithList"
->>>>>>> [go-experimental] Use builder pattern for requests
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	
-    if r.body == nil {
-        return nil, reportError("body is required and must be specified")
-    }
+	if r.body == nil {
+		return nil, reportError("body is required and must be specified")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -308,7 +293,7 @@ func (r apiCreateUsersWithListInputRequest) Execute() (*_nethttp.Response, error
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = *r.body
+	localVarPostBody = r.body
 	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -336,9 +321,9 @@ func (r apiCreateUsersWithListInputRequest) Execute() (*_nethttp.Response, error
 	return localVarHTTPResponse, nil
 }
 type apiDeleteUserRequest struct {
-    ctx _context.Context
-    apiService *UserApiService
-    username string
+	ctx _context.Context
+	apiService *UserApiService
+	username string
 }
 
 
@@ -350,11 +335,11 @@ This can only be done by the logged in user.
 @return apiDeleteUserRequest
 */
 func (a *UserApiService) DeleteUser(ctx _context.Context, username string) apiDeleteUserRequest {
-    return apiDeleteUserRequest{
-        apiService: a,
-        ctx: ctx,
-        username: username,
-    }
+	return apiDeleteUserRequest{
+		apiService: a,
+		ctx: ctx,
+		username: username,
+	}
 }
 
 /*
@@ -371,19 +356,13 @@ func (r apiDeleteUserRequest) Execute() (*_nethttp.Response, error) {
 		
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.DeleteUser")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.DeleteUser")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(username, "")) , -1)
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/user/{username}"
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(r.username, "")) , -1)
->>>>>>> [go-experimental] Use builder pattern for requests
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -434,9 +413,9 @@ func (r apiDeleteUserRequest) Execute() (*_nethttp.Response, error) {
 	return localVarHTTPResponse, nil
 }
 type apiGetUserByNameRequest struct {
-    ctx _context.Context
-    apiService *UserApiService
-    username string
+	ctx _context.Context
+	apiService *UserApiService
+	username string
 }
 
 
@@ -447,11 +426,11 @@ GetUserByName Get user by user name
 @return apiGetUserByNameRequest
 */
 func (a *UserApiService) GetUserByName(ctx _context.Context, username string) apiGetUserByNameRequest {
-    return apiGetUserByNameRequest{
-        apiService: a,
-        ctx: ctx,
-        username: username,
-    }
+	return apiGetUserByNameRequest{
+		apiService: a,
+		ctx: ctx,
+		username: username,
+	}
 }
 
 /*
@@ -468,19 +447,13 @@ func (r apiGetUserByNameRequest) Execute() (User, *_nethttp.Response, error) {
 		localVarReturnValue  User
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.GetUserByName")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.GetUserByName")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(username, "")) , -1)
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/user/{username}"
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(r.username, "")) , -1)
->>>>>>> [go-experimental] Use builder pattern for requests
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -550,21 +523,21 @@ func (r apiGetUserByNameRequest) Execute() (User, *_nethttp.Response, error) {
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 type apiLoginUserRequest struct {
-    ctx _context.Context
-    apiService *UserApiService
-    username *string
-    password *string
+	ctx _context.Context
+	apiService *UserApiService
+	username *string
+	password *string
 }
 
 
 func (r apiLoginUserRequest) Username(username string) apiLoginUserRequest {
-    r.username = &username
-    return r
+	r.username = &username
+	return r
 }
 
 func (r apiLoginUserRequest) Password(password string) apiLoginUserRequest {
-    r.password = &password
-    return r
+	r.password = &password
+	return r
 }
 
 /*
@@ -573,10 +546,10 @@ LoginUser Logs user into the system
 @return apiLoginUserRequest
 */
 func (a *UserApiService) LoginUser(ctx _context.Context) apiLoginUserRequest {
-    return apiLoginUserRequest{
-        apiService: a,
-        ctx: ctx,
-    }
+	return apiLoginUserRequest{
+		apiService: a,
+		ctx: ctx,
+	}
 }
 
 /*
@@ -593,29 +566,24 @@ func (r apiLoginUserRequest) Execute() (string, *_nethttp.Response, error) {
 		localVarReturnValue  string
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.LoginUser")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.LoginUser")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/login"
 
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/user/login"
->>>>>>> [go-experimental] Use builder pattern for requests
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	
-    if r.username == nil {
-        return localVarReturnValue, nil, reportError("username is required and must be specified")
-    }
+	if r.username == nil {
+		return localVarReturnValue, nil, reportError("username is required and must be specified")
+	}
 	
-    if r.password == nil {
-        return localVarReturnValue, nil, reportError("password is required and must be specified")
-    }
+	if r.password == nil {
+		return localVarReturnValue, nil, reportError("password is required and must be specified")
+	}
 
 	localVarQueryParams.Add("username", parameterToString(*r.username, ""))
 	localVarQueryParams.Add("password", parameterToString(*r.password, ""))
@@ -682,8 +650,8 @@ func (r apiLoginUserRequest) Execute() (string, *_nethttp.Response, error) {
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 type apiLogoutUserRequest struct {
-    ctx _context.Context
-    apiService *UserApiService
+	ctx _context.Context
+	apiService *UserApiService
 }
 
 
@@ -693,10 +661,10 @@ LogoutUser Logs out current logged in user session
 @return apiLogoutUserRequest
 */
 func (a *UserApiService) LogoutUser(ctx _context.Context) apiLogoutUserRequest {
-    return apiLogoutUserRequest{
-        apiService: a,
-        ctx: ctx,
-    }
+	return apiLogoutUserRequest{
+		apiService: a,
+		ctx: ctx,
+	}
 }
 
 /*
@@ -713,18 +681,13 @@ func (r apiLogoutUserRequest) Execute() (*_nethttp.Response, error) {
 		
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.LogoutUser")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.LogoutUser")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/logout"
 
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/user/logout"
->>>>>>> [go-experimental] Use builder pattern for requests
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -773,16 +736,16 @@ func (r apiLogoutUserRequest) Execute() (*_nethttp.Response, error) {
 	return localVarHTTPResponse, nil
 }
 type apiUpdateUserRequest struct {
-    ctx _context.Context
-    apiService *UserApiService
-    username string
-    body *User
+	ctx _context.Context
+	apiService *UserApiService
+	username string
+	body *User
 }
 
 
 func (r apiUpdateUserRequest) Body(body User) apiUpdateUserRequest {
-    r.body = &body
-    return r
+	r.body = &body
+	return r
 }
 
 /*
@@ -793,11 +756,11 @@ This can only be done by the logged in user.
 @return apiUpdateUserRequest
 */
 func (a *UserApiService) UpdateUser(ctx _context.Context, username string) apiUpdateUserRequest {
-    return apiUpdateUserRequest{
-        apiService: a,
-        ctx: ctx,
-        username: username,
-    }
+	return apiUpdateUserRequest{
+		apiService: a,
+		ctx: ctx,
+		username: username,
+	}
 }
 
 /*
@@ -814,28 +777,22 @@ func (r apiUpdateUserRequest) Execute() (*_nethttp.Response, error) {
 		
 	)
 
-<<<<<<< HEAD
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.UpdateUser")
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.UpdateUser")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(username, "")) , -1)
-=======
-	// create path and map variables
-	localVarPath := r.apiService.client.cfg.BasePath + "/user/{username}"
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(r.username, "")) , -1)
->>>>>>> [go-experimental] Use builder pattern for requests
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	
 	
-    if r.body == nil {
-        return nil, reportError("body is required and must be specified")
-    }
+	if r.body == nil {
+		return nil, reportError("body is required and must be specified")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -855,7 +812,7 @@ func (r apiUpdateUserRequest) Execute() (*_nethttp.Response, error) {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = *r.body
+	localVarPostBody = r.body
 	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
