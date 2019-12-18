@@ -80,43 +80,43 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} is required and must be specified")
 	}{{/isPathParam}}
 	{{#minItems}}
-	if len(*r.{{paramName}}) < {{minItems}} {
+	if len({{^isPathParam}}*{{/isPathParam}}r.{{paramName}}) < {{minItems}} {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must have at least {{minItems}} elements")
 	}
 	{{/minItems}}
 	{{#maxItems}}
-	if len(*r.{{paramName}}) > {{maxItems}} {
+	if len({{^isPathParam}}*{{/isPathParam}}r.{{paramName}}) > {{maxItems}} {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must have less than {{maxItems}} elements")
 	}
 	{{/maxItems}}
 	{{#minLength}}
-	if strlen(*r.{{paramName}}) < {{minLength}} {
+	if strlen({{^isPathParam}}*{{/isPathParam}}r.{{paramName}}) < {{minLength}} {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must have at least {{minLength}} elements")
 	}
 	{{/minLength}}
 	{{#maxLength}}
-	if strlen(*r.{{paramName}}) > {{maxLength}} {
+	if strlen({{^isPathParam}}*{{/isPathParam}}r.{{paramName}}) > {{maxLength}} {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must have less than {{maxLength}} elements")
 	}
 	{{/maxLength}}
 	{{#minimum}}
 	{{#isString}}
-	{{paramName}}Txt, err := atoi(*r.{{paramName}})
+	{{paramName}}Txt, err := atoi({{^isPathParam}}*{{/isPathParam}}r.{{paramName}})
 	if {{paramName}}Txt < {{minimum}} {
 	{{/isString}}
 	{{^isString}}
-	if *r.{{paramName}} < {{minimum}} {
+	if {{^isPathParam}}*{{/isPathParam}}r.{{paramName}} < {{minimum}} {
 	{{/isString}}
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must be greater than {{minimum}}")
 	}
 	{{/minimum}}
 	{{#maximum}}
 	{{#isString}}
-	{{paramName}}Txt, err := atoi(*r.{{paramName}})
+	{{paramName}}Txt, err := atoi({{^isPathParam}}*{{/isPathParam}}r.{{paramName}})
 	if {{paramName}}Txt > {{maximum}} {
 	{{/isString}}
 	{{^isString}}
-	if *r.{{paramName}} > {{maximum}} {
+	if {{^isPathParam}}*{{/isPathParam}}r.{{paramName}} > {{maximum}} {
 	{{/isString}}
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must be less than {{maximum}}")
 	}
@@ -124,7 +124,6 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 	{{/required}}
 	{{/allParams}}
 
-	{{#hasQueryParams}}
 	{{#queryParams}}
 	{{#required}}
 	{{#isCollectionFormatMulti}}
@@ -161,7 +160,6 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 	}
 	{{/required}}
 	{{/queryParams}}
-	{{/hasQueryParams}}
 	// to determine the Content-Type header
 {{=<% %>=}}
 	localVarHTTPContentTypes := []string{<%#consumes%>"<%&mediaType%>"<%^-last%>, <%/-last%><%/consumes%>}
@@ -183,7 +181,6 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-{{#hasHeaderParams}}
 {{#headerParams}}
 	{{#required}}
 	localVarHeaderParams["{{baseName}}"] = parameterToString(*r.{{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")
@@ -194,8 +191,6 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 	}
 	{{/required}}
 {{/headerParams}}
-{{/hasHeaderParams}}
-{{#hasFormParams}}
 {{#formParams}}
 {{#isFile}}
 	localVarFormFileName = "{{baseName}}"
@@ -237,13 +232,10 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 {{/required}}
 {{/isFile}}
 {{/formParams}}
-{{/hasFormParams}}
-{{#hasBodyParam}}
 {{#bodyParams}}
 	// body params
 	localVarPostBody = r.{{paramName}}
 {{/bodyParams}}
-{{/hasBodyParam}}
 {{#authMethods}}
 {{#isApiKey}}
 {{^isKeyInCookie}}
