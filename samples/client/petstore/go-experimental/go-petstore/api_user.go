@@ -40,8 +40,13 @@ func (a *UserApiService) CreateUser(ctx _context.Context, body User) (*_nethttp.
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/user"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.CreateUser")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/user"
+
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -106,8 +111,13 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx _context.Context, body []
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/user/createWithArray"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.CreateUsersWithArrayInput")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/user/createWithArray"
+
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -172,8 +182,13 @@ func (a *UserApiService) CreateUsersWithListInput(ctx _context.Context, body []U
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/user/createWithList"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.CreateUsersWithListInput")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/user/createWithList"
+
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -239,8 +254,12 @@ func (a *UserApiService) DeleteUser(ctx _context.Context, username string) (*_ne
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/user/{username}"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.DeleteUser")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/user/{username}"
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(username, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -307,8 +326,12 @@ func (a *UserApiService) GetUserByName(ctx _context.Context, username string) (U
 		localVarReturnValue  User
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/user/{username}"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.GetUserByName")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/user/{username}"
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(username, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -362,7 +385,6 @@ func (a *UserApiService) GetUserByName(ctx _context.Context, username string) (U
 			}
 			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
-			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -396,8 +418,13 @@ func (a *UserApiService) LoginUser(ctx _context.Context, username string, passwo
 		localVarReturnValue  string
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/user/login"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.LoginUser")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/user/login"
+
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -451,7 +478,6 @@ func (a *UserApiService) LoginUser(ctx _context.Context, username string, passwo
 			}
 			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
-			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -481,8 +507,13 @@ func (a *UserApiService) LogoutUser(ctx _context.Context) (*_nethttp.Response, e
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/user/logout"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.LogoutUser")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/user/logout"
+
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -547,8 +578,12 @@ func (a *UserApiService) UpdateUser(ctx _context.Context, username string, body 
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/user/{username}"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "UserApiService.UpdateUser")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/user/{username}"
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(username, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
