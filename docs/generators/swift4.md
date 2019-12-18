@@ -12,7 +12,6 @@ sidebar_label: swift4
 |projectName|Project name in Xcode| |null|
 |responseAs|Optionally use libraries to manage response.  Currently PromiseKit, RxSwift, Result are available.| |null|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.(default: false)| |null|
-|unwrapRequired|Treat 'required' properties in response as non-optional (which would crash the app if api returns null as opposed to required option specified in json schema| |null|
 |objcCompatible|Add additional properties and methods for Objective-C compatibility (default: false)| |null|
 |podSource|Source information used for Podspec| |null|
 |podVersion|Version used for Podspec| |null|

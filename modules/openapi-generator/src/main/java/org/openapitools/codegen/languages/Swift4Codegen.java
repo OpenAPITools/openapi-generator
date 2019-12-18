@@ -40,7 +40,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
-    public static final String UNWRAP_REQUIRED = "unwrapRequired";
     public static final String OBJC_COMPATIBLE = "objcCompatible";
     public static final String POD_SOURCE = "podSource";
     public static final String POD_AUTHORS = "podAuthors";
@@ -126,8 +125,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         // Added for Objective-C compatibility
                         "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
                         "NSError", "NSDictionary"
-                        )
-                );
+                )
+        );
 
         reservedWords = new HashSet<>(
                 Arrays.asList(
@@ -213,10 +212,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.NON_PUBLIC_API,
                 CodegenConstants.NON_PUBLIC_API_DESC 
                         + "(default: false)"));
-        cliOptions.add(new CliOption(UNWRAP_REQUIRED,
-                "Treat 'required' properties in response as non-optional "
-                        + "(which would crash the app if api returns null as opposed "
-                        + "to required option specified in json schema"));
         cliOptions.add(new CliOption(OBJC_COMPATIBLE,
                 "Add additional properties and methods for Objective-C "
                         + "compatibility (default: false)"));
@@ -341,13 +336,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             setNonPublicApi(convertPropertyToBooleanAndWriteBack(CodegenConstants.NON_PUBLIC_API));
         }
         additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
-
-        // Setup unwrapRequired option, which makes all the
-        // properties with "required" non-optional
-        if (additionalProperties.containsKey(UNWRAP_REQUIRED)) {
-            setUnwrapRequired(convertPropertyToBooleanAndWriteBack(UNWRAP_REQUIRED));
-        }
-        additionalProperties.put(UNWRAP_REQUIRED, unwrapRequired);
 
         // Setup objcCompatible option, which adds additional properties
         // and methods for Objective-C compatibility
@@ -743,10 +731,6 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         this.nonPublicApi = nonPublicApi;
     }
 
-    public void setUnwrapRequired(boolean unwrapRequired) {
-        this.unwrapRequired = unwrapRequired;
-    }
-
     public void setObjcCompatible(boolean objcCompatible) {
         this.objcCompatible = objcCompatible;
     }
@@ -894,22 +878,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
-        // The default template code has the following logic for
-        // assigning a type as Swift Optional:
-        //
-        // {{^unwrapRequired}}?{{/unwrapRequired}}
-        // {{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}
-        //
-        // which means:
-        //
-        // boolean isSwiftOptional = !unwrapRequired || (unwrapRequired && !property.required);
-        //
-        // We can drop the check for unwrapRequired in (unwrapRequired && !property.required)
-        // due to short-circuit evaluation of the || operator.
-        boolean isSwiftOptional = !unwrapRequired || !property.required;
         boolean isSwiftScalarType = property.isInteger || property.isLong || property.isFloat
                 || property.isDouble || property.isBoolean;
-        if (isSwiftOptional && isSwiftScalarType) {
+        if ((!property.required || property.isNullable) && isSwiftScalarType) {
             // Optional scalar types like Int?, Int64?, Float?, Double?, and Bool?
             // do not translate to Objective-C. So we want to flag those
             // properties in case we want to put special code in the templates
