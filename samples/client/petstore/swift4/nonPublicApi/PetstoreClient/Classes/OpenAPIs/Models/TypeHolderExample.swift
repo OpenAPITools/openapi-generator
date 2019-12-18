@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 internal struct TypeHolderExample: Codable {
 
     internal var stringItem: String
@@ -24,7 +23,7 @@ internal struct TypeHolderExample: Codable {
         self.arrayItem = arrayItem
     }
 
-    internal enum CodingKeys: String, CodingKey { 
+    internal enum CodingKeys: String, CodingKey {
         case stringItem = "string_item"
         case numberItem = "number_item"
         case integerItem = "integer_item"

@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public struct Category: Codable {
 
     public var _id: Int64?
@@ -18,7 +17,7 @@ public struct Category: Codable {
         self.name = name
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case _id = "id"
         case name
     }

@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public struct EnumTest: Codable {
 
     public enum EnumString: String, Codable {
@@ -29,12 +28,12 @@ public struct EnumTest: Codable {
         case number12 = -1.2
     }
     public var enumString: EnumString?
-    public var enumStringRequired: EnumStringRequired?
+    public var enumStringRequired: EnumStringRequired
     public var enumInteger: EnumInteger?
     public var enumNumber: EnumNumber?
     public var outerEnum: OuterEnum?
 
-    public init(enumString: EnumString?, enumStringRequired: EnumStringRequired?, enumInteger: EnumInteger?, enumNumber: EnumNumber?, outerEnum: OuterEnum?) {
+    public init(enumString: EnumString?, enumStringRequired: EnumStringRequired, enumInteger: EnumInteger?, enumNumber: EnumNumber?, outerEnum: OuterEnum?) {
         self.enumString = enumString
         self.enumStringRequired = enumStringRequired
         self.enumInteger = enumInteger
@@ -42,7 +41,7 @@ public struct EnumTest: Codable {
         self.outerEnum = outerEnum
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case enumString = "enum_string"
         case enumStringRequired = "enum_string_required"
         case enumInteger = "enum_integer"

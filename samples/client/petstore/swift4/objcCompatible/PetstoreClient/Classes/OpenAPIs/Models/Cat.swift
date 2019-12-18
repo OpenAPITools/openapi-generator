@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public struct Cat: Codable {
 
     public var className: String

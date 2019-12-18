@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public struct CatAllOf: Codable {
 
     public var declawed: Bool?

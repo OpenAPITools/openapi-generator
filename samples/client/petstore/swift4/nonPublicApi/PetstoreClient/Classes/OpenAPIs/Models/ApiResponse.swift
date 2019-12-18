@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 internal struct ApiResponse: Codable {
 
     internal var code: Int?

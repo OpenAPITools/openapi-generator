@@ -22,7 +22,7 @@ internal struct Name: Codable {
         self._123number = _123number
     }
 
-    internal enum CodingKeys: String, CodingKey { 
+    internal enum CodingKeys: String, CodingKey {
         case name
         case snakeCase = "snake_case"
         case property

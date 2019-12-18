@@ -8,7 +8,6 @@
 import Foundation
 
 /** This object contains property names which we know will be different from their variable name. Examples of this include snake case property names and property names which are Swift 4 reserved words. */
-
 public struct VariableNameTest: Codable {
 
     /** This snake-case examle_name property name should be converted to a camelCase variable name like exampleName */

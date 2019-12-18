@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 internal struct CatAllOf: Codable {
 
     internal var declawed: Bool?
