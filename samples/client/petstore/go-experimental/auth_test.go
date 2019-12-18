@@ -228,7 +228,7 @@ func TestDefaultHeader(t *testing.T) {
 }
 
 func TestHostOverride(t *testing.T) {
-	_, r, err := client.PetApi.FindPetsByStatus(context.Background()).Execute()
+	_, r, err := client.PetApi.FindPetsByStatus(context.Background()).Status(nil).Execute()
 
 	if err != nil {
 		t.Fatalf("Error while finding pets by status: %v", err)
@@ -240,7 +240,7 @@ func TestHostOverride(t *testing.T) {
 }
 
 func TestSchemeOverride(t *testing.T) {
-	_, r, err := client.PetApi.FindPetsByStatus(context.Background()).Execute()
+	_, r, err := client.PetApi.FindPetsByStatus(context.Background()).Status(nil).Execute()
 
 	if err != nil {
 		t.Fatalf("Error while finding pets by status: %v", err)
