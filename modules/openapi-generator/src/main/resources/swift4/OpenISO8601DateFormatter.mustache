@@ -35,7 +35,7 @@ import Foundation
         setup()
     }
 
-    override func date(from string: String) -> Date? {
+    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func date(from string: String) -> Date? {
         if let result = super.date(from: string) {
             return result
         }
