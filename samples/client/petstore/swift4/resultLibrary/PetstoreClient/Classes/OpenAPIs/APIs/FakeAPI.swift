@@ -279,7 +279,7 @@ open class FakeAPI {
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": query
+            "query": query.encodeToJSON()
         ])
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
@@ -422,17 +422,17 @@ open class FakeAPI {
             "integer": integer?.encodeToJSON(),
             "int32": int32?.encodeToJSON(),
             "int64": int64?.encodeToJSON(),
-            "number": number,
-            "float": float,
-            "double": double,
-            "string": string,
-            "pattern_without_delimiter": patternWithoutDelimiter,
-            "byte": byte,
-            "binary": binary,
+            "number": number.encodeToJSON(),
+            "float": float?.encodeToJSON(),
+            "double": double.encodeToJSON(),
+            "string": string?.encodeToJSON(),
+            "pattern_without_delimiter": patternWithoutDelimiter.encodeToJSON(),
+            "byte": byte.encodeToJSON(),
+            "binary": binary?.encodeToJSON(),
             "date": date?.encodeToJSON(),
             "dateTime": dateTime?.encodeToJSON(),
-            "password": password,
-            "callback": callback
+            "password": password?.encodeToJSON(),
+            "callback": callback?.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -448,7 +448,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumHeaderStringArray
      */
-    public enum EnumHeaderStringArray_testEnumParameters: String {
+    public enum EnumHeaderStringArray_testEnumParameters: String, CaseIterable {
         case greaterThan = ">"
         case dollar = "$"
     }
@@ -456,7 +456,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumHeaderString
      */
-    public enum EnumHeaderString_testEnumParameters: String {
+    public enum EnumHeaderString_testEnumParameters: String, CaseIterable {
         case abc = "_abc"
         case efg = "-efg"
         case xyz = "(xyz)"
@@ -465,7 +465,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumQueryStringArray
      */
-    public enum EnumQueryStringArray_testEnumParameters: String {
+    public enum EnumQueryStringArray_testEnumParameters: String, CaseIterable {
         case greaterThan = ">"
         case dollar = "$"
     }
@@ -473,7 +473,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumQueryString
      */
-    public enum EnumQueryString_testEnumParameters: String {
+    public enum EnumQueryString_testEnumParameters: String, CaseIterable {
         case abc = "_abc"
         case efg = "-efg"
         case xyz = "(xyz)"
@@ -482,7 +482,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumQueryInteger
      */
-    public enum EnumQueryInteger_testEnumParameters: Int {
+    public enum EnumQueryInteger_testEnumParameters: Int, CaseIterable {
         case _1 = 1
         case number2 = -2
     }
@@ -490,7 +490,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumQueryDouble
      */
-    public enum EnumQueryDouble_testEnumParameters: Double {
+    public enum EnumQueryDouble_testEnumParameters: Double, CaseIterable {
         case _11 = 1.1
         case number12 = -1.2
     }
@@ -498,7 +498,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumFormStringArray
      */
-    public enum EnumFormStringArray_testEnumParameters: String {
+    public enum EnumFormStringArray_testEnumParameters: String, CaseIterable {
         case greaterThan = ">"
         case dollar = "$"
     }
@@ -506,7 +506,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumFormString
      */
-    public enum EnumFormString_testEnumParameters: String {
+    public enum EnumFormString_testEnumParameters: String, CaseIterable {
         case abc = "_abc"
         case efg = "-efg"
         case xyz = "(xyz)"
@@ -575,8 +575,8 @@ open class FakeAPI {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
-            "enum_form_string_array": enumFormStringArray,
-            "enum_form_string": enumFormString?.rawValue
+            "enum_form_string_array": enumFormStringArray?.encodeToJSON(),
+            "enum_form_string": enumFormString?.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -584,14 +584,14 @@ open class FakeAPI {
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "enum_query_string_array": enumQueryStringArray,
-            "enum_query_string": enumQueryString?.rawValue,
-            "enum_query_integer": enumQueryInteger?.rawValue,
-            "enum_query_double": enumQueryDouble?.rawValue
+            "enum_query_string_array": enumQueryStringArray?.encodeToJSON(),
+            "enum_query_string": enumQueryString?.encodeToJSON(),
+            "enum_query_integer": enumQueryInteger?.encodeToJSON(),
+            "enum_query_double": enumQueryDouble?.encodeToJSON()
         ])
         let nillableHeaders: [String: Any?] = [
-            "enum_header_string_array": enumHeaderStringArray,
-            "enum_header_string": enumHeaderString?.rawValue
+            "enum_header_string_array": enumHeaderStringArray?.encodeToJSON(),
+            "enum_header_string": enumHeaderString?.encodeToJSON()
         ]
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
@@ -666,8 +666,8 @@ open class FakeAPI {
             "int64_group": int64Group?.encodeToJSON()
         ])
         let nillableHeaders: [String: Any?] = [
-            "required_boolean_group": requiredBooleanGroup,
-            "boolean_group": booleanGroup
+            "required_boolean_group": requiredBooleanGroup.encodeToJSON(),
+            "boolean_group": booleanGroup?.encodeToJSON()
         ]
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
@@ -769,8 +769,8 @@ open class FakeAPI {
         let path = "/fake/jsonFormData"
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
-            "param": param,
-            "param2": param2
+            "param": param.encodeToJSON(),
+            "param2": param2.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)

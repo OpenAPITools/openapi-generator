@@ -17,7 +17,7 @@ public struct Return: Codable {
         self._return = _return
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case _return = "return"
     }
 

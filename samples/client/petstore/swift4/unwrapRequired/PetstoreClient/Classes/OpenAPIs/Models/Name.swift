@@ -23,7 +23,7 @@ public struct Name: Codable {
         self._123number = _123number
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case snakeCase = "snake_case"
         case property

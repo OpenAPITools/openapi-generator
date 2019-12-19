@@ -22,7 +22,7 @@ extension {{projectName}}API {
     /**
      * enum for parameter {{paramName}}
      */
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{enumName}}_{{operationId}}: {{^isContainer}}{{{dataType}}}{{/isContainer}}{{#isContainer}}String{{/isContainer}} {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{enumName}}_{{operationId}}: {{^isContainer}}{{{dataType}}}{{/isContainer}}{{#isContainer}}String{{/isContainer}}, CaseIterable {
         {{#allowableValues}}
         {{#enumVars}}
         case {{name}} = {{{value}}}

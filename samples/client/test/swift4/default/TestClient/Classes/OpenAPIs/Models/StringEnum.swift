@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum StringEnum: String, Codable {
+public enum StringEnum: String, Codable, CaseIterable {
     case stringenumvalue1 = "stringEnumValue1"
     case stringenumvalue2 = "stringEnumValue2"
     case stringenumvalue3 = "stringEnumValue3"

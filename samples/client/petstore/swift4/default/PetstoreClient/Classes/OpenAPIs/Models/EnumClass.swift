@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum EnumClass: String, Codable {
+public enum EnumClass: String, Codable, CaseIterable {
     case abc = "_abc"
     case efg = "-efg"
     case xyz = "(xyz)"

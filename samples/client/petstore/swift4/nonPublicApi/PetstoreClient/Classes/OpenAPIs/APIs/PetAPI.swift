@@ -82,7 +82,7 @@ internal class PetAPI {
 
         let url = URLComponents(string: URLString)
         let nillableHeaders: [String: Any?] = [
-            "api_key": apiKey
+            "api_key": apiKey?.encodeToJSON()
         ]
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
@@ -94,7 +94,7 @@ internal class PetAPI {
     /**
      * enum for parameter status
      */
-    internal enum Status_findPetsByStatus: String {
+    internal enum Status_findPetsByStatus: String, CaseIterable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"
@@ -129,7 +129,7 @@ internal class PetAPI {
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "status": status
+            "status": status.encodeToJSON()
         ])
 
         let requestBuilder: RequestBuilder<[Pet]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -166,7 +166,7 @@ internal class PetAPI {
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "tags": tags
+            "tags": tags.encodeToJSON()
         ])
 
         let requestBuilder: RequestBuilder<[Pet]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -284,8 +284,8 @@ internal class PetAPI {
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
-            "name": name,
-            "status": status
+            "name": name?.encodeToJSON(),
+            "status": status?.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -330,8 +330,8 @@ internal class PetAPI {
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
-            "additionalMetadata": additionalMetadata,
-            "file": file
+            "additionalMetadata": additionalMetadata?.encodeToJSON(),
+            "file": file?.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -376,8 +376,8 @@ internal class PetAPI {
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
-            "additionalMetadata": additionalMetadata,
-            "requiredFile": requiredFile
+            "additionalMetadata": additionalMetadata?.encodeToJSON(),
+            "requiredFile": requiredFile.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)

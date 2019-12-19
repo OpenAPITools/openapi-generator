@@ -26,7 +26,7 @@ public struct Capitalization: Codable {
         self.ATT_NAME = ATT_NAME
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case smallCamel
         case capitalCamel = "CapitalCamel"
         case smallSnake = "small_Snake"

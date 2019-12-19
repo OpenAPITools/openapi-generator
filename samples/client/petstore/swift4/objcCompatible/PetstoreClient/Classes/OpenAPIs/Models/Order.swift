@@ -9,7 +9,7 @@ import Foundation
 
 public struct Order: Codable {
 
-    public enum Status: String, Codable {
+    public enum Status: String, Codable, CaseIterable {
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"
@@ -31,7 +31,7 @@ public struct Order: Codable {
         self.complete = complete
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case _id = "id"
         case petId
         case quantity

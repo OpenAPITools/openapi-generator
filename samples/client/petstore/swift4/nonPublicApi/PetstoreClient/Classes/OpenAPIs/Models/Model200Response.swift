@@ -19,7 +19,7 @@ internal struct Model200Response: Codable {
         self._class = _class
     }
 
-    internal enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case _class = "class"
     }

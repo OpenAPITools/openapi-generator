@@ -9,21 +9,21 @@ import Foundation
 
 public struct EnumTest: Codable {
 
-    public enum EnumString: String, Codable {
+    public enum EnumString: String, Codable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
     }
-    public enum EnumStringRequired: String, Codable {
+    public enum EnumStringRequired: String, Codable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
     }
-    public enum EnumInteger: Int, Codable {
+    public enum EnumInteger: Int, Codable, CaseIterable {
         case _1 = 1
         case number1 = -1
     }
-    public enum EnumNumber: Double, Codable {
+    public enum EnumNumber: Double, Codable, CaseIterable {
         case _11 = 1.1
         case number12 = -1.2
     }
@@ -41,7 +41,7 @@ public struct EnumTest: Codable {
         self.outerEnum = outerEnum
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case enumString = "enum_string"
         case enumStringRequired = "enum_string_required"
         case enumInteger = "enum_integer"

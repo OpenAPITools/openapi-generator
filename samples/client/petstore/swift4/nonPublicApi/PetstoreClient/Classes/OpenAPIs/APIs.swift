@@ -11,6 +11,7 @@ internal class PetstoreClientAPI {
     internal static var credential: URLCredential?
     internal static var customHeaders: [String: String] = [:]
     internal static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
+    internal static var apiResponseQueue: DispatchQueue = .main
 }
 
 internal class RequestBuilder<T> {

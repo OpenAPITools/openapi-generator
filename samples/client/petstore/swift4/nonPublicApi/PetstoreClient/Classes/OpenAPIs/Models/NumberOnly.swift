@@ -15,7 +15,7 @@ internal struct NumberOnly: Codable {
         self.justNumber = justNumber
     }
 
-    internal enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case justNumber = "JustNumber"
     }
 

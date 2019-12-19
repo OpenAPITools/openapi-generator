@@ -19,7 +19,7 @@ internal struct OuterComposite: Codable {
         self.myBoolean = myBoolean
     }
 
-    internal enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case myNumber = "my_number"
         case myString = "my_string"
         case myBoolean = "my_boolean"
