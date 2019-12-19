@@ -45,5 +45,6 @@ public class PythonAiohttpConnexionServerCodegen extends PythonAbstractConnexion
         supportingFiles.add(new SupportingFile("__init__test.mustache", testPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__main.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
     }
 }
