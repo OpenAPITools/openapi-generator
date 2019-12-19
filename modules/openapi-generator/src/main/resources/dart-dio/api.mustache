@@ -40,9 +40,9 @@ class {{classname}} {
 
         List<String> contentTypes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}];
 
-
-        {{#formParams}}
+        {{#hasFormParams}}
         Map<String, dynamic> formData = {};
+        {{#formParams}}
         {{#isMultipart}}
             {{^isFile}}
                 if ({{paramName}} != null) {
@@ -55,8 +55,9 @@ class {{classname}} {
                 }
             {{/isFile}}
         {{/isMultipart}}
-        bodyData = FormData.fromMap(formData);
         {{/formParams}}
+        bodyData = FormData.fromMap(formData);
+        {{/hasFormParams}}
 
         {{#bodyParam}}
             {{#isListContainer}}
