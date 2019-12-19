@@ -23,13 +23,13 @@ import java.io.Serializable
  * @param complete 
  */
 data class Order (
-    val id: kotlin.Long? = null,
-    val petId: kotlin.Long? = null,
-    val quantity: kotlin.Int? = null,
+    val id: Long? = null,
+    val petId: Long? = null,
+    val quantity: Int? = null,
     val shipDate: java.time.LocalDateTime? = null,
     /* Order Status */
     val status: Order.Status? = null,
-    val complete: kotlin.Boolean? = null
+    val complete: Boolean? = null
 ) : Serializable 
 {
 	companion object {
@@ -39,7 +39,7 @@ data class Order (
     * Order Status
     * Values: placed,approved,delivered
     */
-    enum class Status(val value: kotlin.String){
+    enum class Status(val value: String){
         placed("placed"),
         approved("approved"),
         delivered("delivered");

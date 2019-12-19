@@ -98,8 +98,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
 
         // Use lists instead of arrays
-        typeMapping.put("array", "kotlin.collections.List");
-        typeMapping.put("list", "kotlin.collections.List");
+        typeMapping.put("array", "List");
+        typeMapping.put("list", "List");
 
         typeMapping.put("date", "java.time.LocalDate");
         typeMapping.put("date-time", "java.time.OffsetDateTime");
@@ -582,16 +582,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private void doDataTypeAssignment(final String returnType, DataTypeAssigner dataTypeAssigner) {
         if (returnType == null) {
             dataTypeAssigner.setReturnType("Unit");
-        } else if (returnType.startsWith("kotlin.collections.List")) {
+        } else if (returnType.startsWith("List")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.List<".length(), end).trim());
+                dataTypeAssigner.setReturnType(returnType.substring("List<".length(), end).trim());
                 dataTypeAssigner.setReturnContainer("List");
             }
-        } else if (returnType.startsWith("kotlin.collections.Map")) {
+        } else if (returnType.startsWith("Map")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.Map<".length(), end).split(",")[1].trim());
+                dataTypeAssigner.setReturnType(returnType.substring("Map<".length(), end).split(",")[1].trim());
                 dataTypeAssigner.setReturnContainer("Map");
             }
         }

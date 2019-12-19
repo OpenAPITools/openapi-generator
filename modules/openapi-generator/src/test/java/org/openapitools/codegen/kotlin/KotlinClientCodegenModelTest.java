@@ -78,10 +78,10 @@ public class KotlinClientCodegenModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.dataType, "kotlin.Long");
+        Assert.assertEquals(property1.dataType, "Long");
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, null);
-        Assert.assertEquals(property1.baseType, "kotlin.Long");
+        Assert.assertEquals(property1.baseType, "Long");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
@@ -89,10 +89,10 @@ public class KotlinClientCodegenModelTest {
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
-        Assert.assertEquals(property2.dataType, "kotlin.String");
+        Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property2.defaultValue, null);
-        Assert.assertEquals(property2.baseType, "kotlin.String");
+        Assert.assertEquals(property2.baseType, "String");
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
@@ -144,10 +144,10 @@ public class KotlinClientCodegenModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "kotlin.String");
+        Assert.assertEquals(property3.dataType, "String");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
-        Assert.assertEquals(property3.baseType, "kotlin.String");
+        Assert.assertEquals(property3.baseType, "String");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
@@ -175,7 +175,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertFalse(property3.isContainer);
     }
 
-    @Test(description = "convert a model with array property to default kotlin.Array")
+    @Test(description = "convert a model with array property to default Array")
     public void arrayPropertyTest() {
         final Schema model = getArrayTestSchema();
 
@@ -193,16 +193,16 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property.baseName, "examples");
         Assert.assertEquals(property.getter, "getExamples");
         Assert.assertEquals(property.setter, "setExamples");
-        Assert.assertEquals(property.dataType, "kotlin.Array<kotlin.String>");
+        Assert.assertEquals(property.dataType, "Array<String>");
         Assert.assertEquals(property.name, "examples");
         Assert.assertEquals(property.defaultValue, null);
-        Assert.assertEquals(property.baseType, "kotlin.Array");
+        Assert.assertEquals(property.baseType, "Array");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
 
-    @Test(description = "convert a model with array property to a kotlin.collections.List")
+    @Test(description = "convert a model with array property to a List")
     public void listPropertyTest() {
         final Schema model = getArrayTestSchema();
 
@@ -222,10 +222,10 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property.baseName, "examples");
         Assert.assertEquals(property.getter, "getExamples");
         Assert.assertEquals(property.setter, "setExamples");
-        Assert.assertEquals(property.dataType, "kotlin.collections.List<kotlin.String>");
+        Assert.assertEquals(property.dataType, "List<String>");
         Assert.assertEquals(property.name, "examples");
         Assert.assertEquals(property.defaultValue, null);
-        Assert.assertEquals(property.baseType, "kotlin.collections.List");
+        Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
@@ -246,9 +246,9 @@ public class KotlinClientCodegenModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "mapping");
-        Assert.assertEquals(property1.dataType, "kotlin.collections.Map<kotlin.String, kotlin.String>");
+        Assert.assertEquals(property1.dataType, "Map<String, String>");
         Assert.assertEquals(property1.name, "mapping");
-        Assert.assertEquals(property1.baseType, "kotlin.collections.Map");
+        Assert.assertEquals(property1.baseType, "Map");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);

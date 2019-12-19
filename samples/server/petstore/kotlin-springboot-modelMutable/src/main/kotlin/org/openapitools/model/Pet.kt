@@ -27,20 +27,20 @@ data class Pet (
 
         @get:NotNull 
         @ApiModelProperty(example = "doggie", required = true, value = "")
-        @JsonProperty("name") var name: kotlin.String,
+        @JsonProperty("name") var name: String,
 
         @get:NotNull 
         @ApiModelProperty(example = "null", required = true, value = "")
-        @JsonProperty("photoUrls") var photoUrls: kotlin.collections.List<kotlin.String>,
+        @JsonProperty("photoUrls") var photoUrls: List<String>,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") var id: kotlin.Long? = null,
+        @JsonProperty("id") var id: Long? = null,
 
         @ApiModelProperty(example = "null", value = "")
         @JsonProperty("category") var category: Category? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("tags") var tags: kotlin.collections.List<Tag>? = null,
+        @JsonProperty("tags") var tags: List<Tag>? = null,
 
         @ApiModelProperty(example = "null", value = "pet status in the store")
         @JsonProperty("status") var status: Pet.Status? = null
@@ -50,7 +50,7 @@ data class Pet (
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
     
         @JsonProperty("available") available("available"),
     

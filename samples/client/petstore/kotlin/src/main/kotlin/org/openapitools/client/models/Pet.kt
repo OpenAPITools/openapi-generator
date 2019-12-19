@@ -28,15 +28,15 @@ import java.io.Serializable
 
 data class Pet (
     @Json(name = "name")
-    val name: kotlin.String,
+    val name: String,
     @Json(name = "photoUrls")
-    val photoUrls: kotlin.Array<kotlin.String>,
+    val photoUrls: Array<String>,
     @Json(name = "id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
     @Json(name = "category")
     val category: Category? = null,
     @Json(name = "tags")
-    val tags: kotlin.Array<Tag>? = null,
+    val tags: Array<Tag>? = null,
     /* pet status in the store */
     @Json(name = "status")
     val status: Pet.Status? = null
@@ -52,7 +52,7 @@ data class Pet (
     * Values: available,pending,sold
     */
     
-    enum class Status(val value: kotlin.String){
+    enum class Status(val value: String){
         @Json(name = "available") available("available"),
         @Json(name = "pending") pending("pending"),
         @Json(name = "sold") sold("sold");

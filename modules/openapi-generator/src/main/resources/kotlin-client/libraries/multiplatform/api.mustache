@@ -17,14 +17,14 @@ import kotlinx.serialization.internal.StringDescriptor
 
 {{#operations}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}} @UseExperimental(UnstableDefault::class) constructor(
-        baseUrl: kotlin.String = "{{{basePath}}}",
+        baseUrl: String = "{{{basePath}}}",
         httpClientEngine: HttpClientEngine? = null,
         serializer: KotlinxSerializer)
     : ApiClient(baseUrl, httpClientEngine, serializer) {
 
     @UseExperimental(UnstableDefault::class)
     constructor(
-        baseUrl: kotlin.String = "{{{basePath}}}",
+        baseUrl: String = "{{{basePath}}}",
         httpClientEngine: HttpClientEngine? = null,
         jsonConfiguration: JsonConfiguration = JsonConfiguration.Default)
     : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))

@@ -24,8 +24,8 @@ import com.fasterxml.jackson.annotation.JsonInclude
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Tag (
-    var id: kotlin.Long? = null,
-    var name: kotlin.String? = null
+    var id: Long? = null,
+    var name: String? = null
 ) {
 
 }

@@ -25,28 +25,28 @@ import io.swagger.annotations.ApiModelProperty
 data class User (
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") var id: kotlin.Long? = null,
+        @JsonProperty("id") var id: Long? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("username") var username: kotlin.String? = null,
+        @JsonProperty("username") var username: String? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("firstName") var firstName: kotlin.String? = null,
+        @JsonProperty("firstName") var firstName: String? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("lastName") var lastName: kotlin.String? = null,
+        @JsonProperty("lastName") var lastName: String? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("email") var email: kotlin.String? = null,
+        @JsonProperty("email") var email: String? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("password") var password: kotlin.String? = null,
+        @JsonProperty("password") var password: String? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("phone") var phone: kotlin.String? = null,
+        @JsonProperty("phone") var phone: String? = null,
 
         @ApiModelProperty(example = "null", value = "User Status")
-        @JsonProperty("userStatus") var userStatus: kotlin.Int? = null
+        @JsonProperty("userStatus") var userStatus: Int? = null
 ) {
 
 }

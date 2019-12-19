@@ -4,11 +4,11 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **kotlin.Long** |  |  [optional]
+**id** | **Long** |  |  [optional]
 **category** | [**Category**](Category.md) |  |  [optional]
-**name** | **kotlin.String** |  | 
-**photoUrls** | **kotlin.Array&lt;kotlin.String&gt;** |  | 
-**tags** | [**kotlin.Array&lt;Tag&gt;**](Tag.md) |  |  [optional]
+**name** | **String** |  | 
+**photoUrls** | **Array&lt;String&gt;** |  | 
+**tags** | [**Array&lt;Tag&gt;**](Tag.md) |  |  [optional]
 **status** | [**inline**](#StatusEnum) | pet status in the store |  [optional]
 
 

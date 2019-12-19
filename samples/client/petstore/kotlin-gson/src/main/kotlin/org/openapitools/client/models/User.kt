@@ -27,22 +27,22 @@ import com.google.gson.annotations.SerializedName
 
 data class User (
     @SerializedName("id")
-    val id: kotlin.Long? = null,
+    val id: Long? = null,
     @SerializedName("username")
-    val username: kotlin.String? = null,
+    val username: String? = null,
     @SerializedName("firstName")
-    val firstName: kotlin.String? = null,
+    val firstName: String? = null,
     @SerializedName("lastName")
-    val lastName: kotlin.String? = null,
+    val lastName: String? = null,
     @SerializedName("email")
-    val email: kotlin.String? = null,
+    val email: String? = null,
     @SerializedName("password")
-    val password: kotlin.String? = null,
+    val password: String? = null,
     @SerializedName("phone")
-    val phone: kotlin.String? = null,
+    val phone: String? = null,
     /* User Status */
     @SerializedName("userStatus")
-    val userStatus: kotlin.Int? = null
+    val userStatus: Int? = null
 ) 
 
 

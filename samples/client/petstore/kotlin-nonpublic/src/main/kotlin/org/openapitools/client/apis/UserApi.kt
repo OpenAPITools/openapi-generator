@@ -25,7 +25,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiClient(basePath) {
+internal class UserApi(basePath: String = "http://petstore.swagger.io/v2") : ApiClient(basePath) {
 
     /**
     * Create user
@@ -38,7 +38,7 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun createUser(body: User) : Unit {
-        val localVariableBody: kotlin.Any? = body
+        val localVariableBody: Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -71,8 +71,8 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createUsersWithArrayInput(body: kotlin.Array<User>) : Unit {
-        val localVariableBody: kotlin.Any? = body
+    fun createUsersWithArrayInput(body: Array<User>) : Unit {
+        val localVariableBody: Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -105,8 +105,8 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createUsersWithListInput(body: kotlin.Array<User>) : Unit {
-        val localVariableBody: kotlin.Any? = body
+    fun createUsersWithListInput(body: Array<User>) : Unit {
+        val localVariableBody: Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -139,8 +139,8 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteUser(username: kotlin.String) : Unit {
-        val localVariableBody: kotlin.Any? = null
+    fun deleteUser(username: String) : Unit {
+        val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -174,8 +174,8 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getUserByName(username: kotlin.String) : User {
-        val localVariableBody: kotlin.Any? = null
+    fun getUserByName(username: String) : User {
+        val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -203,16 +203,16 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * 
     * @param username The user name for login 
     * @param password The password for login in clear text 
-    * @return kotlin.String
+    * @return String
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun loginUser(username: kotlin.String, password: kotlin.String) : kotlin.String {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+    fun loginUser(username: String, password: String) : String {
+        val localVariableBody: Any? = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<String, List<String>>()
             .apply {
                 put("username", listOf(username.toString()))
                 put("password", listOf(password.toString()))
@@ -224,13 +224,13 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val localVarResponse = request<kotlin.String>(
+        val localVarResponse = request<String>(
             localVariableConfig,
             localVariableBody
         )
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.String
+            ResponseType.Success -> (localVarResponse as Success<*>).data as String
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
@@ -248,7 +248,7 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun logoutUser() : Unit {
-        val localVariableBody: kotlin.Any? = null
+        val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
@@ -282,8 +282,8 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateUser(username: kotlin.String, body: User) : Unit {
-        val localVariableBody: kotlin.Any? = body
+    fun updateUser(username: String, body: User) : Unit {
+        val localVariableBody: Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(

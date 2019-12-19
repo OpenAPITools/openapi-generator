@@ -19,10 +19,10 @@ import io.swagger.annotations.ApiModelProperty
 data class Category (
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") val id: kotlin.Long? = null,
+        @JsonProperty("id") val id: Long? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("name") val name: kotlin.String? = null
+        @JsonProperty("name") val name: String? = null
 ) {
 
 }

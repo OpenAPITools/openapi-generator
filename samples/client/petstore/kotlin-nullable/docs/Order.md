@@ -4,12 +4,12 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **kotlin.Long** |  |  [optional]
-**petId** | **kotlin.Long** |  |  [optional]
-**quantity** | **kotlin.Int** |  |  [optional]
+**id** | **Long** |  |  [optional]
+**petId** | **Long** |  |  [optional]
+**quantity** | **Int** |  |  [optional]
 **shipDate** | [**java.time.LocalDateTime**](java.time.LocalDateTime.md) |  |  [optional]
 **status** | [**inline**](#StatusEnum) | Order Status |  [optional]
-**complete** | **kotlin.Boolean** |  |  [optional]
+**complete** | **Boolean** |  |  [optional]
 
 
 <a name="StatusEnum"></a>

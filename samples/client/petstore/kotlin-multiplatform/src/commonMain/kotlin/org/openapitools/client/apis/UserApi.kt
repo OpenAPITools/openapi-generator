@@ -25,14 +25,14 @@ import kotlinx.serialization.*
 import kotlinx.serialization.internal.StringDescriptor
 
 class UserApi @UseExperimental(UnstableDefault::class) constructor(
-        baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
+        baseUrl: String = "http://petstore.swagger.io/v2",
         httpClientEngine: HttpClientEngine? = null,
         serializer: KotlinxSerializer)
     : ApiClient(baseUrl, httpClientEngine, serializer) {
 
     @UseExperimental(UnstableDefault::class)
     constructor(
-        baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
+        baseUrl: String = "http://petstore.swagger.io/v2",
         httpClientEngine: HttpClientEngine? = null,
         jsonConfiguration: JsonConfiguration = JsonConfiguration.Default)
     : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
@@ -75,7 +75,7 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
     * @param body List of user object 
     * @return void
     */
-    suspend fun createUsersWithArrayInput(body: kotlin.Array<User>) : HttpResponse<Unit> {
+    suspend fun createUsersWithArrayInput(body: Array<User>) : HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -116,7 +116,7 @@ private class CreateUsersWithArrayInputRequest(val value: List<User>) {
     * @param body List of user object 
     * @return void
     */
-    suspend fun createUsersWithListInput(body: kotlin.Array<User>) : HttpResponse<Unit> {
+    suspend fun createUsersWithListInput(body: Array<User>) : HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -157,7 +157,7 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
     * @param username The name that needs to be deleted 
     * @return void
     */
-    suspend fun deleteUser(username: kotlin.String) : HttpResponse<Unit> {
+    suspend fun deleteUser(username: String) : HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -190,7 +190,7 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
     * @return User
     */
     @Suppress("UNCHECKED_CAST")
-    suspend fun getUserByName(username: kotlin.String) : HttpResponse<User> {
+    suspend fun getUserByName(username: String) : HttpResponse<User> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -221,10 +221,10 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
     * 
     * @param username The user name for login 
     * @param password The password for login in clear text 
-    * @return kotlin.String
+    * @return String
     */
     @Suppress("UNCHECKED_CAST")
-    suspend fun loginUser(username: kotlin.String, password: kotlin.String) : HttpResponse<kotlin.String> {
+    suspend fun loginUser(username: String, password: String) : HttpResponse<String> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -290,7 +290,7 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
     * @param body Updated user object 
     * @return void
     */
-    suspend fun updateUser(username: kotlin.String, body: User) : HttpResponse<Unit> {
+    suspend fun updateUser(username: String, body: User) : HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 

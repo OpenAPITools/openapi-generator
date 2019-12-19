@@ -87,8 +87,8 @@ class UserApiVertxProxyHandler(private val vertx: Vertx, private val service: Us
                     if(bodyParam == null){
                          throw IllegalArgumentException("body is required")
                     }
-                    val body:kotlin.Array<User> = Gson().fromJson(bodyParam.encode()
-                            , object : TypeToken<kotlin.collections.List<User>>(){}.type)
+                    val body:Array<User> = Gson().fromJson(bodyParam.encode()
+                            , object : TypeToken<List<User>>(){}.type)
                     GlobalScope.launch(vertx.dispatcher()){
                         val result = service.createUsersWithArrayInput(body,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()
@@ -105,8 +105,8 @@ class UserApiVertxProxyHandler(private val vertx: Vertx, private val service: Us
                     if(bodyParam == null){
                          throw IllegalArgumentException("body is required")
                     }
-                    val body:kotlin.Array<User> = Gson().fromJson(bodyParam.encode()
-                            , object : TypeToken<kotlin.collections.List<User>>(){}.type)
+                    val body:Array<User> = Gson().fromJson(bodyParam.encode()
+                            , object : TypeToken<List<User>>(){}.type)
                     GlobalScope.launch(vertx.dispatcher()){
                         val result = service.createUsersWithListInput(body,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()

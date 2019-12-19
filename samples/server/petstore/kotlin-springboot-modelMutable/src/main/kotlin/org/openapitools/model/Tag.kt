@@ -19,10 +19,10 @@ import io.swagger.annotations.ApiModelProperty
 data class Tag (
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") var id: kotlin.Long? = null,
+        @JsonProperty("id") var id: Long? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("name") var name: kotlin.String? = null
+        @JsonProperty("name") var name: String? = null
 ) {
 
 }

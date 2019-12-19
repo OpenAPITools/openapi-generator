@@ -15,27 +15,27 @@ interface PetApi {
     fun addPet(@Body body: Pet): Call<Unit>
 
     @DELETE("/pet/{petId}")
-    fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String): Call<Unit>
+    fun deletePet(@Path("petId") petId: Long, @Header("api_key") apiKey: String): Call<Unit>
 
     @GET("/pet/findByStatus")
-    fun findPetsByStatus(@Query("status") status: CSVParams): Call<kotlin.Array<Pet>>
+    fun findPetsByStatus(@Query("status") status: CSVParams): Call<Array<Pet>>
 
     @Deprecated("This api was deprecated")
     @GET("/pet/findByTags")
-    fun findPetsByTags(@Query("tags") tags: CSVParams): Call<kotlin.Array<Pet>>
+    fun findPetsByTags(@Query("tags") tags: CSVParams): Call<Array<Pet>>
 
     @GET("/pet/{petId}")
-    fun getPetById(@Path("petId") petId: kotlin.Long): Call<Pet>
+    fun getPetById(@Path("petId") petId: Long): Call<Pet>
 
     @PUT("/pet")
     fun updatePet(@Body body: Pet): Call<Unit>
 
     @FormUrlEncoded
     @POST("/pet/{petId}")
-    fun updatePetWithForm(@Path("petId") petId: kotlin.Long, @Field("name") name: kotlin.String, @Field("status") status: kotlin.String): Call<Unit>
+    fun updatePetWithForm(@Path("petId") petId: Long, @Field("name") name: String, @Field("status") status: String): Call<Unit>
 
     @Multipart
     @POST("/pet/{petId}/uploadImage")
-    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String, @Part file: MultipartBody.Part ): Call<ApiResponse>
+    fun uploadFile(@Path("petId") petId: Long, @Part("additionalMetadata") additionalMetadata: String, @Part file: MultipartBody.Part ): Call<ApiResponse>
 
 }

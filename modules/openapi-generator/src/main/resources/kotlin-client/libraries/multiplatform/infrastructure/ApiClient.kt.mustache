@@ -47,7 +47,7 @@ import {{packageName}}.auth.*
         httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
     }
 
-    private val authentications: kotlin.collections.Map<String, Authentication> by lazy {
+    private val authentications: Map<String, Authentication> by lazy {
         mapOf({{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
                 "{{name}}" to HttpBasicAuth(){{/isBasicBasic}}{{^isBasicBasic}}
                 "{{name}}" to HttpBearerAuth("{{scheme}}"){{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
@@ -136,22 +136,22 @@ import {{packageName}}.auth.*
         auth.bearerToken = bearerToken
     }
 
-    protected suspend fun multipartFormRequest(requestConfig: RequestConfig, body: kotlin.collections.List<PartData>?, authNames: kotlin.collections.List<String>): HttpResponse {
+    protected suspend fun multipartFormRequest(requestConfig: RequestConfig, body: List<PartData>?, authNames: List<String>): HttpResponse {
         return request(requestConfig, MultiPartFormDataContent(body ?: listOf()), authNames)
     }
 
-    protected suspend fun urlEncodedFormRequest(requestConfig: RequestConfig, body: Parameters?, authNames: kotlin.collections.List<String>): HttpResponse {
+    protected suspend fun urlEncodedFormRequest(requestConfig: RequestConfig, body: Parameters?, authNames: List<String>): HttpResponse {
         return request(requestConfig, FormDataContent(body ?: Parameters.Empty), authNames)
     }
 
-    protected suspend fun jsonRequest(requestConfig: RequestConfig, body: Any? = null, authNames: kotlin.collections.List<String>): HttpResponse {
+    protected suspend fun jsonRequest(requestConfig: RequestConfig, body: Any? = null, authNames: List<String>): HttpResponse {
         val contentType = (requestConfig.headers[HttpHeaders.ContentType]?.let { ContentType.parse(it) }
                 ?: ContentType.Application.Json)
         return if (body != null) request(requestConfig, serializer.write(body, contentType), authNames)
         else request(requestConfig, authNames = authNames)
     }
 
-    protected suspend fun request(requestConfig: RequestConfig, body: OutgoingContent = EmptyContent, authNames: kotlin.collections.List<String>): HttpResponse {
+    protected suspend fun request(requestConfig: RequestConfig, body: OutgoingContent = EmptyContent, authNames: List<String>): HttpResponse {
         requestConfig.updateForAuth(authNames)
         val headers = requestConfig.headers
 
@@ -173,14 +173,14 @@ import {{packageName}}.auth.*
         }.response
     }
 
-    private fun RequestConfig.updateForAuth(authNames: kotlin.collections.List<String>) {
+    private fun RequestConfig.updateForAuth(authNames: List<String>) {
         for (authName in authNames) {
             val auth = authentications[authName] ?: throw Exception("Authentication undefined: $authName")
             auth.apply(query, headers)
         }
     }
 
-    private fun URLBuilder.appendPath(components: kotlin.collections.List<String>): URLBuilder = apply {
+    private fun URLBuilder.appendPath(components: List<String>): URLBuilder = apply {
         encodedPath = encodedPath.trimEnd('/') + components.joinToString("/", prefix = "/") { it.encodeURLQueryComponent() }
     }
 
