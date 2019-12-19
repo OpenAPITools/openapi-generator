@@ -140,36 +140,37 @@ Examples:
     modules/openapi-generator/src/test/java/org/openapitools/codegen/options/CsharpServerCodegenOptionsProvider.java
 </code></pre>
 <p>This script allows us to define a client, server, schema, or documentation generator. We'll focus on the simplest generator (documentation). The other generator types may require heavy extension of the &quot;Config&quot; base class, and these docs could very quickly become outdated. When creating a new generator, please review existing generators as a guideline for implementation.</p>
-<p>Create a new Markdown generator:</p>
-<pre><code class="hljs css language-bash">./new.sh -n markdown -d
+<p>Create a new Markdown generator, specifying CommonMark as the name to avoid conflicting with the built-in Markdown generator.</p>
+<pre><code class="hljs css language-bash">./new.sh -n common-mark -d
 </code></pre>
 <p>You should see output similar to the following:</p>
-<pre><code class="hljs css language-bash">Creating modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/MarkdownDocumentationCodegen.java
-Creating modules/openapi-generator/src/main/resources/markdown-documentation/README.mustache
-Creating modules/openapi-generator/src/main/resources/markdown-documentation/model.mustache
-Creating modules/openapi-generator/src/main/resources/markdown-documentation/api.mustache
-Creating bin/windows/markdown-documentation-petstore.bat
-Creating bin/markdown-documentation-petstore.sh
+<pre><code class="hljs css language-bash">Creating modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CommonMarkDocumentationCodegen.java
+Creating modules/openapi-generator/src/main/resources/common-mark-documentation/README.mustache
+Creating modules/openapi-generator/src/main/resources/common-mark-documentation/model.mustache
+Creating modules/openapi-generator/src/main/resources/common-mark-documentation/api.mustache
+Creating bin/windows/common-mark-documentation-petstore.bat
+Creating bin/common-mark-documentation-petstore.sh
 Finished.
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="review-generated-config"></a><a href="#review-generated-config" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Review Generated Config</h3>
-<p>Beginning with the &quot;Codegen&quot; file (<code>MarkdownDocumentationCodegen.java</code>), the constructor was created:</p>
-<pre><code class="hljs css language-java">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MarkdownDocumentationCodegen</span><span class="hljs-params">()</span> </span>{
+<p>Beginning with the &quot;Codegen&quot; file (<code>CommonMarkDocumentationCodegen.java</code>), the constructor was created:</p>
+<pre><code class="hljs css language-java">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CommonMarkDocumentationCodegen</span><span class="hljs-params">()</span> </span>{
         <span class="hljs-keyword">super</span>();
 
-        outputFolder = <span class="hljs-string">"generated-code"</span> + File.separator + <span class="hljs-string">"markdown"</span>;
+        outputFolder = <span class="hljs-string">"generated-code"</span> + File.separator + <span class="hljs-string">"common-mark"</span>;
         modelTemplateFiles.put(<span class="hljs-string">"model.mustache"</span>, <span class="hljs-string">".zz"</span>);
         apiTemplateFiles.put(<span class="hljs-string">"api.mustache"</span>, <span class="hljs-string">".zz"</span>);
-        embeddedTemplateDir = templateDir = <span class="hljs-string">"markdown-documentation"</span>;
+        embeddedTemplateDir = templateDir = <span class="hljs-string">"common-mark-documentation"</span>;
         apiPackage = File.separator + <span class="hljs-string">"Apis"</span>;
         modelPackage = File.separator + <span class="hljs-string">"Models"</span>;
+        supportingFiles.add(<span class="hljs-keyword">new</span> SupportingFile(<span class="hljs-string">"README.mustache"</span>, <span class="hljs-string">""</span>, <span class="hljs-string">"README.md"</span>));
         <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> Fill this out.</span>
     }
 </code></pre>
 <p>These options are some defaults which may require updating. Let's look line-by-line at the config.</p>
-<pre><code class="hljs css language-java">outputFolder = <span class="hljs-string">"generated-code"</span> + File.separator + <span class="hljs-string">"markdown"</span>;
+<pre><code class="hljs css language-java">outputFolder = <span class="hljs-string">"generated-code"</span> + File.separator + <span class="hljs-string">"common-mark"</span>;
 </code></pre>
-<p>This is the default output location. This will be <code>generated-code/markdown</code> on non-Windows machines and <code>generated-code\markdown</code> on Windows. You may change this to any value you'd like, but a user will almost always provide an output directory.</p>
+<p>This is the default output location. This will be <code>generated-code/common-mark</code> on non-Windows machines and <code>generated-code\common-mark</code> on Windows. You may change this to any value you'd like, but a user will almost always provide an output directory.</p>
 <blockquote>
 <p>When joining paths, always use <code>File.seperator</code></p>
 </blockquote>
@@ -182,9 +183,9 @@ Finished.
 </code></pre>
 <p>This is the template used for generating API related files. Similar to the above model template, you'll want to change <code>.zz</code> to <code>.md</code> or <code>.markdown</code>.</p>
 <p>The path is considered relative to <code>embeddedTemplateDir</code>, <code>templateDir</code>, or a library subdirectory (refer to the Java client generator implementation for a prime example).</p>
-<pre><code class="hljs css language-java">embeddedTemplateDir = templateDir = <span class="hljs-string">"markdown-documentation"</span>;
+<pre><code class="hljs css language-java">embeddedTemplateDir = templateDir = <span class="hljs-string">"common-mark-documentation"</span>;
 </code></pre>
-<p>This line sets the embedded and template directories to <code>markdown-documentation</code>. The <code>embeddedTemplateDir</code> refers to the directory which will exist under <code>modules/openapi-generator/src/main/resources</code> and will be published with every release in which your new generator is present.</p>
+<p>This line sets the embedded and template directories to <code>common-mark-documentation</code>. The <code>embeddedTemplateDir</code> refers to the directory which will exist under <code>modules/openapi-generator/src/main/resources</code> and will be published with every release in which your new generator is present.</p>
 <p>The <code>templateDir</code> variable refers to the &quot;current&quot; template directory setting, as defined by the user. That is, the user may invoke with <code>-t</code> or <code>--template-directory</code> (or plugin option variants), and override this directory.</p>
 <p>Both of these variables exist because the generator will fallback to files under <code>embeddedTemplateDir</code> if they are not defined in the user's custom template directory.</p>
 <pre><code class="hljs css language-java">apiPackage = File.separator + <span class="hljs-string">"Apis"</span>;
@@ -193,12 +194,12 @@ Finished.
 <p>Every templated output from <code>api.mustache</code> (registered via <code>apiTemplateFiles</code> above) will end up in the directory defined by <code>apiPackage</code> here.</p>
 <pre><code class="hljs css language-java">modelPackage = File.separator + <span class="hljs-string">"Models"</span>;
 </code></pre>
-<p>Similarly, this sets the packasge for <code>Models</code>.</p>
+<p>Similarly, this sets the package for <code>Models</code>.</p>
 <p>Every templated output from <code>model.mustache</code> (registered via <code>modelTemplateFiles</code> above) will end up in the directory defined by <code>modelPackage</code> here.</p>
 <pre><code class="hljs css language-java">supportingFiles.add(<span class="hljs-keyword">new</span> SupportingFile(<span class="hljs-string">"README.mustache"</span>, <span class="hljs-string">""</span>, <span class="hljs-string">"README.md"</span>));
 </code></pre>
 <p>A &quot;supporting file&quot; is an extra file which isn't created once for every operation or model defined in your specification document. It is a single file which may or may not be templated (determined by the extension of the filename).</p>
-<p>A supporting file only passes through the Markdown template processor if the filename ends in <code>.mustache</code>.</p>
+<p>A supporting file only passes through the Mustache template processor if the filename ends in <code>.mustache</code>.</p>
 <p>The path is considered relative to <code>embeddedTemplateDir</code>, <code>templateDir</code>, or a library subdirectory (refer to the Java client generator implementation for a prime example).</p>
 <blockquote>
 <p>If you want your readme to be generic (not templated), just rename the file to README.md and change <code>README.mustache</code> to <code>README.md</code> above.</p>
@@ -339,7 +340,7 @@ Name | Type | Description | Notes
 <p>When implementing a more robust generator, you'll want to run all tests as well: <code>mvn clean package</code></p>
 </blockquote>
 <h3><a class="anchor" aria-hidden="true" id="compile-sample"></a><a href="#compile-sample" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Compile Sample</h3>
-<p>The <code>new.sh</code> script created <code>bin/markdown-documentation-petstore.sh</code>:</p>
+<p>The <code>new.sh</code> script created <code>bin/common-mark-documentation-petstore.sh</code>:</p>
 <pre><code class="hljs css language-bash"><span class="hljs-meta">#!/bin/sh
 </span>
 SCRIPT=<span class="hljs-string">"<span class="hljs-variable">$0</span>"</span>
@@ -367,13 +368,13 @@ executable=<span class="hljs-string">"./modules/openapi-generator-cli/target/ope
 <span class="hljs-keyword">fi</span>
 
 <span class="hljs-comment"># if you've executed sbt assembly previously it will use that instead.</span>
-<span class="hljs-built_in">export</span> JAVA_OPTS=<span class="hljs-string">"<span class="hljs-variable">${JAVA_OPTS}</span> -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"</span>
-ags=<span class="hljs-string">"<span class="hljs-variable">$@</span> generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g markdown -o samples/documentation/petstore/markdown"</span>
+<span class="hljs-built_in">export</span> JAVA_OPTS=<span class="hljs-string">"<span class="hljs-variable">${JAVA_OPTS}</span> -Xmx1024M -DloggerPath=conf/log4j.properties"</span>
+ags=<span class="hljs-string">"<span class="hljs-variable">$@</span> generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g common-mark -o samples/documentation/petstore/common/mark"</span>
 
 java <span class="hljs-variable">${JAVA_OPTS}</span> -jar <span class="hljs-variable">${executable}</span> <span class="hljs-variable">${ags}</span>
 </code></pre>
 <p>This script is often used to apply default options for generation. A common option in most of these script is to define the template directory as the generator's directory under <code>resources</code>. This allows template maintainers to modify and test out template changes which don't require recompilation of the entire project. You'd still need to recompile the project in full if you add or modify behaviors to the generator (such as adding a <code>CliOption</code>).</p>
-<p>Add <code>-t modules/openapi-generator/src/main/resources/markdown-documentation</code> to <code>ags</code> line to simplify the evaluation of template-only modifications:</p>
+<p>Add <code>-t modules/openapi-generator/src/main/resources/common-mark-documentation</code> to <code>ags</code> line to simplify the evaluation of template-only modifications:</p>
 <pre><code class="hljs css language-diff">diff --git a/bin/markdown-documentation-petstore.sh b/bin/markdown-documentation-petstore.sh
 index d816771478..94b4ce6d12 100644
 <span class="hljs-comment">--- a/bin/markdown-documentation-petstore.sh</span>
@@ -381,9 +382,9 @@ index d816771478..94b4ce6d12 100644
 @@ -26,6 +26,6 @@ fi
 
  # if you've executed sbt assembly previously it will use that instead.
- export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-<span class="hljs-deletion">-ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g markdown -o samples/documentation/petstore/markdown"</span>
-<span class="hljs-addition">+ags="$@ generate -t modules/openapi-generator/src/main/resources/markdown-documentation -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g markdown -o samples/documentation/petstore/markdown"</span>
+ export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
+<span class="hljs-deletion">-ags="$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g common-mark -o samples/documentation/petstore/common-mark"</span>
+<span class="hljs-addition">+ags="$@ generate -t modules/openapi-generator/src/main/resources/common-mark-documentation -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g common-mark -o samples/documentation/petstore/common/markdown"</span>
 
  java ${JAVA_OPTS} -jar ${executable} ${ags}
 </code></pre>
@@ -393,7 +394,7 @@ index d816771478..94b4ce6d12 100644
 <pre><code class="hljs css language-bash">npm install --global markserv
 </code></pre>
 <p>Now, you can serve the output directory directly and test your links:</p>
-<pre><code class="hljs css language-bash">markserv samples/documentation/petstore/markdown
+<pre><code class="hljs css language-bash">markserv samples/documentation/petstore/common/markdown
 </code></pre>
 <p>That's it! You've created your first generator!</p>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 12/9/2019</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/contribute-building"><span class="arrow-prev">← </span><span>Building the code</span></a><a class="docs-next button" href="/docs/roadmap"><span>Roadmap</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#required-files">Required Files</a></li><li><a href="#newsh">new.sh</a><ul class="toc-headings"><li><a href="#review-generated-config">Review Generated Config</a></li><li><a href="#create-templates">Create templates</a></li><li><a href="#build-it">Build it</a></li><li><a href="#compile-sample">Compile Sample</a></li><li><a href="#verify-output">Verify output</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 12/19/2019</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/contribute-building"><span class="arrow-prev">← </span><span>Building the code</span></a><a class="docs-next button" href="/docs/roadmap"><span>Roadmap</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#required-files">Required Files</a></li><li><a href="#newsh">new.sh</a><ul class="toc-headings"><li><a href="#review-generated-config">Review Generated Config</a></li><li><a href="#create-templates">Create templates</a></li><li><a href="#build-it">Build it</a></li><li><a href="#compile-sample">Compile Sample</a></li><li><a href="#verify-output">Verify output</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
