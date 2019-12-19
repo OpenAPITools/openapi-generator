@@ -894,7 +894,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Android   | @jaz-ah (2017/09) |
 | Apex      |  |
 | Bash      | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09) |
-| C         | @zhemant (2018/11) |
+| C         | @zhemant (2018/11) @ityuhui (2019/12) |
 | C++       | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08) |
 | C#        | @mandrean (2017/08), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert) @frankyjuang (2019/09) |
 | Clojure   |  |
