@@ -237,6 +237,20 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             .flatMap(obj -> ((List<Map<String, Object>>) obj.get("models")).stream())
             .flatMap(obj -> {
                 final CodegenModel model = (CodegenModel) obj.get("model");
+                // circular references
+                model.vars.forEach(var -> {
+                    var.isCircularReference = model.allVars.stream()
+                        .filter(v -> var.baseName.equals(v.baseName))
+                        .map(v -> v.isCircularReference)
+                        .findAny()
+                        .orElse(false);
+                    CodegenProperty prop = var.items;
+                    while (prop != null) {
+                        prop.isCircularReference = var.isCircularReference;
+                        prop.required = true;
+                        prop = prop.items;
+                    }
+                });
                 // discriminators
                 if (model.discriminator != null && model.getChildren() != null) {
                     model.getChildren().forEach(child -> {

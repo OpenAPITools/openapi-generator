@@ -8,9 +8,16 @@ type {{classname}}
 type alias {{#discriminator}}Base{{/discriminator}}{{classname}} =
 {{#lambda.indented}}
     { {{#parent}}{{#allOf}}{{^-first}}, {{/-first}}{{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}: {{.}}
-{{/allOf}}, {{/parent}}{{#vars}}{{^-first}}, {{/-first}}{{name}} : {{#isNullable}}Maybe {{#isContainer}}({{/isContainer}}{{/isNullable}}{{^isNullable}}{{^required}}Maybe {{#isContainer}}({{/isContainer}}{{/required}}{{/isNullable}}{{#isListContainer}}List {{/isListContainer}}{{#isMapContainer}}Dict.Dict String {{/isMapContainer}}{{#isEnum}}{{classname}}{{enumName}}{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isContainer}}{{#isNullable}}){{/isNullable}}{{^isNullable}}{{^required}}){{/required}}{{/isNullable}}{{/isContainer}}
+{{/allOf}}, {{/parent}}{{#vars}}{{^-first}}, {{/-first}}{{name}} : {{#isCircularReference}}{{classname}}{{nameInCamelCase}}{{/isCircularReference}}{{^isCircularReference}}{{>recordField}}{{/isCircularReference}}
 {{/vars}}
-}{{/lambda.indented}}{{#vars}}{{#isEnum}}
+}{{/lambda.indented}}{{#vars}}{{#isCircularReference}}
+
+
+type {{classname}}{{nameInCamelCase}} = {{classname}}{{nameInCamelCase}} ({{>recordField}})
+
+
+unwrap{{classname}}{{nameInCamelCase}} : {{classname}}{{nameInCamelCase}} -> {{>recordField}}
+unwrap{{classname}}{{nameInCamelCase}} ({{classname}}{{nameInCamelCase}} {{name}}) = {{name}}{{/isCircularReference}}{{/vars}}{{#vars}}{{#isEnum}}
 
 
 {{>customType}}{{/isEnum}}{{/vars}}

@@ -1,7 +1,7 @@
 {{>licenseInfo}}
 
 module Api.Data exposing
-{{#models}}{{#model}}    {{#-first}}( {{/-first}}{{^-first}}, {{/-first}}{{classname}}{{#oneOf}}{{#-first}}(..){{/-first}}{{/oneOf}}{{#isEnum}}(..), {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Variants{{/isEnum}}{{^isEnum}}{{#vars}}{{#isEnum}}, {{classname}}{{nameInCamelCase}}(..), {{#lambda.camelcase}}{{classname}}{{nameInCamelCase}}{{/lambda.camelcase}}Variants{{/isEnum}}{{/vars}}{{/isEnum}}
+{{#models}}{{#model}}    {{#-first}}( {{/-first}}{{^-first}}, {{/-first}}{{classname}}{{#oneOf}}{{#-first}}(..){{/-first}}{{/oneOf}}{{#isEnum}}(..), {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Variants{{/isEnum}}{{^isEnum}}{{#vars}}{{#isCircularReference}}, {{classname}}{{nameInCamelCase}}(..){{/isCircularReference}}{{#isEnum}}, {{classname}}{{nameInCamelCase}}(..), {{#lambda.camelcase}}{{classname}}{{nameInCamelCase}}{{/lambda.camelcase}}Variants{{/isEnum}}{{/vars}}{{/isEnum}}
 {{/model}}{{/models}}{{#models}}{{#model}}    , encode{{classname}}
 {{/model}}{{/models}}{{#models}}{{#model}}    , {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder
 {{/model}}{{/models}}    )
@@ -87,9 +87,19 @@ decode key decoder =
     decodeChain (Json.Decode.field key decoder)
 
 
+decodeLazy : (a -> c) -> String -> Json.Decode.Decoder a -> Json.Decode.Decoder (c -> b) -> Json.Decode.Decoder b
+decodeLazy f key decoder =
+    decodeChainLazy f (Json.Decode.field key decoder)
+
+
 decodeNullable : String -> Json.Decode.Decoder a -> Json.Decode.Decoder (Maybe a -> b) -> Json.Decode.Decoder b
 decodeNullable key decoder =
     decodeChain (maybeDecoder key decoder Nothing)
+
+
+decodeNullableLazy : (Maybe a -> c) -> String -> Json.Decode.Decoder a -> Json.Decode.Decoder (c -> b) -> Json.Decode.Decoder b
+decodeNullableLazy f key decoder =
+    decodeChainLazy f (maybeDecoder key decoder Nothing)
 
 
 maybeDecode : String -> Json.Decode.Decoder a -> Maybe a -> Json.Decode.Decoder (Maybe a -> b) -> Json.Decode.Decoder b
@@ -98,9 +108,20 @@ maybeDecode key decoder fallback =
     decodeChain (maybeDecoder key decoder fallback)
 
 
+maybeDecodeLazy : (Maybe a -> c) -> String -> Json.Decode.Decoder a -> Maybe a -> Json.Decode.Decoder (c -> b) -> Json.Decode.Decoder b
+maybeDecodeLazy f key decoder fallback =
+    -- let's be kind to null-values as well
+    decodeChainLazy f (maybeDecoder key decoder fallback)
+
+
 maybeDecodeNullable : String -> Json.Decode.Decoder a -> Maybe a -> Json.Decode.Decoder (Maybe a -> b) -> Json.Decode.Decoder b
 maybeDecodeNullable key decoder fallback =
     decodeChain (maybeDecoder key decoder fallback)
+
+
+maybeDecodeNullableLazy : (Maybe a -> c) -> String -> Json.Decode.Decoder a -> Maybe a -> Json.Decode.Decoder (c -> b) -> Json.Decode.Decoder b
+maybeDecodeNullableLazy f key decoder fallback =
+    decodeChainLazy f (maybeDecoder key decoder fallback)
 
 
 maybeDecoder : String -> Json.Decode.Decoder a -> Maybe a -> Json.Decode.Decoder (Maybe a)
@@ -132,3 +153,8 @@ maybeDecoder key decoder fallback =
 decodeChain : Json.Decode.Decoder a -> Json.Decode.Decoder (a -> b) -> Json.Decode.Decoder b
 decodeChain =
     Json.Decode.map2 (|>)
+
+
+decodeChainLazy : (a -> c) -> Json.Decode.Decoder a -> Json.Decode.Decoder (c -> b) -> Json.Decode.Decoder b
+decodeChainLazy f =
+    decodeChain << Json.Decode.map f
