@@ -48,10 +48,6 @@ void {{classname}}::stopService() {
 		std::bind(&{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler, this,
 			std::placeholders::_1));
 	{{/vendorExtensions.x-codegen-otherMethods}}
-
-	{{#allParams}}{{#defaultValue}}{{^isListContainer}}{{paramName}} = {{{defaultValue}}};
-	{{/isListContainer}}{{/defaultValue}}{{^defaultValue}}{{#isModel}}{{paramName}} = std::make_shared<{{baseType}}>();
-	{{/isModel}}{{/defaultValue}}{{/allParams}}
 }
 
 {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::~{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource()
