@@ -17,13 +17,9 @@
 
 package org.openapitools.codegen;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
-public class CodegenParameter {
+public class CodegenParameter implements IJsonSchemaValidationProperties {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
             secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode;
@@ -43,10 +39,231 @@ public class CodegenParameter {
     public CodegenProperty mostInnerItems;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation;
+    public boolean isNullable;
+    /**
+     * Determines whether this parameter is mandatory. If the parameter is in "path",
+     * this property is required and its value MUST be true. Otherwise, the property
+     * MAY be included and its default value is false.
+     */
+    public boolean required;
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor17.
+     */
+    public String maximum;
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor17
+     */
+    public boolean exclusiveMaximum;
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor21
+     */
+    public String minimum;
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor21
+     */
+    public boolean exclusiveMinimum;
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor26
+     */
+    public Integer maxLength;
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor29
+     */
+    public Integer minLength;
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor33
+     */
+    public String pattern;
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor42
+     */
+    public Integer maxItems;
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor45
+     */
+    public Integer minItems;
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor49
+     */
+    public boolean uniqueItems;
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor14
+     */
+    public Number multipleOf;
+    private Integer maxProperties;
+    private Integer minProperties;
+
+    public CodegenParameter copy() {
+        CodegenParameter output = new CodegenParameter();
+        output.isFile = this.isFile;
+        output.hasMore = this.hasMore;
+        output.isContainer = this.isContainer;
+        output.secondaryParam = this.secondaryParam;
+        output.baseName = this.baseName;
+        output.paramName = this.paramName;
+        output.dataType = this.dataType;
+        output.datatypeWithEnum = this.datatypeWithEnum;
+        output.enumName = this.enumName;
+        output.dataFormat = this.dataFormat;
+        output.collectionFormat = this.collectionFormat;
+        output.isCollectionFormatMulti = this.isCollectionFormatMulti;
+        output.isPrimitiveType = this.isPrimitiveType;
+        output.isModel = this.isModel;
+        output.description = this.description;
+        output.unescapedDescription = this.unescapedDescription;
+        output.baseType = this.baseType;
+        output.isFormParam = this.isFormParam;
+        output.isQueryParam = this.isQueryParam;
+        output.isPathParam = this.isPathParam;
+        output.isHeaderParam = this.isHeaderParam;
+        output.isCookieParam = this.isCookieParam;
+        output.isBodyParam = this.isBodyParam;
+        output.required = this.required;
+        output.maximum = this.maximum;
+        output.exclusiveMaximum = this.exclusiveMaximum;
+        output.minimum = this.minimum;
+        output.exclusiveMinimum = this.exclusiveMinimum;
+        output.maxLength = this.maxLength;
+        output.minLength = this.minLength;
+        output.pattern = this.pattern;
+        output.maxItems = this.maxItems;
+        output.minItems = this.minItems;
+        output.uniqueItems = this.uniqueItems;
+        output.multipleOf = this.multipleOf;
+        output.jsonSchema = this.jsonSchema;
+        output.defaultValue = this.defaultValue;
+        output.example = this.example;
+        output.isEnum = this.isEnum;
+        output.maxProperties = this.maxProperties;
+        output.minProperties = this.minProperties;
+        output.maximum = this.maximum;
+        output.minimum = this.minimum;
+        output.pattern = this.pattern;
+
+        if (this._enum != null) {
+            output._enum = new ArrayList<String>(this._enum);
+        }
+        if (this.allowableValues != null) {
+            output.allowableValues = new HashMap<String, Object>(this.allowableValues);
+        }
+        if (this.items != null) {
+            output.items = this.items;
+        }
+        if (this.mostInnerItems != null) {
+            output.mostInnerItems = this.mostInnerItems;
+        }
+        if (this.vendorExtensions != null) {
+            output.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
+        }
+        output.hasValidation = this.hasValidation;
+        output.isNullable = this.isNullable;
+        output.isBinary = this.isBinary;
+        output.isByteArray = this.isByteArray;
+        output.isString = this.isString;
+        output.isNumeric = this.isNumeric;
+        output.isInteger = this.isInteger;
+        output.isLong = this.isLong;
+        output.isDouble = this.isDouble;
+        output.isFloat = this.isFloat;
+        output.isNumber = this.isNumber;
+        output.isBoolean = this.isBoolean;
+        output.isDate = this.isDate;
+        output.isDateTime = this.isDateTime;
+        output.isUuid = this.isUuid;
+        output.isUri = this.isUri;
+        output.isEmail = this.isEmail;
+        output.isFreeFormObject = this.isFreeFormObject;
+        output.isListContainer = this.isListContainer;
+        output.isMapContainer = this.isMapContainer;
+        output.isExplode = this.isExplode;
+        output.style = this.style;
+
+        return output;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), multipleOf);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CodegenParameter)) return false;
+        CodegenParameter that = (CodegenParameter) o;
+        return isFormParam == that.isFormParam &&
+                isQueryParam == that.isQueryParam &&
+                isPathParam == that.isPathParam &&
+                isHeaderParam == that.isHeaderParam &&
+                isCookieParam == that.isCookieParam &&
+                isBodyParam == that.isBodyParam &&
+                hasMore == that.hasMore &&
+                isContainer == that.isContainer &&
+                secondaryParam == that.secondaryParam &&
+                isCollectionFormatMulti == that.isCollectionFormatMulti &&
+                isPrimitiveType == that.isPrimitiveType &&
+                isModel == that.isModel &&
+                isExplode == that.isExplode &&
+                isString == that.isString &&
+                isNumeric == that.isNumeric &&
+                isInteger == that.isInteger &&
+                isLong == that.isLong &&
+                isNumber == that.isNumber &&
+                isFloat == that.isFloat &&
+                isDouble == that.isDouble &&
+                isByteArray == that.isByteArray &&
+                isBinary == that.isBinary &&
+                isBoolean == that.isBoolean &&
+                isDate == that.isDate &&
+                isDateTime == that.isDateTime &&
+                isUuid == that.isUuid &&
+                isUri == that.isUri &&
+                isEmail == that.isEmail &&
+                isFreeFormObject == that.isFreeFormObject &&
+                isListContainer == that.isListContainer &&
+                isMapContainer == that.isMapContainer &&
+                isFile == that.isFile &&
+                isEnum == that.isEnum &&
+                hasValidation == that.hasValidation &&
+                isNullable == that.isNullable &&
+                required == that.required &&
+                getExclusiveMaximum() == that.getExclusiveMaximum() &&
+                getExclusiveMinimum() == that.getExclusiveMinimum() &&
+                getUniqueItems() == that.getUniqueItems() &&
+                Objects.equals(baseName, that.baseName) &&
+                Objects.equals(paramName, that.paramName) &&
+                Objects.equals(dataType, that.dataType) &&
+                Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
+                Objects.equals(dataFormat, that.dataFormat) &&
+                Objects.equals(collectionFormat, that.collectionFormat) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(unescapedDescription, that.unescapedDescription) &&
+                Objects.equals(baseType, that.baseType) &&
+                Objects.equals(defaultValue, that.defaultValue) &&
+                Objects.equals(enumName, that.enumName) &&
+                Objects.equals(style, that.style) &&
+                Objects.equals(example, that.example) &&
+                Objects.equals(jsonSchema, that.jsonSchema) &&
+                Objects.equals(_enum, that._enum) &&
+                Objects.equals(allowableValues, that.allowableValues) &&
+                Objects.equals(items, that.items) &&
+                Objects.equals(mostInnerItems, that.mostInnerItems) &&
+                Objects.equals(vendorExtensions, that.vendorExtensions) &&
+                Objects.equals(getMaxProperties(), that.getMaxProperties()) &&
+                Objects.equals(getMinProperties(), that.getMinProperties()) &&
+                Objects.equals(getMaximum(), that.getMaximum()) &&
+                Objects.equals(getMinimum(), that.getMinimum()) &&
+                Objects.equals(getMaxLength(), that.getMaxLength()) &&
+                Objects.equals(getMinLength(), that.getMinLength()) &&
+                Objects.equals(getPattern(), that.getPattern()) &&
+                Objects.equals(getMaxItems(), that.getMaxItems()) &&
+                Objects.equals(getMinItems(), that.getMinItems()) &&
+                Objects.equals(multipleOf, that.multipleOf);
+    }
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("CodegenParameter{");
+        final StringBuilder sb = new StringBuilder("CodegenParameter{");
         sb.append("isFormParam=").append(isFormParam);
         sb.append(", isQueryParam=").append(isQueryParam);
         sb.append(", isPathParam=").append(isPathParam);
@@ -100,6 +317,8 @@ public class CodegenParameter {
         sb.append(", mostInnerItems=").append(mostInnerItems);
         sb.append(", vendorExtensions=").append(vendorExtensions);
         sb.append(", hasValidation=").append(hasValidation);
+        sb.append(", maxProperties=").append(maxProperties);
+        sb.append(", minProperties=").append(minProperties);
         sb.append(", isNullable=").append(isNullable);
         sb.append(", required=").append(required);
         sb.append(", maximum='").append(maximum).append('\'');
@@ -118,226 +337,123 @@ public class CodegenParameter {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CodegenParameter that = (CodegenParameter) o;
-        return isFormParam == that.isFormParam &&
-                isQueryParam == that.isQueryParam &&
-                isPathParam == that.isPathParam &&
-                isHeaderParam == that.isHeaderParam &&
-                isCookieParam == that.isCookieParam &&
-                isBodyParam == that.isBodyParam &&
-                hasMore == that.hasMore &&
-                isContainer == that.isContainer &&
-                secondaryParam == that.secondaryParam &&
-                isCollectionFormatMulti == that.isCollectionFormatMulti &&
-                isPrimitiveType == that.isPrimitiveType &&
-                isModel == that.isModel &&
-                isExplode == that.isExplode &&
-                isString == that.isString &&
-                isNumeric == that.isNumeric &&
-                isInteger == that.isInteger &&
-                isLong == that.isLong &&
-                isNumber == that.isNumber &&
-                isFloat == that.isFloat &&
-                isDouble == that.isDouble &&
-                isByteArray == that.isByteArray &&
-                isBinary == that.isBinary &&
-                isBoolean == that.isBoolean &&
-                isDate == that.isDate &&
-                isDateTime == that.isDateTime &&
-                isUuid == that.isUuid &&
-                isUri == that.isUri &&
-                isEmail == that.isEmail &&
-                isFreeFormObject == that.isFreeFormObject &&
-                isListContainer == that.isListContainer &&
-                isMapContainer == that.isMapContainer &&
-                isFile == that.isFile &&
-                isEnum == that.isEnum &&
-                hasValidation == that.hasValidation &&
-                isNullable == that.isNullable &&
-                required == that.required &&
-                exclusiveMaximum == that.exclusiveMaximum &&
-                exclusiveMinimum == that.exclusiveMinimum &&
-                uniqueItems == that.uniqueItems &&
-                Objects.equals(baseName, that.baseName) &&
-                Objects.equals(paramName, that.paramName) &&
-                Objects.equals(dataType, that.dataType) &&
-                Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
-                Objects.equals(dataFormat, that.dataFormat) &&
-                Objects.equals(collectionFormat, that.collectionFormat) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(unescapedDescription, that.unescapedDescription) &&
-                Objects.equals(baseType, that.baseType) &&
-                Objects.equals(defaultValue, that.defaultValue) &&
-                Objects.equals(enumName, that.enumName) &&
-                Objects.equals(style, that.style) &&
-                Objects.equals(example, that.example) &&
-                Objects.equals(jsonSchema, that.jsonSchema) &&
-                Objects.equals(_enum, that._enum) &&
-                Objects.equals(allowableValues, that.allowableValues) &&
-                Objects.equals(items, that.items) &&
-                Objects.equals(mostInnerItems, that.mostInnerItems) &&
-                Objects.equals(vendorExtensions, that.vendorExtensions) &&
-                Objects.equals(maximum, that.maximum) &&
-                Objects.equals(minimum, that.minimum) &&
-                Objects.equals(maxLength, that.maxLength) &&
-                Objects.equals(minLength, that.minLength) &&
-                Objects.equals(pattern, that.pattern) &&
-                Objects.equals(maxItems, that.maxItems) &&
-                Objects.equals(minItems, that.minItems) &&
-                Objects.equals(multipleOf, that.multipleOf);
+    public String getPattern() {
+        return pattern;
     }
 
     @Override
-    public int hashCode() {
-
-        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore,
-                isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName,
-                paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription,
-                baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong,
-                isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri,
-                isEmail, isFreeFormObject, isListContainer, isMapContainer, isFile, isEnum, _enum, allowableValues,
-                items, mostInnerItems, vendorExtensions, hasValidation, isNullable, required, maximum,
-                exclusiveMaximum, minimum, exclusiveMinimum, maxLength, minLength, pattern, maxItems, minItems,
-                uniqueItems, multipleOf);
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
     }
 
-    public boolean isNullable;
+    @Override
+    public String getMaximum() {
+        return maximum;
+    }
 
-    /**
-     * Determines whether this parameter is mandatory. If the parameter is in "path",
-     * this property is required and its value MUST be true. Otherwise, the property
-     * MAY be included and its default value is false.
-     */
-    public boolean required;
+    @Override
+    public void setMaximum(String maximum) {
+        this.maximum = maximum;
+    }
 
-    /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor17.
-     */
-    public String maximum;
-    /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor17
-     */
-    public boolean exclusiveMaximum;
-    /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor21
-     */
-    public String minimum;
-    /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor21
-     */
-    public boolean exclusiveMinimum;
-    /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor26
-     */
-    public Integer maxLength;
-    /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor29
-     */
-    public Integer minLength;
-    /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor33
-     */
-    public String pattern;
-    /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor42
-     */
-    public Integer maxItems;
-    /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor45
-     */
-    public Integer minItems;
-    /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor49
-     */
-    public boolean uniqueItems;
-    /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor14
-     */
-    public Number multipleOf;
+    @Override
+    public String getMinimum() {
+        return minimum;
+    }
 
-    public CodegenParameter copy() {
-        CodegenParameter output = new CodegenParameter();
-        output.isFile = this.isFile;
-        output.hasMore = this.hasMore;
-        output.isContainer = this.isContainer;
-        output.secondaryParam = this.secondaryParam;
-        output.baseName = this.baseName;
-        output.paramName = this.paramName;
-        output.dataType = this.dataType;
-        output.datatypeWithEnum = this.datatypeWithEnum;
-        output.enumName = this.enumName;
-        output.dataFormat = this.dataFormat;
-        output.collectionFormat = this.collectionFormat;
-        output.isCollectionFormatMulti = this.isCollectionFormatMulti;
-        output.isPrimitiveType = this.isPrimitiveType;
-        output.isModel = this.isModel;
-        output.description = this.description;
-        output.unescapedDescription = this.unescapedDescription;
-        output.baseType = this.baseType;
-        output.isFormParam = this.isFormParam;
-        output.isQueryParam = this.isQueryParam;
-        output.isPathParam = this.isPathParam;
-        output.isHeaderParam = this.isHeaderParam;
-        output.isCookieParam = this.isCookieParam;
-        output.isBodyParam = this.isBodyParam;
-        output.required = this.required;
-        output.maximum = this.maximum;
-        output.exclusiveMaximum = this.exclusiveMaximum;
-        output.minimum = this.minimum;
-        output.exclusiveMinimum = this.exclusiveMinimum;
-        output.maxLength = this.maxLength;
-        output.minLength = this.minLength;
-        output.pattern = this.pattern;
-        output.maxItems = this.maxItems;
-        output.minItems = this.minItems;
-        output.uniqueItems = this.uniqueItems;
-        output.multipleOf = this.multipleOf;
-        output.jsonSchema = this.jsonSchema;
-        output.defaultValue = this.defaultValue;
-        output.example = this.example;
-        output.isEnum = this.isEnum;
-        if (this._enum != null) {
-            output._enum = new ArrayList<String>(this._enum);
-        }
-        if (this.allowableValues != null) {
-            output.allowableValues = new HashMap<String, Object>(this.allowableValues);
-        }
-        if (this.items != null) {
-            output.items = this.items;
-        }
-        if (this.mostInnerItems != null) {
-            output.mostInnerItems = this.mostInnerItems;
-        }
-        if (this.vendorExtensions != null) {
-            output.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
-        }
-        output.hasValidation = this.hasValidation;
-        output.isNullable = this.isNullable;
-        output.isBinary = this.isBinary;
-        output.isByteArray = this.isByteArray;
-        output.isString = this.isString;
-        output.isNumeric = this.isNumeric;
-        output.isInteger = this.isInteger;
-        output.isLong = this.isLong;
-        output.isDouble = this.isDouble;
-        output.isFloat = this.isFloat;
-        output.isNumber = this.isNumber;
-        output.isBoolean = this.isBoolean;
-        output.isDate = this.isDate;
-        output.isDateTime = this.isDateTime;
-        output.isUuid = this.isUuid;
-        output.isUri = this.isUri;
-        output.isEmail = this.isEmail;
-        output.isFreeFormObject = this.isFreeFormObject;
-        output.isListContainer = this.isListContainer;
-        output.isMapContainer = this.isMapContainer;
-        output.isExplode = this.isExplode;
-        output.style = this.style;
+    @Override
+    public void setMinimum(String minimum) {
+        this.minimum = minimum;
+    }
 
-        return output;
+    @Override
+    public boolean getExclusiveMaximum() {
+        return exclusiveMaximum;
+    }
+
+    @Override
+    public void setExclusiveMaximum(boolean exclusiveMaximum) {
+        this.exclusiveMaximum = exclusiveMaximum;
+    }
+
+    @Override
+    public boolean getExclusiveMinimum() {
+        return exclusiveMinimum;
+    }
+
+    @Override
+    public void setExclusiveMinimum(boolean exclusiveMinimum) {
+        this.exclusiveMinimum = exclusiveMinimum;
+    }
+
+    @Override
+    public Integer getMinLength() {
+        return minLength;
+    }
+
+    @Override
+    public void setMinLength(Integer minLength) {
+        this.minLength = minLength;
+    }
+
+    @Override
+    public Integer getMaxLength() {
+        return maxLength;
+    }
+
+    @Override
+    public void setMaxLength(Integer maxLength) {
+        this.maxLength = maxLength;
+    }
+
+    @Override
+    public Integer getMinItems() {
+        return minItems;
+    }
+
+    @Override
+    public void setMinItems(Integer minItems) {
+        this.minItems = minItems;
+    }
+
+    @Override
+    public Integer getMaxItems() {
+        return maxItems;
+    }
+
+    @Override
+    public void setMaxItems(Integer maxItems) {
+        this.maxItems = maxItems;
+    }
+
+    @Override
+    public boolean getUniqueItems() {
+        return uniqueItems;
+    }
+
+    @Override
+    public void setUniqueItems(boolean uniqueItems) {
+        this.uniqueItems = uniqueItems;
+    }
+
+    @Override
+    public Integer getMinProperties() {
+        return minProperties;
+    }
+
+    @Override
+    public void setMinProperties(Integer minProperties) {
+        this.minProperties = minProperties;
+    }
+
+    @Override
+    public Integer getMaxProperties() {
+        return maxProperties;
+    }
+
+    @Override
+    public void setMaxProperties(Integer maxProperties) {
+        this.maxProperties = maxProperties;
     }
 
 }

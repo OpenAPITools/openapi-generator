@@ -106,10 +106,10 @@ export class PetService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public addPet(requestParameters: AddPetRequestParams, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public addPet(requestParameters: AddPetRequestParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public addPet(requestParameters: AddPetRequestParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public addPet(requestParameters: AddPetRequestParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public addPet(requestParameters: AddPetRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public addPet(requestParameters: AddPetRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public addPet(requestParameters: AddPetRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public addPet(requestParameters: AddPetRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         const body = requestParameters.body;
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling addPet.');
@@ -125,10 +125,13 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
@@ -167,10 +170,10 @@ export class PetService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deletePet(requestParameters: DeletePetRequestParams, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deletePet(requestParameters: DeletePetRequestParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deletePet(requestParameters: DeletePetRequestParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deletePet(requestParameters: DeletePetRequestParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deletePet(requestParameters: DeletePetRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public deletePet(requestParameters: DeletePetRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public deletePet(requestParameters: DeletePetRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public deletePet(requestParameters: DeletePetRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         const petId = requestParameters.petId;
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
@@ -190,10 +193,13 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
@@ -222,10 +228,10 @@ export class PetService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findPetsByStatus(requestParameters: FindPetsByStatusRequestParams, observe?: 'body', reportProgress?: boolean): Observable<Array<Pet>>;
-    public findPetsByStatus(requestParameters: FindPetsByStatusRequestParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Pet>>>;
-    public findPetsByStatus(requestParameters: FindPetsByStatusRequestParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Pet>>>;
-    public findPetsByStatus(requestParameters: FindPetsByStatusRequestParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findPetsByStatus(requestParameters: FindPetsByStatusRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<Array<Pet>>;
+    public findPetsByStatus(requestParameters: FindPetsByStatusRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<HttpResponse<Array<Pet>>>;
+    public findPetsByStatus(requestParameters: FindPetsByStatusRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<HttpEvent<Array<Pet>>>;
+    public findPetsByStatus(requestParameters: FindPetsByStatusRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<any> {
         const status = requestParameters.status;
         if (status === null || status === undefined) {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
@@ -246,12 +252,15 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/xml',
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
@@ -281,10 +290,10 @@ export class PetService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findPetsByTags(requestParameters: FindPetsByTagsRequestParams, observe?: 'body', reportProgress?: boolean): Observable<Array<Pet>>;
-    public findPetsByTags(requestParameters: FindPetsByTagsRequestParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Pet>>>;
-    public findPetsByTags(requestParameters: FindPetsByTagsRequestParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Pet>>>;
-    public findPetsByTags(requestParameters: FindPetsByTagsRequestParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findPetsByTags(requestParameters: FindPetsByTagsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<Array<Pet>>;
+    public findPetsByTags(requestParameters: FindPetsByTagsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<HttpResponse<Array<Pet>>>;
+    public findPetsByTags(requestParameters: FindPetsByTagsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<HttpEvent<Array<Pet>>>;
+    public findPetsByTags(requestParameters: FindPetsByTagsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<any> {
         const tags = requestParameters.tags;
         if (tags === null || tags === undefined) {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
@@ -305,12 +314,15 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/xml',
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
@@ -340,10 +352,10 @@ export class PetService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPetById(requestParameters: GetPetByIdRequestParams, observe?: 'body', reportProgress?: boolean): Observable<Pet>;
-    public getPetById(requestParameters: GetPetByIdRequestParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Pet>>;
-    public getPetById(requestParameters: GetPetByIdRequestParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Pet>>;
-    public getPetById(requestParameters: GetPetByIdRequestParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getPetById(requestParameters: GetPetByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<Pet>;
+    public getPetById(requestParameters: GetPetByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<HttpResponse<Pet>>;
+    public getPetById(requestParameters: GetPetByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<HttpEvent<Pet>>;
+    public getPetById(requestParameters: GetPetByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<any> {
         const petId = requestParameters.petId;
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
@@ -356,12 +368,15 @@ export class PetService {
             headers = headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/xml',
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
@@ -389,10 +404,10 @@ export class PetService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updatePet(requestParameters: UpdatePetRequestParams, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updatePet(requestParameters: UpdatePetRequestParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updatePet(requestParameters: UpdatePetRequestParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updatePet(requestParameters: UpdatePetRequestParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updatePet(requestParameters: UpdatePetRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public updatePet(requestParameters: UpdatePetRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public updatePet(requestParameters: UpdatePetRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public updatePet(requestParameters: UpdatePetRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         const body = requestParameters.body;
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling updatePet.');
@@ -408,10 +423,13 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
@@ -450,10 +468,10 @@ export class PetService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updatePetWithForm(requestParameters: UpdatePetWithFormRequestParams, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updatePetWithForm(requestParameters: UpdatePetWithFormRequestParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updatePetWithForm(requestParameters: UpdatePetWithFormRequestParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updatePetWithForm(requestParameters: UpdatePetWithFormRequestParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updatePetWithForm(requestParameters: UpdatePetWithFormRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public updatePetWithForm(requestParameters: UpdatePetWithFormRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public updatePetWithForm(requestParameters: UpdatePetWithFormRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public updatePetWithForm(requestParameters: UpdatePetWithFormRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         const petId = requestParameters.petId;
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
@@ -471,10 +489,13 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
@@ -525,10 +546,10 @@ export class PetService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public uploadFile(requestParameters: UploadFileRequestParams, observe?: 'body', reportProgress?: boolean): Observable<ApiResponse>;
-    public uploadFile(requestParameters: UploadFileRequestParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ApiResponse>>;
-    public uploadFile(requestParameters: UploadFileRequestParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ApiResponse>>;
-    public uploadFile(requestParameters: UploadFileRequestParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public uploadFile(requestParameters: UploadFileRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<ApiResponse>;
+    public uploadFile(requestParameters: UploadFileRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpResponse<ApiResponse>>;
+    public uploadFile(requestParameters: UploadFileRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json'}): Observable<HttpEvent<ApiResponse>>;
+    public uploadFile(requestParameters: UploadFileRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json'}): Observable<any> {
         const petId = requestParameters.petId;
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
@@ -546,11 +567,14 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }

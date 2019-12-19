@@ -29,10 +29,12 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.IJsonSchemaValidationProperties;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -1063,5 +1065,34 @@ public class ModelUtils {
         }
 
         return false;
+    }
+
+    public static void syncValidationProperties(Schema schema, IJsonSchemaValidationProperties target){
+        if (schema != null && target != null) {
+            target.setPattern(schema.getPattern());
+            BigDecimal minimum = schema.getMinimum();
+            BigDecimal maximum = schema.getMaximum();
+            Boolean exclusiveMinimum = schema.getExclusiveMinimum();
+            Boolean exclusiveMaximum = schema.getExclusiveMaximum();
+            Integer minLength = schema.getMinLength();
+            Integer maxLength = schema.getMaxLength();
+            Integer minItems = schema.getMinItems();
+            Integer maxItems = schema.getMaxItems();
+            Boolean uniqueItems = schema.getUniqueItems();
+            Integer minProperties = schema.getMinProperties();
+            Integer maxProperties = schema.getMaxProperties();
+
+            if (minimum != null) target.setMinimum(String.valueOf(minimum));
+            if (maximum != null) target.setMaximum(String.valueOf(maximum));
+            if (exclusiveMinimum != null) target.setExclusiveMinimum(exclusiveMinimum);
+            if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
+            if (minLength != null) target.setMinLength(minLength);
+            if (maxLength != null) target.setMaxLength(maxLength);
+            if (minItems != null) target.setMinItems(minItems);
+            if (maxItems != null) target.setMaxItems(maxItems);
+            if (uniqueItems != null) target.setUniqueItems(uniqueItems);
+            if (minProperties != null) target.setMinProperties(minProperties);
+            if (maxProperties != null) target.setMaxProperties(maxProperties);
+        }
     }
 }

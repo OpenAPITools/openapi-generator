@@ -41,8 +41,13 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context, bod
 		localVarReturnValue  Client
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/another-fake/dummy"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "AnotherFakeApiService.Call123TestSpecialTags")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/another-fake/dummy"
+
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}

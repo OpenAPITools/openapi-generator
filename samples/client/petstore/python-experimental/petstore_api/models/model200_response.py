@@ -10,31 +10,23 @@
 """
 
 
-import pprint  # noqa: F401
+from __future__ import absolute_import
 import re  # noqa: F401
+import sys  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import (  # noqa: F401
-    ApiKeyError,
-    ApiTypeError,
-    ApiValueError,
-)
 from petstore_api.model_utils import (  # noqa: F401
+    ModelComposed,
     ModelNormal,
     ModelSimple,
-    check_allowed_values,
-    check_validations,
     date,
     datetime,
     file_type,
-    get_simple_class,
     int,
-    model_to_dict,
     none_type,
     str,
-    type_error_message,
-    validate_and_convert_types
+    validate_get_composed_info,
 )
 
 
@@ -67,11 +59,6 @@ class Model200Response(ModelNormal):
     allowed_values = {
     }
 
-    attribute_map = {
-        'name': 'name',  # noqa: E501
-        '_class': 'class'  # noqa: E501
-    }
-
     openapi_types = {
         'name': (int,),  # noqa: E501
         '_class': (str,),  # noqa: E501
@@ -82,10 +69,29 @@ class Model200Response(ModelNormal):
 
     additional_properties_type = None
 
-    discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
+
+    attribute_map = {
+        'name': 'name',  # noqa: E501
+        '_class': 'class',  # noqa: E501
+    }
+
+    @staticmethod
+    def _composed_schemas():
+        return None
+
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_from_server',
+        '_path_to_item',
+        '_configuration',
+    ])
 
     def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
-        """Model200Response - a model defined in OpenAPI
+        """model200_response.Model200Response - a model defined in OpenAPI
 
 
         Keyword Args:
@@ -105,6 +111,7 @@ class Model200Response(ModelNormal):
             name (int): [optional]  # noqa: E501
             _class (str): [optional]  # noqa: E501
         """
+
         self._data_store = {}
         self._check_type = _check_type
         self._from_server = _from_server
@@ -112,141 +119,4 @@ class Model200Response(ModelNormal):
         self._configuration = _configuration
 
         for var_name, var_value in six.iteritems(kwargs):
-            self.__set_item(var_name, var_value)
-
-    def __set_item(self, name, value):
-        path_to_item = []
-        if self._path_to_item:
-            path_to_item.extend(self._path_to_item)
-        path_to_item.append(name)
-
-        if name in self.openapi_types:
-            required_types_mixed = self.openapi_types[name]
-        elif self.additional_properties_type is None:
-            raise ApiKeyError(
-                "{0} has no key '{1}'".format(type(self).__name__, name),
-                path_to_item
-            )
-        elif self.additional_properties_type is not None:
-            required_types_mixed = self.additional_properties_type
-
-        if get_simple_class(name) != str:
-            error_msg = type_error_message(
-                var_name=name,
-                var_value=name,
-                valid_classes=(str,),
-                key_type=True
-            )
-            raise ApiTypeError(
-                error_msg,
-                path_to_item=path_to_item,
-                valid_classes=(str,),
-                key_type=True
-            )
-
-        if self._check_type:
-            value = validate_and_convert_types(
-                value, required_types_mixed, path_to_item, self._from_server,
-                self._check_type, configuration=self._configuration)
-        if (name,) in self.allowed_values:
-            check_allowed_values(
-                self.allowed_values,
-                (name,),
-                value
-            )
-        if (name,) in self.validations:
-            check_validations(
-                self.validations,
-                (name,),
-                value
-            )
-        self._data_store[name] = value
-
-    def __get_item(self, name):
-        if name in self._data_store:
-            return self._data_store[name]
-
-        path_to_item = []
-        if self._path_to_item:
-            path_to_item.extend(self._path_to_item)
-        path_to_item.append(name)
-        raise ApiKeyError(
-            "{0} has no key '{1}'".format(type(self).__name__, name),
-            [name]
-        )
-
-    def __setitem__(self, name, value):
-        """this allows us to set values with instance[field_name] = val"""
-        self.__set_item(name, value)
-
-    def __getitem__(self, name):
-        """this allows us to get a value with val = instance[field_name]"""
-        return self.__get_item(name)
-
-    @property
-    def name(self):
-        """Gets the name of this Model200Response.  # noqa: E501
-
-        Returns:
-            (int): The name of this Model200Response.  # noqa: E501
-        """
-        return self.__get_item('name')
-
-    @name.setter
-    def name(self, value):
-        """Sets the name of this Model200Response.  # noqa: E501
-        """
-        return self.__set_item('name', value)
-
-    @property
-    def _class(self):
-        """Gets the _class of this Model200Response.  # noqa: E501
-
-        Returns:
-            (str): The _class of this Model200Response.  # noqa: E501
-        """
-        return self.__get_item('_class')
-
-    @_class.setter
-    def _class(self, value):
-        """Sets the _class of this Model200Response.  # noqa: E501
-        """
-        return self.__set_item('_class', value)
-
-    def to_dict(self):
-        """Returns the model properties as a dict"""
-        return model_to_dict(self, serialize=False)
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
-
-    def __repr__(self):
-        """For `print` and `pprint`"""
-        return self.to_str()
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, Model200Response):
-            return False
-
-        if not set(self._data_store.keys()) == set(other._data_store.keys()):
-            return False
-        for _var_name, this_val in six.iteritems(self._data_store):
-            that_val = other._data_store[_var_name]
-            types = set()
-            types.add(this_val.__class__)
-            types.add(that_val.__class__)
-            vals_equal = this_val == that_val
-            if (not six.PY3 and
-                    len(types) == 2 and unicode in types):  # noqa: F821
-                vals_equal = (
-                    this_val.encode('utf-8') == that_val.encode('utf-8')
-                )
-            if not vals_equal:
-                return False
-        return True
-
-    def __ne__(self, other):
-        """Returns true if both objects are not equal"""
-        return not self == other
+            setattr(self, var_name, var_value)

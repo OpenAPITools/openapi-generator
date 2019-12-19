@@ -1,0 +1,23 @@
+    def __init__(self{{#requiredVars}}{{^defaultValue}}, {{name}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{#defaultValue}}, {{name}}={{{defaultValue}}}{{/defaultValue}}{{/requiredVars}}, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """{{classname}} - a model defined in OpenAPI
+
+{{#requiredVars}}{{^hasMore}}        Args:{{/hasMore}}{{/requiredVars}}{{#requiredVars}}{{^defaultValue}}
+            {{name}} ({{{dataType}}}):{{#description}} {{description}}{{/description}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{^hasMore}}
+{{/hasMore}}{{/requiredVars}}
+        Keyword Args:{{#requiredVars}}{{#defaultValue}}
+            {{name}} ({{{dataType}}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]  # noqa: E501{{/defaultValue}}{{/requiredVars}}
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.{{#optionalVars}}
+            {{name}} ({{{dataType}}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}  # noqa: E501{{/optionalVars}}
+        """

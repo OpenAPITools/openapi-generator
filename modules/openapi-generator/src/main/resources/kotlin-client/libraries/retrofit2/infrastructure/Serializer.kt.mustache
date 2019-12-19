@@ -1,0 +1,45 @@
+package {{packageName}}.infrastructure
+
+{{#moshi}}
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+{{/moshi}}
+{{#gson}}
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+{{^threetenbp}}
+import java.time.LocalDate
+import java.time.LocalDateTime
+{{/threetenbp}}
+{{#threetenbp}}
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+{{/threetenbp}}
+import java.util.UUID
+{{/gson}}
+import java.util.Date
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer {
+{{#moshi}}
+    @JvmStatic
+    val moshi: Moshi = Moshi.Builder()
+        .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
+        .add(LocalDateTimeAdapter())
+        .add(LocalDateAdapter())
+        .add(UUIDAdapter())
+        .add(ByteArrayAdapter())
+        .add(KotlinJsonAdapterFactory())
+        .build()
+{{/moshi}}
+{{#gson}}
+    @JvmStatic
+    val gson: Gson = GsonBuilder()
+        .registerTypeAdapter(Date::class.java, DateAdapter())
+        .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
+        .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
+        .registerTypeAdapter(UUID::class.java, UUIDAdapter())
+        .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
+        .create()
+{{/gson}}
+}

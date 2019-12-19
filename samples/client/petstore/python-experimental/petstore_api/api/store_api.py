@@ -13,6 +13,7 @@
 from __future__ import absolute_import
 
 import re  # noqa: F401
+import sys  # noqa: F401
 
 # python 2 and python 3 compatibility library
 import six
@@ -33,7 +34,7 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models.order import Order
+from petstore_api.models import order
 
 
 class StoreApi(object):
@@ -282,7 +283,7 @@ class StoreApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: Order
+            :return: order.Order
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -310,7 +311,7 @@ class StoreApi(object):
 
         self.get_order_by_id = Endpoint(
             settings={
-                'response_type': (Order,),
+                'response_type': (order.Order,),
                 'auth': [],
                 'endpoint_path': '/store/order/{order_id}',
                 'operation_id': 'get_order_by_id',
@@ -375,7 +376,7 @@ class StoreApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param Order body: order placed for purchasing the pet (required)
+            :param order.Order body: order placed for purchasing the pet (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -394,7 +395,7 @@ class StoreApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: Order
+            :return: order.Order
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -422,7 +423,7 @@ class StoreApi(object):
 
         self.place_order = Endpoint(
             settings={
-                'response_type': (Order,),
+                'response_type': (order.Order,),
                 'auth': [],
                 'endpoint_path': '/store/order',
                 'operation_id': 'place_order',
@@ -449,7 +450,7 @@ class StoreApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (Order,),
+                    'body': (order.Order,),
                 },
                 'attribute_map': {
                 },

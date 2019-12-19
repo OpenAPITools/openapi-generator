@@ -173,9 +173,13 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         return "Generates a Dart (1.x (deprecated) or 2.x) client library.";
     }
 
+    protected void defaultProcessOpts() {
+        super.processOpts();
+    }
+
     @Override
     public void processOpts() {
-        super.processOpts();
+        defaultProcessOpts();
 
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");

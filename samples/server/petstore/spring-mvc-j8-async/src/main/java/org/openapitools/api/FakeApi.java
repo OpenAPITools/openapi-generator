@@ -78,7 +78,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/boolean",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody Boolean body) {
+    default CompletableFuture<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody(required = false) Boolean body) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -97,7 +97,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/composite",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody OuterComposite body) {
+    default CompletableFuture<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody(required = false) OuterComposite body) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -127,7 +127,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/number",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody BigDecimal body) {
+    default CompletableFuture<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody(required = false) BigDecimal body) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -146,7 +146,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/string",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<String>> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody String body) {
+    default CompletableFuture<ResponseEntity<String>> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody(required = false) String body) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }

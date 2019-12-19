@@ -19,7 +19,7 @@ package org.openapitools.codegen;
 
 import java.util.*;
 
-public class CodegenProperty implements Cloneable {
+public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
     public String openApiType, baseName, complexType, getter, setter, description, dataType,
             datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
             baseType, containerType, title;
@@ -51,17 +51,39 @@ public class CodegenProperty implements Cloneable {
     public String maximum;
     public boolean exclusiveMinimum;
     public boolean exclusiveMaximum;
-    public boolean hasMore, required, secondaryParam;
+    public boolean hasMore;
+    public boolean required;
+    public boolean secondaryParam;
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
-    public boolean isPrimitiveType, isModel, isContainer;
-    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
-            isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject;
-    public boolean isListContainer, isMapContainer, isModelContainer;
+    public boolean isPrimitiveType;
+    public boolean isModel;
+    public boolean isContainer;
+    public boolean isString;
+    public boolean isNumeric;
+    public boolean isInteger;
+    public boolean isLong;
+    public boolean isNumber;
+    public boolean isFloat;
+    public boolean isDouble;
+    public boolean isByteArray;
+    public boolean isBinary;
+    public boolean isFile;
+    public boolean isBoolean;
+    public boolean isDate;
+    public boolean isDateTime;
+    public boolean isUuid;
+    public boolean isUri;
+    public boolean isEmail;
+    public boolean isFreeFormObject;
+    public boolean isListContainer;
+    public boolean isMapContainer;
+    public boolean isModelContainer;
     public boolean isEnum;
     public boolean isReadOnly;
     public boolean isWriteOnly;
     public boolean isNullable;
     public boolean isSelfReference;
+    public boolean isCircularReference;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
@@ -76,6 +98,10 @@ public class CodegenProperty implements Cloneable {
     public String enumName;
     public Integer maxItems;
     public Integer minItems;
+
+    private Integer maxProperties;
+    private Integer minProperties;
+    private boolean uniqueItems;
 
     // XML
     public boolean isXmlAttribute = false;
@@ -230,26 +256,32 @@ public class CodegenProperty implements Cloneable {
         this.unescapedDescription = unescapedDescription;
     }
 
+    @Override
     public Integer getMaxLength() {
         return maxLength;
     }
 
+    @Override
     public void setMaxLength(Integer maxLength) {
         this.maxLength = maxLength;
     }
 
+    @Override
     public Integer getMinLength() {
         return minLength;
     }
 
+    @Override
     public void setMinLength(Integer minLength) {
         this.minLength = minLength;
     }
 
+    @Override
     public String getPattern() {
         return pattern;
     }
 
+    @Override
     public void setPattern(String pattern) {
         this.pattern = pattern;
     }
@@ -270,26 +302,37 @@ public class CodegenProperty implements Cloneable {
         this.jsonSchema = jsonSchema;
     }
 
+    @Override
     public String getMinimum() {
         return minimum;
     }
 
+    @Override
     public void setMinimum(String minimum) {
         this.minimum = minimum;
     }
 
+    @Override
+    public boolean getExclusiveMaximum() {
+        return this.exclusiveMaximum;
+    }
+
+    @Override
     public String getMaximum() {
         return maximum;
     }
 
+    @Override
     public void setMaximum(String maximum) {
         this.maximum = maximum;
     }
 
+    @Override
     public boolean getExclusiveMinimum() {
         return exclusiveMinimum;
     }
 
+    @Override
     public void setExclusiveMinimum(boolean exclusiveMinimum) {
         this.exclusiveMinimum = exclusiveMinimum;
     }
@@ -298,6 +341,7 @@ public class CodegenProperty implements Cloneable {
         return exclusiveMaximum;
     }
 
+    @Override
     public void setExclusiveMaximum(boolean exclusiveMaximum) {
         this.exclusiveMaximum = exclusiveMaximum;
     }
@@ -370,18 +414,22 @@ public class CodegenProperty implements Cloneable {
         this.enumName = enumName;
     }
 
+    @Override
     public Integer getMaxItems() {
         return maxItems;
     }
 
+    @Override
     public void setMaxItems(Integer maxItems) {
         this.maxItems = maxItems;
     }
 
+    @Override
     public Integer getMinItems() {
         return minItems;
     }
 
+    @Override
     public void setMinItems(Integer minItems) {
         this.minItems = minItems;
     }
@@ -436,10 +484,39 @@ public class CodegenProperty implements Cloneable {
         }
     }
 
+    @Override
+    public boolean getUniqueItems() {
+        return uniqueItems;
+    }
+
+    @Override
+    public void setUniqueItems(boolean uniqueItems) {
+        this.uniqueItems = uniqueItems;
+    }
+
+    @Override
+    public Integer getMinProperties() {
+        return minProperties;
+    }
+
+    @Override
+    public void setMinProperties(Integer minProperties) {
+        this.minProperties = minProperties;
+    }
+
+    @Override
+    public Integer getMaxProperties() {
+        return maxProperties;
+    }
+
+    @Override
+    public void setMaxProperties(Integer maxProperties) {
+        this.maxProperties = maxProperties;
+    }
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("CodegenProperty{");
+        final StringBuilder sb = new StringBuilder("CodegenProperty{");
         sb.append("openApiType='").append(openApiType).append('\'');
         sb.append(", baseName='").append(baseName).append('\'');
         sb.append(", complexType='").append(complexType).append('\'');
@@ -499,6 +576,7 @@ public class CodegenProperty implements Cloneable {
         sb.append(", isWriteOnly=").append(isWriteOnly);
         sb.append(", isNullable=").append(isNullable);
         sb.append(", isSelfReference=").append(isSelfReference);
+        sb.append(", isCircularReference=").append(isCircularReference);
         sb.append(", _enum=").append(_enum);
         sb.append(", allowableValues=").append(allowableValues);
         sb.append(", items=").append(items);
@@ -512,6 +590,9 @@ public class CodegenProperty implements Cloneable {
         sb.append(", enumName='").append(enumName).append('\'');
         sb.append(", maxItems=").append(maxItems);
         sb.append(", minItems=").append(minItems);
+        sb.append(", maxProperties=").append(maxProperties);
+        sb.append(", minProperties=").append(minProperties);
+        sb.append(", uniqueItems=").append(uniqueItems);
         sb.append(", isXmlAttribute=").append(isXmlAttribute);
         sb.append(", xmlPrefix='").append(xmlPrefix).append('\'');
         sb.append(", xmlName='").append(xmlName).append('\'');
@@ -560,6 +641,7 @@ public class CodegenProperty implements Cloneable {
                 isWriteOnly == that.isWriteOnly &&
                 isNullable == that.isNullable &&
                 isSelfReference == that.isSelfReference &&
+                isCircularReference == that.isCircularReference &&
                 hasValidation == that.hasValidation &&
                 isInherited == that.isInherited &&
                 isXmlAttribute == that.isXmlAttribute &&
@@ -615,8 +697,9 @@ public class CodegenProperty implements Cloneable {
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric, isInteger,
                 isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime,
                 isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isModelContainer, isEnum,
-                isReadOnly, isWriteOnly, isNullable, isSelfReference, _enum, allowableValues, items, mostInnerItems,
-                vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase, nameInSnakeCase,
-                enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName, xmlNamespace, isXmlWrapped);
+                isReadOnly, isWriteOnly, isNullable, isSelfReference, isCircularReference, _enum, allowableValues,
+                items, mostInnerItems, vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
+                nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName, xmlNamespace,
+                isXmlWrapped);
     }
 }
