@@ -141,7 +141,7 @@
         list_addElement(localVarQueryParameters,{{paramName}});
         {{/isListContainer}}
         {{^isListContainer}}
-        keyQuery_{{{paramName}}} = strdup("{{{paramName}}}");
+        keyQuery_{{{paramName}}} = strdup("{{{baseName}}}");
         valueQuery_{{{paramName}}} = {{#isString}}{{^isEnum}}strdup({{/isEnum}}{{/isString}}({{{paramName}}}){{#isString}}{{^isEnum}}){{/isEnum}}{{/isString}};
         keyPairQuery_{{paramName}} = keyValuePair_create(keyQuery_{{{paramName}}}, {{#isEnum}}(void *){{/isEnum}}{{^isString}}&{{/isString}}valueQuery_{{{paramName}}});
         list_addElement(localVarQueryParameters,keyPairQuery_{{paramName}});
