@@ -1,4 +1,4 @@
-# ApiResponse
+# api_response.ApiResponse
 
 ## Properties
 Name | Type | Description | Notes

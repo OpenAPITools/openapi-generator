@@ -41,8 +41,12 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context, cli
 		localVarReturnValue  Client
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake_classname_test"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeClassnameTags123ApiService.TestClassname")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake_classname_test"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

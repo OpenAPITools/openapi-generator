@@ -347,6 +347,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 });
             }
         }
+        setCircularReferences(allModels);
         for (Map.Entry<String, Object> entry : objs.entrySet()) {
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
             List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");

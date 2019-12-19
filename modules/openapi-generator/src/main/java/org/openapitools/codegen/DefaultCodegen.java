@@ -258,13 +258,12 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Loop through all models to update different flags (e.g. isSelfReference), children models, etc
+     * Index all CodegenModels by model name.
      *
      * @param objs Map of models
-     * @return maps of models with various updates
+     * @return map of all models indexed by names
      */
-    public Map<String, Object> updateAllModels(Map<String, Object> objs) {
-        // Index all CodegenModels by model name.
+    public Map<String, CodegenModel> getAllModels(Map<String, Object> objs) {
         Map<String, CodegenModel> allModels = new HashMap<String, CodegenModel>();
         for (Entry<String, Object> entry : objs.entrySet()) {
             String modelName = toModelName(entry.getKey());
@@ -275,6 +274,17 @@ public class DefaultCodegen implements CodegenConfig {
                 allModels.put(modelName, cm);
             }
         }
+        return allModels;
+    }
+
+    /**
+     * Loop through all models to update different flags (e.g. isSelfReference), children models, etc
+     *
+     * @param objs Map of models
+     * @return maps of models with various updates
+     */
+    public Map<String, Object> updateAllModels(Map<String, Object> objs) {
+        Map<String, CodegenModel> allModels = getAllModels(objs);
 
         // Fix up all parent and interface CodegenModel references.
         for (CodegenModel cm : allModels.values()) {
@@ -328,8 +338,59 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         }
+        setCircularReferences(allModels);
 
         return objs;
+    }
+
+    public void setCircularReferences(Map<String, CodegenModel> models) {
+        final Map<String, List<CodegenProperty>> dependencyMap = models.entrySet().stream()
+            .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue())));
+
+        models.keySet().forEach(name -> setCircularReferencesOnProperties(name, dependencyMap));
+    }
+
+    private List<CodegenProperty> getModelDependencies(CodegenModel model) {
+        return model.getAllVars().stream()
+            .map(prop -> {
+                if (prop.isContainer) {
+                    return prop.items.dataType == null ? null : prop;
+                }
+                return prop.dataType == null ? null : prop;
+            })
+            .filter(prop -> prop != null)
+            .collect(Collectors.toList());
+    }
+
+    private void setCircularReferencesOnProperties(final String root,
+                                                   final Map<String, List<CodegenProperty>> dependencyMap) {
+        dependencyMap.getOrDefault(root, new ArrayList<>()).stream()
+            .forEach(prop -> {
+                final List<String> unvisited =
+                    Collections.singletonList(prop.isContainer ? prop.items.dataType : prop.dataType);
+                prop.isCircularReference = isCircularReference(root,
+                                                               new HashSet<>(),
+                                                               new ArrayList<>(unvisited),
+                                                               dependencyMap);
+            });
+    }
+
+    private boolean isCircularReference(final String root,
+                                        final Set<String> visited,
+                                        final List<String> unvisited,
+                                        final Map<String, List<CodegenProperty>> dependencyMap) {
+        for (int i = 0; i < unvisited.size(); i++) {
+            final String next = unvisited.get(i);
+            if (!visited.contains(next)) {
+                if (next.equals(root)) {
+                    return true;
+                }
+                dependencyMap.getOrDefault(next, new ArrayList<>())
+                    .forEach(prop -> unvisited.add(prop.isContainer ? prop.items.dataType : prop.dataType));
+                visited.add(next);
+            }
+        }
+        return false;
     }
 
     // override with any special post-processing
@@ -1807,16 +1868,21 @@ public class DefaultCodegen implements CodegenConfig {
                 m.allVars = new ArrayList<CodegenProperty>();
                 if (composed.getAllOf() != null) {
                     int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
-                    for (Schema innerSchema : composed.getAllOf()) { // TOOD need to work with anyOf, oneOf as well
-                        if (m.discriminator == null) {
+                    int modelDiscriminators = 0; // only one discriminator allowed in a ComposedModel
+                    for (Schema innerSchema : composed.getAllOf()) { // TODO need to work with anyOf, oneOf as well
+                        if (m.discriminator == null && innerSchema.getDiscriminator() != null) {
                             LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", name);
-                            m.discriminator = createDiscriminator(name, schema);
+                            m.discriminator = createDiscriminator(name, innerSchema);
+                            modelDiscriminators++;
                         }
 
                         if (innerSchema.getXml() != null) {
                             m.xmlPrefix = innerSchema.getXml().getPrefix();
                             m.xmlNamespace = innerSchema.getXml().getNamespace();
                             m.xmlName = innerSchema.getXml().getName();
+                        }
+                        if (modelDiscriminators > 1) {
+                            LOGGER.error("Allof composed schema is inheriting >1 discriminator. Only use one discriminator: {}", composed);
                         }
 
                         if (modelImplCnt++ > 1) {
@@ -1921,6 +1987,10 @@ public class DefaultCodegen implements CodegenConfig {
                 addAdditionPropertiesToCodeGenModel(m, schema);
                 m.isMapModel = true;
             } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
+                // NOTE: Integral schemas as CodegenModel is a rare use case and may be removed at a later date.
+                // Sync of properties is done for consistency with other data types like CodegenParameter/CodegenProperty.
+                ModelUtils.syncValidationProperties(schema, m);
+
                 m.isNumeric = Boolean.TRUE;
                 if (ModelUtils.isLongSchema(schema)) { // int64/long format
                     m.isLong = Boolean.TRUE;
@@ -1928,8 +1998,14 @@ public class DefaultCodegen implements CodegenConfig {
                     m.isInteger = Boolean.TRUE;
                 }
             } else if (ModelUtils.isStringSchema(schema)) {
+                // NOTE: String schemas as CodegenModel is a rare use case and may be removed at a later date.
+                // Sync of properties is done for consistency with other data types like CodegenParameter/CodegenProperty.
+                ModelUtils.syncValidationProperties(schema, m);
                 m.isString = Boolean.TRUE;
             } else if (ModelUtils.isNumberSchema(schema)) {
+                // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.
+                // Sync of properties is done for consistency with other data types like CodegenParameter/CodegenProperty.
+                ModelUtils.syncValidationProperties(schema, m);
                 m.isNumeric = Boolean.TRUE;
                 if (ModelUtils.isFloatSchema(schema)) { // float
                     m.isFloat = Boolean.TRUE;
@@ -2071,6 +2147,9 @@ public class DefaultCodegen implements CodegenConfig {
         p = ModelUtils.unaliasSchema(this.openAPI, p);
 
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
+
+        ModelUtils.syncValidationProperties(p, property);
+
         property.name = toVarName(name);
         property.baseName = name;
         if (p.getType() == null) {
@@ -2875,6 +2954,21 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
         CodegenResponse r = CodegenModelFactory.newInstance(CodegenModelType.RESPONSE);
+
+        if (response.getContent() != null && response.getContent().size() > 0) {
+            // Ensure validation properties from a target schema are persisted on CodegenResponse.
+            // This ignores any edge case where different schemas have different validations because we don't
+            // have a way to indicate a preference for response schema and are effective 1:1.
+            Schema contentSchema = null;
+            for (MediaType mt : response.getContent().values()) {
+                if (contentSchema != null) break;
+                contentSchema = mt.getSchema();
+            }
+            if (contentSchema != null) {
+                ModelUtils.syncValidationProperties(contentSchema, r);
+            }
+        }
+
         if ("default".equals(responseCode)) {
             r.code = "0";
         } else {
@@ -2888,7 +2982,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         r.schema = responseSchema;
         if (responseSchema != null && responseSchema.getPattern() != null) {
-            r.pattern = toRegularExpression(responseSchema.getPattern());
+            r.setPattern(toRegularExpression(responseSchema.getPattern()));
         }
 
         r.message = escapeText(response.getDescription());
@@ -3067,6 +3161,21 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+
+        if (parameter.getContent() != null && parameter.getContent().size() > 0) {
+            // Ensure validation properties from a target schema are persisted on CodegenParameter.
+            // This ignores any edge case where different schemas have different validations because we don't
+            // have a way to indicate a preference for parameter schema and are effective 1:1.
+            Schema contentSchema = null;
+            for (MediaType mt : parameter.getContent().values()) {
+                if (contentSchema != null) break;
+                contentSchema = mt.getSchema();
+            }
+            if (contentSchema != null) {
+                ModelUtils.syncValidationProperties(contentSchema, codegenParameter);
+            }
+        }
+
         codegenParameter.baseName = parameter.getName();
         codegenParameter.description = escapeText(parameter.getDescription());
         codegenParameter.unescapedDescription = parameter.getDescription();
@@ -3420,6 +3529,9 @@ public class DefaultCodegen implements CodegenConfig {
             cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = false;
             cs.isBasicBasic = cs.isBasicBearer = false;
             cs.scheme = securityScheme.getScheme();
+            if (securityScheme.getExtensions() != null) {
+                cs.vendorExtensions.putAll(securityScheme.getExtensions());
+            }
 
             if (SecurityScheme.Type.APIKEY.equals(securityScheme.getType())) {
                 cs.isBasic = cs.isOAuth = false;
@@ -4734,6 +4846,8 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("Debugging fromFormProperty {}: {}", name, propertySchema);
         CodegenProperty codegenProperty = fromProperty(name, propertySchema);
 
+        ModelUtils.syncValidationProperties(propertySchema, codegenProperty);
+
         codegenParameter.isFormParam = Boolean.TRUE;
         codegenParameter.baseName = codegenProperty.baseName;
         codegenParameter.paramName = toParamName((codegenParameter.baseName));
@@ -4834,6 +4948,8 @@ public class DefaultCodegen implements CodegenConfig {
             name = ModelUtils.getSimpleRef(schema.get$ref());
         }
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+
+        ModelUtils.syncValidationProperties(schema, codegenParameter);
 
         if (ModelUtils.isMapSchema(schema)) {
             Schema inner = ModelUtils.getAdditionalProperties(schema);

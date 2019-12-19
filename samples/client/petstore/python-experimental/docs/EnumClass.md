@@ -1,4 +1,4 @@
-# EnumClass
+# enum_class.EnumClass
 
 ## Properties
 Name | Type | Description | Notes
