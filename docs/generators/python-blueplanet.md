@@ -15,3 +15,4 @@ sidebar_label: python-blueplanet
 |defaultController|default controller| |default_controller|
 |supportPython2|support python2| |false|
 |serverPort|TCP port to listen to in app.run| |8080|
+|useNose|use the nose test framework| |false|
