@@ -9,11 +9,15 @@ import java.util.Date
 
 object Serializer {
     @JvmStatic
-    val gson: Gson = GsonBuilder()
+    val gsonBuilder: GsonBuilder = GsonBuilder()
         .registerTypeAdapter(Date::class.java, DateAdapter())
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(UUID::class.java, UUIDAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
-        .create()
+    
+    @JvmStatic
+    val gson: Gson by lazy {
+        gsonBuilder.create()
+    }
 }
