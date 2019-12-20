@@ -56,7 +56,8 @@ class OpenApiDataMockerTest extends TestCase
     public function testMockCorrectArguments($dataType, $dataFormat, $options, $expectedType)
     {
         $mocker = new OpenApiDataMocker();
-        $this->assertInternalType($expectedType, $mocker->mock($dataType));
+        $data = $mocker->mock($dataType, $dataFormat, $options);
+        $this->assertInternalType($expectedType, $data);
     }
 
     public function provideMockCorrectArguments()
@@ -66,6 +67,39 @@ class OpenApiDataMockerTest extends TestCase
             [IMocker::DATA_TYPE_NUMBER, null, null, IsType::TYPE_FLOAT],
             [IMocker::DATA_TYPE_STRING, null, null, IsType::TYPE_STRING],
             [IMocker::DATA_TYPE_BOOLEAN, null, null, IsType::TYPE_BOOL],
+            [IMocker::DATA_TYPE_ARRAY, null, [
+                'items' => [
+                    'type' => IMocker::DATA_TYPE_INTEGER,
+                ],
+            ], IsType::TYPE_ARRAY],
+            [IMocker::DATA_TYPE_OBJECT, null, [
+                'properties' => [
+                    'username' => [
+                        'type' => IMocker::DATA_TYPE_INTEGER,
+                    ],
+                ],
+            ], IsType::TYPE_OBJECT],
+        ];
+    }
+
+    /**
+     * @covers ::mock
+     * @dataProvider provideMockInvalidArguments
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage "dataType" must be one of integer, number, string, boolean, array, object
+     */
+    public function testMockInvalidArguments($dataType, $dataFormat, $options)
+    {
+        $mocker = new OpenApiDataMocker();
+        $data = $mocker->mock($dataType, $dataFormat, $options);
+    }
+
+    public function provideMockInvalidArguments()
+    {
+        return [
+            ['foobar', null, null],
+            [3.14, null, null],
+            [null, null, null],
         ];
     }
 

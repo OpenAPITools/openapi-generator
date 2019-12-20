@@ -241,7 +241,7 @@ final class OpenApiDataMocker implements IMocker
         $maxSize = \PHP_INT_MAX;
 
         if (
-            (is_array($items) === false || is_object($items) === false)
+            (is_array($items) === false && is_object($items) === false)
             || (is_array($items) && array_key_exists('type', $items) === false)
             || (is_object($items) && isset($items->type) === false)
         ) {
@@ -336,13 +336,13 @@ final class OpenApiDataMocker implements IMocker
 
         if ($required !== null) {
             if (
-                is_array($required) !== null
+                is_array($required) === false
                 || count($required) > count(array_unique($required))
             ) {
                 throw new InvalidArgumentException('The value of "required" must be an array. Elements of this array must be unique.');
             }
             foreach ($required as $requiredPropName) {
-                if (is_array($requiredPropName) === false) {
+                if (is_string($requiredPropName) === false) {
                     throw new InvalidArgumentException('Elements of "required" array must be strings');
                 }
             }
@@ -360,6 +360,7 @@ final class OpenApiDataMocker implements IMocker
 
     /**
      * @internal Extract OAS properties from array or object.
+     * @codeCoverageIgnore
      *
      * @param array|object $val Processed array or object
      *
@@ -406,6 +407,7 @@ final class OpenApiDataMocker implements IMocker
 
     /**
      * @internal
+     * @codeCoverageIgnore
      *
      * @return float|int
      */
