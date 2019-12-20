@@ -1,4 +1,4 @@
-= OpenAPI Petstore 
+= OpenAPI Petstore
 team@openapitools.org
 1.0.0
 :toc: left
@@ -8,7 +8,7 @@ team@openapitools.org
 :keywords: openapi, rest, OpenAPI Petstore 
 :specDir: modules\openapi-generator\src\main\resources\asciidoc-documentation
 :snippetDir: .
-:generator-template: v1 2019-11-19
+:generator-template: v1 2019-12-20
 :info-url: https://openapi-generator.tech
 :app-name: OpenAPI Petstore
 
