@@ -10,18 +10,28 @@
 """
 
 
-import pprint  # noqa: F401
+from __future__ import absolute_import
 import re  # noqa: F401
+import sys  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
 from petstore_api.model_utils import (  # noqa: F401
+    ModelComposed,
     ModelNormal,
     ModelSimple,
-    check_allowed_values,
-    check_validations
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_get_composed_info,
 )
+try:
+    from petstore_api.models import string_boolean_map
+except ImportError:
+    string_boolean_map = sys.modules['petstore_api.models.string_boolean_map']
 
 
 class MapTest(ModelNormal):
@@ -46,195 +56,81 @@ class MapTest(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
         ('map_of_enum_string',): {
             'UPPER': "UPPER",
-            'LOWER': "lower"
+            'LOWER': "lower",
         },
     }
 
-    attribute_map = {
-        'map_map_of_string': 'map_map_of_string',  # noqa: E501
-        'map_of_enum_string': 'map_of_enum_string',  # noqa: E501
-        'direct_map': 'direct_map',  # noqa: E501
-        'indirect_map': 'indirect_map'  # noqa: E501
-    }
-
     openapi_types = {
-        'map_map_of_string': 'dict(str, dict(str, str))',
-        'map_of_enum_string': 'dict(str, str)',
-        'direct_map': 'dict(str, bool)',
-        'indirect_map': 'StringBooleanMap'
+        'map_map_of_string': ({str: ({str: (str,)},)},),  # noqa: E501
+        'map_of_enum_string': ({str: (str,)},),  # noqa: E501
+        'direct_map': ({str: (bool,)},),  # noqa: E501
+        'indirect_map': (string_boolean_map.StringBooleanMap,),  # noqa: E501
     }
 
     validations = {
     }
 
-    def __init__(self, map_map_of_string=None, map_of_enum_string=None, direct_map=None, indirect_map=None):  # noqa: E501
-        """MapTest - a model defined in OpenAPI"""  # noqa: E501
+    additional_properties_type = None
 
-        self._map_map_of_string = None
-        self._map_of_enum_string = None
-        self._direct_map = None
-        self._indirect_map = None
-        self.discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
-        if map_map_of_string is not None:
-            self.map_map_of_string = (
-                map_map_of_string
-            )
-        if map_of_enum_string is not None:
-            self.map_of_enum_string = (
-                map_of_enum_string
-            )
-        if direct_map is not None:
-            self.direct_map = (
-                direct_map
-            )
-        if indirect_map is not None:
-            self.indirect_map = (
-                indirect_map
-            )
+    attribute_map = {
+        'map_map_of_string': 'map_map_of_string',  # noqa: E501
+        'map_of_enum_string': 'map_of_enum_string',  # noqa: E501
+        'direct_map': 'direct_map',  # noqa: E501
+        'indirect_map': 'indirect_map',  # noqa: E501
+    }
 
-    @property
-    def map_map_of_string(self):
-        """Gets the map_map_of_string of this MapTest.  # noqa: E501
+    @staticmethod
+    def _composed_schemas():
+        return None
+
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_from_server',
+        '_path_to_item',
+        '_configuration',
+    ])
+
+    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """map_test.MapTest - a model defined in OpenAPI
 
 
-        :return: The map_map_of_string of this MapTest.  # noqa: E501
-        :rtype: dict(str, dict(str, str))
-        """
-        return self._map_map_of_string
-
-    @map_map_of_string.setter
-    def map_map_of_string(self, map_map_of_string):  # noqa: E501
-        """Sets the map_map_of_string of this MapTest.
-
-
-        :param map_map_of_string: The map_map_of_string of this MapTest.  # noqa: E501
-        :type: dict(str, dict(str, str))
-        """
-
-        self._map_map_of_string = (
-            map_map_of_string
-        )
-
-    @property
-    def map_of_enum_string(self):
-        """Gets the map_of_enum_string of this MapTest.  # noqa: E501
-
-
-        :return: The map_of_enum_string of this MapTest.  # noqa: E501
-        :rtype: dict(str, str)
-        """
-        return self._map_of_enum_string
-
-    @map_of_enum_string.setter
-    def map_of_enum_string(self, map_of_enum_string):  # noqa: E501
-        """Sets the map_of_enum_string of this MapTest.
-
-
-        :param map_of_enum_string: The map_of_enum_string of this MapTest.  # noqa: E501
-        :type: dict(str, str)
-        """
-        check_allowed_values(
-            self.allowed_values,
-            ('map_of_enum_string',),
-            map_of_enum_string,
-            self.validations
-        )
-
-        self._map_of_enum_string = (
-            map_of_enum_string
-        )
-
-    @property
-    def direct_map(self):
-        """Gets the direct_map of this MapTest.  # noqa: E501
-
-
-        :return: The direct_map of this MapTest.  # noqa: E501
-        :rtype: dict(str, bool)
-        """
-        return self._direct_map
-
-    @direct_map.setter
-    def direct_map(self, direct_map):  # noqa: E501
-        """Sets the direct_map of this MapTest.
-
-
-        :param direct_map: The direct_map of this MapTest.  # noqa: E501
-        :type: dict(str, bool)
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            map_map_of_string ({str: ({str: (str,)},)}): [optional]  # noqa: E501
+            map_of_enum_string ({str: (str,)}): [optional]  # noqa: E501
+            direct_map ({str: (bool,)}): [optional]  # noqa: E501
+            indirect_map (string_boolean_map.StringBooleanMap): [optional]  # noqa: E501
         """
 
-        self._direct_map = (
-            direct_map
-        )
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
 
-    @property
-    def indirect_map(self):
-        """Gets the indirect_map of this MapTest.  # noqa: E501
-
-
-        :return: The indirect_map of this MapTest.  # noqa: E501
-        :rtype: StringBooleanMap
-        """
-        return self._indirect_map
-
-    @indirect_map.setter
-    def indirect_map(self, indirect_map):  # noqa: E501
-        """Sets the indirect_map of this MapTest.
-
-
-        :param indirect_map: The indirect_map of this MapTest.  # noqa: E501
-        :type: StringBooleanMap
-        """
-
-        self._indirect_map = (
-            indirect_map
-        )
-
-    def to_dict(self):
-        """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
-
-    def __repr__(self):
-        """For `print` and `pprint`"""
-        return self.to_str()
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, MapTest):
-            return False
-
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Returns true if both objects are not equal"""
-        return not self == other
+        for var_name, var_value in six.iteritems(kwargs):
+            setattr(self, var_name, var_value)

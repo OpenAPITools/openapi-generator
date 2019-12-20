@@ -56,7 +56,6 @@ public class DogAllOf implements Parcelable {
   }
 
 
-
   public void setBreed(String breed) {
     this.breed = breed;
   }

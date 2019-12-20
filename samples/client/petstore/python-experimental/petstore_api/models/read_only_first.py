@@ -10,17 +10,23 @@
 """
 
 
-import pprint  # noqa: F401
+from __future__ import absolute_import
 import re  # noqa: F401
+import sys  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
 from petstore_api.model_utils import (  # noqa: F401
+    ModelComposed,
     ModelNormal,
     ModelSimple,
-    check_allowed_values,
-    check_validations
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_get_composed_info,
 )
 
 
@@ -46,125 +52,71 @@ class ReadOnlyFirst(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
     }
 
-    attribute_map = {
-        'bar': 'bar',  # noqa: E501
-        'baz': 'baz'  # noqa: E501
-    }
-
     openapi_types = {
-        'bar': 'str',
-        'baz': 'str'
+        'bar': (str,),  # noqa: E501
+        'baz': (str,),  # noqa: E501
     }
 
     validations = {
     }
 
-    def __init__(self, bar=None, baz=None):  # noqa: E501
-        """ReadOnlyFirst - a model defined in OpenAPI"""  # noqa: E501
+    additional_properties_type = None
 
-        self._bar = None
-        self._baz = None
-        self.discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
-        if bar is not None:
-            self.bar = (
-                bar
-            )
-        if baz is not None:
-            self.baz = (
-                baz
-            )
+    attribute_map = {
+        'bar': 'bar',  # noqa: E501
+        'baz': 'baz',  # noqa: E501
+    }
 
-    @property
-    def bar(self):
-        """Gets the bar of this ReadOnlyFirst.  # noqa: E501
+    @staticmethod
+    def _composed_schemas():
+        return None
 
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_from_server',
+        '_path_to_item',
+        '_configuration',
+    ])
 
-        :return: The bar of this ReadOnlyFirst.  # noqa: E501
-        :rtype: str
-        """
-        return self._bar
-
-    @bar.setter
-    def bar(self, bar):  # noqa: E501
-        """Sets the bar of this ReadOnlyFirst.
+    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """read_only_first.ReadOnlyFirst - a model defined in OpenAPI
 
 
-        :param bar: The bar of this ReadOnlyFirst.  # noqa: E501
-        :type: str
-        """
-
-        self._bar = (
-            bar
-        )
-
-    @property
-    def baz(self):
-        """Gets the baz of this ReadOnlyFirst.  # noqa: E501
-
-
-        :return: The baz of this ReadOnlyFirst.  # noqa: E501
-        :rtype: str
-        """
-        return self._baz
-
-    @baz.setter
-    def baz(self, baz):  # noqa: E501
-        """Sets the baz of this ReadOnlyFirst.
-
-
-        :param baz: The baz of this ReadOnlyFirst.  # noqa: E501
-        :type: str
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            bar (str): [optional]  # noqa: E501
+            baz (str): [optional]  # noqa: E501
         """
 
-        self._baz = (
-            baz
-        )
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
 
-    def to_dict(self):
-        """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
-
-    def __repr__(self):
-        """For `print` and `pprint`"""
-        return self.to_str()
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, ReadOnlyFirst):
-            return False
-
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Returns true if both objects are not equal"""
-        return not self == other
+        for var_name, var_value in six.iteritems(kwargs):
+            setattr(self, var_name, var_value)

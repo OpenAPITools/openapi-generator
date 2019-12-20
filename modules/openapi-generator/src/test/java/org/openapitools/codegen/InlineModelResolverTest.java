@@ -101,6 +101,35 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void resolveInlineModelTestWithTitleWithSpaces() {
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.getComponents().addSchemas("User", new ObjectSchema()
+                .name("user")
+                .description("a common user")
+                .addProperties("name", new StringSchema())
+                .addProperties("address", new ObjectSchema()
+                        .title("User Address Title")
+                        .readOnly(false)
+                        .description("description")
+                        .name("name")
+                        .addProperties("street", new StringSchema())
+                        .addProperties("city", new StringSchema())));
+
+        new InlineModelResolver().flatten(openapi);
+
+        Schema user = openapi.getComponents().getSchemas().get("User");
+
+        assertNotNull(user);
+        assertTrue(user.getProperties().get("address") instanceof Schema);
+
+        Schema address = openapi.getComponents().getSchemas().get("User_Address_Title");
+        assertNotNull(address);
+        assertNotNull(address.getProperties().get("city"));
+        assertNotNull(address.getProperties().get("street"));
+    }
+
+    @Test
     public void resolveInlineModel2EqualInnerModels() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());

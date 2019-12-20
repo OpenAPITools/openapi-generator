@@ -10,18 +10,28 @@
 """
 
 
-import pprint  # noqa: F401
+from __future__ import absolute_import
 import re  # noqa: F401
+import sys  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
 from petstore_api.model_utils import (  # noqa: F401
+    ModelComposed,
     ModelNormal,
     ModelSimple,
-    check_allowed_values,
-    check_validations
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_get_composed_info,
 )
+try:
+    from petstore_api.models import file
+except ImportError:
+    file = sys.modules['petstore_api.models.file']
 
 
 class FileSchemaTestClass(ModelNormal):
@@ -46,125 +56,71 @@ class FileSchemaTestClass(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
     }
 
-    attribute_map = {
-        'file': 'file',  # noqa: E501
-        'files': 'files'  # noqa: E501
-    }
-
     openapi_types = {
-        'file': 'File',
-        'files': 'list[File]'
+        'file': (file.File,),  # noqa: E501
+        'files': ([file.File],),  # noqa: E501
     }
 
     validations = {
     }
 
-    def __init__(self, file=None, files=None):  # noqa: E501
-        """FileSchemaTestClass - a model defined in OpenAPI"""  # noqa: E501
+    additional_properties_type = None
 
-        self._file = None
-        self._files = None
-        self.discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
-        if file is not None:
-            self.file = (
-                file
-            )
-        if files is not None:
-            self.files = (
-                files
-            )
+    attribute_map = {
+        'file': 'file',  # noqa: E501
+        'files': 'files',  # noqa: E501
+    }
 
-    @property
-    def file(self):
-        """Gets the file of this FileSchemaTestClass.  # noqa: E501
+    @staticmethod
+    def _composed_schemas():
+        return None
 
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_from_server',
+        '_path_to_item',
+        '_configuration',
+    ])
 
-        :return: The file of this FileSchemaTestClass.  # noqa: E501
-        :rtype: File
-        """
-        return self._file
-
-    @file.setter
-    def file(self, file):  # noqa: E501
-        """Sets the file of this FileSchemaTestClass.
+    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """file_schema_test_class.FileSchemaTestClass - a model defined in OpenAPI
 
 
-        :param file: The file of this FileSchemaTestClass.  # noqa: E501
-        :type: File
-        """
-
-        self._file = (
-            file
-        )
-
-    @property
-    def files(self):
-        """Gets the files of this FileSchemaTestClass.  # noqa: E501
-
-
-        :return: The files of this FileSchemaTestClass.  # noqa: E501
-        :rtype: list[File]
-        """
-        return self._files
-
-    @files.setter
-    def files(self, files):  # noqa: E501
-        """Sets the files of this FileSchemaTestClass.
-
-
-        :param files: The files of this FileSchemaTestClass.  # noqa: E501
-        :type: list[File]
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            file (file.File): [optional]  # noqa: E501
+            files ([file.File]): [optional]  # noqa: E501
         """
 
-        self._files = (
-            files
-        )
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
 
-    def to_dict(self):
-        """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
-
-    def __repr__(self):
-        """For `print` and `pprint`"""
-        return self.to_str()
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, FileSchemaTestClass):
-            return False
-
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Returns true if both objects are not equal"""
-        return not self == other
+        for var_name, var_value in six.iteritems(kwargs):
+            setattr(self, var_name, var_value)

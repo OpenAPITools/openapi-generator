@@ -186,6 +186,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+        this.apiPackage = packageName + File.separator + "API";
+        this.modelPackage = packageName + File.separator + "Model";
     }
 
     public void setCsharpClientPath(String csharpClientPath) {

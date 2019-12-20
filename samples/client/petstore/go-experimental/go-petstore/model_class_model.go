@@ -8,16 +8,18 @@
  */
 
 package petstore
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // ClassModel Model for testing model with \"_class\" property
 type ClassModel struct {
 	Class *string `json:"_class,omitempty"`
-
 }
 
-// GetClass returns the Class field if non-nil, zero value otherwise.
+// GetClass returns the Class field value if set, zero value otherwise.
 func (o *ClassModel) GetClass() string {
 	if o == nil || o.Class == nil {
 		var ret string
@@ -26,7 +28,7 @@ func (o *ClassModel) GetClass() string {
 	return *o.Class
 }
 
-// GetClassOk returns a tuple with the Class field if it's non-nil, zero value otherwise
+// GetClassOk returns a tuple with the Class field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *ClassModel) GetClassOk() (string, bool) {
 	if o == nil || o.Class == nil {
@@ -50,14 +52,25 @@ func (o *ClassModel) SetClass(v string) {
 	o.Class = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o ClassModel) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Class != nil {
-		toSerialize["_class"] = o.Class
-	}
-	return json.Marshal(toSerialize)
+type NullableClassModel struct {
+	Value ClassModel
+	ExplicitNull bool
 }
 
+func (v NullableClassModel) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
+}
 
+func (v *NullableClassModel) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}

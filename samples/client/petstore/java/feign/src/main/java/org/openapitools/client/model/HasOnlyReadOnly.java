@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   HasOnlyReadOnly.JSON_PROPERTY_BAR,
   HasOnlyReadOnly.JSON_PROPERTY_FOO
 })
+@javax.annotation.concurrent.Immutable
 
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";

@@ -10,18 +10,28 @@
 """
 
 
-import pprint  # noqa: F401
+from __future__ import absolute_import
 import re  # noqa: F401
+import sys  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
 from petstore_api.model_utils import (  # noqa: F401
+    ModelComposed,
     ModelNormal,
     ModelSimple,
-    check_allowed_values,
-    check_validations
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_get_composed_info,
 )
+try:
+    from petstore_api.models import outer_number
+except ImportError:
+    outer_number = sys.modules['petstore_api.models.outer_number']
 
 
 class OuterComposite(ModelNormal):
@@ -46,155 +56,74 @@ class OuterComposite(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
     }
 
-    attribute_map = {
-        'my_number': 'my_number',  # noqa: E501
-        'my_string': 'my_string',  # noqa: E501
-        'my_boolean': 'my_boolean'  # noqa: E501
-    }
-
     openapi_types = {
-        'my_number': 'OuterNumber',
-        'my_string': 'str',
-        'my_boolean': 'bool'
+        'my_number': (outer_number.OuterNumber,),  # noqa: E501
+        'my_string': (str,),  # noqa: E501
+        'my_boolean': (bool,),  # noqa: E501
     }
 
     validations = {
     }
 
-    def __init__(self, my_number=None, my_string=None, my_boolean=None):  # noqa: E501
-        """OuterComposite - a model defined in OpenAPI"""  # noqa: E501
+    additional_properties_type = None
 
-        self._my_number = None
-        self._my_string = None
-        self._my_boolean = None
-        self.discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
-        if my_number is not None:
-            self.my_number = (
-                my_number
-            )
-        if my_string is not None:
-            self.my_string = (
-                my_string
-            )
-        if my_boolean is not None:
-            self.my_boolean = (
-                my_boolean
-            )
+    attribute_map = {
+        'my_number': 'my_number',  # noqa: E501
+        'my_string': 'my_string',  # noqa: E501
+        'my_boolean': 'my_boolean',  # noqa: E501
+    }
 
-    @property
-    def my_number(self):
-        """Gets the my_number of this OuterComposite.  # noqa: E501
+    @staticmethod
+    def _composed_schemas():
+        return None
 
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_from_server',
+        '_path_to_item',
+        '_configuration',
+    ])
 
-        :return: The my_number of this OuterComposite.  # noqa: E501
-        :rtype: OuterNumber
-        """
-        return self._my_number
-
-    @my_number.setter
-    def my_number(self, my_number):  # noqa: E501
-        """Sets the my_number of this OuterComposite.
+    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """outer_composite.OuterComposite - a model defined in OpenAPI
 
 
-        :param my_number: The my_number of this OuterComposite.  # noqa: E501
-        :type: OuterNumber
-        """
-
-        self._my_number = (
-            my_number
-        )
-
-    @property
-    def my_string(self):
-        """Gets the my_string of this OuterComposite.  # noqa: E501
-
-
-        :return: The my_string of this OuterComposite.  # noqa: E501
-        :rtype: str
-        """
-        return self._my_string
-
-    @my_string.setter
-    def my_string(self, my_string):  # noqa: E501
-        """Sets the my_string of this OuterComposite.
-
-
-        :param my_string: The my_string of this OuterComposite.  # noqa: E501
-        :type: str
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            my_number (outer_number.OuterNumber): [optional]  # noqa: E501
+            my_string (str): [optional]  # noqa: E501
+            my_boolean (bool): [optional]  # noqa: E501
         """
 
-        self._my_string = (
-            my_string
-        )
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
 
-    @property
-    def my_boolean(self):
-        """Gets the my_boolean of this OuterComposite.  # noqa: E501
-
-
-        :return: The my_boolean of this OuterComposite.  # noqa: E501
-        :rtype: bool
-        """
-        return self._my_boolean
-
-    @my_boolean.setter
-    def my_boolean(self, my_boolean):  # noqa: E501
-        """Sets the my_boolean of this OuterComposite.
-
-
-        :param my_boolean: The my_boolean of this OuterComposite.  # noqa: E501
-        :type: bool
-        """
-
-        self._my_boolean = (
-            my_boolean
-        )
-
-    def to_dict(self):
-        """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
-
-    def __repr__(self):
-        """For `print` and `pprint`"""
-        return self.to_str()
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, OuterComposite):
-            return False
-
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Returns true if both objects are not equal"""
-        return not self == other
+        for var_name, var_value in six.iteritems(kwargs):
+            setattr(self, var_name, var_value)

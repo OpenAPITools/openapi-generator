@@ -1,16 +1,19 @@
-{{#jvm}}
+{{^multiplatform}}
 {{#gson}}
 import com.google.gson.annotations.SerializedName
 {{/gson}}
 {{#moshi}}
 import com.squareup.moshi.Json
+{{#moshiCodeGen}}
+import com.squareup.moshi.JsonClass
+{{/moshiCodeGen}}
 {{/moshi}}
 {{#parcelizeModels}}
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 {{/parcelizeModels}}
-{{/jvm}}
+{{/multiplatform}}
 {{#multiplatform}}
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
@@ -27,43 +30,54 @@ import java.io.Serializable
 {{#parcelizeModels}}
 @Parcelize
 {{/parcelizeModels}}
-{{#multiplatform}}@Serializable{{/multiplatform}}
-data class {{classname}} (
-{{#requiredVars}}
-{{>data_class_req_var}}{{^-last}},
-{{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
-{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_opt_var}}{{^-last}},
-{{/-last}}{{/optionalVars}}
+{{#multiplatform}}@Serializable{{/multiplatform}}{{#moshi}}{{#moshiCodeGen}}@JsonClass(generateAdapter = true){{/moshiCodeGen}}{{/moshi}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}data class {{classname}} (
+{{#vars}}
+{{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
+{{/vars}}
 ) {{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}
 {{^parcelizeModels}}{{#serializableModel}}: Serializable {{/serializableModel}}{{/parcelizeModels}}
 {{#parcelizeModels}}{{#serializableModel}} : Parcelable, Serializable {{/serializableModel}}{{/parcelizeModels}}
-{{#hasEnums}}
+{{#vendorExtensions.x-has-data-class-body}}
 {
-{{#vars}}{{#isEnum}}
+{{/vendorExtensions.x-has-data-class-body}}
+{{#serializableModel}}
+	{{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
+		private const val serialVersionUID: Long = 123
+	}
+{{/serializableModel}}
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
     /**
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     */
     {{#multiplatform}}@Serializable(with = {{nameInCamelCase}}.Serializer::class){{/multiplatform}}
-    enum class {{{nameInCamelCase}}}(val value: {{#isListContainer}}{{{ nestedType }}}{{/isListContainer}}{{^isListContainer}}{{{dataType}}}{{/isListContainer}}){
-    {{#allowableValues}}{{#enumVars}}
-        {{#jvm}}
+    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val value: {{#isListContainer}}{{{ nestedType }}}{{/isListContainer}}{{^isListContainer}}{{{dataType}}}{{/isListContainer}}){
+    {{#allowableValues}}
+    {{#enumVars}}
+        {{^multiplatform}}
         {{#moshi}}
         @Json(name = {{{value}}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/moshi}}
         {{#gson}}
         @SerializedName(value={{{value}}})  {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/gson}}
-        {{/jvm}}
+        {{/multiplatform}}
         {{#multiplatform}}
         {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/multiplatform}}
-    {{/enumVars}}{{/allowableValues}}
-
+    {{/enumVars}}
+    {{/allowableValues}}
     {{#multiplatform}}
-        object Serializer : CommonEnumSerializer<{{nameInCamelCase}}>("{{nameInCamelCase}}", values(), values().map { it.value }.toTypedArray())
+
+        {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : CommonEnumSerializer<{{nameInCamelCase}}>("{{nameInCamelCase}}", values(), values().map { it.value.toString() }.toTypedArray())
     {{/multiplatform}}
     }
-{{/isEnum}}{{/vars}}
-}
+{{/isEnum}}
+{{/vars}}
 {{/hasEnums}}
+{{#vendorExtensions.x-has-data-class-body}}
+}
+{{/vendorExtensions.x-has-data-class-body}}

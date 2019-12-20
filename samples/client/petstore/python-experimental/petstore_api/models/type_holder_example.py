@@ -10,17 +10,23 @@
 """
 
 
-import pprint  # noqa: F401
+from __future__ import absolute_import
 import re  # noqa: F401
+import sys  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
 from petstore_api.model_utils import (  # noqa: F401
+    ModelComposed,
     ModelNormal,
     ModelSimple,
-    check_allowed_values,
-    check_validations
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_get_composed_info,
 )
 
 
@@ -46,237 +52,95 @@ class TypeHolderExample(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
         ('string_item',): {
-            'WHAT': "what"
+            'WHAT': "what",
         },
         ('number_item',): {
-            '1.234': 1.234
+            '1.234': 1.234,
         },
         ('integer_item',): {
-            '-2': -2
+            '-2': -2,
         },
     }
+
+    openapi_types = {
+        'string_item': (str,),  # noqa: E501
+        'number_item': (float,),  # noqa: E501
+        'integer_item': (int,),  # noqa: E501
+        'bool_item': (bool,),  # noqa: E501
+        'array_item': ([int],),  # noqa: E501
+    }
+
+    validations = {
+    }
+
+    additional_properties_type = None
+
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'string_item': 'string_item',  # noqa: E501
         'number_item': 'number_item',  # noqa: E501
         'integer_item': 'integer_item',  # noqa: E501
         'bool_item': 'bool_item',  # noqa: E501
-        'array_item': 'array_item'  # noqa: E501
+        'array_item': 'array_item',  # noqa: E501
     }
 
-    openapi_types = {
-        'string_item': 'str',
-        'number_item': 'float',
-        'integer_item': 'int',
-        'bool_item': 'bool',
-        'array_item': 'list[int]'
-    }
+    @staticmethod
+    def _composed_schemas():
+        return None
 
-    validations = {
-    }
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_from_server',
+        '_path_to_item',
+        '_configuration',
+    ])
 
-    def __init__(self, string_item='what', number_item=1.234, integer_item=-2, bool_item=None, array_item=None):  # noqa: E501
-        """TypeHolderExample - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, bool_item, array_item, string_item='what', number_item=1.234, integer_item=-2, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """type_holder_example.TypeHolderExample - a model defined in OpenAPI
 
-        self._string_item = None
-        self._number_item = None
-        self._integer_item = None
-        self._bool_item = None
-        self._array_item = None
-        self.discriminator = None
+        Args:
+            bool_item (bool):
+            array_item ([int]):
+
+        Keyword Args:
+            string_item (str): defaults to 'what', must be one of ['what']  # noqa: E501
+            number_item (float): defaults to 1.234, must be one of [1.234]  # noqa: E501
+            integer_item (int): defaults to -2, must be one of [-2]  # noqa: E501
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+        """
+
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
 
         self.string_item = string_item
         self.number_item = number_item
         self.integer_item = integer_item
         self.bool_item = bool_item
         self.array_item = array_item
-
-    @property
-    def string_item(self):
-        """Gets the string_item of this TypeHolderExample.  # noqa: E501
-
-
-        :return: The string_item of this TypeHolderExample.  # noqa: E501
-        :rtype: str
-        """
-        return self._string_item
-
-    @string_item.setter
-    def string_item(self, string_item):  # noqa: E501
-        """Sets the string_item of this TypeHolderExample.
-
-
-        :param string_item: The string_item of this TypeHolderExample.  # noqa: E501
-        :type: str
-        """
-        if string_item is None:
-            raise ApiValueError("Invalid value for `string_item`, must not be `None`")  # noqa: E501
-        check_allowed_values(
-            self.allowed_values,
-            ('string_item',),
-            string_item,
-            self.validations
-        )
-
-        self._string_item = (
-            string_item
-        )
-
-    @property
-    def number_item(self):
-        """Gets the number_item of this TypeHolderExample.  # noqa: E501
-
-
-        :return: The number_item of this TypeHolderExample.  # noqa: E501
-        :rtype: float
-        """
-        return self._number_item
-
-    @number_item.setter
-    def number_item(self, number_item):  # noqa: E501
-        """Sets the number_item of this TypeHolderExample.
-
-
-        :param number_item: The number_item of this TypeHolderExample.  # noqa: E501
-        :type: float
-        """
-        if number_item is None:
-            raise ApiValueError("Invalid value for `number_item`, must not be `None`")  # noqa: E501
-        check_allowed_values(
-            self.allowed_values,
-            ('number_item',),
-            number_item,
-            self.validations
-        )
-
-        self._number_item = (
-            number_item
-        )
-
-    @property
-    def integer_item(self):
-        """Gets the integer_item of this TypeHolderExample.  # noqa: E501
-
-
-        :return: The integer_item of this TypeHolderExample.  # noqa: E501
-        :rtype: int
-        """
-        return self._integer_item
-
-    @integer_item.setter
-    def integer_item(self, integer_item):  # noqa: E501
-        """Sets the integer_item of this TypeHolderExample.
-
-
-        :param integer_item: The integer_item of this TypeHolderExample.  # noqa: E501
-        :type: int
-        """
-        if integer_item is None:
-            raise ApiValueError("Invalid value for `integer_item`, must not be `None`")  # noqa: E501
-        check_allowed_values(
-            self.allowed_values,
-            ('integer_item',),
-            integer_item,
-            self.validations
-        )
-
-        self._integer_item = (
-            integer_item
-        )
-
-    @property
-    def bool_item(self):
-        """Gets the bool_item of this TypeHolderExample.  # noqa: E501
-
-
-        :return: The bool_item of this TypeHolderExample.  # noqa: E501
-        :rtype: bool
-        """
-        return self._bool_item
-
-    @bool_item.setter
-    def bool_item(self, bool_item):  # noqa: E501
-        """Sets the bool_item of this TypeHolderExample.
-
-
-        :param bool_item: The bool_item of this TypeHolderExample.  # noqa: E501
-        :type: bool
-        """
-        if bool_item is None:
-            raise ApiValueError("Invalid value for `bool_item`, must not be `None`")  # noqa: E501
-
-        self._bool_item = (
-            bool_item
-        )
-
-    @property
-    def array_item(self):
-        """Gets the array_item of this TypeHolderExample.  # noqa: E501
-
-
-        :return: The array_item of this TypeHolderExample.  # noqa: E501
-        :rtype: list[int]
-        """
-        return self._array_item
-
-    @array_item.setter
-    def array_item(self, array_item):  # noqa: E501
-        """Sets the array_item of this TypeHolderExample.
-
-
-        :param array_item: The array_item of this TypeHolderExample.  # noqa: E501
-        :type: list[int]
-        """
-        if array_item is None:
-            raise ApiValueError("Invalid value for `array_item`, must not be `None`")  # noqa: E501
-
-        self._array_item = (
-            array_item
-        )
-
-    def to_dict(self):
-        """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
-
-    def __repr__(self):
-        """For `print` and `pprint`"""
-        return self.to_str()
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, TypeHolderExample):
-            return False
-
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Returns true if both objects are not equal"""
-        return not self == other
+        for var_name, var_value in six.iteritems(kwargs):
+            setattr(self, var_name, var_value)

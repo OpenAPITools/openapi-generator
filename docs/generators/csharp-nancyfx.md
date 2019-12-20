@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-csharp-nancyfx
 title: Config Options for csharp-nancyfx
 sidebar_label: csharp-nancyfx
 ---

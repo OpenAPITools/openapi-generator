@@ -18,10 +18,10 @@ import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
 /**
  * A pet for sale in the pet store
- * @param id 
- * @param category 
  * @param name 
  * @param photoUrls 
+ * @param id 
+ * @param category 
  * @param tags 
  * @param status pet status in the store
  */
@@ -38,23 +38,17 @@ data class Pet (
 
 
 {
-
     /**
     * pet status in the store
     * Values: available,pending,sold
     */
     @Serializable(with = Status.Serializer::class)
     enum class Status(val value: kotlin.String){
-    
         available("available"),
-    
         pending("pending"),
-    
         sold("sold");
-    
 
-        object Serializer : CommonEnumSerializer<Status>("Status", values(), values().map { it.value }.toTypedArray())
+        object Serializer : CommonEnumSerializer<Status>("Status", values(), values().map { it.value.toString() }.toTypedArray())
     }
-
 }
 

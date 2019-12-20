@@ -61,6 +61,9 @@ public class FakeClassnameTags123ApiImpl implements FakeClassnameTags123Api {
         // header params
         MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
         
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
         // form params
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
@@ -69,6 +72,6 @@ public class FakeClassnameTags123ApiImpl implements FakeClassnameTags123Api {
         String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] { "api_key_query" };
         TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
-        apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
 }

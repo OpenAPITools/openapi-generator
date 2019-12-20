@@ -26,11 +26,46 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
+
+// import static org.openapitools.codegen.utils.StringUtils.camelize;
+// import static org.openapitools.codegen.utils.StringUtils.underscore;
+
+// import java.io.BufferedReader;
+// import java.io.File;
+// import java.io.FileInputStream;
+// import java.io.InputStreamReader;
+// import java.nio.charset.Charset;
+// import java.util.ArrayList;
+// import java.util.Arrays;
+// import java.util.HashMap;
+// import java.util.HashSet;
+// import java.util.List;
+// import java.util.Map;
+// import java.util.Set;
+
+// import javax.xml.validation.Schema;
+
+// import org.apache.commons.io.FilenameUtils;
+// import org.openapitools.codegen.CodegenConfig;
+// import org.openapitools.codegen.CodegenConstants;
+// import org.openapitools.codegen.CodegenModel;
+// import org.openapitools.codegen.CodegenProperty;
+// import org.openapitools.codegen.CodegenType;
+// import org.openapitools.codegen.DefaultCodegen;
+// import org.openapitools.codegen.utils.ModelUtils;
+// import org.openapitools.codegen.utils.StringUtils;
+// import org.slf4j.LoggerFactory;
+
+// import io.swagger.v3.oas.models.media.ArraySchema;
 
 public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
@@ -55,8 +90,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public DartClientCodegen() {
         super();
 
-        // clear import mapping (from default generator) as dart does not use it
-        // at the moment
+        // clear import mapping (from default generator) as dart does not use it at the moment
         importMapping.clear();
 
         outputFolder = "generated-code/dart";
@@ -71,18 +105,15 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTestTemplateFiles.put("model_test.mustache", ".dart");
         apiTestTemplateFiles.put("api_test.mustache", ".dart");
 
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        "abstract", "as", "assert", "async", "async*", "await",
-                        "break", "case", "catch", "class", "const", "continue",
-                        "default", "deferred", "do", "dynamic", "else", "enum",
-                        "export", "external", "extends", "factory", "false", "final",
-                        "finally", "for", "get", "if", "implements", "import", "in",
-                        "is", "library", "new", "null", "operator", "part", "rethrow",
-                        "return", "set", "static", "super", "switch", "sync*", "this",
-                        "throw", "true", "try", "typedef", "var", "void", "while",
-                        "with", "yield", "yield*")
-        );
+        List<String> reservedWordsList = new ArrayList<String>();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(DartClientCodegen.class.getResourceAsStream("/dart/dart-keywords.txt"), Charset.forName("UTF-8")));
+            while(reader.ready()) { reservedWordsList.add(reader.readLine()); }
+            reader.close();
+        } catch (Exception e) {
+            LOGGER.error("Error reading dart keywords. Exception: {}", e.getMessage());
+        }
+        setReservedWordsLowerCase(reservedWordsList);
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
@@ -142,9 +173,13 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         return "Generates a Dart (1.x (deprecated) or 2.x) client library.";
     }
 
+    protected void defaultProcessOpts() {
+        super.processOpts();
+    }
+
     @Override
     public void processOpts() {
-        super.processOpts();
+        defaultProcessOpts();
 
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
@@ -298,6 +333,11 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (isReservedWord(name)) {
             LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        }
+
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
         // camelize the model name

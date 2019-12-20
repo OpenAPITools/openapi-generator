@@ -10,17 +10,23 @@
 """
 
 
-import pprint  # noqa: F401
+from __future__ import absolute_import
 import re  # noqa: F401
+import sys  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
 from petstore_api.model_utils import (  # noqa: F401
+    ModelComposed,
     ModelNormal,
     ModelSimple,
-    check_allowed_values,
-    check_validations
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_get_composed_info,
 )
 
 
@@ -46,155 +52,74 @@ class ApiResponse(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
     }
 
-    attribute_map = {
-        'code': 'code',  # noqa: E501
-        'type': 'type',  # noqa: E501
-        'message': 'message'  # noqa: E501
-    }
-
     openapi_types = {
-        'code': 'int',
-        'type': 'str',
-        'message': 'str'
+        'code': (int,),  # noqa: E501
+        'type': (str,),  # noqa: E501
+        'message': (str,),  # noqa: E501
     }
 
     validations = {
     }
 
-    def __init__(self, code=None, type=None, message=None):  # noqa: E501
-        """ApiResponse - a model defined in OpenAPI"""  # noqa: E501
+    additional_properties_type = None
 
-        self._code = None
-        self._type = None
-        self._message = None
-        self.discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
-        if code is not None:
-            self.code = (
-                code
-            )
-        if type is not None:
-            self.type = (
-                type
-            )
-        if message is not None:
-            self.message = (
-                message
-            )
+    attribute_map = {
+        'code': 'code',  # noqa: E501
+        'type': 'type',  # noqa: E501
+        'message': 'message',  # noqa: E501
+    }
 
-    @property
-    def code(self):
-        """Gets the code of this ApiResponse.  # noqa: E501
+    @staticmethod
+    def _composed_schemas():
+        return None
 
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_from_server',
+        '_path_to_item',
+        '_configuration',
+    ])
 
-        :return: The code of this ApiResponse.  # noqa: E501
-        :rtype: int
-        """
-        return self._code
-
-    @code.setter
-    def code(self, code):  # noqa: E501
-        """Sets the code of this ApiResponse.
+    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """api_response.ApiResponse - a model defined in OpenAPI
 
 
-        :param code: The code of this ApiResponse.  # noqa: E501
-        :type: int
-        """
-
-        self._code = (
-            code
-        )
-
-    @property
-    def type(self):
-        """Gets the type of this ApiResponse.  # noqa: E501
-
-
-        :return: The type of this ApiResponse.  # noqa: E501
-        :rtype: str
-        """
-        return self._type
-
-    @type.setter
-    def type(self, type):  # noqa: E501
-        """Sets the type of this ApiResponse.
-
-
-        :param type: The type of this ApiResponse.  # noqa: E501
-        :type: str
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            code (int): [optional]  # noqa: E501
+            type (str): [optional]  # noqa: E501
+            message (str): [optional]  # noqa: E501
         """
 
-        self._type = (
-            type
-        )
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
 
-    @property
-    def message(self):
-        """Gets the message of this ApiResponse.  # noqa: E501
-
-
-        :return: The message of this ApiResponse.  # noqa: E501
-        :rtype: str
-        """
-        return self._message
-
-    @message.setter
-    def message(self, message):  # noqa: E501
-        """Sets the message of this ApiResponse.
-
-
-        :param message: The message of this ApiResponse.  # noqa: E501
-        :type: str
-        """
-
-        self._message = (
-            message
-        )
-
-    def to_dict(self):
-        """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
-
-    def __repr__(self):
-        """For `print` and `pprint`"""
-        return self.to_str()
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, ApiResponse):
-            return False
-
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Returns true if both objects are not equal"""
-        return not self == other
+        for var_name, var_value in six.iteritems(kwargs):
+            setattr(self, var_name, var_value)

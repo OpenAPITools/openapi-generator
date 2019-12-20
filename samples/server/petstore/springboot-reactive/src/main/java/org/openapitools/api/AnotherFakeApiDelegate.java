@@ -27,6 +27,11 @@ public interface AnotherFakeApiDelegate {
     }
 
     /**
+     * PATCH /another-fake/dummy : To test special tags
+     * To test special tags and operation ID starting with number
+     *
+     * @param body client model (required)
+     * @return successful operation (status code 200)
      * @see AnotherFakeApi#call123testSpecialTags
      */
     default Mono<ResponseEntity<Client>> call123testSpecialTags(Mono<Client> body,
@@ -35,7 +40,8 @@ public interface AnotherFakeApiDelegate {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                result = ApiUtil.getExampleResponse(exchange, "{  \"client\" : \"client\"}");
+                String exampleString = "{ \"client\" : \"client\" }";
+                result = ApiUtil.getExampleResponse(exchange, exampleString);
                 break;
             }
         }

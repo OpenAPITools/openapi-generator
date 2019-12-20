@@ -19,6 +19,7 @@ module {{title}}.API
   , {{title}}Backend(..)
   , create{{title}}Client
   , run{{title}}Server
+  , run{{title}}MiddlewareServer
   , run{{title}}Client
   , run{{title}}ClientWithManager
   , call{{title}}
@@ -51,6 +52,7 @@ import           GHC.Generics                       (Generic)
 import           Network.HTTP.Client                (Manager, newManager)
 import           Network.HTTP.Client.TLS            (tlsManagerSettings)
 import           Network.HTTP.Types.Method          (methodOptions)
+import           Network.Wai                        (Middleware)
 import qualified Network.Wai.Handler.Warp           as Warp
 import           Servant                            (ServerError, serve)
 import           Servant.API
@@ -59,7 +61,8 @@ import           Servant.Client                     (ClientEnv, Scheme (Http), C
                                                      mkClientEnv, parseBaseUrl)
 import           Servant.Client.Core                (baseUrlPort, baseUrlHost)
 import           Servant.Client.Internal.HttpClient (ClientM (..))
-import           Servant.Server                     (Handler (..))
+import           Servant.Server                     (Handler (..), Application){{#serveStatic}}
+import           Servant.Server.StaticFiles         (serveDirectoryFileServer){{/serveStatic}}
 import           Web.FormUrlEncoded
 import           Web.HttpApiData
 
@@ -129,7 +132,8 @@ formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryPa
 type {{title}}API
     =    {{#apis}}{{#operations}}{{#operation}}{{& vendorExtensions.x-routeType}} -- '{{operationId}}' route{{#hasMore}}
     :<|> {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}}
-    :<|> {{/hasMore}}{{/apis}}
+    :<|> {{/hasMore}}{{/apis}}{{#serveStatic}}
+    :<|> Raw {{/serveStatic}}
 {{/apiInfo}}
 
 
@@ -149,7 +153,7 @@ newtype {{title}}ClientError = {{title}}ClientError ClientError
 -- | Backend for {{title}}.
 -- The backend can be used both for the client and the server. The client generated from the {{title}} OpenAPI spec
 -- is a backend that executes actions by sending HTTP requests (see @create{{title}}Client@). Alternatively, provided
--- a backend, the API can be served using @run{{title}}Server@.
+-- a backend, the API can be served using @run{{title}}MiddlewareServer@.
 data {{title}}Backend m = {{title}}Backend
   { {{#apis}}{{#operations}}{{#operation}}{{operationId}} :: {{& vendorExtensions.x-clientType}}{- ^ {{& notes}} -}{{#hasMore}}
   , {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}}
@@ -181,7 +185,8 @@ create{{title}}Client = {{title}}Backend{..}
   where
     ({{#apis}}{{#operations}}{{#operation}}(coerce -> {{operationId}}){{#hasMore}} :<|>
      {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}} :<|>
-     {{/hasMore}}{{/apis}}) = client (Proxy :: Proxy {{title}}API)
+     {{/hasMore}}{{/apis}}{{#serveStatic}} :<|>
+     _{{/serveStatic}}) = client (Proxy :: Proxy {{title}}API)
 
 -- | Run requests in the {{title}}Client monad.
 run{{title}}Client :: Config -> {{title}}Client a -> ExceptT ClientError IO a
@@ -207,20 +212,31 @@ call{{title}} env f = do
     Right response -> pure response
 {{/apiInfo}}
 
+
 {{#apiInfo}}
+requestMiddlewareId :: Application -> Application
+requestMiddlewareId a = a
+
 -- | Run the {{title}} server at the provided host and port.
 run{{title}}Server
   :: (MonadIO m, MonadThrow m)
   => Config -> {{title}}Backend (ExceptT ServerError IO) -> m ()
-run{{title}}Server Config{..} backend = do
+run{{title}}Server config backend = run{{title}}MiddlewareServer config requestMiddlewareId backend
+
+-- | Run the {{title}} server at the provided host and port.
+run{{title}}MiddlewareServer
+  :: (MonadIO m, MonadThrow m)
+  => Config -> Middleware -> {{title}}Backend (ExceptT ServerError IO) -> m ()
+run{{title}}MiddlewareServer Config{..} middleware backend = do
   url <- parseBaseUrl configUrl
   let warpSettings = Warp.defaultSettings
         & Warp.setPort (baseUrlPort url)
         & Warp.setHost (fromString $ baseUrlHost url)
-  liftIO $ Warp.runSettings warpSettings $ serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
+  liftIO $ Warp.runSettings warpSettings $ middleware $ serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
   where
     serverFromBackend {{title}}Backend{..} =
       ({{#apis}}{{#operations}}{{#operation}}coerce {{operationId}}{{#hasMore}} :<|>
        {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}} :<|>
-       {{/hasMore}}{{/apis}})
+       {{/hasMore}}{{/apis}}{{#serveStatic}} :<|>
+       serveDirectoryFileServer "static"{{/serveStatic}})
 {{/apiInfo}}

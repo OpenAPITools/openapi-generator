@@ -66,6 +66,7 @@ public class KotlinClientCodegenModelTest {
     public void simpleModelTest() {
         final Schema schema = getSimpleSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
+        codegen.processOpts();
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -100,10 +101,10 @@ public class KotlinClientCodegenModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "java.time.LocalDateTime");
+        Assert.assertEquals(property3.dataType, "java.time.OffsetDateTime");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
-        Assert.assertEquals(property3.baseType, "java.time.LocalDateTime");
+        Assert.assertEquals(property3.baseType, "java.time.OffsetDateTime");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
@@ -114,6 +115,30 @@ public class KotlinClientCodegenModelTest {
         final Schema schema = getSimpleSchema();
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.THREETENBP.value);
+        codegen.processOpts();
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertEquals(property3.baseName, "createdAt");
+        Assert.assertEquals(property3.dataType, "org.threeten.bp.OffsetDateTime");
+        Assert.assertEquals(property3.name, "createdAt");
+        Assert.assertEquals(property3.defaultValue, null);
+        Assert.assertEquals(property3.baseType, "org.threeten.bp.OffsetDateTime");
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
+        Assert.assertFalse(property3.isContainer);
+    }
+
+    @Test(description = "convert a simple model: threetenbp-localdatetime")
+    public void selectDateLibraryAsThreetenbpLocalDateTime() {
+        final Schema schema = getSimpleSchema();
+        final KotlinClientCodegen codegen = new KotlinClientCodegen();
+        String value = KotlinClientCodegen.DateLibrary.THREETENBP_LOCALDATETIME.value;
+        Assert.assertEquals(value, "threetenbp-localdatetime");
+        codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.THREETENBP_LOCALDATETIME.value);
         codegen.processOpts();
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
@@ -158,6 +183,30 @@ public class KotlinClientCodegenModelTest {
         final Schema schema = getSimpleSchema();
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.JAVA8.value);
+        codegen.processOpts();
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertEquals(property3.baseName, "createdAt");
+        Assert.assertEquals(property3.dataType, "java.time.OffsetDateTime");
+        Assert.assertEquals(property3.name, "createdAt");
+        Assert.assertEquals(property3.defaultValue, null);
+        Assert.assertEquals(property3.baseType, "java.time.OffsetDateTime");
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
+        Assert.assertFalse(property3.isContainer);
+    }
+
+    @Test(description = "convert a simple model: date java8-localdatetime")
+    public void selectDateLibraryAsJava8LocalDateTime() {
+        final Schema schema = getSimpleSchema();
+        final KotlinClientCodegen codegen = new KotlinClientCodegen();
+        String value = KotlinClientCodegen.DateLibrary.JAVA8_LOCALDATETIME.value;
+        Assert.assertEquals(value, "java8-localdatetime");
+        codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.JAVA8_LOCALDATETIME.value);
         codegen.processOpts();
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);

@@ -33,6 +33,6 @@ enum class EnumClass(val value: kotlin.String){
 
 
 
-    object Serializer : CommonEnumSerializer<EnumClass>("EnumClass", values(), values().map { it.value }.toTypedArray())
+    object Serializer : CommonEnumSerializer<EnumClass>("EnumClass", values(), values().map { it.value.toString() }.toTypedArray())
 }
 

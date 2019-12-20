@@ -127,7 +127,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                         "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
                         "assert", "else", "if", "pass", "yield", "break", "except", "import",
                         "print", "class", "exec", "in", "raise", "continue", "finally", "is",
-                        "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True", "False"));
+                        "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True", 
+                        "False", "async", "await"));
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IGNORECASE");
@@ -272,7 +273,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     }
 
-    private static String dropDots(String str) {
+    protected static String dropDots(String str) {
         return str.replaceAll("\\.", "_");
     }
 

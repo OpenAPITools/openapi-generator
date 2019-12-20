@@ -10,18 +10,28 @@
 """
 
 
-import pprint  # noqa: F401
+from __future__ import absolute_import
 import re  # noqa: F401
+import sys  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
 from petstore_api.model_utils import (  # noqa: F401
+    ModelComposed,
     ModelNormal,
     ModelSimple,
-    check_allowed_values,
-    check_validations
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_get_composed_info,
 )
+try:
+    from petstore_api.models import outer_enum
+except ImportError:
+    outer_enum = sys.modules['petstore_api.models.outer_enum']
 
 
 class EnumTest(ModelNormal):
@@ -46,256 +56,100 @@ class EnumTest(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
-        ('enum_string',): {
-            'UPPER': "UPPER",
-            'LOWER': "lower",
-            'EMPTY': ""
-        },
         ('enum_string_required',): {
             'UPPER': "UPPER",
             'LOWER': "lower",
-            'EMPTY': ""
+            'EMPTY': "",
+        },
+        ('enum_string',): {
+            'UPPER': "UPPER",
+            'LOWER': "lower",
+            'EMPTY': "",
         },
         ('enum_integer',): {
             '1': 1,
-            '-1': -1
+            '-1': -1,
         },
         ('enum_number',): {
             '1.1': 1.1,
-            '-1.2': -1.2
+            '-1.2': -1.2,
         },
     }
 
-    attribute_map = {
-        'enum_string': 'enum_string',  # noqa: E501
-        'enum_string_required': 'enum_string_required',  # noqa: E501
-        'enum_integer': 'enum_integer',  # noqa: E501
-        'enum_number': 'enum_number',  # noqa: E501
-        'outer_enum': 'outerEnum'  # noqa: E501
-    }
-
     openapi_types = {
-        'enum_string': 'str',
-        'enum_string_required': 'str',
-        'enum_integer': 'int',
-        'enum_number': 'float',
-        'outer_enum': 'OuterEnum'
+        'enum_string_required': (str,),  # noqa: E501
+        'enum_string': (str,),  # noqa: E501
+        'enum_integer': (int,),  # noqa: E501
+        'enum_number': (float,),  # noqa: E501
+        'outer_enum': (outer_enum.OuterEnum,),  # noqa: E501
     }
 
     validations = {
     }
 
-    def __init__(self, enum_string=None, enum_string_required=None, enum_integer=None, enum_number=None, outer_enum=None):  # noqa: E501
-        """EnumTest - a model defined in OpenAPI"""  # noqa: E501
+    additional_properties_type = None
 
-        self._enum_string = None
-        self._enum_string_required = None
-        self._enum_integer = None
-        self._enum_number = None
-        self._outer_enum = None
-        self.discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
-        if enum_string is not None:
-            self.enum_string = (
-                enum_string
-            )
+    attribute_map = {
+        'enum_string_required': 'enum_string_required',  # noqa: E501
+        'enum_string': 'enum_string',  # noqa: E501
+        'enum_integer': 'enum_integer',  # noqa: E501
+        'enum_number': 'enum_number',  # noqa: E501
+        'outer_enum': 'outerEnum',  # noqa: E501
+    }
+
+    @staticmethod
+    def _composed_schemas():
+        return None
+
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_from_server',
+        '_path_to_item',
+        '_configuration',
+    ])
+
+    def __init__(self, enum_string_required, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """enum_test.EnumTest - a model defined in OpenAPI
+
+        Args:
+            enum_string_required (str):
+
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            enum_string (str): [optional]  # noqa: E501
+            enum_integer (int): [optional]  # noqa: E501
+            enum_number (float): [optional]  # noqa: E501
+            outer_enum (outer_enum.OuterEnum): [optional]  # noqa: E501
+        """
+
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
+
         self.enum_string_required = enum_string_required
-        if enum_integer is not None:
-            self.enum_integer = (
-                enum_integer
-            )
-        if enum_number is not None:
-            self.enum_number = (
-                enum_number
-            )
-        if outer_enum is not None:
-            self.outer_enum = (
-                outer_enum
-            )
-
-    @property
-    def enum_string(self):
-        """Gets the enum_string of this EnumTest.  # noqa: E501
-
-
-        :return: The enum_string of this EnumTest.  # noqa: E501
-        :rtype: str
-        """
-        return self._enum_string
-
-    @enum_string.setter
-    def enum_string(self, enum_string):  # noqa: E501
-        """Sets the enum_string of this EnumTest.
-
-
-        :param enum_string: The enum_string of this EnumTest.  # noqa: E501
-        :type: str
-        """
-        check_allowed_values(
-            self.allowed_values,
-            ('enum_string',),
-            enum_string,
-            self.validations
-        )
-
-        self._enum_string = (
-            enum_string
-        )
-
-    @property
-    def enum_string_required(self):
-        """Gets the enum_string_required of this EnumTest.  # noqa: E501
-
-
-        :return: The enum_string_required of this EnumTest.  # noqa: E501
-        :rtype: str
-        """
-        return self._enum_string_required
-
-    @enum_string_required.setter
-    def enum_string_required(self, enum_string_required):  # noqa: E501
-        """Sets the enum_string_required of this EnumTest.
-
-
-        :param enum_string_required: The enum_string_required of this EnumTest.  # noqa: E501
-        :type: str
-        """
-        if enum_string_required is None:
-            raise ApiValueError("Invalid value for `enum_string_required`, must not be `None`")  # noqa: E501
-        check_allowed_values(
-            self.allowed_values,
-            ('enum_string_required',),
-            enum_string_required,
-            self.validations
-        )
-
-        self._enum_string_required = (
-            enum_string_required
-        )
-
-    @property
-    def enum_integer(self):
-        """Gets the enum_integer of this EnumTest.  # noqa: E501
-
-
-        :return: The enum_integer of this EnumTest.  # noqa: E501
-        :rtype: int
-        """
-        return self._enum_integer
-
-    @enum_integer.setter
-    def enum_integer(self, enum_integer):  # noqa: E501
-        """Sets the enum_integer of this EnumTest.
-
-
-        :param enum_integer: The enum_integer of this EnumTest.  # noqa: E501
-        :type: int
-        """
-        check_allowed_values(
-            self.allowed_values,
-            ('enum_integer',),
-            enum_integer,
-            self.validations
-        )
-
-        self._enum_integer = (
-            enum_integer
-        )
-
-    @property
-    def enum_number(self):
-        """Gets the enum_number of this EnumTest.  # noqa: E501
-
-
-        :return: The enum_number of this EnumTest.  # noqa: E501
-        :rtype: float
-        """
-        return self._enum_number
-
-    @enum_number.setter
-    def enum_number(self, enum_number):  # noqa: E501
-        """Sets the enum_number of this EnumTest.
-
-
-        :param enum_number: The enum_number of this EnumTest.  # noqa: E501
-        :type: float
-        """
-        check_allowed_values(
-            self.allowed_values,
-            ('enum_number',),
-            enum_number,
-            self.validations
-        )
-
-        self._enum_number = (
-            enum_number
-        )
-
-    @property
-    def outer_enum(self):
-        """Gets the outer_enum of this EnumTest.  # noqa: E501
-
-
-        :return: The outer_enum of this EnumTest.  # noqa: E501
-        :rtype: OuterEnum
-        """
-        return self._outer_enum
-
-    @outer_enum.setter
-    def outer_enum(self, outer_enum):  # noqa: E501
-        """Sets the outer_enum of this EnumTest.
-
-
-        :param outer_enum: The outer_enum of this EnumTest.  # noqa: E501
-        :type: OuterEnum
-        """
-
-        self._outer_enum = (
-            outer_enum
-        )
-
-    def to_dict(self):
-        """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
-
-    def __repr__(self):
-        """For `print` and `pprint`"""
-        return self.to_str()
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, EnumTest):
-            return False
-
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Returns true if both objects are not equal"""
-        return not self == other
+        for var_name, var_value in six.iteritems(kwargs):
+            setattr(self, var_name, var_value)

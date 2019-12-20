@@ -1,4 +1,4 @@
-# CatAllOf
+# cat_all_of.CatAllOf
 
 ## Properties
 Name | Type | Description | Notes

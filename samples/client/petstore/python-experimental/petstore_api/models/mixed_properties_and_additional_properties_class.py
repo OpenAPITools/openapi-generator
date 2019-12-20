@@ -10,18 +10,28 @@
 """
 
 
-import pprint  # noqa: F401
+from __future__ import absolute_import
 import re  # noqa: F401
+import sys  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
 from petstore_api.model_utils import (  # noqa: F401
+    ModelComposed,
     ModelNormal,
     ModelSimple,
-    check_allowed_values,
-    check_validations
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_get_composed_info,
 )
+try:
+    from petstore_api.models import animal
+except ImportError:
+    animal = sys.modules['petstore_api.models.animal']
 
 
 class MixedPropertiesAndAdditionalPropertiesClass(ModelNormal):
@@ -46,155 +56,74 @@ class MixedPropertiesAndAdditionalPropertiesClass(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
     }
 
-    attribute_map = {
-        'uuid': 'uuid',  # noqa: E501
-        'date_time': 'dateTime',  # noqa: E501
-        'map': 'map'  # noqa: E501
-    }
-
     openapi_types = {
-        'uuid': 'str',
-        'date_time': 'datetime',
-        'map': 'dict(str, Animal)'
+        'uuid': (str,),  # noqa: E501
+        'date_time': (datetime,),  # noqa: E501
+        'map': ({str: (animal.Animal,)},),  # noqa: E501
     }
 
     validations = {
     }
 
-    def __init__(self, uuid=None, date_time=None, map=None):  # noqa: E501
-        """MixedPropertiesAndAdditionalPropertiesClass - a model defined in OpenAPI"""  # noqa: E501
+    additional_properties_type = None
 
-        self._uuid = None
-        self._date_time = None
-        self._map = None
-        self.discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
-        if uuid is not None:
-            self.uuid = (
-                uuid
-            )
-        if date_time is not None:
-            self.date_time = (
-                date_time
-            )
-        if map is not None:
-            self.map = (
-                map
-            )
+    attribute_map = {
+        'uuid': 'uuid',  # noqa: E501
+        'date_time': 'dateTime',  # noqa: E501
+        'map': 'map',  # noqa: E501
+    }
 
-    @property
-    def uuid(self):
-        """Gets the uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
+    @staticmethod
+    def _composed_schemas():
+        return None
 
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_from_server',
+        '_path_to_item',
+        '_configuration',
+    ])
 
-        :return: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :rtype: str
-        """
-        return self._uuid
-
-    @uuid.setter
-    def uuid(self, uuid):  # noqa: E501
-        """Sets the uuid of this MixedPropertiesAndAdditionalPropertiesClass.
+    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """mixed_properties_and_additional_properties_class.MixedPropertiesAndAdditionalPropertiesClass - a model defined in OpenAPI
 
 
-        :param uuid: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :type: str
-        """
-
-        self._uuid = (
-            uuid
-        )
-
-    @property
-    def date_time(self):
-        """Gets the date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-
-
-        :return: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :rtype: datetime
-        """
-        return self._date_time
-
-    @date_time.setter
-    def date_time(self, date_time):  # noqa: E501
-        """Sets the date_time of this MixedPropertiesAndAdditionalPropertiesClass.
-
-
-        :param date_time: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :type: datetime
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            uuid (str): [optional]  # noqa: E501
+            date_time (datetime): [optional]  # noqa: E501
+            map ({str: (animal.Animal,)}): [optional]  # noqa: E501
         """
 
-        self._date_time = (
-            date_time
-        )
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
 
-    @property
-    def map(self):
-        """Gets the map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-
-
-        :return: The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, Animal)
-        """
-        return self._map
-
-    @map.setter
-    def map(self, map):  # noqa: E501
-        """Sets the map of this MixedPropertiesAndAdditionalPropertiesClass.
-
-
-        :param map: The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, Animal)
-        """
-
-        self._map = (
-            map
-        )
-
-    def to_dict(self):
-        """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
-
-    def __repr__(self):
-        """For `print` and `pprint`"""
-        return self.to_str()
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, MixedPropertiesAndAdditionalPropertiesClass):
-            return False
-
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Returns true if both objects are not equal"""
-        return not self == other
+        for var_name, var_value in six.iteritems(kwargs):
+            setattr(self, var_name, var_value)

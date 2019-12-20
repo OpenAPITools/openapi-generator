@@ -1,0 +1,9 @@
+{
+  "generatorName": "python-experimental",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/python-client-experimental/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/client/petstore/python-experimental",
+  "templateDir": "modules/openapi-generator/src/main/resources/python",
+  "additionalProperties": {
+    "packageName": "petstore_api"
+  }
+}

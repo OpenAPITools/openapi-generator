@@ -10,17 +10,23 @@
 """
 
 
-import pprint  # noqa: F401
+from __future__ import absolute_import
 import re  # noqa: F401
+import sys  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
 from petstore_api.model_utils import (  # noqa: F401
+    ModelComposed,
     ModelNormal,
     ModelSimple,
-    check_allowed_values,
-    check_validations
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_get_composed_info,
 )
 
 
@@ -46,10 +52,32 @@ class User(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
     }
+
+    openapi_types = {
+        'id': (int,),  # noqa: E501
+        'username': (str,),  # noqa: E501
+        'first_name': (str,),  # noqa: E501
+        'last_name': (str,),  # noqa: E501
+        'email': (str,),  # noqa: E501
+        'password': (str,),  # noqa: E501
+        'phone': (str,),  # noqa: E501
+        'user_status': (int,),  # noqa: E501
+    }
+
+    validations = {
+    }
+
+    additional_properties_type = None
+
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'id': 'id',  # noqa: E501
@@ -59,294 +87,54 @@ class User(ModelNormal):
         'email': 'email',  # noqa: E501
         'password': 'password',  # noqa: E501
         'phone': 'phone',  # noqa: E501
-        'user_status': 'userStatus'  # noqa: E501
+        'user_status': 'userStatus',  # noqa: E501
     }
 
-    openapi_types = {
-        'id': 'int',
-        'username': 'str',
-        'first_name': 'str',
-        'last_name': 'str',
-        'email': 'str',
-        'password': 'str',
-        'phone': 'str',
-        'user_status': 'int'
-    }
+    @staticmethod
+    def _composed_schemas():
+        return None
 
-    validations = {
-    }
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_from_server',
+        '_path_to_item',
+        '_configuration',
+    ])
 
-    def __init__(self, id=None, username=None, first_name=None, last_name=None, email=None, password=None, phone=None, user_status=None):  # noqa: E501
-        """User - a model defined in OpenAPI"""  # noqa: E501
-
-        self._id = None
-        self._username = None
-        self._first_name = None
-        self._last_name = None
-        self._email = None
-        self._password = None
-        self._phone = None
-        self._user_status = None
-        self.discriminator = None
-
-        if id is not None:
-            self.id = (
-                id
-            )
-        if username is not None:
-            self.username = (
-                username
-            )
-        if first_name is not None:
-            self.first_name = (
-                first_name
-            )
-        if last_name is not None:
-            self.last_name = (
-                last_name
-            )
-        if email is not None:
-            self.email = (
-                email
-            )
-        if password is not None:
-            self.password = (
-                password
-            )
-        if phone is not None:
-            self.phone = (
-                phone
-            )
-        if user_status is not None:
-            self.user_status = (
-                user_status
-            )
-
-    @property
-    def id(self):
-        """Gets the id of this User.  # noqa: E501
+    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """user.User - a model defined in OpenAPI
 
 
-        :return: The id of this User.  # noqa: E501
-        :rtype: int
-        """
-        return self._id
-
-    @id.setter
-    def id(self, id):  # noqa: E501
-        """Sets the id of this User.
-
-
-        :param id: The id of this User.  # noqa: E501
-        :type: int
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            id (int): [optional]  # noqa: E501
+            username (str): [optional]  # noqa: E501
+            first_name (str): [optional]  # noqa: E501
+            last_name (str): [optional]  # noqa: E501
+            email (str): [optional]  # noqa: E501
+            password (str): [optional]  # noqa: E501
+            phone (str): [optional]  # noqa: E501
+            user_status (int): User Status. [optional]  # noqa: E501
         """
 
-        self._id = (
-            id
-        )
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
 
-    @property
-    def username(self):
-        """Gets the username of this User.  # noqa: E501
-
-
-        :return: The username of this User.  # noqa: E501
-        :rtype: str
-        """
-        return self._username
-
-    @username.setter
-    def username(self, username):  # noqa: E501
-        """Sets the username of this User.
-
-
-        :param username: The username of this User.  # noqa: E501
-        :type: str
-        """
-
-        self._username = (
-            username
-        )
-
-    @property
-    def first_name(self):
-        """Gets the first_name of this User.  # noqa: E501
-
-
-        :return: The first_name of this User.  # noqa: E501
-        :rtype: str
-        """
-        return self._first_name
-
-    @first_name.setter
-    def first_name(self, first_name):  # noqa: E501
-        """Sets the first_name of this User.
-
-
-        :param first_name: The first_name of this User.  # noqa: E501
-        :type: str
-        """
-
-        self._first_name = (
-            first_name
-        )
-
-    @property
-    def last_name(self):
-        """Gets the last_name of this User.  # noqa: E501
-
-
-        :return: The last_name of this User.  # noqa: E501
-        :rtype: str
-        """
-        return self._last_name
-
-    @last_name.setter
-    def last_name(self, last_name):  # noqa: E501
-        """Sets the last_name of this User.
-
-
-        :param last_name: The last_name of this User.  # noqa: E501
-        :type: str
-        """
-
-        self._last_name = (
-            last_name
-        )
-
-    @property
-    def email(self):
-        """Gets the email of this User.  # noqa: E501
-
-
-        :return: The email of this User.  # noqa: E501
-        :rtype: str
-        """
-        return self._email
-
-    @email.setter
-    def email(self, email):  # noqa: E501
-        """Sets the email of this User.
-
-
-        :param email: The email of this User.  # noqa: E501
-        :type: str
-        """
-
-        self._email = (
-            email
-        )
-
-    @property
-    def password(self):
-        """Gets the password of this User.  # noqa: E501
-
-
-        :return: The password of this User.  # noqa: E501
-        :rtype: str
-        """
-        return self._password
-
-    @password.setter
-    def password(self, password):  # noqa: E501
-        """Sets the password of this User.
-
-
-        :param password: The password of this User.  # noqa: E501
-        :type: str
-        """
-
-        self._password = (
-            password
-        )
-
-    @property
-    def phone(self):
-        """Gets the phone of this User.  # noqa: E501
-
-
-        :return: The phone of this User.  # noqa: E501
-        :rtype: str
-        """
-        return self._phone
-
-    @phone.setter
-    def phone(self, phone):  # noqa: E501
-        """Sets the phone of this User.
-
-
-        :param phone: The phone of this User.  # noqa: E501
-        :type: str
-        """
-
-        self._phone = (
-            phone
-        )
-
-    @property
-    def user_status(self):
-        """Gets the user_status of this User.  # noqa: E501
-
-        User Status  # noqa: E501
-
-        :return: The user_status of this User.  # noqa: E501
-        :rtype: int
-        """
-        return self._user_status
-
-    @user_status.setter
-    def user_status(self, user_status):  # noqa: E501
-        """Sets the user_status of this User.
-
-        User Status  # noqa: E501
-
-        :param user_status: The user_status of this User.  # noqa: E501
-        :type: int
-        """
-
-        self._user_status = (
-            user_status
-        )
-
-    def to_dict(self):
-        """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
-
-    def __repr__(self):
-        """For `print` and `pprint`"""
-        return self.to_str()
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, User):
-            return False
-
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Returns true if both objects are not equal"""
-        return not self == other
+        for var_name, var_value in six.iteritems(kwargs):
+            setattr(self, var_name, var_value)

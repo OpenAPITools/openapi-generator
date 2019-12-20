@@ -10,17 +10,17 @@
 #' @title Order
 #' @description Order Class
 #' @format An \code{R6Class} generator object
-#' @field id   integer  [optional]
+#' @field id  integer [optional]
 #'
-#' @field petId   integer  [optional]
+#' @field petId  integer [optional]
 #'
-#' @field quantity   integer  [optional]
+#' @field quantity  integer [optional]
 #'
-#' @field shipDate   character  [optional]
+#' @field shipDate  character [optional]
 #'
-#' @field status   character  [optional]
+#' @field status  character [optional]
 #'
-#' @field complete   character  [optional]
+#' @field complete  character [optional]
 #'
 #'
 #' @importFrom R6 R6Class

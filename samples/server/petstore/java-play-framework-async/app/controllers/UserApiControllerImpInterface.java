@@ -7,6 +7,8 @@ import play.mvc.Http;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.CompletableFuture;
 
 import javax.validation.constraints.*;
 
@@ -20,9 +22,9 @@ public interface UserApiControllerImpInterface {
 
     void deleteUser(String username) throws Exception;
 
-    User getUserByName(String username) throws Exception;
+    CompletionStage<User> getUserByName(String username) throws Exception;
 
-    String loginUser( @NotNull String username,  @NotNull String password) throws Exception;
+    CompletionStage<String> loginUser( @NotNull String username,  @NotNull String password) throws Exception;
 
     void logoutUser() throws Exception;
 

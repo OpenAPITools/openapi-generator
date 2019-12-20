@@ -141,8 +141,8 @@ class ApiClientTests(unittest.TestCase):
         # model
         pet_dict = {"id": 1, "name": "monkey",
                     "category": {"id": 1, "name": "test category"},
-                    "tags": [{"id": 1, "name": "test tag1"},
-                             {"id": 2, "name": "test tag2"}],
+                    "tags": [{"id": 1, "fullName": "test tag1"},
+                             {"id": 2, "fullName": "test tag2"}],
                     "status": "available",
                     "photoUrls": ["http://foo.bar.com/3",
                                   "http://foo.bar.com/4"]}
@@ -154,10 +154,10 @@ class ApiClientTests(unittest.TestCase):
         pet.category = cate
         tag1 = petstore_api.Tag()
         tag1.id = pet_dict["tags"][0]["id"]
-        tag1.name = pet_dict["tags"][0]["name"]
+        tag1.full_name = pet_dict["tags"][0]["fullName"]
         tag2 = petstore_api.Tag()
         tag2.id = pet_dict["tags"][1]["id"]
-        tag2.name = pet_dict["tags"][1]["name"]
+        tag2.full_name = pet_dict["tags"][1]["fullName"]
         pet.tags = [tag1, tag2]
         pet.status = pet_dict["status"]
 
@@ -170,3 +170,9 @@ class ApiClientTests(unittest.TestCase):
         data = [pet]
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, list_of_pet_dict)
+
+        # model with additional proerties
+        model_dict = {'some_key': True}
+        model = petstore_api.StringBooleanMap(**model_dict)
+        result = self.api_client.sanitize_for_serialization(model)
+        self.assertEqual(result, model_dict)

@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
+@javax.annotation.concurrent.Immutable
 
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
@@ -54,7 +55,6 @@ public class NumberOnly {
   public BigDecimal getJustNumber() {
     return justNumber;
   }
-
 
 
   public void setJustNumber(BigDecimal justNumber) {

@@ -17,10 +17,10 @@ import org.openapitools.server.models.Tag
 import java.io.Serializable
 /**
  * A pet for sale in the pet store
- * @param id 
- * @param category 
  * @param name 
  * @param photoUrls 
+ * @param id 
+ * @param category 
  * @param tags 
  * @param status pet status in the store
  */
@@ -32,24 +32,19 @@ data class Pet (
     val tags: kotlin.Array<Tag>? = null,
     /* pet status in the store */
     val status: Pet.Status? = null
-) 
-: Serializable 
-
+) : Serializable 
 {
-
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
     /**
     * pet status in the store
     * Values: available,pending,sold
     */
     enum class Status(val value: kotlin.String){
-    
         available("available"),
-    
         pending("pending"),
-    
         sold("sold");
-    
     }
-
 }
 

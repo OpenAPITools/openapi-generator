@@ -10,18 +10,32 @@
 """
 
 
-import pprint  # noqa: F401
+from __future__ import absolute_import
 import re  # noqa: F401
+import sys  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
 from petstore_api.model_utils import (  # noqa: F401
+    ModelComposed,
     ModelNormal,
     ModelSimple,
-    check_allowed_values,
-    check_validations
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_get_composed_info,
 )
+try:
+    from petstore_api.models import cat
+except ImportError:
+    cat = sys.modules['petstore_api.models.cat']
+try:
+    from petstore_api.models import dog
+except ImportError:
+    dog = sys.modules['petstore_api.models.dog']
 
 
 class Animal(ModelNormal):
@@ -46,135 +60,91 @@ class Animal(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
     }
 
-    attribute_map = {
-        'class_name': 'className',  # noqa: E501
-        'color': 'color'  # noqa: E501
-    }
-
-    discriminator_value_class_map = {
-        'Dog': 'Dog',
-        'Cat': 'Cat'
-    }
-
     openapi_types = {
-        'class_name': 'str',
-        'color': 'str'
+        'class_name': (str,),  # noqa: E501
+        'color': (str,),  # noqa: E501
     }
 
     validations = {
     }
 
-    def __init__(self, class_name=None, color='red'):  # noqa: E501
-        """Animal - a model defined in OpenAPI"""  # noqa: E501
+    additional_properties_type = None
 
-        self._class_name = None
-        self._color = None
-        self.discriminator = 'class_name'
+    @staticmethod
+    def discriminator():
+        return {
+            'class_name': {
+                'Cat': cat.Cat,
+                'Dog': dog.Dog,
+            },
+        }
+
+    attribute_map = {
+        'class_name': 'className',  # noqa: E501
+        'color': 'color',  # noqa: E501
+    }
+
+    @staticmethod
+    def _composed_schemas():
+        return None
+
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_from_server',
+        '_path_to_item',
+        '_configuration',
+    ])
+
+    def __init__(self, class_name, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """animal.Animal - a model defined in OpenAPI
+
+        Args:
+            class_name (str):
+
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
+        """
+
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
 
         self.class_name = class_name
-        if color is not None:
-            self.color = (
-                color
-            )
+        for var_name, var_value in six.iteritems(kwargs):
+            setattr(self, var_name, var_value)
 
-    @property
-    def class_name(self):
-        """Gets the class_name of this Animal.  # noqa: E501
-
-
-        :return: The class_name of this Animal.  # noqa: E501
-        :rtype: str
-        """
-        return self._class_name
-
-    @class_name.setter
-    def class_name(self, class_name):  # noqa: E501
-        """Sets the class_name of this Animal.
-
-
-        :param class_name: The class_name of this Animal.  # noqa: E501
-        :type: str
-        """
-        if class_name is None:
-            raise ApiValueError("Invalid value for `class_name`, must not be `None`")  # noqa: E501
-
-        self._class_name = (
-            class_name
-        )
-
-    @property
-    def color(self):
-        """Gets the color of this Animal.  # noqa: E501
-
-
-        :return: The color of this Animal.  # noqa: E501
-        :rtype: str
-        """
-        return self._color
-
-    @color.setter
-    def color(self, color):  # noqa: E501
-        """Sets the color of this Animal.
-
-
-        :param color: The color of this Animal.  # noqa: E501
-        :type: str
-        """
-
-        self._color = (
-            color
-        )
-
-    def get_real_child_model(self, data):
-        """Returns the real base class specified by the discriminator"""
-        discriminator_key = self.attribute_map[self.discriminator]
-        discriminator_value = data[discriminator_key]
-        return self.discriminator_value_class_map.get(discriminator_value)
-
-    def to_dict(self):
-        """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
-
-    def __repr__(self):
-        """For `print` and `pprint`"""
-        return self.to_str()
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, Animal):
-            return False
-
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Returns true if both objects are not equal"""
-        return not self == other
+    @classmethod
+    def get_discriminator_class(cls, from_server, data):
+        """Returns the child class specified by the discriminator"""
+        discriminator = cls.discriminator()
+        discr_propertyname_py = list(discriminator.keys())[0]
+        discr_propertyname_js = cls.attribute_map[discr_propertyname_py]
+        if from_server:
+            class_name = data[discr_propertyname_js]
+        else:
+            class_name = data[discr_propertyname_py]
+        class_name_to_discr_class = discriminator[discr_propertyname_py]
+        return class_name_to_discr_class.get(class_name)

@@ -1,0 +1,18 @@
+{{#isFormParam}}
+{{^isListContainer}}
+{{^isFile}}
+{{#isModel}}
+            {{{dataType}}} {{paramName}} = ParameterCast.toObject(routingContext.request().getFormAttribute("{{baseName}}"), {{dataType}}.class);
+{{/isModel}}
+{{^isModel}}
+            {{{dataType}}} {{paramName}} = ParameterCast.to{{dataType}}(routingContext.request().getFormAttribute("{{baseName}}"));
+{{/isModel}}
+{{/isFile}}
+{{#isFile}}
+            {{{dataType}}} {{paramName}} = routingContext.fileUploads().iterator().next();
+{{/isFile}}
+{{/isListContainer}}
+{{#isListContainer}}
+            {{{dataType}}} {{paramName}} = routingContext.request().params().getAll("{{baseName}}");
+{{/isListContainer}}
+{{/isFormParam}}

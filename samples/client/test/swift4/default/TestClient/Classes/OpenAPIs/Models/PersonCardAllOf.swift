@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 public struct PersonCardAllOf: Codable {
 
     public var firstName: String?
@@ -19,6 +17,4 @@ public struct PersonCardAllOf: Codable {
         self.lastName = lastName
     }
 
-
 }
-

@@ -25,4 +25,9 @@ data class ArrayOfArrayOfNumberOnly (
 ) 
 : Serializable 
 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+}
 

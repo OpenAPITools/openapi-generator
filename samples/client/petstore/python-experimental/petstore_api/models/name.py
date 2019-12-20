@@ -10,17 +10,23 @@
 """
 
 
-import pprint  # noqa: F401
+from __future__ import absolute_import
 import re  # noqa: F401
+import sys  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
 from petstore_api.model_utils import (  # noqa: F401
+    ModelComposed,
     ModelNormal,
     ModelSimple,
-    check_allowed_values,
-    check_validations
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_get_composed_info,
 )
 
 
@@ -46,184 +52,79 @@ class Name(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
     }
 
-    attribute_map = {
-        'name': 'name',  # noqa: E501
-        'snake_case': 'snake_case',  # noqa: E501
-        '_property': 'property',  # noqa: E501
-        '_123_number': '123Number'  # noqa: E501
-    }
-
     openapi_types = {
-        'name': 'int',
-        'snake_case': 'int',
-        '_property': 'str',
-        '_123_number': 'int'
+        'name': (int,),  # noqa: E501
+        'snake_case': (int,),  # noqa: E501
+        '_property': (str,),  # noqa: E501
+        '_123_number': (int,),  # noqa: E501
     }
 
     validations = {
     }
 
-    def __init__(self, name=None, snake_case=None, _property=None, _123_number=None):  # noqa: E501
-        """Name - a model defined in OpenAPI"""  # noqa: E501
+    additional_properties_type = None
 
-        self._name = None
-        self._snake_case = None
-        self.__property = None
-        self.__123_number = None
-        self.discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
+
+    attribute_map = {
+        'name': 'name',  # noqa: E501
+        'snake_case': 'snake_case',  # noqa: E501
+        '_property': 'property',  # noqa: E501
+        '_123_number': '123Number',  # noqa: E501
+    }
+
+    @staticmethod
+    def _composed_schemas():
+        return None
+
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_from_server',
+        '_path_to_item',
+        '_configuration',
+    ])
+
+    def __init__(self, name, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """name.Name - a model defined in OpenAPI
+
+        Args:
+            name (int):
+
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            snake_case (int): [optional]  # noqa: E501
+            _property (str): [optional]  # noqa: E501
+            _123_number (int): [optional]  # noqa: E501
+        """
+
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
 
         self.name = name
-        if snake_case is not None:
-            self.snake_case = (
-                snake_case
-            )
-        if _property is not None:
-            self._property = (
-                _property
-            )
-        if _123_number is not None:
-            self._123_number = (
-                _123_number
-            )
-
-    @property
-    def name(self):
-        """Gets the name of this Name.  # noqa: E501
-
-
-        :return: The name of this Name.  # noqa: E501
-        :rtype: int
-        """
-        return self._name
-
-    @name.setter
-    def name(self, name):  # noqa: E501
-        """Sets the name of this Name.
-
-
-        :param name: The name of this Name.  # noqa: E501
-        :type: int
-        """
-        if name is None:
-            raise ApiValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
-
-        self._name = (
-            name
-        )
-
-    @property
-    def snake_case(self):
-        """Gets the snake_case of this Name.  # noqa: E501
-
-
-        :return: The snake_case of this Name.  # noqa: E501
-        :rtype: int
-        """
-        return self._snake_case
-
-    @snake_case.setter
-    def snake_case(self, snake_case):  # noqa: E501
-        """Sets the snake_case of this Name.
-
-
-        :param snake_case: The snake_case of this Name.  # noqa: E501
-        :type: int
-        """
-
-        self._snake_case = (
-            snake_case
-        )
-
-    @property
-    def _property(self):
-        """Gets the _property of this Name.  # noqa: E501
-
-
-        :return: The _property of this Name.  # noqa: E501
-        :rtype: str
-        """
-        return self.__property
-
-    @_property.setter
-    def _property(self, _property):  # noqa: E501
-        """Sets the _property of this Name.
-
-
-        :param _property: The _property of this Name.  # noqa: E501
-        :type: str
-        """
-
-        self.__property = (
-            _property
-        )
-
-    @property
-    def _123_number(self):
-        """Gets the _123_number of this Name.  # noqa: E501
-
-
-        :return: The _123_number of this Name.  # noqa: E501
-        :rtype: int
-        """
-        return self.__123_number
-
-    @_123_number.setter
-    def _123_number(self, _123_number):  # noqa: E501
-        """Sets the _123_number of this Name.
-
-
-        :param _123_number: The _123_number of this Name.  # noqa: E501
-        :type: int
-        """
-
-        self.__123_number = (
-            _123_number
-        )
-
-    def to_dict(self):
-        """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
-
-    def __repr__(self):
-        """For `print` and `pprint`"""
-        return self.to_str()
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, Name):
-            return False
-
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Returns true if both objects are not equal"""
-        return not self == other
+        for var_name, var_value in six.iteritems(kwargs):
+            setattr(self, var_name, var_value)

@@ -16,8 +16,8 @@ type {{enumName}}
 {{#allowableValues.enumVars}}    {{#-first}}= {{/-first}}{{^-first}}| {{/-first}}{{name}}
 {{/allowableValues.enumVars}}
 
-{{paramName}}ToString : {{enumName}} -> String
-{{paramName}}ToString value =
+stringify{{enumName}} : {{enumName}} -> String
+stringify{{enumName}} value =
     case value of
 {{#allowableValues.enumVars}}        {{name}} ->
             {{{value}}}
@@ -59,10 +59,10 @@ basePath =
 {{operationId}} {{#headerParams.0}}headers {{/headerParams.0}}params =
     Http.request
         { method = "{{httpMethod}}"
-        , headers = {{#headerParams.0}}List.filterMap identity {{/headerParams.0}}[{{{vendorExtensions.headers}}}]
+        , headers = List.filterMap identity [{{#headerParams}}{{#required}}(Just << {{/required}}{{^required}}Maybe.map ({{/required}}Http.header "{{baseName}}" << {{>toString}}) {{^isElm018}}headers.{{/isElm018}}{{paramName}}{{^-last}}, {{/-last}}{{/headerParams}}]
         , url = Url.crossOrigin {{#enableCustomBasePaths}}params.{{/enableCustomBasePaths}}basePath
-            [{{{path}}}]
-            {{#queryParams.0}}(List.filterMap identity {{/queryParams.0}}[{{{vendorExtensions.query}}}]{{#queryParams.0}}){{/queryParams.0}}
+            [{{#vendorExtensions.pathParams}}{{#paramName}}{{>toString}} params.{{paramName}}{{/paramName}}{{^paramName}}{{{.}}}{{/paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.pathParams}}]
+            (List.filterMap identity [{{#queryParams}}{{#required}}(Just << {{/required}}{{^required}}Maybe.map ({{/required}}Url.string "{{baseName}}" << {{>toString}}) {{^isElm018}}params.{{/isElm018}}{{paramName}}{{^-last}}, {{/-last}}{{/queryParams}}])
         , body = {{#bodyParam}}{{^required}}Maybe.withDefault Http.emptyBody <| Maybe.map ({{/required}}Http.jsonBody {{#required}}<|{{/required}}{{^required}}<<{{/required}} {{vendorExtensions.elmEncoder}}{{^required}}){{/required}} params.body{{/bodyParam}}{{^bodyParam}}Http.emptyBody{{/bodyParam}}
         , expect = {{^responses}}Http.expectWhatever params.onSend{{/responses}}{{#responses}}{{#-first}}{{^dataType}}Http.expectWhatever params.onSend{{/dataType}}{{#dataType}}Http.expectJson params.onSend {{#isMapContainer}}(Decode.dict {{/isMapContainer}}{{#isListContainer}}(Decode.list {{/isListContainer}}{{#vendorExtensions}}{{elmDecoder}}{{/vendorExtensions}}{{#isListContainer}}){{/isListContainer}}{{#isMapContainer}}){{/isMapContainer}}{{/dataType}}{{/-first}}{{/responses}}
         , timeout = Just 30000

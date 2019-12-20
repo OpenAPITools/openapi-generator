@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-ruby-on-rails
 title: Config Options for ruby-on-rails
 sidebar_label: ruby-on-rails
 ---

@@ -10,6 +10,7 @@
 
 from __future__ import absolute_import
 
+import datetime
 import unittest
 
 import petstore_api
@@ -24,7 +25,7 @@ class TestFormatTest(unittest.TestCase):
         self.required_named_args = dict(
             number=40.1,
             byte='what',
-            date='2019-03-23',
+            date=datetime.date(2019, 3, 23),
             password='rainbowtable'
         )
 

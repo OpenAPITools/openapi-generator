@@ -10,17 +10,23 @@
 """
 
 
-import pprint  # noqa: F401
+from __future__ import absolute_import
 import re  # noqa: F401
+import sys  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
 from petstore_api.model_utils import (  # noqa: F401
+    ModelComposed,
     ModelNormal,
     ModelSimple,
-    check_allowed_values,
-    check_validations
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_get_composed_info,
 )
 
 
@@ -46,15 +52,35 @@ class Order(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
         ('status',): {
             'PLACED': "placed",
             'APPROVED': "approved",
-            'DELIVERED': "delivered"
+            'DELIVERED': "delivered",
         },
     }
+
+    openapi_types = {
+        'id': (int,),  # noqa: E501
+        'pet_id': (int,),  # noqa: E501
+        'quantity': (int,),  # noqa: E501
+        'ship_date': (datetime,),  # noqa: E501
+        'status': (str,),  # noqa: E501
+        'complete': (bool,),  # noqa: E501
+    }
+
+    validations = {
+    }
+
+    additional_properties_type = None
+
+    @staticmethod
+    def discriminator():
+        return None
 
     attribute_map = {
         'id': 'id',  # noqa: E501
@@ -62,242 +88,52 @@ class Order(ModelNormal):
         'quantity': 'quantity',  # noqa: E501
         'ship_date': 'shipDate',  # noqa: E501
         'status': 'status',  # noqa: E501
-        'complete': 'complete'  # noqa: E501
+        'complete': 'complete',  # noqa: E501
     }
 
-    openapi_types = {
-        'id': 'int',
-        'pet_id': 'int',
-        'quantity': 'int',
-        'ship_date': 'datetime',
-        'status': 'str',
-        'complete': 'bool'
-    }
+    @staticmethod
+    def _composed_schemas():
+        return None
 
-    validations = {
-    }
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_from_server',
+        '_path_to_item',
+        '_configuration',
+    ])
 
-    def __init__(self, id=None, pet_id=None, quantity=None, ship_date=None, status=None, complete=False):  # noqa: E501
-        """Order - a model defined in OpenAPI"""  # noqa: E501
-
-        self._id = None
-        self._pet_id = None
-        self._quantity = None
-        self._ship_date = None
-        self._status = None
-        self._complete = None
-        self.discriminator = None
-
-        if id is not None:
-            self.id = (
-                id
-            )
-        if pet_id is not None:
-            self.pet_id = (
-                pet_id
-            )
-        if quantity is not None:
-            self.quantity = (
-                quantity
-            )
-        if ship_date is not None:
-            self.ship_date = (
-                ship_date
-            )
-        if status is not None:
-            self.status = (
-                status
-            )
-        if complete is not None:
-            self.complete = (
-                complete
-            )
-
-    @property
-    def id(self):
-        """Gets the id of this Order.  # noqa: E501
+    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """order.Order - a model defined in OpenAPI
 
 
-        :return: The id of this Order.  # noqa: E501
-        :rtype: int
-        """
-        return self._id
-
-    @id.setter
-    def id(self, id):  # noqa: E501
-        """Sets the id of this Order.
-
-
-        :param id: The id of this Order.  # noqa: E501
-        :type: int
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            id (int): [optional]  # noqa: E501
+            pet_id (int): [optional]  # noqa: E501
+            quantity (int): [optional]  # noqa: E501
+            ship_date (datetime): [optional]  # noqa: E501
+            status (str): Order Status. [optional]  # noqa: E501
+            complete (bool): [optional] if omitted the server will use the default value of False  # noqa: E501
         """
 
-        self._id = (
-            id
-        )
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
 
-    @property
-    def pet_id(self):
-        """Gets the pet_id of this Order.  # noqa: E501
-
-
-        :return: The pet_id of this Order.  # noqa: E501
-        :rtype: int
-        """
-        return self._pet_id
-
-    @pet_id.setter
-    def pet_id(self, pet_id):  # noqa: E501
-        """Sets the pet_id of this Order.
-
-
-        :param pet_id: The pet_id of this Order.  # noqa: E501
-        :type: int
-        """
-
-        self._pet_id = (
-            pet_id
-        )
-
-    @property
-    def quantity(self):
-        """Gets the quantity of this Order.  # noqa: E501
-
-
-        :return: The quantity of this Order.  # noqa: E501
-        :rtype: int
-        """
-        return self._quantity
-
-    @quantity.setter
-    def quantity(self, quantity):  # noqa: E501
-        """Sets the quantity of this Order.
-
-
-        :param quantity: The quantity of this Order.  # noqa: E501
-        :type: int
-        """
-
-        self._quantity = (
-            quantity
-        )
-
-    @property
-    def ship_date(self):
-        """Gets the ship_date of this Order.  # noqa: E501
-
-
-        :return: The ship_date of this Order.  # noqa: E501
-        :rtype: datetime
-        """
-        return self._ship_date
-
-    @ship_date.setter
-    def ship_date(self, ship_date):  # noqa: E501
-        """Sets the ship_date of this Order.
-
-
-        :param ship_date: The ship_date of this Order.  # noqa: E501
-        :type: datetime
-        """
-
-        self._ship_date = (
-            ship_date
-        )
-
-    @property
-    def status(self):
-        """Gets the status of this Order.  # noqa: E501
-
-        Order Status  # noqa: E501
-
-        :return: The status of this Order.  # noqa: E501
-        :rtype: str
-        """
-        return self._status
-
-    @status.setter
-    def status(self, status):  # noqa: E501
-        """Sets the status of this Order.
-
-        Order Status  # noqa: E501
-
-        :param status: The status of this Order.  # noqa: E501
-        :type: str
-        """
-        check_allowed_values(
-            self.allowed_values,
-            ('status',),
-            status,
-            self.validations
-        )
-
-        self._status = (
-            status
-        )
-
-    @property
-    def complete(self):
-        """Gets the complete of this Order.  # noqa: E501
-
-
-        :return: The complete of this Order.  # noqa: E501
-        :rtype: bool
-        """
-        return self._complete
-
-    @complete.setter
-    def complete(self, complete):  # noqa: E501
-        """Sets the complete of this Order.
-
-
-        :param complete: The complete of this Order.  # noqa: E501
-        :type: bool
-        """
-
-        self._complete = (
-            complete
-        )
-
-    def to_dict(self):
-        """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
-
-    def __repr__(self):
-        """For `print` and `pprint`"""
-        return self.to_str()
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, Order):
-            return False
-
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Returns true if both objects are not equal"""
-        return not self == other
+        for var_name, var_value in six.iteritems(kwargs):
+            setattr(self, var_name, var_value)

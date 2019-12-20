@@ -282,9 +282,9 @@
         <feign-version>10.2.3</feign-version>
         <feign-form-version>2.1.0</feign-form-version>
         <jackson-version>2.9.10</jackson-version>
-        <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
-        <jackson-databind-version>2.9.10</jackson-databind-version>
-        <jackson-threetenbp-version>2.6.4</jackson-threetenbp-version>
+        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        <jackson-databind-version>2.9.10.1</jackson-databind-version>
+        <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
         <junit-version>4.12</junit-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <oltu-version>1.0.1</oltu-version>

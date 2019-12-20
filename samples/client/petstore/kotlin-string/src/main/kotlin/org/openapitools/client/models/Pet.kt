@@ -27,14 +27,14 @@ import java.io.Serializable
  */
 
 data class Pet (
-    @Json(name = "name")
-    val name: kotlin.String,
-    @Json(name = "photoUrls")
-    val photoUrls: kotlin.Array<kotlin.String>,
     @Json(name = "id")
     val id: kotlin.Long? = null,
     @Json(name = "category")
     val category: Category? = null,
+    @Json(name = "name")
+    val name: kotlin.String,
+    @Json(name = "photoUrls")
+    val photoUrls: kotlin.Array<kotlin.String>,
     @Json(name = "tags")
     val tags: kotlin.Array<Tag>? = null,
     /* pet status in the store */
@@ -44,22 +44,18 @@ data class Pet (
 : Serializable 
 
 {
-
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
     /**
     * pet status in the store
     * Values: available,pending,sold
     */
     
     enum class Status(val value: kotlin.String){
-    
         @Json(name = "available") available("available"),
-    
         @Json(name = "pending") pending("pending"),
-    
         @Json(name = "sold") sold("sold");
-    
-
     }
-
 }
 

@@ -126,8 +126,8 @@ class {{classname}}(object):
 {{^isNullable}}
 {{#required}}
         # verify the required parameter '{{paramName}}' is set
-        if ('{{paramName}}' not in local_var_params or
-                local_var_params['{{paramName}}'] is None):
+        if self.api_client.client_side_validation and ('{{paramName}}' not in local_var_params or  # noqa: E501
+                                                        local_var_params['{{paramName}}'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `{{paramName}}` when calling `{{operationId}}`")  # noqa: E501
 {{/required}}
 {{/isNullable}}
@@ -136,35 +136,35 @@ class {{classname}}(object):
 {{#allParams}}
 {{#hasValidation}}
     {{#maxLength}}
-        if ('{{paramName}}' in local_var_params and
-                len(local_var_params['{{paramName}}']) > {{maxLength}}):
+        if self.api_client.client_side_validation and ('{{paramName}}' in local_var_params and  # noqa: E501
+                                                        len(local_var_params['{{paramName}}']) > {{maxLength}}):  # noqa: E501
             raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be less than or equal to `{{maxLength}}`")  # noqa: E501
     {{/maxLength}}
     {{#minLength}}
-        if ('{{paramName}}' in local_var_params and
-                len(local_var_params['{{paramName}}']) < {{minLength}}):
+        if self.api_client.client_side_validation and ('{{paramName}}' in local_var_params and  # noqa: E501
+                                                        len(local_var_params['{{paramName}}']) < {{minLength}}):  # noqa: E501
             raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be greater than or equal to `{{minLength}}`")  # noqa: E501
     {{/minLength}}
     {{#maximum}}
-        if '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}:  # noqa: E501
+        if self.api_client.client_side_validation and '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}:  # noqa: E501
             raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value less than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}`{{maximum}}`")  # noqa: E501
     {{/maximum}}
     {{#minimum}}
-        if '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}:  # noqa: E501
+        if self.api_client.client_side_validation and '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}:  # noqa: E501
             raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}`{{minimum}}`")  # noqa: E501
     {{/minimum}}
     {{#pattern}}
-        if '{{paramName}}' in local_var_params and not re.search(r'{{{vendorExtensions.x-regex}}}', local_var_params['{{paramName}}']{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):  # noqa: E501
+        if self.api_client.client_side_validation and '{{paramName}}' in local_var_params and not re.search(r'{{{vendorExtensions.x-regex}}}', local_var_params['{{paramName}}']{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):  # noqa: E501
             raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must conform to the pattern `{{{pattern}}}`")  # noqa: E501
     {{/pattern}}
     {{#maxItems}}
-        if ('{{paramName}}' in local_var_params and
-                len(local_var_params['{{paramName}}']) > {{maxItems}}):
+        if self.api_client.client_side_validation and ('{{paramName}}' in local_var_params and  # noqa: E501
+                                                        len(local_var_params['{{paramName}}']) > {{maxItems}}):  # noqa: E501
             raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be less than or equal to `{{maxItems}}`")  # noqa: E501
     {{/maxItems}}
     {{#minItems}}
-        if ('{{paramName}}' in local_var_params and
-                len(local_var_params['{{paramName}}']) < {{minItems}}):
+        if self.api_client.client_side_validation and ('{{paramName}}' in local_var_params and  # noqa: E501
+                                                        len(local_var_params['{{paramName}}']) < {{minItems}}):  # noqa: E501
             raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be greater than or equal to `{{minItems}}`")  # noqa: E501
     {{/minItems}}
 {{/hasValidation}}
@@ -182,7 +182,7 @@ class {{classname}}(object):
 
         query_params = []
 {{#queryParams}}
-        if '{{paramName}}' in local_var_params:
+        if '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] is not None:  # noqa: E501
             query_params.append(('{{baseName}}', local_var_params['{{paramName}}'])){{#isListContainer}}  # noqa: E501
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}  # noqa: E501
 {{/queryParams}}

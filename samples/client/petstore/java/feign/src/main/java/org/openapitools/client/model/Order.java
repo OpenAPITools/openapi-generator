@@ -35,6 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
+@javax.annotation.concurrent.Immutable
 
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
@@ -113,7 +114,6 @@ public class Order {
   }
 
 
-
   public void setId(Long id) {
     this.id = id;
   }
@@ -137,7 +137,6 @@ public class Order {
   public Long getPetId() {
     return petId;
   }
-
 
 
   public void setPetId(Long petId) {
@@ -165,7 +164,6 @@ public class Order {
   }
 
 
-
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
@@ -189,7 +187,6 @@ public class Order {
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
-
 
 
   public void setShipDate(OffsetDateTime shipDate) {
@@ -217,7 +214,6 @@ public class Order {
   }
 
 
-
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
@@ -241,7 +237,6 @@ public class Order {
   public Boolean isComplete() {
     return complete;
   }
-
 
 
   public void setComplete(Boolean complete) {

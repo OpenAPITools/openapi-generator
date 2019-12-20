@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -60,7 +61,7 @@ export class BaseAPI {
             // do not handle correctly sometimes.
             url += '?' + this.configuration.queryParamsStringify(context.query);
         }
-        const body = (context.body instanceof FormData || isBlob(context.body))
+        const body = (context.body instanceof FormData || context.body instanceof URLSearchParams || isBlob(context.body))
 	    ? context.body
 	    : JSON.stringify(context.body);
 
@@ -285,7 +286,7 @@ export interface ResponseTransformer<T> {
 export class JSONApiResponse<T> {
     constructor(public raw: Response, private transformer: ResponseTransformer<T> = (jsonValue: any) => jsonValue) {}
 
-    async value() {
+    async value(): Promise<T> {
         return this.transformer(await this.raw.json());
     }
 }
@@ -293,7 +294,7 @@ export class JSONApiResponse<T> {
 export class VoidApiResponse {
     constructor(public raw: Response) {}
 
-    async value() {
+    async value(): Promise<void> {
         return undefined;
     }
 }
@@ -301,7 +302,7 @@ export class VoidApiResponse {
 export class BlobApiResponse {
     constructor(public raw: Response) {}
 
-    async value() {
+    async value(): Promise<Blob> {
         return await this.raw.blob();
     };
 }
@@ -309,7 +310,7 @@ export class BlobApiResponse {
 export class TextApiResponse {
     constructor(public raw: Response) {}
 
-    async value() {
+    async value(): Promise<string> {
         return await this.raw.text();
     };
 }

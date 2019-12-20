@@ -10,18 +10,28 @@
 """
 
 
-import pprint  # noqa: F401
+from __future__ import absolute_import
 import re  # noqa: F401
+import sys  # noqa: F401
 
 import six  # noqa: F401
 
-from petstore_api.exceptions import ApiValueError  # noqa: F401
 from petstore_api.model_utils import (  # noqa: F401
+    ModelComposed,
     ModelNormal,
     ModelSimple,
-    check_allowed_values,
-    check_validations
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_get_composed_info,
 )
+try:
+    from petstore_api.models import read_only_first
+except ImportError:
+    read_only_first = sys.modules['petstore_api.models.read_only_first']
 
 
 class ArrayTest(ModelNormal):
@@ -46,155 +56,74 @@ class ArrayTest(ModelNormal):
           that stores validations for max_length, min_length, max_items,
           min_items, exclusive_maximum, inclusive_maximum, exclusive_minimum,
           inclusive_minimum, and regex.
+      additional_properties_type (tuple): A tuple of classes accepted
+          as additional properties values.
     """
 
     allowed_values = {
     }
 
-    attribute_map = {
-        'array_of_string': 'array_of_string',  # noqa: E501
-        'array_array_of_integer': 'array_array_of_integer',  # noqa: E501
-        'array_array_of_model': 'array_array_of_model'  # noqa: E501
-    }
-
     openapi_types = {
-        'array_of_string': 'list[str]',
-        'array_array_of_integer': 'list[list[int]]',
-        'array_array_of_model': 'list[list[ReadOnlyFirst]]'
+        'array_of_string': ([str],),  # noqa: E501
+        'array_array_of_integer': ([[int]],),  # noqa: E501
+        'array_array_of_model': ([[read_only_first.ReadOnlyFirst]],),  # noqa: E501
     }
 
     validations = {
     }
 
-    def __init__(self, array_of_string=None, array_array_of_integer=None, array_array_of_model=None):  # noqa: E501
-        """ArrayTest - a model defined in OpenAPI"""  # noqa: E501
+    additional_properties_type = None
 
-        self._array_of_string = None
-        self._array_array_of_integer = None
-        self._array_array_of_model = None
-        self.discriminator = None
+    @staticmethod
+    def discriminator():
+        return None
 
-        if array_of_string is not None:
-            self.array_of_string = (
-                array_of_string
-            )
-        if array_array_of_integer is not None:
-            self.array_array_of_integer = (
-                array_array_of_integer
-            )
-        if array_array_of_model is not None:
-            self.array_array_of_model = (
-                array_array_of_model
-            )
+    attribute_map = {
+        'array_of_string': 'array_of_string',  # noqa: E501
+        'array_array_of_integer': 'array_array_of_integer',  # noqa: E501
+        'array_array_of_model': 'array_array_of_model',  # noqa: E501
+    }
 
-    @property
-    def array_of_string(self):
-        """Gets the array_of_string of this ArrayTest.  # noqa: E501
+    @staticmethod
+    def _composed_schemas():
+        return None
 
+    required_properties = set([
+        '_data_store',
+        '_check_type',
+        '_from_server',
+        '_path_to_item',
+        '_configuration',
+    ])
 
-        :return: The array_of_string of this ArrayTest.  # noqa: E501
-        :rtype: list[str]
-        """
-        return self._array_of_string
-
-    @array_of_string.setter
-    def array_of_string(self, array_of_string):  # noqa: E501
-        """Sets the array_of_string of this ArrayTest.
+    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+        """array_test.ArrayTest - a model defined in OpenAPI
 
 
-        :param array_of_string: The array_of_string of this ArrayTest.  # noqa: E501
-        :type: list[str]
-        """
-
-        self._array_of_string = (
-            array_of_string
-        )
-
-    @property
-    def array_array_of_integer(self):
-        """Gets the array_array_of_integer of this ArrayTest.  # noqa: E501
-
-
-        :return: The array_array_of_integer of this ArrayTest.  # noqa: E501
-        :rtype: list[list[int]]
-        """
-        return self._array_array_of_integer
-
-    @array_array_of_integer.setter
-    def array_array_of_integer(self, array_array_of_integer):  # noqa: E501
-        """Sets the array_array_of_integer of this ArrayTest.
-
-
-        :param array_array_of_integer: The array_array_of_integer of this ArrayTest.  # noqa: E501
-        :type: list[list[int]]
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _from_server (bool): True if the data is from the server
+                                False if the data is from the client (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            array_of_string ([str]): [optional]  # noqa: E501
+            array_array_of_integer ([[int]]): [optional]  # noqa: E501
+            array_array_of_model ([[read_only_first.ReadOnlyFirst]]): [optional]  # noqa: E501
         """
 
-        self._array_array_of_integer = (
-            array_array_of_integer
-        )
+        self._data_store = {}
+        self._check_type = _check_type
+        self._from_server = _from_server
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
 
-    @property
-    def array_array_of_model(self):
-        """Gets the array_array_of_model of this ArrayTest.  # noqa: E501
-
-
-        :return: The array_array_of_model of this ArrayTest.  # noqa: E501
-        :rtype: list[list[ReadOnlyFirst]]
-        """
-        return self._array_array_of_model
-
-    @array_array_of_model.setter
-    def array_array_of_model(self, array_array_of_model):  # noqa: E501
-        """Sets the array_array_of_model of this ArrayTest.
-
-
-        :param array_array_of_model: The array_array_of_model of this ArrayTest.  # noqa: E501
-        :type: list[list[ReadOnlyFirst]]
-        """
-
-        self._array_array_of_model = (
-            array_array_of_model
-        )
-
-    def to_dict(self):
-        """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
-
-    def __repr__(self):
-        """For `print` and `pprint`"""
-        return self.to_str()
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, ArrayTest):
-            return False
-
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Returns true if both objects are not equal"""
-        return not self == other
+        for var_name, var_value in six.iteritems(kwargs):
+            setattr(self, var_name, var_value)

@@ -36,8 +36,8 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "CatAllOf")
 public class CatAllOf {
-  @XmlElement(name = "declawed")
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
+  @XmlElement(name = "declawed")
   private Boolean declawed;
 
 
@@ -60,7 +60,6 @@ public class CatAllOf {
   public Boolean getDeclawed() {
     return declawed;
   }
-
 
 
   public void setDeclawed(Boolean declawed) {

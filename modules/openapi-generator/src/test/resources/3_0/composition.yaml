@@ -1,0 +1,121 @@
+openapi: 3.0.0
+info:
+  title: Composition and Inheritence (Polymorphism)
+  version: 1.0.0
+paths:
+  /oneOf:
+    post:
+      summary: One of
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OneOf'
+  /oneOfWithDiscriminator:
+    post:
+      summary: One of with discriminator
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OneOfWithDiscriminator'
+  /oneOfWithAllOfDiscriminator:
+    post:
+      summary: One of with discriminator from all of
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OneOfWithAllOfDiscriminator'
+  /allOf:
+    post:
+      summary: All of
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllOf'
+  /allOfWithDiscriminator:
+    post:
+      summary: All of with discriminator
+      responses:
+        200:
+          description: Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseObject'
+components:
+  schemas:
+    OneOf:
+      oneOf:
+        - $ref: "#/components/schemas/ObjectA"
+        - $ref: "#/components/schemas/ObjectB"
+    OneOfWithDiscriminator:
+      oneOf:
+        - $ref: "#/components/schemas/ObjectA"
+        - $ref: "#/components/schemas/ObjectB"
+      discriminator:
+        propertyName: objectType
+        mapping:
+          a: "#/components/schemas/ObjectA"
+          b: "#/components/schemas/ObjectB"
+    OneOfWithAllOfDiscriminator:
+      oneOf:
+        - $ref: "#/components/schemas/SubObjectA"
+        - $ref: "#/components/schemas/SubObjectB"
+    AllOf:
+      allOf:
+        - $ref: "#/components/schemas/ObjectA"
+        - $ref: "#/components/schemas/ObjectB"
+    BaseObject:
+      required:
+        - objectType
+        - value
+      properties:
+        objectType:
+          type: string
+        value:
+          type: boolean
+      discriminator:
+        propertyName: objectType
+    ObjectA:
+      type: object
+      required:
+        - objectType
+      properties:
+        objectType:
+          type: string
+        valueA:
+          type: string
+    ObjectB:
+      type: object
+      required:
+        - objectType
+      properties:
+        objectType:
+          type: string
+        valueB:
+          type: number
+    SubObjectA:
+      allOf:
+        - $ref: "#/components/schemas/BaseObject"
+        - type: object
+          properties:
+            valueA:
+              type: string
+    SubObjectB:
+      allOf:
+        - $ref: "#/components/schemas/BaseObject"
+        - type: object
+          properties:
+            valueB:
+              type: number

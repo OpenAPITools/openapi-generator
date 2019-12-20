@@ -1,0 +1,10 @@
+{
+  "!include": "bin/typescript-angular-v6-petstore-not-provided-in-root-with-npm.json",
+  "generatorName": "typescript-angular",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/client/petstore/typescript-angular-v6-not-provided-in-root/builds/with-npm",
+  "additionalProperties": {
+    "ngVersion": "6.0.0",
+    "providedInRoot": false
+  }
+}

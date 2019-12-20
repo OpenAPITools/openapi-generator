@@ -29,33 +29,33 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.IJsonSchemaValidationProperties;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
-
 
 public class ModelUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelUtils.class);
 
     private static final String URI_FORMAT = "uri";
 
-    // TODO: Use GlobalSettings for all static/global properties in a more thread-safe way.
-    private static boolean generateAliasAsModel = false;
-
+    private static final String generateAliasAsModelKey = "generateAliasAsModel";
     public static void setGenerateAliasAsModel(boolean value) {
-        generateAliasAsModel = value;
+        GlobalSettings.setProperty(generateAliasAsModelKey, Boolean.toString(value));
     }
 
     public static boolean isGenerateAliasAsModel() {
-        return generateAliasAsModel;
+        return Boolean.parseBoolean(GlobalSettings.getProperty(generateAliasAsModelKey, "false"));
     }
-
 
     /**
      * Searches for the model by name in the map of models and returns it
@@ -92,12 +92,20 @@ public class ModelUtils {
      * @return schemas a list of used schemas
      */
     public static List<String> getAllUsedSchemas(OpenAPI openAPI) {
+        Map<String, List<String>> childrenMap = getChildrenMap(openAPI);
         List<String> allUsedSchemas = new ArrayList<String>();
         visitOpenAPI(openAPI, (s, t) -> {
             if (s.get$ref() != null) {
                 String ref = getSimpleRef(s.get$ref());
                 if (!allUsedSchemas.contains(ref)) {
                     allUsedSchemas.add(ref);
+                }
+                if (childrenMap.containsKey(ref)) {
+                    for (String child : childrenMap.get(ref)) {
+                        if (!allUsedSchemas.contains(child)) {
+                            allUsedSchemas.add(child);
+                        }
+                    }
                 }
             }
         });
@@ -111,6 +119,18 @@ public class ModelUtils {
      * @return schemas a list of unused schemas
      */
     public static List<String> getUnusedSchemas(OpenAPI openAPI) {
+        final  Map<String, List<String>> childrenMap;
+        Map<String, List<String>> tmpChildrenMap;
+        try {
+            tmpChildrenMap = getChildrenMap(openAPI);
+        } catch (NullPointerException npe) {
+            // in rare cases, such as a spec document with only one top-level oneOf schema and multiple referenced schemas,
+            // the stream used in getChildrenMap will raise an NPE. Rather than modify getChildrenMap which is used by getAllUsedSchemas,
+            // we'll catch here as a workaround for this edge case.
+            tmpChildrenMap = new HashMap<>();
+        }
+
+        childrenMap = tmpChildrenMap;
         List<String> unusedSchemas = new ArrayList<String>();
 
         Map<String, Schema> schemas = getSchemas(openAPI);
@@ -118,7 +138,11 @@ public class ModelUtils {
 
         visitOpenAPI(openAPI, (s, t) -> {
             if (s.get$ref() != null) {
-                unusedSchemas.remove(getSimpleRef(s.get$ref()));
+                String ref = getSimpleRef(s.get$ref());
+                unusedSchemas.remove(ref);
+                if (childrenMap.containsKey(ref)) {
+                    unusedSchemas.removeAll(childrenMap.get(ref));
+                }
             }
         });
         return unusedSchemas;
@@ -798,7 +822,7 @@ public class ModelUtils {
                 // top-level enum class
                 return schema;
             } else if (isArraySchema(ref)) {
-                if (generateAliasAsModel) {
+                if (isGenerateAliasAsModel()) {
                     return schema; // generate a model extending array
                 } else {
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
@@ -809,7 +833,7 @@ public class ModelUtils {
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
                     return schema; // treat it as model
                 else {
-                    if (generateAliasAsModel) {
+                    if (isGenerateAliasAsModel()) {
                         return schema; // generate a model extending map
                     } else {
                         // treat it as a typical map
@@ -860,6 +884,19 @@ public class ModelUtils {
         }
         return null;
     }
+
+    public static Map<String, List<String>> getChildrenMap(OpenAPI openAPI) {
+        Map<String, Schema> allSchemas = getSchemas(openAPI);
+
+        // FIXME: The collect here will throw NPE if a spec document has only a single oneOf hierarchy.
+        Map<String, List<Entry<String, Schema>>> groupedByParent = allSchemas.entrySet().stream()
+            .filter(entry -> isComposedSchema(entry.getValue()))
+            .collect(Collectors.groupingBy(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)));
+
+        return groupedByParent.entrySet().stream()
+                .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue().stream().map(e -> e.getKey()).collect(Collectors.toList())));
+    }
+
 
     /**
      * Get the interfaces from the schema (composed)
@@ -967,5 +1004,34 @@ public class ModelUtils {
         }
 
         return false;
+    }
+
+    public static void syncValidationProperties(Schema schema, IJsonSchemaValidationProperties target){
+        if (schema != null && target != null) {
+            target.setPattern(schema.getPattern());
+            BigDecimal minimum = schema.getMinimum();
+            BigDecimal maximum = schema.getMaximum();
+            Boolean exclusiveMinimum = schema.getExclusiveMinimum();
+            Boolean exclusiveMaximum = schema.getExclusiveMaximum();
+            Integer minLength = schema.getMinLength();
+            Integer maxLength = schema.getMaxLength();
+            Integer minItems = schema.getMinItems();
+            Integer maxItems = schema.getMaxItems();
+            Boolean uniqueItems = schema.getUniqueItems();
+            Integer minProperties = schema.getMinProperties();
+            Integer maxProperties = schema.getMaxProperties();
+
+            if (minimum != null) target.setMinimum(String.valueOf(minimum));
+            if (maximum != null) target.setMaximum(String.valueOf(maximum));
+            if (exclusiveMinimum != null) target.setExclusiveMinimum(exclusiveMinimum);
+            if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
+            if (minLength != null) target.setMinLength(minLength);
+            if (maxLength != null) target.setMaxLength(maxLength);
+            if (minItems != null) target.setMinItems(minItems);
+            if (maxItems != null) target.setMaxItems(maxItems);
+            if (uniqueItems != null) target.setUniqueItems(uniqueItems);
+            if (minProperties != null) target.setMinProperties(minProperties);
+            if (maxProperties != null) target.setMaxProperties(maxProperties);
+        }
     }
 }

@@ -8,18 +8,19 @@
  */
 
 package petstore
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // FileSchemaTestClass struct for FileSchemaTestClass
 type FileSchemaTestClass struct {
 	File *File `json:"file,omitempty"`
-
 	Files *[]File `json:"files,omitempty"`
-
 }
 
-// GetFile returns the File field if non-nil, zero value otherwise.
+// GetFile returns the File field value if set, zero value otherwise.
 func (o *FileSchemaTestClass) GetFile() File {
 	if o == nil || o.File == nil {
 		var ret File
@@ -28,7 +29,7 @@ func (o *FileSchemaTestClass) GetFile() File {
 	return *o.File
 }
 
-// GetFileOk returns a tuple with the File field if it's non-nil, zero value otherwise
+// GetFileOk returns a tuple with the File field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *FileSchemaTestClass) GetFileOk() (File, bool) {
 	if o == nil || o.File == nil {
@@ -52,7 +53,7 @@ func (o *FileSchemaTestClass) SetFile(v File) {
 	o.File = &v
 }
 
-// GetFiles returns the Files field if non-nil, zero value otherwise.
+// GetFiles returns the Files field value if set, zero value otherwise.
 func (o *FileSchemaTestClass) GetFiles() []File {
 	if o == nil || o.Files == nil {
 		var ret []File
@@ -61,7 +62,7 @@ func (o *FileSchemaTestClass) GetFiles() []File {
 	return *o.Files
 }
 
-// GetFilesOk returns a tuple with the Files field if it's non-nil, zero value otherwise
+// GetFilesOk returns a tuple with the Files field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *FileSchemaTestClass) GetFilesOk() ([]File, bool) {
 	if o == nil || o.Files == nil {
@@ -85,17 +86,25 @@ func (o *FileSchemaTestClass) SetFiles(v []File) {
 	o.Files = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o FileSchemaTestClass) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.File != nil {
-		toSerialize["file"] = o.File
-	}
-	if o.Files != nil {
-		toSerialize["files"] = o.Files
-	}
-	return json.Marshal(toSerialize)
+type NullableFileSchemaTestClass struct {
+	Value FileSchemaTestClass
+	ExplicitNull bool
 }
 
+func (v NullableFileSchemaTestClass) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
+}
 
+func (v *NullableFileSchemaTestClass) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}

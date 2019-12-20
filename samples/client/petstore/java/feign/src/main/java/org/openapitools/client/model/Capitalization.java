@@ -34,6 +34,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
+@javax.annotation.concurrent.Immutable
 
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
@@ -75,7 +76,6 @@ public class Capitalization {
   }
 
 
-
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
   }
@@ -99,7 +99,6 @@ public class Capitalization {
   public String getCapitalCamel() {
     return capitalCamel;
   }
-
 
 
   public void setCapitalCamel(String capitalCamel) {
@@ -127,7 +126,6 @@ public class Capitalization {
   }
 
 
-
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
   }
@@ -151,7 +149,6 @@ public class Capitalization {
   public String getCapitalSnake() {
     return capitalSnake;
   }
-
 
 
   public void setCapitalSnake(String capitalSnake) {
@@ -179,7 +176,6 @@ public class Capitalization {
   }
 
 
-
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
@@ -203,7 +199,6 @@ public class Capitalization {
   public String getATTNAME() {
     return ATT_NAME;
   }
-
 
 
   public void setATTNAME(String ATT_NAME) {
