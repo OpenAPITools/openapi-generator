@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 internal struct Pet: Codable {
 
     internal enum Status: String, Codable {

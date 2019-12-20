@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public struct Pet: Codable {
 
     public enum Status: String, Codable {

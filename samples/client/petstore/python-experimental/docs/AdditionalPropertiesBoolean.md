@@ -1,4 +1,4 @@
-# AdditionalPropertiesBoolean
+# additional_properties_boolean.AdditionalPropertiesBoolean
 
 ## Properties
 Name | Type | Description | Notes

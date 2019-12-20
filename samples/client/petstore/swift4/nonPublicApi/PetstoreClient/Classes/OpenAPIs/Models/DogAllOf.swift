@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 internal struct DogAllOf: Codable {
 
     internal var breed: String?

@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 internal struct EnumTest: Codable {
 
     internal enum EnumString: String, Codable {
@@ -42,7 +41,7 @@ internal struct EnumTest: Codable {
         self.outerEnum = outerEnum
     }
 
-    internal enum CodingKeys: String, CodingKey { 
+    internal enum CodingKeys: String, CodingKey {
         case enumString = "enum_string"
         case enumStringRequired = "enum_string_required"
         case enumInteger = "enum_integer"

@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public struct Tag: Codable {
 
     public var id: Int64?
