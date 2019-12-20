@@ -1,4 +1,4 @@
-# Animal
+# animal.Animal
 
 ## Properties
 Name | Type | Description | Notes

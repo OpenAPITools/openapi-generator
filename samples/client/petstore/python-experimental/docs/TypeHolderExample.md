@@ -1,4 +1,4 @@
-# TypeHolderExample
+# type_holder_example.TypeHolderExample
 
 a model to test required properties with an example and length one enum
 ## Properties

@@ -82,8 +82,8 @@ class HeaderSelector
     {
         if (count($accept) === 0 || (count($accept) === 1 && $accept[0] === '')) {
             return null;
-        } elseif (preg_grep("/application\/json/i", $accept)) {
-            return 'application/json';
+        } elseif ($jsonAccept = preg_grep('~(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$~', $accept)) {
+            return implode(',', $jsonAccept);
         } else {
             return implode(',', $accept);
         }

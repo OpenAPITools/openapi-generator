@@ -13,6 +13,7 @@
 from __future__ import absolute_import
 
 import re  # noqa: F401
+import sys  # noqa: F401
 
 # python 2 and python 3 compatibility library
 import six
@@ -33,7 +34,7 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models.user import User
+from petstore_api.models import user
 
 
 class UserApi(object):
@@ -59,7 +60,7 @@ class UserApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param User body: Created user object (required)
+            :param user.User body: Created user object (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -133,7 +134,7 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (User,),
+                    'body': (user.User,),
                 },
                 'attribute_map': {
                 },
@@ -161,7 +162,7 @@ class UserApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param [User] body: List of user object (required)
+            :param [user.User] body: List of user object (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -235,7 +236,7 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': ([User],),
+                    'body': ([user.User],),
                 },
                 'attribute_map': {
                 },
@@ -263,7 +264,7 @@ class UserApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param [User] body: List of user object (required)
+            :param [user.User] body: List of user object (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -337,7 +338,7 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': ([User],),
+                    'body': ([user.User],),
                 },
                 'attribute_map': {
                 },
@@ -488,7 +489,7 @@ class UserApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: User
+            :return: user.User
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -516,7 +517,7 @@ class UserApi(object):
 
         self.get_user_by_name = Endpoint(
             settings={
-                'response_type': (User,),
+                'response_type': (user.User,),
                 'auth': [],
                 'endpoint_path': '/user/{username}',
                 'operation_id': 'get_user_by_name',
@@ -785,7 +786,7 @@ class UserApi(object):
             :param async_req bool: execute request asynchronously
                 Default is False.
             :param str username: name that need to be deleted (required)
-            :param User body: Updated user object (required)
+            :param user.User body: Updated user object (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -863,7 +864,7 @@ class UserApi(object):
                 },
                 'openapi_types': {
                     'username': (str,),
-                    'body': (User,),
+                    'body': (user.User,),
                 },
                 'attribute_map': {
                     'username': 'username',

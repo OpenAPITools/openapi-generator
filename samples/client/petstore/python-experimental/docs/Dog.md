@@ -1,4 +1,4 @@
-# Dog
+# dog.Dog
 
 ## Properties
 Name | Type | Description | Notes
