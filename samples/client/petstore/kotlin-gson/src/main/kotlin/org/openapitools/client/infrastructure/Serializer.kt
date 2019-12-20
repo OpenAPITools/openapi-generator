@@ -13,7 +13,6 @@ object Serializer {
         .registerTypeAdapter(Date::class.java, DateAdapter())
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
-        .registerTypeAdapter(UUID::class.java, UUIDAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
     
     @JvmStatic

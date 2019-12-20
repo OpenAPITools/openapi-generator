@@ -31,7 +31,7 @@ interface {{classname}} {
     {{/prioritizedContentTypes}}
     {{/formParams}}
     @{{httpMethod}}("{{{path}}}")
-    fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>libraries/retrofit2/queryParams}}{{>libraries/retrofit2/pathParams}}{{>libraries/retrofit2/headerParams}}{{>libraries/retrofit2/bodyParams}}{{>libraries/retrofit2/formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/allParams}}: Call<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>
+    fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/allParams}}: Call<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>
 
     {{/operation}}
 }
