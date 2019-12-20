@@ -109,6 +109,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
     protected String library;
     protected Boolean sortParamsByRequiredFlag = true;
+    protected Boolean sortModelPropertiesByRequiredFlag = false;
     protected Boolean ensureUniqueParams = true;
     protected Boolean allowUnicodeIdentifiers = false;
     protected String gitHost, gitUserId, gitRepoId, releaseNote;
@@ -163,6 +164,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
             this.setSortParamsByRequiredFlag(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG)) {
+            this.setSortModelPropertiesByRequiredFlag(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS)) {
@@ -346,7 +352,7 @@ public class DefaultCodegen implements CodegenConfig {
     public void setCircularReferences(Map<String, CodegenModel> models) {
         final Map<String, List<CodegenProperty>> dependencyMap = models.entrySet().stream()
             .collect(Collectors.toMap(Entry::getKey, entry -> getModelDependencies(entry.getValue())));
-        
+
         models.keySet().forEach(name -> setCircularReferencesOnProperties(name, dependencyMap));
     }
 
@@ -864,6 +870,14 @@ public class DefaultCodegen implements CodegenConfig {
         this.sortParamsByRequiredFlag = sortParamsByRequiredFlag;
     }
 
+    public Boolean getSortModelPropertiesByRequiredFlag() {
+        return sortModelPropertiesByRequiredFlag;
+    }
+
+    public void setSortModelPropertiesByRequiredFlag(Boolean sortModelPropertiesByRequiredFlag) {
+        this.sortModelPropertiesByRequiredFlag = sortModelPropertiesByRequiredFlag;
+    }
+
     public Boolean getPrependFormOrBodyParameters() {
         return prependFormOrBodyParameters;
     }
@@ -1174,6 +1188,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG,
+                CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants
                 .ENSURE_UNIQUE_PARAMS_DESC).defaultValue(Boolean.TRUE.toString()));
         // name formatting options
@@ -2032,6 +2048,17 @@ public class DefaultCodegen implements CodegenConfig {
             for (CodegenProperty prop : m.vars) {
                 postProcessModelProperty(m, prop);
             }
+        }
+
+        if (sortModelPropertiesByRequiredFlag) {
+            Collections.sort(m.vars, new Comparator<CodegenProperty>() {
+                @Override
+                public int compare(CodegenProperty one, CodegenProperty another) {
+                    if (one.required == another.required) return 0;
+                    else if (one.required) return -1;
+                    else return 1;
+                }
+            });
         }
 
         return m;
@@ -3529,6 +3556,9 @@ public class DefaultCodegen implements CodegenConfig {
             cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = false;
             cs.isBasicBasic = cs.isBasicBearer = false;
             cs.scheme = securityScheme.getScheme();
+            if (securityScheme.getExtensions() != null) {
+                cs.vendorExtensions.putAll(securityScheme.getExtensions());
+            }
 
             if (SecurityScheme.Type.APIKEY.equals(securityScheme.getType())) {
                 cs.isBasic = cs.isOAuth = false;

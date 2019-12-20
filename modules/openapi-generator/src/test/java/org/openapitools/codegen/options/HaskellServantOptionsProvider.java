@@ -27,6 +27,7 @@ public class HaskellServantOptionsProvider implements OptionsProvider {
     public static final String MODEL_PACKAGE_VALUE = "Model";
     public static final String API_PACKAGE_VALUE = "Api";
     public static final String SORT_PARAMS_VALUE = "false";
+    public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
@@ -42,6 +43,7 @@ public class HaskellServantOptionsProvider implements OptionsProvider {
         return builder.put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
                 .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
+                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)

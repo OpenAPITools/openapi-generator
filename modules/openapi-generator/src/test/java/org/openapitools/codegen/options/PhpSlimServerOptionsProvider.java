@@ -32,6 +32,7 @@ public class PhpSlimServerOptionsProvider implements OptionsProvider {
     public static final String SRC_BASE_PATH_VALUE = "src";
     public static final String ARTIFACT_VERSION_VALUE = "1.0.0";
     public static final String SORT_PARAMS_VALUE = "false";
+    public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
@@ -52,6 +53,7 @@ public class PhpSlimServerOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.INVOKER_PACKAGE, INVOKER_PACKAGE_VALUE)
                 .put(CodegenConstants.ARTIFACT_VERSION, ARTIFACT_VERSION_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
+                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)

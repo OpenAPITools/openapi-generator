@@ -337,7 +337,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toParamName(String name) {
         // should be the same as variable name
-        if (name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
         name = name.replaceAll("-","_");
