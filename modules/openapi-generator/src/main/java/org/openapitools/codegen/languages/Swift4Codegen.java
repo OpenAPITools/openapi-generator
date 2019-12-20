@@ -213,6 +213,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.NON_PUBLIC_API,
                 CodegenConstants.NON_PUBLIC_API_DESC 
                         + "(default: false)"));
+        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
+                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
         cliOptions.add(new CliOption(UNWRAP_REQUIRED,
                 "Treat 'required' properties in response as non-optional "
                         + "(which would crash the app if api returns null as opposed "

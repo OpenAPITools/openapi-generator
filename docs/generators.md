@@ -128,6 +128,7 @@ The following generators are available:
 * [dynamic-html](generators/dynamic-html.md)  
 * [html](generators/html.md)  
 * [html2](generators/html2.md)  
+* [markdown (beta)](generators/markdown.md)  
 * [openapi](generators/openapi.md)  
 * [openapi-yaml](generators/openapi-yaml.md)  
 

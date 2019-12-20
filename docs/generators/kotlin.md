@@ -15,6 +15,8 @@ sidebar_label: kotlin
 |serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson'| |moshi|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
+|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
+|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |modelMutable|Create mutable models| |false|
 |dateLibrary|Option. Date library to use|<dl><dt>**string**</dt><dd>String</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (jvm only)</dd><dt>**threetenbp**</dt><dd>Threetenbp (jvm only)</dd><dl>|java8|
 |collectionType|Option. Collection type to use|<dl><dt>**array**</dt><dd>kotlin.Array</dd><dt>**list**</dt><dd>kotlin.collections.List</dd><dl>|array|
