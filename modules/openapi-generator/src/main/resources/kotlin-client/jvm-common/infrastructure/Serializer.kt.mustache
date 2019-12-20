@@ -13,10 +13,12 @@ import com.google.gson.GsonBuilder
 {{^threetenbp}}
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
 {{/threetenbp}}
 {{#threetenbp}}
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.OffsetDateTime
 {{/threetenbp}}
 import java.util.UUID
 {{/gson}}
@@ -27,6 +29,7 @@ import java.util.Date
     @JvmStatic
     val moshiBuilder: Moshi.Builder = Moshi.Builder()
         .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
+        .add(OffsetDateTimeAdapter())
         .add(LocalDateTimeAdapter())
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
@@ -44,6 +47,7 @@ import java.util.Date
     @JvmStatic
     val gsonBuilder: GsonBuilder = GsonBuilder()
         .registerTypeAdapter(Date::class.java, DateAdapter())
+        .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())

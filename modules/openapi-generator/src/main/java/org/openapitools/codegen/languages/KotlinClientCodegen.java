@@ -56,7 +56,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public enum DateLibrary {
         STRING("string"),
         THREETENBP("threetenbp"),
-        JAVA8("java8");
+        THREETENBP_LOCALDATETIME("threetenbp-localdatetime"),
+        JAVA8("java8"),
+        JAVA8_LOCALDATETIME("java8-localdatetime");
 
         public final String value;
 
@@ -111,9 +113,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
         Map<String, String> dateOptions = new HashMap<>();
-        dateOptions.put(DateLibrary.THREETENBP.value, "Threetenbp (jvm only)");
+        dateOptions.put(DateLibrary.THREETENBP.value, "Threetenbp - Backport of JSR310 (jvm only, preferred for jdk < 1.8)");
+        dateOptions.put(DateLibrary.THREETENBP_LOCALDATETIME.value, "Threetenbp - Backport of JSR310 (jvm only, for legacy app only)");
         dateOptions.put(DateLibrary.STRING.value, "String");
-        dateOptions.put(DateLibrary.JAVA8.value, "Java 8 native JSR310 (jvm only)");
+        dateOptions.put(DateLibrary.JAVA8.value, "Java 8 native JSR310 (jvm only, preferred for jdk 1.8+)");
+        dateOptions.put(DateLibrary.JAVA8_LOCALDATETIME.value, "Java 8 native JSR310 (jvm only, for legacy app only)");
         dateLibrary.setEnum(dateOptions);
         dateLibrary.setDefault(this.dateLibrary);
         cliOptions.add(dateLibrary);
@@ -222,19 +226,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void processDateLibrary() {
-        DateLibrary dateLibraryEnum = DateLibrary.valueOf(dateLibrary.toUpperCase(Locale.ROOT));
-        switch (dateLibraryEnum) {
-            case THREETENBP:
-                processThreeTeBpDate();
-                break;
-            case STRING:
-                processStringDate();
-                break;
-            case JAVA8:
-                processJava8Date();
-                break;
-            default:
-                break;
+        if (DateLibrary.THREETENBP.value.equals(dateLibrary) || DateLibrary.THREETENBP_LOCALDATETIME.value.equals(dateLibrary)) {
+            processThreeTeBpDate(dateLibrary);
+        } else if (DateLibrary.STRING.value.equals(dateLibrary)) {
+            processStringDate();
+        } else if (DateLibrary.JAVA8.value.equals(dateLibrary) || DateLibrary.JAVA8_LOCALDATETIME.value.equals(dateLibrary)) {
+            processJava8Date(dateLibrary);
         }
     }
 
@@ -246,14 +243,23 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
     }
 
-    private void processThreeTeBpDate() {
+    private void processThreeTeBpDate(String dateLibrary) {
         additionalProperties.put(DateLibrary.THREETENBP.value, true);
         typeMapping.put("date", "LocalDate");
-        typeMapping.put("DateTime", "LocalDateTime");
         importMapping.put("LocalDate", "org.threeten.bp.LocalDate");
-        importMapping.put("LocalDateTime", "org.threeten.bp.LocalDateTime");
         defaultIncludes.add("org.threeten.bp.LocalDate");
-        defaultIncludes.add("org.threeten.bp.LocalDateTime");
+
+        if (dateLibrary.equals(DateLibrary.THREETENBP.value)) {
+            typeMapping.put("date-time", "org.threeten.bp.OffsetDateTime");
+            typeMapping.put("DateTime", "OffsetDateTime");
+            importMapping.put("OffsetDateTime", "org.threeten.bp.OffsetDateTime");
+            defaultIncludes.add("org.threeten.bp.OffsetDateTime");
+        } else if (dateLibrary.equals(DateLibrary.THREETENBP_LOCALDATETIME.value)) {
+            typeMapping.put("date-time", "org.threeten.bp.LocalDateTime");
+            typeMapping.put("DateTime", "LocalDateTime");
+            importMapping.put("LocalDateTime", "org.threeten.bp.LocalDateTime");
+            defaultIncludes.add("org.threeten.bp.LocalDateTime");
+        }
     }
 
     private void processStringDate() {
@@ -263,8 +269,18 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         typeMapping.put("DateTime", "kotlin.String");
     }
 
-    private void processJava8Date() {
+    private void processJava8Date(String dateLibrary) {
         additionalProperties.put(DateLibrary.JAVA8.value, true);
+
+        if (dateLibrary.equals(DateLibrary.JAVA8.value)) {
+            typeMapping.put("date-time", "java.time.OffsetDateTime");
+            typeMapping.put("DateTime", "OffsetDateTime");
+            importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
+        } else if (dateLibrary.equals(DateLibrary.JAVA8_LOCALDATETIME.value)) {
+            typeMapping.put("date-time", "java.time.LocalDateTime");
+            typeMapping.put("DateTime", "LocalDateTime");
+            importMapping.put("LocalDateTime", "java.time.LocalDateTime");
+        }
     }
 
     private void processJVMRetrofit2Library(String infrastructureFolder) {
@@ -280,7 +296,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("jvm-common/infrastructure/ByteArrayAdapter.kt.mustache", infrastructureFolder, "ByteArrayAdapter.kt"));
         supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
         supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
-
+        supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
+        
         switch (getSerializationLibrary()) {
             case moshi:
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
