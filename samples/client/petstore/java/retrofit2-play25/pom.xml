@@ -287,7 +287,7 @@
         <jackson-databind-version>2.9.10.1</jackson-databind-version>
         <jackson-version>2.9.10</jackson-version>
         <play-version>2.5.15</play-version>
-        <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         <retrofit-version>2.5.0</retrofit-version>
         <threetenbp-version>1.4.0</threetenbp-version>
         <oltu-version>1.0.1</oltu-version>
