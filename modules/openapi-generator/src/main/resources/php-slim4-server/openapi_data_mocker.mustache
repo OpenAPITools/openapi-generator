@@ -229,10 +229,10 @@ final class OpenApiDataMocker implements IMocker
      * Shortcut to mock array type
      * Equivalent to mockData(DATA_TYPE_ARRAY);
      *
-     * @param array     $items       Array of described items
-     * @param int|null  $minItems    (optional) An array instance is valid against "minItems" if its size is greater than, or equal to, the value of this keyword.
-     * @param int|null  $maxItems    (optional) An array instance is valid against "maxItems" if its size is less than, or equal to, the value of this keyword
-     * @param bool|null $uniqueItems (optional) If it has boolean value true, the instance validates successfully if all of its elements are unique
+     * @param object|array $items       Object or assoc array of described items
+     * @param int|null     $minItems    (optional) An array instance is valid against "minItems" if its size is greater than, or equal to, the value of this keyword.
+     * @param int|null     $maxItems    (optional) An array instance is valid against "maxItems" if its size is less than, or equal to, the value of this keyword
+     * @param bool|null    $uniqueItems (optional) If it has boolean value true, the instance validates successfully if all of its elements are unique
      *
      * @throws \InvalidArgumentException when invalid arguments passed
      *
@@ -248,8 +248,12 @@ final class OpenApiDataMocker implements IMocker
         $minSize = 0;
         $maxSize = \PHP_INT_MAX;
 
-        if (is_array($items) === false || array_key_exists('type', $items) === false) {
-            throw new InvalidArgumentException('"items" must be assoc array with "type" key');
+        if (
+            (is_array($items) === false || is_object($items) === false)
+            || (is_array($items) && array_key_exists('type', $items) === false)
+            || (is_object($items) && isset($items->type) === false)
+        ) {
+            new InvalidArgumentException('"items" must be object or assoc array with "type" key');
         }
 
         if ($minItems !== null) {
@@ -269,9 +273,9 @@ final class OpenApiDataMocker implements IMocker
             $maxSize = $maxItems;
         }
 
-        $dataType = $items['type'];
-        $dataFormat = $items['format'] ?? null;
         $options = $this->extractSchemaProperties($items);
+        $dataType = $options['type'];
+        $dataFormat = $options['format'] ?? null;
 
         // always genarate smallest possible array to avoid huge JSON responses
         $arrSize = ($maxSize < 1) ? $maxSize : max($minSize, 1);

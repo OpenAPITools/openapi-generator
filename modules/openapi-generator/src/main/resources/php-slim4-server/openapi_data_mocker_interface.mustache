@@ -197,10 +197,10 @@ interface {{interfaceNamePrefix}}OpenApiDataMocker{{interfaceNameSuffix}}
      * Shortcut to mock array type
      * Equivalent to mockData(DATA_TYPE_ARRAY);
      *
-     * @param array     $items       Array of described items
-     * @param int|null  $minItems    (optional) An array instance is valid against "minItems" if its size is greater than, or equal to, the value of this keyword.
-     * @param int|null  $maxItems    (optional) An array instance is valid against "maxItems" if its size is less than, or equal to, the value of this keyword
-     * @param bool|null $uniqueItems (optional) If it has boolean value true, the instance validates successfully if all of its elements are unique
+     * @param object|array $items       Object or assoc array of described items
+     * @param int|null     $minItems    (optional) An array instance is valid against "minItems" if its size is greater than, or equal to, the value of this keyword.
+     * @param int|null     $maxItems    (optional) An array instance is valid against "maxItems" if its size is less than, or equal to, the value of this keyword
+     * @param bool|null    $uniqueItems (optional) If it has boolean value true, the instance validates successfully if all of its elements are unique
      *
      * @throws \InvalidArgumentException when invalid arguments passed
      *

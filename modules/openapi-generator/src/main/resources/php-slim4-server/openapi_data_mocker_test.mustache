@@ -441,28 +441,54 @@ class OpenApiDataMockerTest extends TestCase
             $this->assertContainsOnly($expectedItemsType, $arr, true);
         }
 
-        $dataFormat = $items['dataFormat'] ?? null;
+        if (is_array($items)) {
+            $dataType = $items['type'];
+            $dataFormat = $items['dataFormat'] ?? null;
 
-        // items field numeric properties
-        $minimum = $items['minimum'] ?? null;
-        $maximum = $items['maximum'] ?? null;
-        $exclusiveMinimum = $items['exclusiveMinimum'] ?? null;
-        $exclusiveMaximum = $items['exclusiveMaximum'] ?? null;
+            // items field numeric properties
+            $minimum = $items['minimum'] ?? null;
+            $maximum = $items['maximum'] ?? null;
+            $exclusiveMinimum = $items['exclusiveMinimum'] ?? null;
+            $exclusiveMaximum = $items['exclusiveMaximum'] ?? null;
 
-        // items field string properties
-        $minLength = $items['minLength'] ?? null;
-        $maxLength = $items['maxLength'] ?? null;
-        $enum = $items['enum'] ?? null;
-        $pattern = $items['pattern'] ?? null;
+            // items field string properties
+            $minLength = $items['minLength'] ?? null;
+            $maxLength = $items['maxLength'] ?? null;
+            $enum = $items['enum'] ?? null;
+            $pattern = $items['pattern'] ?? null;
 
-        // items field array properties
-        $subItems = $items['items'] ?? null;
-        $subMinItems = $items['minItems'] ?? null;
-        $subMaxItems = $items['maxItems'] ?? null;
-        $subUniqueItems = $items['uniqueItems'] ?? null;
+            // items field array properties
+            $subItems = $items['items'] ?? null;
+            $subMinItems = $items['minItems'] ?? null;
+            $subMaxItems = $items['maxItems'] ?? null;
+            $subUniqueItems = $items['uniqueItems'] ?? null;
+        } else {
+            // is object
+            $dataType = $items->type;
+            $dataFormat = $items->dataFormat ?? null;
+
+            // items field numeric properties
+            $minimum = $items->minimum ?? null;
+            $maximum = $items->maximum ?? null;
+            $exclusiveMinimum = $items->exclusiveMinimum ?? null;
+            $exclusiveMaximum = $items->exclusiveMaximum ?? null;
+
+            // items field string properties
+            $minLength = $items->minLength ?? null;
+            $maxLength = $items->maxLength ?? null;
+            $enum = $items->enum ?? null;
+            $pattern = $items->pattern ?? null;
+
+            // items field array properties
+            $subItems = $items->items ?? null;
+            $subMinItems = $items->minItems ?? null;
+            $subMaxItems = $items->maxItems ?? null;
+            $subUniqueItems = $items->uniqueItems ?? null;
+        }
+        
 
         foreach ($arr as $item) {
-            switch ($items['type']) {
+            switch ($dataType) {
                 case IMocker::DATA_TYPE_INTEGER:
                     $this->internalAssertNumber($item, $minimum, $maximum, $exclusiveMinimum, $exclusiveMaximum);
                     break;
@@ -487,8 +513,8 @@ class OpenApiDataMockerTest extends TestCase
         $intItems = ['type' => IMocker::DATA_TYPE_INTEGER, 'minimum' => 5, 'maximum' => 10];
         $floatItems = ['type' => IMocker::DATA_TYPE_NUMBER, 'minimum' => -32.4, 'maximum' => 88.6, 'exclusiveMinimum' => true, 'exclusiveMaximum' => true];
         $strItems = ['type' => IMocker::DATA_TYPE_STRING, 'minLength' => 20, 'maxLength' => 50];
-        $boolItems = ['type' => IMocker::DATA_TYPE_BOOLEAN];
-        $arrayItems = ['type' => IMocker::DATA_TYPE_ARRAY, 'items' => ['type' => IMocker::DATA_TYPE_STRING, 'minItems' => 3, 'maxItems' => 10]];
+        $boolItems = (object) ['type' => IMocker::DATA_TYPE_BOOLEAN];
+        $arrayItems = (object) ['type' => IMocker::DATA_TYPE_ARRAY, 'items' => ['type' => IMocker::DATA_TYPE_STRING, 'minItems' => 3, 'maxItems' => 10]];
         $expectedInt = IsType::TYPE_INT;
         $expectedFloat = IsType::TYPE_FLOAT;
         $expectedStr = IsType::TYPE_STRING;
