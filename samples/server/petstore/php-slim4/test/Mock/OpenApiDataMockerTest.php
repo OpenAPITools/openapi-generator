@@ -29,6 +29,7 @@ use OpenAPIServer\Mock\OpenApiDataMocker;
 use OpenAPIServer\Mock\OpenApiDataMockerInterface as IMocker;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Constraint\IsType;
+use StdClass;
 
 /**
  * OpenApiDataMockerTest Class Doc Comment
@@ -432,28 +433,54 @@ class OpenApiDataMockerTest extends TestCase
             $this->assertContainsOnly($expectedItemsType, $arr, true);
         }
 
-        $dataFormat = $items['dataFormat'] ?? null;
+        if (is_array($items)) {
+            $dataType = $items['type'];
+            $dataFormat = $items['dataFormat'] ?? null;
 
-        // items field numeric properties
-        $minimum = $items['minimum'] ?? null;
-        $maximum = $items['maximum'] ?? null;
-        $exclusiveMinimum = $items['exclusiveMinimum'] ?? null;
-        $exclusiveMaximum = $items['exclusiveMaximum'] ?? null;
+            // items field numeric properties
+            $minimum = $items['minimum'] ?? null;
+            $maximum = $items['maximum'] ?? null;
+            $exclusiveMinimum = $items['exclusiveMinimum'] ?? null;
+            $exclusiveMaximum = $items['exclusiveMaximum'] ?? null;
 
-        // items field string properties
-        $minLength = $items['minLength'] ?? null;
-        $maxLength = $items['maxLength'] ?? null;
-        $enum = $items['enum'] ?? null;
-        $pattern = $items['pattern'] ?? null;
+            // items field string properties
+            $minLength = $items['minLength'] ?? null;
+            $maxLength = $items['maxLength'] ?? null;
+            $enum = $items['enum'] ?? null;
+            $pattern = $items['pattern'] ?? null;
 
-        // items field array properties
-        $subItems = $items['items'] ?? null;
-        $subMinItems = $items['minItems'] ?? null;
-        $subMaxItems = $items['maxItems'] ?? null;
-        $subUniqueItems = $items['uniqueItems'] ?? null;
+            // items field array properties
+            $subItems = $items['items'] ?? null;
+            $subMinItems = $items['minItems'] ?? null;
+            $subMaxItems = $items['maxItems'] ?? null;
+            $subUniqueItems = $items['uniqueItems'] ?? null;
+        } else {
+            // is object
+            $dataType = $items->type;
+            $dataFormat = $items->dataFormat ?? null;
+
+            // items field numeric properties
+            $minimum = $items->minimum ?? null;
+            $maximum = $items->maximum ?? null;
+            $exclusiveMinimum = $items->exclusiveMinimum ?? null;
+            $exclusiveMaximum = $items->exclusiveMaximum ?? null;
+
+            // items field string properties
+            $minLength = $items->minLength ?? null;
+            $maxLength = $items->maxLength ?? null;
+            $enum = $items->enum ?? null;
+            $pattern = $items->pattern ?? null;
+
+            // items field array properties
+            $subItems = $items->items ?? null;
+            $subMinItems = $items->minItems ?? null;
+            $subMaxItems = $items->maxItems ?? null;
+            $subUniqueItems = $items->uniqueItems ?? null;
+        }
+        
 
         foreach ($arr as $item) {
-            switch ($items['type']) {
+            switch ($dataType) {
                 case IMocker::DATA_TYPE_INTEGER:
                     $this->internalAssertNumber($item, $minimum, $maximum, $exclusiveMinimum, $exclusiveMaximum);
                     break;
@@ -478,13 +505,15 @@ class OpenApiDataMockerTest extends TestCase
         $intItems = ['type' => IMocker::DATA_TYPE_INTEGER, 'minimum' => 5, 'maximum' => 10];
         $floatItems = ['type' => IMocker::DATA_TYPE_NUMBER, 'minimum' => -32.4, 'maximum' => 88.6, 'exclusiveMinimum' => true, 'exclusiveMaximum' => true];
         $strItems = ['type' => IMocker::DATA_TYPE_STRING, 'minLength' => 20, 'maxLength' => 50];
-        $boolItems = ['type' => IMocker::DATA_TYPE_BOOLEAN];
-        $arrayItems = ['type' => IMocker::DATA_TYPE_ARRAY, 'items' => ['type' => IMocker::DATA_TYPE_STRING, 'minItems' => 3, 'maxItems' => 10]];
+        $boolItems = (object) ['type' => IMocker::DATA_TYPE_BOOLEAN];
+        $arrayItems = (object) ['type' => IMocker::DATA_TYPE_ARRAY, 'items' => ['type' => IMocker::DATA_TYPE_STRING, 'minItems' => 3, 'maxItems' => 10]];
+        $objectItems = (object) ['type' => IMocker::DATA_TYPE_OBJECT, 'properties' => (object)['username' => ['type' => IMocker::DATA_TYPE_STRING]]];
         $expectedInt = IsType::TYPE_INT;
         $expectedFloat = IsType::TYPE_FLOAT;
         $expectedStr = IsType::TYPE_STRING;
         $expectedBool = IsType::TYPE_BOOL;
         $expectedArray = IsType::TYPE_ARRAY;
+        $expectedObject = IsType::TYPE_OBJECT;
 
         return [
             'empty array' => [
@@ -522,6 +551,9 @@ class OpenApiDataMockerTest extends TestCase
             ],
             'array of one array of strings' => [
                 $arrayItems, null, null, false, $expectedArray, 1,
+            ],
+            'array of one object' => [
+                $objectItems, null, null, false, $expectedObject, 1
             ],
         ];
     }
@@ -572,6 +604,126 @@ class OpenApiDataMockerTest extends TestCase
             ],
             'maxItems less than minItems' => [
                 $intItems, 5, 2, false,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMockObjectCorrectArguments
+     * @covers ::mockObject
+     */
+    public function testMockObjectWithCorrectArguments(
+        $properties,
+        $minProperties,
+        $maxProperties,
+        $additionalProperties,
+        $required,
+        $expectedKeys
+    ) {
+        $mocker = new OpenApiDataMocker();
+        $obj = $mocker->mockObject(
+            $properties,
+            $minProperties,
+            $maxProperties,
+            $additionalProperties,
+            $required
+        );
+
+        $this->assertInternalType(IsType::TYPE_OBJECT, $obj);
+        $this->assertSame($expectedKeys, array_keys(get_object_vars($obj)));
+    }
+
+    public function provideMockObjectCorrectArguments()
+    {
+        $additionProps = [
+            'extra' => [
+                'type' => IMocker::DATA_TYPE_STRING,
+            ],
+        ];
+        return [
+            'empty object' => [
+                [], 1, 10, true, null, [],
+            ],
+            'empty object from StdClass' => [
+                new StdClass(), 1, 5, false, null, [],
+            ],
+            'object with username property' => [
+                [
+                    'username' => [
+                        'type' => IMocker::DATA_TYPE_STRING,
+                    ],
+                ], 0, 5, $additionProps, null, ['username'],
+            ],
+            'object with foobar property' => [
+                (object) [
+                    'foobar' => [
+                        'type' => IMocker::DATA_TYPE_INTEGER,
+                    ],
+                ], 1, 1, (object) $additionProps, null, ['foobar'],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMockObjectInvalidArguments
+     * @expectedException \InvalidArgumentException
+     * @covers ::mockObject
+     */
+    public function testMockObjectWithInvalidArguments(
+        $properties,
+        $minProperties,
+        $maxProperties,
+        $additionalProperties,
+        $required
+    ) {
+        $mocker = new OpenApiDataMocker();
+        $obj = $mocker->mockObject($properties, $minProperties, $maxProperties, $additionalProperties, $required);
+    }
+
+    public function provideMockObjectInvalidArguments()
+    {
+        return [
+            'properties cannot be null' => [
+                null, 0, 10, false, null,
+            ],
+            'properties cannot be a string' => [
+                'foobar', 0, 10, false, null,
+            ],
+            'minProperties is not integer' => [
+                [], 3.12, null, false, null,
+            ],
+            'minProperties is negative' => [
+                [], -10, null, false, null,
+            ],
+            'minProperties is not number' => [
+                [], '1', null, false, null,
+            ],
+            'maxProperties is not integer' => [
+                [], null, 3.12, false, null,
+            ],
+            'maxProperties is negative' => [
+                [], null, -10, false, null,
+            ],
+            'maxProperties is not number' => [
+                [], null, 'foobaz', false, null,
+            ],
+            'maxProperties less than minProperties' => [
+                [], 5, 2, false, null,
+            ],
+            'additionalProperties is not object|array|boolean' => [
+                [], null, null, 'foobar', null,
+            ],
+            'required is object, not array' => [
+                [], null, null, null, new StdClass(),
+            ],
+            'required is not array' => [
+                [], null, null, null, 'foobar',
+            ],
+            'required array with duplicates' => [
+                [], null, null, null, ['username', 'username'],
+            ],
+            'required array of non-strings' => [
+                [], null, null, null, [1, 2, 3],
             ],
         ];
     }
