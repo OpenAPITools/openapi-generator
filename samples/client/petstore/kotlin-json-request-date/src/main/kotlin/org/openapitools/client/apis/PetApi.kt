@@ -164,7 +164,7 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAllPets(lastUpdated: java.time.LocalDateTime?) : kotlin.Array<Pet> {
+    fun getAllPets(lastUpdated: java.time.OffsetDateTime?) : kotlin.Array<Pet> {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
             .apply {
