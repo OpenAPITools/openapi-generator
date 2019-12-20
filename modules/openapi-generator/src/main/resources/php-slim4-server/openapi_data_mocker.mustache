@@ -316,8 +316,6 @@ final class OpenApiDataMocker implements IMocker
         }
 
         foreach ($properties as $propName => $propValue) {
-            // print_r($propName);
-            // print_r($propValue);
             if (is_object($propValue) === false && is_array($propValue) === false) {
                 throw new InvalidArgumentException('Each value of "properties" must be an array or object');
             }
