@@ -66,6 +66,7 @@ public class KotlinClientCodegenModelTest {
     public void simpleModelTest() {
         final Schema schema = getSimpleSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
+        codegen.processOpts();
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);

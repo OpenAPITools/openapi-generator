@@ -250,10 +250,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         defaultIncludes.add("org.threeten.bp.LocalDate");
 
         if (dateLibrary.equals(DateLibrary.THREETENBP.value)) {
+            typeMapping.put("date-time", "org.threeten.bp.OffsetDateTime");
             typeMapping.put("DateTime", "OffsetDateTime");
             importMapping.put("OffsetDateTime", "org.threeten.bp.OffsetDateTime");
             defaultIncludes.add("org.threeten.bp.OffsetDateTime");
         } else if (dateLibrary.equals(DateLibrary.THREETENBP_LOCALDATETIME.value)) {
+            typeMapping.put("date-time", "org.threeten.bp.LocalDateTime");
             typeMapping.put("DateTime", "LocalDateTime");
             importMapping.put("LocalDateTime", "org.threeten.bp.LocalDateTime");
             defaultIncludes.add("org.threeten.bp.LocalDateTime");
@@ -271,9 +273,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         additionalProperties.put(DateLibrary.JAVA8.value, true);
 
         if (dateLibrary.equals(DateLibrary.JAVA8.value)) {
+            typeMapping.put("date-time", "java.time.OffsetDateTime");
             typeMapping.put("DateTime", "OffsetDateTime");
             importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         } else if (dateLibrary.equals(DateLibrary.JAVA8_LOCALDATETIME.value)) {
+            typeMapping.put("date-time", "java.time.LocalDateTime");
             typeMapping.put("DateTime", "LocalDateTime");
             importMapping.put("LocalDateTime", "java.time.LocalDateTime");
         }
