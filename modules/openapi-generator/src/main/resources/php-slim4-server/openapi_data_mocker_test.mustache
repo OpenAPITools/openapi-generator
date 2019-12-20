@@ -515,11 +515,13 @@ class OpenApiDataMockerTest extends TestCase
         $strItems = ['type' => IMocker::DATA_TYPE_STRING, 'minLength' => 20, 'maxLength' => 50];
         $boolItems = (object) ['type' => IMocker::DATA_TYPE_BOOLEAN];
         $arrayItems = (object) ['type' => IMocker::DATA_TYPE_ARRAY, 'items' => ['type' => IMocker::DATA_TYPE_STRING, 'minItems' => 3, 'maxItems' => 10]];
+        $objectItems = (object) ['type' => IMocker::DATA_TYPE_OBJECT, 'properties' => (object)['username' => ['type' => IMocker::DATA_TYPE_STRING]]];
         $expectedInt = IsType::TYPE_INT;
         $expectedFloat = IsType::TYPE_FLOAT;
         $expectedStr = IsType::TYPE_STRING;
         $expectedBool = IsType::TYPE_BOOL;
         $expectedArray = IsType::TYPE_ARRAY;
+        $expectedObject = IsType::TYPE_OBJECT;
 
         return [
             'empty array' => [
@@ -557,6 +559,9 @@ class OpenApiDataMockerTest extends TestCase
             ],
             'array of one array of strings' => [
                 $arrayItems, null, null, false, $expectedArray, 1,
+            ],
+            'array of one object' => [
+                $objectItems, null, null, false, $expectedObject, 1
             ],
         ];
     }
