@@ -52,7 +52,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String getHelp() {
-        return "Generates a Elm client library (beta).";
+        return "Generates an Elm client library.";
     }
 
     public ElmClientCodegen() {
@@ -123,17 +123,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         importMapping.clear();
 
         cliOptions.clear();
-    }
-
-    @Override
-    public void processOpts() {
-        super.processOpts();
-
-        // TODO drop support for post processing
-        if (StringUtils.isEmpty(System.getenv("ELM_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable ELM_POST_PROCESS_FILE not defined so the Elm code may not be properly formatted. To define it, try `export ELM_POST_PROCESS_FILE=\"/usr/local/bin/elm-format --elm-version={} --yes\"` (Linux/Mac)", "0.19");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
-        }
 
         apiTemplateFiles.put("operation.mustache", ".elm");
         modelTemplateFiles.put("model.mustache", ".elm");
@@ -391,35 +380,5 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             return getTypeDeclaration(inner);
         }
         return super.getTypeDeclaration(p);
-    }
-
-    @Override
-    public void postProcessFile(File file, String fileType) {
-        if (file == null) {
-            return;
-        }
-
-        String elmPostProcessFile = System.getenv("ELM_POST_PROCESS_FILE");
-        if (StringUtils.isEmpty(elmPostProcessFile)) {
-            return; // skip if ELM_POST_PROCESS_FILE env variable is not defined
-        }
-
-        // only process files with elm extension
-        if ("elm".equals(FilenameUtils.getExtension(file.toString()))) {
-            // e.g. elm-format -w yourcode.elm
-            String command = elmPostProcessFile + " " + file.toString();
-
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: " + command);
-                }
-            } catch (Exception e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-            }
-        }
     }
 }
