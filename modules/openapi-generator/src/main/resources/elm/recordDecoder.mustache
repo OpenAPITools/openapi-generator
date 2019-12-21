@@ -14,7 +14,7 @@
 
 {{/mappedModels}}
         _ ->
-            Json.Decode.fail <| "Trying to decode {{classname}}, but {{{propertyName}}} '" ++ tag ++ "' is not supported."
+            Json.Decode.map {{classname}} base{{classname}}Decoder
 
 
 {{/discriminator}}

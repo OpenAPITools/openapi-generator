@@ -1,6 +1,7 @@
 {{#discriminator}}
 type {{classname}}
-{{#mappedModels}}    {{#-first}}= {{/-first}}{{^-first}}| {{/-first}}{{classname}}{{modelName}} {{modelName}}
+    = {{classname}} Base{{classname}}
+{{#mappedModels}}    | {{classname}}{{modelName}} {{modelName}}
 {{/mappedModels}}
 
 
