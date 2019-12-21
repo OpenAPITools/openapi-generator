@@ -233,11 +233,11 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                         .map(v -> v.isCircularReference)
                         .findAny()
                         .orElse(false);
-                    CodegenProperty prop = var.items;
-                    while (prop != null) {
-                        prop.isCircularReference = var.isCircularReference;
-                        prop.required = true;
-                        prop = prop.items;
+                    CodegenProperty items = var.items;
+                    while (items != null) {
+                        items.isCircularReference = var.isCircularReference;
+                        items.required = true;
+                        items = items.items;
                     }
                 });
                 // discriminators
@@ -257,11 +257,32 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 }
             })
             .collect(Collectors.toList());
+
+        final boolean includeTime = anyVarMatches(models, prop -> prop.isDate || prop.isDateTime);
+        final boolean includeUuid = anyVarMatches(models, prop -> prop.isUuid);
+
         dataObj.put("models", models);
-        dataObj.put("includeTime", true); // TODO only if used, set to prop
-        dataObj.put("includeUuid", true); // TODO only if used, set to prop
+        dataObj.put("includeTime", includeTime);
+        dataObj.put("includeUuid", includeUuid);
         objects.put("Data", dataObj);
         return objects;
+    }
+
+    private boolean anyVarMatches(final List<Map<String, Object>> models, final Predicate<CodegenProperty> predicate) {
+        return models.stream()
+            .map(obj -> (CodegenModel) obj.get("model"))
+            .flatMap(model -> model.vars.stream())
+            .filter(var -> {
+                CodegenProperty prop = var;
+                while (prop != null) {
+                    if (predicate.test(prop)) {
+                        return true;
+                    }
+                    prop = prop.items;
+                }
+                return false;
+            })
+            .count() > 0;
     }
 
     @Override
