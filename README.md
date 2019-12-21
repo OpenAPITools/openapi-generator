@@ -628,6 +628,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [TUI InfoTec GmbH](http://www.tui-infotec.com/)
 - [unblu inc.](https://www.unblu.com/)
 - [Veamly](https://www.veamly.com/)
+- [Woleet](https://www.woleet.io/)
 - [WSO2](https://wso2.com/)
 - [Vouchery.io](https://vouchery.io)
 - [Xero](https://www.xero.com/)
