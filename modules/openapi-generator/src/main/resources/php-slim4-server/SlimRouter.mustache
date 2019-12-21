@@ -69,6 +69,15 @@ class SlimRouter
             'classname' => '{{classname}}',
             'userClassname' => '{{userClassname}}',
             'operationId' => '{{operationId}}',
+            'responses' => [
+            {{#responses}}
+                '{{#isDefault}}default{{/isDefault}}{{^isDefault}}{{code}}{{/isDefault}}' => [
+                    'code' => {{code}},
+                    'message' => '{{message}}',
+                    'jsonSchema' => '{{{jsonSchema}}}',
+                ],
+            {{/responses}}
+            ],
             'authMethods' => [
                 {{#hasAuthMethods}}
                 {{#authMethods}}
