@@ -50,8 +50,6 @@ public class Swift5OptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setNonPublicApi(Boolean.valueOf(Swift5OptionsProvider.NON_PUBLIC_API_REQUIRED_VALUE));
             times = 1;
-            clientCodegen.setUnwrapRequired(Boolean.valueOf(Swift5OptionsProvider.UNWRAP_REQUIRED_VALUE));
-            times = 1;
             clientCodegen.setObjcCompatible(Boolean.valueOf(Swift5OptionsProvider.OBJC_COMPATIBLE_VALUE));
             times = 1;
             clientCodegen.setLenientTypeCast(Boolean.valueOf(Swift5OptionsProvider.LENIENT_TYPE_CAST_VALUE));
