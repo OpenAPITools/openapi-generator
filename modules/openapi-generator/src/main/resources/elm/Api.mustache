@@ -45,8 +45,8 @@ request method path pathParams queryParams headerParams body decoder =
         }
 
 
-send : Request a -> (Result Http.Error a -> msg) -> Cmd msg
-send (Request req) toMsg =
+send : (Result Http.Error a -> msg) -> Request a -> Cmd msg
+send toMsg (Request req) =
     Http.request
         { method = req.method
         , headers = req.headers
@@ -87,14 +87,14 @@ withTracker tracker (Request req) =
     Request { req | tracker = Just tracker }
 
 
-withHeader : Http.Header -> Request a -> Request a
-withHeader header (Request req) =
-    Request { req | headers = req.headers ++ [ header ] }
+withHeader : String -> String -> Request a -> Request a
+withHeader key value (Request req) =
+    Request { req | headers = req.headers ++ [ Http.header key value ] }
 
 
-withHeaders : List Http.Header -> Request a -> Request a
+withHeaders : List ( String, String ) -> Request a -> Request a
 withHeaders headers_ (Request req) =
-    Request { req | headers = req.headers ++ headers_ }
+    Request { req | headers = req.headers ++ headers (List.map (Tuple.mapSecond Just) headers_) }
 
 
 -- HELPER
