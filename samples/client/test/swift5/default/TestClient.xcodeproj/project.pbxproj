@@ -26,7 +26,6 @@
 		6B1961ED41DFDFDB3029BE6F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D0164E2EEC228143968A2D /* Extensions.swift */; };
 		74086BA23A6B245C5C9120F4 /* Swift5TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6967E74308DBD6384CBA5624 /* Swift5TestAPI.swift */; };
 		7C22E572E92D490CC366F0C2 /* ErrorInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A813A17AF964F26FB864212 /* ErrorInfo.swift */; };
-		7D51DA4415EEB4A0D2CECC95 /* JSONEncodableEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCE280D9FD953B91C0F18E /* JSONEncodableEncoding.swift */; };
 		7F99AF29003DAFA2AFC85FEC /* ModelDoubleArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5A2A8F47EC101841093D2C /* ModelDoubleArray.swift */; };
 		8F02FB3DCBA785F15F6BA602 /* PlaceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DD01D5ABD4BE352CB6FCBF /* PlaceCard.swift */; };
 		9193BA83FEDAFA9788D03ACF /* PlaceCardAllOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889ABCD292051498ACCC66E8 /* PlaceCardAllOf.swift */; };
@@ -36,6 +35,7 @@
 		D43D0FC46CD094545F0284F3 /* PersonCardAllOf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F016421122219AE4DCDF9 /* PersonCardAllOf.swift */; };
 		E29D4269C5947A5CFCE3A810 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6DF5346C62BDE2DAFA3B4E /* Configuration.swift */; };
 		E32B8F685CB25522E611ED1D /* ModelStringArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC406D4B97E9127B278F6B /* ModelStringArray.swift */; };
+		E5983001C8012C8986583D7B /* JSONDataEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28BFEFC78B58C5329B65A2A /* JSONDataEncoding.swift */; };
 		E6AA92100A56C799A2FCDA59 /* AlamofireImplementations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1E452EBA4D5D6D227089137 /* AlamofireImplementations.swift */; };
 		FB58DEE4F76D0111D3218BDF /* JSONEncodingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042A701F1D826A4F68808DE6 /* JSONEncodingHelper.swift */; };
 		FD7D9D3454F9C64656CDCB8B /* VariableNameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09C1DB6708AB2D8997BEE2 /* VariableNameTest.swift */; };
@@ -70,11 +70,11 @@
 		CAB9BE4C49A34C2D3AE2D4E3 /* SampleBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleBase.swift; sourceTree = "<group>"; };
 		CE6DF5346C62BDE2DAFA3B4E /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		D3D0164E2EEC228143968A2D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		D7DCE280D9FD953B91C0F18E /* JSONEncodableEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONEncodableEncoding.swift; sourceTree = "<group>"; };
 		EA9C1F9551FB619240EC0F70 /* SampleSubClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleSubClass.swift; sourceTree = "<group>"; };
 		EE5A2A8F47EC101841093D2C /* ModelDoubleArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDoubleArray.swift; sourceTree = "<group>"; };
 		EFD27529F413FEDE10F4D1C3 /* OpenISO8601DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenISO8601DateFormatter.swift; sourceTree = "<group>"; };
 		F082FE9586189859619C91E5 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Alamofire.framework; sourceTree = "<group>"; };
+		F28BFEFC78B58C5329B65A2A /* JSONDataEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDataEncoding.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +107,7 @@
 				93BA682C97038055435A32D0 /* CodableHelper.swift */,
 				CE6DF5346C62BDE2DAFA3B4E /* Configuration.swift */,
 				D3D0164E2EEC228143968A2D /* Extensions.swift */,
-				D7DCE280D9FD953B91C0F18E /* JSONEncodableEncoding.swift */,
+				F28BFEFC78B58C5329B65A2A /* JSONDataEncoding.swift */,
 				042A701F1D826A4F68808DE6 /* JSONEncodingHelper.swift */,
 				A140137667E350EAFDE010EA /* Models.swift */,
 				EFD27529F413FEDE10F4D1C3 /* OpenISO8601DateFormatter.swift */,
@@ -260,7 +260,7 @@
 				7C22E572E92D490CC366F0C2 /* ErrorInfo.swift in Sources */,
 				6B1961ED41DFDFDB3029BE6F /* Extensions.swift in Sources */,
 				3DC6743F3ECD7005940DED98 /* GetAllModelsResult.swift in Sources */,
-				7D51DA4415EEB4A0D2CECC95 /* JSONEncodableEncoding.swift in Sources */,
+				E5983001C8012C8986583D7B /* JSONDataEncoding.swift in Sources */,
 				FB58DEE4F76D0111D3218BDF /* JSONEncodingHelper.swift in Sources */,
 				7F99AF29003DAFA2AFC85FEC /* ModelDoubleArray.swift in Sources */,
 				A4E70E34B9EABA6E7C911B37 /* ModelErrorInfoArray.swift in Sources */,
