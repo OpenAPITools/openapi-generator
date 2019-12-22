@@ -91,35 +91,35 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
         // as well as keywords from https://kotlinlang.org/docs/reference/keyword-reference.html
-        reservedWords =  new HashSet<String>(Arrays.asList(
-                "package",
+        reservedWords = new HashSet<String>(Arrays.asList(
                 "as",
-                "typealias",
+                "break",
                 "class",
-                "this",
+                "continue",
+                "do",
+                "else",
+                "false",
+                "for",
+                "fun",
+                "if",
+                "in",
+                "interface",
+                "is",
+                "null",
+                "object",
+                "package",
+                "return",
                 "super",
+                "this",
+                "throw",
+                "true",
+                "try",
+                "typealias",
+                "typeof",
                 "val",
                 "var",
-                "fun",
-                "for",
-                "null",
-                "true",
-                "false",
-                "is",
-                "in",
-                "throw",
-                "return",
-                "break",
-                "continue",
-                "object",
-                "if",
-                "try",
-                "else",
-                "while",
-                "do",
                 "when",
-                "interface",
-                "typeof"
+                "while"
         ));
 
         defaultIncludes = new HashSet<String>(Arrays.asList(
