@@ -17,7 +17,7 @@ internal struct AdditionalPropertiesClass: Codable {
         self.mapMapString = mapMapString
     }
 
-    internal enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case mapString = "map_string"
         case mapMapString = "map_map_string"
     }

@@ -10,7 +10,7 @@ import Foundation
 /** Object which contains lots of different primitive OpenAPI types */
 public struct AllPrimitives: Codable {
 
-    public enum MyInlineStringEnum: String, Codable {
+    public enum MyInlineStringEnum: String, Codable, CaseIterable {
         case inlinestringenumvalue1 = "inlineStringEnumValue1"
         case inlinestringenumvalue2 = "inlineStringEnumValue2"
         case inlinestringenumvalue3 = "inlineStringEnumValue3"

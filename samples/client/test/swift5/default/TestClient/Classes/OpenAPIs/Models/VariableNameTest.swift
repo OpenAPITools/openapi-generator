@@ -23,7 +23,7 @@ public struct VariableNameTest: Codable {
         self.normalName = normalName
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case exampleName = "example_name"
         case _for = "for"
         case normalName

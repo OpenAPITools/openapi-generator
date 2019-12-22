@@ -9,7 +9,7 @@ import Foundation
 
 internal struct Pet: Codable {
 
-    internal enum Status: String, Codable {
+    internal enum Status: String, Codable, CaseIterable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"

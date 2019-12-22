@@ -17,7 +17,7 @@ public struct AdditionalPropertiesClass: Codable {
         self.mapMapString = mapMapString
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case mapString = "map_string"
         case mapMapString = "map_map_string"
     }

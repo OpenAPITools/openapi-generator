@@ -9,7 +9,7 @@ import Foundation
 
 internal struct MapTest: Codable {
 
-    internal enum MapOfEnumString: String, Codable {
+    internal enum MapOfEnumString: String, Codable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
     }
@@ -25,7 +25,7 @@ internal struct MapTest: Codable {
         self.indirectMap = indirectMap
     }
 
-    internal enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case mapMapOfString = "map_map_of_string"
         case mapOfEnumString = "map_of_enum_string"
         case directMap = "direct_map"

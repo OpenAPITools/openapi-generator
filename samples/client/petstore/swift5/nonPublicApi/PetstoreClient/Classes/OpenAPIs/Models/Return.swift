@@ -16,7 +16,7 @@ internal struct Return: Codable {
         self._return = _return
     }
 
-    internal enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case _return = "return"
     }
 

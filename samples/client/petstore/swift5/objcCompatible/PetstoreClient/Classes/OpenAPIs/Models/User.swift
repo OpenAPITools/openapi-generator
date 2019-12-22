@@ -30,7 +30,7 @@ public struct User: Codable {
         self.userStatus = userStatus
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case _id = "id"
         case username
         case firstName

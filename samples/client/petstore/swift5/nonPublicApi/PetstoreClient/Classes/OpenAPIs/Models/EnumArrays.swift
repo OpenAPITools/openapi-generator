@@ -9,11 +9,11 @@ import Foundation
 
 internal struct EnumArrays: Codable {
 
-    internal enum JustSymbol: String, Codable {
+    internal enum JustSymbol: String, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
     }
-    internal enum ArrayEnum: String, Codable {
+    internal enum ArrayEnum: String, Codable, CaseIterable {
         case fish = "fish"
         case crab = "crab"
     }
@@ -25,7 +25,7 @@ internal struct EnumArrays: Codable {
         self.arrayEnum = arrayEnum
     }
 
-    internal enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case justSymbol = "just_symbol"
         case arrayEnum = "array_enum"
     }

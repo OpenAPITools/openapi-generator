@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal enum OuterEnum: String, Codable {
+internal enum OuterEnum: String, Codable, CaseIterable {
     case placed = "placed"
     case approved = "approved"
     case delivered = "delivered"

@@ -418,6 +418,9 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("CodableHelper.mustache",
                 sourceFolder,
                 "CodableHelper.swift"));
+        supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
+                sourceFolder,
+                "OpenISO8601DateFormatter.swift"));
         supportingFiles.add(new SupportingFile("JSONEncodableEncoding.mustache",
                 sourceFolder,
                 "JSONEncodableEncoding.swift"));
