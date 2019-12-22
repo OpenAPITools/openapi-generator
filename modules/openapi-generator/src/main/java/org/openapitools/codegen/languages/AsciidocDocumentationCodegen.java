@@ -141,6 +141,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
+    protected boolean headerAttributes = true;
 
     private IncludeMarkupLambda includeSpecMarkupLambda;
     private IncludeMarkupLambda includeSnippetMarkupLambda;
@@ -240,6 +241,14 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         return input; // just return the original string
     }
 
+    public boolean isHeaderAttributes() {
+        return headerAttributes;
+    }
+
+    public void setHeaderAttributes(boolean headerAttributes) {
+        this.headerAttributes = headerAttributes;
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -264,16 +273,12 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
         this.linkSnippetMarkupLambda = new LinkMarkupLambda(snippetDir);
         additionalProperties.put("snippetlink", this.linkSnippetMarkupLambda);
-               
-        if(this.additionalProperties.get(HEADER_ATTRIBUTES_FLAG) == null || 
-        ! (this.additionalProperties.get(HEADER_ATTRIBUTES_FLAG) instanceof String) ) {
-        {
-            this.additionalProperties.put(HEADER_ATTRIBUTES_FLAG, true);
-        }
+
+
+        if (additionalProperties.containsKey(HEADER_ATTRIBUTES_FLAG)) {
+            this.setHeaderAttributes(convertPropertyToBooleanAndWriteBack(HEADER_ATTRIBUTES_FLAG));
         } else {
-            String headerAttributesFlagValue = (String) this.additionalProperties.get(HEADER_ATTRIBUTES_FLAG);
-            LOGGER.debug("asciidoc: header attributes flag..: " + headerAttributesFlagValue);
-            this.additionalProperties.put(HEADER_ATTRIBUTES_FLAG,  "TRUE".equalsIgnoreCase(headerAttributesFlagValue)); // change attribute in map to type boolean.
+            additionalProperties.put(HEADER_ATTRIBUTES_FLAG, headerAttributes);
         }
     }
 
