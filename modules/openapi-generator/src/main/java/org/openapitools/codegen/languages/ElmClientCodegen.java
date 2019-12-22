@@ -164,7 +164,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        final String varName = camelize(name, true);
+        final String varName = camelize(name.replaceAll("[^a-zA-Z0-9_]", ""), true);
         return isReservedWord(varName) ? escapeReservedWord(name) : varName;
     }
 

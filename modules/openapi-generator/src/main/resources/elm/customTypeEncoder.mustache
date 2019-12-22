@@ -1,4 +1,4 @@
 {{>customTypeToString}}
-encode{{classname}}{{enumName}} : {{classname}}{{enumName}} -> Json.Encode.Value
-encode{{classname}}{{enumName}} =
+{{#lambda.camelcase}}encode{{classname}}{{enumName}}{{/lambda.camelcase}} : {{classname}}{{enumName}} -> Json.Encode.Value
+{{#lambda.camelcase}}encode{{classname}}{{enumName}}{{/lambda.camelcase}} =
     Json.Encode.string << stringFrom{{classname}}{{enumName}}
