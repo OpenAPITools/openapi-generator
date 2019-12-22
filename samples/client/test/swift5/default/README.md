@@ -1,4 +1,4 @@
-# Swift4 API client for TestClient
+# Swift5 API client for TestClient
 
 This is a test schema which exercises Swagger schema features for testing the swift5 language codegen module.
 
@@ -35,7 +35,12 @@ Class | Method | HTTP request | Description
  - [BaseCard](docs/BaseCard.md)
  - [ErrorInfo](docs/ErrorInfo.md)
  - [GetAllModelsResult](docs/GetAllModelsResult.md)
+ - [ModelDoubleArray](docs/ModelDoubleArray.md)
+ - [ModelErrorInfoArray](docs/ModelErrorInfoArray.md)
+ - [ModelStringArray](docs/ModelStringArray.md)
+ - [ModelWithIntAdditionalPropertiesOnly](docs/ModelWithIntAdditionalPropertiesOnly.md)
  - [ModelWithPropertiesAndAdditionalProperties](docs/ModelWithPropertiesAndAdditionalProperties.md)
+ - [ModelWithStringAdditionalPropertiesOnly](docs/ModelWithStringAdditionalPropertiesOnly.md)
  - [PersonCard](docs/PersonCard.md)
  - [PersonCardAllOf](docs/PersonCardAllOf.md)
  - [PlaceCard](docs/PlaceCard.md)

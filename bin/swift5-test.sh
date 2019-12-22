@@ -27,7 +27,7 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/swift5 -i modules/openapi-generator/src/test/resources/2_0/swift5Test.json -g swift5 -c ./bin/swift5-test.json -o samples/client/test/swift5/default $@"
+ags="generate -t modules/openapi-generator/src/main/resources/swift5 -i modules/openapi-generator/src/test/resources/2_0/swift5Test.json -g swift5 -c ./bin/swift5-test.json -o samples/client/test/swift5/default --generate-alias-as-model $@"
 
 java $JAVA_OPTS -jar $executable $ags
 

@@ -50,7 +50,7 @@ extension Array: JSONEncodable {
 
 extension Dictionary: JSONEncodable {
     func encodeToJSON() -> AnyObject {
-        var dictionary = [NSObject:AnyObject]()
+        var dictionary = [NSObject: AnyObject]()
         for (key, value) in self {
             dictionary[key as! NSObject] = encodeIfPossible(value)
         }
@@ -114,7 +114,7 @@ public final class ISOFullDate: CustomStringConvertible {
             [
                 .Year,
                 .Month,
-                .Day,
+                .Day
             ],
             fromDate: date
         )
@@ -175,5 +175,3 @@ extension ISOFullDate: JSONEncodable {
         return "\(year)-\(month)-\(day)"
     }
 }
-
-

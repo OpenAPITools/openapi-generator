@@ -1,4 +1,4 @@
-# Swift4 API client for PetstoreClient
+# Swift5 API client for PetstoreClient
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
