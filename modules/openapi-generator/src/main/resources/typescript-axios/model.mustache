@@ -1,8 +1,10 @@
 // tslint:disable
 {{>licenseInfo}}
-{{#withSeparateModelsAndApi}}{{#imports}}
-import { {{class}} } from './{{filename}}';{{/imports}}{{/withSeparateModelsAndApi}}
+{{#withSeparateModelsAndApi}}{{#hasAllOf}}{{#allOf}}
+import { {{class}} } from './{{filename}}';{{/allOf}}{{/hasAllOf}}{{#hasOneOf}}{{#oneOf}}
+import { {{class}} } from './{{filename}}';{{/oneOf}}{{/hasOneOf}}{{^hasAllOf}}{{^hasOneOf}}{{#imports}}
+import { {{class}} } from './{{filename}}';{{/imports}}{{/hasOneOf}}{{/hasAllOf}}{{/withSeparateModelsAndApi}}
 {{#models}}{{#model}}
-{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{^isEnum}}{{^oneOf}}{{>modelGeneric}}{{/oneOf}}{{/isEnum}}
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{#allOf}}{{#-first}}{{>modelAllOf}}{{/-first}}{{/allOf}}{{^isEnum}}{{^oneOf}}{{^allOf}}{{>modelGeneric}}{{/allOf}}{{/oneOf}}{{/isEnum}}
 {{/model}}{{/models}}
 

@@ -72,7 +72,7 @@ typedef struct {{classname}}_t {
     {{datatype}}_e {{name}}; //enum model
     {{/isEnum}}
     {{^isEnum}}
-    {{datatype}}_t *{{name}}; //model
+    struct {{datatype}}_t *{{name}}; //model
     {{/isEnum}}
     {{/isModel}}
     {{#isUuid}}

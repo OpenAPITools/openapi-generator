@@ -10,3 +10,4 @@
 ./bin/kotlin-client-threetenbp.sh
 ./bin/kotlin-client-nullable.sh
 ./bin/kotlin-client-retrofit2.sh
+./bin/kotlin-client-json-request-date.sh

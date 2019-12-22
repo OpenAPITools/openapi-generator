@@ -37,27 +37,43 @@ import java.util.stream.Stream;
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     protected static final String JVM = "jvm";
+    protected static final String JVM_OKHTTP = "jvm-okhttp";
     protected static final String JVM_OKHTTP4 = "jvm-okhttp4";
     protected static final String JVM_OKHTTP3 = "jvm-okhttp3";
-    protected static final String RETROFIT2 = "retrofit2";
+    protected static final String JVM_RETROFIT2 = "jvm-retrofit2";
     protected static final String MULTIPLATFORM = "multiplatform";
 
     public static final String DATE_LIBRARY = "dateLibrary";
+    public static final String REQUEST_DATE_CONVERTER = "requestDateConverter";
     public static final String COLLECTION_TYPE = "collectionType";
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
+    protected String requestDateConverter = RequestDateConverter.TO_STRING.value;
     protected String collectionType = CollectionType.ARRAY.value;
 
     public enum DateLibrary {
         STRING("string"),
         THREETENBP("threetenbp"),
-        JAVA8("java8");
+        THREETENBP_LOCALDATETIME("threetenbp-localdatetime"),
+        JAVA8("java8"),
+        JAVA8_LOCALDATETIME("java8-localdatetime");
 
         public final String value;
 
         DateLibrary(String value) {
+            this.value = value;
+        }
+    }
+
+    public enum RequestDateConverter {
+        TO_STRING("toString"),
+        TO_JSON("toJson");
+
+        public final String value;
+
+        RequestDateConverter(String value) {
             this.value = value;
         }
     }
@@ -97,9 +113,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
         Map<String, String> dateOptions = new HashMap<>();
-        dateOptions.put(DateLibrary.THREETENBP.value, "Threetenbp (jvm only)");
+        dateOptions.put(DateLibrary.THREETENBP.value, "Threetenbp - Backport of JSR310 (jvm only, preferred for jdk < 1.8)");
+        dateOptions.put(DateLibrary.THREETENBP_LOCALDATETIME.value, "Threetenbp - Backport of JSR310 (jvm only, for legacy app only)");
         dateOptions.put(DateLibrary.STRING.value, "String");
-        dateOptions.put(DateLibrary.JAVA8.value, "Java 8 native JSR310 (jvm only)");
+        dateOptions.put(DateLibrary.JAVA8.value, "Java 8 native JSR310 (jvm only, preferred for jdk 1.8+)");
+        dateOptions.put(DateLibrary.JAVA8_LOCALDATETIME.value, "Java 8 native JSR310 (jvm only, for legacy app only)");
         dateLibrary.setEnum(dateOptions);
         dateLibrary.setDefault(this.dateLibrary);
         cliOptions.add(dateLibrary);
@@ -114,7 +132,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
         supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.");
-        supportedLibraries.put(RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
+        supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.2.4. JSON processing: Kotlinx Serialization: 0.12.0.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
@@ -122,6 +140,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         libraryOption.setDefault(JVM_OKHTTP4);
         cliOptions.add(libraryOption);
         setLibrary(JVM_OKHTTP4);
+
+        CliOption requestDateConverter = new CliOption(REQUEST_DATE_CONVERTER, "JVM-Option. Defines in how to handle date-time objects that are used for a request (as query or parameter)");
+        Map<String, String> requestDateConverterOptions = new HashMap<>();
+        requestDateConverterOptions.put(RequestDateConverter.TO_STRING.value, "[DEFAULT] Use the 'toString'-method of the date-time object to retrieve the related string representation.");
+        requestDateConverterOptions.put(RequestDateConverter.TO_JSON.value, "Date formater option using a json converter.");
+        requestDateConverter.setEnum(requestDateConverterOptions);
+        requestDateConverter.setDefault(this.requestDateConverter);
+        cliOptions.add(requestDateConverter);
     }
 
     public CodegenType getTag() {
@@ -138,6 +164,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
+    }
+
+    public void setRequestDateConverter(String converter) {
+        this.requestDateConverter = converter;
     }
 
     public void setCollectionType(String collectionType) {
@@ -160,15 +190,19 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
         }
 
+        if (additionalProperties.containsKey(REQUEST_DATE_CONVERTER)) {
+            setRequestDateConverter(additionalProperties.get(REQUEST_DATE_CONVERTER).toString());
+        }
+
         commonSupportingFiles();
 
         switch (getLibrary()) {
             case JVM_OKHTTP3:
             case JVM_OKHTTP4:
-                processJVMLibrary(infrastructureFolder);
+                processJVMOkHttpLibrary(infrastructureFolder);
                 break;
-            case RETROFIT2:
-                processRetrofit2Library(infrastructureFolder);
+            case JVM_RETROFIT2:
+                processJVMRetrofit2Library(infrastructureFolder);
                 break;
             case MULTIPLATFORM:
                 processMultiplatformLibrary(infrastructureFolder);
@@ -178,6 +212,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         processDateLibrary();
+        processRequestDateConverter();
 
         if (additionalProperties.containsKey(COLLECTION_TYPE)) {
             setCollectionType(additionalProperties.get(COLLECTION_TYPE).toString());
@@ -191,30 +226,40 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void processDateLibrary() {
-        DateLibrary dateLibraryEnum = DateLibrary.valueOf(dateLibrary.toUpperCase(Locale.ROOT));
-        switch (dateLibraryEnum) {
-            case THREETENBP:
-                processThreeTeBpDate();
-                break;
-            case STRING:
-                processStringDate();
-                break;
-            case JAVA8:
-                processJava8Date();
-                break;
-            default:
-                break;
+        if (DateLibrary.THREETENBP.value.equals(dateLibrary) || DateLibrary.THREETENBP_LOCALDATETIME.value.equals(dateLibrary)) {
+            processThreeTeBpDate(dateLibrary);
+        } else if (DateLibrary.STRING.value.equals(dateLibrary)) {
+            processStringDate();
+        } else if (DateLibrary.JAVA8.value.equals(dateLibrary) || DateLibrary.JAVA8_LOCALDATETIME.value.equals(dateLibrary)) {
+            processJava8Date(dateLibrary);
         }
     }
 
-    private void processThreeTeBpDate() {
+    private void processRequestDateConverter() {
+        if (RequestDateConverter.TO_JSON.value.equals(requestDateConverter)) {
+            additionalProperties.put(RequestDateConverter.TO_JSON.value, true);
+        } else if (RequestDateConverter.TO_STRING.value.equals(requestDateConverter)) {
+            additionalProperties.put(RequestDateConverter.TO_STRING.value, true);
+        }
+    }
+
+    private void processThreeTeBpDate(String dateLibrary) {
         additionalProperties.put(DateLibrary.THREETENBP.value, true);
         typeMapping.put("date", "LocalDate");
-        typeMapping.put("DateTime", "LocalDateTime");
         importMapping.put("LocalDate", "org.threeten.bp.LocalDate");
-        importMapping.put("LocalDateTime", "org.threeten.bp.LocalDateTime");
         defaultIncludes.add("org.threeten.bp.LocalDate");
-        defaultIncludes.add("org.threeten.bp.LocalDateTime");
+
+        if (dateLibrary.equals(DateLibrary.THREETENBP.value)) {
+            typeMapping.put("date-time", "org.threeten.bp.OffsetDateTime");
+            typeMapping.put("DateTime", "OffsetDateTime");
+            importMapping.put("OffsetDateTime", "org.threeten.bp.OffsetDateTime");
+            defaultIncludes.add("org.threeten.bp.OffsetDateTime");
+        } else if (dateLibrary.equals(DateLibrary.THREETENBP_LOCALDATETIME.value)) {
+            typeMapping.put("date-time", "org.threeten.bp.LocalDateTime");
+            typeMapping.put("DateTime", "LocalDateTime");
+            importMapping.put("LocalDateTime", "org.threeten.bp.LocalDateTime");
+            defaultIncludes.add("org.threeten.bp.LocalDateTime");
+        }
     }
 
     private void processStringDate() {
@@ -224,35 +269,52 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         typeMapping.put("DateTime", "kotlin.String");
     }
 
-    private void processJava8Date() {
+    private void processJava8Date(String dateLibrary) {
         additionalProperties.put(DateLibrary.JAVA8.value, true);
+
+        if (dateLibrary.equals(DateLibrary.JAVA8.value)) {
+            typeMapping.put("date-time", "java.time.OffsetDateTime");
+            typeMapping.put("DateTime", "OffsetDateTime");
+            importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
+        } else if (dateLibrary.equals(DateLibrary.JAVA8_LOCALDATETIME.value)) {
+            typeMapping.put("date-time", "java.time.LocalDateTime");
+            typeMapping.put("DateTime", "LocalDateTime");
+            importMapping.put("LocalDateTime", "java.time.LocalDateTime");
+        }
     }
 
-    private void processRetrofit2Library(String infrastructureFolder) {
-        additionalProperties.put(RETROFIT2, true);
+    private void processJVMRetrofit2Library(String infrastructureFolder) {
+        additionalProperties.put(JVM, true);
+        additionalProperties.put(JVM_RETROFIT2, true);
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
         addSupportingSerializerAdapters(infrastructureFolder);
     }
 
     private void addSupportingSerializerAdapters(final String infrastructureFolder) {
-        supportingFiles.add(new SupportingFile("infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/ByteArrayAdapter.kt.mustache", infrastructureFolder, "ByteArrayAdapter.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
+        supportingFiles.add(new SupportingFile("jvm-common/infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
+        supportingFiles.add(new SupportingFile("jvm-common/infrastructure/ByteArrayAdapter.kt.mustache", infrastructureFolder, "ByteArrayAdapter.kt"));
+        supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
+        supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
+        supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
+        
+        switch (getSerializationLibrary()) {
+            case moshi:
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
+                break;
 
-        if (getSerializationLibrary() == SERIALIZATION_LIBRARY_TYPE.gson) {
-            supportingFiles.add(new SupportingFile("infrastructure/DateAdapter.kt.mustache", infrastructureFolder,
-                    "DateAdapter.kt"));
+            case gson:
+                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/DateAdapter.kt.mustache", infrastructureFolder, "DateAdapter.kt"));
+                break;
         }
     }
 
-    private void processJVMLibrary(final String infrastructureFolder) {
+    private void processJVMOkHttpLibrary(final String infrastructureFolder) {
         commonJvmMultiplatformSupportingFiles(infrastructureFolder);
         addSupportingSerializerAdapters(infrastructureFolder);
 
         additionalProperties.put(JVM, true);
+        additionalProperties.put(JVM_OKHTTP, true);
 
         if (JVM_OKHTTP4.equals(getLibrary())) {
             additionalProperties.put(JVM_OKHTTP4, true);
@@ -260,8 +322,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(JVM_OKHTTP3, true);
         }
 
-        supportedLibraries.put(JVM, "A workaround to use the same template folder for both 'jvm-okhttp3' and 'jvm-okhttp4'.");
-        setLibrary(JVM);
+        supportedLibraries.put(JVM_OKHTTP, "A workaround to use the same template folder for both 'jvm-okhttp3' and 'jvm-okhttp4'.");
+        setLibrary(JVM_OKHTTP);
 
         // jvm specific supporting files
         supportingFiles.add(new SupportingFile("infrastructure/ApplicationDelegates.kt.mustache", infrastructureFolder, "ApplicationDelegates.kt"));
@@ -274,6 +336,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         commonJvmMultiplatformSupportingFiles(infrastructureFolder);
         additionalProperties.put(MULTIPLATFORM, true);
         setDateLibrary(DateLibrary.STRING.value);
+        setRequestDateConverter(RequestDateConverter.TO_STRING.value);
 
         // multiplatform default includes
         defaultIncludes.add("io.ktor.client.request.forms.InputProvider");

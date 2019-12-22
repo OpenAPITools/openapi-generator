@@ -1048,6 +1048,7 @@
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/server/petstore/php-slim</module>
+                <module>samples/server/petstore/php-slim4</module>
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/openapi3/client/petstore/javascript-es6</module>
@@ -1078,7 +1079,7 @@
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
                 <module>samples/server/petstore/rust-server</module>
                 <module>samples/server/petstore/python-flask</module>
-                <module>samples/server/petstore/python-flask-python2</module>
+                <!--<module>samples/server/petstore/python-flask-python2</module>-->
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1259,6 +1260,7 @@
                 <module>samples/client/petstore/kotlin-threetenbp/</module>
                 <module>samples/client/petstore/kotlin-string/</module>
                 <module>samples/client/petstore/kotlin-moshi-codegen/</module>
+                <module>samples/client/petstore/kotlin-json-request-date/</module>
                 <!-- servers -->
                 <module>samples/server/petstore/erlang-server</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
