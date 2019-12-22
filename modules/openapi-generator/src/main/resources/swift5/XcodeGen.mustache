@@ -11,7 +11,7 @@ targets:
     settings:
       APPLICATION_EXTENSION_API_ONLY: true
     scheme: {}
-    dependencies:
-    - carthage: Alamofire{{#useRxSwift}}
+    {{#useAlamofire}}dependencies:{{/useAlamofire}}{{^useAlamofire}}{{#useRxSwift}}dependencies:{{/useRxSwift}}{{/useAlamofire}}{{^useAlamofire}}{{^useRxSwift}}{{#usePromiseKit}}dependencies:{{/usePromiseKit}}{{/useRxSwift}}{{/useAlamofire}}{{#useAlamofire}}
+    - carthage: Alamofire{{/useAlamofire}}{{#useRxSwift}}
     - carthage: RxSwift{{/useRxSwift}}{{#usePromiseKit}}
     - carthage: PromiseKit{{/usePromiseKit}}

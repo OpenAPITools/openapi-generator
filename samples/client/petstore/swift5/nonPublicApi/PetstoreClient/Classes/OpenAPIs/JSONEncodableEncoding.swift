@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import Alamofire
 
-internal struct JSONDataEncoding: ParameterEncoding {
+internal struct JSONDataEncoding {
 
     // MARK: Properties
 
@@ -25,8 +24,8 @@ internal struct JSONDataEncoding: ParameterEncoding {
     /// - throws: An `Error` if the encoding process encounters an error.
     ///
     /// - returns: The encoded request.
-    internal func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
-        var urlRequest = try urlRequest.asURLRequest()
+    internal func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) -> URLRequest {
+        var urlRequest = urlRequest
 
         guard let jsonData = parameters?[JSONDataEncoding.jsonDataKey] as? Data, !jsonData.isEmpty else {
             return urlRequest
@@ -41,10 +40,10 @@ internal struct JSONDataEncoding: ParameterEncoding {
         return urlRequest
     }
 
-    internal static func encodingParameters(jsonData: Data?) -> Parameters? {
-        var returnedParams: Parameters?
+    internal static func encodingParameters(jsonData: Data?) -> [String: Any]? {
+        var returnedParams: [String: Any]?
         if let jsonData = jsonData, !jsonData.isEmpty {
-            var params = Parameters()
+            var params: [String: Any] = [:]
             params[jsonDataKey] = jsonData
             returnedParams = params
         }

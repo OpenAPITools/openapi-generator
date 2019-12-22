@@ -19,7 +19,9 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
+        {{#useAlamofire}}
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.9.0"),
+        {{/useAlamofire}}
         {{#usePromiseKit}}
         .package(url: "https://github.com/mxcl/PromiseKit.git", from: "6.11.0"),
         {{/usePromiseKit}}
@@ -32,7 +34,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "{{projectName}}",
-            dependencies: ["Alamofire"{{#usePromiseKit}}, "PromiseKit"{{/usePromiseKit}}{{#useRxSwift}}, "RxSwift"{{/useRxSwift}}],
+            dependencies: [{{#useAlamofire}}"Alamofire", {{/useAlamofire}}{{#usePromiseKit}}"PromiseKit", {{/usePromiseKit}}{{#useRxSwift}}"RxSwift"{{/useRxSwift}}],
             path: "{{projectName}}/Classes"
         ),
     ]

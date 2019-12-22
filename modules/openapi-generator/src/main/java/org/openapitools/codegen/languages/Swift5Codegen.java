@@ -55,6 +55,8 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
+    protected static final String ALAMOFIRE = "alamofire";
+    protected static final String URLSESSION = "urlsession";
     protected static final String LIBRARY_PROMISE_KIT = "PromiseKit";
     protected static final String LIBRARY_RX_SWIFT = "RxSwift";
     protected static final String LIBRARY_RESULT = "Result";
@@ -240,6 +242,15 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
                 "Accept and cast values for simple types (string->bool, "
                         + "string->int, int->string)")
                 .defaultValue(Boolean.FALSE.toString()));
+
+        supportedLibraries.put(ALAMOFIRE, "[DEFAULT] HTTP client: Alamofire");
+        supportedLibraries.put(URLSESSION, "HTTP client: URLSession");
+
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
+        libraryOption.setEnum(supportedLibraries);
+        libraryOption.setDefault(ALAMOFIRE);
+        cliOptions.add(libraryOption);
+        setLibrary(ALAMOFIRE);
     }
 
     private static CodegenModel reconcileProperties(CodegenModel codegenModel,
@@ -400,9 +411,6 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("APIHelper.mustache",
                 sourceFolder,
                 "APIHelper.swift"));
-        supportingFiles.add(new SupportingFile("AlamofireImplementations.mustache",
-                sourceFolder,
-                "AlamofireImplementations.swift"));
         supportingFiles.add(new SupportingFile("Configuration.mustache",
                 sourceFolder,
                 "Configuration.swift"));
@@ -430,6 +438,9 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache",
                 "",
                 "git_push.sh"));
+        supportingFiles.add(new SupportingFile("SynchronizedDictionary.mustache",
+                sourceFolder,
+                "SynchronizedDictionary.swift"));
         supportingFiles.add(new SupportingFile("gitignore.mustache",
                 "",
                 ".gitignore"));
@@ -439,6 +450,23 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("XcodeGen.mustache",
                 "",
                 "project.yml"));
+
+        switch (getLibrary()) {
+            case ALAMOFIRE:
+                additionalProperties.put("useAlamofire", true);
+                supportingFiles.add(new SupportingFile("AlamofireImplementations.mustache",
+                        sourceFolder,
+                        "AlamofireImplementations.swift"));
+                break;
+            case URLSESSION:
+                additionalProperties.put("useURLSession", true);
+                supportingFiles.add(new SupportingFile("URLSessionImplementations.mustache",
+                        sourceFolder,
+                        "URLSessionImplementations.swift"));
+                break;
+            default:
+                break;
+        }
 
     }
 

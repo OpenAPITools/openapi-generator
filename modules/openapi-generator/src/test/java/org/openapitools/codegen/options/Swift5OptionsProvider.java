@@ -47,6 +47,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
     public static final String SWIFT_USE_API_NAMESPACE_VALUE = "swiftUseApiNamespace";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
+    public static final String LIBRARY_VALUE = "alamofire";
 
     @Override
     public String getLanguage() {
@@ -79,6 +80,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(CodegenConstants.LIBRARY, LIBRARY_VALUE)
                 .build();
     }
 

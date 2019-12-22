@@ -14,6 +14,21 @@ internal enum ErrorResponse: Error {
     case error(Int, Data?, Error)
 }
 
+internal enum DownloadException: Error {
+    case responseDataMissing
+    case responseFailed
+    case requestMissing
+    case requestMissingPath
+    case requestMissingURL
+}
+
+internal enum DecodableRequestBuilderError: Error {
+    case emptyDataResponse
+    case nilHTTPResponse
+    case jsonDecoding(DecodingError)
+    case generalError(Error)
+}
+
 internal class Response<T> {
     internal let statusCode: Int
     internal let header: [String: String]
