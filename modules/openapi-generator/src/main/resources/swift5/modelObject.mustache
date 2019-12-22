@@ -77,7 +77,7 @@
 
 {{/additionalPropertiesType}}
 {{^additionalPropertiesType}}{{#vendorExtensions.x-codegen-has-escaped-property-names}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum CodingKeys: String, CodingKey { {{#allVars}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum CodingKeys: String, CodingKey, CaseIterable { {{#allVars}}
         case {{name}}{{#vendorExtensions.x-codegen-escaped-property-name}} = "{{{baseName}}}"{{/vendorExtensions.x-codegen-escaped-property-name}}{{/allVars}}
     }
 {{/vendorExtensions.x-codegen-has-escaped-property-names}}{{/additionalPropertiesType}}
