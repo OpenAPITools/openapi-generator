@@ -13,11 +13,12 @@ open class PetAPI {
      Add a new pet to the store
      
      - parameter body: (body) Pet object that needs to be added to the store 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Void>
      */
-    open class func addPet( body: Pet) -> Promise<Void> {
+    open class func addPet( body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        addPetWithRequestBuilder(body: body).execute { result -> Void in
+        addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -54,11 +55,12 @@ open class PetAPI {
      
      - parameter petId: (path) Pet id to delete 
      - parameter apiKey: (header)  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Void>
      */
-    open class func deletePet( petId: Int64, apiKey: String? = nil) -> Promise<Void> {
+    open class func deletePet( petId: Int64, apiKey: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { result -> Void in
+        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -111,11 +113,12 @@ open class PetAPI {
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for filter 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<[Pet]>
      */
-    open class func findPetsByStatus( status: [String]) -> Promise<[Pet]> {
+    open class func findPetsByStatus( status: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pending()
-        findPetsByStatusWithRequestBuilder(status: status).execute { result -> Void in
+        findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
@@ -155,11 +158,12 @@ open class PetAPI {
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<[Pet]>
      */
-    open class func findPetsByTags( tags: [String]) -> Promise<[Pet]> {
+    open class func findPetsByTags( tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pending()
-        findPetsByTagsWithRequestBuilder(tags: tags).execute { result -> Void in
+        findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
@@ -199,11 +203,12 @@ open class PetAPI {
      Find pet by ID
      
      - parameter petId: (path) ID of pet to return 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Pet>
      */
-    open class func getPetById( petId: Int64) -> Promise<Pet> {
+    open class func getPetById( petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Pet> {
         let deferred = Promise<Pet>.pending()
-        getPetByIdWithRequestBuilder(petId: petId).execute { result -> Void in
+        getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
@@ -243,11 +248,12 @@ open class PetAPI {
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Void>
      */
-    open class func updatePet( body: Pet) -> Promise<Void> {
+    open class func updatePet( body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePetWithRequestBuilder(body: body).execute { result -> Void in
+        updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -285,11 +291,12 @@ open class PetAPI {
      - parameter petId: (path) ID of pet that needs to be updated 
      - parameter name: (form) Updated name of the pet (optional)
      - parameter status: (form) Updated status of the pet (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Void>
      */
-    open class func updatePetWithForm( petId: Int64, name: String? = nil, status: String? = nil) -> Promise<Void> {
+    open class func updatePetWithForm( petId: Int64, name: String? = nil, status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { result -> Void in
+        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -338,11 +345,12 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter file: (form) file to upload (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<ApiResponse>
      */
-    open class func uploadFile( petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> Promise<ApiResponse> {
+    open class func uploadFile( petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
-        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result -> Void in
+        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
@@ -391,11 +399,12 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter requiredFile: (form) file to upload 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<ApiResponse>
      */
-    open class func uploadFileWithRequiredFile( petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> Promise<ApiResponse> {
+    open class func uploadFileWithRequiredFile( petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
-        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result -> Void in
+        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)

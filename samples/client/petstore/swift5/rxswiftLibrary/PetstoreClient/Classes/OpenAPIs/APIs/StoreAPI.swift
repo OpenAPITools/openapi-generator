@@ -13,11 +13,12 @@ open class StoreAPI {
      Delete purchase order by ID
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Void>
      */
-    open class func deleteOrder(orderId: String) -> Observable<Void> {
+    open class func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            deleteOrderWithRequestBuilder(orderId: orderId).execute { result -> Void in
+            deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -55,11 +56,12 @@ open class StoreAPI {
     /**
      Returns pet inventories by status
      
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<[String:Int]>
      */
-    open class func getInventory() -> Observable<[String: Int]> {
+    open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<[String: Int]> {
         return Observable.create { observer -> Disposable in
-            getInventoryWithRequestBuilder().execute { result -> Void in
+            getInventoryWithRequestBuilder().execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -97,11 +99,12 @@ open class StoreAPI {
      Find purchase order by ID
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Order>
      */
-    open class func getOrderById(orderId: Int64) -> Observable<Order> {
+    open class func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Order> {
         return Observable.create { observer -> Disposable in
-            getOrderByIdWithRequestBuilder(orderId: orderId).execute { result -> Void in
+            getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -140,11 +143,12 @@ open class StoreAPI {
      Place an order for a pet
      
      - parameter body: (body) order placed for purchasing the pet 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Order>
      */
-    open class func placeOrder(body: Order) -> Observable<Order> {
+    open class func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Order> {
         return Observable.create { observer -> Disposable in
-            placeOrderWithRequestBuilder(body: body).execute { result -> Void in
+            placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)

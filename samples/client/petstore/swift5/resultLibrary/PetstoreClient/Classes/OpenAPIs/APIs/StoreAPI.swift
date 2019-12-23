@@ -12,26 +12,11 @@ open class StoreAPI {
      Delete purchase order by ID
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func deleteOrder(orderId: String, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        deleteOrderWithRequestBuilder(orderId: orderId).execute { result -> Void in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
-    }
-    /**
-     Delete purchase order by ID
-     
-     - parameter orderId: (path) ID of the order that needs to be deleted 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the result
      */
-    open class func deleteOrder(orderId: String, completion: @escaping ((_ result: Result<Void, Error>) -> Void)) {
-        deleteOrderWithRequestBuilder(orderId: orderId).execute { result -> Void in
+    open class func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Result<Void, Error>) -> Void)) {
+        deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
                 completion(.success(()))
@@ -66,25 +51,11 @@ open class StoreAPI {
     /**
      Returns pet inventories by status
      
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func getInventory(completion: @escaping ((_ data: [String: Int]?, _ error: Error?) -> Void)) {
-        getInventoryWithRequestBuilder().execute { result -> Void in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
-    }
-    /**
-     Returns pet inventories by status
-     
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the result
      */
-    open class func getInventory(completion: @escaping ((_ result: Result<[String: Int], Error>) -> Void)) {
-        getInventoryWithRequestBuilder().execute { result -> Void in
+    open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Result<[String: Int], Error>) -> Void)) {
+        getInventoryWithRequestBuilder().execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
                 completion(.success(response.body!))
@@ -119,26 +90,11 @@ open class StoreAPI {
      Find purchase order by ID
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func getOrderById(orderId: Int64, completion: @escaping ((_ data: Order?, _ error: Error?) -> Void)) {
-        getOrderByIdWithRequestBuilder(orderId: orderId).execute { result -> Void in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
-    }
-    /**
-     Find purchase order by ID
-     
-     - parameter orderId: (path) ID of pet that needs to be fetched 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the result
      */
-    open class func getOrderById(orderId: Int64, completion: @escaping ((_ result: Result<Order, Error>) -> Void)) {
-        getOrderByIdWithRequestBuilder(orderId: orderId).execute { result -> Void in
+    open class func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Result<Order, Error>) -> Void)) {
+        getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
                 completion(.success(response.body!))
@@ -174,26 +130,11 @@ open class StoreAPI {
      Place an order for a pet
      
      - parameter body: (body) order placed for purchasing the pet 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func placeOrder(body: Order, completion: @escaping ((_ data: Order?, _ error: Error?) -> Void)) {
-        placeOrderWithRequestBuilder(body: body).execute { result -> Void in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
-    }
-    /**
-     Place an order for a pet
-     
-     - parameter body: (body) order placed for purchasing the pet 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the result
      */
-    open class func placeOrder(body: Order, completion: @escaping ((_ result: Result<Order, Error>) -> Void)) {
-        placeOrderWithRequestBuilder(body: body).execute { result -> Void in
+    open class func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Result<Order, Error>) -> Void)) {
+        placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
                 completion(.success(response.body!))

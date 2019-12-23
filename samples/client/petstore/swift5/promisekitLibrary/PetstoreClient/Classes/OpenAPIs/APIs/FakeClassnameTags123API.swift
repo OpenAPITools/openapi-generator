@@ -13,11 +13,12 @@ open class FakeClassnameTags123API {
      To test class name in snake case
      
      - parameter body: (body) client model 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Client>
      */
-    open class func testClassname( body: Client) -> Promise<Client> {
+    open class func testClassname( body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
-        testClassnameWithRequestBuilder(body: body).execute { result -> Void in
+        testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)

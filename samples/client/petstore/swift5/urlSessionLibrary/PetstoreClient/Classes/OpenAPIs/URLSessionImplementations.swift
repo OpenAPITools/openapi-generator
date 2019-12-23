@@ -101,7 +101,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         return modifiedRequest
     }
 
-    override open func execute(_ completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
+    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
         let urlSessionId: String = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let urlSession = createURLSession()
@@ -144,14 +144,18 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                         guard let self = self else { return }
 
                         if shouldRetry {
-                            self.execute(completion)
+                            cleanupRequest()
+                            self.execute(apiResponseQueue, completion)
                         } else {
-
-                            self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                            apiResponseQueue.async {
+                                self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                            }
                         }
                     }
                 } else {
-                    self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                    apiResponseQueue.async {
+                        self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                    }
                 }
             }
 
@@ -167,8 +171,10 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
             dataTask.resume()
 
         } catch {
-            cleanupRequest()
-            completion(.failure(ErrorResponse.error(415, nil, error)))
+            apiResponseQueue.async {
+                cleanupRequest()
+                completion(.failure(ErrorResponse.error(415, nil, error)))
+            }
         }
 
     }

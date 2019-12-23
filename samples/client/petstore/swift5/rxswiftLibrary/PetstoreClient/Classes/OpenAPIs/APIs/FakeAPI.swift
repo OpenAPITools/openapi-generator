@@ -12,11 +12,12 @@ open class FakeAPI {
     /**
 
      - parameter body: (body) Input boolean as post body (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Bool>
      */
-    open class func fakeOuterBooleanSerialize(body: Bool? = nil) -> Observable<Bool> {
+    open class func fakeOuterBooleanSerialize(body: Bool? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Bool> {
         return Observable.create { observer -> Disposable in
-            fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { result -> Void in
+            fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -50,11 +51,12 @@ open class FakeAPI {
     /**
 
      - parameter body: (body) Input composite as post body (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<OuterComposite>
      */
-    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil) -> Observable<OuterComposite> {
+    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<OuterComposite> {
         return Observable.create { observer -> Disposable in
-            fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { result -> Void in
+            fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -88,11 +90,12 @@ open class FakeAPI {
     /**
 
      - parameter body: (body) Input number as post body (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Double>
      */
-    open class func fakeOuterNumberSerialize(body: Double? = nil) -> Observable<Double> {
+    open class func fakeOuterNumberSerialize(body: Double? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Double> {
         return Observable.create { observer -> Disposable in
-            fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { result -> Void in
+            fakeOuterNumberSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -126,11 +129,12 @@ open class FakeAPI {
     /**
 
      - parameter body: (body) Input string as post body (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<String>
      */
-    open class func fakeOuterStringSerialize(body: String? = nil) -> Observable<String> {
+    open class func fakeOuterStringSerialize(body: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<String> {
         return Observable.create { observer -> Disposable in
-            fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result -> Void in
+            fakeOuterStringSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -164,11 +168,12 @@ open class FakeAPI {
     /**
 
      - parameter body: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Void>
      */
-    open class func testBodyWithFileSchema(body: FileSchemaTestClass) -> Observable<Void> {
+    open class func testBodyWithFileSchema(body: FileSchemaTestClass, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testBodyWithFileSchemaWithRequestBuilder(body: body).execute { result -> Void in
+            testBodyWithFileSchemaWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -203,11 +208,12 @@ open class FakeAPI {
 
      - parameter query: (query)  
      - parameter body: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Void>
      */
-    open class func testBodyWithQueryParams(query: String, body: User) -> Observable<Void> {
+    open class func testBodyWithQueryParams(query: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { result -> Void in
+            testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -245,11 +251,12 @@ open class FakeAPI {
      To test \"client\" model
      
      - parameter body: (body) client model 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Client>
      */
-    open class func testClientModel(body: Client) -> Observable<Client> {
+    open class func testClientModel(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            testClientModelWithRequestBuilder(body: body).execute { result -> Void in
+            testClientModelWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -298,11 +305,12 @@ open class FakeAPI {
      - parameter dateTime: (form) None (optional)
      - parameter password: (form) None (optional)
      - parameter callback: (form) None (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Void>
      */
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> Observable<Void> {
+    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { result -> Void in
+            testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -446,11 +454,12 @@ open class FakeAPI {
      - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
      - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .dollar)
      - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Void>
      */
-    open class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> Observable<Void> {
+    open class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { result -> Void in
+            testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -515,11 +524,12 @@ open class FakeAPI {
      - parameter stringGroup: (query) String in group parameters (optional)
      - parameter booleanGroup: (header) Boolean in group parameters (optional)
      - parameter int64Group: (query) Integer in group parameters (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Void>
      */
-    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> Observable<Void> {
+    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { result -> Void in
+            testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -571,11 +581,12 @@ open class FakeAPI {
      test inline additionalProperties
      
      - parameter param: (body) request body 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Void>
      */
-    open class func testInlineAdditionalProperties(param: [String: String]) -> Observable<Void> {
+    open class func testInlineAdditionalProperties(param: [String: String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { result -> Void in
+            testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -611,11 +622,12 @@ open class FakeAPI {
      
      - parameter param: (form) field1 
      - parameter param2: (form) field2 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Void>
      */
-    open class func testJsonFormData(param: String, param2: String) -> Observable<Void> {
+    open class func testJsonFormData(param: String, param2: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { result -> Void in
+            testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
                     observer.onNext(())

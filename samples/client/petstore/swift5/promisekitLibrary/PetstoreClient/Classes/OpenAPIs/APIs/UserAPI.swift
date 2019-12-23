@@ -13,11 +13,12 @@ open class UserAPI {
      Create user
      
      - parameter body: (body) Created user object 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Void>
      */
-    open class func createUser( body: User) -> Promise<Void> {
+    open class func createUser( body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUserWithRequestBuilder(body: body).execute { result -> Void in
+        createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -51,11 +52,12 @@ open class UserAPI {
      Creates list of users with given input array
      
      - parameter body: (body) List of user object 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Void>
      */
-    open class func createUsersWithArrayInput( body: [User]) -> Promise<Void> {
+    open class func createUsersWithArrayInput( body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUsersWithArrayInputWithRequestBuilder(body: body).execute { result -> Void in
+        createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -88,11 +90,12 @@ open class UserAPI {
      Creates list of users with given input array
      
      - parameter body: (body) List of user object 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Void>
      */
-    open class func createUsersWithListInput( body: [User]) -> Promise<Void> {
+    open class func createUsersWithListInput( body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUsersWithListInputWithRequestBuilder(body: body).execute { result -> Void in
+        createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -125,11 +128,12 @@ open class UserAPI {
      Delete user
      
      - parameter username: (path) The name that needs to be deleted 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Void>
      */
-    open class func deleteUser( username: String) -> Promise<Void> {
+    open class func deleteUser( username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deleteUserWithRequestBuilder(username: username).execute { result -> Void in
+        deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -166,11 +170,12 @@ open class UserAPI {
      Get user by user name
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<User>
      */
-    open class func getUserByName( username: String) -> Promise<User> {
+    open class func getUserByName( username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<User> {
         let deferred = Promise<User>.pending()
-        getUserByNameWithRequestBuilder(username: username).execute { result -> Void in
+        getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
@@ -207,11 +212,12 @@ open class UserAPI {
      
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<String>
      */
-    open class func loginUser( username: String, password: String) -> Promise<String> {
+    open class func loginUser( username: String, password: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<String> {
         let deferred = Promise<String>.pending()
-        loginUserWithRequestBuilder(username: username, password: password).execute { result -> Void in
+        loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
@@ -249,11 +255,12 @@ open class UserAPI {
     /**
      Logs out current logged in user session
      
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Void>
      */
-    open class func logoutUser() -> Promise<Void> {
+    open class func logoutUser(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        logoutUserWithRequestBuilder().execute { result -> Void in
+        logoutUserWithRequestBuilder().execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -286,11 +293,12 @@ open class UserAPI {
      
      - parameter username: (path) name that need to be deleted 
      - parameter body: (body) Updated user object 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Promise<Void>
      */
-    open class func updateUser( username: String, body: User) -> Promise<Void> {
+    open class func updateUser( username: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updateUserWithRequestBuilder(username: username, body: body).execute { result -> Void in
+        updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result -> Void in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())

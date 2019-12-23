@@ -13,11 +13,12 @@ open class PetAPI {
      Add a new pet to the store
      
      - parameter body: (body) Pet object that needs to be added to the store 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Void>
      */
-    open class func addPet(body: Pet) -> Observable<Void> {
+    open class func addPet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            addPetWithRequestBuilder(body: body).execute { result -> Void in
+            addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -56,11 +57,12 @@ open class PetAPI {
      
      - parameter petId: (path) Pet id to delete 
      - parameter apiKey: (header)  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Void>
      */
-    open class func deletePet(petId: Int64, apiKey: String? = nil) -> Observable<Void> {
+    open class func deletePet(petId: Int64, apiKey: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { result -> Void in
+            deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -115,11 +117,12 @@ open class PetAPI {
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for filter 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<[Pet]>
      */
-    open class func findPetsByStatus(status: [String]) -> Observable<[Pet]> {
+    open class func findPetsByStatus(status: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<[Pet]> {
         return Observable.create { observer -> Disposable in
-            findPetsByStatusWithRequestBuilder(status: status).execute { result -> Void in
+            findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -161,11 +164,12 @@ open class PetAPI {
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<[Pet]>
      */
-    open class func findPetsByTags(tags: [String]) -> Observable<[Pet]> {
+    open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<[Pet]> {
         return Observable.create { observer -> Disposable in
-            findPetsByTagsWithRequestBuilder(tags: tags).execute { result -> Void in
+            findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -207,11 +211,12 @@ open class PetAPI {
      Find pet by ID
      
      - parameter petId: (path) ID of pet to return 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Pet>
      */
-    open class func getPetById(petId: Int64) -> Observable<Pet> {
+    open class func getPetById(petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Pet> {
         return Observable.create { observer -> Disposable in
-            getPetByIdWithRequestBuilder(petId: petId).execute { result -> Void in
+            getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -253,11 +258,12 @@ open class PetAPI {
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Void>
      */
-    open class func updatePet(body: Pet) -> Observable<Void> {
+    open class func updatePet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updatePetWithRequestBuilder(body: body).execute { result -> Void in
+            updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -297,11 +303,12 @@ open class PetAPI {
      - parameter petId: (path) ID of pet that needs to be updated 
      - parameter name: (form) Updated name of the pet (optional)
      - parameter status: (form) Updated status of the pet (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Void>
      */
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) -> Observable<Void> {
+    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { result -> Void in
+            updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -352,11 +359,12 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter file: (form) file to upload (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<ApiResponse>
      */
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> Observable<ApiResponse> {
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<ApiResponse> {
         return Observable.create { observer -> Disposable in
-            uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result -> Void in
+            uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -407,11 +415,12 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter requiredFile: (form) file to upload 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<ApiResponse>
      */
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> Observable<ApiResponse> {
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<ApiResponse> {
         return Observable.create { observer -> Disposable in
-            uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result -> Void in
+            uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)

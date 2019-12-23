@@ -23,6 +23,7 @@ open class RequestBuilder<T> {
     public let URLString: String
 
     /// Optional block to obtain a reference to the request's progress instance when available.
+    /// It only works on iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0
     public var onProgressReady: ((Progress) -> Void)?
 
     required public init(method: String, URLString: String, parameters: [String: Any]?, isBody: Bool, headers: [String: String] = [:]) {
@@ -41,7 +42,7 @@ open class RequestBuilder<T> {
         }
     }
 
-    open func execute(_ completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) { }
+    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) { }
 
     public func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {

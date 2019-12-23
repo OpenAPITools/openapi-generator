@@ -13,11 +13,12 @@ open class AnotherFakeAPI {
      To test special tags
      
      - parameter body: (body) client model 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<Client>
      */
-    open class func call123testSpecialTags(body: Client) -> Observable<Client> {
+    open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            call123testSpecialTagsWithRequestBuilder(body: body).execute { result -> Void in
+            call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)

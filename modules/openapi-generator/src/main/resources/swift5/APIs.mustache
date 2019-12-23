@@ -23,7 +23,8 @@ import Foundation
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let method: String
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let URLString: String
 
-    /// Optional block to obtain a reference to the request's progress instance when available.
+    /// Optional block to obtain a reference to the request's progress instance when available.{{#useURLSession}}
+    /// It only works on iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0{{/useURLSession}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var onProgressReady: ((Progress) -> ())?
 
     required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String:Any]?, isBody: Bool, headers: [String:String] = [:]) {
@@ -42,7 +43,7 @@ import Foundation
         }
     }
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) { }
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) { }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {

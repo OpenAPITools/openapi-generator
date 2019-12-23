@@ -12,10 +12,11 @@ open class Swift5TestAPI {
      Get all of the models
      
      - parameter clientId: (query) id that represent the Api client 
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getAllModels(clientId: String, completion: @escaping ((_ data: GetAllModelsResult?, _ error: Error?) -> Void)) {
-        getAllModelsWithRequestBuilder(clientId: clientId).execute { result -> Void in
+    open class func getAllModels(clientId: String, apiResponseQueue: DispatchQueue = TestClientAPI.apiResponseQueue, completion: @escaping ((_ data: GetAllModelsResult?, _ error: Error?) -> Void)) {
+        getAllModelsWithRequestBuilder(clientId: clientId).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
                 completion(response.body, nil)

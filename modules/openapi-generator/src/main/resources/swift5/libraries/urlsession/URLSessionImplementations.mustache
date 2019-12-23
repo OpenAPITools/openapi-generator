@@ -101,7 +101,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
         return modifiedRequest
     }
 
-    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
+    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
         let urlSessionId:String = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let urlSession = createURLSession()
@@ -144,14 +144,18 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
                         guard let self = self else { return }
                         
                         if shouldRetry {
-                            self.execute(completion)
+                            cleanupRequest()
+                            self.execute(apiResponseQueue, completion)
                         } else {
-                            
-                            self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                            apiResponseQueue.async {
+                                self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                            }
                         }
                     }
                 } else {
-                    self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                    apiResponseQueue.async {
+                        self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                    }
                 }
             }
             
@@ -167,8 +171,10 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
             dataTask.resume()
                         
         } catch {
-            cleanupRequest()
-            completion(.failure(ErrorResponse.error(415, nil, error)))
+            apiResponseQueue.async {
+                cleanupRequest()
+                completion(.failure(ErrorResponse.error(415, nil, error)))
+            }
         }
 
     }

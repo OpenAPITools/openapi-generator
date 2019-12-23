@@ -63,7 +63,7 @@ internal class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         return manager.request(URLString, method: method, parameters: parameters, encoding: encoding, headers: headers)
     }
 
-    override internal func execute(_ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
+    override internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
         let managerId: String = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createSessionManager()
@@ -99,9 +99,11 @@ internal class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                     if let onProgressReady = self.onProgressReady {
                         onProgressReady(upload.uploadProgress)
                     }
-                    self.processRequest(request: upload, managerId, completion)
+                    self.processRequest(request: upload, managerId, apiResponseQueue, completion)
                 case .failure(let encodingError):
-                    completion(.failure(ErrorResponse.error(415, nil, encodingError)))
+                    apiResponseQueue.async {
+                        completion(.failure(ErrorResponse.error(415, nil, encodingError)))
+                    }
                 }
             })
         } else {
@@ -109,12 +111,12 @@ internal class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             if let onProgressReady = self.onProgressReady {
                 onProgressReady(request.progress)
             }
-            processRequest(request: request, managerId, completion)
+            processRequest(request: request, managerId, apiResponseQueue, completion)
         }
 
     }
 
-    fileprivate func processRequest(request: DataRequest, _ managerId: String, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
+    fileprivate func processRequest(request: DataRequest, _ managerId: String, _ apiResponseQueue: DispatchQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
         if let credential = self.credential {
             request.authenticate(usingCredential: credential)
         }
@@ -127,7 +129,7 @@ internal class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (stringResponse) in
+            validatedRequest.responseString(queue: apiResponseQueue, completionHandler: { (stringResponse) in
                 cleanupRequest()
 
                 switch stringResponse.result {
@@ -139,7 +141,7 @@ internal class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
             })
         case is URL.Type:
-            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (dataResponse) in
                 cleanupRequest()
 
                 do {
@@ -183,7 +185,7 @@ internal class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 return
             })
         case is Void.Type:
-            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (voidResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (voidResponse) in
                 cleanupRequest()
 
                 switch voidResponse.result {
@@ -195,7 +197,7 @@ internal class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
             })
         default:
-            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (dataResponse) in
                 cleanupRequest()
 
                 switch dataResponse.result {
@@ -272,7 +274,7 @@ internal class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
 internal class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuilder<T> {
 
-    override fileprivate func processRequest(request: DataRequest, _ managerId: String, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
+    override fileprivate func processRequest(request: DataRequest, _ managerId: String, _ apiResponseQueue: DispatchQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
         if let credential = self.credential {
             request.authenticate(usingCredential: credential)
         }
@@ -285,7 +287,7 @@ internal class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestB
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (stringResponse) in
+            validatedRequest.responseString(queue: apiResponseQueue, completionHandler: { (stringResponse) in
                 cleanupRequest()
 
                 switch stringResponse.result {
@@ -297,7 +299,7 @@ internal class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestB
 
             })
         case is Void.Type:
-            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (voidResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (voidResponse) in
                 cleanupRequest()
 
                 switch voidResponse.result {
@@ -309,7 +311,7 @@ internal class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestB
 
             })
         case is Data.Type:
-            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (dataResponse) in
                 cleanupRequest()
 
                 switch dataResponse.result {
@@ -321,7 +323,7 @@ internal class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestB
 
             })
         default:
-            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (dataResponse: DataResponse<Data>) in
+            validatedRequest.responseData(queue: apiResponseQueue, completionHandler: { (dataResponse: DataResponse<Data>) in
                 cleanupRequest()
 
                 guard dataResponse.result.isSuccess else {
