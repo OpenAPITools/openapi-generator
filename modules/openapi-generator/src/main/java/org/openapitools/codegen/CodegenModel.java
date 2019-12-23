@@ -32,6 +32,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public CodegenModel parentModel;
     public List<CodegenModel> interfaceModels;
     public List<CodegenModel> children;
+    public List<ParentInterfaceModel> parentInterfaceModels = new LinkedList();
+    public boolean isInterface;
+    public boolean hasParentInterfaces;
 
     // anyOf, oneOf, allOf
     public Set<String> anyOf = new TreeSet<String>();
@@ -500,6 +503,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         if (!(o instanceof CodegenModel)) return false;
         CodegenModel that = (CodegenModel) o;
         return isAlias == that.isAlias &&
+                isInterface == that.isInterface &&
+                hasParentInterfaces == that.hasParentInterfaces &&
                 isString == that.isString &&
                 isInteger == that.isInteger &&
                 isLong == that.isLong &&
@@ -522,6 +527,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
+                Objects.equals(parentInterfaceModels, that.parentInterfaceModels) &&
                 Objects.equals(parent, that.parent) &&
                 Objects.equals(parentSchema, that.parentSchema) &&
                 Objects.equals(interfaces, that.interfaces) &&
@@ -574,7 +580,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getParent(), getParentSchema(), getInterfaces(), getAllParents(), getParentModel(),
+        return Objects.hash(parentInterfaceModels, isInterface, hasParentInterfaces, getParent(), getParentSchema(), getInterfaces(), getAllParents(), getParentModel(),
                 getInterfaceModels(), getChildren(), anyOf, oneOf, allOf, getName(), getClassname(), getTitle(),
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
@@ -597,6 +603,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", allParents=").append(allParents);
         sb.append(", parentModel=").append(parentModel);
         sb.append(", interfaceModels=").append(interfaceModels);
+        sb.append(", parentInterfaceModels=").append(parentInterfaceModels);
+        sb.append(", hasParentInterfaces=").append(hasParentInterfaces);
+        sb.append(", isInterface=").append(isInterface);
         sb.append(", children=").append(children);
         sb.append(", anyOf=").append(anyOf);
         sb.append(", oneOf=").append(oneOf);
@@ -736,6 +745,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
             }
         }
     }
+
 
     /**
      * Remove self reference import

@@ -315,6 +315,37 @@ public class SpringCodegenTest {
         Assert.assertTrue(multipartApi.contains("MultipartFile file"));
     }
 
+
+    @Test
+    public void testGeneratorWithPollsApi() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/java-oneOf-interfaces.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+
+
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/OneOfFruit.java",  "public interface OneOfFruit","@JsonSubTypes.Type(value = Apple.class, name = \"apple\")","@JsonSubTypes.Type(value = Banana.class, name = \"banana\")","property = \"fruitType\"");
+
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/Banana.java",  "implements OneOfFruit");
+
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/Apple.java",  "implements OneOfFruit");
+
+    }
+
     @Test
     public void doGenerateRequestParamForSimpleParam() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
