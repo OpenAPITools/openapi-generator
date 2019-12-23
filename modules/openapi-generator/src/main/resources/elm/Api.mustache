@@ -113,6 +113,7 @@ interpolatePath rawPath pathParams =
     in
     List.foldl interpolate rawPath pathParams
         |> String.split "/"
+        |> List.drop 1
 
 
 queries : List (String, Maybe String) -> List Url.Builder.QueryParameter
