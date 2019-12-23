@@ -37,7 +37,6 @@ public class Swift5OptionsProvider implements OptionsProvider {
     public static final String POD_VERSION_VALUE = "v1.0.0-SNAPSHOT";
     public static final String POD_AUTHORS_VALUE = "podAuthors";
     public static final String POD_SOCIAL_MEDIA_URL_VALUE = "podSocialMediaURL";
-    public static final String POD_DOCSET_URL_VALUE = "podDocsetURL";
     public static final String POD_LICENSE_VALUE = "'Apache License, Version 2.0'";
     public static final String POD_HOMEPAGE_VALUE = "podHomepage";
     public static final String POD_SUMMARY_VALUE = "podSummary";
@@ -69,7 +68,6 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.POD_VERSION, POD_VERSION_VALUE)
                 .put(Swift5Codegen.POD_AUTHORS, POD_AUTHORS_VALUE)
                 .put(Swift5Codegen.POD_SOCIAL_MEDIA_URL, POD_SOCIAL_MEDIA_URL_VALUE)
-                .put(Swift5Codegen.POD_DOCSET_URL, POD_DOCSET_URL_VALUE)
                 .put(Swift5Codegen.POD_LICENSE, POD_LICENSE_VALUE)
                 .put(Swift5Codegen.POD_HOMEPAGE, POD_HOMEPAGE_VALUE)
                 .put(Swift5Codegen.POD_SUMMARY, POD_SUMMARY_VALUE)

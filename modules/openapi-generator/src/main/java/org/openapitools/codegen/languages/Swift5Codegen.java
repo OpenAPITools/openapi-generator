@@ -45,7 +45,6 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
     public static final String POD_SOURCE = "podSource";
     public static final String POD_AUTHORS = "podAuthors";
     public static final String POD_SOCIAL_MEDIA_URL = "podSocialMediaURL";
-    public static final String POD_DOCSET_URL = "podDocsetURL";
     public static final String POD_LICENSE = "podLicense";
     public static final String POD_HOMEPAGE = "podHomepage";
     public static final String POD_SUMMARY = "podSummary";
@@ -224,7 +223,6 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.POD_VERSION, "Version used for Podspec"));
         cliOptions.add(new CliOption(POD_AUTHORS, "Authors used for Podspec"));
         cliOptions.add(new CliOption(POD_SOCIAL_MEDIA_URL, "Social Media URL used for Podspec"));
-        cliOptions.add(new CliOption(POD_DOCSET_URL, "Docset URL used for Podspec"));
         cliOptions.add(new CliOption(POD_LICENSE, "License used for Podspec"));
         cliOptions.add(new CliOption(POD_HOMEPAGE, "Homepage used for Podspec"));
         cliOptions.add(new CliOption(POD_SUMMARY, "Summary used for Podspec"));
