@@ -24,12 +24,15 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(MysqlSchemaCodegen.class);
 
     public static final String CODEGEN_VENDOR_EXTENSION_KEY = "x-mysqlSchema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
     public static final String JSON_DATA_TYPE_ENABLED = "jsonDataTypeEnabled";
+    public static final String IDENTIFIER_NAMING_CONVENTION = "identifierNamingConvention";
     public static final Integer ENUM_MAX_ELEMENTS = 65535;
     public static final Integer IDENTIFIER_MAX_LENGTH = 64;
 
@@ -53,6 +56,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     protected String tableNamePrefix = "tbl_", tableNameSuffix = "";
     protected String columnNamePrefix = "col_", columnNameSuffix = "";
     protected Boolean jsonDataTypeEnabled = true;
+    protected String identifierNamingConvention = "original";
 
     public MysqlSchemaCodegen() {
         super();
@@ -158,6 +162,16 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         cliOptions.clear();
         addOption(DEFAULT_DATABASE_NAME, "Default database name for all MySQL queries", defaultDatabaseName);
         addSwitch(JSON_DATA_TYPE_ENABLED, "Use special JSON MySQL data type for complex model properties. Requires MySQL version 5.7.8. Generates TEXT data type when disabled", jsonDataTypeEnabled);
+
+        // we used to snake_case table/column names, let's add this option
+        CliOption identifierNamingOpt = new CliOption(IDENTIFIER_NAMING_CONVENTION,
+                "Naming convention of MySQL identifiers(table names and column names). This is not related to database name which is defined by " + DEFAULT_DATABASE_NAME + " option");
+
+        identifierNamingOpt.addEnum("original", "Do not transform original names")
+                .addEnum("snake_case", "Use snake_case names")
+                .setDefault("original");
+
+        cliOptions.add(identifierNamingOpt);
     }
 
     @Override
@@ -193,6 +207,10 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             this.setJsonDataTypeEnabled(Boolean.valueOf(additionalProperties.get(JSON_DATA_TYPE_ENABLED).toString()));
         } else {
             additionalProperties.put(JSON_DATA_TYPE_ENABLED, getJsonDataTypeEnabled());
+        }
+
+        if (additionalProperties.containsKey(IDENTIFIER_NAMING_CONVENTION)) {
+            this.setIdentifierNamingConvention((String) additionalProperties.get(IDENTIFIER_NAMING_CONVENTION));
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -897,6 +915,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public String toTableName(String name) {
         String identifier = toMysqlIdentifier(name, tableNamePrefix, tableNameSuffix);
+        if (identifierNamingConvention.equals("snake_case")) {
+            identifier = underscore(identifier);
+        }
         if (identifier.length() > IDENTIFIER_MAX_LENGTH) {
             LOGGER.warn("Table name cannot exceed 64 chars. Name '" + name + "' will be truncated");
             identifier = identifier.substring(0, IDENTIFIER_MAX_LENGTH);
@@ -913,6 +934,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public String toColumnName(String name) {
         String identifier = toMysqlIdentifier(name, columnNamePrefix, columnNameSuffix);
+        if (identifierNamingConvention.equals("snake_case")) {
+            identifier = underscore(identifier);
+        }
         if (identifier.length() > IDENTIFIER_MAX_LENGTH) {
             LOGGER.warn("Column name cannot exceed 64 chars. Name '" + name + "' will be truncated");
             identifier = identifier.substring(0, IDENTIFIER_MAX_LENGTH);
@@ -1052,6 +1076,32 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public Boolean getJsonDataTypeEnabled() {
         return this.jsonDataTypeEnabled;
+    }
+
+    /**
+     * Sets identifier naming convention for table names and column names.
+     * This is not related to database name which is defined by defaultDatabaseName option.
+     *
+     * @param naming identifier naming convention (original|snake_case)
+     */
+    public void setIdentifierNamingConvention(String naming) {
+        switch (naming) {
+            case "original":
+            case "snake_case":
+                this.identifierNamingConvention = naming;
+                break;
+            default:
+                LOGGER.warn("\"" + (String) naming + "\" is invalid \"identifierNamingConvention\" argument. Current \"" + (String) this.identifierNamingConvention + "\" used instead.");
+        }
+    }
+
+    /**
+     * Returns identifier naming convention for table names and column names.
+     *
+     * @return identifier naming convention
+     */
+    public String getIdentifierNamingConvention() {
+        return this.identifierNamingConvention;
     }
 
 }
