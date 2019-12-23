@@ -569,6 +569,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
+        enumName = enumName + "Enum";
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
