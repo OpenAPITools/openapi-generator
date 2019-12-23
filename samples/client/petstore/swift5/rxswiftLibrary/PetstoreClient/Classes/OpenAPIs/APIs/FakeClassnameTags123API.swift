@@ -17,13 +17,12 @@ open class FakeClassnameTags123API {
      */
     open class func testClassname(body: Client) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            testClassnameWithRequestBuilder(body: body).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            testClassnameWithRequestBuilder(body: body).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }

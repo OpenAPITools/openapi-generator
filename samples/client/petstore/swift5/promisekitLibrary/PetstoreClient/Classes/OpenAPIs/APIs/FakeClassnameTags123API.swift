@@ -17,13 +17,12 @@ open class FakeClassnameTags123API {
      */
     open class func testClassname( body: Client) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
-        testClassnameWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            if let error = error {
-                deferred.resolver.reject(error)
-            } else if let response = response {
+        testClassnameWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case let .success(response):
                 deferred.resolver.fulfill(response.body!)
-            } else {
-                fatalError()
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise

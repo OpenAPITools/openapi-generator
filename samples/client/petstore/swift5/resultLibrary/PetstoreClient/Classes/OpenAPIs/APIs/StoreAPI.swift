@@ -15,10 +15,11 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func deleteOrder(orderId: String, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        deleteOrderWithRequestBuilder(orderId: orderId).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        deleteOrderWithRequestBuilder(orderId: orderId).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -30,11 +31,12 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     open class func deleteOrder(orderId: String, completion: @escaping ((_ result: Result<Void, Error>) -> Void)) {
-        deleteOrderWithRequestBuilder(orderId: orderId).execute { (_, error) -> Void in
-            if let error = error {
-                completion(.failure(error))
-            } else {
+        deleteOrderWithRequestBuilder(orderId: orderId).execute { result -> Void in
+            switch result {
+            case .success:
                 completion(.success(()))
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }
@@ -67,8 +69,13 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getInventory(completion: @escaping ((_ data: [String: Int]?, _ error: Error?) -> Void)) {
-        getInventoryWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error)
+        getInventoryWithRequestBuilder().execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
     /**
@@ -77,13 +84,12 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     open class func getInventory(completion: @escaping ((_ result: Result<[String: Int], Error>) -> Void)) {
-        getInventoryWithRequestBuilder().execute { (response, error) -> Void in
-            if let error = error {
-                completion(.failure(error))
-            } else if let response = response {
+        getInventoryWithRequestBuilder().execute { result -> Void in
+            switch result {
+            case let .success(response):
                 completion(.success(response.body!))
-            } else {
-                fatalError()
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }
@@ -116,8 +122,13 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getOrderById(orderId: Int64, completion: @escaping ((_ data: Order?, _ error: Error?) -> Void)) {
-        getOrderByIdWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        getOrderByIdWithRequestBuilder(orderId: orderId).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
     /**
@@ -127,13 +138,12 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     open class func getOrderById(orderId: Int64, completion: @escaping ((_ result: Result<Order, Error>) -> Void)) {
-        getOrderByIdWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
-            if let error = error {
-                completion(.failure(error))
-            } else if let response = response {
+        getOrderByIdWithRequestBuilder(orderId: orderId).execute { result -> Void in
+            switch result {
+            case let .success(response):
                 completion(.success(response.body!))
-            } else {
-                fatalError()
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }
@@ -167,8 +177,13 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func placeOrder(body: Order, completion: @escaping ((_ data: Order?, _ error: Error?) -> Void)) {
-        placeOrderWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        placeOrderWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
     /**
@@ -178,13 +193,12 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     open class func placeOrder(body: Order, completion: @escaping ((_ result: Result<Order, Error>) -> Void)) {
-        placeOrderWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            if let error = error {
-                completion(.failure(error))
-            } else if let response = response {
+        placeOrderWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case let .success(response):
                 completion(.success(response.body!))
-            } else {
-                fatalError()
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }

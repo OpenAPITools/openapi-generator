@@ -15,8 +15,13 @@ open class AnotherFakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func call123testSpecialTags(body: Client, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) {
-        call123testSpecialTagsWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        call123testSpecialTagsWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
     /**
@@ -26,13 +31,12 @@ open class AnotherFakeAPI {
      - parameter completion: completion handler to receive the result
      */
     open class func call123testSpecialTags(body: Client, completion: @escaping ((_ result: Result<Client, Error>) -> Void)) {
-        call123testSpecialTagsWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            if let error = error {
-                completion(.failure(error))
-            } else if let response = response {
+        call123testSpecialTagsWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case let .success(response):
                 completion(.success(response.body!))
-            } else {
-                fatalError()
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }

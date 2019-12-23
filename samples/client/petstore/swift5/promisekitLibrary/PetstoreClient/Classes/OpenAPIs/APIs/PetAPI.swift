@@ -17,11 +17,12 @@ open class PetAPI {
      */
     open class func addPet( body: Pet) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        addPetWithRequestBuilder(body: body).execute { (_, error) -> Void in
-            if let error = error {
-                deferred.resolver.reject(error)
-            } else {
+        addPetWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case .success:
                 deferred.resolver.fulfill(())
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise
@@ -57,11 +58,12 @@ open class PetAPI {
      */
     open class func deletePet( petId: Int64, apiKey: String? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (_, error) -> Void in
-            if let error = error {
-                deferred.resolver.reject(error)
-            } else {
+        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { result -> Void in
+            switch result {
+            case .success:
                 deferred.resolver.fulfill(())
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise
@@ -113,13 +115,12 @@ open class PetAPI {
      */
     open class func findPetsByStatus( status: [String]) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pending()
-        findPetsByStatusWithRequestBuilder(status: status).execute { (response, error) -> Void in
-            if let error = error {
-                deferred.resolver.reject(error)
-            } else if let response = response {
+        findPetsByStatusWithRequestBuilder(status: status).execute { result -> Void in
+            switch result {
+            case let .success(response):
                 deferred.resolver.fulfill(response.body!)
-            } else {
-                fatalError()
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise
@@ -158,13 +159,12 @@ open class PetAPI {
      */
     open class func findPetsByTags( tags: [String]) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pending()
-        findPetsByTagsWithRequestBuilder(tags: tags).execute { (response, error) -> Void in
-            if let error = error {
-                deferred.resolver.reject(error)
-            } else if let response = response {
+        findPetsByTagsWithRequestBuilder(tags: tags).execute { result -> Void in
+            switch result {
+            case let .success(response):
                 deferred.resolver.fulfill(response.body!)
-            } else {
-                fatalError()
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise
@@ -203,13 +203,12 @@ open class PetAPI {
      */
     open class func getPetById( petId: Int64) -> Promise<Pet> {
         let deferred = Promise<Pet>.pending()
-        getPetByIdWithRequestBuilder(petId: petId).execute { (response, error) -> Void in
-            if let error = error {
-                deferred.resolver.reject(error)
-            } else if let response = response {
+        getPetByIdWithRequestBuilder(petId: petId).execute { result -> Void in
+            switch result {
+            case let .success(response):
                 deferred.resolver.fulfill(response.body!)
-            } else {
-                fatalError()
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise
@@ -248,11 +247,12 @@ open class PetAPI {
      */
     open class func updatePet( body: Pet) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePetWithRequestBuilder(body: body).execute { (_, error) -> Void in
-            if let error = error {
-                deferred.resolver.reject(error)
-            } else {
+        updatePetWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case .success:
                 deferred.resolver.fulfill(())
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise
@@ -289,11 +289,12 @@ open class PetAPI {
      */
     open class func updatePetWithForm( petId: Int64, name: String? = nil, status: String? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (_, error) -> Void in
-            if let error = error {
-                deferred.resolver.reject(error)
-            } else {
+        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { result -> Void in
+            switch result {
+            case .success:
                 deferred.resolver.fulfill(())
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise
@@ -341,13 +342,12 @@ open class PetAPI {
      */
     open class func uploadFile( petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
-        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { (response, error) -> Void in
-            if let error = error {
-                deferred.resolver.reject(error)
-            } else if let response = response {
+        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result -> Void in
+            switch result {
+            case let .success(response):
                 deferred.resolver.fulfill(response.body!)
-            } else {
-                fatalError()
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise
@@ -395,13 +395,12 @@ open class PetAPI {
      */
     open class func uploadFileWithRequiredFile( petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
-        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { (response, error) -> Void in
-            if let error = error {
-                deferred.resolver.reject(error)
-            } else if let response = response {
+        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result -> Void in
+            switch result {
+            case let .success(response):
                 deferred.resolver.fulfill(response.body!)
-            } else {
-                fatalError()
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise

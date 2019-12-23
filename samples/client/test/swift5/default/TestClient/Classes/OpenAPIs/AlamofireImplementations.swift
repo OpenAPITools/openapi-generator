@@ -63,7 +63,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         return manager.request(URLString, method: method, parameters: parameters, encoding: encoding, headers: headers)
     }
 
-    override open func execute(_ completion: @escaping (_ response: Response<T>?, _ error: Error?) -> Void) {
+    override open func execute(_ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
         let managerId: String = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createSessionManager()
@@ -101,7 +101,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                     }
                     self.processRequest(request: upload, managerId, completion)
                 case .failure(let encodingError):
-                    completion(nil, ErrorResponse.error(415, nil, encodingError))
+                    completion(.failure(ErrorResponse.error(415, nil, encodingError)))
                 }
             })
         } else {
@@ -114,7 +114,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
     }
 
-    fileprivate func processRequest(request: DataRequest, _ managerId: String, _ completion: @escaping (_ response: Response<T>?, _ error: Error?) -> Void) {
+    fileprivate func processRequest(request: DataRequest, _ managerId: String, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
         if let credential = self.credential {
             request.authenticate(usingCredential: credential)
         }
@@ -130,21 +130,13 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             validatedRequest.responseString(queue: TestClientAPI.apiResponseQueue, completionHandler: { (stringResponse) in
                 cleanupRequest()
 
-                if stringResponse.result.isFailure {
-                    completion(
-                        nil,
-                        ErrorResponse.error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.result.error!)
-                    )
-                    return
+                switch stringResponse.result {
+                case let .success(value):
+                    completion(.success(Response(response: stringResponse.response!, body: value as? T)))
+                case let .failure(error):
+                    completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? 500, stringResponse.data, error)))
                 }
 
-                completion(
-                    Response(
-                        response: stringResponse.response!,
-                        body: ((stringResponse.result.value ?? "") as! T)
-                    ),
-                    nil
-                )
             })
         case is URL.Type:
             validatedRequest.responseData(queue: TestClientAPI.apiResponseQueue, completionHandler: { (dataResponse) in
@@ -181,18 +173,12 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                     try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
                     try data.write(to: filePath, options: .atomic)
 
-                    completion(
-                        Response(
-                            response: dataResponse.response!,
-                            body: (filePath as! T)
-                        ),
-                        nil
-                    )
+                    completion(.success(Response(response: dataResponse.response!, body: filePath as? T)))
 
                 } catch let requestParserError as DownloadException {
-                    completion(nil, ErrorResponse.error(400, dataResponse.data, requestParserError))
+                    completion(.failure(ErrorResponse.error(400, dataResponse.data, requestParserError)))
                 } catch let error {
-                    completion(nil, ErrorResponse.error(400, dataResponse.data, error))
+                    completion(.failure(ErrorResponse.error(400, dataResponse.data, error)))
                 }
                 return
             })
@@ -200,40 +186,25 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             validatedRequest.responseData(queue: TestClientAPI.apiResponseQueue, completionHandler: { (voidResponse) in
                 cleanupRequest()
 
-                if voidResponse.result.isFailure {
-                    completion(
-                        nil,
-                        ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.result.error!)
-                    )
-                    return
+                switch voidResponse.result {
+                case .success:
+                    completion(.success(Response(response: voidResponse.response!, body: nil)))
+                case let .failure(error):
+                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, error)))
                 }
 
-                completion(
-                    Response(
-                        response: voidResponse.response!,
-                        body: nil),
-                    nil
-                )
             })
         default:
             validatedRequest.responseData(queue: TestClientAPI.apiResponseQueue, completionHandler: { (dataResponse) in
                 cleanupRequest()
 
-                if dataResponse.result.isFailure {
-                    completion(
-                        nil,
-                        ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.result.error!)
-                    )
-                    return
+                switch dataResponse.result {
+                case .success:
+                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as? T)))
+                case let .failure(error):
+                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, error)))
                 }
 
-                completion(
-                    Response(
-                        response: dataResponse.response!,
-                        body: (dataResponse.data as! T)
-                    ),
-                    nil
-                )
             })
         }
     }
@@ -301,7 +272,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
 open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuilder<T> {
 
-    override fileprivate func processRequest(request: DataRequest, _ managerId: String, _ completion: @escaping (_ response: Response<T>?, _ error: Error?) -> Void) {
+    override fileprivate func processRequest(request: DataRequest, _ managerId: String, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
         if let credential = self.credential {
             request.authenticate(usingCredential: credential)
         }
@@ -317,88 +288,66 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
             validatedRequest.responseString(queue: TestClientAPI.apiResponseQueue, completionHandler: { (stringResponse) in
                 cleanupRequest()
 
-                if stringResponse.result.isFailure {
-                    completion(
-                        nil,
-                        ErrorResponse.error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.result.error!)
-                    )
-                    return
+                switch stringResponse.result {
+                case let .success(value):
+                    completion(.success(Response(response: stringResponse.response!, body: value as? T)))
+                case let .failure(error):
+                    completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? 500, stringResponse.data, error)))
                 }
 
-                completion(
-                    Response(
-                        response: stringResponse.response!,
-                        body: ((stringResponse.result.value ?? "") as! T)
-                    ),
-                    nil
-                )
             })
         case is Void.Type:
             validatedRequest.responseData(queue: TestClientAPI.apiResponseQueue, completionHandler: { (voidResponse) in
                 cleanupRequest()
 
-                if voidResponse.result.isFailure {
-                    completion(
-                        nil,
-                        ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.result.error!)
-                    )
-                    return
+                switch voidResponse.result {
+                case .success:
+                    completion(.success(Response(response: voidResponse.response!, body: nil)))
+                case let .failure(error):
+                    completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, error)))
                 }
 
-                completion(
-                    Response(
-                        response: voidResponse.response!,
-                        body: nil),
-                    nil
-                )
             })
         case is Data.Type:
             validatedRequest.responseData(queue: TestClientAPI.apiResponseQueue, completionHandler: { (dataResponse) in
                 cleanupRequest()
 
-                if dataResponse.result.isFailure {
-                    completion(
-                        nil,
-                        ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.result.error!)
-                    )
-                    return
+                switch dataResponse.result {
+                case .success:
+                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as? T)))
+                case let .failure(error):
+                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, error)))
                 }
 
-                completion(
-                    Response(
-                        response: dataResponse.response!,
-                        body: (dataResponse.data as! T)
-                    ),
-                    nil
-                )
             })
         default:
             validatedRequest.responseData(queue: TestClientAPI.apiResponseQueue, completionHandler: { (dataResponse: DataResponse<Data>) in
                 cleanupRequest()
 
                 guard dataResponse.result.isSuccess else {
-                    completion(nil, ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.result.error!))
+                    completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.result.error!)))
                     return
                 }
 
                 guard let data = dataResponse.data, !data.isEmpty else {
-                    completion(nil, ErrorResponse.error(-1, nil, DecodableRequestBuilderError.emptyDataResponse))
+                    completion(.failure(ErrorResponse.error(-1, nil, DecodableRequestBuilderError.emptyDataResponse)))
                     return
                 }
 
                 guard let httpResponse = dataResponse.response else {
-                    completion(nil, ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse))
+                    completion(.failure(ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse)))
                     return
                 }
 
-                var responseObj: Response<T>?
+                let decodeResult = CodableHelper.decode(T.self, from: data)
 
-                let decodeResult: (decodableObj: T?, error: Error?) = CodableHelper.decode(T.self, from: data)
-                if decodeResult.error == nil {
-                    responseObj = Response(response: httpResponse, body: decodeResult.decodableObj)
+                switch decodeResult {
+                case let .success(decodableObj):
+                    completion(.success(Response(response: httpResponse, body: decodableObj)))
+                case let .failure(error):
+                    completion(.failure(error))
                 }
 
-                completion(responseObj, decodeResult.error)
             })
         }
     }

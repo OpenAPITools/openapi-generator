@@ -17,11 +17,12 @@ open class StoreAPI {
      */
     open class func deleteOrder(orderId: String) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            deleteOrderWithRequestBuilder(orderId: orderId).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            deleteOrderWithRequestBuilder(orderId: orderId).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -58,13 +59,12 @@ open class StoreAPI {
      */
     open class func getInventory() -> Observable<[String: Int]> {
         return Observable.create { observer -> Disposable in
-            getInventoryWithRequestBuilder().execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            getInventoryWithRequestBuilder().execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -101,13 +101,12 @@ open class StoreAPI {
      */
     open class func getOrderById(orderId: Int64) -> Observable<Order> {
         return Observable.create { observer -> Disposable in
-            getOrderByIdWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            getOrderByIdWithRequestBuilder(orderId: orderId).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -145,13 +144,12 @@ open class StoreAPI {
      */
     open class func placeOrder(body: Order) -> Observable<Order> {
         return Observable.create { observer -> Disposable in
-            placeOrderWithRequestBuilder(body: body).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            placeOrderWithRequestBuilder(body: body).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }

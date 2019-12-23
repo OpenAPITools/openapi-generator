@@ -7,8 +7,6 @@
 
 import Foundation
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} typealias EncodeResult = (data: Data?, error: Error?)
-
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class CodableHelper {
 
     private static var customDateFormatter: DateFormatter?
@@ -40,29 +38,11 @@ import Foundation
         set { self.customJSONEncoder = newValue }
     }
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func decode<T>(_ type: T.Type, from data: Data) -> (decodableObj: T?, error: Error?) where T : Decodable {
-        var returnedDecodable: T? = nil
-        var returnedError: Error? = nil
-
-        do {
-            returnedDecodable = try self.jsonDecoder.decode(type, from: data)
-        } catch {
-            returnedError = error
-        }
-
-        return (returnedDecodable, returnedError)
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func decode<T>(_ type: T.Type, from data: Data) -> Result<T, Error> where T: Decodable {
+        return Result { try self.jsonDecoder.decode(type, from: data) }
     }
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func encode<T>(_ value: T) -> EncodeResult where T : Encodable {
-        var returnedData: Data?
-        var returnedError: Error? = nil
-
-        do {
-            returnedData = try self.jsonEncoder.encode(value)
-        } catch {
-            returnedError = error
-        }
-
-        return (returnedData, returnedError)
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func encode<T>(_ value: T) -> Result<Data, Error> where T: Encodable {
+        return Result { try self.jsonEncoder.encode(value) }
     }
 }

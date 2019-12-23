@@ -17,11 +17,12 @@ open class PetAPI {
      */
     open class func addPet(body: Pet) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            addPetWithRequestBuilder(body: body).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            addPetWithRequestBuilder(body: body).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -59,11 +60,12 @@ open class PetAPI {
      */
     open class func deletePet(petId: Int64, apiKey: String? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -117,13 +119,12 @@ open class PetAPI {
      */
     open class func findPetsByStatus(status: [String]) -> Observable<[Pet]> {
         return Observable.create { observer -> Disposable in
-            findPetsByStatusWithRequestBuilder(status: status).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            findPetsByStatusWithRequestBuilder(status: status).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -164,13 +165,12 @@ open class PetAPI {
      */
     open class func findPetsByTags(tags: [String]) -> Observable<[Pet]> {
         return Observable.create { observer -> Disposable in
-            findPetsByTagsWithRequestBuilder(tags: tags).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            findPetsByTagsWithRequestBuilder(tags: tags).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -211,13 +211,12 @@ open class PetAPI {
      */
     open class func getPetById(petId: Int64) -> Observable<Pet> {
         return Observable.create { observer -> Disposable in
-            getPetByIdWithRequestBuilder(petId: petId).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            getPetByIdWithRequestBuilder(petId: petId).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -258,11 +257,12 @@ open class PetAPI {
      */
     open class func updatePet(body: Pet) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updatePetWithRequestBuilder(body: body).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            updatePetWithRequestBuilder(body: body).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -301,11 +301,12 @@ open class PetAPI {
      */
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -355,13 +356,12 @@ open class PetAPI {
      */
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> Observable<ApiResponse> {
         return Observable.create { observer -> Disposable in
-            uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -411,13 +411,12 @@ open class PetAPI {
      */
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> Observable<ApiResponse> {
         return Observable.create { observer -> Disposable in
-            uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }

@@ -14,8 +14,13 @@ internal class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func fakeOuterBooleanSerialize(body: Bool? = nil, completion: @escaping ((_ data: Bool?, _ error: Error?) -> Void)) {
-        fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
 
@@ -43,8 +48,13 @@ internal class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, completion: @escaping ((_ data: OuterComposite?, _ error: Error?) -> Void)) {
-        fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
 
@@ -72,8 +82,13 @@ internal class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func fakeOuterNumberSerialize(body: Double? = nil, completion: @escaping ((_ data: Double?, _ error: Error?) -> Void)) {
-        fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
 
@@ -101,8 +116,13 @@ internal class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func fakeOuterStringSerialize(body: String? = nil, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) {
-        fakeOuterStringSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
 
@@ -130,10 +150,11 @@ internal class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func testBodyWithFileSchema(body: FileSchemaTestClass, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        testBodyWithFileSchemaWithRequestBuilder(body: body).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        testBodyWithFileSchemaWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -164,10 +185,11 @@ internal class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func testBodyWithQueryParams(query: String, body: User, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -201,8 +223,13 @@ internal class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func testClientModel(body: Client, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) {
-        testClientModelWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        testClientModelWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
 
@@ -245,10 +272,11 @@ internal class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func testEndpointParameters(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: Data, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        testEndpointParametersWithRequestBuilder(integer: integer, int32: int32, int64: int64, number: number, float: float, double: double, string: string, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        testEndpointParametersWithRequestBuilder(integer: integer, int32: int32, int64: int64, number: number, float: float, double: double, string: string, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -388,10 +416,11 @@ internal class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -452,10 +481,11 @@ internal class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -503,10 +533,11 @@ internal class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func testInlineAdditionalProperties(param: [String: String], completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -538,10 +569,11 @@ internal class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func testJsonFormData(param: String, param2: String, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }

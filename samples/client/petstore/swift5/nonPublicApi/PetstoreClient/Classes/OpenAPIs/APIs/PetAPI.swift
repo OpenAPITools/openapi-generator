@@ -15,10 +15,11 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func addPet(body: Pet, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        addPetWithRequestBuilder(body: body).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        addPetWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -53,10 +54,11 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func deletePet(apiKey: String? = nil, petId: Int64, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        deletePetWithRequestBuilder(apiKey: apiKey, petId: petId).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        deletePetWithRequestBuilder(apiKey: apiKey, petId: petId).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -107,8 +109,13 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func findPetsByStatus(status: [String], completion: @escaping ((_ data: [Pet]?, _ error: Error?) -> Void)) {
-        findPetsByStatusWithRequestBuilder(status: status).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        findPetsByStatusWithRequestBuilder(status: status).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
 
@@ -144,8 +151,13 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func findPetsByTags(tags: [String], completion: @escaping ((_ data: [Pet]?, _ error: Error?) -> Void)) {
-        findPetsByTagsWithRequestBuilder(tags: tags).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        findPetsByTagsWithRequestBuilder(tags: tags).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
 
@@ -181,8 +193,13 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func getPetById(petId: Int64, completion: @escaping ((_ data: Pet?, _ error: Error?) -> Void)) {
-        getPetByIdWithRequestBuilder(petId: petId).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        getPetByIdWithRequestBuilder(petId: petId).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
 
@@ -218,10 +235,11 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func updatePet(body: Pet, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        updatePetWithRequestBuilder(body: body).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        updatePetWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -257,10 +275,11 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -307,8 +326,13 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, completion: @escaping ((_ data: ApiResponse?, _ error: Error?) -> Void)) {
-        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
 
@@ -353,8 +377,13 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func uploadFileWithRequiredFile(petId: Int64, additionalMetadata: String? = nil, requiredFile: URL, completion: @escaping ((_ data: ApiResponse?, _ error: Error?) -> Void)) {
-        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, requiredFile: requiredFile).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, requiredFile: requiredFile).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
 

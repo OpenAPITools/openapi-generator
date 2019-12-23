@@ -12,7 +12,7 @@ import TestClient
 
 class TestClientAppTests: XCTestCase {
 
-    func testWhenVariableNameIsDifferentFromPropertyName() {
+    func testWhenVariableNameIsDifferentFromPropertyName() throws {
         // This tests to make sure that the swift4 language can handle when
         // we have property names which map to variable names that are not the same.
         // This can happen when we have things like snake_case property names,
@@ -26,13 +26,7 @@ class TestClientAppTests: XCTestCase {
         """.data(using: .utf8)!
 
         let decodedResult = CodableHelper.decode(VariableNameTest.self, from: jsonData)
-
-        XCTAssertNil(decodedResult.error, "Got an error decoding VariableNameTest, error=\(String(describing: decodedResult.error))")
-
-        guard let variableNameTest = decodedResult.decodableObj else {
-            XCTFail("Did not get an VariableNameTest decoded object")
-            return
-        }
+        let variableNameTest = try decodedResult.get()
 
         XCTAssertTrue(variableNameTest.exampleName == "Test example name", "Did not decode snake_case property correctly.")
         XCTAssertTrue(variableNameTest._for == "Some reason", "Did not decode property name that is a reserved word correctly.")

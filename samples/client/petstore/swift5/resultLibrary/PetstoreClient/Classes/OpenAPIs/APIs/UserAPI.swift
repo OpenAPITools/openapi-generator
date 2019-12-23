@@ -15,10 +15,11 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createUser(body: User, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        createUserWithRequestBuilder(body: body).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        createUserWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -30,11 +31,12 @@ open class UserAPI {
      - parameter completion: completion handler to receive the result
      */
     open class func createUser(body: User, completion: @escaping ((_ result: Result<Void, Error>) -> Void)) {
-        createUserWithRequestBuilder(body: body).execute { (_, error) -> Void in
-            if let error = error {
-                completion(.failure(error))
-            } else {
+        createUserWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case .success:
                 completion(.success(()))
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }
@@ -65,10 +67,11 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createUsersWithArrayInput(body: [User], completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        createUsersWithArrayInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        createUsersWithArrayInputWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -80,11 +83,12 @@ open class UserAPI {
      - parameter completion: completion handler to receive the result
      */
     open class func createUsersWithArrayInput(body: [User], completion: @escaping ((_ result: Result<Void, Error>) -> Void)) {
-        createUsersWithArrayInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
-            if let error = error {
-                completion(.failure(error))
-            } else {
+        createUsersWithArrayInputWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case .success:
                 completion(.success(()))
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }
@@ -114,10 +118,11 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createUsersWithListInput(body: [User], completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        createUsersWithListInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        createUsersWithListInputWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -129,11 +134,12 @@ open class UserAPI {
      - parameter completion: completion handler to receive the result
      */
     open class func createUsersWithListInput(body: [User], completion: @escaping ((_ result: Result<Void, Error>) -> Void)) {
-        createUsersWithListInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
-            if let error = error {
-                completion(.failure(error))
-            } else {
+        createUsersWithListInputWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case .success:
                 completion(.success(()))
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }
@@ -163,10 +169,11 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func deleteUser(username: String, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        deleteUserWithRequestBuilder(username: username).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        deleteUserWithRequestBuilder(username: username).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -178,11 +185,12 @@ open class UserAPI {
      - parameter completion: completion handler to receive the result
      */
     open class func deleteUser(username: String, completion: @escaping ((_ result: Result<Void, Error>) -> Void)) {
-        deleteUserWithRequestBuilder(username: username).execute { (_, error) -> Void in
-            if let error = error {
-                completion(.failure(error))
-            } else {
+        deleteUserWithRequestBuilder(username: username).execute { result -> Void in
+            switch result {
+            case .success:
                 completion(.success(()))
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }
@@ -216,8 +224,13 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getUserByName(username: String, completion: @escaping ((_ data: User?, _ error: Error?) -> Void)) {
-        getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        getUserByNameWithRequestBuilder(username: username).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
     /**
@@ -227,13 +240,12 @@ open class UserAPI {
      - parameter completion: completion handler to receive the result
      */
     open class func getUserByName(username: String, completion: @escaping ((_ result: Result<User, Error>) -> Void)) {
-        getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
-            if let error = error {
-                completion(.failure(error))
-            } else if let response = response {
+        getUserByNameWithRequestBuilder(username: username).execute { result -> Void in
+            switch result {
+            case let .success(response):
                 completion(.success(response.body!))
-            } else {
-                fatalError()
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }
@@ -267,8 +279,13 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func loginUser(username: String, password: String, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) {
-        loginUserWithRequestBuilder(username: username, password: password).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        loginUserWithRequestBuilder(username: username, password: password).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
     /**
@@ -279,13 +296,12 @@ open class UserAPI {
      - parameter completion: completion handler to receive the result
      */
     open class func loginUser(username: String, password: String, completion: @escaping ((_ result: Result<String, Error>) -> Void)) {
-        loginUserWithRequestBuilder(username: username, password: password).execute { (response, error) -> Void in
-            if let error = error {
-                completion(.failure(error))
-            } else if let response = response {
+        loginUserWithRequestBuilder(username: username, password: password).execute { result -> Void in
+            switch result {
+            case let .success(response):
                 completion(.success(response.body!))
-            } else {
-                fatalError()
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }
@@ -320,10 +336,11 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func logoutUser(completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        logoutUserWithRequestBuilder().execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        logoutUserWithRequestBuilder().execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -334,11 +351,12 @@ open class UserAPI {
      - parameter completion: completion handler to receive the result
      */
     open class func logoutUser(completion: @escaping ((_ result: Result<Void, Error>) -> Void)) {
-        logoutUserWithRequestBuilder().execute { (_, error) -> Void in
-            if let error = error {
-                completion(.failure(error))
-            } else {
+        logoutUserWithRequestBuilder().execute { result -> Void in
+            switch result {
+            case .success:
                 completion(.success(()))
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }
@@ -368,10 +386,11 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func updateUser(username: String, body: User, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        updateUserWithRequestBuilder(username: username, body: body).execute { (_, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
+        updateUserWithRequestBuilder(username: username, body: body).execute { result -> Void in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
                 completion(nil, error)
             }
         }
@@ -384,11 +403,12 @@ open class UserAPI {
      - parameter completion: completion handler to receive the result
      */
     open class func updateUser(username: String, body: User, completion: @escaping ((_ result: Result<Void, Error>) -> Void)) {
-        updateUserWithRequestBuilder(username: username, body: body).execute { (_, error) -> Void in
-            if let error = error {
-                completion(.failure(error))
-            } else {
+        updateUserWithRequestBuilder(username: username, body: body).execute { result -> Void in
+            switch result {
+            case .success:
                 completion(.success(()))
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }

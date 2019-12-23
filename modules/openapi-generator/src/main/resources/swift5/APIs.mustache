@@ -42,7 +42,7 @@ import Foundation
         }
     }
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ completion: @escaping (_ response: Response<T>?, _ error: Error?) -> Void) { }
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) { }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {

@@ -75,11 +75,11 @@ class DateFormatTests: XCTestCase {
 		XCTAssert(encodedDate.hasSuffix("Z"))
 	}
 
-	func testCodableAlwaysResultsInUTCEncodedDate() {
+	func testCodableAlwaysResultsInUTCEncodedDate() throws {
         CodableHelper.jsonEncoder.outputFormatting.remove(.prettyPrinted)
 		let jsonData = "{\"date\":\"1970-01-01T00:00:00.000Z\"}".data(using: .utf8)!
 		let decodeResult = CodableHelper.decode(DateTest.self, from: jsonData)
-		XCTAssert(decodeResult.decodableObj != nil && decodeResult.error == nil)
+        _ = try decodeResult.get()
 
 		var dateComponents = DateComponents()
 		dateComponents.calendar = Calendar(identifier: .gregorian)
@@ -101,8 +101,8 @@ class DateFormatTests: XCTestCase {
 
 		let dateTest = DateTest(date: date)
 		let encodeResult = CodableHelper.encode(dateTest)
-		XCTAssert(encodeResult.data != nil && encodeResult.error == nil)
-		guard let jsonString = String(data: encodeResult.data!, encoding: .utf8) else {
+        let data = try encodeResult.get()
+		guard let jsonString = String(data: data, encoding: .utf8) else {
 			XCTFail("Unable to convert encoded data to string.")
 			return
 		}

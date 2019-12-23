@@ -16,13 +16,12 @@ open class FakeAPI {
      */
     open class func fakeOuterBooleanSerialize(body: Bool? = nil) -> Observable<Bool> {
         return Observable.create { observer -> Disposable in
-            fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -55,13 +54,12 @@ open class FakeAPI {
      */
     open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil) -> Observable<OuterComposite> {
         return Observable.create { observer -> Disposable in
-            fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -94,13 +92,12 @@ open class FakeAPI {
      */
     open class func fakeOuterNumberSerialize(body: Double? = nil) -> Observable<Double> {
         return Observable.create { observer -> Disposable in
-            fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -133,13 +130,12 @@ open class FakeAPI {
      */
     open class func fakeOuterStringSerialize(body: String? = nil) -> Observable<String> {
         return Observable.create { observer -> Disposable in
-            fakeOuterStringSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -172,11 +168,12 @@ open class FakeAPI {
      */
     open class func testBodyWithFileSchema(body: FileSchemaTestClass) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testBodyWithFileSchemaWithRequestBuilder(body: body).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            testBodyWithFileSchemaWithRequestBuilder(body: body).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -210,11 +207,12 @@ open class FakeAPI {
      */
     open class func testBodyWithQueryParams(query: String, body: User) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -251,13 +249,12 @@ open class FakeAPI {
      */
     open class func testClientModel(body: Client) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            testClientModelWithRequestBuilder(body: body).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            testClientModelWithRequestBuilder(body: body).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -305,11 +302,12 @@ open class FakeAPI {
      */
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -452,11 +450,12 @@ open class FakeAPI {
      */
     open class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -520,11 +519,12 @@ open class FakeAPI {
      */
     open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -575,11 +575,12 @@ open class FakeAPI {
      */
     open class func testInlineAdditionalProperties(param: [String: String]) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -614,11 +615,12 @@ open class FakeAPI {
      */
     open class func testJsonFormData(param: String, param2: String) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }

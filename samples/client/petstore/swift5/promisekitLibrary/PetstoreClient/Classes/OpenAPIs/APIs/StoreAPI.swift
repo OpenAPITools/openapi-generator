@@ -17,11 +17,12 @@ open class StoreAPI {
      */
     open class func deleteOrder( orderId: String) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deleteOrderWithRequestBuilder(orderId: orderId).execute { (_, error) -> Void in
-            if let error = error {
-                deferred.resolver.reject(error)
-            } else {
+        deleteOrderWithRequestBuilder(orderId: orderId).execute { result -> Void in
+            switch result {
+            case .success:
                 deferred.resolver.fulfill(())
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise
@@ -56,13 +57,12 @@ open class StoreAPI {
      */
     open class func getInventory() -> Promise<[String: Int]> {
         let deferred = Promise<[String: Int]>.pending()
-        getInventoryWithRequestBuilder().execute { (response, error) -> Void in
-            if let error = error {
-                deferred.resolver.reject(error)
-            } else if let response = response {
+        getInventoryWithRequestBuilder().execute { result -> Void in
+            switch result {
+            case let .success(response):
                 deferred.resolver.fulfill(response.body!)
-            } else {
-                fatalError()
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise
@@ -97,13 +97,12 @@ open class StoreAPI {
      */
     open class func getOrderById( orderId: Int64) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
-        getOrderByIdWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
-            if let error = error {
-                deferred.resolver.reject(error)
-            } else if let response = response {
+        getOrderByIdWithRequestBuilder(orderId: orderId).execute { result -> Void in
+            switch result {
+            case let .success(response):
                 deferred.resolver.fulfill(response.body!)
-            } else {
-                fatalError()
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise
@@ -139,13 +138,12 @@ open class StoreAPI {
      */
     open class func placeOrder( body: Order) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
-        placeOrderWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            if let error = error {
-                deferred.resolver.reject(error)
-            } else if let response = response {
+        placeOrderWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case let .success(response):
                 deferred.resolver.fulfill(response.body!)
-            } else {
-                fatalError()
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise

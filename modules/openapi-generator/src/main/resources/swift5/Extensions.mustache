@@ -176,11 +176,12 @@ extension KeyedDecodingContainerProtocol {
 {{#usePromiseKit}}extension RequestBuilder {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func execute() -> Promise<Response<T>>  {
         let deferred = Promise<Response<T>>.pending()
-        self.execute { (response: Response<T>?, error: Error?) in
-            if let response = response {
+        self.execute { result in
+            switch result {
+            case let .success(response):
                 deferred.resolver.fulfill(response)
-            } else {
-                deferred.resolver.reject(error!)
+            case let .failure(error):
+                deferred.resolver.reject(error)
             }
         }
         return deferred.promise

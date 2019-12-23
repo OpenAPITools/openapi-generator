@@ -17,13 +17,12 @@ open class AnotherFakeAPI {
      */
     open class func call123testSpecialTags(body: Client) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            call123testSpecialTagsWithRequestBuilder(body: body).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            call123testSpecialTagsWithRequestBuilder(body: body).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }

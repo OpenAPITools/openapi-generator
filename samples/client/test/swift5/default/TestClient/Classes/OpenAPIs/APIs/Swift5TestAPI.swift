@@ -15,8 +15,13 @@ open class Swift5TestAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getAllModels(clientId: String, completion: @escaping ((_ data: GetAllModelsResult?, _ error: Error?) -> Void)) {
-        getAllModelsWithRequestBuilder(clientId: clientId).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        getAllModelsWithRequestBuilder(clientId: clientId).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
 

@@ -17,11 +17,12 @@ open class UserAPI {
      */
     open class func createUser(body: User) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUserWithRequestBuilder(body: body).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            createUserWithRequestBuilder(body: body).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -56,11 +57,12 @@ open class UserAPI {
      */
     open class func createUsersWithArrayInput(body: [User]) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUsersWithArrayInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            createUsersWithArrayInputWithRequestBuilder(body: body).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -94,11 +96,12 @@ open class UserAPI {
      */
     open class func createUsersWithListInput(body: [User]) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUsersWithListInputWithRequestBuilder(body: body).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            createUsersWithListInputWithRequestBuilder(body: body).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -132,11 +135,12 @@ open class UserAPI {
      */
     open class func deleteUser(username: String) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            deleteUserWithRequestBuilder(username: username).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            deleteUserWithRequestBuilder(username: username).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -174,13 +178,12 @@ open class UserAPI {
      */
     open class func getUserByName(username: String) -> Observable<User> {
         return Observable.create { observer -> Disposable in
-            getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            getUserByNameWithRequestBuilder(username: username).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -218,13 +221,12 @@ open class UserAPI {
      */
     open class func loginUser(username: String, password: String) -> Observable<String> {
         return Observable.create { observer -> Disposable in
-            loginUserWithRequestBuilder(username: username, password: password).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else if let response = response {
+            loginUserWithRequestBuilder(username: username, password: password).execute { result -> Void in
+                switch result {
+                case let .success(response):
                     observer.onNext(response.body!)
-                } else {
-                    fatalError()
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -263,11 +265,12 @@ open class UserAPI {
      */
     open class func logoutUser() -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            logoutUserWithRequestBuilder().execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            logoutUserWithRequestBuilder().execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }
@@ -301,11 +304,12 @@ open class UserAPI {
      */
     open class func updateUser(username: String, body: User) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updateUserWithRequestBuilder(username: username, body: body).execute { (_, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
+            updateUserWithRequestBuilder(username: username, body: body).execute { result -> Void in
+                switch result {
+                case .success:
                     observer.onNext(())
+                case let .failure(error):
+                    observer.onError(error)
                 }
                 observer.onCompleted()
             }

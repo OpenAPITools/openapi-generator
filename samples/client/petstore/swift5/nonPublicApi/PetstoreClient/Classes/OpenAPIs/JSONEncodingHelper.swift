@@ -15,8 +15,11 @@ internal class JSONEncodingHelper {
         // Encode the Encodable object
         if let encodableObj = encodableObj {
             let encodeResult = CodableHelper.encode(encodableObj)
-            if encodeResult.error == nil {
-                params = JSONDataEncoding.encodingParameters(jsonData: encodeResult.data)
+            do {
+                let data = try encodeResult.get()
+                params = JSONDataEncoding.encodingParameters(jsonData: data)
+            } catch {
+                print(error.localizedDescription)
             }
         }
 
@@ -31,7 +34,7 @@ internal class JSONEncodingHelper {
                 let data = try JSONSerialization.data(withJSONObject: encodableObj, options: .prettyPrinted)
                 params = JSONDataEncoding.encodingParameters(jsonData: data)
             } catch {
-                print(error)
+                print(error.localizedDescription)
                 return nil
             }
         }

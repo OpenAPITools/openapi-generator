@@ -15,8 +15,13 @@ open class FakeClassnameTags123API {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func testClassname(body: Client, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) {
-        testClassnameWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error)
+        testClassnameWithRequestBuilder(body: body).execute { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
         }
     }
 

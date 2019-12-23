@@ -7,8 +7,6 @@
 
 import Foundation
 
-public typealias EncodeResult = (data: Data?, error: Error?)
-
 open class CodableHelper {
 
     private static var customDateFormatter: DateFormatter?
@@ -40,29 +38,11 @@ open class CodableHelper {
         set { self.customJSONEncoder = newValue }
     }
 
-    open class func decode<T>(_ type: T.Type, from data: Data) -> (decodableObj: T?, error: Error?) where T: Decodable {
-        var returnedDecodable: T?
-        var returnedError: Error?
-
-        do {
-            returnedDecodable = try self.jsonDecoder.decode(type, from: data)
-        } catch {
-            returnedError = error
-        }
-
-        return (returnedDecodable, returnedError)
+    open class func decode<T>(_ type: T.Type, from data: Data) -> Result<T, Error> where T: Decodable {
+        return Result { try self.jsonDecoder.decode(type, from: data) }
     }
 
-    open class func encode<T>(_ value: T) -> EncodeResult where T: Encodable {
-        var returnedData: Data?
-        var returnedError: Error?
-
-        do {
-            returnedData = try self.jsonEncoder.encode(value)
-        } catch {
-            returnedError = error
-        }
-
-        return (returnedData, returnedError)
+    open class func encode<T>(_ value: T) -> Result<Data, Error> where T: Encodable {
+        return Result { try self.jsonEncoder.encode(value) }
     }
 }

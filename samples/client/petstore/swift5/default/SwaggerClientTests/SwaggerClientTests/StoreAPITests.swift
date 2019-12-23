@@ -92,7 +92,7 @@ class StoreAPITests: XCTestCase {
             progressExpectation.fulfill()
         }
 
-        requestBuilder.execute { (_, _) in
+        requestBuilder.execute { _ in
             responseExpectation.fulfill()
         }
 
