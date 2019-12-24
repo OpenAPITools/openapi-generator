@@ -128,7 +128,7 @@ where
     type Request = (Request, C);
     type Response = Response;
     type Error = Error;
-    type Future = Box<Future<Item=Response, Error=Error>>;
+    type Future = Box<dyn Future<Item=Response, Error=Error>>;
 
     fn call(&self, (req, mut context): Self::Request) -> Self::Future {
         let api_impl = self.api_impl.clone();
@@ -143,7 +143,7 @@ where
             &hyper::Method::{{vendorExtensions.HttpMethod}} if path.matched(paths::ID_{{vendorExtensions.PATH_ID}}) => {
 {{#hasAuthMethods}}
                 {
-                    let authorization = match (&context as &Has<Option<Authorization>>).get() {
+                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
                         &None => return Box::new(future::ok(Response::new()
                                                 .with_status(StatusCode::Forbidden)
@@ -257,7 +257,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
         {{#vendorExtensions}}
@@ -313,7 +313,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 // Read Form Parameters from body
@@ -404,7 +404,7 @@ where
                                 Box::new(api_impl.{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}({{#allParams}}param_{{{paramName}}}{{#isListContainer}}.as_ref(){{/isListContainer}}, {{/allParams}}&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 {{#bodyParams}}{{#vendorExtensions}}{{^consumesPlainText}}
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -486,7 +486,7 @@ where
   {{^consumesMultipart}}
     {{^bodyParams}}
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
     {{/bodyParams}}
   {{/consumesMultipart}}
 {{/vendorExtensions}}
@@ -496,13 +496,13 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter {{{baseName}}}: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
   {{/-first}}
 {{/bodyParams}}
 {{#vendorExtensions}}
   {{#consumesMultipart}}
     {{^bodyParams}}
-                                as Box<Future<Item=Response, Error=Error>>
+                                as Box<dyn Future<Item=Response, Error=Error>>
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read multipart body")))),
                         }
@@ -513,7 +513,7 @@ where
 {{/vendorExtensions}}
             },
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
-            _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
+            _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<dyn Future<Item=Response, Error=Error>>,
         }
     }
 }
