@@ -27,17 +27,17 @@ This can only be done by the logged in user.
 from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
-body = petstore_api.User() # User | Created user object
+body = petstore_api.User() # user.User | Created user object
 
+# example passing only required values which don't have defaults set
 try:
     # Create user
     api_instance.create_user(body)
-except ApiException as e:
+except petstore_api.ApiException as e:
     print("Exception when calling UserApi->create_user: %s\n" % e)
 ```
 
@@ -45,7 +45,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+ **body** | [**user.User**](User.md)| Created user object |
 
 ### Return type
 
@@ -78,17 +78,17 @@ Creates list of users with given input array
 from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
-body = [petstore_api.User()] # list[User] | List of user object
+body = [petstore_api.User()] # [user.User] | List of user object
 
+# example passing only required values which don't have defaults set
 try:
     # Creates list of users with given input array
     api_instance.create_users_with_array_input(body)
-except ApiException as e:
+except petstore_api.ApiException as e:
     print("Exception when calling UserApi->create_users_with_array_input: %s\n" % e)
 ```
 
@@ -96,7 +96,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**list[User]**](User.md)| List of user object | 
+ **body** | [**[user.User]**](User.md)| List of user object |
 
 ### Return type
 
@@ -129,17 +129,17 @@ Creates list of users with given input array
 from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
-body = [petstore_api.User()] # list[User] | List of user object
+body = [petstore_api.User()] # [user.User] | List of user object
 
+# example passing only required values which don't have defaults set
 try:
     # Creates list of users with given input array
     api_instance.create_users_with_list_input(body)
-except ApiException as e:
+except petstore_api.ApiException as e:
     print("Exception when calling UserApi->create_users_with_list_input: %s\n" % e)
 ```
 
@@ -147,7 +147,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**list[User]**](User.md)| List of user object | 
+ **body** | [**[user.User]**](User.md)| List of user object |
 
 ### Return type
 
@@ -182,17 +182,17 @@ This can only be done by the logged in user.
 from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 username = 'username_example' # str | The name that needs to be deleted
 
+# example passing only required values which don't have defaults set
 try:
     # Delete user
     api_instance.delete_user(username)
-except ApiException as e:
+except petstore_api.ApiException as e:
     print("Exception when calling UserApi->delete_user: %s\n" % e)
 ```
 
@@ -200,7 +200,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **str**| The name that needs to be deleted | 
+ **username** | **str**| The name that needs to be deleted |
 
 ### Return type
 
@@ -224,7 +224,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_user_by_name**
-> User get_user_by_name(username)
+> user.User get_user_by_name(username)
 
 Get user by user name
 
@@ -234,18 +234,18 @@ Get user by user name
 from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 username = 'username_example' # str | The name that needs to be fetched. Use user1 for testing.
 
+# example passing only required values which don't have defaults set
 try:
     # Get user by user name
     api_response = api_instance.get_user_by_name(username)
     pprint(api_response)
-except ApiException as e:
+except petstore_api.ApiException as e:
     print("Exception when calling UserApi->get_user_by_name: %s\n" % e)
 ```
 
@@ -253,11 +253,11 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **str**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **str**| The name that needs to be fetched. Use user1 for testing. |
 
 ### Return type
 
-[**User**](User.md)
+[**user.User**](User.md)
 
 ### Authorization
 
@@ -288,19 +288,19 @@ Logs user into the system
 from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 username = 'username_example' # str | The user name for login
 password = 'password_example' # str | The password for login in clear text
 
+# example passing only required values which don't have defaults set
 try:
     # Logs user into the system
     api_response = api_instance.login_user(username, password)
     pprint(api_response)
-except ApiException as e:
+except petstore_api.ApiException as e:
     print("Exception when calling UserApi->login_user: %s\n" % e)
 ```
 
@@ -308,8 +308,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **str**| The user name for login | 
- **password** | **str**| The password for login in clear text | 
+ **username** | **str**| The user name for login |
+ **password** | **str**| The password for login in clear text |
 
 ### Return type
 
@@ -343,16 +343,16 @@ Logs out current logged in user session
 from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 
+# example, this endpoint has no required or optional parameters
 try:
     # Logs out current logged in user session
     api_instance.logout_user()
-except ApiException as e:
+except petstore_api.ApiException as e:
     print("Exception when calling UserApi->logout_user: %s\n" % e)
 ```
 
@@ -392,18 +392,18 @@ This can only be done by the logged in user.
 from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 username = 'username_example' # str | name that need to be deleted
-body = petstore_api.User() # User | Updated user object
+body = petstore_api.User() # user.User | Updated user object
 
+# example passing only required values which don't have defaults set
 try:
     # Updated user
     api_instance.update_user(username, body)
-except ApiException as e:
+except petstore_api.ApiException as e:
     print("Exception when calling UserApi->update_user: %s\n" % e)
 ```
 
@@ -411,8 +411,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **str**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | 
+ **username** | **str**| name that need to be deleted |
+ **body** | [**user.User**](User.md)| Updated user object |
 
 ### Return type
 

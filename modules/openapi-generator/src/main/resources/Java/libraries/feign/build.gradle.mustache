@@ -120,10 +120,11 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.5.22"
-    jackson_version = "2.9.9"
-    jackson_databind_version = "2.9.9"
+    jackson_version = "2.9.10"
+    jackson_databind_version = "2.9.10.1"
+    jackson_databind_nullable_version = "0.2.1"
     {{#threetenbp}}
-    threepane_version = "2.6.4"
+    jackson_threetenbp_version = "2.9.10"
     {{/threetenbp}}
     feign_version = "{{#useFeign10}}10.2.3{{/useFeign10}}{{^useFeign10}}9.7.0{{/useFeign10}}"
     feign_form_version = "2.1.0"
@@ -141,6 +142,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{#joda}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}
@@ -148,7 +150,7 @@ dependencies {
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}
     {{#threetenbp}}
-    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$threepane_version"
+    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threetenbp_version"
     {{/threetenbp}}
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
     compile "com.brsanthu:migbase64:2.2"

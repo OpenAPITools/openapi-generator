@@ -1,21 +1,21 @@
-# FormatTest
+# format_test.FormatTest
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**number** | **float** |  | 
+**byte** | **str** |  | 
+**date** | **date** |  | 
+**password** | **str** |  | 
 **integer** | **int** |  | [optional] 
 **int32** | **int** |  | [optional] 
 **int64** | **int** |  | [optional] 
-**number** | **float** |  | 
 **float** | **float** |  | [optional] 
 **double** | **float** |  | [optional] 
 **string** | **str** |  | [optional] 
-**byte** | **str** |  | 
-**binary** | **file** |  | [optional] 
-**date** | **date** |  | 
+**binary** | **file_type** |  | [optional] 
 **date_time** | **datetime** |  | [optional] 
 **uuid** | **str** |  | [optional] 
-**password** | **str** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -8,18 +8,19 @@
  */
 
 package petstore
+
 import (
+	"bytes"
 	"encoding/json"
 )
 
+// EnumArrays struct for EnumArrays
 type EnumArrays struct {
 	JustSymbol *string `json:"just_symbol,omitempty"`
-
 	ArrayEnum *[]string `json:"array_enum,omitempty"`
-
 }
 
-// GetJustSymbol returns the JustSymbol field if non-nil, zero value otherwise.
+// GetJustSymbol returns the JustSymbol field value if set, zero value otherwise.
 func (o *EnumArrays) GetJustSymbol() string {
 	if o == nil || o.JustSymbol == nil {
 		var ret string
@@ -28,7 +29,7 @@ func (o *EnumArrays) GetJustSymbol() string {
 	return *o.JustSymbol
 }
 
-// GetJustSymbolOk returns a tuple with the JustSymbol field if it's non-nil, zero value otherwise
+// GetJustSymbolOk returns a tuple with the JustSymbol field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *EnumArrays) GetJustSymbolOk() (string, bool) {
 	if o == nil || o.JustSymbol == nil {
@@ -52,7 +53,7 @@ func (o *EnumArrays) SetJustSymbol(v string) {
 	o.JustSymbol = &v
 }
 
-// GetArrayEnum returns the ArrayEnum field if non-nil, zero value otherwise.
+// GetArrayEnum returns the ArrayEnum field value if set, zero value otherwise.
 func (o *EnumArrays) GetArrayEnum() []string {
 	if o == nil || o.ArrayEnum == nil {
 		var ret []string
@@ -61,7 +62,7 @@ func (o *EnumArrays) GetArrayEnum() []string {
 	return *o.ArrayEnum
 }
 
-// GetArrayEnumOk returns a tuple with the ArrayEnum field if it's non-nil, zero value otherwise
+// GetArrayEnumOk returns a tuple with the ArrayEnum field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *EnumArrays) GetArrayEnumOk() ([]string, bool) {
 	if o == nil || o.ArrayEnum == nil {
@@ -85,16 +86,25 @@ func (o *EnumArrays) SetArrayEnum(v []string) {
 	o.ArrayEnum = &v
 }
 
-
-func (o EnumArrays) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.JustSymbol != nil {
-		toSerialize["just_symbol"] = o.JustSymbol
-	}
-	if o.ArrayEnum != nil {
-		toSerialize["array_enum"] = o.ArrayEnum
-	}
-	return json.Marshal(toSerialize)
+type NullableEnumArrays struct {
+	Value EnumArrays
+	ExplicitNull bool
 }
 
+func (v NullableEnumArrays) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
+}
 
+func (v *NullableEnumArrays) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}

@@ -21,8 +21,8 @@
     "axios": "^0.18.0"
   },
   "devDependencies": {
-    "@types/node": "^8.0.9",
-    "typescript": "^2.4"
+    "@types/node": "^12.11.5",
+    "typescript": "^3.6.4"
   },
   "publishConfig": {
     "registry": "https://skimdb.npmjs.com/registry"

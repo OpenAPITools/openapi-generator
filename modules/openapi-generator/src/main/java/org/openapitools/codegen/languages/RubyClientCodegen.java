@@ -46,6 +46,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_DESCRIPTION = "gemDescription";
     public static final String GEM_AUTHOR = "gemAuthor";
     public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
+    public static final String FARADAY = "faraday";
+    public static final String TYPHOEUS = "typhoeus";
 
     protected String gemName;
     protected String moduleName;
@@ -54,8 +56,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String libFolder = "lib";
     protected String gemLicense = "unlicense";
     protected String gemRequiredRubyVersion = ">= 1.9";
-    protected String gemHomepage = "http://org.openapitools";
-    protected String gemSummary = "A ruby wrapper for the REST APIs";
+    protected String gemHomepage = "https://openapitools.org";
+    protected String gemSummary = "A Ruby SDK for the REST API";
     protected String gemDescription = "This gem maps to a REST API";
     protected String gemAuthor = "";
     protected String gemAuthorEmail = "";
@@ -102,14 +104,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         languageSpecificPrimitives.add("string");
 
         // remove modelPackage and apiPackage added by default
-        Iterator<CliOption> itr = cliOptions.iterator();
-        while (itr.hasNext()) {
-            CliOption opt = itr.next();
-            if (CodegenConstants.MODEL_PACKAGE.equals(opt.getOpt()) ||
-                    CodegenConstants.API_PACKAGE.equals(opt.getOpt())) {
-                itr.remove();
-            }
-        }
+        cliOptions.removeIf(opt -> CodegenConstants.MODEL_PACKAGE.equals(opt.getOpt()) ||
+                CodegenConstants.API_PACKAGE.equals(opt.getOpt()));
 
         cliOptions.add(new CliOption(CodegenConstants.GEM_NAME, CodegenConstants.GEM_NAME_DESC).
                 defaultValue("openapi_client"));
@@ -141,6 +137,15 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
 
+        supportedLibraries.put(FARADAY, "Faraday (https://github.com/lostisland/faraday) (Beta support)");
+        supportedLibraries.put(TYPHOEUS, "Typhoeus >= 1.0.1 (https://github.com/typhoeus/typhoeus)");
+
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
+        libraryOption.setEnum(supportedLibraries);
+        // set TYPHOEUS as the default
+        libraryOption.setDefault(TYPHOEUS);
+        cliOptions.add(libraryOption);
+        setLibrary(TYPHOEUS);
     }
 
     @Override
@@ -209,10 +214,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         setModelPackage("models");
         setApiPackage("api");
 
-        supportingFiles.add(new SupportingFile("gemspec.mustache", "", gemName + ".gemspec"));
         supportingFiles.add(new SupportingFile("gem.mustache", libFolder, gemName + ".rb"));
         String gemFolder = libFolder + File.separator + gemName;
-        supportingFiles.add(new SupportingFile("api_client.mustache", gemFolder, "api_client.rb"));
         supportingFiles.add(new SupportingFile("api_error.mustache", gemFolder, "api_error.rb"));
         supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
         supportingFiles.add(new SupportingFile("version.mustache", gemFolder, "version.rb"));
@@ -221,9 +224,20 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("Rakefile.mustache", "", "Rakefile"));
         supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
-        supportingFiles.add(new SupportingFile("Gemfile.lock.mustache", "", "Gemfile.lock"));
         supportingFiles.add(new SupportingFile("rubocop.mustache", "", ".rubocop.yml"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile("gemspec.mustache", "", gemName + ".gemspec"));
+        supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", gemFolder, "api_client.rb"));
+
+        if (TYPHOEUS.equals(getLibrary())) {
+            // for Typhoeus
+        } else if (FARADAY.equals(getLibrary())) {
+            // for Faraday
+            additionalProperties.put("isFaraday", Boolean.TRUE);
+        } else {
+            throw new RuntimeException("Invalid HTTP library " +  getLibrary() + ". Only faraday, typhoeus are supported.");
+        }
 
         // test files should not be overwritten
         writeOptional(outputFolder, new SupportingFile("rspec.mustache", "", ".rspec"));
@@ -322,33 +336,34 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+    public String toModelName(final String name) {
+        String modelName;
+        modelName = sanitizeName(name);
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
+            modelName = modelNamePrefix + "_" + modelName;
         }
 
         if (!StringUtils.isEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
+            modelName = modelName + "_" + modelNameSuffix;
         }
 
         // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            String modelName = camelize("Model" + name);
+        if (isReservedWord(modelName)) {
+            modelName = camelize("Model" + modelName);
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        if (modelName.matches("^\\d.*")) {
+            LOGGER.warn(modelName + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + modelName));
+            modelName = "model_" + modelName; // e.g. 200Response => Model200Response (after camelize)
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return camelize(modelName);
     }
 
     @Override
@@ -362,12 +377,17 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toApiFilename(String name) {
+    public String toApiFilename(final String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        String filename = name;
+        if (apiNameSuffix != null && apiNameSuffix.length() > 0) {
+            filename = filename + "_"  + apiNameSuffix;
+        }
+
+        filename = filename.replaceAll("-", "_");
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
-        return underscore(name) + "_api";
+        return underscore(filename);
     }
 
     @Override
@@ -387,11 +407,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toApiName(String name) {
-        if (name.length() == 0) {
-            return "DefaultApi";
-        }
-        // e.g. phone_number_api => PhoneNumberApi
-        return camelize(name) + "Api";
+        return super.toApiName(name);
     }
 
     @Override

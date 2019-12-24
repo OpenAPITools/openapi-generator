@@ -18,9 +18,11 @@
 package org.openapitools.codegen.typescript.typescriptnode;
 
 import com.google.common.collect.Sets;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
@@ -204,5 +206,79 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.imports.size(), 1);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+    }
+
+    @Test(description = "convert an array additional properties model")
+    public void arrayModelAdditionalPropertiesArrayTest() {
+        final Schema schema = new Schema()
+                .description("a map model")
+                .additionalProperties(new ArraySchema().type("array").items(new Schema().type("string")));
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a map model");
+        Assert.assertEquals(cm.additionalPropertiesType, "Array<string>");
+    }
+
+    @Test(description = "convert an string additional properties model")
+    public void arrayModelAdditionalPropertiesStringTest() {
+        final Schema schema = new Schema()
+                .description("a map model")
+                .additionalProperties(new Schema().type("string"));
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a map model");
+        Assert.assertEquals(cm.additionalPropertiesType, "string");
+    }
+
+    @Test(description = "convert an complex additional properties model")
+    public void arrayModelAdditionalPropertiesComplexTest() {
+        final Schema schema = new Schema()
+                .description("a map model")
+                .additionalProperties(new Schema().type("object").$ref("#/definitions/Children"));
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a map model");
+        Assert.assertEquals(cm.additionalPropertiesType, "Children");
+    }
+
+    @Test(description = "prepend imports with ./ by default")
+    public void defaultFromModelTest() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final Schema categorySchema = openAPI.getComponents().getSchemas().get("ApiResponse");
+        final CodegenModel cm = codegen.fromModel("ApiResponse", categorySchema);
+
+        Assert.assertEquals(cm.name, "ApiResponse");
+        Assert.assertEquals(cm.classFilename, "./apiResponse");
+    }
+
+    @Test(description = "use mapped imports for type")
+    public void mappedFromModelTest() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
+        final String mappedName = "@namespace/dir/response";
+        codegen.importMapping().put("ApiResponse", mappedName);
+        codegen.setOpenAPI(openAPI);
+        final Schema categorySchema = openAPI.getComponents().getSchemas().get("ApiResponse");
+        final CodegenModel cm = codegen.fromModel("ApiResponse", categorySchema);
+
+        Assert.assertEquals(cm.name, "ApiResponse");
+        Assert.assertEquals(cm.classFilename, mappedName);
     }
 }

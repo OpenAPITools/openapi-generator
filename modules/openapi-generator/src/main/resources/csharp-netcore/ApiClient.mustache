@@ -270,6 +270,14 @@ namespace {{packageName}}.Client
                 }
             }
 
+            if (configuration.DefaultHeaders != null)
+            {
+                foreach (var headerParam in configuration.DefaultHeaders)
+                {
+                    request.AddHeader(headerParam.Key, headerParam.Value);
+                }
+            }
+
             if (options.HeaderParameters != null)
             {
                 foreach (var headerParam in options.HeaderParameters)
@@ -309,7 +317,7 @@ namespace {{packageName}}.Client
                     request.RequestFormat = DataFormat.Json;
                 }
 
-                request.AddBody(options.Data);
+                request.AddJsonBody(options.Data);
             }
 
             if (options.FileParameters != null)
@@ -319,9 +327,9 @@ namespace {{packageName}}.Client
                     var bytes = ClientUtils.ReadAsBytes(fileParam.Value);
                     var fileStream = fileParam.Value as FileStream;
                     if (fileStream != null)
-                        FileParameter.Create(fileParam.Key, bytes, System.IO.Path.GetFileName(fileStream.Name));
+                        request.Files.Add(FileParameter.Create(fileParam.Key, bytes, System.IO.Path.GetFileName(fileStream.Name)));
                     else
-                        FileParameter.Create(fileParam.Key, bytes, "no_file_name_provided");
+                        request.Files.Add(FileParameter.Create(fileParam.Key, bytes, "no_file_name_provided"));
                 }
             }
 
@@ -339,7 +347,9 @@ namespace {{packageName}}.Client
         private ApiResponse<T> toApiResponse<T>({{#supportsAsync}}IRestResponse<T> response{{/supportsAsync}}{{^supportsAsync}}IRestResponse response, CustomJsonCodec des{{/supportsAsync}})
         {
             T result = {{#supportsAsync}}response.Data{{/supportsAsync}}{{^supportsAsync}}(T)des.Deserialize(response, typeof(T)){{/supportsAsync}};
-            var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>(), result)
+            string rawContent = response.Content;
+
+            var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>({{#caseInsensitiveResponseHeaders}}StringComparer.OrdinalIgnoreCase{{/caseInsensitiveResponseHeaders}}), result, rawContent)
             {
                 ErrorText = response.ErrorMessage,
                 Cookies = new List<Cookie>()

@@ -23,7 +23,48 @@ go get github.com/antihax/optional
 Put the package under your project folder and add the following in import:
 
 ```golang
-import "./petstore"
+import sw "./petstore"
+```
+
+## Configuration of Server URL
+
+Default configuration comes with `Servers` field that contains server objects as defined in the OpenAPI specification.
+
+### Select Server Configuration
+
+For using other server than the one defined on index 0 set context value `sw.ContextServerIndex` of type `int`.
+
+```golang
+ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
+```
+
+### Templated Server URL
+
+Templated server URL is formatted using default variables from configuration or from context value `sw.ContextServerVariables` of type `map[string]string`.
+
+```golang
+ctx := context.WithValue(context.Background(), sw.ContextServerVariables, map[string]string{
+	"basePath": "v2",
+})
+```
+
+Note, enum values are always validated and all unused variables are silently ignored.
+
+### URLs Configuration per Operation
+
+Each operation can use different server URL defined using `OperationServers` map in the `Configuration`.
+An operation is uniquely identifield by `"{classname}Service.{nickname}"` string.
+Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
+
+```
+ctx := context.WithValue(context.Background(), sw.ContextOperationServerIndices, map[string]int{
+	"{classname}Service.{nickname}": 2,
+})
+ctx = context.WithValue(context.Background(), sw.ContextOperationServerVariables, map[string]map[string]string{
+	"{classname}Service.{nickname}": {
+		"port": "8443",
+	},
+})
 ```
 
 ## Documentation for API Endpoints
@@ -46,6 +87,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestGroupParameters**](docs/FakeApi.md#testgroupparameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**TestInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**TestJsonFormData**](docs/FakeApi.md#testjsonformdata) | **Get** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **Put** /fake/test-query-paramters | 
 *FakeClassnameTags123Api* | [**TestClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **Patch** /fake_classname_test | To test class name in snake case
 *PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **Post** /pet | Add a new pet to the store
 *PetApi* | [**DeletePet**](docs/PetApi.md#deletepet) | **Delete** /pet/{petId} | Deletes a pet
@@ -124,37 +166,25 @@ Class | Method | HTTP request | Description
 
 
 
-## api_key
+### api_key
 
 - **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
 
-Example
-
-```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
-    Key: "APIKEY",
-    Prefix: "Bearer", // Omit if not necessary.
-})
-r, err := client.Service.Operation(auth, args)
-```
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key and passed in as the auth context for each request.
 
 
-## api_key_query
+### api_key_query
 
 - **Type**: API key
+- **API key parameter name**: api_key_query
+- **Location**: URL query string
 
-Example
-
-```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
-    Key: "APIKEY",
-    Prefix: "Bearer", // Omit if not necessary.
-})
-r, err := client.Service.Operation(auth, args)
-```
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key_query and passed in as the auth context for each request.
 
 
-## http_basic_test
+### http_basic_test
 
 - **Type**: HTTP basic authentication
 
@@ -169,7 +199,7 @@ r, err := client.Service.Operation(auth, args)
 ```
 
 
-## petstore_auth
+### petstore_auth
 
 
 - **Type**: OAuth

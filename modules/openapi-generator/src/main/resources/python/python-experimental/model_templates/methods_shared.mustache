@@ -1,0 +1,15 @@
+    def __setitem__(self, name, value):
+        """this allows us to set values with instance[field_name] = val"""
+        self.__setattr__(name, value)
+
+    def __getitem__(self, name):
+        """this allows us to get a value with val = instance[field_name]"""
+        return self.__getattr__(name)
+
+    def __repr__(self):
+        """For `print` and `pprint`"""
+        return self.to_str()
+
+    def __ne__(self, other):
+        """Returns true if both objects are not equal"""
+        return not self == other

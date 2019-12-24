@@ -11,10 +11,4 @@ deps=-r{toxinidir}/requirements.txt
      -r{toxinidir}/test-requirements.txt
 
 commands=
-{{^asyncio}}
-   nosetests \
-      []
-{{/asyncio}}
-{{#asyncio}}
-   pytest -v --cov petstore_api
-{{/asyncio}}
+   {{^useNose}}pytest --cov={{{packageName}}}{{/useNose}}{{#useNose}}nosetests{{/useNose}}

@@ -35,15 +35,17 @@ import android.os.Parcel;
 public class FileSchemaTestClass implements Parcelable {
   public static final String SERIALIZED_NAME_FILE = "file";
   @SerializedName(SERIALIZED_NAME_FILE)
-  private java.io.File file = null;
+  private java.io.File file;
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<java.io.File> files = new ArrayList<java.io.File>();
+  private List<java.io.File> files = null;
 
   public FileSchemaTestClass() {
   }
+
   public FileSchemaTestClass file(java.io.File file) {
+    
     this.file = file;
     return this;
   }
@@ -54,15 +56,19 @@ public class FileSchemaTestClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public java.io.File getFile() {
     return file;
   }
+
 
   public void setFile(java.io.File file) {
     this.file = file;
   }
 
+
   public FileSchemaTestClass files(List<java.io.File> files) {
+    
     this.files = files;
     return this;
   }
@@ -81,9 +87,11 @@ public class FileSchemaTestClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public List<java.io.File> getFiles() {
     return files;
   }
+
 
   public void setFiles(List<java.io.File> files) {
     this.files = files;

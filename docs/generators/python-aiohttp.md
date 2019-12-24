@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-python-aiohttp
 title: Config Options for python-aiohttp
 sidebar_label: python-aiohttp
 ---
@@ -8,6 +6,7 @@ sidebar_label: python-aiohttp
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
@@ -17,3 +16,4 @@ sidebar_label: python-aiohttp
 |defaultController|default controller| |default_controller|
 |supportPython2|support python2| |false|
 |serverPort|TCP port to listen to in app.run| |8080|
+|useNose|use the nose test framework| |false|

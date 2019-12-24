@@ -13,12 +13,12 @@
 
 #include "OAIApiResponse.h"
 
-#include "OAIHelpers.h"
-
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
+
+#include "OAIHelpers.h"
 
 namespace OpenAPI {
 
@@ -81,13 +81,13 @@ OAIApiResponse::asJson () const {
 QJsonObject
 OAIApiResponse::asJsonObject() const {
     QJsonObject obj;
-	if(m_code_isSet){
+    if(m_code_isSet){
         obj.insert(QString("code"), ::OpenAPI::toJsonValue(code));
     }
-	if(m_type_isSet){
+    if(m_type_isSet){
         obj.insert(QString("type"), ::OpenAPI::toJsonValue(type));
     }
-	if(m_message_isSet){
+    if(m_message_isSet){
         obj.insert(QString("message"), ::OpenAPI::toJsonValue(message));
     }
     return obj;

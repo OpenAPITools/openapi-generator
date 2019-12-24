@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/4.8/phpunit.xsd"
+    bootstrap="./vendor/autoload.php"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    beStrictAboutTestsThatDoNotTestAnything="false"
+    stopOnFailure="false"
+>
+    <testsuites>
+        <testsuite name="Apis">
+            <directory>./test/Api</directory>
+        </testsuite>
+        <testsuite name="Models">
+            <directory>./test/Model</directory>
+        </testsuite>
+        <testsuite name="Mock">
+            <directory>./test/Mock</directory>
+        </testsuite>
+        <testsuite name="Utils">
+            <directory>./test/Utils</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./lib/Api</directory>
+            <directory suffix=".php">./lib/Model</directory>
+            <directory suffix=".php">./lib/Mock</directory>
+            <directory suffix=".php">./lib/Utils</directory>
+        </whitelist>
+    </filter>
+    <php>
+        <ini name="error_reporting" value="E_ALL" />
+    </php>
+</phpunit>

@@ -1,13 +1,13 @@
 PODS:
-  - Alamofire (4.7.3)
-  - PetstoreClient (0.0.1):
-    - Alamofire (~> 4.7.0)
+  - Alamofire (4.9.0)
+  - PetstoreClient (1.0.0):
+    - Alamofire (~> 4.9.0)
 
 DEPENDENCIES:
   - PetstoreClient (from `../`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Alamofire
 
 EXTERNAL SOURCES:
@@ -15,9 +15,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
-  PetstoreClient: ed26185215a5241fa4e937e806321d611f3d0c30
+  Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
+  PetstoreClient: e5c71b862a32097342e341f7088805bbfc033a3e
 
-PODFILE CHECKSUM: cedb3058b02f4776d7c31f6d92ae2f674fdf424d
+PODFILE CHECKSUM: 509bec696cc1d8641751b52e4fe4bef04ac4542c
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.8.4

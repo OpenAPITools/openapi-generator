@@ -35,7 +35,9 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
+
   public AdditionalPropertiesBoolean name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -46,9 +48,11 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getName() {
     return name;
   }
+
 
   public void setName(String name) {
     this.name = name;

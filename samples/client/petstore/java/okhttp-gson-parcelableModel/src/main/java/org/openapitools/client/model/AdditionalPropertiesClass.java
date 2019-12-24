@@ -37,51 +37,53 @@ import android.os.Parcel;
 public class AdditionalPropertiesClass implements Parcelable {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
-  private Map<String, String> mapString = new HashMap<String, String>();
+  private Map<String, String> mapString = null;
 
   public static final String SERIALIZED_NAME_MAP_NUMBER = "map_number";
   @SerializedName(SERIALIZED_NAME_MAP_NUMBER)
-  private Map<String, BigDecimal> mapNumber = new HashMap<String, BigDecimal>();
+  private Map<String, BigDecimal> mapNumber = null;
 
   public static final String SERIALIZED_NAME_MAP_INTEGER = "map_integer";
   @SerializedName(SERIALIZED_NAME_MAP_INTEGER)
-  private Map<String, Integer> mapInteger = new HashMap<String, Integer>();
+  private Map<String, Integer> mapInteger = null;
 
   public static final String SERIALIZED_NAME_MAP_BOOLEAN = "map_boolean";
   @SerializedName(SERIALIZED_NAME_MAP_BOOLEAN)
-  private Map<String, Boolean> mapBoolean = new HashMap<String, Boolean>();
+  private Map<String, Boolean> mapBoolean = null;
 
   public static final String SERIALIZED_NAME_MAP_ARRAY_INTEGER = "map_array_integer";
   @SerializedName(SERIALIZED_NAME_MAP_ARRAY_INTEGER)
-  private Map<String, List<Integer>> mapArrayInteger = new HashMap<String, List<Integer>>();
+  private Map<String, List<Integer>> mapArrayInteger = null;
 
   public static final String SERIALIZED_NAME_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   @SerializedName(SERIALIZED_NAME_MAP_ARRAY_ANYTYPE)
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<String, List<Object>>();
+  private Map<String, List<Object>> mapArrayAnytype = null;
 
   public static final String SERIALIZED_NAME_MAP_MAP_STRING = "map_map_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_STRING)
-  private Map<String, Map<String, String>> mapMapString = new HashMap<String, Map<String, String>>();
+  private Map<String, Map<String, String>> mapMapString = null;
 
   public static final String SERIALIZED_NAME_MAP_MAP_ANYTYPE = "map_map_anytype";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_ANYTYPE)
-  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<String, Map<String, Object>>();
+  private Map<String, Map<String, Object>> mapMapAnytype = null;
 
   public static final String SERIALIZED_NAME_ANYTYPE1 = "anytype_1";
   @SerializedName(SERIALIZED_NAME_ANYTYPE1)
-  private Object anytype1 = null;
+  private Object anytype1;
 
   public static final String SERIALIZED_NAME_ANYTYPE2 = "anytype_2";
   @SerializedName(SERIALIZED_NAME_ANYTYPE2)
-  private Object anytype2 = null;
+  private Object anytype2;
 
   public static final String SERIALIZED_NAME_ANYTYPE3 = "anytype_3";
   @SerializedName(SERIALIZED_NAME_ANYTYPE3)
-  private Object anytype3 = null;
+  private Object anytype3;
 
   public AdditionalPropertiesClass() {
   }
+
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
+    
     this.mapString = mapString;
     return this;
   }
@@ -100,15 +102,19 @@ public class AdditionalPropertiesClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, String> getMapString() {
     return mapString;
   }
+
 
   public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
   }
 
+
   public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
+    
     this.mapNumber = mapNumber;
     return this;
   }
@@ -127,15 +133,19 @@ public class AdditionalPropertiesClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
+
 
   public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
 
+
   public AdditionalPropertiesClass mapInteger(Map<String, Integer> mapInteger) {
+    
     this.mapInteger = mapInteger;
     return this;
   }
@@ -154,15 +164,19 @@ public class AdditionalPropertiesClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
+
 
   public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
   }
 
+
   public AdditionalPropertiesClass mapBoolean(Map<String, Boolean> mapBoolean) {
+    
     this.mapBoolean = mapBoolean;
     return this;
   }
@@ -181,15 +195,19 @@ public class AdditionalPropertiesClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
   }
+
 
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
 
+
   public AdditionalPropertiesClass mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
+    
     this.mapArrayInteger = mapArrayInteger;
     return this;
   }
@@ -208,15 +226,19 @@ public class AdditionalPropertiesClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
+
 
   public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
   }
 
+
   public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
+    
     this.mapArrayAnytype = mapArrayAnytype;
     return this;
   }
@@ -235,15 +257,19 @@ public class AdditionalPropertiesClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
+
 
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
 
+
   public AdditionalPropertiesClass mapMapString(Map<String, Map<String, String>> mapMapString) {
+    
     this.mapMapString = mapMapString;
     return this;
   }
@@ -262,15 +288,19 @@ public class AdditionalPropertiesClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
+
 
   public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
   }
 
+
   public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
+    
     this.mapMapAnytype = mapMapAnytype;
     return this;
   }
@@ -289,15 +319,19 @@ public class AdditionalPropertiesClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
+
 
   public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
   }
 
+
   public AdditionalPropertiesClass anytype1(Object anytype1) {
+    
     this.anytype1 = anytype1;
     return this;
   }
@@ -308,15 +342,19 @@ public class AdditionalPropertiesClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Object getAnytype1() {
     return anytype1;
   }
+
 
   public void setAnytype1(Object anytype1) {
     this.anytype1 = anytype1;
   }
 
+
   public AdditionalPropertiesClass anytype2(Object anytype2) {
+    
     this.anytype2 = anytype2;
     return this;
   }
@@ -327,15 +365,19 @@ public class AdditionalPropertiesClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Object getAnytype2() {
     return anytype2;
   }
+
 
   public void setAnytype2(Object anytype2) {
     this.anytype2 = anytype2;
   }
 
+
   public AdditionalPropertiesClass anytype3(Object anytype3) {
+    
     this.anytype3 = anytype3;
     return this;
   }
@@ -346,9 +388,11 @@ public class AdditionalPropertiesClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Object getAnytype3() {
     return anytype3;
   }
+
 
   public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;

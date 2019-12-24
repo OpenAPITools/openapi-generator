@@ -30,7 +30,7 @@ val apiInstance = {{{classname}}}()
 val {{{paramName}}} : {{{dataType}}} = {{{example}}} // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 try {
-    {{#returnType}}val result : {{{returnType}}} = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}
+    {{#returnType}}val result : {{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}} = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}
     println(result){{/returnType}}
 } catch (e: ClientException) {
     println("4xx response calling {{{classname}}}#{{{operationId}}}")
@@ -54,7 +54,29 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{name}}](../README.md#{{name}}){{^-last}}, {{/-last}}{{/authMethods}}
+{{^authMethods}}No authorization required{{/authMethods}}
+{{#authMethods}}
+{{#isApiKey}}
+Configure {{name}}:
+    ApiClient.apiKey["{{keyParamName}}"] = ""
+    ApiClient.apiKeyPrefix["{{keyParamName}}"] = ""
+{{/isApiKey}}
+{{#isBasic}}
+{{^isBasicBearer}}
+Configure {{name}}:
+    ApiClient.username = ""
+    ApiClient.password = ""
+{{/isBasicBearer}}
+{{#isBasicBearer}}
+Configure {{name}}:
+    ApiClient.accessToken = ""
+{{/isBasicBearer}}
+{{/isBasic}}
+{{#isOAuth}}
+Configure {{name}}:
+    ApiClient.accessToken = ""
+{{/isOAuth}}
+{{/authMethods}}
 
 ### HTTP request headers
 

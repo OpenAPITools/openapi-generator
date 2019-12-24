@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>4.1.0-SNAPSHOT</version>
+    <version>4.2.3-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -188,7 +188,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -266,6 +266,9 @@
                         </goals>
                         <configuration>
                             <rules>
+                                <requireJavaVersion>
+                                  <version>1.8.0</version>
+                                </requireJavaVersion>
                                 <requireMavenVersion>
                                     <version>3.2.5</version>
                                 </requireMavenVersion>
@@ -844,6 +847,18 @@
             </modules>
         </profile>
         <profile>
+            <id>typescript-fetch-client-builds-prefix-parameter-interfaces</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/typescript-fetch/builds/prefix-parameter-interfaces</module>
+            </modules>
+        </profile>
+        <profile>
             <id>typescript-angularjs-client</id>
             <activation>
                 <property>
@@ -1022,18 +1037,18 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/server/petstore/python-aiohttp</module>
                 <!-- clients -->
+                <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/c</module>
-                <!--<module>samples/client/petstore/dart-jaguar/openapi</module>
-                <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>-->
-                <!--<module>samples/client/petstore/dart2/petstore</module>-->
-                <module>samples/client/petstore/elm-0.18</module>
+                <module>samples/client/petstore/cpp-qt5</module>
+                <!--<module>samples/client/petstore/elm-0.18</module>-->
                 <module>samples/client/petstore/rust</module>
-                <module>samples/client/petstore/rust-reqwest</module>
                 <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/server/petstore/php-slim</module>
+                <module>samples/server/petstore/php-slim4</module>
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/openapi3/client/petstore/javascript-es6</module>
@@ -1049,7 +1064,8 @@
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
-                <module>samples/client/petstore/typescript-axios/tests/default</module>
+                <!-- comment out due to CI failure, e.g. https://travis-ci.org/OpenAPITools/openapi-generator/builds/574865730
+                <module>samples/client/petstore/typescript-axios/tests/default</module>-->
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
                 <!-- comment out due to github rate limit error
@@ -1057,15 +1073,13 @@
                 <!-- comment out due to error `npm run build`
                 <module>samples/client/petstore/typescript-jquery/npm</module>-->
                 <!--<module>samples/client/petstore/typescript-angular-v2/npm</module>-->
-                <module>samples/client/petstore/typescript-angular-v4/npm</module>
-                <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
+                <!--<module>samples/client/petstore/typescript-angular-v4/npm</module>
+                <module>samples/client/petstore/typescript-angular-v4.3/npm</module>-->
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
-                <!--<module>samples/client/petstore/bash</module>-->
                 <module>samples/server/petstore/rust-server</module>
-                <module>samples/server/petstore/python-aiohttp</module>
                 <module>samples/server/petstore/python-flask</module>
-                <module>samples/server/petstore/python-flask-python2</module>
+                <!--<module>samples/server/petstore/python-flask-python2</module>-->
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1154,7 +1168,9 @@
                 <module>samples/server/petstore/scala-lagom-server</module>
                 <module>samples/server/petstore/scala-play-server</module>
                 <module>samples/server/petstore/scalatra</module>
+                <module>samples/server/petstore/java-vertx-web/rx</module>
                 <module>samples/server/petstore/scala-finch</module>
+                <module>samples/server/petstore/kotlin/vertx</module>
                 <module>samples/server/petstore/kotlin-springboot</module>
             </modules>
         </profile>
@@ -1168,6 +1184,8 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/server/petstore/go-api-server</module>
+                <module>samples/server/petstore/go-gin-api-server</module>
                 <!-- clients -->
                 <module>samples/openapi3/client/petstore/ruby</module>
                 <!-- test java-related projects -->
@@ -1187,6 +1205,7 @@
                 <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
+                <module>samples/client/petstore/java/microprofile-rest-client</module>
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1232,9 +1251,16 @@
                 <module>samples/client/petstore/elixir</module>
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
+                <module>samples/client/petstore/kotlin-multiplatform</module>
                 <module>samples/client/petstore/kotlin/</module>
+                <module>samples/client/petstore/kotlin-gson/</module>
+                <module>samples/client/petstore/kotlin-nonpublic/</module>
+                <module>samples/client/petstore/kotlin-nullable/</module>
+                <module>samples/client/petstore/kotlin-okhttp3/</module>
                 <module>samples/client/petstore/kotlin-threetenbp/</module>
                 <module>samples/client/petstore/kotlin-string/</module>
+                <module>samples/client/petstore/kotlin-moshi-codegen/</module>
+                <module>samples/client/petstore/kotlin-json-request-date/</module>
                 <!-- servers -->
                 <module>samples/server/petstore/erlang-server</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
@@ -1287,27 +1313,16 @@
                 <module>samples/client/petstore/swift4/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/rxswift/SwaggerClientTests</module>
+                <!-- swift 1.x, 3.x client generators have been deprecated
                 <module>samples/client/petstore/swift3/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift3/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift3/rxswift/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift/promisekit/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift/rxswift/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift/rxswift/SwaggerClientTests</module>-->
                 <!-- comment out objc tests as it's timing out
                 <module>samples/client/petstore/objc/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/objc/core-data/SwaggerClientTests</module>-->
-            </modules>
-        </profile>
-        <profile>
-            <id>samples.bash</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>samples.bash</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/bash</module>
             </modules>
         </profile>
     </profiles>
@@ -1383,9 +1398,9 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <swagger-parser-groupid>org.openapitools.swagger.parser</swagger-parser-groupid>
-        <swagger-parser-version>2.0.13-OpenAPITools.org-2</swagger-parser-version>
-        <swagger-core-version>2.0.7</swagger-core-version>
+        <swagger-core-version>2.0.10</swagger-core-version>
+        <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
+        <swagger-parser-version>2.0.16</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>

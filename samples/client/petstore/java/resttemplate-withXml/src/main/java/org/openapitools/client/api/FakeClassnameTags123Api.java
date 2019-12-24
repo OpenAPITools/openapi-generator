@@ -5,6 +5,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.model.Client;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -23,6 +24,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 
 @Component("org.openapitools.client.api.FakeClassnameTags123Api")
@@ -50,11 +52,23 @@ public class FakeClassnameTags123Api {
      * To test class name in snake case
      * To test class name in snake case
      * <p><b>200</b> - successful operation
-     * @param body client model
+     * @param body client model (required)
      * @return Client
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Client testClassname(Client body) throws RestClientException {
+        return testClassnameWithHttpInfo(body).getBody();
+    }
+
+    /**
+     * To test class name in snake case
+     * To test class name in snake case
+     * <p><b>200</b> - successful operation
+     * @param body client model (required)
+     * @return ResponseEntity&lt;Client&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Client> testClassnameWithHttpInfo(Client body) throws RestClientException {
         Object postBody = body;
         
         // verify the required parameter 'body' is set
@@ -62,11 +76,12 @@ public class FakeClassnameTags123Api {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testClassname");
         }
         
-        String path = UriComponentsBuilder.fromPath("/fake_classname_test").build().toUriString();
+        String path = apiClient.expandPath("/fake_classname_test", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         final String[] accepts = { 
             "application/json"
@@ -80,6 +95,6 @@ public class FakeClassnameTags123Api {
         String[] authNames = new String[] { "api_key_query" };
 
         ParameterizedTypeReference<Client> returnType = new ParameterizedTypeReference<Client>() {};
-        return apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
 }

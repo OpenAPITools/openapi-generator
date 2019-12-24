@@ -331,7 +331,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         if (typeMapping.containsKey(schemaType)) {
             return typeMapping.get(schemaType);
         }
-        //  LOGGER.info("Swagger type " + schemaType);
+        //  LOGGER.info("OpenAPI type " + schemaType);
         if (languageSpecificPrimitives.contains(schemaType)) {
             return schemaType;
         }

@@ -8,20 +8,20 @@ DEACTIVE=false
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+PYTHONPATH="$(which python)"
 
 ### set virtualenv
 if [ -z "$VIRTUAL_ENV" ]; then
-		virtualenv $VENV --no-site-packages --always-copy
+		virtualenv $VENV --python=$PYTHONPATH --no-site-packages --always-copy
 		source $VENV/bin/activate
     DEACTIVE=true
 fi
 
 ### install dependencies
 pip install -r $REQUIREMENTS_FILE | tee -a $REQUIREMENTS_OUT
-python setup.py develop
 
 ### run tests
-nosetests || exit 1
+tox -e py27 || exit 1
 
 ### static analysis of code
 flake8 --show-source petstore_api/

@@ -64,7 +64,7 @@ Then, publish to a [local feed](https://docs.microsoft.com/en-us/nuget/hosting-p
 ## Getting Started
 
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -74,10 +74,11 @@ namespace Example
 {
     public class Example
     {
-        public void main()
+        public static void Main()
         {
 
-            var apiInstance = new AnotherFakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new AnotherFakeApi(Configuration.Default);
             var body = new ModelClient(); // ModelClient | client model
 
             try
@@ -86,9 +87,11 @@ namespace Example
                 ModelClient result = apiInstance.Call123TestSpecialTags(body);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AnotherFakeApi.Call123TestSpecialTags: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
 
         }
@@ -116,6 +119,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestGroupParameters**](docs/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**TestInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**TestJsonFormData**](docs/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
 *FakeClassnameTags123Api* | [**TestClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**DeletePet**](docs/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet

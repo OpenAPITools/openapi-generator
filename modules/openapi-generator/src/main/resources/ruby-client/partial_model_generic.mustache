@@ -51,6 +51,17 @@
       }
     end
 
+    # List of attributes with nullable: true
+    def self.openapi_nullable
+      Set.new([
+        {{#vars}}
+        {{#isNullable}}
+        :'{{{name}}}'{{#hasMore}},{{/hasMore}}
+        {{/isNullable}}
+        {{/vars}}
+      ])
+    end
+
     {{#anyOf}}
     {{#-first}}
     # List of class defined in anyOf (OpenAPI v3)
@@ -246,14 +257,14 @@
       {{#anyOf}}
       {{#-first}}
       _any_of_found = false
-      openapi_any_of.each do |_class|
+      self.class.openapi_any_of.each do |_class|
         _any_of = {{moduleName}}.const_get(_class).build_from_hash(self.to_hash)
         if _any_of.valid?
           _any_of_found = true
         end
       end
 
-      if !_any_of_found?
+      if !_any_of_found
         return false
       end
 
@@ -262,10 +273,10 @@
       {{#oneOf}}
       {{#-first}}
       _one_of_found = false
-      openapi_one_of.each do |_class|
+      self.class.openapi_one_of.each do |_class|
         _one_of = {{moduleName}}.const_get(_class).build_from_hash(self.to_hash)
         if _one_of.valid?
-          if _one_of_found?
+          if _one_of_found
             return false
           else
             _one_of_found = true
@@ -273,7 +284,7 @@
         end
       end
 
-      if !_one_of_found?
+      if !_one_of_found
         return false
       end
 

@@ -52,7 +52,9 @@ public class TypeHolderDefault {
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
+
   public TypeHolderDefault stringItem(String stringItem) {
+    
     this.stringItem = stringItem;
     return this;
   }
@@ -62,15 +64,19 @@ public class TypeHolderDefault {
    * @return stringItem
   **/
   @ApiModelProperty(required = true, value = "")
+
   public String getStringItem() {
     return stringItem;
   }
+
 
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
 
+
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
+    
     this.numberItem = numberItem;
     return this;
   }
@@ -80,15 +86,19 @@ public class TypeHolderDefault {
    * @return numberItem
   **/
   @ApiModelProperty(required = true, value = "")
+
   public BigDecimal getNumberItem() {
     return numberItem;
   }
+
 
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
+
   public TypeHolderDefault integerItem(Integer integerItem) {
+    
     this.integerItem = integerItem;
     return this;
   }
@@ -98,15 +108,19 @@ public class TypeHolderDefault {
    * @return integerItem
   **/
   @ApiModelProperty(required = true, value = "")
+
   public Integer getIntegerItem() {
     return integerItem;
   }
+
 
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
 
+
   public TypeHolderDefault boolItem(Boolean boolItem) {
+    
     this.boolItem = boolItem;
     return this;
   }
@@ -116,15 +130,19 @@ public class TypeHolderDefault {
    * @return boolItem
   **/
   @ApiModelProperty(required = true, value = "")
+
   public Boolean getBoolItem() {
     return boolItem;
   }
+
 
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
+
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
+    
     this.arrayItem = arrayItem;
     return this;
   }
@@ -139,9 +157,11 @@ public class TypeHolderDefault {
    * @return arrayItem
   **/
   @ApiModelProperty(required = true, value = "")
+
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
+
 
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;

@@ -33,11 +33,15 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
+    public static final String PREFIX_PARAMETER_INTERFACES = "prefixParameterInterfaces";
+    public static final String TYPESCRIPT_THREE_PLUS = "typescriptThreePlus";
 
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = true;
+    private boolean prefixParameterInterfaces = false;
     protected boolean addedApiIndex = false;
     protected boolean addedModelIndex = false;
+    protected boolean typescriptThreePlus = false;
 
 
     public TypeScriptFetchClientCodegen() {
@@ -50,15 +54,15 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         outputFolder = "generated-code/typescript-fetch";
         embeddedTemplateDir = templateDir = "typescript-fetch";
 
-        this.apiPackage = "apis";
         this.apiTemplateFiles.put("apis.mustache", ".ts");
-        this.modelPackage = "models";
         this.modelTemplateFiles.put("models.mustache", ".ts");
         this.addExtraReservedWords();
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
+        this.cliOptions.add(new CliOption(PREFIX_PARAMETER_INTERFACES, "Setting this property to true will generate parameter interface declarations prefixed with API class name to avoid name conflicts.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(TYPESCRIPT_THREE_PLUS, "Setting this property to true will generate TypeScript 3.6+ compatible code.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -79,23 +83,47 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.npmRepository = npmRepository;
     }
 
+    public Boolean getTypescriptThreePlus() {
+        return typescriptThreePlus;
+    }
+
+    public void setTypescriptThreePlus(Boolean typescriptThreePlus) {
+        this.typescriptThreePlus = typescriptThreePlus;
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
         additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming().equals("original"));
         additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
-        supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
-        supportingFiles.add(new SupportingFile("runtime.mustache", "", "runtime.ts"));
-        supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
-        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+
+        String sourceDir = "";
+        if (additionalProperties.containsKey(NPM_NAME)) {
+            sourceDir = "src" + File.separator;
+        }
+
+        this.apiPackage = sourceDir + "apis";
+        this.modelPackage = sourceDir + "models";
+
+        supportingFiles.add(new SupportingFile("index.mustache", sourceDir, "index.ts"));
+        supportingFiles.add(new SupportingFile("runtime.mustache", sourceDir, "runtime.ts"));
 
         if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
             this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
         }
         writePropertyBack(USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
+        if (additionalProperties.containsKey(PREFIX_PARAMETER_INTERFACES)) {
+            this.setPrefixParameterInterfaces(convertPropertyToBoolean(PREFIX_PARAMETER_INTERFACES));
+        }
+        writePropertyBack(PREFIX_PARAMETER_INTERFACES, getPrefixParameterInterfaces());
+
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
+        }
+
+        if (additionalProperties.containsKey(TYPESCRIPT_THREE_PLUS)) {
+            this.setTypescriptThreePlus(convertPropertyToBoolean(TYPESCRIPT_THREE_PLUS));
         }
     }
 
@@ -188,6 +216,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         //Files for building our lib
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
+        supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        supportingFiles.add(new SupportingFile("npmignore.mustache", "", ".npmignore"));
+        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
 
     @Override
@@ -207,6 +238,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.addOperationModelImportInfomation(operations);
         this.updateOperationParameterEnumInformation(operations);
         this.addOperationObjectResponseInformation(operations);
+        this.addOperationPrefixParameterInterfacesInformation(operations);
         return operations;
     }
 
@@ -216,7 +248,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // models for a given operation.
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
-            im.put("className", im.get("import").toString().replace("models.", ""));
+            im.put("className", im.get("import").toString().replace(modelPackage() + ".", ""));
         }
     }
 
@@ -253,6 +285,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
+    private void addOperationPrefixParameterInterfacesInformation(Map<String, Object> operations) {
+        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
+        operations.put("prefixParameterInterfaces", getPrefixParameterInterfaces());
+    }
+
     private void addExtraReservedWords() {
         this.reservedWords.add("BASE_PATH");
         this.reservedWords.add("BaseAPI");
@@ -287,5 +324,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
         this.useSingleRequestParameter = useSingleRequestParameter;
+    }
+
+    private boolean getPrefixParameterInterfaces() {
+        return prefixParameterInterfaces;
+    }
+
+    private void setPrefixParameterInterfaces(boolean prefixParameterInterfaces) {
+        this.prefixParameterInterfaces = prefixParameterInterfaces;
     }
 }

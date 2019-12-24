@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// Order Status
         /// </summary>
         /// <value>Order Status</value>
-        [DataMember(Name="status", EmitDefaultValue=false)]
+        [DataMember(Name="status", EmitDefaultValue=true)]
         public StatusEnum? Status { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate.</param>
         /// <param name="status">Order Status.</param>
         /// <param name="complete">complete (default to false).</param>
-        public Order(long? id = default(long?), long? petId = default(long?), int? quantity = default(int?), DateTime? shipDate = default(DateTime?), StatusEnum? status = default(StatusEnum?), bool? complete = false)
+        public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
         {
             this.Id = id;
             this.PetId = petId;
@@ -96,33 +96,33 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=false)]
-        public long? Id { get; set; }
+        [DataMember(Name="id", EmitDefaultValue=true)]
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
-        [DataMember(Name="petId", EmitDefaultValue=false)]
-        public long? PetId { get; set; }
+        [DataMember(Name="petId", EmitDefaultValue=true)]
+        public long PetId { get; set; }
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
-        [DataMember(Name="quantity", EmitDefaultValue=false)]
-        public int? Quantity { get; set; }
+        [DataMember(Name="quantity", EmitDefaultValue=true)]
+        public int Quantity { get; set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
-        [DataMember(Name="shipDate", EmitDefaultValue=false)]
-        public DateTime? ShipDate { get; set; }
+        [DataMember(Name="shipDate", EmitDefaultValue=true)]
+        public DateTime ShipDate { get; set; }
 
 
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
-        [DataMember(Name="complete", EmitDefaultValue=false)]
-        public bool? Complete { get; set; }
+        [DataMember(Name="complete", EmitDefaultValue=true)]
+        public bool Complete { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

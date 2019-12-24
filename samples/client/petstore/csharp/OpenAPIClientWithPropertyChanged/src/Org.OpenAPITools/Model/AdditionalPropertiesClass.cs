@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="anytype1">anytype1.</param>
         /// <param name="anytype2">anytype2.</param>
         /// <param name="anytype3">anytype3.</param>
-        public AdditionalPropertiesClass(Dictionary<string, string> mapString = default(Dictionary<string, string>), Dictionary<string, decimal?> mapNumber = default(Dictionary<string, decimal?>), Dictionary<string, int?> mapInteger = default(Dictionary<string, int?>), Dictionary<string, bool?> mapBoolean = default(Dictionary<string, bool?>), Dictionary<string, List<int?>> mapArrayInteger = default(Dictionary<string, List<int?>>), Dictionary<string, List<Object>> mapArrayAnytype = default(Dictionary<string, List<Object>>), Dictionary<string, Dictionary<string, string>> mapMapString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, Dictionary<string, Object>> mapMapAnytype = default(Dictionary<string, Dictionary<string, Object>>), Object anytype1 = default(Object), Object anytype2 = default(Object), Object anytype3 = default(Object))
+        public AdditionalPropertiesClass(Dictionary<string, string> mapString = default(Dictionary<string, string>), Dictionary<string, decimal> mapNumber = default(Dictionary<string, decimal>), Dictionary<string, int> mapInteger = default(Dictionary<string, int>), Dictionary<string, bool> mapBoolean = default(Dictionary<string, bool>), Dictionary<string, List<int>> mapArrayInteger = default(Dictionary<string, List<int>>), Dictionary<string, List<Object>> mapArrayAnytype = default(Dictionary<string, List<Object>>), Dictionary<string, Dictionary<string, string>> mapMapString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, Dictionary<string, Object>> mapMapAnytype = default(Dictionary<string, Dictionary<string, Object>>), Object anytype1 = default(Object), Object anytype2 = default(Object), Object anytype3 = default(Object))
         {
             this.MapString = mapString;
             this.MapNumber = mapNumber;
@@ -65,67 +65,67 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MapString
         /// </summary>
-        [DataMember(Name="map_string", EmitDefaultValue=false)]
+        [DataMember(Name="map_string", EmitDefaultValue=true)]
         public Dictionary<string, string> MapString { get; set; }
 
         /// <summary>
         /// Gets or Sets MapNumber
         /// </summary>
-        [DataMember(Name="map_number", EmitDefaultValue=false)]
-        public Dictionary<string, decimal?> MapNumber { get; set; }
+        [DataMember(Name="map_number", EmitDefaultValue=true)]
+        public Dictionary<string, decimal> MapNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets MapInteger
         /// </summary>
-        [DataMember(Name="map_integer", EmitDefaultValue=false)]
-        public Dictionary<string, int?> MapInteger { get; set; }
+        [DataMember(Name="map_integer", EmitDefaultValue=true)]
+        public Dictionary<string, int> MapInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets MapBoolean
         /// </summary>
-        [DataMember(Name="map_boolean", EmitDefaultValue=false)]
-        public Dictionary<string, bool?> MapBoolean { get; set; }
+        [DataMember(Name="map_boolean", EmitDefaultValue=true)]
+        public Dictionary<string, bool> MapBoolean { get; set; }
 
         /// <summary>
         /// Gets or Sets MapArrayInteger
         /// </summary>
-        [DataMember(Name="map_array_integer", EmitDefaultValue=false)]
-        public Dictionary<string, List<int?>> MapArrayInteger { get; set; }
+        [DataMember(Name="map_array_integer", EmitDefaultValue=true)]
+        public Dictionary<string, List<int>> MapArrayInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets MapArrayAnytype
         /// </summary>
-        [DataMember(Name="map_array_anytype", EmitDefaultValue=false)]
+        [DataMember(Name="map_array_anytype", EmitDefaultValue=true)]
         public Dictionary<string, List<Object>> MapArrayAnytype { get; set; }
 
         /// <summary>
         /// Gets or Sets MapMapString
         /// </summary>
-        [DataMember(Name="map_map_string", EmitDefaultValue=false)]
+        [DataMember(Name="map_map_string", EmitDefaultValue=true)]
         public Dictionary<string, Dictionary<string, string>> MapMapString { get; set; }
 
         /// <summary>
         /// Gets or Sets MapMapAnytype
         /// </summary>
-        [DataMember(Name="map_map_anytype", EmitDefaultValue=false)]
+        [DataMember(Name="map_map_anytype", EmitDefaultValue=true)]
         public Dictionary<string, Dictionary<string, Object>> MapMapAnytype { get; set; }
 
         /// <summary>
         /// Gets or Sets Anytype1
         /// </summary>
-        [DataMember(Name="anytype_1", EmitDefaultValue=false)]
+        [DataMember(Name="anytype_1", EmitDefaultValue=true)]
         public Object Anytype1 { get; set; }
 
         /// <summary>
         /// Gets or Sets Anytype2
         /// </summary>
-        [DataMember(Name="anytype_2", EmitDefaultValue=false)]
+        [DataMember(Name="anytype_2", EmitDefaultValue=true)]
         public Object Anytype2 { get; set; }
 
         /// <summary>
         /// Gets or Sets Anytype3
         /// </summary>
-        [DataMember(Name="anytype_3", EmitDefaultValue=false)]
+        [DataMember(Name="anytype_3", EmitDefaultValue=true)]
         public Object Anytype3 { get; set; }
 
         /// <summary>

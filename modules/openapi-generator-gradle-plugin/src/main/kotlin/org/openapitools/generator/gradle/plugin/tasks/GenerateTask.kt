@@ -24,6 +24,7 @@ import org.gradle.api.tasks.TaskAction
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.gradle.kotlin.dsl.listProperty
+import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
@@ -90,7 +91,7 @@ open class GenerateTask : DefaultTask() {
      * Sets specified system properties.
      */
     @get:Internal
-    val systemProperties = project.objects.property<Map<String, String>>()
+    val systemProperties = project.objects.mapProperty<String, String>()
 
     /**
      * Path to json configuration file.
@@ -140,20 +141,27 @@ open class GenerateTask : DefaultTask() {
      * Sets instantiation type mappings.
      */
     @get:Internal
-    val instantiationTypes = project.objects.property<Map<String, String>>()
+    val instantiationTypes = project.objects.mapProperty<String, String>()
 
     /**
      * Sets mappings between OpenAPI spec types and generated code types.
      */
     @get:Internal
-    val typeMappings = project.objects.property<Map<String, String>>()
+    val typeMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value.
      * You can also have multiple occurrences of this option.
      */
     @get:Internal
-    val additionalProperties = project.objects.property<Map<String, String>>()
+    val additionalProperties = project.objects.mapProperty<String, String>()
+
+    /**
+     * Sets server variable for server URL template substitution, in the format of name=value,name=value.
+     * You can also have multiple occurrences of this option.
+     */
+    @get:Internal
+    val serverVariables = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double.
@@ -165,7 +173,7 @@ open class GenerateTask : DefaultTask() {
      * Specifies mappings between a given class and the import that should be used for that class.
      */
     @get:Internal
-    val importMappings = project.objects.property<Map<String, String>>()
+    val importMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Root package for generated code.
@@ -198,6 +206,12 @@ open class GenerateTask : DefaultTask() {
     val library = project.objects.property<String?>()
 
     /**
+     * Git host, e.g. gitlab.com.
+     */
+    @get:Internal
+    val gitHost = project.objects.property<String?>()
+
+    /**
      * Git user ID, e.g. openapitools.
      */
     @get:Internal
@@ -225,7 +239,7 @@ open class GenerateTask : DefaultTask() {
      * Specifies how a reserved name should be escaped to.
      */
     @get:Internal
-    val reservedWordsMappings = project.objects.property<Map<String, String>>()
+    val reservedWordsMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
@@ -359,7 +373,7 @@ open class GenerateTask : DefaultTask() {
      * A dynamic map of options specific to a generator.
      */
     @get:Internal
-    val configOptions = project.objects.property<Map<String, String>>()
+    val configOptions = project.objects.mapProperty<String, String>()
 
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
@@ -503,6 +517,10 @@ open class GenerateTask : DefaultTask() {
                 configurator.setLibrary(value)
             }
 
+            gitHost.ifNotEmpty { value ->
+                configurator.setGitHost(value)
+            }
+
             gitUserId.ifNotEmpty { value ->
                 configurator.setGitUserId(value)
             }
@@ -570,6 +588,12 @@ open class GenerateTask : DefaultTask() {
             if (additionalProperties.isPresent) {
                 additionalProperties.get().forEach { entry ->
                     configurator.addAdditionalProperty(entry.key, entry.value)
+                }
+            }
+
+            if (serverVariables.isPresent) {
+                serverVariables.get().forEach { entry ->
+                    configurator.addServerVariable(entry.key, entry.value)
                 }
             }
 

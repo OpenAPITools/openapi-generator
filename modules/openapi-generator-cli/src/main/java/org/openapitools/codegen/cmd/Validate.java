@@ -22,11 +22,14 @@ import io.airlift.airline.Option;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Command(name = "validate", description = "Validate specification")
@@ -58,6 +61,21 @@ public class Validate implements Runnable {
                 if (unusedModels != null) {
                     unusedModels.forEach(name -> warnings.add("Unused model: " + name));
                 }
+
+                // check for loosely defined oneOf extension requirements.
+                // This is a recommendation because the 3.0.x spec is not clear enough on usage of oneOf.
+                // see https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3 and the OAS section on 'Composition and Inheritance'.
+                Map<String, Schema> schemas = ModelUtils.getSchemas(specification);
+                schemas.forEach((key, schema) -> {
+                    if (schema instanceof ComposedSchema) {
+                        final ComposedSchema composed = (ComposedSchema) schema;
+                        if (composed.getOneOf() != null && composed.getOneOf().size() > 0) {
+                            if (composed.getProperties() != null && composed.getProperties().size() >= 1 && composed.getProperties().get("discriminator") == null) {
+                                warnings.add("Schema (oneOf) should not contain properties: " + key);
+                            }
+                        }
+                    }
+                });
             }
         }
 

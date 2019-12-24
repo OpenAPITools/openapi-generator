@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Alamofire
 
 open class StoreAPI {
     /**
@@ -16,7 +15,7 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func deleteOrder(orderId: String, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        deleteOrderWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
+        deleteOrderWithRequestBuilder(orderId: orderId).execute { (_, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {

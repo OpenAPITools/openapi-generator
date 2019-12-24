@@ -16,7 +16,9 @@ import http = require('http');
 /* tslint:disable:no-unused-locals */
 import { User } from '../model/user';
 
-import { ObjectSerializer, Authentication, VoidAuth } from '../model/models';
+import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
+
+import { HttpError, RequestFile } from './apis';
 
 let defaultBasePath = 'http://petstore.swagger.io/v2';
 
@@ -35,6 +37,8 @@ export class UserApi {
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
     }
+
+    protected interceptors: Interceptor[] = [];
 
     constructor(basePath?: string);
     constructor(basePathOrUsername: string, password?: string, basePath?: string) {
@@ -69,6 +73,10 @@ export class UserApi {
         (this.authentications as any)[UserApiApiKeys[key]].apiKey = value;
     }
 
+    public addInterceptor(interceptor: Interceptor) {
+        this.interceptors.push(interceptor);
+    }
+
     /**
      * This can only be done by the logged in user.
      * @summary Create user
@@ -101,7 +109,13 @@ export class UserApi {
 
         let authenticationPromise = Promise.resolve();
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -117,7 +131,7 @@ export class UserApi {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });
@@ -156,7 +170,13 @@ export class UserApi {
 
         let authenticationPromise = Promise.resolve();
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -172,7 +192,7 @@ export class UserApi {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });
@@ -211,7 +231,13 @@ export class UserApi {
 
         let authenticationPromise = Promise.resolve();
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -227,7 +253,7 @@ export class UserApi {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });
@@ -266,7 +292,13 @@ export class UserApi {
 
         let authenticationPromise = Promise.resolve();
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -282,7 +314,7 @@ export class UserApi {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });
@@ -299,6 +331,13 @@ export class UserApi {
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        const produces = ['application/xml', 'application/json'];
+        // give precedence to 'application/json'
+        if (produces.indexOf('application/json') >= 0) {
+            localVarHeaderParams.Accept = 'application/json';
+        } else {
+            localVarHeaderParams.Accept = produces.join(',');
+        }
         let localVarFormParams: any = {};
 
         // verify required parameter 'username' is not null or undefined
@@ -321,7 +360,13 @@ export class UserApi {
 
         let authenticationPromise = Promise.resolve();
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -338,7 +383,7 @@ export class UserApi {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });
@@ -355,6 +400,13 @@ export class UserApi {
         const localVarPath = this.basePath + '/user/login';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        const produces = ['application/xml', 'application/json'];
+        // give precedence to 'application/json'
+        if (produces.indexOf('application/json') >= 0) {
+            localVarHeaderParams.Accept = 'application/json';
+        } else {
+            localVarHeaderParams.Accept = produces.join(',');
+        }
         let localVarFormParams: any = {};
 
         // verify required parameter 'username' is not null or undefined
@@ -390,7 +442,13 @@ export class UserApi {
 
         let authenticationPromise = Promise.resolve();
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -407,7 +465,7 @@ export class UserApi {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });
@@ -439,7 +497,13 @@ export class UserApi {
 
         let authenticationPromise = Promise.resolve();
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -455,7 +519,7 @@ export class UserApi {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });
@@ -501,7 +565,13 @@ export class UserApi {
 
         let authenticationPromise = Promise.resolve();
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -517,7 +587,7 @@ export class UserApi {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });

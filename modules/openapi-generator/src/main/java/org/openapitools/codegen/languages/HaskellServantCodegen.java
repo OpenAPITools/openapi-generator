@@ -43,6 +43,10 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     protected String apiVersion = "0.0.1";
     private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_+");
 
+    public static final String PROP_SERVE_STATIC = "serveStatic";
+    public static final String PROP_SERVE_STATIC_DESC = "serve will serve files from the directory 'static'.";
+    public static final Boolean PROP_SERVE_STATIC_DEFAULT = Boolean.TRUE;
+
     /**
      * Configures the type of generator.
      *
@@ -171,6 +175,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("file", "FilePath");
         typeMapping.put("binary", "FilePath");
         typeMapping.put("number", "Double");
+        typeMapping.put("BigDecimal", "Double");
         typeMapping.put("any", "Value");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "Text");
@@ -182,6 +187,15 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+        cliOptions.add(new CliOption(PROP_SERVE_STATIC, PROP_SERVE_STATIC_DESC).defaultValue(PROP_SERVE_STATIC_DEFAULT.toString()));
+    }
+
+    public void setBooleanProperty(String property, Boolean defaultValue) {
+        if (additionalProperties.containsKey(property)) {
+            additionalProperties.put(property, convertPropertyToBoolean(property));
+        } else {
+            additionalProperties.put(property, defaultValue);
+        }
     }
 
     @Override
@@ -191,6 +205,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         if (StringUtils.isEmpty(System.getenv("HASKELL_POST_PROCESS_FILE"))) {
             LOGGER.info("Hint: Environment variable HASKELL_POST_PROCESS_FILE not defined so the Haskell code may not be properly formatted. To define it, try 'export HASKELL_POST_PROCESS_FILE=\"$HOME/.local/bin/hfmt -w\"' (Linux/Mac)");
         }
+
+        setBooleanProperty(PROP_SERVE_STATIC, PROP_SERVE_STATIC_DEFAULT);
     }
 
     /**
@@ -549,6 +565,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
                 return "(QueryList 'CommaSeparated (" + type + "))";
             case "tsv":
                 return "(QueryList 'TabSeparated (" + type + "))";
+            case "space":
             case "ssv":
                 return "(QueryList 'SpaceSeparated (" + type + "))";
             case "pipes":
@@ -556,7 +573,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             case "multi":
                 return "(QueryList 'MultiParamArray (" + type + "))";
             default:
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException(collectionFormat + " (collection format) not supported");
         }
     }
 

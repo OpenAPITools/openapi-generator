@@ -107,7 +107,6 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("baseApi.mustache", "", "base.ts"));
         supportingFiles.add(new SupportingFile("api.mustache", "", "api.ts"));
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
-        supportingFiles.add(new SupportingFile("custom.d.mustache", "", "custom.d.ts"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 
@@ -144,6 +143,22 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
                 .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
         return objs;
     }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        Map<String, Object> result = super.postProcessAllModels(objs);
+        for (Map.Entry<String, Object> entry : result.entrySet()) {
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> model : models) {
+                CodegenModel codegenModel = (CodegenModel) model.get("model");
+                model.put("hasAllOf", codegenModel.allOf.size() > 0);
+                model.put("hasOneOf", codegenModel.oneOf.size() > 0);
+            }
+        }
+        return result;
+    }
+
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {

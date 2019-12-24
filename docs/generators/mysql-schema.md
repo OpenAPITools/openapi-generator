@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-schema-mysql-schema
 title: Config Options for mysql-schema
 sidebar_label: mysql-schema
 ---

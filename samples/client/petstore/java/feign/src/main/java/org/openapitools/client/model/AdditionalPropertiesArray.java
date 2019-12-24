@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -23,16 +24,23 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * AdditionalPropertiesArray
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesArray.JSON_PROPERTY_NAME
+})
+@javax.annotation.concurrent.Immutable
 
 public class AdditionalPropertiesArray extends HashMap<String, List> {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+
   public AdditionalPropertiesArray name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -43,9 +51,13 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public String getName() {
     return name;
   }
+
 
   public void setName(String name) {
     this.name = name;

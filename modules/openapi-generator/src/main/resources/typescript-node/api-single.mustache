@@ -7,20 +7,12 @@ import http = require('http');
 import { {{classname}} } from '../{{filename}}';
 {{/imports}}
 
-import { ObjectSerializer, Authentication, VoidAuth } from '../model/models';
+import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
 {{#hasAuthMethods}}
-{{#authMethods}}
-{{#isBasic}}
-import { HttpBasicAuth } from '../model/models';
-{{/isBasic}}
-{{#isApiKey}}
-import { ApiKeyAuth } from '../model/models';
-{{/isApiKey}}
-{{#isOAuth}}
-import { OAuth } from '../model/models';
-{{/isOAuth}}
-{{/authMethods}}
+import { HttpBasicAuth, HttpBearerAuth, ApiKeyAuth, OAuth } from '../model/models';
 {{/hasAuthMethods}}
+
+import { HttpError, RequestFile } from './apis';
 
 let defaultBasePath = '{{{basePath}}}';
 
@@ -51,11 +43,14 @@ export class {{classname}} {
         'default': <Authentication>new VoidAuth(),
 {{#hasAuthMethods}}
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
         '{{name}}': new HttpBasicAuth(),
-{{/isBasic}}
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+        '{{name}}': new HttpBearerAuth(),
+{{/isBasicBearer}}
 {{#isApiKey}}
-        '{{name}}': new ApiKeyAuth({{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{^isKeyInHeader}}'query'{{/isKeyInHeader}}, '{{keyParamName}}'),
+        '{{name}}': new ApiKeyAuth({{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{#isKeyInQuery}}'query'{{/isKeyInQuery}}{{#isKeyInCookie}}'cookie'{{/isKeyInCookie}}, '{{keyParamName}}'),
 {{/isApiKey}}
 {{#isOAuth}}
         '{{name}}': new OAuth(),
@@ -64,19 +59,21 @@ export class {{classname}} {
 {{/hasAuthMethods}}
     }
 
+    protected interceptors: Interceptor[] = [];
+
     constructor(basePath?: string);
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
     constructor(username: string, password: string, basePath?: string);
-{{/isBasic}}
+{{/isBasicBasic}}
 {{/authMethods}}
     constructor(basePathOrUsername: string, password?: string, basePath?: string) {
         if (password) {
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
             this.username = basePathOrUsername;
             this.password = password
-{{/isBasic}}
+{{/isBasicBasic}}
 {{/authMethods}}
             if (basePath) {
                 this.basePath = basePath;
@@ -109,7 +106,8 @@ export class {{classname}} {
     }
 {{#hasAuthMethods}}
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
+
     set username(username: string) {
         this.authentications.{{name}}.username = username;
     }
@@ -117,7 +115,13 @@ export class {{classname}} {
     set password(password: string) {
         this.authentications.{{name}}.password = password;
     }
-{{/isBasic}}
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+
+    set accessToken(accessToken: string | (() => string)) {
+        this.authentications.{{name}}.accessToken = accessToken;
+    }
+{{/isBasicBearer}}
 {{#isOAuth}}
 
     set accessToken(token: string) {
@@ -126,6 +130,10 @@ export class {{classname}} {
 {{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}
+
+    public addInterceptor(interceptor: Interceptor) {
+        this.interceptors.push(interceptor);
+    }
 
 {{#operation}}
     /**
@@ -142,6 +150,15 @@ export class {{classname}} {
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+{{#hasProduces}}
+        const produces = [{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}];
+        // give precedence to 'application/json'
+        if (produces.indexOf('application/json') >= 0) {
+            localVarHeaderParams.Accept = 'application/json';
+        } else {
+            localVarHeaderParams.Accept = produces.join(',');
+        }
+{{/hasProduces}}
         let localVarFormParams: any = {};
 
 {{#allParams}}
@@ -203,7 +220,13 @@ export class {{classname}} {
 
 {{/authMethods}}
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -222,7 +245,7 @@ export class {{classname}} {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
                             resolve({ response: response, body: body });
                         } else {
-                            reject({ response: response, body: body });
+                            reject(new HttpError(response, body, response.statusCode));
                         }
                     }
                 });

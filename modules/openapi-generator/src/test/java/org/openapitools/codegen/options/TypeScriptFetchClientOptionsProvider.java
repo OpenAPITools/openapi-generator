@@ -25,6 +25,7 @@ import java.util.Map;
 
 public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "false";
+    public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final Boolean SUPPORTS_ES6_VALUE = false;
     public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
@@ -33,6 +34,7 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
     private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
+    public static final String TYPESCRIPT_THREE_PLUS = "true";
 
     @Override
     public String getLanguage() {
@@ -43,6 +45,7 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
+                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.SUPPORTS_ES6, String.valueOf(SUPPORTS_ES6_VALUE))
@@ -52,6 +55,8 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptFetchClientCodegen.SNAPSHOT, Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.WITH_INTERFACES, Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.USE_SINGLE_REQUEST_PARAMETER, Boolean.FALSE.toString())
+                .put(TypeScriptFetchClientCodegen.PREFIX_PARAMETER_INTERFACES, Boolean.FALSE.toString())
+                .put(TypeScriptFetchClientCodegen.TYPESCRIPT_THREE_PLUS, TYPESCRIPT_THREE_PLUS)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .build();

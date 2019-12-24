@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-go-server
 title: Config Options for go-server
 sidebar_label: go-server
 ---
@@ -12,3 +10,4 @@ sidebar_label: go-server
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |sourceFolder|source folder for generated code| |go|
 |serverPort|The network port the generated server binds to| |8080|
+|featureCORS|Enable Cross-Origin Resource Sharing middleware| |false|

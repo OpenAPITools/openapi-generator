@@ -1,0 +1,44 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+from __future__ import absolute_import
+import re  # noqa: F401
+import sys  # noqa: F401
+
+import six  # noqa: F401
+
+from {{packageName}}.model_utils import (  # noqa: F401
+    ModelComposed,
+    ModelNormal,
+    ModelSimple,
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_get_composed_info,
+)
+{{#models}}
+{{#model}}
+{{#imports}}
+{{{.}}}
+{{/imports}}
+
+
+{{^interfaces}}
+{{#isAlias}}
+{{> python-experimental/model_templates/model_simple }}
+{{/isAlias}}
+{{^isAlias}}
+{{> python-experimental/model_templates/model_normal }}
+{{/isAlias}}
+{{/interfaces}}
+{{#interfaces}}
+{{#-last}}
+{{> python-experimental/model_templates/model_composed }}
+{{/-last}}
+{{/interfaces}}
+{{/model}}
+{{/models}}

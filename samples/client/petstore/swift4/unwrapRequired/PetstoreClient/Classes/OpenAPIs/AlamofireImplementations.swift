@@ -156,7 +156,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(completionHandler: { (stringResponse) in
+            validatedRequest.responseString(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (stringResponse) in
                 cleanupRequest()
 
                 if stringResponse.result.isFailure {
@@ -176,7 +176,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 )
             })
         case is URL.Type:
-            validatedRequest.responseData(completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (dataResponse) in
                 cleanupRequest()
 
                 do {
@@ -226,7 +226,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 return
             })
         case is Void.Type:
-            validatedRequest.responseData(completionHandler: { (voidResponse) in
+            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (voidResponse) in
                 cleanupRequest()
 
                 if voidResponse.result.isFailure {
@@ -245,7 +245,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 )
             })
         default:
-            validatedRequest.responseData(completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (dataResponse) in
                 cleanupRequest()
 
                 if dataResponse.result.isFailure {
@@ -283,7 +283,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
         let items = contentDisposition.components(separatedBy: ";")
 
-        var filename: String? = nil
+        var filename: String?
 
         for contentItem in items {
 
@@ -294,7 +294,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
             filename = contentItem
             return filename?
-                .replacingCharacters(in: range, with:"")
+                .replacingCharacters(in: range, with: "")
                 .replacingOccurrences(of: "\"", with: "")
                 .trimmingCharacters(in: .whitespacesAndNewlines)
         }
@@ -358,7 +358,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
         switch T.self {
         case is String.Type:
-            validatedRequest.responseString(completionHandler: { (stringResponse) in
+            validatedRequest.responseString(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (stringResponse) in
                 cleanupRequest()
 
                 if stringResponse.result.isFailure {
@@ -378,7 +378,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                 )
             })
         case is Void.Type:
-            validatedRequest.responseData(completionHandler: { (voidResponse) in
+            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (voidResponse) in
                 cleanupRequest()
 
                 if voidResponse.result.isFailure {
@@ -397,7 +397,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                 )
             })
         case is Data.Type:
-            validatedRequest.responseData(completionHandler: { (dataResponse) in
+            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (dataResponse) in
                 cleanupRequest()
 
                 if dataResponse.result.isFailure {
@@ -417,7 +417,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                 )
             })
         default:
-            validatedRequest.responseData(completionHandler: { (dataResponse: DataResponse<Data>) in
+            validatedRequest.responseData(queue: PetstoreClientAPI.apiResponseQueue, completionHandler: { (dataResponse: DataResponse<Data>) in
                 cleanupRequest()
 
                 guard dataResponse.result.isSuccess else {
@@ -435,7 +435,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                     return
                 }
 
-                var responseObj: Response<T>? = nil
+                var responseObj: Response<T>?
 
                 let decodeResult: (decodableObj: T?, error: Error?) = CodableHelper.decode(T.self, from: data)
                 if decodeResult.error == nil {

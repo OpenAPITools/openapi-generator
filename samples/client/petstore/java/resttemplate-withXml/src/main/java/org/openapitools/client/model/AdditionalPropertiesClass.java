@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -24,89 +25,102 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * AdditionalPropertiesClass
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_STRING,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_NUMBER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_INTEGER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_BOOLEAN,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_ARRAY_INTEGER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_ARRAY_ANYTYPE,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_MAP_STRING,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_MAP_ANYTYPE,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE1,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
+})
 
 @XmlRootElement(name = "AdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AdditionalPropertiesClass")
 public class AdditionalPropertiesClass {
-  @JsonProperty("map_string")
+  public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "inner")
-  private Map<String, String> mapString = new HashMap<String, String>();
+  private Map<String, String> mapString = null;
 
-  @JsonProperty("map_number")
+  public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=BigDecimal
   @XmlElement(name = "inner")
-  private Map<String, BigDecimal> mapNumber = new HashMap<String, BigDecimal>();
+  private Map<String, BigDecimal> mapNumber = null;
 
-  @JsonProperty("map_integer")
+  public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Integer
   @XmlElement(name = "inner")
-  private Map<String, Integer> mapInteger = new HashMap<String, Integer>();
+  private Map<String, Integer> mapInteger = null;
 
-  @JsonProperty("map_boolean")
+  public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Boolean
   @XmlElement(name = "inner")
-  private Map<String, Boolean> mapBoolean = new HashMap<String, Boolean>();
+  private Map<String, Boolean> mapBoolean = null;
 
-  @JsonProperty("map_array_integer")
+  public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;Integer&gt;
   @XmlElement(name = "inner")
-  private Map<String, List<Integer>> mapArrayInteger = new HashMap<String, List<Integer>>();
+  private Map<String, List<Integer>> mapArrayInteger = null;
 
-  @JsonProperty("map_array_anytype")
+  public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;Object&gt;
   @XmlElement(name = "inner")
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<String, List<Object>>();
+  private Map<String, List<Object>> mapArrayAnytype = null;
 
-  @JsonProperty("map_map_string")
+  public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Map&lt;String, String&gt;
   @XmlElement(name = "inner")
-  private Map<String, Map<String, String>> mapMapString = new HashMap<String, Map<String, String>>();
+  private Map<String, Map<String, String>> mapMapString = null;
 
-  @JsonProperty("map_map_anytype")
+  public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
   // items.example= items.type=Map&lt;String, Object&gt;
   @XmlElement(name = "inner")
-  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<String, Map<String, Object>>();
+  private Map<String, Map<String, Object>> mapMapAnytype = null;
 
-  @JsonProperty("anytype_1")
-  @JacksonXmlProperty(localName = "anytype_1")
+  public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
   @XmlElement(name = "anytype_1")
-  private Object anytype1 = null;
+  private Object anytype1;
 
-  @JsonProperty("anytype_2")
-  @JacksonXmlProperty(localName = "anytype_2")
+  public static final String JSON_PROPERTY_ANYTYPE2 = "anytype_2";
   @XmlElement(name = "anytype_2")
-  private Object anytype2 = null;
+  private Object anytype2;
 
-  @JsonProperty("anytype_3")
-  @JacksonXmlProperty(localName = "anytype_3")
+  public static final String JSON_PROPERTY_ANYTYPE3 = "anytype_3";
   @XmlElement(name = "anytype_3")
-  private Object anytype3 = null;
+  private Object anytype3;
+
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
+    
     this.mapString = mapString;
     return this;
   }
@@ -125,15 +139,21 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MAP_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Map<String, String> getMapString() {
     return mapString;
   }
+
 
   public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
   }
 
+
   public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
+    
     this.mapNumber = mapNumber;
     return this;
   }
@@ -152,15 +172,21 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
+
 
   public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
 
+
   public AdditionalPropertiesClass mapInteger(Map<String, Integer> mapInteger) {
+    
     this.mapInteger = mapInteger;
     return this;
   }
@@ -179,15 +205,21 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
+
 
   public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
   }
 
+
   public AdditionalPropertiesClass mapBoolean(Map<String, Boolean> mapBoolean) {
+    
     this.mapBoolean = mapBoolean;
     return this;
   }
@@ -206,15 +238,21 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
   }
+
 
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
 
+
   public AdditionalPropertiesClass mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
+    
     this.mapArrayInteger = mapArrayInteger;
     return this;
   }
@@ -233,15 +271,21 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
+
 
   public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
   }
 
+
   public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
+    
     this.mapArrayAnytype = mapArrayAnytype;
     return this;
   }
@@ -260,15 +304,21 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
+
 
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
 
+
   public AdditionalPropertiesClass mapMapString(Map<String, Map<String, String>> mapMapString) {
+    
     this.mapMapString = mapMapString;
     return this;
   }
@@ -287,15 +337,21 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
+
 
   public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
   }
 
+
   public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
+    
     this.mapMapAnytype = mapMapAnytype;
     return this;
   }
@@ -314,15 +370,21 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
+
 
   public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
   }
 
+
   public AdditionalPropertiesClass anytype1(Object anytype1) {
+    
     this.anytype1 = anytype1;
     return this;
   }
@@ -333,15 +395,22 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "anytype_1")
+
   public Object getAnytype1() {
     return anytype1;
   }
+
 
   public void setAnytype1(Object anytype1) {
     this.anytype1 = anytype1;
   }
 
+
   public AdditionalPropertiesClass anytype2(Object anytype2) {
+    
     this.anytype2 = anytype2;
     return this;
   }
@@ -352,15 +421,22 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ANYTYPE2)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "anytype_2")
+
   public Object getAnytype2() {
     return anytype2;
   }
+
 
   public void setAnytype2(Object anytype2) {
     this.anytype2 = anytype2;
   }
 
+
   public AdditionalPropertiesClass anytype3(Object anytype3) {
+    
     this.anytype3 = anytype3;
     return this;
   }
@@ -371,9 +447,14 @@ public class AdditionalPropertiesClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ANYTYPE3)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "anytype_3")
+
   public Object getAnytype3() {
     return anytype3;
   }
+
 
   public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;

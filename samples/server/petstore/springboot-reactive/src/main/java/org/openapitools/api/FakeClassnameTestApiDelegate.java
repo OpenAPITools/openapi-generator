@@ -27,6 +27,11 @@ public interface FakeClassnameTestApiDelegate {
     }
 
     /**
+     * PATCH /fake_classname_test : To test class name in snake case
+     * To test class name in snake case
+     *
+     * @param body client model (required)
+     * @return successful operation (status code 200)
      * @see FakeClassnameTestApi#testClassname
      */
     default Mono<ResponseEntity<Client>> testClassname(Mono<Client> body,
@@ -35,7 +40,8 @@ public interface FakeClassnameTestApiDelegate {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                result = ApiUtil.getExampleResponse(exchange, "{  \"client\" : \"client\"}");
+                String exampleString = "{ \"client\" : \"client\" }";
+                result = ApiUtil.getExampleResponse(exchange, exampleString);
                 break;
             }
         }

@@ -74,8 +74,10 @@ public class CodegenConfiguratorTest {
                 .setAuth("test-auth")
                 .setGitRepoId("git")
                 .setGitUserId("user")
+                .setGitHost("test.com")
                 .setGroupId("group")
                 .setHttpUserAgent("agent")
+                .setApiNameSuffix("api-suffix")
                 .setModelNamePrefix("model-prefix")
                 .setModelNameSuffix("model-suffix")
                 .setModelPackage("model-package")
@@ -99,6 +101,7 @@ public class CodegenConfiguratorTest {
         want(props, CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, false);
         want(props, CodegenConstants.ENSURE_UNIQUE_PARAMS, true);
         want(props, CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, true);
+        want(props, CodegenConstants.API_NAME_SUFFIX, "api-suffix");
         want(props, CodegenConstants.MODEL_NAME_PREFIX, "model-prefix");
         want(props, CodegenConstants.MODEL_NAME_SUFFIX, "model-suffix");
         want(props, CodegenConstants.REMOVE_OPERATION_ID_PREFIX, false);
@@ -108,6 +111,7 @@ public class CodegenConfiguratorTest {
         want(props, CodegenConstants.TEMPLATE_DIR, templateDir);
         want(props, CodegenConstants.GIT_REPO_ID, "git");
         want(props, CodegenConstants.GIT_USER_ID, "user");
+        want(props, CodegenConstants.GIT_HOST, "test.com");
         want(props, CodegenConstants.GROUP_ID, "group");
         want(props, CodegenConstants.ARTIFACT_ID, "test-artifactId");
         want(props, CodegenConstants.ARTIFACT_VERSION, "test-artifactVersion");

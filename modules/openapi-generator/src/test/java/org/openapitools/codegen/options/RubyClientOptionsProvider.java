@@ -28,6 +28,7 @@ public class RubyClientOptionsProvider implements OptionsProvider {
     public static final String MODULE_NAME_VALUE = "SwaggerClientRuby";
     public static final String GEM_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String SORT_PARAMS_VALUE = "false";
+    public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String GEM_LICENSE_VALUE = "MIT";
     public static final String GEM_REQUIRED_RUBY_VERSION_VALUE = ">= 1.9";
@@ -38,6 +39,7 @@ public class RubyClientOptionsProvider implements OptionsProvider {
     public static final String GEM_AUTHOR_EMAIL_VALUE = "foo";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
+    public static final String LIBRARY = "typhoeus";
 
     @Override
     public String getLanguage() {
@@ -58,10 +60,12 @@ public class RubyClientOptionsProvider implements OptionsProvider {
                 .put(RubyClientCodegen.GEM_AUTHOR, GEM_AUTHOR_VALUE)
                 .put(RubyClientCodegen.GEM_AUTHOR_EMAIL, GEM_AUTHOR_EMAIL_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
+                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(CodegenConstants.LIBRARY, LIBRARY)
                 .build();
     }
 

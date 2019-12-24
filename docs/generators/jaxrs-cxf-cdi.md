@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-server-jaxrs-cxf-cdi
 title: Config Options for jaxrs-cxf-cdi
 sidebar_label: jaxrs-cxf-cdi
 ---
@@ -8,6 +6,7 @@ sidebar_label: jaxrs-cxf-cdi
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
@@ -38,6 +37,7 @@ sidebar_label: jaxrs-cxf-cdi
 |java8|Option. Use Java8 classes instead of third party equivalents|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd><dl>|false|
 |disableHtmlEscaping|Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
+|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations)| |null|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
@@ -46,7 +46,7 @@ sidebar_label: jaxrs-cxf-cdi
 |title|a title describing the application| |OpenAPI Server|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |serverPort|The port on which the server should be started| |8080|
-|library|library template (sub-template)|<dl><dt>**&lt;default&gt;**</dt><dd>JAXRS</dd><dl>|&lt;default&gt;|
+|library|library template (sub-template)|<dl><dt>**&lt;default&gt;**</dt><dd>JAXRS spec only, to be deployed in an app server (TomEE, JBoss, WLS, ...)</dd><dt>**quarkus**</dt><dd>Server using Quarkus</dd><dt>**thorntail**</dt><dd>Server using Thorntail</dd><dt>**openliberty**</dt><dd>Server using Open Liberty</dd><dt>**helidon**</dt><dd>Server using Helidon</dd><dl>|&lt;default&gt;|
 |generatePom|Whether to generate pom.xml if the file does not already exist.| |true|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |returnResponse|Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.| |false|

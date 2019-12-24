@@ -1,0 +1,8 @@
+{
+  "generatorName": "csharp",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/client/petstore/csharp/OpenAPIClient",
+  "additionalProperties": {
+    "packageGuid": "{321C8C3F-0156-40C1-AE42-D59761FB9B6C}"
+  }
+}

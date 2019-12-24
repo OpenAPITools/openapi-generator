@@ -28,12 +28,14 @@ setup(
     name=NAME,
     version=VERSION,
     description="OpenAPI Petstore",
-    author_email="",
+    author="OpenAPI Generator community",
+    author_email="team@openapitools.org",
     url="",
     keywords=["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"],
     install_requires=REQUIRES,
-    packages=find_packages(),
+    packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
+    license="Apache-2.0",
     long_description="""\
     This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\  # noqa: E501
     """

@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -60,13 +61,16 @@ export class BaseAPI {
             // do not handle correctly sometimes.
             url += '?' + this.configuration.queryParamsStringify(context.query);
         }
-        const body = (context.body instanceof FormData || isBlob(context.body))
+        const body = (context.body instanceof FormData || context.body instanceof URLSearchParams || isBlob(context.body))
 	    ? context.body
 	    : JSON.stringify(context.body);
+
+        const headers = Object.assign({}, this.configuration.headers, context.headers);
         const init = {
             method: context.method,
-            headers: context.headers,
+            headers: headers,
             body,
+            credentials: this.configuration.credentials
         };
         return { url, init };
     }
@@ -131,7 +135,9 @@ export interface ConfigurationParameters {
     username?: string; // parameter for basic security
     password?: string; // parameter for basic security
     apiKey?: string | ((name: string) => string); // parameter for apiKey security
-    accessToken?: string | ((name: string, scopes?: string[]) => string); // parameter for oauth2 security
+    accessToken?: string | ((name?: string, scopes?: string[]) => string); // parameter for oauth2 security
+    headers?: HTTPHeaders; //header params we want to use on every request
+    credentials?: RequestCredentials; //value for the credentials param we want to use on each request
 }
 
 export class Configuration {
@@ -176,13 +182,21 @@ export class Configuration {
         }
         return undefined;
     }
+
+    get headers():  HTTPHeaders | undefined {
+        return this.configuration.headers;
+    }
+
+    get credentials(): RequestCredentials | undefined {
+        return this.configuration.credentials;
+    }
 }
 
 export type Json = any;
 export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | HTTPQuery };
-export type HTTPBody = Json | FormData;
+export type HTTPBody = Json | FormData | URLSearchParams;
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
 export interface FetchParams {
@@ -229,6 +243,19 @@ export function mapValues(data: any, fn: (item: any) => any) {
   );
 }
 
+export function canConsumeForm(consumes: Consume[]): boolean {
+    for (const consume of consumes) {
+        if ('multipart/form-data' === consume.contentType) {
+            return true;
+        }
+    }
+    return false;
+}
+
+export interface Consume {
+    contentType: string
+}
+
 export interface RequestContext {
     fetch: FetchAPI;
     url: string;
@@ -259,7 +286,7 @@ export interface ResponseTransformer<T> {
 export class JSONApiResponse<T> {
     constructor(public raw: Response, private transformer: ResponseTransformer<T> = (jsonValue: any) => jsonValue) {}
 
-    async value() {
+    async value(): Promise<T> {
         return this.transformer(await this.raw.json());
     }
 }
@@ -267,7 +294,7 @@ export class JSONApiResponse<T> {
 export class VoidApiResponse {
     constructor(public raw: Response) {}
 
-    async value() {
+    async value(): Promise<void> {
         return undefined;
     }
 }
@@ -275,7 +302,7 @@ export class VoidApiResponse {
 export class BlobApiResponse {
     constructor(public raw: Response) {}
 
-    async value() {
+    async value(): Promise<Blob> {
         return await this.raw.blob();
     };
 }
@@ -283,7 +310,7 @@ export class BlobApiResponse {
 export class TextApiResponse {
     constructor(public raw: Response) {}
 
-    async value() {
+    async value(): Promise<string> {
         return await this.raw.text();
     };
 }

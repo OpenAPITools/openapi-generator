@@ -1053,7 +1053,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>ApiResponse of User</returns>
-        public ApiResponse< User > GetUserByNameWithHttpInfo (string username)
+        public ApiResponse<User> GetUserByNameWithHttpInfo (string username)
         {
             // verify the required parameter 'username' is set
             if (username == null)
@@ -1190,7 +1190,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <returns>ApiResponse of string</returns>
-        public ApiResponse< string > LoginUserWithHttpInfo (string username, string password)
+        public ApiResponse<string> LoginUserWithHttpInfo (string username, string password)
         {
             // verify the required parameter 'username' is set
             if (username == null)

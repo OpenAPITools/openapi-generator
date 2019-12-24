@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Map;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
@@ -150,7 +151,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toApiName(String type) {
-        return sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api");
+        return sanitizeName(modelNamePrefix + super.toApiName(type));
     }
 
     @Override
@@ -296,14 +297,24 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        URL url = URLPathUtils.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         String port = URLPathUtils.getPort(url, "");
         String host = url.getHost();
+        String scheme = url.getProtocol();
+
         if(!port.isEmpty()) {
             this.additionalProperties.put("serverPort", port);
         }
         if(!host.isEmpty()) {
             this.additionalProperties.put("serverHost", host);
         }
+        if(!scheme.isEmpty()) {
+            this.additionalProperties.put("scheme", scheme);
+        }
+    }
+    
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        return postProcessModelsEnum(objs);
     }
 }

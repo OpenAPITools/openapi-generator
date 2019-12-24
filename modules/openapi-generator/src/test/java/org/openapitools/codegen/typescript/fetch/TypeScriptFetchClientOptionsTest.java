@@ -50,6 +50,8 @@ public class TypeScriptFetchClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
             times = 1;
+            clientCodegen.setTypescriptThreePlus(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.TYPESCRIPT_THREE_PLUS));
+            times = 1;
         }};
     }
 }

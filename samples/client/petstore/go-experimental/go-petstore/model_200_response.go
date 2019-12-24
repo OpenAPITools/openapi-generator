@@ -8,19 +8,19 @@
  */
 
 package petstore
+
 import (
+	"bytes"
 	"encoding/json"
 )
 
-// Model for testing model name starting with number
+// Model200Response Model for testing model name starting with number
 type Model200Response struct {
 	Name *int32 `json:"name,omitempty"`
-
 	Class *string `json:"class,omitempty"`
-
 }
 
-// GetName returns the Name field if non-nil, zero value otherwise.
+// GetName returns the Name field value if set, zero value otherwise.
 func (o *Model200Response) GetName() int32 {
 	if o == nil || o.Name == nil {
 		var ret int32
@@ -29,7 +29,7 @@ func (o *Model200Response) GetName() int32 {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Model200Response) GetNameOk() (int32, bool) {
 	if o == nil || o.Name == nil {
@@ -53,7 +53,7 @@ func (o *Model200Response) SetName(v int32) {
 	o.Name = &v
 }
 
-// GetClass returns the Class field if non-nil, zero value otherwise.
+// GetClass returns the Class field value if set, zero value otherwise.
 func (o *Model200Response) GetClass() string {
 	if o == nil || o.Class == nil {
 		var ret string
@@ -62,7 +62,7 @@ func (o *Model200Response) GetClass() string {
 	return *o.Class
 }
 
-// GetClassOk returns a tuple with the Class field if it's non-nil, zero value otherwise
+// GetClassOk returns a tuple with the Class field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Model200Response) GetClassOk() (string, bool) {
 	if o == nil || o.Class == nil {
@@ -86,16 +86,25 @@ func (o *Model200Response) SetClass(v string) {
 	o.Class = &v
 }
 
-
-func (o Model200Response) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	if o.Class != nil {
-		toSerialize["class"] = o.Class
-	}
-	return json.Marshal(toSerialize)
+type NullableModel200Response struct {
+	Value Model200Response
+	ExplicitNull bool
 }
 
+func (v NullableModel200Response) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
+}
 
+func (v *NullableModel200Response) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}

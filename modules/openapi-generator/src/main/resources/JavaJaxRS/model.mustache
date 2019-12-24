@@ -10,6 +10,9 @@ import org.apache.commons.lang3.ObjectUtils;
 {{/supportJava6}}
 {{#imports}}import {{import}};
 {{/imports}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+{{/jackson}}
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}

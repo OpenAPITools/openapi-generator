@@ -96,9 +96,10 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.5.22"
-    jackson_version = "2.9.9"
-    jackson_databind_version = "2.9.9"
-    threepane_version = "2.6.4"
+    jackson_version = "2.9.10"
+    jackson_databind_version = "2.9.10.1"
+    jackson_databind_nullable_version = "0.2.1"
+    jackson_threetenbp_version = "2.9.10"
     feign_version = "10.2.3"
     feign_form_version = "2.1.0"
     junit_version = "4.12"
@@ -115,7 +116,8 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
-    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$threepane_version"
+    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threetenbp_version"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
     compile "com.brsanthu:migbase64:2.2"
     testCompile "junit:junit:$junit_version"

@@ -24,7 +24,7 @@ import json
 
 import urllib3
 
-HOST = 'http://localhost/v2'
+HOST = 'http://petstore.swagger.io/v2'
 
 
 class TimeoutWithEqual(urllib3.Timeout):
@@ -104,13 +104,13 @@ class PetApiTests(unittest.TestCase):
         mock_pool = MockPoolManager(self)
         self.api_client.rest_client.pool_manager = mock_pool
 
-        mock_pool.expect_request('POST', 'http://localhost/v2/pet',
+        mock_pool.expect_request('POST', HOST + '/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(total=5))
-        mock_pool.expect_request('POST', 'http://localhost/v2/pet',
+        mock_pool.expect_request('POST', HOST + '/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ',
@@ -157,7 +157,7 @@ class PetApiTests(unittest.TestCase):
         response = thread.get()
         response2 = thread2.get()
 
-        self.assertEquals(response.id, self.pet.id)
+        self.assertEqual(response.id, self.pet.id)
         self.assertIsNotNone(response2.id, self.pet.id)
 
     def test_async_with_http_info(self):
@@ -167,7 +167,7 @@ class PetApiTests(unittest.TestCase):
         data, status, headers = thread.get()
 
         self.assertIsInstance(data, petstore_api.Pet)
-        self.assertEquals(status, 200)
+        self.assertEqual(status, 200)
 
     def test_async_exception(self):
         self.pet_api.add_pet(self.pet)

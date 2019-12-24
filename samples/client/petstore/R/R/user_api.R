@@ -18,7 +18,7 @@
 #' This can only be done by the logged in user.
 #'
 #' \itemize{
-#' \item \emph{ @param } body \link[petstore:User]{ User }
+#' \item \emph{ @param } body \link{User}
 #'
 #'
 #' \item status code : 0 | successful operation
@@ -34,7 +34,7 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body list( \link[petstore:User]{ User } )
+#' \item \emph{ @param } body list( \link{User} )
 #'
 #'
 #' \item status code : 0 | successful operation
@@ -50,7 +50,7 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } body list( \link[petstore:User]{ User } )
+#' \item \emph{ @param } body list( \link{User} )
 #'
 #'
 #' \item status code : 0 | successful operation
@@ -90,7 +90,7 @@
 #'
 #' \itemize{
 #' \item \emph{ @param } username character
-#' \item \emph{ @returnType } \link[petstore:User]{ User }   \cr
+#' \item \emph{ @returnType } \link{User} \cr
 #'
 #'
 #' \item status code : 200 | successful operation
@@ -162,7 +162,7 @@
 #'
 #' \itemize{
 #' \item \emph{ @param } username character
-#' \item \emph{ @param } body \link[petstore:User]{ User }
+#' \item \emph{ @param } body \link{User}
 #'
 #'
 #' \item status code : 400 | Invalid user supplied
@@ -296,6 +296,8 @@ UserApi <- R6::R6Class(
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         apiResponse
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -329,6 +331,8 @@ UserApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         ApiResponse$new(NULL, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -340,6 +344,8 @@ UserApi <- R6::R6Class(
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         apiResponse
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -374,6 +380,8 @@ UserApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         ApiResponse$new(NULL, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -385,6 +393,8 @@ UserApi <- R6::R6Class(
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         apiResponse
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -419,6 +429,8 @@ UserApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         ApiResponse$new(NULL, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -430,6 +442,8 @@ UserApi <- R6::R6Class(
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         apiResponse
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -461,6 +475,8 @@ UserApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         ApiResponse$new(NULL, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -472,6 +488,8 @@ UserApi <- R6::R6Class(
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         apiResponse
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -503,12 +521,14 @@ UserApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "User", "package:petstore"),
+          self$apiClient$deserialize(resp, "User", loadNamespace("petstore")),
           error = function(e){
              stop("Failed to deserialize response")
           }
         )
         ApiResponse$new(deserializedRespObj, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -520,6 +540,8 @@ UserApi <- R6::R6Class(
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         apiResponse
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -555,12 +577,14 @@ UserApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "character", "package:petstore"),
+          self$apiClient$deserialize(resp, "character", loadNamespace("petstore")),
           error = function(e){
              stop("Failed to deserialize response")
           }
         )
         ApiResponse$new(deserializedRespObj, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -572,6 +596,8 @@ UserApi <- R6::R6Class(
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         apiResponse
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -595,6 +621,8 @@ UserApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         ApiResponse$new(NULL, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -606,6 +634,8 @@ UserApi <- R6::R6Class(
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         apiResponse
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -647,6 +677,8 @@ UserApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         ApiResponse$new(NULL, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {

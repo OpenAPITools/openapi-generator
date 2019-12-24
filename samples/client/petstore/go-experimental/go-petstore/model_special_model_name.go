@@ -8,16 +8,18 @@
  */
 
 package petstore
+
 import (
+	"bytes"
 	"encoding/json"
 )
 
+// SpecialModelName struct for SpecialModelName
 type SpecialModelName struct {
 	SpecialPropertyName *int64 `json:"$special[property.name],omitempty"`
-
 }
 
-// GetSpecialPropertyName returns the SpecialPropertyName field if non-nil, zero value otherwise.
+// GetSpecialPropertyName returns the SpecialPropertyName field value if set, zero value otherwise.
 func (o *SpecialModelName) GetSpecialPropertyName() int64 {
 	if o == nil || o.SpecialPropertyName == nil {
 		var ret int64
@@ -26,7 +28,7 @@ func (o *SpecialModelName) GetSpecialPropertyName() int64 {
 	return *o.SpecialPropertyName
 }
 
-// GetSpecialPropertyNameOk returns a tuple with the SpecialPropertyName field if it's non-nil, zero value otherwise
+// GetSpecialPropertyNameOk returns a tuple with the SpecialPropertyName field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *SpecialModelName) GetSpecialPropertyNameOk() (int64, bool) {
 	if o == nil || o.SpecialPropertyName == nil {
@@ -50,13 +52,25 @@ func (o *SpecialModelName) SetSpecialPropertyName(v int64) {
 	o.SpecialPropertyName = &v
 }
 
-
-func (o SpecialModelName) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.SpecialPropertyName != nil {
-		toSerialize["$special[property.name]"] = o.SpecialPropertyName
-	}
-	return json.Marshal(toSerialize)
+type NullableSpecialModelName struct {
+	Value SpecialModelName
+	ExplicitNull bool
 }
 
+func (v NullableSpecialModelName) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
+}
 
+func (v *NullableSpecialModelName) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}

@@ -43,6 +43,8 @@ public interface CodegenConfig {
 
     Map<String, Object> additionalProperties();
 
+    Map<String, String> serverVariableOverrides();
+
     Map<String, Object> vendorExtensions();
 
     String testPackage();
@@ -219,6 +221,10 @@ public interface CodegenConfig {
      * @return libray template
      */
     String getLibrary();
+
+    void setGitHost(String gitHost);
+
+    String getGitHost();
 
     void setGitUserId(String gitUserId);
 

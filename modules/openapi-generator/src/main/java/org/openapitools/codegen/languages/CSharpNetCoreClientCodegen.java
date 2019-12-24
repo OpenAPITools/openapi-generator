@@ -65,7 +65,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected String modelDocPath = "docs/";
 
     // Defines TargetFrameworkVersion in csproj files
-    protected String targetFramework = defaultFramework.dotNetFrameworkVersion;
+    protected String targetFramework = defaultFramework.name;
 
     // Defines nuget identifiers for target framework
     protected String targetFrameworkNuget = targetFramework;
@@ -77,6 +77,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected Map<Character, String> regexModifiers;
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
+
+    protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
 
     public CSharpNetCoreClientCodegen() {
         super();
@@ -92,6 +94,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("long", "long");
         typeMapping.put("double", "double");
         typeMapping.put("number", "decimal");
+        typeMapping.put("BigDecimal", "decimal");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("file", "System.IO.Stream");
@@ -182,6 +185,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.OPTIONAL_ASSEMBLY_INFO_DESC,
                 this.optionalAssemblyInfoFlag);
 
+        addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
+                CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
+                this.optionalEmitDefaultValuesFlag);
+
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE,
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
                 this.optionalProjectFileFlag);
@@ -205,6 +212,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.VALIDATABLE,
                 CodegenConstants.VALIDATABLE_DESC,
                 this.validatable);
+
+        addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
+                CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
+                this.caseInsensitiveResponseHeaders);
 
         regexModifiers = new HashMap<>();
         regexModifiers.put('i', "IgnoreCase");
@@ -363,6 +374,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
+        postProcessEmitDefaultValue(property.vendorExtensions);
+
         super.postProcessModelProperty(model, property);
     }
 
@@ -396,6 +409,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+        postProcessEmitDefaultValue(parameter.vendorExtensions);
         super.postProcessParameter(parameter);
 
         if (!parameter.required && nullableType.contains(parameter.dataType)) { //optional
@@ -439,6 +453,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
     }
 
+    public void postProcessEmitDefaultValue(Map<String, Object> vendorExtensions) {
+        vendorExtensions.put("x-emit-default-value", optionalEmitDefaultValuesFlag);
+    }
+
     @Override
     public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
         // To avoid unexpected behaviors when options are passed programmatically such as { "supportsAsync": "" }
@@ -458,6 +476,13 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
          *     if (additionalProperties.containsKey(prop)) convertPropertyToBooleanAndWriteBack(prop);
          */
 
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
+            setOptionalEmitDefaultValuesFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValuesFlag);
+        }
+
+
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
@@ -470,7 +495,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
         clientPackage = "Client";
 
-        String framework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.dotNetFrameworkVersion);
+        String framework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
         FrameworkStrategy strategy = defaultFramework;
         for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
             if (framework.equals(frameworkStrategy.name)) {
@@ -481,7 +506,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         strategy.configureAdditionalProperties(additionalProperties);
 
         setTargetFrameworkNuget(strategy.getNugetFrameworkIdentifier());
-        setTargetFramework(strategy.dotNetFrameworkVersion);
+        setTargetFramework(strategy.name);
 
         if (strategy != FrameworkStrategy.NETSTANDARD_2_0) {
             LOGGER.warn("If using built-in templates-RestSharp only supports netstandard 2.0 or later.");
@@ -603,6 +628,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.optionalAssemblyInfoFlag = flag;
     }
 
+    public void setOptionalEmitDefaultValuesFlag(boolean flag){
+        this.optionalEmitDefaultValuesFlag = flag;
+    }
+
     public void setOptionalProjectFileFlag(boolean flag) {
         this.optionalProjectFileFlag = flag;
     }
@@ -638,6 +667,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     public void setValidatable(boolean validatable) {
         this.validatable = validatable;
+    }
+
+    public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
+        this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
     }
 
     @Override
@@ -800,7 +833,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         protected void configureAdditionalProperties(final Map<String, Object> properties) {
-            properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, this.dotNetFrameworkVersion);
+            properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, this.name);
 
             // not intended to be user-settable
             properties.put(TARGET_FRAMEWORK_IDENTIFIER, this.getTargetFrameworkIdentifier());

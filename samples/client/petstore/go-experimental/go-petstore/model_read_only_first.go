@@ -8,18 +8,19 @@
  */
 
 package petstore
+
 import (
+	"bytes"
 	"encoding/json"
 )
 
+// ReadOnlyFirst struct for ReadOnlyFirst
 type ReadOnlyFirst struct {
 	Bar *string `json:"bar,omitempty"`
-
 	Baz *string `json:"baz,omitempty"`
-
 }
 
-// GetBar returns the Bar field if non-nil, zero value otherwise.
+// GetBar returns the Bar field value if set, zero value otherwise.
 func (o *ReadOnlyFirst) GetBar() string {
 	if o == nil || o.Bar == nil {
 		var ret string
@@ -28,7 +29,7 @@ func (o *ReadOnlyFirst) GetBar() string {
 	return *o.Bar
 }
 
-// GetBarOk returns a tuple with the Bar field if it's non-nil, zero value otherwise
+// GetBarOk returns a tuple with the Bar field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyFirst) GetBarOk() (string, bool) {
 	if o == nil || o.Bar == nil {
@@ -52,7 +53,7 @@ func (o *ReadOnlyFirst) SetBar(v string) {
 	o.Bar = &v
 }
 
-// GetBaz returns the Baz field if non-nil, zero value otherwise.
+// GetBaz returns the Baz field value if set, zero value otherwise.
 func (o *ReadOnlyFirst) GetBaz() string {
 	if o == nil || o.Baz == nil {
 		var ret string
@@ -61,7 +62,7 @@ func (o *ReadOnlyFirst) GetBaz() string {
 	return *o.Baz
 }
 
-// GetBazOk returns a tuple with the Baz field if it's non-nil, zero value otherwise
+// GetBazOk returns a tuple with the Baz field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *ReadOnlyFirst) GetBazOk() (string, bool) {
 	if o == nil || o.Baz == nil {
@@ -85,16 +86,25 @@ func (o *ReadOnlyFirst) SetBaz(v string) {
 	o.Baz = &v
 }
 
-
-func (o ReadOnlyFirst) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Bar != nil {
-		toSerialize["bar"] = o.Bar
-	}
-	if o.Baz != nil {
-		toSerialize["baz"] = o.Baz
-	}
-	return json.Marshal(toSerialize)
+type NullableReadOnlyFirst struct {
+	Value ReadOnlyFirst
+	ExplicitNull bool
 }
 
+func (v NullableReadOnlyFirst) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
+}
 
+func (v *NullableReadOnlyFirst) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}

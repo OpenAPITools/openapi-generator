@@ -1,6 +1,4 @@
-
 ---
-id: generator-opts-client-typescript-fetch
 title: Config Options for typescript-fetch
 sidebar_label: typescript-fetch
 ---
@@ -8,6 +6,7 @@ sidebar_label: typescript-fetch
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
@@ -19,3 +18,5 @@ sidebar_label: typescript-fetch
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |true|
+|prefixParameterInterfaces|Setting this property to true will generate parameter interface declarations prefixed with API class name to avoid name conflicts.| |false|
+|typescriptThreePlus|Setting this property to true will generate TypeScript 3.6+ compatible code.| |false|

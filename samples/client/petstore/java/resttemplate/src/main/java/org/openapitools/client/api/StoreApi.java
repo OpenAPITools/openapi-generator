@@ -5,6 +5,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.model.Order;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -23,6 +24,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 
 @Component("org.openapitools.client.api.StoreApi")
@@ -51,10 +53,23 @@ public class StoreApi {
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Order not found
-     * @param orderId ID of the order that needs to be deleted
+     * @param orderId ID of the order that needs to be deleted (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void deleteOrder(String orderId) throws RestClientException {
+        deleteOrderWithHttpInfo(orderId);
+    }
+
+    /**
+     * Delete purchase order by ID
+     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     * <p><b>400</b> - Invalid ID supplied
+     * <p><b>404</b> - Order not found
+     * @param orderId ID of the order that needs to be deleted (required)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> deleteOrderWithHttpInfo(String orderId) throws RestClientException {
         Object postBody = null;
         
         // verify the required parameter 'orderId' is set
@@ -65,11 +80,12 @@ public class StoreApi {
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
-        String path = UriComponentsBuilder.fromPath("/store/order/{order_id}").buildAndExpand(uriVariables).toUriString();
+        String path = apiClient.expandPath("/store/order/{order_id}", uriVariables);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
@@ -79,7 +95,7 @@ public class StoreApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        apiClient.invokeAPI(path, HttpMethod.DELETE, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.DELETE, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * Returns pet inventories by status
@@ -89,13 +105,25 @@ public class StoreApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Map<String, Integer> getInventory() throws RestClientException {
+        return getInventoryWithHttpInfo().getBody();
+    }
+
+    /**
+     * Returns pet inventories by status
+     * Returns a map of status codes to quantities
+     * <p><b>200</b> - successful operation
+     * @return ResponseEntity&lt;Map&lt;String, Integer&gt;&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Map<String, Integer>> getInventoryWithHttpInfo() throws RestClientException {
         Object postBody = null;
         
-        String path = UriComponentsBuilder.fromPath("/store/inventory").build().toUriString();
+        String path = apiClient.expandPath("/store/inventory", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         final String[] accepts = { 
             "application/json"
@@ -107,7 +135,7 @@ public class StoreApi {
         String[] authNames = new String[] { "api_key" };
 
         ParameterizedTypeReference<Map<String, Integer>> returnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
-        return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * Find purchase order by ID
@@ -115,11 +143,25 @@ public class StoreApi {
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Order not found
-     * @param orderId ID of pet that needs to be fetched
+     * @param orderId ID of pet that needs to be fetched (required)
      * @return Order
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Order getOrderById(Long orderId) throws RestClientException {
+        return getOrderByIdWithHttpInfo(orderId).getBody();
+    }
+
+    /**
+     * Find purchase order by ID
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid ID supplied
+     * <p><b>404</b> - Order not found
+     * @param orderId ID of pet that needs to be fetched (required)
+     * @return ResponseEntity&lt;Order&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Order> getOrderByIdWithHttpInfo(Long orderId) throws RestClientException {
         Object postBody = null;
         
         // verify the required parameter 'orderId' is set
@@ -130,11 +172,12 @@ public class StoreApi {
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
-        String path = UriComponentsBuilder.fromPath("/store/order/{order_id}").buildAndExpand(uriVariables).toUriString();
+        String path = apiClient.expandPath("/store/order/{order_id}", uriVariables);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         final String[] accepts = { 
             "application/xml", "application/json"
@@ -146,18 +189,31 @@ public class StoreApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Order> returnType = new ParameterizedTypeReference<Order>() {};
-        return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * Place an order for a pet
      * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid Order
-     * @param body order placed for purchasing the pet
+     * @param body order placed for purchasing the pet (required)
      * @return Order
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Order placeOrder(Order body) throws RestClientException {
+        return placeOrderWithHttpInfo(body).getBody();
+    }
+
+    /**
+     * Place an order for a pet
+     * 
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid Order
+     * @param body order placed for purchasing the pet (required)
+     * @return ResponseEntity&lt;Order&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Order> placeOrderWithHttpInfo(Order body) throws RestClientException {
         Object postBody = body;
         
         // verify the required parameter 'body' is set
@@ -165,11 +221,12 @@ public class StoreApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling placeOrder");
         }
         
-        String path = UriComponentsBuilder.fromPath("/store/order").build().toUriString();
+        String path = apiClient.expandPath("/store/order", Collections.<String, Object>emptyMap());
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         final String[] accepts = { 
             "application/xml", "application/json"
@@ -181,6 +238,6 @@ public class StoreApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Order> returnType = new ParameterizedTypeReference<Order>() {};
-        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
 }

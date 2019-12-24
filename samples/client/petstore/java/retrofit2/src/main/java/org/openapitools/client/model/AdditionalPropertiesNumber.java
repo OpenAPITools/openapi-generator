@@ -36,7 +36,9 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
+
   public AdditionalPropertiesNumber name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -47,9 +49,11 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getName() {
     return name;
   }
+
 
   public void setName(String name) {
     this.name = name;

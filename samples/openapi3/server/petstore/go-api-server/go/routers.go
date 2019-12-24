@@ -10,13 +10,15 @@
 package petstoreserver
 
 import (
-	"fmt"
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
-	"strings"
-
+	"os"
+	"strconv"
 	"github.com/gorilla/mux"
 )
 
+// A Route defines the parameters for an api endpoint
 type Route struct {
 	Name        string
 	Method      string
@@ -24,293 +26,71 @@ type Route struct {
 	HandlerFunc http.HandlerFunc
 }
 
+// Routes are a collection of defined api endpoints
 type Routes []Route
 
-func NewRouter() *mux.Router {
-	router := mux.NewRouter().StrictSlash(true)
-	for _, route := range routes {
-		var handler http.Handler
-		handler = route.HandlerFunc
-		handler = Logger(handler, route.Name)
+// Router defines the required methods for retrieving api routes
+type Router interface { 
+	Routes() Routes
+}
 
-		router.
-			Methods(route.Method).
-			Path(route.Pattern).
-			Name(route.Name).
-			Handler(handler)
+// NewRouter creates a new router for any number of api routers
+func NewRouter(routers ...Router) *mux.Router {
+	router := mux.NewRouter().StrictSlash(true)
+	for _, api := range routers {
+		for _, route := range api.Routes() {
+			var handler http.Handler
+			handler = route.HandlerFunc
+			handler = Logger(handler, route.Name)
+
+			router.
+				Methods(route.Method).
+				Path(route.Pattern).
+				Name(route.Name).
+				Handler(handler)
+		}
 	}
 
 	return router
 }
 
-func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World!")
+// EncodeJSONResponse uses the json encoder to write an interface to the http response with an optional status code
+func EncodeJSONResponse(i interface{}, status *int, w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	if status != nil {
+		w.WriteHeader(*status)
+	} else {
+		w.WriteHeader(http.StatusOK)
+	}
+
+	return json.NewEncoder(w).Encode(i)
 }
 
-var routes = Routes{
-	{
-		"Index",
-		"GET",
-		"/v2/",
-		Index,
-	},
+// ReadFormFileToTempFile reads file data from a request form and writes it to a temporary file
+func ReadFormFileToTempFile(r *http.Request, key string) (*os.File, error) {
+	r.ParseForm()
+	formFile, _, err := r.FormFile(key)
+	if err != nil {
+		return nil, err
+	}
 
-	{
-		"Call123TestSpecialTags",
-		strings.ToUpper("Patch"),
-		"/v2/another-fake/dummy",
-		Call123TestSpecialTags,
-	},
+	defer formFile.Close()
+	file, err := ioutil.TempFile("tmp", key)
+	if err != nil {
+		return nil, err
+	}
 
-	{
-		"FooGet",
-		strings.ToUpper("Get"),
-		"/v2/foo",
-		FooGet,
-	},
+	defer file.Close()
+	fileBytes, err := ioutil.ReadAll(formFile)
+	if err != nil {
+		return nil, err
+	}
 
-	{
-		"FakeHealthGet",
-		strings.ToUpper("Get"),
-		"/v2/fake/health",
-		FakeHealthGet,
-	},
+	file.Write(fileBytes)
+	return file, nil
+}
 
-	{
-		"FakeOuterBooleanSerialize",
-		strings.ToUpper("Post"),
-		"/v2/fake/outer/boolean",
-		FakeOuterBooleanSerialize,
-	},
-
-	{
-		"FakeOuterCompositeSerialize",
-		strings.ToUpper("Post"),
-		"/v2/fake/outer/composite",
-		FakeOuterCompositeSerialize,
-	},
-
-	{
-		"FakeOuterNumberSerialize",
-		strings.ToUpper("Post"),
-		"/v2/fake/outer/number",
-		FakeOuterNumberSerialize,
-	},
-
-	{
-		"FakeOuterStringSerialize",
-		strings.ToUpper("Post"),
-		"/v2/fake/outer/string",
-		FakeOuterStringSerialize,
-	},
-
-	{
-		"TestBodyWithFileSchema",
-		strings.ToUpper("Put"),
-		"/v2/fake/body-with-file-schema",
-		TestBodyWithFileSchema,
-	},
-
-	{
-		"TestBodyWithQueryParams",
-		strings.ToUpper("Put"),
-		"/v2/fake/body-with-query-params",
-		TestBodyWithQueryParams,
-	},
-
-	{
-		"TestClientModel",
-		strings.ToUpper("Patch"),
-		"/v2/fake",
-		TestClientModel,
-	},
-
-	{
-		"TestEndpointParameters",
-		strings.ToUpper("Post"),
-		"/v2/fake",
-		TestEndpointParameters,
-	},
-
-	{
-		"TestEnumParameters",
-		strings.ToUpper("Get"),
-		"/v2/fake",
-		TestEnumParameters,
-	},
-
-	{
-		"TestGroupParameters",
-		strings.ToUpper("Delete"),
-		"/v2/fake",
-		TestGroupParameters,
-	},
-
-	{
-		"TestInlineAdditionalProperties",
-		strings.ToUpper("Post"),
-		"/v2/fake/inline-additionalProperties",
-		TestInlineAdditionalProperties,
-	},
-
-	{
-		"TestJsonFormData",
-		strings.ToUpper("Get"),
-		"/v2/fake/jsonFormData",
-		TestJsonFormData,
-	},
-
-	{
-		"TestClassname",
-		strings.ToUpper("Patch"),
-		"/v2/fake_classname_test",
-		TestClassname,
-	},
-
-	{
-		"AddPet",
-		strings.ToUpper("Post"),
-		"/v2/pet",
-		AddPet,
-	},
-
-	{
-		"DeletePet",
-		strings.ToUpper("Delete"),
-		"/v2/pet/{petId}",
-		DeletePet,
-	},
-
-	{
-		"FindPetsByStatus",
-		strings.ToUpper("Get"),
-		"/v2/pet/findByStatus",
-		FindPetsByStatus,
-	},
-
-	{
-		"FindPetsByTags",
-		strings.ToUpper("Get"),
-		"/v2/pet/findByTags",
-		FindPetsByTags,
-	},
-
-	{
-		"GetPetById",
-		strings.ToUpper("Get"),
-		"/v2/pet/{petId}",
-		GetPetById,
-	},
-
-	{
-		"UpdatePet",
-		strings.ToUpper("Put"),
-		"/v2/pet",
-		UpdatePet,
-	},
-
-	{
-		"UpdatePetWithForm",
-		strings.ToUpper("Post"),
-		"/v2/pet/{petId}",
-		UpdatePetWithForm,
-	},
-
-	{
-		"UploadFile",
-		strings.ToUpper("Post"),
-		"/v2/pet/{petId}/uploadImage",
-		UploadFile,
-	},
-
-	{
-		"UploadFileWithRequiredFile",
-		strings.ToUpper("Post"),
-		"/v2/fake/{petId}/uploadImageWithRequiredFile",
-		UploadFileWithRequiredFile,
-	},
-
-	{
-		"DeleteOrder",
-		strings.ToUpper("Delete"),
-		"/v2/store/order/{order_id}",
-		DeleteOrder,
-	},
-
-	{
-		"GetInventory",
-		strings.ToUpper("Get"),
-		"/v2/store/inventory",
-		GetInventory,
-	},
-
-	{
-		"GetOrderById",
-		strings.ToUpper("Get"),
-		"/v2/store/order/{order_id}",
-		GetOrderById,
-	},
-
-	{
-		"PlaceOrder",
-		strings.ToUpper("Post"),
-		"/v2/store/order",
-		PlaceOrder,
-	},
-
-	{
-		"CreateUser",
-		strings.ToUpper("Post"),
-		"/v2/user",
-		CreateUser,
-	},
-
-	{
-		"CreateUsersWithArrayInput",
-		strings.ToUpper("Post"),
-		"/v2/user/createWithArray",
-		CreateUsersWithArrayInput,
-	},
-
-	{
-		"CreateUsersWithListInput",
-		strings.ToUpper("Post"),
-		"/v2/user/createWithList",
-		CreateUsersWithListInput,
-	},
-
-	{
-		"DeleteUser",
-		strings.ToUpper("Delete"),
-		"/v2/user/{username}",
-		DeleteUser,
-	},
-
-	{
-		"GetUserByName",
-		strings.ToUpper("Get"),
-		"/v2/user/{username}",
-		GetUserByName,
-	},
-
-	{
-		"LoginUser",
-		strings.ToUpper("Get"),
-		"/v2/user/login",
-		LoginUser,
-	},
-
-	{
-		"LogoutUser",
-		strings.ToUpper("Get"),
-		"/v2/user/logout",
-		LogoutUser,
-	},
-
-	{
-		"UpdateUser",
-		strings.ToUpper("Put"),
-		"/v2/user/{username}",
-		UpdateUser,
-	},
+// parseIntParameter parses a sting parameter to an int64
+func parseIntParameter(param string) (int64, error) {
+	return strconv.ParseInt(param, 10, 64)
 }

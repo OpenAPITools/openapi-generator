@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <returns>bool</returns>
-        bool FakeOuterBooleanSerialize (bool? body = null);
+        bool FakeOuterBooleanSerialize (bool? body = default(bool?));
 
         /// <summary>
         /// 
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <returns>ApiResponse of bool</returns>
-        ApiResponse<bool> FakeOuterBooleanSerializeWithHttpInfo (bool? body = null);
+        ApiResponse<bool> FakeOuterBooleanSerializeWithHttpInfo (bool? body = default(bool?));
         /// <summary>
         /// 
         /// </summary>
@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input composite as post body (optional)</param>
         /// <returns>OuterComposite</returns>
-        OuterComposite FakeOuterCompositeSerialize (OuterComposite body = null);
+        OuterComposite FakeOuterCompositeSerialize (OuterComposite body = default(OuterComposite));
 
         /// <summary>
         /// 
@@ -89,7 +89,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input composite as post body (optional)</param>
         /// <returns>ApiResponse of OuterComposite</returns>
-        ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo (OuterComposite body = null);
+        ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo (OuterComposite body = default(OuterComposite));
         /// <summary>
         /// 
         /// </summary>
@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
         /// <returns>decimal</returns>
-        decimal FakeOuterNumberSerialize (decimal? body = null);
+        decimal FakeOuterNumberSerialize (decimal? body = default(decimal?));
 
         /// <summary>
         /// 
@@ -110,7 +110,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
         /// <returns>ApiResponse of decimal</returns>
-        ApiResponse<decimal> FakeOuterNumberSerializeWithHttpInfo (decimal? body = null);
+        ApiResponse<decimal> FakeOuterNumberSerializeWithHttpInfo (decimal? body = default(decimal?));
         /// <summary>
         /// 
         /// </summary>
@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
         /// <returns>string</returns>
-        string FakeOuterStringSerialize (string body = null);
+        string FakeOuterStringSerialize (string body = default(string));
 
         /// <summary>
         /// 
@@ -131,7 +131,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> FakeOuterStringSerializeWithHttpInfo (string body = null);
+        ApiResponse<string> FakeOuterStringSerializeWithHttpInfo (string body = default(string));
         /// <summary>
         /// 
         /// </summary>
@@ -219,7 +219,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns></returns>
-        void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
+        void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -243,7 +243,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
+        ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -260,7 +260,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <returns></returns>
-        void TestEnumParameters (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null);
+        void TestEnumParameters (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string));
 
         /// <summary>
         /// To test enum parameters
@@ -278,7 +278,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null);
+        ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string));
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
         /// </summary>
@@ -293,7 +293,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns></returns>
-        void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+        void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?));
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -309,7 +309,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestGroupParametersWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+        ApiResponse<Object> TestGroupParametersWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?));
         /// <summary>
         /// test inline additionalProperties
         /// </summary>
@@ -354,6 +354,35 @@ namespace Org.OpenAPITools.Api
         /// <param name="param2">field2</param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> TestJsonFormDataWithHttpInfo (string param, string param2);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// To test the collection format in query parameters
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// To test the collection format in query parameters
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
         #endregion Synchronous Operations
     }
 
@@ -393,7 +422,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <returns>Task of bool</returns>
-        System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync (bool? body = null);
+        System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync (bool? body = default(bool?));
 
         /// <summary>
         /// 
@@ -404,7 +433,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <returns>Task of ApiResponse (bool)</returns>
-        System.Threading.Tasks.Task<ApiResponse<bool>> FakeOuterBooleanSerializeAsyncWithHttpInfo (bool? body = null);
+        System.Threading.Tasks.Task<ApiResponse<bool>> FakeOuterBooleanSerializeAsyncWithHttpInfo (bool? body = default(bool?));
         /// <summary>
         /// 
         /// </summary>
@@ -414,7 +443,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input composite as post body (optional)</param>
         /// <returns>Task of OuterComposite</returns>
-        System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync (OuterComposite body = null);
+        System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync (OuterComposite body = default(OuterComposite));
 
         /// <summary>
         /// 
@@ -425,7 +454,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input composite as post body (optional)</param>
         /// <returns>Task of ApiResponse (OuterComposite)</returns>
-        System.Threading.Tasks.Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeAsyncWithHttpInfo (OuterComposite body = null);
+        System.Threading.Tasks.Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeAsyncWithHttpInfo (OuterComposite body = default(OuterComposite));
         /// <summary>
         /// 
         /// </summary>
@@ -435,7 +464,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
         /// <returns>Task of decimal</returns>
-        System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync (decimal? body = null);
+        System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync (decimal? body = default(decimal?));
 
         /// <summary>
         /// 
@@ -446,7 +475,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
         /// <returns>Task of ApiResponse (decimal)</returns>
-        System.Threading.Tasks.Task<ApiResponse<decimal>> FakeOuterNumberSerializeAsyncWithHttpInfo (decimal? body = null);
+        System.Threading.Tasks.Task<ApiResponse<decimal>> FakeOuterNumberSerializeAsyncWithHttpInfo (decimal? body = default(decimal?));
         /// <summary>
         /// 
         /// </summary>
@@ -456,7 +485,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync (string body = null);
+        System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync (string body = default(string));
 
         /// <summary>
         /// 
@@ -467,7 +496,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> FakeOuterStringSerializeAsyncWithHttpInfo (string body = null);
+        System.Threading.Tasks.Task<ApiResponse<string>> FakeOuterStringSerializeAsyncWithHttpInfo (string body = default(string));
         /// <summary>
         /// 
         /// </summary>
@@ -555,7 +584,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEndpointParametersAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
+        System.Threading.Tasks.Task TestEndpointParametersAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -579,7 +608,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -596,7 +625,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null);
+        System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string));
 
         /// <summary>
         /// To test enum parameters
@@ -614,7 +643,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersAsyncWithHttpInfo (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersAsyncWithHttpInfo (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string));
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
         /// </summary>
@@ -629,7 +658,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestGroupParametersAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+        System.Threading.Tasks.Task TestGroupParametersAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?));
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -645,7 +674,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersAsyncWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersAsyncWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?));
         /// <summary>
         /// test inline additionalProperties
         /// </summary>
@@ -690,6 +719,35 @@ namespace Org.OpenAPITools.Api
         /// <param name="param2">field2</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> TestJsonFormDataAsyncWithHttpInfo (string param, string param2);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// To test the collection format in query parameters
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// To test the collection format in query parameters
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatAsyncWithHttpInfo (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
         #endregion Asynchronous Operations
     }
 
@@ -751,7 +809,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PetApi"/> class
+        /// Initializes a new instance of the <see cref="FakeApi"/> class
         /// using a Configuration object and client instance.
         /// </summary>
         /// <param name="client">The client interface for synchronous API access.</param>
@@ -833,9 +891,9 @@ namespace Org.OpenAPITools.Api
             if (xmlItem == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'xmlItem' when calling FakeApi->CreateXmlItem");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/xml", 
                 "application/xml; charset=utf-8", 
                 "application/xml; charset=utf-16", 
@@ -845,29 +903,28 @@ namespace Org.OpenAPITools.Api
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = xmlItem;
+            localVarRequestOptions.Data = xmlItem;
 
 
             // make the HTTP request
-
-            var response = this.Client.Post<Object>("/fake/create_xml_item", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<Object>("/fake/create_xml_item", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("CreateXmlItem", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("CreateXmlItem", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -895,9 +952,9 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'xmlItem' when calling FakeApi->CreateXmlItem");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/xml", 
                 "application/xml; charset=utf-8", 
                 "application/xml; charset=utf-16", 
@@ -907,29 +964,29 @@ namespace Org.OpenAPITools.Api
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            requestOptions.Data = xmlItem;
+            localVarRequestOptions.Data = xmlItem;
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PostAsync<Object>("/fake/create_xml_item", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/fake/create_xml_item", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("CreateXmlItem", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("CreateXmlItem", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -938,7 +995,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <returns>bool</returns>
-        public bool FakeOuterBooleanSerialize (bool? body = null)
+        public bool FakeOuterBooleanSerialize (bool? body = default(bool?))
         {
              Org.OpenAPITools.Client.ApiResponse<bool> localVarResponse = FakeOuterBooleanSerializeWithHttpInfo(body);
              return localVarResponse.Data;
@@ -950,38 +1007,37 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <returns>ApiResponse of bool</returns>
-        public Org.OpenAPITools.Client.ApiResponse< bool > FakeOuterBooleanSerializeWithHttpInfo (bool? body = null)
+        public Org.OpenAPITools.Client.ApiResponse< bool > FakeOuterBooleanSerializeWithHttpInfo (bool? body = default(bool?))
         {
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "*/*"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
-
-            var response = this.Client.Post< bool >("/fake/outer/boolean", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post< bool >("/fake/outer/boolean", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("FakeOuterBooleanSerialize", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("FakeOuterBooleanSerialize", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -990,7 +1046,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <returns>Task of bool</returns>
-        public async System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync (bool? body = null)
+        public async System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync (bool? body = default(bool?))
         {
              Org.OpenAPITools.Client.ApiResponse<bool> localVarResponse = await FakeOuterBooleanSerializeAsyncWithHttpInfo(body);
              return localVarResponse.Data;
@@ -1003,39 +1059,39 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <returns>Task of ApiResponse (bool)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<bool>> FakeOuterBooleanSerializeAsyncWithHttpInfo (bool? body = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<bool>> FakeOuterBooleanSerializeAsyncWithHttpInfo (bool? body = default(bool?))
         {
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "*/*"
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PostAsync<bool>("/fake/outer/boolean", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<bool>("/fake/outer/boolean", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("FakeOuterBooleanSerialize", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("FakeOuterBooleanSerialize", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1044,7 +1100,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input composite as post body (optional)</param>
         /// <returns>OuterComposite</returns>
-        public OuterComposite FakeOuterCompositeSerialize (OuterComposite body = null)
+        public OuterComposite FakeOuterCompositeSerialize (OuterComposite body = default(OuterComposite))
         {
              Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = FakeOuterCompositeSerializeWithHttpInfo(body);
              return localVarResponse.Data;
@@ -1056,38 +1112,37 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input composite as post body (optional)</param>
         /// <returns>ApiResponse of OuterComposite</returns>
-        public Org.OpenAPITools.Client.ApiResponse< OuterComposite > FakeOuterCompositeSerializeWithHttpInfo (OuterComposite body = null)
+        public Org.OpenAPITools.Client.ApiResponse< OuterComposite > FakeOuterCompositeSerializeWithHttpInfo (OuterComposite body = default(OuterComposite))
         {
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "*/*"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
-
-            var response = this.Client.Post< OuterComposite >("/fake/outer/composite", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post< OuterComposite >("/fake/outer/composite", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("FakeOuterCompositeSerialize", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("FakeOuterCompositeSerialize", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1096,7 +1151,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input composite as post body (optional)</param>
         /// <returns>Task of OuterComposite</returns>
-        public async System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync (OuterComposite body = null)
+        public async System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync (OuterComposite body = default(OuterComposite))
         {
              Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = await FakeOuterCompositeSerializeAsyncWithHttpInfo(body);
              return localVarResponse.Data;
@@ -1109,39 +1164,39 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input composite as post body (optional)</param>
         /// <returns>Task of ApiResponse (OuterComposite)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<OuterComposite>> FakeOuterCompositeSerializeAsyncWithHttpInfo (OuterComposite body = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<OuterComposite>> FakeOuterCompositeSerializeAsyncWithHttpInfo (OuterComposite body = default(OuterComposite))
         {
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "*/*"
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PostAsync<OuterComposite>("/fake/outer/composite", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<OuterComposite>("/fake/outer/composite", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("FakeOuterCompositeSerialize", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("FakeOuterCompositeSerialize", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1150,7 +1205,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
         /// <returns>decimal</returns>
-        public decimal FakeOuterNumberSerialize (decimal? body = null)
+        public decimal FakeOuterNumberSerialize (decimal? body = default(decimal?))
         {
              Org.OpenAPITools.Client.ApiResponse<decimal> localVarResponse = FakeOuterNumberSerializeWithHttpInfo(body);
              return localVarResponse.Data;
@@ -1162,38 +1217,37 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
         /// <returns>ApiResponse of decimal</returns>
-        public Org.OpenAPITools.Client.ApiResponse< decimal > FakeOuterNumberSerializeWithHttpInfo (decimal? body = null)
+        public Org.OpenAPITools.Client.ApiResponse< decimal > FakeOuterNumberSerializeWithHttpInfo (decimal? body = default(decimal?))
         {
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "*/*"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
-
-            var response = this.Client.Post< decimal >("/fake/outer/number", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post< decimal >("/fake/outer/number", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("FakeOuterNumberSerialize", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("FakeOuterNumberSerialize", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1202,7 +1256,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
         /// <returns>Task of decimal</returns>
-        public async System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync (decimal? body = null)
+        public async System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync (decimal? body = default(decimal?))
         {
              Org.OpenAPITools.Client.ApiResponse<decimal> localVarResponse = await FakeOuterNumberSerializeAsyncWithHttpInfo(body);
              return localVarResponse.Data;
@@ -1215,39 +1269,39 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
         /// <returns>Task of ApiResponse (decimal)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<decimal>> FakeOuterNumberSerializeAsyncWithHttpInfo (decimal? body = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<decimal>> FakeOuterNumberSerializeAsyncWithHttpInfo (decimal? body = default(decimal?))
         {
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "*/*"
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PostAsync<decimal>("/fake/outer/number", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<decimal>("/fake/outer/number", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("FakeOuterNumberSerialize", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("FakeOuterNumberSerialize", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1256,7 +1310,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
         /// <returns>string</returns>
-        public string FakeOuterStringSerialize (string body = null)
+        public string FakeOuterStringSerialize (string body = default(string))
         {
              Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = FakeOuterStringSerializeWithHttpInfo(body);
              return localVarResponse.Data;
@@ -1268,38 +1322,37 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse< string > FakeOuterStringSerializeWithHttpInfo (string body = null)
+        public Org.OpenAPITools.Client.ApiResponse< string > FakeOuterStringSerializeWithHttpInfo (string body = default(string))
         {
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "*/*"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
-
-            var response = this.Client.Post< string >("/fake/outer/string", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post< string >("/fake/outer/string", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("FakeOuterStringSerialize", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("FakeOuterStringSerialize", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1308,7 +1361,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync (string body = null)
+        public async System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync (string body = default(string))
         {
              Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await FakeOuterStringSerializeAsyncWithHttpInfo(body);
              return localVarResponse.Data;
@@ -1321,39 +1374,39 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input string as post body (optional)</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> FakeOuterStringSerializeAsyncWithHttpInfo (string body = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> FakeOuterStringSerializeAsyncWithHttpInfo (string body = default(string))
         {
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "*/*"
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PostAsync<string>("/fake/outer/string", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<string>("/fake/outer/string", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("FakeOuterStringSerialize", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("FakeOuterStringSerialize", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1379,36 +1432,35 @@ namespace Org.OpenAPITools.Api
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestBodyWithFileSchema");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
-
-            var response = this.Client.Put<Object>("/fake/body-with-file-schema", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Put<Object>("/fake/body-with-file-schema", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestBodyWithFileSchema", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestBodyWithFileSchema", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1436,36 +1488,36 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestBodyWithFileSchema");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PutAsync<Object>("/fake/body-with-file-schema", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/body-with-file-schema", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestBodyWithFileSchema", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestBodyWithFileSchema", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1497,46 +1549,45 @@ namespace Org.OpenAPITools.Api
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestBodyWithQueryParams");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             if (query != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query", query))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query", query))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
-
-            var response = this.Client.Put<Object>("/fake/body-with-query-params", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Put<Object>("/fake/body-with-query-params", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestBodyWithQueryParams", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestBodyWithQueryParams", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1570,46 +1621,46 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestBodyWithQueryParams");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             if (query != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query", query))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query", query))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PutAsync<Object>("/fake/body-with-query-params", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/body-with-query-params", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestBodyWithQueryParams", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestBodyWithQueryParams", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1636,37 +1687,36 @@ namespace Org.OpenAPITools.Api
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestClientModel");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/json"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
-
-            var response = this.Client.Patch< ModelClient >("/fake", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Patch< ModelClient >("/fake", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestClientModel", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestClientModel", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1695,37 +1745,37 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestClientModel");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/json"
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PatchAsync<ModelClient>("/fake", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<ModelClient>("/fake", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestClientModel", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestClientModel", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1747,7 +1797,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns></returns>
-        public void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+        public void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
         {
              TestEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
         }
@@ -1771,7 +1821,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
         {
             // verify the required parameter 'number' is set
             if (number == null)
@@ -1789,97 +1839,96 @@ namespace Org.OpenAPITools.Api
             if (_byte == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter '_byte' when calling FakeApi->TestEndpointParameters");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             if (integer != null)
             {
-                requestOptions.FormParameters.Add("integer", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integer)); // form parameter
+                localVarRequestOptions.FormParameters.Add("integer", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integer)); // form parameter
             }
             if (int32 != null)
             {
-                requestOptions.FormParameters.Add("int32", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int32)); // form parameter
+                localVarRequestOptions.FormParameters.Add("int32", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int32)); // form parameter
             }
             if (int64 != null)
             {
-                requestOptions.FormParameters.Add("int64", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int64)); // form parameter
+                localVarRequestOptions.FormParameters.Add("int64", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int64)); // form parameter
             }
             if (number != null)
             {
-                requestOptions.FormParameters.Add("number", Org.OpenAPITools.Client.ClientUtils.ParameterToString(number)); // form parameter
+                localVarRequestOptions.FormParameters.Add("number", Org.OpenAPITools.Client.ClientUtils.ParameterToString(number)); // form parameter
             }
             if (_float != null)
             {
-                requestOptions.FormParameters.Add("float", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_float)); // form parameter
+                localVarRequestOptions.FormParameters.Add("float", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_float)); // form parameter
             }
             if (_double != null)
             {
-                requestOptions.FormParameters.Add("double", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_double)); // form parameter
+                localVarRequestOptions.FormParameters.Add("double", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_double)); // form parameter
             }
             if (_string != null)
             {
-                requestOptions.FormParameters.Add("string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_string)); // form parameter
+                localVarRequestOptions.FormParameters.Add("string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_string)); // form parameter
             }
             if (patternWithoutDelimiter != null)
             {
-                requestOptions.FormParameters.Add("pattern_without_delimiter", Org.OpenAPITools.Client.ClientUtils.ParameterToString(patternWithoutDelimiter)); // form parameter
+                localVarRequestOptions.FormParameters.Add("pattern_without_delimiter", Org.OpenAPITools.Client.ClientUtils.ParameterToString(patternWithoutDelimiter)); // form parameter
             }
             if (_byte != null)
             {
-                requestOptions.FormParameters.Add("byte", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_byte)); // form parameter
+                localVarRequestOptions.FormParameters.Add("byte", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_byte)); // form parameter
             }
             if (binary != null)
             {
-                requestOptions.FileParameters.Add("binary", binary);
+                localVarRequestOptions.FileParameters.Add("binary", binary);
             }
             if (date != null)
             {
-                requestOptions.FormParameters.Add("date", Org.OpenAPITools.Client.ClientUtils.ParameterToString(date)); // form parameter
+                localVarRequestOptions.FormParameters.Add("date", Org.OpenAPITools.Client.ClientUtils.ParameterToString(date)); // form parameter
             }
             if (dateTime != null)
             {
-                requestOptions.FormParameters.Add("dateTime", Org.OpenAPITools.Client.ClientUtils.ParameterToString(dateTime)); // form parameter
+                localVarRequestOptions.FormParameters.Add("dateTime", Org.OpenAPITools.Client.ClientUtils.ParameterToString(dateTime)); // form parameter
             }
             if (password != null)
             {
-                requestOptions.FormParameters.Add("password", Org.OpenAPITools.Client.ClientUtils.ParameterToString(password)); // form parameter
+                localVarRequestOptions.FormParameters.Add("password", Org.OpenAPITools.Client.ClientUtils.ParameterToString(password)); // form parameter
             }
             if (callback != null)
             {
-                requestOptions.FormParameters.Add("callback", Org.OpenAPITools.Client.ClientUtils.ParameterToString(callback)); // form parameter
+                localVarRequestOptions.FormParameters.Add("callback", Org.OpenAPITools.Client.ClientUtils.ParameterToString(callback)); // form parameter
             }
 
             // authentication (http_basic_test) required
             // http basic authentication required
             if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Basic " + Org.OpenAPITools.Client.ClientUtils.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password));
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Basic " + Org.OpenAPITools.Client.ClientUtils.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password));
             }
 
             // make the HTTP request
-
-            var response = this.Client.Post<Object>("/fake", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<Object>("/fake", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestEndpointParameters", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestEndpointParameters", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -1901,7 +1950,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEndpointParametersAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+        public async System.Threading.Tasks.Task TestEndpointParametersAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
         {
              await TestEndpointParametersAsyncWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
 
@@ -1926,7 +1975,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
         {
             // verify the required parameter 'number' is set
             if (number == null)
@@ -1945,97 +1994,97 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter '_byte' when calling FakeApi->TestEndpointParameters");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             if (integer != null)
             {
-                requestOptions.FormParameters.Add("integer", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integer)); // form parameter
+                localVarRequestOptions.FormParameters.Add("integer", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integer)); // form parameter
             }
             if (int32 != null)
             {
-                requestOptions.FormParameters.Add("int32", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int32)); // form parameter
+                localVarRequestOptions.FormParameters.Add("int32", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int32)); // form parameter
             }
             if (int64 != null)
             {
-                requestOptions.FormParameters.Add("int64", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int64)); // form parameter
+                localVarRequestOptions.FormParameters.Add("int64", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int64)); // form parameter
             }
             if (number != null)
             {
-                requestOptions.FormParameters.Add("number", Org.OpenAPITools.Client.ClientUtils.ParameterToString(number)); // form parameter
+                localVarRequestOptions.FormParameters.Add("number", Org.OpenAPITools.Client.ClientUtils.ParameterToString(number)); // form parameter
             }
             if (_float != null)
             {
-                requestOptions.FormParameters.Add("float", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_float)); // form parameter
+                localVarRequestOptions.FormParameters.Add("float", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_float)); // form parameter
             }
             if (_double != null)
             {
-                requestOptions.FormParameters.Add("double", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_double)); // form parameter
+                localVarRequestOptions.FormParameters.Add("double", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_double)); // form parameter
             }
             if (_string != null)
             {
-                requestOptions.FormParameters.Add("string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_string)); // form parameter
+                localVarRequestOptions.FormParameters.Add("string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_string)); // form parameter
             }
             if (patternWithoutDelimiter != null)
             {
-                requestOptions.FormParameters.Add("pattern_without_delimiter", Org.OpenAPITools.Client.ClientUtils.ParameterToString(patternWithoutDelimiter)); // form parameter
+                localVarRequestOptions.FormParameters.Add("pattern_without_delimiter", Org.OpenAPITools.Client.ClientUtils.ParameterToString(patternWithoutDelimiter)); // form parameter
             }
             if (_byte != null)
             {
-                requestOptions.FormParameters.Add("byte", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_byte)); // form parameter
+                localVarRequestOptions.FormParameters.Add("byte", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_byte)); // form parameter
             }
             if (binary != null)
             {
-                requestOptions.FileParameters.Add("binary", binary);
+                localVarRequestOptions.FileParameters.Add("binary", binary);
             }
             if (date != null)
             {
-                requestOptions.FormParameters.Add("date", Org.OpenAPITools.Client.ClientUtils.ParameterToString(date)); // form parameter
+                localVarRequestOptions.FormParameters.Add("date", Org.OpenAPITools.Client.ClientUtils.ParameterToString(date)); // form parameter
             }
             if (dateTime != null)
             {
-                requestOptions.FormParameters.Add("dateTime", Org.OpenAPITools.Client.ClientUtils.ParameterToString(dateTime)); // form parameter
+                localVarRequestOptions.FormParameters.Add("dateTime", Org.OpenAPITools.Client.ClientUtils.ParameterToString(dateTime)); // form parameter
             }
             if (password != null)
             {
-                requestOptions.FormParameters.Add("password", Org.OpenAPITools.Client.ClientUtils.ParameterToString(password)); // form parameter
+                localVarRequestOptions.FormParameters.Add("password", Org.OpenAPITools.Client.ClientUtils.ParameterToString(password)); // form parameter
             }
             if (callback != null)
             {
-                requestOptions.FormParameters.Add("callback", Org.OpenAPITools.Client.ClientUtils.ParameterToString(callback)); // form parameter
+                localVarRequestOptions.FormParameters.Add("callback", Org.OpenAPITools.Client.ClientUtils.ParameterToString(callback)); // form parameter
             }
 
             // authentication (http_basic_test) required
             // http basic authentication required
             if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
             {
-                requestOptions.HeaderParameters.Add("Authorization", "Basic " + Org.OpenAPITools.Client.ClientUtils.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password));
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Basic " + Org.OpenAPITools.Client.ClientUtils.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password));
             }
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PostAsync<Object>("/fake", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/fake", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestEndpointParameters", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestEndpointParameters", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -2051,7 +2100,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <returns></returns>
-        public void TestEnumParameters (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
+        public void TestEnumParameters (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string))
         {
              TestEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
         }
@@ -2069,89 +2118,88 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string))
         {
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             if (enumQueryStringArray != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "enum_query_string_array", enumQueryStringArray))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "enum_query_string_array", enumQueryStringArray))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (enumQueryString != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_string", enumQueryString))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_string", enumQueryString))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (enumQueryInteger != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_integer", enumQueryInteger))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_integer", enumQueryInteger))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (enumQueryDouble != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_double", enumQueryDouble))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_double", enumQueryDouble))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (enumHeaderStringArray != null)
-                requestOptions.HeaderParameters.Add("enum_header_string_array", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderStringArray)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("enum_header_string_array", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderStringArray)); // header parameter
             if (enumHeaderString != null)
-                requestOptions.HeaderParameters.Add("enum_header_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderString)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("enum_header_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderString)); // header parameter
             if (enumFormStringArray != null)
             {
-                requestOptions.FormParameters.Add("enum_form_string_array", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumFormStringArray)); // form parameter
+                localVarRequestOptions.FormParameters.Add("enum_form_string_array", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumFormStringArray)); // form parameter
             }
             if (enumFormString != null)
             {
-                requestOptions.FormParameters.Add("enum_form_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumFormString)); // form parameter
+                localVarRequestOptions.FormParameters.Add("enum_form_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumFormString)); // form parameter
             }
 
 
             // make the HTTP request
-
-            var response = this.Client.Get<Object>("/fake", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<Object>("/fake", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestEnumParameters", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestEnumParameters", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -2167,7 +2215,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
+        public async System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string))
         {
              await TestEnumParametersAsyncWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
 
@@ -2186,90 +2234,90 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEnumParametersAsyncWithHttpInfo (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEnumParametersAsyncWithHttpInfo (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string))
         {
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             if (enumQueryStringArray != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "enum_query_string_array", enumQueryStringArray))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "enum_query_string_array", enumQueryStringArray))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (enumQueryString != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_string", enumQueryString))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_string", enumQueryString))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (enumQueryInteger != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_integer", enumQueryInteger))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_integer", enumQueryInteger))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (enumQueryDouble != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_double", enumQueryDouble))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_double", enumQueryDouble))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (enumHeaderStringArray != null)
-                requestOptions.HeaderParameters.Add("enum_header_string_array", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderStringArray)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("enum_header_string_array", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderStringArray)); // header parameter
             if (enumHeaderString != null)
-                requestOptions.HeaderParameters.Add("enum_header_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderString)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("enum_header_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderString)); // header parameter
             if (enumFormStringArray != null)
             {
-                requestOptions.FormParameters.Add("enum_form_string_array", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumFormStringArray)); // form parameter
+                localVarRequestOptions.FormParameters.Add("enum_form_string_array", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumFormStringArray)); // form parameter
             }
             if (enumFormString != null)
             {
-                requestOptions.FormParameters.Add("enum_form_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumFormString)); // form parameter
+                localVarRequestOptions.FormParameters.Add("enum_form_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumFormString)); // form parameter
             }
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.GetAsync<Object>("/fake", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/fake", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestEnumParameters", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestEnumParameters", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -2283,7 +2331,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns></returns>
-        public void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        public void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?))
         {
              TestGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
         }
@@ -2299,7 +2347,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestGroupParametersWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestGroupParametersWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?))
         {
             // verify the required parameter 'requiredStringGroup' is set
             if (requiredStringGroup == null)
@@ -2313,78 +2361,77 @@ namespace Org.OpenAPITools.Api
             if (requiredInt64Group == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredInt64Group' when calling FakeApi->TestGroupParameters");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             if (requiredStringGroup != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (requiredInt64Group != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_int64_group", requiredInt64Group))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_int64_group", requiredInt64Group))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (stringGroup != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_group", stringGroup))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_group", stringGroup))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (int64Group != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "int64_group", int64Group))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "int64_group", int64Group))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (requiredBooleanGroup != null)
-                requestOptions.HeaderParameters.Add("required_boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(requiredBooleanGroup)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("required_boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(requiredBooleanGroup)); // header parameter
             if (booleanGroup != null)
-                requestOptions.HeaderParameters.Add("boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanGroup)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanGroup)); // header parameter
 
 
             // make the HTTP request
-
-            var response = this.Client.Delete<Object>("/fake", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Delete<Object>("/fake", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestGroupParameters", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestGroupParameters", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -2398,7 +2445,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestGroupParametersAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        public async System.Threading.Tasks.Task TestGroupParametersAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?))
         {
              await TestGroupParametersAsyncWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 
@@ -2415,7 +2462,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestGroupParametersAsyncWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestGroupParametersAsyncWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?))
         {
             // verify the required parameter 'requiredStringGroup' is set
             if (requiredStringGroup == null)
@@ -2430,78 +2477,78 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredInt64Group' when calling FakeApi->TestGroupParameters");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             if (requiredStringGroup != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (requiredInt64Group != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_int64_group", requiredInt64Group))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_int64_group", requiredInt64Group))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (stringGroup != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_group", stringGroup))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_group", stringGroup))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (int64Group != null)
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "int64_group", int64Group))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "int64_group", int64Group))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
             if (requiredBooleanGroup != null)
-                requestOptions.HeaderParameters.Add("required_boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(requiredBooleanGroup)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("required_boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(requiredBooleanGroup)); // header parameter
             if (booleanGroup != null)
-                requestOptions.HeaderParameters.Add("boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanGroup)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanGroup)); // header parameter
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.DeleteAsync<Object>("/fake", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/fake", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestGroupParameters", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestGroupParameters", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -2527,36 +2574,35 @@ namespace Org.OpenAPITools.Api
             if (param == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param' when calling FakeApi->TestInlineAdditionalProperties");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = param;
+            localVarRequestOptions.Data = param;
 
 
             // make the HTTP request
-
-            var response = this.Client.Post<Object>("/fake/inline-additionalProperties", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<Object>("/fake/inline-additionalProperties", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestInlineAdditionalProperties", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestInlineAdditionalProperties", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -2584,36 +2630,36 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param' when calling FakeApi->TestInlineAdditionalProperties");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            requestOptions.Data = param;
+            localVarRequestOptions.Data = param;
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PostAsync<Object>("/fake/inline-additionalProperties", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/fake/inline-additionalProperties", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestInlineAdditionalProperties", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestInlineAdditionalProperties", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -2645,43 +2691,42 @@ namespace Org.OpenAPITools.Api
             if (param2 == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param2' when calling FakeApi->TestJsonFormData");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             if (param != null)
             {
-                requestOptions.FormParameters.Add("param", Org.OpenAPITools.Client.ClientUtils.ParameterToString(param)); // form parameter
+                localVarRequestOptions.FormParameters.Add("param", Org.OpenAPITools.Client.ClientUtils.ParameterToString(param)); // form parameter
             }
             if (param2 != null)
             {
-                requestOptions.FormParameters.Add("param2", Org.OpenAPITools.Client.ClientUtils.ParameterToString(param2)); // form parameter
+                localVarRequestOptions.FormParameters.Add("param2", Org.OpenAPITools.Client.ClientUtils.ParameterToString(param2)); // form parameter
             }
 
 
             // make the HTTP request
-
-            var response = this.Client.Get<Object>("/fake/jsonFormData", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<Object>("/fake/jsonFormData", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestJsonFormData", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestJsonFormData", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -2715,43 +2760,298 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param2' when calling FakeApi->TestJsonFormData");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             if (param != null)
             {
-                requestOptions.FormParameters.Add("param", Org.OpenAPITools.Client.ClientUtils.ParameterToString(param)); // form parameter
+                localVarRequestOptions.FormParameters.Add("param", Org.OpenAPITools.Client.ClientUtils.ParameterToString(param)); // form parameter
             }
             if (param2 != null)
             {
-                requestOptions.FormParameters.Add("param2", Org.OpenAPITools.Client.ClientUtils.ParameterToString(param2)); // form parameter
+                localVarRequestOptions.FormParameters.Add("param2", Org.OpenAPITools.Client.ClientUtils.ParameterToString(param2)); // form parameter
             }
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.GetAsync<Object>("/fake/jsonFormData", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/fake/jsonFormData", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestJsonFormData", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestJsonFormData", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///  To test the collection format in query parameters
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        {
+             TestQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
+        }
+
+        /// <summary>
+        ///  To test the collection format in query parameters
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        {
+            // verify the required parameter 'pipe' is set
+            if (pipe == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pipe' when calling FakeApi->TestQueryParameterCollectionFormat");
+
+            // verify the required parameter 'ioutil' is set
+            if (ioutil == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'ioutil' when calling FakeApi->TestQueryParameterCollectionFormat");
+
+            // verify the required parameter 'http' is set
+            if (http == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'http' when calling FakeApi->TestQueryParameterCollectionFormat");
+
+            // verify the required parameter 'url' is set
+            if (url == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'url' when calling FakeApi->TestQueryParameterCollectionFormat");
+
+            // verify the required parameter 'context' is set
+            if (context == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            String[] _contentTypes = new String[] {
+            };
+
+            // to determine the Accept header
+            String[] _accepts = new String[] {
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            if (pipe != null)
+            {
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "pipe", pipe))
+                {
+                    foreach (var _kvpValue in _kvp.Value)
+                    {
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
+                    }
+                }
+            }
+            if (ioutil != null)
+            {
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "ioutil", ioutil))
+                {
+                    foreach (var _kvpValue in _kvp.Value)
+                    {
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
+                    }
+                }
+            }
+            if (http != null)
+            {
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("space", "http", http))
+                {
+                    foreach (var _kvpValue in _kvp.Value)
+                    {
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
+                    }
+                }
+            }
+            if (url != null)
+            {
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "url", url))
+                {
+                    foreach (var _kvpValue in _kvp.Value)
+                    {
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
+                    }
+                }
+            }
+            if (context != null)
+            {
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("multi", "context", context))
+                {
+                    foreach (var _kvpValue in _kvp.Value)
+                    {
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
+                    }
+                }
+            }
+
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Put<Object>("/fake/test-query-paramters", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("TestQueryParameterCollectionFormat", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///  To test the collection format in query parameters
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        {
+             await TestQueryParameterCollectionFormatAsyncWithHttpInfo(pipe, ioutil, http, url, context);
+
+        }
+
+        /// <summary>
+        ///  To test the collection format in query parameters
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestQueryParameterCollectionFormatAsyncWithHttpInfo (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        {
+            // verify the required parameter 'pipe' is set
+            if (pipe == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pipe' when calling FakeApi->TestQueryParameterCollectionFormat");
+
+            // verify the required parameter 'ioutil' is set
+            if (ioutil == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'ioutil' when calling FakeApi->TestQueryParameterCollectionFormat");
+
+            // verify the required parameter 'http' is set
+            if (http == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'http' when calling FakeApi->TestQueryParameterCollectionFormat");
+
+            // verify the required parameter 'url' is set
+            if (url == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'url' when calling FakeApi->TestQueryParameterCollectionFormat");
+
+            // verify the required parameter 'context' is set
+            if (context == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
+
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            String[] _contentTypes = new String[] {
+            };
+
+            // to determine the Accept header
+            String[] _accepts = new String[] {
+            };
+            
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
+            
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
+            
+            if (pipe != null)
+            {
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "pipe", pipe))
+                {
+                    foreach (var _kvpValue in _kvp.Value)
+                    {
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
+                    }
+                }
+            }
+            if (ioutil != null)
+            {
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "ioutil", ioutil))
+                {
+                    foreach (var _kvpValue in _kvp.Value)
+                    {
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
+                    }
+                }
+            }
+            if (http != null)
+            {
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("space", "http", http))
+                {
+                    foreach (var _kvpValue in _kvp.Value)
+                    {
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
+                    }
+                }
+            }
+            if (url != null)
+            {
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "url", url))
+                {
+                    foreach (var _kvpValue in _kvp.Value)
+                    {
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
+                    }
+                }
+            }
+            if (context != null)
+            {
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("multi", "context", context))
+                {
+                    foreach (var _kvpValue in _kvp.Value)
+                    {
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
+                    }
+                }
+            }
+
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/test-query-paramters", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("TestQueryParameterCollectionFormat", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
         }
 
     }

@@ -273,7 +273,8 @@ CREATE TABLE IF NOT EXISTS `format_test` (
   `date` DATE NOT NULL,
   `dateTime` DATETIME DEFAULT NULL,
   `uuid` TEXT DEFAULT NULL,
-  `password` VARCHAR(64) NOT NULL
+  `password` VARCHAR(64) NOT NULL,
+  `BigDecimal` DECIMAL(20, 9) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -416,6 +417,7 @@ CREATE TABLE IF NOT EXISTS `TypeHolderDefault` (
 CREATE TABLE IF NOT EXISTS `TypeHolderExample` (
   `string_item` TEXT NOT NULL,
   `number_item` DECIMAL(20, 9) NOT NULL,
+  `float_item` DECIMAL(20, 9) NOT NULL,
   `integer_item` INT NOT NULL,
   `bool_item` TINYINT(1) NOT NULL,
   `array_item` JSON NOT NULL

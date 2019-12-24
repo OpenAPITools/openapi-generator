@@ -24,7 +24,10 @@ import { Pet } from '../model/pet';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { PetServiceInterface }                            from './pet.serviceInterface';
+import {
+    PetServiceInterface
+} from './pet.serviceInterface';
+
 
 
 @Injectable()
@@ -36,13 +39,14 @@ export class PetService implements PetServiceInterface {
     public encoder: QueryEncoder;
 
     constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-
         if (configuration) {
             this.configuration = configuration;
-            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
-
-        } else {
-            this.configuration.basePath = basePath || this.basePath;
+        }
+        if (typeof this.configuration.basePath !== 'string') {
+            if (typeof basePath !== 'string') {
+                basePath = this.basePath;
+            }
+            this.configuration.basePath = basePath;
         }
         this.encoder = this.configuration.encoder || new CustomQueryEncoderHelper();
     }
@@ -64,6 +68,7 @@ export class PetService implements PetServiceInterface {
     /**
      * 
      * @summary Add a new pet to the store
+     
      * @param body Pet object that needs to be added to the store
      */
     public addPet(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
@@ -80,6 +85,7 @@ export class PetService implements PetServiceInterface {
     /**
      * 
      * @summary Deletes a pet
+     
      * @param petId Pet id to delete
      * @param apiKey 
      */
@@ -97,6 +103,7 @@ export class PetService implements PetServiceInterface {
     /**
      * Multiple status values can be provided with comma separated strings
      * @summary Finds Pets by status
+     
      * @param status Status values that need to be considered for filter
      */
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Array<Pet>> {
@@ -113,6 +120,7 @@ export class PetService implements PetServiceInterface {
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @summary Finds Pets by tags
+     
      * @param tags Tags to filter by
      */
     public findPetsByTags(tags: Array<string>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Array<Pet>> {
@@ -129,6 +137,7 @@ export class PetService implements PetServiceInterface {
     /**
      * Returns a single pet
      * @summary Find pet by ID
+     
      * @param petId ID of pet to return
      */
     public getPetById(petId: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Pet> {
@@ -145,6 +154,7 @@ export class PetService implements PetServiceInterface {
     /**
      * 
      * @summary Update an existing pet
+     
      * @param body Pet object that needs to be added to the store
      */
     public updatePet(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
@@ -161,6 +171,7 @@ export class PetService implements PetServiceInterface {
     /**
      * 
      * @summary Updates a pet in the store with form data
+     
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
@@ -179,6 +190,7 @@ export class PetService implements PetServiceInterface {
     /**
      * 
      * @summary uploads an image
+     
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
@@ -197,11 +209,9 @@ export class PetService implements PetServiceInterface {
 
     /**
      * Add a new pet to the store
-     * 
      * @param body Pet object that needs to be added to the store
-     
      */
-    public addPetWithHttpInfo(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public addPetWithHttpInfo(body: Pet, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: undefined}): Observable<Response> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling addPet.');
         }
@@ -216,13 +226,17 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -238,6 +252,7 @@ export class PetService implements PetServiceInterface {
             method: RequestMethod.Post,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -250,12 +265,10 @@ export class PetService implements PetServiceInterface {
 
     /**
      * Deletes a pet
-     * 
      * @param petId Pet id to delete
      * @param apiKey 
-     
      */
-    public deletePetWithHttpInfo(petId: number, apiKey?: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public deletePetWithHttpInfo(petId: number, apiKey?: string, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: undefined}): Observable<Response> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
@@ -273,21 +286,22 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -302,9 +316,8 @@ export class PetService implements PetServiceInterface {
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
-     
      */
-    public findPetsByStatusWithHttpInfo(status: Array<'available' | 'pending' | 'sold'>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public findPetsByStatusWithHttpInfo(status: Array<'available' | 'pending' | 'sold'>, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<Response> {
         if (status === null || status === undefined) {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
@@ -324,23 +337,24 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/xml',
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
@@ -356,9 +370,8 @@ export class PetService implements PetServiceInterface {
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
-     
      */
-    public findPetsByTagsWithHttpInfo(tags: Array<string>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public findPetsByTagsWithHttpInfo(tags: Array<string>, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<Response> {
         if (tags === null || tags === undefined) {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
@@ -378,23 +391,24 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/xml',
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
@@ -410,9 +424,8 @@ export class PetService implements PetServiceInterface {
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
-     
      */
-    public getPetByIdWithHttpInfo(petId: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public getPetByIdWithHttpInfo(petId: number, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<Response> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
@@ -424,23 +437,24 @@ export class PetService implements PetServiceInterface {
             headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/xml',
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -453,11 +467,9 @@ export class PetService implements PetServiceInterface {
 
     /**
      * Update an existing pet
-     * 
      * @param body Pet object that needs to be added to the store
-     
      */
-    public updatePetWithHttpInfo(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public updatePetWithHttpInfo(body: Pet, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: undefined}): Observable<Response> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling updatePet.');
         }
@@ -472,13 +484,17 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -494,6 +510,7 @@ export class PetService implements PetServiceInterface {
             method: RequestMethod.Put,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -506,13 +523,11 @@ export class PetService implements PetServiceInterface {
 
     /**
      * Updates a pet in the store with form data
-     * 
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
-     
      */
-    public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: undefined}): Observable<Response> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
@@ -527,10 +542,13 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
@@ -566,6 +584,7 @@ export class PetService implements PetServiceInterface {
             method: RequestMethod.Post,
             headers: headers,
             body: convertFormParamsToString ? formParams.toString() : formParams,
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -578,13 +597,11 @@ export class PetService implements PetServiceInterface {
 
     /**
      * uploads an image
-     * 
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
-     
      */
-    public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: Blob, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: Blob, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: 'application/json'}): Observable<Response> {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }
@@ -599,11 +616,14 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
@@ -642,6 +662,7 @@ export class PetService implements PetServiceInterface {
             method: RequestMethod.Post,
             headers: headers,
             body: convertFormParamsToString ? formParams.toString() : formParams,
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037

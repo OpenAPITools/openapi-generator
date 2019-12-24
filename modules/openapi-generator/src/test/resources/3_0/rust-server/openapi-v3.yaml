@@ -1,5 +1,7 @@
-# Test the mainline function of the XML part of the OpenAPI specification,
-# as found here : https://swagger.io/docs/specification/data-models/representing-xml/
+# Test the mainline function of OpenAPI v3 specification.
+#
+# This includes the XML part of the OpenAPI specification, as found at
+# https://swagger.io/docs/specification/data-models/representing-xml/
 #
 # Specifically, these tests are intended to include:
 #   - namespaces
@@ -9,6 +11,8 @@
 #     - wrapping and renaming to and from camelCase and snake_case
 #   - objects
 #     - renaming to and from camelCase and snake_case
+#   - UUIDs
+#   - Octet Streams
 
 openapi: 3.0.1
 info:
@@ -76,6 +80,15 @@ paths:
           description: 'OK'
         '400':
           description: Bad Request
+  /uuid:
+    get:
+      responses:
+        200:
+          description: Duplicate Response long text. One.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UuidObject"
   /required_octet_stream:
     put:
       requestBody:
@@ -88,7 +101,54 @@ paths:
       responses:
         '200':
           description: 'OK'
+  /readonly_auth_scheme:
+    get:
+      security:
+        - authScheme: ["test.read"]
+      responses:
+        200:
+          description: Check that limiting to a single required auth scheme works
+  /multiple_auth_scheme:
+    get:
+      security:
+        - authScheme: ["test.read", "test.write"]
+      responses:
+        200:
+          description: Check that limiting to multiple required auth schemes works
+  /responses_with_headers:
+    get:
+      responses:
+        '200':
+          description: 'Success'
+          content:
+            'application/json':
+              schema:
+                type: String
+          headers:
+            Success-Info:
+              schema:
+                type: String
+        '412':
+          description: Precondition Failed
+          headers:
+            Further-Info:
+              schema:
+                type: String
+            Failure-Info:
+              schema:
+                type: String
+
 components:
+  securitySchemes:
+    authScheme:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'http://example.org'
+          tokenUrl: 'http://example.org'
+          scopes:
+            test.read: Allowed to read state.
+            test.write: Allowed to change state.
   schemas:
     UuidObject:
       description: Test a model containing a UUID

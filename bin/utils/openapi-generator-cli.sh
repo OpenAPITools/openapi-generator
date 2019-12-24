@@ -22,7 +22,7 @@ set -o pipefail
 
 for cmd in {mvn,jq,curl}; do
   if ! command -v ${cmd} > /dev/null; then
-  >&2 echo "This script requires '${cmd}' to be installed."
+    >&2 echo "This script requires '${cmd}' to be installed."
     exit 1
   fi
 done
@@ -42,7 +42,18 @@ artifactid=openapi-generator-cli
 ver=${OPENAPI_GENERATOR_VERSION:-$(latest.tag $ghrepo)}
 
 jar=${artifactid}-${ver}.jar
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# TODO: Remove OPENAPI_GENERATOR_DOWLOAD_CACHE_DIR for release 5.0
+if [ -n "${OPENAPI_GENERATOR_DOWLOAD_CACHE_DIR}" ]; then
+  >&2 printf "[WARN] Variable OPENAPI_GENERATOR_DOWLOAD_CACHE_DIR is misspelled.\nPlease change to OPENAPI_GENERATOR_DOWNLOAD_CACHE_DIR. This option will be removed in the 5.0 release.\n"
+fi
+cachedir=${OPENAPI_GENERATOR_DOWNLOAD_CACHE_DIR:-"$OPENAPI_GENERATOR_DOWLOAD_CACHE_DIR"}
+
+DIR=${cachedir:-"$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"}
+
+if [ ! -d "${DIR}" ]; then
+  mkdir -p "${DIR}"
+fi
 
 if [ ! -f ${DIR}/${jar} ]; then
   repo="central::default::https://repo1.maven.org/maven2/"

@@ -40,7 +40,9 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
   public AdditionalPropertiesBoolean() {
     super();
   }
+
   public AdditionalPropertiesBoolean name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -51,9 +53,11 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getName() {
     return name;
   }
+
 
   public void setName(String name) {
     this.name = name;

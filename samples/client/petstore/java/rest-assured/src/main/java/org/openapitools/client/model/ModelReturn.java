@@ -34,7 +34,9 @@ public class ModelReturn {
   @SerializedName(SERIALIZED_NAME_RETURN)
   private Integer _return;
 
+
   public ModelReturn _return(Integer _return) {
+    
     this._return = _return;
     return this;
   }
@@ -45,9 +47,11 @@ public class ModelReturn {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Integer getReturn() {
     return _return;
   }
+
 
   public void setReturn(Integer _return) {
     this._return = _return;

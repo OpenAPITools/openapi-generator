@@ -7,9 +7,9 @@ extern crate futures;
 #[macro_use]
 extern crate swagger;
 #[allow(unused_extern_crates)]
-extern crate uuid;
 extern crate clap;
 extern crate tokio_core;
+extern crate uuid;
 
 use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
 
@@ -19,7 +19,11 @@ use tokio_core::reactor;
 #[allow(unused_imports)]
 use openapi_v3::{ApiNoContext, ContextWrapperExt,
                       ApiError,
+                      MultipleAuthSchemeGetResponse,
+                      ReadonlyAuthSchemeGetResponse,
                       RequiredOctetStreamPutResponse,
+                      ResponsesWithHeadersGetResponse,
+                      UuidGetResponse,
                       XmlExtraPostResponse,
                       XmlOtherPostResponse,
                       XmlOtherPutResponse,
@@ -33,7 +37,11 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
+    "MultipleAuthSchemeGet",
+    "ReadonlyAuthSchemeGet",
     "RequiredOctetStreamPut",
+    "ResponsesWithHeadersGet",
+    "UuidGet",
     "XmlExtraPost",
     "XmlOtherPost",
     "XmlOtherPut",
@@ -79,8 +87,28 @@ fn main() {
 
     match matches.value_of("operation") {
 
+        Some("MultipleAuthSchemeGet") => {
+            let result = core.run(client.multiple_auth_scheme_get());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
+
+        Some("ReadonlyAuthSchemeGet") => {
+            let result = core.run(client.readonly_auth_scheme_get());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
+
         Some("RequiredOctetStreamPut") => {
             let result = core.run(client.required_octet_stream_put(swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE"))));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
+
+        Some("ResponsesWithHeadersGet") => {
+            let result = core.run(client.responses_with_headers_get());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
+
+        Some("UuidGet") => {
+            let result = core.run(client.uuid_get());
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 

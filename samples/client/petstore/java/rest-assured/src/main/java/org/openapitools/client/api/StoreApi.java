@@ -33,7 +33,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.openapitools.client.JSON;
-
 import static io.restassured.http.Method.*;
 
 @Api(value = "Store")
@@ -58,6 +57,14 @@ public class StoreApi {
         return reqSpec;
     }
 
+    public List<Oper> getAllOperations() {
+        return Arrays.asList(
+                deleteOrder(),
+                getInventory(),
+                getOrderById(),
+                placeOrder()
+        );
+    }
 
     @ApiOperation(value = "Delete purchase order by ID",
             notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
@@ -119,7 +126,7 @@ public class StoreApi {
      *
      * @see #orderIdPath ID of the order that needs to be deleted (required)
      */
-    public static class DeleteOrderOper {
+    public static class DeleteOrderOper implements Oper {
 
         public static final Method REQ_METHOD = DELETE;
         public static final String REQ_URI = "/store/order/{order_id}";
@@ -139,6 +146,7 @@ public class StoreApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -180,7 +188,7 @@ public class StoreApi {
      *
      * return Map&lt;String, Integer&gt;
      */
-    public static class GetInventoryOper {
+    public static class GetInventoryOper implements Oper {
 
         public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/store/inventory";
@@ -200,6 +208,7 @@ public class StoreApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -241,7 +250,7 @@ public class StoreApi {
      * @see #orderIdPath ID of pet that needs to be fetched (required)
      * return Order
      */
-    public static class GetOrderByIdOper {
+    public static class GetOrderByIdOper implements Oper {
 
         public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/store/order/{order_id}";
@@ -261,6 +270,7 @@ public class StoreApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -313,7 +323,7 @@ public class StoreApi {
      * @see #body order placed for purchasing the pet (required)
      * return Order
      */
-    public static class PlaceOrderOper {
+    public static class PlaceOrderOper implements Oper {
 
         public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/store/order";
@@ -334,6 +344,7 @@ public class StoreApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }

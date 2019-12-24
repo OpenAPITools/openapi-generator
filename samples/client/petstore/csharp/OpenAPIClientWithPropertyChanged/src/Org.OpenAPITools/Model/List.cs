@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets _123List
         /// </summary>
-        [DataMember(Name="123-list", EmitDefaultValue=false)]
+        [DataMember(Name="123-list", EmitDefaultValue=true)]
         public string _123List { get; set; }
 
         /// <summary>

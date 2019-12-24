@@ -37,17 +37,23 @@ public class ReadOnlyFirst {
   @SerializedName(SERIALIZED_NAME_BAZ)
   private String baz;
 
+
    /**
    * Get bar
    * @return bar
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getBar() {
     return bar;
   }
 
+
+
+
   public ReadOnlyFirst baz(String baz) {
+    
     this.baz = baz;
     return this;
   }
@@ -58,9 +64,11 @@ public class ReadOnlyFirst {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getBaz() {
     return baz;
   }
+
 
   public void setBaz(String baz) {
     this.baz = baz;

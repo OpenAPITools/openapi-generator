@@ -8,6 +8,13 @@
  */
 
 package petstore
+
+import (
+	"bytes"
+	"encoding/json"
+)
+
+// EnumClass the model 'EnumClass'
 type EnumClass string
 
 // List of EnumClass
@@ -17,3 +24,25 @@ const (
 	XYZ EnumClass = "(xyz)"
 )
 
+type NullableEnumClass struct {
+	Value EnumClass
+	ExplicitNull bool
+}
+
+func (v NullableEnumClass) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
+}
+
+func (v *NullableEnumClass) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}

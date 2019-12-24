@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// XmlItem struct for XmlItem
 type XmlItem struct {
 	AttributeString string `json:"attribute_string,omitempty"`
 	AttributeNumber float32 `json:"attribute_number,omitempty"`

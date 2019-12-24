@@ -40,10 +40,11 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="stringItem">stringItem (required).</param>
         /// <param name="numberItem">numberItem (required).</param>
+        /// <param name="floatItem">floatItem (required).</param>
         /// <param name="integerItem">integerItem (required).</param>
         /// <param name="boolItem">boolItem (required).</param>
         /// <param name="arrayItem">arrayItem (required).</param>
-        public TypeHolderExample(string stringItem = default(string), decimal? numberItem = default(decimal?), int? integerItem = default(int?), bool? boolItem = default(bool?), List<int?> arrayItem = default(List<int?>))
+        public TypeHolderExample(string stringItem = default(string), decimal numberItem = default(decimal), float floatItem = default(float), int integerItem = default(int), bool boolItem = default(bool), List<int> arrayItem = default(List<int>))
         {
             // to ensure "stringItem" is required (not null)
             if (stringItem == null)
@@ -63,6 +64,16 @@ namespace Org.OpenAPITools.Model
             else
             {
                 this.NumberItem = numberItem;
+            }
+            
+            // to ensure "floatItem" is required (not null)
+            if (floatItem == null)
+            {
+                throw new InvalidDataException("floatItem is a required property for TypeHolderExample and cannot be null");
+            }
+            else
+            {
+                this.FloatItem = floatItem;
             }
             
             // to ensure "integerItem" is required (not null)
@@ -107,25 +118,31 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NumberItem
         /// </summary>
         [DataMember(Name="number_item", EmitDefaultValue=false)]
-        public decimal? NumberItem { get; set; }
+        public decimal NumberItem { get; set; }
+
+        /// <summary>
+        /// Gets or Sets FloatItem
+        /// </summary>
+        [DataMember(Name="float_item", EmitDefaultValue=false)]
+        public float FloatItem { get; set; }
 
         /// <summary>
         /// Gets or Sets IntegerItem
         /// </summary>
         [DataMember(Name="integer_item", EmitDefaultValue=false)]
-        public int? IntegerItem { get; set; }
+        public int IntegerItem { get; set; }
 
         /// <summary>
         /// Gets or Sets BoolItem
         /// </summary>
         [DataMember(Name="bool_item", EmitDefaultValue=false)]
-        public bool? BoolItem { get; set; }
+        public bool BoolItem { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayItem
         /// </summary>
         [DataMember(Name="array_item", EmitDefaultValue=false)]
-        public List<int?> ArrayItem { get; set; }
+        public List<int> ArrayItem { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -137,6 +154,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class TypeHolderExample {\n");
             sb.Append("  StringItem: ").Append(StringItem).Append("\n");
             sb.Append("  NumberItem: ").Append(NumberItem).Append("\n");
+            sb.Append("  FloatItem: ").Append(FloatItem).Append("\n");
             sb.Append("  IntegerItem: ").Append(IntegerItem).Append("\n");
             sb.Append("  BoolItem: ").Append(BoolItem).Append("\n");
             sb.Append("  ArrayItem: ").Append(ArrayItem).Append("\n");
@@ -185,6 +203,11 @@ namespace Org.OpenAPITools.Model
                     this.NumberItem.Equals(input.NumberItem))
                 ) && 
                 (
+                    this.FloatItem == input.FloatItem ||
+                    (this.FloatItem != null &&
+                    this.FloatItem.Equals(input.FloatItem))
+                ) && 
+                (
                     this.IntegerItem == input.IntegerItem ||
                     (this.IntegerItem != null &&
                     this.IntegerItem.Equals(input.IntegerItem))
@@ -215,6 +238,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.StringItem.GetHashCode();
                 if (this.NumberItem != null)
                     hashCode = hashCode * 59 + this.NumberItem.GetHashCode();
+                if (this.FloatItem != null)
+                    hashCode = hashCode * 59 + this.FloatItem.GetHashCode();
                 if (this.IntegerItem != null)
                     hashCode = hashCode * 59 + this.IntegerItem.GetHashCode();
                 if (this.BoolItem != null)

@@ -10,17 +10,17 @@
 #' @title Pet
 #' @description Pet Class
 #' @format An \code{R6Class} generator object
-#' @field id   integer  [optional]
+#' @field id  integer [optional]
 #'
-#' @field category   \link[petstore:Category]{  Category  }  [optional]
+#' @field category  \link{Category} [optional]
 #'
-#' @field name   character  
+#' @field name  character 
 #'
-#' @field photoUrls    list(character)   
+#' @field photoUrls  list( character ) 
 #'
-#' @field tags   \link[petstore:Tag]{   list(Tag)   }  [optional]
+#' @field tags  list( \link{Tag} ) [optional]
 #'
-#' @field status   character  [optional]
+#' @field status  character [optional]
 #'
 #'
 #' @importFrom R6 R6Class
@@ -84,7 +84,7 @@ Pet <- R6::R6Class(
       }
       if (!is.null(self$`tags`)) {
         PetObject[['tags']] <-
-          sapply(self$`tags`, function(x) x$toJSON())
+          lapply(self$`tags`, function(x) x$toJSON())
       }
       if (!is.null(self$`status`)) {
         PetObject[['status']] <-
@@ -107,10 +107,10 @@ Pet <- R6::R6Class(
         self$`name` <- PetObject$`name`
       }
       if (!is.null(PetObject$`photoUrls`)) {
-        self$`photoUrls` <- ApiClient$new()$deserializeObj(PetObject$`photoUrls`, "array[character]", "package:petstore")
+        self$`photoUrls` <- ApiClient$new()$deserializeObj(PetObject$`photoUrls`, "array[character]", loadNamespace("petstore"))
       }
       if (!is.null(PetObject$`tags`)) {
-        self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]", "package:petstore")
+        self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]", loadNamespace("petstore"))
       }
       if (!is.null(PetObject$`status`)) {
         self$`status` <- PetObject$`status`
@@ -151,7 +151,7 @@ Pet <- R6::R6Class(
         '"tags":
         [%s]
 ',
-        paste(unlist(lapply(self$`tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA))), collapse=",")
+        paste(sapply(self$`tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
         )},
         if (!is.null(self$`status`)) {
         sprintf(
@@ -169,8 +169,8 @@ Pet <- R6::R6Class(
       self$`id` <- PetObject$`id`
       self$`category` <- Category$new()$fromJSON(jsonlite::toJSON(PetObject$category, auto_unbox = TRUE, digits = NA))
       self$`name` <- PetObject$`name`
-      self$`photoUrls` <- ApiClient$new()$deserializeObj(PetObject$`photoUrls`, "array[character]","package:petstore")
-      self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]","package:petstore")
+      self$`photoUrls` <- ApiClient$new()$deserializeObj(PetObject$`photoUrls`, "array[character]", loadNamespace("petstore"))
+      self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]", loadNamespace("petstore"))
       self$`status` <- PetObject$`status`
       self
     }

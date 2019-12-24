@@ -46,7 +46,9 @@ public class Name {
   @SerializedName(SERIALIZED_NAME_123NUMBER)
   private Integer _123number;
 
+
   public Name name(Integer name) {
+    
     this.name = name;
     return this;
   }
@@ -56,13 +58,16 @@ public class Name {
    * @return name
   **/
   @ApiModelProperty(required = true, value = "")
+
   public Integer getName() {
     return name;
   }
 
+
   public void setName(Integer name) {
     this.name = name;
   }
+
 
    /**
    * Get snakeCase
@@ -70,11 +75,16 @@ public class Name {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Integer getSnakeCase() {
     return snakeCase;
   }
 
+
+
+
   public Name property(String property) {
+    
     this.property = property;
     return this;
   }
@@ -85,13 +95,16 @@ public class Name {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getProperty() {
     return property;
   }
 
+
   public void setProperty(String property) {
     this.property = property;
   }
+
 
    /**
    * Get _123number
@@ -99,9 +112,12 @@ public class Name {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Integer get123number() {
     return _123number;
   }
+
+
 
 
   @Override

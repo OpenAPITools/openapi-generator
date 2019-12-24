@@ -1,77 +1,122 @@
-#!/bin/bash
-# this bash script run the scripts for the 'mature' generators
+#!/usr/bin/env bash
+# this bash script runs the scripts for the 'mature' generators by default.
+# Supports --batch option which will compile all generators defined under bin/ci/*.json
 # it ensures that all changes are committed into the 'samples/' folder
+# shellcheck disable=SC2155
+declare cwd="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+declare root="$(cd "$cwd" && cd ../../ && pwd)"
+declare executable="${root}/modules/openapi-generator-cli/target/openapi-generator-cli.jar"
+declare batch_mode="false"
 
 echo "# START SCRIPT: $0"
 
 echo "IMPORTANT: this script should be run by the CI (e.g. Shippable) to ensure that the 'samples/' folder is up to date."
+if [ "--batch" = "$1" ]; then
+  batch_mode="true"
+  echo "Running in 'batch mode' (single JVM, mutliple threads)."
+else
+  echo "When running locally execute with argument --batch."
+fi
 echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
 
 sleep 5
 
-# LIST OF SCRIPTS:
-declare -a scripts=(
-# SAMPLES
-"./bin/openapi3/ruby-client-petstore.sh"
-"./bin/ruby-client-petstore.sh"
-"./bin/java-petstore-all.sh"
-"./bin/java-jaxrs-petstore-server-all.sh"
-"./bin/java-msf4j-petstore-server.sh"
-"./bin/openapi3/jaxrs-jersey-petstore.sh"
-"./bin/spring-all-petstore.sh"
-"./bin/javascript-petstore-all.sh"
-"./bin/kotlin-client-petstore.sh"
-"./bin/kotlin-client-string.sh"
-"./bin/kotlin-client-threetenbp.sh"
-"./bin/kotlin-server-petstore.sh"
-"./bin/kotlin-springboot-petstore-server.sh"
-"./bin/kotlin-springboot-petstore-server-reactive.sh"
-"./bin/mysql-schema-petstore.sh"
-"./bin/python-petstore-all.sh"
-"./bin/openapi3/python-petstore.sh"
-"./bin/php-petstore.sh"
-"./bin/php-silex-petstore-server.sh"
-"./bin/php-symfony-petstore.sh"
-"./bin/php-lumen-petstore-server.sh"
-"./bin/php-slim-server-petstore.sh"
-"./bin/php-ze-ph-petstore-server.sh"
-"./bin/openapi3/php-petstore.sh"
-"./bin/typescript-angularjs-petstore.sh"
-"./bin/typescript-angular-petstore-all.sh"
-"./bin/typescript-aurelia-petstore.sh"
-"./bin/typescript-axios-petstore-all.sh"
-"./bin/typescript-fetch-petstore-all.sh"
-"./bin/typescript-inversify-petstore.sh"
-"./bin/typescript-jquery-petstore-all.sh"
-"./bin/typescript-node-petstore-all.sh"
-"./bin/typescript-rxjs-petstore-all.sh"
-"./bin/rust-server-petstore.sh"
-"./bin/r-petstore.sh"
-"./bin/haskell-http-client-petstore.sh"
-"./bin/csharp-petstore.sh"
-"./bin/csharp-netcore-petstore-all.sh"
-"./bin/elixir-petstore.sh"
-"./bin/go-petstore.sh"
-"./bin/go-petstore-withxml.sh"
-"./bin/go-gin-petstore-server.sh"
-"./bin/groovy-petstore.sh"
-"./bin/apex-petstore.sh"
-"./bin/perl-petstore-all.sh"
-#"./bin/elm-petstore-all.sh"
-"./bin/meta-codegen.sh"
-# OTHERS
-"./bin/utils/export_docs_generators.sh"
-"./bin/utils/export_generators_docusaurus_index.sh"
-"./bin/utils/copy-to-website.sh"
-"./bin/utils/export_generators_readme.sh")
+declare -a samples=(
+"${root}/bin/ruby-client-petstore.sh"
+"${root}/bin/ruby-client-petstore-faraday.sh"
+"${root}/bin/openapi3/ruby-client-petstore.sh"
+"${root}/bin/openapi3/ruby-client-faraday-petstore.sh"
+"${root}/bin/java-petstore-all.sh"
+"${root}/bin/java-jaxrs-petstore-server-all.sh"
+"${root}/bin/java-msf4j-petstore-server.sh"
+"${root}/bin/openapi3/jaxrs-jersey-petstore.sh"
+"${root}/bin/spring-all-petstore.sh"
+"${root}/bin/javascript-petstore-all.sh"
+"${root}/bin/kotlin-client-all.sh"
+"${root}/bin/kotlin-server-petstore.sh"
+"${root}/bin/kotlin-springboot-petstore-server.sh"
+"${root}/bin/kotlin-springboot-petstore-server-reactive.sh"
+"${root}/bin/mysql-schema-petstore.sh"
+"${root}/bin/nim-client-petstore.sh"
+"${root}/bin/python-petstore-all.sh"
+"${root}/bin/openapi3/python-petstore.sh"
+"${root}/bin/php-petstore.sh"
+"${root}/bin/php-silex-petstore-server.sh"
+"${root}/bin/php-symfony-petstore.sh"
+"${root}/bin/php-lumen-petstore-server.sh"
+"${root}/bin/php-slim-server-petstore.sh"
+"${root}/bin/php-slim4-server-petstore.sh"
+"${root}/bin/php-ze-ph-petstore-server.sh"
+"${root}/bin/openapi3/php-petstore.sh"
+"${root}/bin/typescript-angularjs-petstore.sh"
+"${root}/bin/typescript-angular-petstore-all.sh"
+"${root}/bin/typescript-aurelia-petstore.sh"
+"${root}/bin/typescript-axios-petstore-all.sh"
+"${root}/bin/typescript-fetch-petstore-all.sh"
+"${root}/bin/typescript-inversify-petstore.sh"
+"${root}/bin/typescript-jquery-petstore-all.sh"
+"${root}/bin/typescript-node-petstore-all.sh"
+"${root}/bin/typescript-rxjs-petstore-all.sh"
+"${root}/bin/rust-server-petstore.sh"
+"${root}/bin/r-petstore.sh"
+"${root}/bin/haskell-http-client-petstore.sh"
+"${root}/bin/csharp-petstore.sh"
+"${root}/bin/csharp-netcore-petstore-all.sh"
+"${root}/bin/elixir-petstore.sh"
+"${root}/bin/openapi3/go-petstore.sh"
+"${root}/bin/go-experimental-petstore.sh"
+"${root}/bin/go-petstore.sh"
+"${root}/bin/go-petstore-withxml.sh"
+"${root}/bin/go-petstore-server.sh"
+"${root}/bin/go-gin-petstore-server.sh"
+"${root}/bin/groovy-petstore.sh"
+"${root}/bin/apex-petstore.sh"
+"${root}/bin/perl-petstore-all.sh"
+"${root}/bin/dart-jaguar-petstore.sh"
+#"${root}/bin/dart-dio-petstore.sh"
+"${root}/bin/dart-petstore.sh"
+"${root}/bin/dart2-petstore.sh"
+"${root}/bin/java-play-framework-petstore-server-all.sh"
+#"${root}/bin/elm-petstore-all.sh"
+"${root}/bin/typescript-redux-query-petstore-with-npm-version.sh"
+)
 
-for script in "${scripts[@]}"; do
-  if eval $script > /dev/null 2>&1; then
-    echo "Executed $script successfully!"
-  else
-    echo "ERROR: Failed to run $script"
-    exit 1
+# Some special case generators may expect to be run as a stanalone process (e.g. modifying classpath)
+# Docs should always be run, regardless of batch or operation.
+declare -a always_iterate=(
+"${root}/bin/meta-codegen.sh"
+"${root}/bin/utils/export_docs_generators.sh"
+"${root}/bin/utils/copy-to-website.sh"
+"${root}/bin/utils/export_generators_readme.sh"
+)
+
+export JAVA_OPTS="${JAVA_OPTS} -Djava.awt.headless=true"
+
+if [ "true" = "$batch_mode" ]; then
+  if [ ! -f "$executable" ]; then
+    (cd "${root}" && mvn -B clean package -DskipTests=true -Dmaven.javadoc.skip=true)
   fi
+
+  # shellcheck disable=SC2086
+  java $JAVA_OPTS -jar "$executable" batch --includes-base-dir "${root}" --fail-fast  -- "${root}"/bin/ci/*
+else
+  for script in "${samples[@]}"; do
+    if eval "$script" > /dev/null 2>&1; then
+      echo "Executed $script successfully!"
+    else
+      echo "ERROR: Failed to run $script"
+      exit 1
+    fi
+  done
+fi
+
+for i in "${always_iterate[@]}"; do
+    if eval "$i" > /dev/null 2>&1; then
+      echo "Executed $i successfully!"
+    else
+      echo "ERROR: Failed to run $i"
+      exit 1
+    fi
 done
 
 # Check:
@@ -87,3 +132,4 @@ if [ -n "$(git status --porcelain)" ]; then
 else
     echo "Git working tree is clean"
 fi
+
