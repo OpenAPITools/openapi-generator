@@ -7,7 +7,8 @@
 
 import Foundation{{#usePromiseKit}}
 import PromiseKit{{/usePromiseKit}}{{#useRxSwift}}
-import RxSwift{{/useRxSwift}}
+import RxSwift{{/useRxSwift}}{{#useCombine}}
+import Combine{{/useCombine}}
 
 {{#swiftUseApiNamespace}}
 extension {{projectName}}API {
@@ -35,6 +36,7 @@ extension {{projectName}}API {
 {{^usePromiseKit}}
 {{^useRxSwift}}
 {{^useResult}}
+{{^useCombine}}
     /**
      {{#summary}}
      {{{summary}}}
@@ -59,6 +61,7 @@ extension {{projectName}}API {
             }
         }
     }
+{{/useCombine}}
 {{/useResult}}
 {{/useRxSwift}}
 {{/usePromiseKit}}
@@ -120,6 +123,35 @@ extension {{projectName}}API {
         }
     }
 {{/useRxSwift}}
+{{#useCombine}}
+    /**
+     {{#summary}}
+     {{{summary}}}
+     {{/summary}}{{#allParams}}
+     - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - returns: AnyPublisher<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error>
+     */
+    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue) -> AnyPublisher<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error> {
+        return Future<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error>.init { promisse in
+            {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute(apiResponseQueue) { result -> Void in
+                switch result {
+                {{#returnType}}
+                case let .success(response):
+                    promisse(.success(response.body!))
+                {{/returnType}}
+                {{^returnType}}
+                case .success:
+                    promisse(.success(()))
+                {{/returnType}}
+                case let .failure(error):
+                    promisse(.failure(error))
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
+{{/useCombine}}
 {{#useResult}}
     /**
      {{#summary}}

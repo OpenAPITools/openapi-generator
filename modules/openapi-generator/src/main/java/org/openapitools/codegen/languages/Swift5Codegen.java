@@ -54,12 +54,13 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
-    protected static final String ALAMOFIRE = "alamofire";
-    protected static final String URLSESSION = "urlsession";
-    protected static final String LIBRARY_PROMISE_KIT = "PromiseKit";
-    protected static final String LIBRARY_RX_SWIFT = "RxSwift";
-    protected static final String LIBRARY_RESULT = "Result";
-    protected static final String[] RESPONSE_LIBRARIES = {LIBRARY_PROMISE_KIT, LIBRARY_RX_SWIFT, LIBRARY_RESULT};
+    protected static final String LIBRARY_ALAMOFIRE = "alamofire";
+    protected static final String LIBRARY_URLSESSION = "urlsession";
+    protected static final String RESPONSE_LIBRARY_PROMISE_KIT = "PromiseKit";
+    protected static final String RESPONSE_LIBRARY_RX_SWIFT = "RxSwift";
+    protected static final String RESPONSE_LIBRARY_RESULT = "Result";
+    protected static final String RESPONSE_LIBRARY_COMBINE = "Combine";
+    protected static final String[] RESPONSE_LIBRARIES = {RESPONSE_LIBRARY_PROMISE_KIT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_COMBINE};
     protected String projectName = "OpenAPIClient";
     protected boolean nonPublicApi = false;
     protected boolean unwrapRequired;
@@ -241,14 +242,14 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
                         + "string->int, int->string)")
                 .defaultValue(Boolean.FALSE.toString()));
 
-        supportedLibraries.put(ALAMOFIRE, "[DEFAULT] HTTP client: Alamofire");
-        supportedLibraries.put(URLSESSION, "HTTP client: URLSession");
+        supportedLibraries.put(LIBRARY_ALAMOFIRE, "[DEFAULT] HTTP client: Alamofire");
+        supportedLibraries.put(LIBRARY_URLSESSION, "HTTP client: URLSession");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
-        libraryOption.setDefault(ALAMOFIRE);
+        libraryOption.setDefault(LIBRARY_ALAMOFIRE);
         cliOptions.add(libraryOption);
-        setLibrary(ALAMOFIRE);
+        setLibrary(LIBRARY_ALAMOFIRE);
     }
 
     private static CodegenModel reconcileProperties(CodegenModel codegenModel,
@@ -371,14 +372,17 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
             }
         }
         additionalProperties.put(RESPONSE_AS, responseAs);
-        if (ArrayUtils.contains(responseAs, LIBRARY_PROMISE_KIT)) {
+        if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_PROMISE_KIT)) {
             additionalProperties.put("usePromiseKit", true);
         }
-        if (ArrayUtils.contains(responseAs, LIBRARY_RX_SWIFT)) {
+        if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_RX_SWIFT)) {
             additionalProperties.put("useRxSwift", true);
         }
-        if (ArrayUtils.contains(responseAs, LIBRARY_RESULT)) {
+        if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_RESULT)) {
             additionalProperties.put("useResult", true);
+        }
+        if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_COMBINE)) {
+            additionalProperties.put("useCombine", true);
         }
 
         // Setup swiftUseApiNamespace option, which makes all the API
@@ -450,13 +454,13 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
                 "project.yml"));
 
         switch (getLibrary()) {
-            case ALAMOFIRE:
+            case LIBRARY_ALAMOFIRE:
                 additionalProperties.put("useAlamofire", true);
                 supportingFiles.add(new SupportingFile("AlamofireImplementations.mustache",
                         sourceFolder,
                         "AlamofireImplementations.swift"));
                 break;
-            case URLSESSION:
+            case LIBRARY_URLSESSION:
                 additionalProperties.put("useURLSession", true);
                 supportingFiles.add(new SupportingFile("URLSessionImplementations.mustache",
                         sourceFolder,

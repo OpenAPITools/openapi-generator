@@ -7,4 +7,5 @@
 ./bin/swift5-petstore-objcCompatible.sh
 ./bin/swift5-petstore-nonPublicApi.sh
 ./bin/swift5-petstore-urlsession.sh
+./bin/swift5-petstore-combine.sh
  
