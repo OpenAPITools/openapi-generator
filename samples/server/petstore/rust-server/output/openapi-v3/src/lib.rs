@@ -174,37 +174,37 @@ pub enum XmlPutResponse {
 pub trait Api<C> {
 
     /// Get some stuff.
-    fn multiget_get(&self, context: &C) -> Box<Future<Item=MultigetGetResponse, Error=ApiError>>;
+    fn multiget_get(&self, context: &C) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError>>;
 
 
-    fn multiple_auth_scheme_get(&self, context: &C) -> Box<Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>>;
+    fn multiple_auth_scheme_get(&self, context: &C) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>>;
 
 
-    fn readonly_auth_scheme_get(&self, context: &C) -> Box<Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>>;
+    fn readonly_auth_scheme_get(&self, context: &C) -> Box<dyn Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>>;
 
 
-    fn required_octet_stream_put(&self, body: swagger::ByteArray, context: &C) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>>;
+    fn required_octet_stream_put(&self, body: swagger::ByteArray, context: &C) -> Box<dyn Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>>;
 
 
-    fn responses_with_headers_get(&self, context: &C) -> Box<Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>>;
+    fn responses_with_headers_get(&self, context: &C) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>>;
 
 
-    fn uuid_get(&self, context: &C) -> Box<Future<Item=UuidGetResponse, Error=ApiError>>;
+    fn uuid_get(&self, context: &C) -> Box<dyn Future<Item=UuidGetResponse, Error=ApiError>>;
 
 
-    fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>, context: &C) -> Box<Future<Item=XmlExtraPostResponse, Error=ApiError>>;
+    fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>, context: &C) -> Box<dyn Future<Item=XmlExtraPostResponse, Error=ApiError>>;
 
 
-    fn xml_other_post(&self, another_xml_object: Option<models::AnotherXmlObject>, context: &C) -> Box<Future<Item=XmlOtherPostResponse, Error=ApiError>>;
+    fn xml_other_post(&self, another_xml_object: Option<models::AnotherXmlObject>, context: &C) -> Box<dyn Future<Item=XmlOtherPostResponse, Error=ApiError>>;
 
 
-    fn xml_other_put(&self, string: Option<models::AnotherXmlArray>, context: &C) -> Box<Future<Item=XmlOtherPutResponse, Error=ApiError>>;
+    fn xml_other_put(&self, string: Option<models::AnotherXmlArray>, context: &C) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError>>;
 
     /// Post an array
-    fn xml_post(&self, string: Option<models::XmlArray>, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
+    fn xml_post(&self, string: Option<models::XmlArray>, context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError>>;
 
 
-    fn xml_put(&self, xml_object: Option<models::XmlObject>, context: &C) -> Box<Future<Item=XmlPutResponse, Error=ApiError>>;
+    fn xml_put(&self, xml_object: Option<models::XmlObject>, context: &C) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError>>;
 
 }
 
@@ -212,37 +212,37 @@ pub trait Api<C> {
 pub trait ApiNoContext {
 
     /// Get some stuff.
-    fn multiget_get(&self) -> Box<Future<Item=MultigetGetResponse, Error=ApiError>>;
+    fn multiget_get(&self) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError>>;
 
 
-    fn multiple_auth_scheme_get(&self) -> Box<Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>>;
+    fn multiple_auth_scheme_get(&self) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>>;
 
 
-    fn readonly_auth_scheme_get(&self) -> Box<Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>>;
+    fn readonly_auth_scheme_get(&self) -> Box<dyn Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>>;
 
 
-    fn required_octet_stream_put(&self, body: swagger::ByteArray) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>>;
+    fn required_octet_stream_put(&self, body: swagger::ByteArray) -> Box<dyn Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>>;
 
 
-    fn responses_with_headers_get(&self) -> Box<Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>>;
+    fn responses_with_headers_get(&self) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>>;
 
 
-    fn uuid_get(&self) -> Box<Future<Item=UuidGetResponse, Error=ApiError>>;
+    fn uuid_get(&self) -> Box<dyn Future<Item=UuidGetResponse, Error=ApiError>>;
 
 
-    fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>) -> Box<Future<Item=XmlExtraPostResponse, Error=ApiError>>;
+    fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>) -> Box<dyn Future<Item=XmlExtraPostResponse, Error=ApiError>>;
 
 
-    fn xml_other_post(&self, another_xml_object: Option<models::AnotherXmlObject>) -> Box<Future<Item=XmlOtherPostResponse, Error=ApiError>>;
+    fn xml_other_post(&self, another_xml_object: Option<models::AnotherXmlObject>) -> Box<dyn Future<Item=XmlOtherPostResponse, Error=ApiError>>;
 
 
-    fn xml_other_put(&self, string: Option<models::AnotherXmlArray>) -> Box<Future<Item=XmlOtherPutResponse, Error=ApiError>>;
+    fn xml_other_put(&self, string: Option<models::AnotherXmlArray>) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError>>;
 
     /// Post an array
-    fn xml_post(&self, string: Option<models::XmlArray>) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
+    fn xml_post(&self, string: Option<models::XmlArray>) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError>>;
 
 
-    fn xml_put(&self, xml_object: Option<models::XmlObject>) -> Box<Future<Item=XmlPutResponse, Error=ApiError>>;
+    fn xml_put(&self, xml_object: Option<models::XmlObject>) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError>>;
 
 }
 
@@ -261,57 +261,57 @@ impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
 impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
     /// Get some stuff.
-    fn multiget_get(&self) -> Box<Future<Item=MultigetGetResponse, Error=ApiError>> {
+    fn multiget_get(&self) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError>> {
         self.api().multiget_get(&self.context())
     }
 
 
-    fn multiple_auth_scheme_get(&self) -> Box<Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>> {
+    fn multiple_auth_scheme_get(&self) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>> {
         self.api().multiple_auth_scheme_get(&self.context())
     }
 
 
-    fn readonly_auth_scheme_get(&self) -> Box<Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>> {
+    fn readonly_auth_scheme_get(&self) -> Box<dyn Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>> {
         self.api().readonly_auth_scheme_get(&self.context())
     }
 
 
-    fn required_octet_stream_put(&self, body: swagger::ByteArray) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>> {
+    fn required_octet_stream_put(&self, body: swagger::ByteArray) -> Box<dyn Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>> {
         self.api().required_octet_stream_put(body, &self.context())
     }
 
 
-    fn responses_with_headers_get(&self) -> Box<Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>> {
+    fn responses_with_headers_get(&self) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>> {
         self.api().responses_with_headers_get(&self.context())
     }
 
 
-    fn uuid_get(&self) -> Box<Future<Item=UuidGetResponse, Error=ApiError>> {
+    fn uuid_get(&self) -> Box<dyn Future<Item=UuidGetResponse, Error=ApiError>> {
         self.api().uuid_get(&self.context())
     }
 
 
-    fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>) -> Box<Future<Item=XmlExtraPostResponse, Error=ApiError>> {
+    fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>) -> Box<dyn Future<Item=XmlExtraPostResponse, Error=ApiError>> {
         self.api().xml_extra_post(duplicate_xml_object, &self.context())
     }
 
 
-    fn xml_other_post(&self, another_xml_object: Option<models::AnotherXmlObject>) -> Box<Future<Item=XmlOtherPostResponse, Error=ApiError>> {
+    fn xml_other_post(&self, another_xml_object: Option<models::AnotherXmlObject>) -> Box<dyn Future<Item=XmlOtherPostResponse, Error=ApiError>> {
         self.api().xml_other_post(another_xml_object, &self.context())
     }
 
 
-    fn xml_other_put(&self, string: Option<models::AnotherXmlArray>) -> Box<Future<Item=XmlOtherPutResponse, Error=ApiError>> {
+    fn xml_other_put(&self, string: Option<models::AnotherXmlArray>) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError>> {
         self.api().xml_other_put(string, &self.context())
     }
 
     /// Post an array
-    fn xml_post(&self, string: Option<models::XmlArray>) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
+    fn xml_post(&self, string: Option<models::XmlArray>) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError>> {
         self.api().xml_post(string, &self.context())
     }
 
 
-    fn xml_put(&self, xml_object: Option<models::XmlObject>) -> Box<Future<Item=XmlPutResponse, Error=ApiError>> {
+    fn xml_put(&self, xml_object: Option<models::XmlObject>) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError>> {
         self.api().xml_put(xml_object, &self.context())
     }
 

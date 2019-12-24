@@ -91,57 +91,57 @@ fn main() {
 
         Some("MultigetGet") => {
             let result = core.run(client.multiget_get());
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         Some("MultipleAuthSchemeGet") => {
             let result = core.run(client.multiple_auth_scheme_get());
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         Some("ReadonlyAuthSchemeGet") => {
             let result = core.run(client.readonly_auth_scheme_get());
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         Some("RequiredOctetStreamPut") => {
             let result = core.run(client.required_octet_stream_put(swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE"))));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         Some("ResponsesWithHeadersGet") => {
             let result = core.run(client.responses_with_headers_get());
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         Some("UuidGet") => {
             let result = core.run(client.uuid_get());
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         Some("XmlExtraPost") => {
             let result = core.run(client.xml_extra_post(None));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         Some("XmlOtherPost") => {
             let result = core.run(client.xml_other_post(None));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         Some("XmlOtherPut") => {
             let result = core.run(client.xml_other_put(None));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         Some("XmlPost") => {
             let result = core.run(client.xml_post(None));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         Some("XmlPut") => {
             let result = core.run(client.xml_put(None));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         _ => {
