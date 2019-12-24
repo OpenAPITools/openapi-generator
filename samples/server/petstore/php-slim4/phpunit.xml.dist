@@ -20,12 +20,16 @@
         <testsuite name="Mock">
             <directory>./test/Mock</directory>
         </testsuite>
+        <testsuite name="Utils">
+            <directory>./test/Utils</directory>
+        </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./lib/Api</directory>
             <directory suffix=".php">./lib/Model</directory>
             <directory suffix=".php">./lib/Mock</directory>
+            <directory suffix=".php">./lib/Utils</directory>
         </whitelist>
     </filter>
     <php>

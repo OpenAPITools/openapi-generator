@@ -24,6 +24,9 @@ Install the following dependencies:
 ```shell
 go get github.com/stretchr/testify/assert
 go get golang.org/x/oauth2
+{{#withAWSV4Signature}}
+go get github.com/aws/aws-sdk-go/aws
+{{/withAWSV4Signature}}
 go get golang.org/x/net/context
 go get github.com/antihax/optional
 ```
@@ -112,6 +115,18 @@ r, err := client.Service.Operation(auth, args)
 
 {{/isOAuth}}
 {{/authMethods}}
+
+{{#withAWSV4Signature}}
+Example
+
+```golang
+auth := context.WithValue(context.Background(), sw.ContextAWSv4, sw.AWSv4{
+    AccessKey: "ACCESSKEYSTRING",
+    SecretKey: "SECRETKEYSTRING",
+})
+r, err := client.Service.Operation(auth, args)
+```
+{{/withAWSV4Signature}}
 
 ## Author
 

@@ -56,6 +56,9 @@ public class PythonClientOptionsTest extends AbstractOptionsTest {
             clientCodegen.setPackageUrl(PythonClientOptionsProvider.PACKAGE_URL_VALUE);
             times = 1;
 
+            clientCodegen.setUseNose(PythonClientOptionsProvider.USE_NOSE_VALUE);
+            times = 1;
+
             clientCodegen.packagePath();
             result = PythonClientOptionsProvider.PACKAGE_NAME_VALUE.replace('.', File.separatorChar);
             minTimes = 1;

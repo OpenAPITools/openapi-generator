@@ -48,6 +48,8 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
     public static final String CONTROLLER_PACKAGE = "controllerPackage";
     public static final String DEFAULT_CONTROLLER = "defaultController";
     public static final String SUPPORT_PYTHON2 = "supportPython2";
+    // nose is a python testing framework, we use pytest if USE_NOSE is unset
+    public static final String USE_NOSE = "useNose";
     static final String MEDIA_TYPE = "mediaType";
 
     protected int serverPort = 8080;
@@ -57,6 +59,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
     protected String defaultController;
     protected Map<Character, String> regexModifiers;
     protected boolean fixBodyName;
+    protected boolean useNose = Boolean.FALSE;
 
     public PythonAbstractConnexionServerCodegen(String templateDirectory, boolean fixBodyNameValue) {
         super();
@@ -156,6 +159,8 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                 defaultValue("false"));
         cliOptions.add(new CliOption("serverPort", "TCP port to listen to in app.run").
                 defaultValue("8080"));
+        cliOptions.add(CliOption.newBoolean(USE_NOSE, "use the nose test framework").
+                defaultValue(Boolean.FALSE.toString()));
     }
 
     protected void addSupportingFiles() {
@@ -200,6 +205,9 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             additionalProperties.put(SUPPORT_PYTHON2, Boolean.TRUE);
             typeMapping.put("long", "long");
         }
+        if (additionalProperties.containsKey(USE_NOSE)) {
+            setUseNose((String) additionalProperties.get(USE_NOSE));
+        }
         supportingFiles.add(new SupportingFile("__main__.mustache", packagePath(), "__main__.py"));
         supportingFiles.add(new SupportingFile("util.mustache", packagePath(), "util.py"));
         supportingFiles.add(new SupportingFile("typing_utils.mustache", packagePath(), "typing_utils.py"));
@@ -212,6 +220,10 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
 
         modelPackage = packageName + "." + modelPackage;
         controllerPackage = packageName + "." + controllerPackage;
+    }
+
+    public void setUseNose(String val) {
+        this.useNose = Boolean.valueOf(val);
     }
 
     private static String packageToPath(String pkg) {
