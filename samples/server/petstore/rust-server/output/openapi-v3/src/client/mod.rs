@@ -37,6 +37,7 @@ use swagger;
 use swagger::{ApiError, XSpanId, XSpanIdString, Has, AuthData};
 
 use {Api,
+     MultigetGetResponse,
      MultipleAuthSchemeGetResponse,
      ReadonlyAuthSchemeGetResponse,
      RequiredOctetStreamPutResponse,
@@ -251,6 +252,187 @@ impl<F> Client<F> where
 impl<F, C> Api<C> for Client<F> where
     F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static,
     C: Has<XSpanIdString> + Has<Option<AuthData>>{
+
+    fn multiget_get(&self, context: &C) -> Box<Future<Item=MultigetGetResponse, Error=ApiError>> {
+        let mut uri = format!(
+            "{}/multiget",
+            self.base_path
+        );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
+        };
+
+        let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        Box::new(self.client_service.call(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::AnotherXmlObject>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
+                        .map(move |body| {
+                            MultigetGetResponse::JSONRsp(body)
+                        })
+                    ) as Box<Future<Item=_, Error=_>>
+                },
+                201 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                serde_xml_rs::from_str::<models::InlineResponse201>(body)
+                                .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                            )
+                        )
+                        .map(move |body| {
+                            MultigetGetResponse::XMLRsp(body)
+                        })
+                    ) as Box<Future<Item=_, Error=_>>
+                },
+                202 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            Ok(swagger::ByteArray(body.to_vec()))
+                        )
+                        .map(move |body| {
+                            MultigetGetResponse::OctetRsp(body)
+                        })
+                    ) as Box<Future<Item=_, Error=_>>
+                },
+                203 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                Ok(body.to_string())
+                            )
+                        )
+                        .map(move |body| {
+                            MultigetGetResponse::StringRsp(body)
+                        })
+                    ) as Box<Future<Item=_, Error=_>>
+                },
+                204 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::AnotherXmlObject>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
+                        .map(move |body| {
+                            MultigetGetResponse::DuplicateResponseLongText(body)
+                        })
+                    ) as Box<Future<Item=_, Error=_>>
+                },
+                205 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::AnotherXmlObject>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
+                        .map(move |body| {
+                            MultigetGetResponse::DuplicateResponseLongText_2(body)
+                        })
+                    ) as Box<Future<Item=_, Error=_>>
+                },
+                206 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::AnotherXmlObject>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
+                        .map(move |body| {
+                            MultigetGetResponse::DuplicateResponseLongText_3(body)
+                        })
+                    ) as Box<Future<Item=_, Error=_>>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<Future<Item=_, Error=_>>
+                }
+            }
+        }))
+
+    }
 
     fn multiple_auth_scheme_get(&self, context: &C) -> Box<Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>> {
         let mut uri = format!(
@@ -503,16 +685,13 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<String>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<String>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             ResponsesWithHeadersGetResponse::Success{ body: body, success_info: response_success_info }
                         })
@@ -600,16 +779,13 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<uuid::Uuid>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<uuid::Uuid>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             UuidGetResponse::DuplicateResponseLongText(body)
                         })

@@ -11,6 +11,7 @@ use swagger::{Has, XSpanIdString};
 use uuid;
 
 use openapi_v3::{Api, ApiError,
+                      MultigetGetResponse,
                       MultipleAuthSchemeGetResponse,
                       ReadonlyAuthSchemeGetResponse,
                       RequiredOctetStreamPutResponse,
@@ -36,6 +37,13 @@ impl<C> Server<C> {
 }
 
 impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
+
+    /// Get some stuff.
+    fn multiget_get(&self, context: &C) -> Box<Future<Item=MultigetGetResponse, Error=ApiError>> {
+        let context = context.clone();
+        println!("multiget_get() - X-Span-ID: {:?}", context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
 
 
     fn multiple_auth_scheme_get(&self, context: &C) -> Box<Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>> {

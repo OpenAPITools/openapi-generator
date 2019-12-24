@@ -19,6 +19,7 @@ use tokio_core::reactor;
 #[allow(unused_imports)]
 use openapi_v3::{ApiNoContext, ContextWrapperExt,
                       ApiError,
+                      MultigetGetResponse,
                       MultipleAuthSchemeGetResponse,
                       ReadonlyAuthSchemeGetResponse,
                       RequiredOctetStreamPutResponse,
@@ -37,6 +38,7 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
+    "MultigetGet",
     "MultipleAuthSchemeGet",
     "ReadonlyAuthSchemeGet",
     "RequiredOctetStreamPut",
@@ -86,6 +88,11 @@ fn main() {
     let client = client.with_context(context);
 
     match matches.value_of("operation") {
+
+        Some("MultigetGet") => {
+            let result = core.run(client.multiget_get());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
 
         Some("MultipleAuthSchemeGet") => {
             let result = core.run(client.multiple_auth_scheme_get());

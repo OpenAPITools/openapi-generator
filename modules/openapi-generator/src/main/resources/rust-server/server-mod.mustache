@@ -444,18 +444,28 @@ where
                                                     response.headers_mut().set(ContentType(mimetypes::responses::{{#vendorExtensions}}{{{uppercase_operation_id}}}_{{x-uppercaseResponseId}}{{/vendorExtensions}}.clone()));
 {{/dataType}}{{/-first}}{{/produces}}
 {{#dataType}}
-{{#vendorExtensions}}{{#producesXml}}{{^has_namespace}}
+{{#vendorExtensions}}
+  {{#producesXml}}
+    {{^has_namespace}}
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-{{/has_namespace}}{{#has_namespace}}
+    {{/has_namespace}}
+    {{#has_namespace}}
                                                     let mut namespaces = BTreeMap::new();
                                                     // An empty string is used to indicate a global namespace in xmltree.
                                                     namespaces.insert("".to_string(), {{{dataType}}}::NAMESPACE.to_string());
                                                     let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
-{{/has_namespace}}{{/producesXml}}{{#producesJson}}
+    {{/has_namespace}}
+  {{/producesXml}}
+  {{#producesJson}}
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-{{/producesJson}}{{#producesPlainText}}
+  {{/producesJson}}
+  {{#producesBytes}}
                                                     let body = body.0;
-{{/producesPlainText}}{{/vendorExtensions}}
+  {{/producesBytes}}
+  {{#producesPlainText}}
+                                                    let body = body;
+  {{/producesPlainText}}
+{{/vendorExtensions}}
                                                     response.set_body(body);
 {{/dataType}}
                                                 },

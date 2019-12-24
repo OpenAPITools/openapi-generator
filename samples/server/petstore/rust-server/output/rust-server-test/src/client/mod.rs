@@ -406,16 +406,13 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<swagger::ByteArray>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<swagger::ByteArray>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             FileResponseGetResponse::Success(body)
                         })
@@ -484,16 +481,12 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<String>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                Ok(body.to_string())
+                            )
+                        )
                         .map(move |body| {
                             HtmlPostResponse::Success(body)
                         })
@@ -558,16 +551,13 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<serde_json::Value>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<serde_json::Value>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             RawJsonGetResponse::Success(body)
                         })
