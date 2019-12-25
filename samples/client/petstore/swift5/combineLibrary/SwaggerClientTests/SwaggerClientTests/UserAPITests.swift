@@ -13,21 +13,21 @@ import XCTest
 
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class UserAPITests: XCTestCase {
-    
+
     let testTimeout = 10.0
-    
+
     var anyCancellables: [AnyCancellable] = []
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testLogin() {
         let expectation = self.expectation(description: "testLogin")
         let anyCancellable = UserAPI.loginUser(username: "swiftTester", password: "swift").sink(receiveCompletion: { (completion) in
@@ -52,7 +52,7 @@ class UserAPITests: XCTestCase {
         anyCancellables.append(anyCancellable)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func testLogout() {
         let expectation = self.expectation(description: "testLogout")
         let anyCancellable = UserAPI.logoutUser().sink(receiveCompletion: { (completion) in
@@ -77,7 +77,7 @@ class UserAPITests: XCTestCase {
         anyCancellables.append(anyCancellable)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test1CreateUser() {
         let expectation = self.expectation(description: "testCreateUser")
         let newUser = User(id: 1000, username: "test@test.com", firstName: "Test", lastName: "Tester", email: "test@test.com", password: "test!", phone: "867-5309", userStatus: 0)
@@ -103,7 +103,7 @@ class UserAPITests: XCTestCase {
         anyCancellables.append(anyCancellable)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test2GetUser() {
         let expectation = self.expectation(description: "testGetUser")
         let anyCancellable = UserAPI.getUserByName(username: "test@test.com").sink(receiveCompletion: { (completion) in
@@ -120,12 +120,12 @@ class UserAPITests: XCTestCase {
             XCTAssert(user.password == "test!", "invalid password")
             XCTAssert(user.phone == "867-5309", "invalid phone")
             expectation.fulfill()
-            
+
         })
         anyCancellables.append(anyCancellable)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test3DeleteUser() {
         let expectation = self.expectation(description: "testDeleteUser")
         let anyCancellable = UserAPI.deleteUser(username: "test@test.com").sink(receiveCompletion: { (completion) in
@@ -150,5 +150,5 @@ class UserAPITests: XCTestCase {
         anyCancellables.append(anyCancellable)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
 }

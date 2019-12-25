@@ -13,13 +13,13 @@ import XCTest
 
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class StoreAPITests: XCTestCase {
-    
+
     let isoDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-    
+
     let testTimeout = 10.0
-    
+
     var anyCancellables: [AnyCancellable] = []
-    
+
     func test1PlaceOrder() {
         // use explicit naming to reference the enum so that we test we don't regress on enum naming
         let shipDate = Date()
@@ -38,13 +38,13 @@ class StoreAPITests: XCTestCase {
             XCTAssert(order.shipDate!.isEqual(shipDate, format: self.isoDateFormat),
                       "Date should be idempotent")
             XCTAssert(order.complete == true, "invalid complete")
-            
+
             expectation.fulfill()
         })
         anyCancellables.append(anyCancellable)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test2GetOrder() {
         let expectation = self.expectation(description: "testGetOrder")
         let anyCancellable = StoreAPI.getOrderById(orderId: 1000).sink(receiveCompletion: { (completion) in
@@ -63,7 +63,7 @@ class StoreAPITests: XCTestCase {
         anyCancellables.append(anyCancellable)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test3DeleteOrder() {
         let expectation = self.expectation(description: "testDeleteOrder")
         let anyCancellable = StoreAPI.deleteOrder(orderId: "1000").sink(receiveCompletion: { (completion) in
@@ -88,11 +88,11 @@ class StoreAPITests: XCTestCase {
         anyCancellables.append(anyCancellable)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
 }
 
 private extension Date {
-    
+
     /**
      Returns true if the dates are equal given the format string.
      
@@ -106,5 +106,5 @@ private extension Date {
         fmt.dateFormat = format
         return fmt.string(from: self).isEqual(fmt.string(from: date))
     }
-    
+
 }

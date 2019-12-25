@@ -13,27 +13,27 @@ import Combine
 
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class PetAPITests: XCTestCase {
-    
+
     let testTimeout = 10.0
-    
+
     var anyCancellables: [AnyCancellable] = []
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func test1CreatePet() {
         let expectation = self.expectation(description: "testCreatePet")
         let category = PetstoreClient.Category(id: 1234, name: "eyeColor")
         let tags = [Tag(id: 1234, name: "New York"), Tag(id: 124321, name: "Jose")]
         let newPet = Pet(id: 1000, category: category, name: "Fluffy", photoUrls: ["https://petstore.com/sample/photo1.jpg", "https://petstore.com/sample/photo2.jpg"], tags: tags, status: .available)
-        
+
         let anyCancellable = PetAPI.addPet(body: newPet).sink(receiveCompletion: { (completion) in
             switch completion {
             case .failure:
@@ -46,7 +46,7 @@ class PetAPITests: XCTestCase {
         anyCancellables.append(anyCancellable)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test2GetPet() {
         let expectation = self.expectation(description: "testGetPet")
         let anyCancellable = PetAPI.getPetById(petId: 1000).sink(receiveCompletion: { (completion) in
@@ -60,24 +60,24 @@ class PetAPITests: XCTestCase {
             XCTAssert(pet.name == "Fluffy", "invalid name")
             XCTAssert(pet.category!.id == 1234, "invalid category id")
             XCTAssert(pet.category!.name == "eyeColor", "invalid category name")
-            
+
             let tag1 = pet.tags![0]
             XCTAssert(tag1.id == 1234, "invalid tag id")
             XCTAssert(tag1.name == "New York", "invalid tag name")
-            
+
             let tag2 = pet.tags![1]
             XCTAssert(tag2.id == 124321, "invalid tag id")
             XCTAssert(tag2.name == "Jose", "invalid tag name")
-            
+
             XCTAssert(pet.photoUrls[0] == "https://petstore.com/sample/photo1.jpg")
             XCTAssert(pet.photoUrls[1] == "https://petstore.com/sample/photo2.jpg")
-            
+
             expectation.fulfill()
         })
         anyCancellables.append(anyCancellable)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test3DeletePet() {
         let expectation = self.expectation(description: "testDeletePet")
         let anyCancellable = PetAPI.deletePet(petId: 1000).sink(receiveCompletion: { (completion) in
