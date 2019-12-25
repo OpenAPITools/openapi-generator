@@ -19,8 +19,8 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.9.0"),
-        .package(url: "https://github.com/mxcl/PromiseKit.git", from: "6.11.0")
+        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.9.1"),
+        .package(url: "https://github.com/mxcl/PromiseKit.git", from: "6.12.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

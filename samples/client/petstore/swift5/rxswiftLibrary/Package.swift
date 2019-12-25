@@ -19,7 +19,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.9.0"),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.9.1"),
         .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.0.0")
     ],
     targets: [

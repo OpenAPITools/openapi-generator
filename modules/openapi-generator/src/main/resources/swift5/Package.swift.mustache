@@ -20,10 +20,10 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         {{#useAlamofire}}
-        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.9.0"),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.9.1"),
         {{/useAlamofire}}
         {{#usePromiseKit}}
-        .package(url: "https://github.com/mxcl/PromiseKit.git", from: "6.11.0"),
+        .package(url: "https://github.com/mxcl/PromiseKit.git", from: "6.12.0"),
         {{/usePromiseKit}}
         {{#useRxSwift}}
         .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.0.0"),
