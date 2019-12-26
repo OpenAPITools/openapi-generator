@@ -1,4 +1,4 @@
-{{#jvm}}
+{{^multiplatform}}
 {{#gson}}
 import com.google.gson.annotations.SerializedName
 {{/gson}}
@@ -13,7 +13,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 {{/parcelizeModels}}
-{{/jvm}}
+{{/multiplatform}}
 {{#multiplatform}}
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
@@ -32,11 +32,9 @@ import java.io.Serializable
 {{/parcelizeModels}}
 {{#multiplatform}}@Serializable{{/multiplatform}}{{#moshi}}{{#moshiCodeGen}}@JsonClass(generateAdapter = true){{/moshiCodeGen}}{{/moshi}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}data class {{classname}} (
-{{#requiredVars}}
-{{>data_class_req_var}}{{^-last}},
-{{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
-{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_opt_var}}{{^-last}},
-{{/-last}}{{/optionalVars}}
+{{#vars}}
+{{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
+{{/vars}}
 ) {{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}
 {{^parcelizeModels}}{{#serializableModel}}: Serializable {{/serializableModel}}{{/parcelizeModels}}
 {{#parcelizeModels}}{{#serializableModel}} : Parcelable, Serializable {{/serializableModel}}{{/parcelizeModels}}
@@ -59,14 +57,14 @@ import java.io.Serializable
     {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val value: {{#isListContainer}}{{{ nestedType }}}{{/isListContainer}}{{^isListContainer}}{{{dataType}}}{{/isListContainer}}){
     {{#allowableValues}}
     {{#enumVars}}
-        {{#jvm}}
+        {{^multiplatform}}
         {{#moshi}}
         @Json(name = {{{value}}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/moshi}}
         {{#gson}}
         @SerializedName(value={{{value}}})  {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/gson}}
-        {{/jvm}}
+        {{/multiplatform}}
         {{#multiplatform}}
         {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/multiplatform}}

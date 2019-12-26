@@ -1,0 +1,29 @@
+    def to_dict(self):
+        """Returns the model properties as a dict"""
+        return model_to_dict(self, serialize=False)
+
+    def to_str(self):
+        """Returns the string representation of the model"""
+        return pprint.pformat(self.to_dict())
+
+    def __eq__(self, other):
+        """Returns true if both objects are equal"""
+        if not isinstance(other, self.__class__):
+            return False
+
+        if not set(self._data_store.keys()) == set(other._data_store.keys()):
+            return False
+        for _var_name, this_val in six.iteritems(self._data_store):
+            that_val = other._data_store[_var_name]
+            types = set()
+            types.add(this_val.__class__)
+            types.add(that_val.__class__)
+            vals_equal = this_val == that_val
+            if (not six.PY3 and
+                    len(types) == 2 and unicode in types):  # noqa: F821
+                vals_equal = (
+                    this_val.encode('utf-8') == that_val.encode('utf-8')
+                )
+            if not vals_equal:
+                return False
+        return True

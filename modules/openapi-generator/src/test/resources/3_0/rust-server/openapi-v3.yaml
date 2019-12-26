@@ -45,6 +45,56 @@ paths:
           description: 'OK'
         '400':
           description: Bad Request
+  /multiget:
+    get:
+      summary: Get some stuff.
+      responses:
+        200:
+          description: JSON rsp
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/anotherXmlObject"
+        201:
+          description: XML rsp
+          content:
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  foo:
+                    type: string
+        202:
+          description: octet rsp
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        203:
+          description: string rsp
+          content:
+            text/plain:
+              schema:
+                type: string
+        204:
+          description: Duplicate Response long text. One.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/anotherXmlObject"
+        205:
+          description: Duplicate Response long text. Two.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/anotherXmlObject"
+        206:
+          description: Duplicate Response long text. Three.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/anotherXmlObject"
   /xml_other:
     post:
       requestBody:

@@ -29,6 +29,11 @@ var (
 
 	// ContextAPIKey takes an APIKey as authentication for the request
 	ContextAPIKey = contextKey("apikey")
+
+	{{#withAWSV4Signature}}
+	// ContextAWSv4 takes an Access Key and a Secret Key for signing AWS Signature v4.
+	ContextAWSv4 = contextKey("awsv4")
+	{{/withAWSV4Signature}}
 )
 
 // BasicAuth provides basic http authentication to a request passed via context using ContextBasicAuth
@@ -42,6 +47,15 @@ type APIKey struct {
 	Key    string
 	Prefix string
 }
+
+{{#withAWSV4Signature}}
+// AWSv4 provides AWS Signature to a request passed via context using ContextAWSv4
+// https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html
+type AWSv4 struct {
+		AccessKey string
+		SecretKey string
+}
+{{/withAWSV4Signature}}
 
 // ServerVariable stores the information about a server variable
 type ServerVariable struct {

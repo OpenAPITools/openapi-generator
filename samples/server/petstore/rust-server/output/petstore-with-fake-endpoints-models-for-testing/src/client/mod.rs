@@ -319,16 +319,13 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<models::Client>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::Client>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             TestSpecialTagsResponse::SuccessfulOperation(body)
                         })
@@ -403,16 +400,13 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<bool>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<bool>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             FakeOuterBooleanSerializeResponse::OutputBoolean(body)
                         })
@@ -486,16 +480,13 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<models::OuterComposite>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::OuterComposite>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             FakeOuterCompositeSerializeResponse::OutputComposite(body)
                         })
@@ -569,16 +560,13 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<f64>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<f64>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             FakeOuterNumberSerializeResponse::OutputNumber(body)
                         })
@@ -652,16 +640,13 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<String>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<String>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             FakeOuterStringSerializeResponse::OutputString(body)
                         })
@@ -796,16 +781,13 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<models::Client>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::Client>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             TestClientModelResponse::SuccessfulOperation(body)
                         })
@@ -1210,16 +1192,13 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<models::Client>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::Client>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             TestClassnameResponse::SuccessfulOperation(body)
                         })
@@ -1452,17 +1431,15 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-                                                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                                                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                                                 serde_xml_rs::from_str::<Vec<models::Pet>>(body)
-                                                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                serde_xml_rs::from_str::<Vec<models::Pet>>(body)
+                                .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                            )
+                        )
                         .map(move |body| {
                             FindPetsByStatusResponse::SuccessfulOperation(body)
                         })
@@ -1549,17 +1526,15 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-                                                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                                                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                                                 serde_xml_rs::from_str::<Vec<models::Pet>>(body)
-                                                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                serde_xml_rs::from_str::<Vec<models::Pet>>(body)
+                                .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                            )
+                        )
                         .map(move |body| {
                             FindPetsByTagsResponse::SuccessfulOperation(body)
                         })
@@ -1646,17 +1621,15 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-                                                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                                                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                                                 serde_xml_rs::from_str::<models::Pet>(body)
-                                                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                serde_xml_rs::from_str::<models::Pet>(body)
+                                .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                            )
+                        )
                         .map(move |body| {
                             GetPetByIdResponse::SuccessfulOperation(body)
                         })
@@ -1976,16 +1949,13 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<models::ApiResponse>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::ApiResponse>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             UploadFileResponse::SuccessfulOperation(body)
                         })
@@ -2133,16 +2103,13 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<HashMap<String, i32>>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<HashMap<String, i32>>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             GetInventoryResponse::SuccessfulOperation(body)
                         })
@@ -2207,17 +2174,15 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-                                                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                                                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                                                 serde_xml_rs::from_str::<models::Order>(body)
-                                                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                serde_xml_rs::from_str::<models::Order>(body)
+                                .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                            )
+                        )
                         .map(move |body| {
                             GetOrderByIdResponse::SuccessfulOperation(body)
                         })
@@ -2304,17 +2269,15 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-                                                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                                                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                                                 serde_xml_rs::from_str::<models::Order>(body)
-                                                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                serde_xml_rs::from_str::<models::Order>(body)
+                                .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                            )
+                        )
                         .map(move |body| {
                             PlaceOrderResponse::SuccessfulOperation(body)
                         })
@@ -2654,17 +2617,15 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-                                                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                                                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                                                 serde_xml_rs::from_str::<models::User>(body)
-                                                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                serde_xml_rs::from_str::<models::User>(body)
+                                .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                            )
+                        )
                         .map(move |body| {
                             GetUserByNameResponse::SuccessfulOperation(body)
                         })
@@ -2759,17 +2720,15 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-                                                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                                                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                                                 serde_xml_rs::from_str::<String>(body)
-                                                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                serde_xml_rs::from_str::<String>(body)
+                                .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                            )
+                        )
                         .map(move |body| {
                             LoginUserResponse::SuccessfulOperation{ body: body, x_rate_limit: response_x_rate_limit, x_expires_after: response_x_expires_after }
                         })
