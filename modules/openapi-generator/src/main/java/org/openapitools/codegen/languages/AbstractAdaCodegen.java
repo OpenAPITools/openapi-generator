@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -163,7 +164,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         addOption(CodegenConstants.PROJECT_NAME, "GNAT project name",
                 this.projectName);
 
-        modelNameSuffix = "_Type";
+        modelNameSuffix = "Type";
         embeddedTemplateDir = templateDir = "Ada";
 
         languageSpecificPrimitives = new HashSet<String>(
@@ -242,11 +243,37 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
      * @return capitalized model name
      */
     public String toModelName(final String name) {
-        String result = super.toModelName(name);
-        if (result.matches("^\\d.*") || result.startsWith("_")) {
-            result = "Model_" + result;
+        String result = camelize(sanitizeName(name));
+
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            result = modelNamePrefix + "_" + result;
         }
-        return result.replaceAll("[\\.-]", "_").replaceAll("__+", "_");
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(name)) {
+            String modelName = "Model_" + result;
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        // model name starts with number
+        if (result.matches("^\\d.*")) {
+            String modelName = "Model_" + result; // e.g. 200Response => Model_200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        if (languageSpecificPrimitives.contains(result)) {
+            String modelName = "Model_" + result;
+            LOGGER.warn(name + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            result = result + "_" + modelNameSuffix;
+        }
+
+        return result;
     }
 
     @Override
@@ -517,7 +544,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             if (v instanceof CodegenModel) {
                 CodegenModel m = (CodegenModel) v;
                 List<String> d = new ArrayList<String>();
-                for (CodegenProperty p : m.allVars) {
+                for (CodegenProperty p : m.vars) {
                     boolean isModel = false;
                     CodegenProperty item = p;
                     if (p.isContainer) {
@@ -531,9 +558,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                         isModel = true;
                     }
                     p.vendorExtensions.put("x-is-model-type", isModel);
+                    Boolean required = p.getRequired();
 
                     // Convert optional members to use the Nullable_<T> type.
-                    if (!p.required && nullableTypeMapping.containsKey(p.dataType)) {
+                    if (!Boolean.TRUE.equals(required) && nullableTypeMapping.containsKey(p.dataType)) {
                         p.dataType = nullableTypeMapping.get(p.dataType);
                     }
                 }
