@@ -45,7 +45,7 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
 
     @Override
     public String getLanguage() {
-        return "dart";
+        return "dart-dio";
     }
 
     @Override
@@ -58,6 +58,9 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
                 .put(DartDioClientCodegen.PUB_NAME, PUB_NAME_VALUE)
                 .put(DartDioClientCodegen.PUB_VERSION, PUB_VERSION_VALUE)
                 .put(DartDioClientCodegen.PUB_DESCRIPTION, PUB_DESCRIPTION_VALUE)
+                .put(DartDioClientCodegen.PUB_AUTHOR, PUB_AUTHOR_VALUE)
+                .put(DartDioClientCodegen.PUB_AUTHOR_EMAIL, PUB_AUTHOR_EMAIL_VALUE)
+                .put(DartDioClientCodegen.PUB_HOMEPAGE, PUB_HOMEPAGE_VALUE)
                 .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER_VALUE)
                 .put(DartDioClientCodegen.USE_ENUM_EXTENSION, USE_ENUM_EXTENSION)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
@@ -65,9 +68,6 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
                 .put(DartDioClientCodegen.SUPPORT_DART2, "false")
                 .put(DartDioClientCodegen.DATE_LIBRARY, DATE_LIBRARY)
                 .put(DartDioClientCodegen.NULLABLE_FIELDS, NULLABLE_FIELDS)
-                .put(DartDioClientCodegen.PUB_AUTHOR, PUB_AUTHOR_VALUE)
-                .put(DartDioClientCodegen.PUB_AUTHOR_EMAIL, PUB_AUTHOR_EMAIL_VALUE)
-                .put(DartDioClientCodegen.PUB_HOMEPAGE, PUB_HOMEPAGE_VALUE)
                 .build();
     }
 

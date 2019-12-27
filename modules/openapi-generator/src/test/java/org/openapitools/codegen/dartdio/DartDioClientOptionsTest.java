@@ -52,6 +52,12 @@ public class DartDioClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setPubDescription(DartDioClientOptionsProvider.PUB_DESCRIPTION_VALUE);
             times = 1;
+            clientCodegen.setPubAuthor(DartDioClientOptionsProvider.PUB_AUTHOR_VALUE);
+            times = 1;
+            clientCodegen.setPubAuthorEmail(DartDioClientOptionsProvider.PUB_AUTHOR_EMAIL_VALUE);
+            times = 1;
+            clientCodegen.setPubHomepage(DartDioClientOptionsProvider.PUB_HOMEPAGE_VALUE);
+            times = 1;
             clientCodegen.setSourceFolder(DartDioClientOptionsProvider.SOURCE_FOLDER_VALUE);
             times = 1;
             clientCodegen.setUseEnumExtension(Boolean.valueOf(DartDioClientOptionsProvider.USE_ENUM_EXTENSION));
@@ -60,11 +66,6 @@ public class DartDioClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setNullableFields(Boolean.valueOf(DartDioClientOptionsProvider.NULLABLE_FIELDS));
             times = 1;
-            clientCodegen.setPubAuthor(DartDioClientOptionsProvider.PUB_AUTHOR_VALUE);
-            times = 1;
-            clientCodegen.setPubAuthorEmail(DartDioClientOptionsProvider.PUB_AUTHOR_EMAIL_VALUE);
-            times = 1;
-            clientCodegen.setPubHomepage(DartDioClientOptionsProvider.PUB_HOMEPAGE_VALUE);
         }};
     }
 }
