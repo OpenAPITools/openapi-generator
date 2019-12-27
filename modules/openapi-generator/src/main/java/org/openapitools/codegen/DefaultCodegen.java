@@ -1876,7 +1876,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             // parent model
             final String parentName = ModelUtils.getParentName(composed, allDefinitions);
-            final List<String> allParents = ModelUtils.getAllParentsName(composed, allDefinitions);
+            final List<String> allParents = ModelUtils.getAllParentsName(composed, allDefinitions, false);
             final Schema parent = StringUtils.isBlank(parentName) || allDefinitions == null ? null : allDefinitions.get(parentName);
 
             // TODO revise the logic below to set dicriminator, xml attributes
@@ -2083,10 +2083,8 @@ public class DefaultCodegen implements CodegenConfig {
             Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
             allDefinitions.forEach((childName, child) -> {
                 if (child instanceof ComposedSchema && ((ComposedSchema) child).getAllOf() != null) {
-                    Set<String> parentSchemas = ((ComposedSchema) child).getAllOf().stream()
-                            .filter(s -> s.get$ref() != null)
-                            .map(s -> ModelUtils.getSimpleRef(s.get$ref()))
-                            .collect(Collectors.toSet());
+
+                    final List<String> parentSchemas = ModelUtils.getAllParentsName((ComposedSchema) child, allDefinitions, true);
                     if (parentSchemas.contains(schemaName)) {
                         discriminator.getMappedModels().add(new MappedModel(childName, toModelName(childName)));
                     }

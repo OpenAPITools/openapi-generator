@@ -228,6 +228,39 @@ arrayTestArrayArrayOfModelL f ArrayTest{..} = (\arrayTestArrayArrayOfModel -> Ar
 
 
 
+-- * BigCat
+
+-- | 'bigCatClassName' Lens
+bigCatClassNameL :: Lens_' BigCat (Text)
+bigCatClassNameL f BigCat{..} = (\bigCatClassName -> BigCat { bigCatClassName, ..} ) <$> f bigCatClassName
+{-# INLINE bigCatClassNameL #-}
+
+-- | 'bigCatColor' Lens
+bigCatColorL :: Lens_' BigCat (Maybe Text)
+bigCatColorL f BigCat{..} = (\bigCatColor -> BigCat { bigCatColor, ..} ) <$> f bigCatColor
+{-# INLINE bigCatColorL #-}
+
+-- | 'bigCatDeclawed' Lens
+bigCatDeclawedL :: Lens_' BigCat (Maybe Bool)
+bigCatDeclawedL f BigCat{..} = (\bigCatDeclawed -> BigCat { bigCatDeclawed, ..} ) <$> f bigCatDeclawed
+{-# INLINE bigCatDeclawedL #-}
+
+-- | 'bigCatKind' Lens
+bigCatKindL :: Lens_' BigCat (Maybe E'Kind)
+bigCatKindL f BigCat{..} = (\bigCatKind -> BigCat { bigCatKind, ..} ) <$> f bigCatKind
+{-# INLINE bigCatKindL #-}
+
+
+
+-- * BigCatAllOf
+
+-- | 'bigCatAllOfKind' Lens
+bigCatAllOfKindL :: Lens_' BigCatAllOf (Maybe E'Kind)
+bigCatAllOfKindL f BigCatAllOf{..} = (\bigCatAllOfKind -> BigCatAllOf { bigCatAllOfKind, ..} ) <$> f bigCatAllOfKind
+{-# INLINE bigCatAllOfKindL #-}
+
+
+
 -- * Capitalization
 
 -- | 'capitalizationSmallCamel' Lens
