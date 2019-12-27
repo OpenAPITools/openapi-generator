@@ -187,7 +187,9 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+            boolean isSet = ModelUtils.isSet(ap);
+            String arrayType = isSet ? typeMapping.get("set") : typeMapping.get("array");
+            return arrayType + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
 
@@ -228,6 +230,9 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     @Override
     public String toDefaultValue(Schema p) {
         if (p.getDefault() != null) {
+            if (ModelUtils.isArraySchema(p) && p.getDefault().toString().equals("[]")) {
+                 return ModelUtils.isSet((ArraySchema) p) ? "Set.empty " : "List.empty ";
+            }
             return p.getDefault().toString();
         }
 
@@ -247,8 +252,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             return "new HashMap[String, " + inner + "]() ";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
-            return "new ListBuffer[" + inner + "]() ";
+            return ModelUtils.isSet(ap) ? "Set.empty " : "List.empty ";
         } else if (ModelUtils.isStringSchema(p)) {
             return null;
         } else {

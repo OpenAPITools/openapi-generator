@@ -151,7 +151,6 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
         importMapping.remove("Map");
 
         importMapping.put("Date", "java.util.Date");
-        importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("enum", "NSString");
@@ -173,7 +172,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
         typeMapping.put("date-time", "Date");
         typeMapping.put("DateTime", "Date");
 
-        instantiationTypes.put("array", "ListBuffer");
+        instantiationTypes.put("array", "List");
         instantiationTypes.put("map", "HashMap");
 
         setReservedWordsLowerCase(

@@ -76,8 +76,6 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         importMapping.remove("List");
         importMapping.remove("Set");
         importMapping.remove("Map");
-        
-        importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
 
         // Overrides defaults applied in DefaultCodegen which don't apply cleanly to Scala.
         importMapping.put("Date", "java.util.Date");
@@ -106,7 +104,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         typeMapping.put("date-time", "DateTime");
         typeMapping.put("date", "DateTime");
 
-        instantiationTypes.put("array", "ListBuffer");
+        instantiationTypes.put("array", "List");
         instantiationTypes.put("map", "HashMap");
 
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());

@@ -257,9 +257,9 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.parent, "ListBuffer[Children]");
-        Assert.assertEquals(cm.imports.size(), 2);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ListBuffer", "Children")).size(), 2);
+        Assert.assertEquals(cm.parent, "List[Children]");
+        Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
     @Test(description = "convert a map model")
