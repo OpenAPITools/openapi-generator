@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.DartDioClientCodegen;
-import org.openapitools.codegen.languages.DartDioClientCodegen;
 
 public class DartDioClientOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "true";

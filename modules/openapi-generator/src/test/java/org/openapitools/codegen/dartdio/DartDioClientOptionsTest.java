@@ -52,8 +52,8 @@ public class DartDioClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setPubDescription(DartDioClientOptionsProvider.PUB_DESCRIPTION_VALUE);
             times = 1;
-            clientCodegen.setPubAuthor(DartDioClientOptionsProvider.PUB_AUTHOR_VALUE);
-            times = 1;
+            //clientCodegen.setPubAuthor(DartDioClientOptionsProvider.PUB_AUTHOR_VALUE);
+            //times = 1;
             clientCodegen.setPubAuthorEmail(DartDioClientOptionsProvider.PUB_AUTHOR_EMAIL_VALUE);
             times = 1;
             clientCodegen.setPubHomepage(DartDioClientOptionsProvider.PUB_HOMEPAGE_VALUE);
