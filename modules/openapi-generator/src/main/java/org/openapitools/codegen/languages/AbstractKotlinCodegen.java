@@ -426,7 +426,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         additionalProperties.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, getSortParamsByRequiredFlag());
         additionalProperties.put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, getSortModelPropertiesByRequiredFlag());
-        
+
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
 
@@ -674,7 +674,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // TODO: collection type here should be fully qualified namespace to avoid model conflicts
         // This supports arrays of arrays.
         String arrayType = typeMapping.get("array");
-        if (Boolean.TRUE.equals(arr.getUniqueItems())) {
+        if (ModelUtils.isSet(arr)) {
             arrayType = typeMapping.get("set");
         }
         StringBuilder instantiationType = new StringBuilder(arrayType);

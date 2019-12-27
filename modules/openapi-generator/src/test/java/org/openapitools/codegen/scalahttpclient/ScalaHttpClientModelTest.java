@@ -112,7 +112,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.setter, "setUrls");
         Assert.assertEquals(property1.dataType, "List[String]");
         Assert.assertEquals(property1.name, "urls");
-        Assert.assertEquals(property1.defaultValue, "new ListBuffer[String]() ");
+        Assert.assertEquals(property1.defaultValue, "List.empty ");
         Assert.assertEquals(property1.baseType, "List");
         Assert.assertEquals(property1.containerType, "array");
         Assert.assertFalse(property1.required);
@@ -199,7 +199,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.setter, "setChildren");
         Assert.assertEquals(property1.dataType, "List[Children]");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.defaultValue, "new ListBuffer[Children]() ");
+        Assert.assertEquals(property1.defaultValue, "List.empty ");
         Assert.assertEquals(property1.baseType, "List");
         Assert.assertEquals(property1.containerType, "array");
         Assert.assertFalse(property1.required);
@@ -251,9 +251,9 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.parent, "ListBuffer[Children]");
-        Assert.assertEquals(cm.imports.size(), 2);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ListBuffer", "Children")).size(), 2);
+        Assert.assertEquals(cm.parent, "List[Children]");
+        Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
     @Test(description = "convert a map model")

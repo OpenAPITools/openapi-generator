@@ -110,7 +110,6 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
         importMapping.remove("Map");
 
         importMapping.put("Date", "java.util.Date");
-        importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("enum", "NSString");
@@ -133,7 +132,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
         typeMapping.put("date-time", "Date");
         typeMapping.put("DateTime", "Date");
 
-        instantiationTypes.put("array", "ListBuffer");
+        instantiationTypes.put("array", "List");
         instantiationTypes.put("map", "HashMap");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
