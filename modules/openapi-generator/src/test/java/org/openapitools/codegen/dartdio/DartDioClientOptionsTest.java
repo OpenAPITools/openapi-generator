@@ -21,9 +21,7 @@ import mockit.Expectations;
 import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.DartClientCodegen;
 import org.openapitools.codegen.languages.DartDioClientCodegen;
-import org.openapitools.codegen.options.DartDioClientOptionsProvider;
 import org.openapitools.codegen.options.DartDioClientOptionsProvider;
 
 public class DartDioClientOptionsTest extends AbstractOptionsTest {
