@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   BigCat.JSON_PROPERTY_KIND
 })
+@javax.annotation.concurrent.Immutable
 
 public class BigCat extends Cat {
   /**
