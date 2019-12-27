@@ -63,6 +63,9 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
                 .put(DartDioClientCodegen.SUPPORT_DART2, "false")
                 .put(DartDioClientCodegen.DATE_LIBRARY, DATE_LIBRARY)
                 .put(DartDioClientCodegen.NULLABLE_FIELDS, NULLABLE_FIELDS)
+                .put(DartDioClientCodegen.PUB_AUTHOR, PUB_AUTHOR_VALUE)
+                .put(DartDioClientCodegen.PUB_AUTHOR_EMAIL, PUB_AUTHOR_EMAIL_VALUE)
+                .put(DartDioClientCodegen.PUB_HOMEPAGE, PUB_HOMEPAGE_VALUE)
 
             .build();
     }
