@@ -530,7 +530,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 modified = underscore(modified);
                 break;
             case UPPERCASE:
-                modified = modified.toUpperCase(Locale.ROOT);
+                modified = underscore(modified).toUpperCase(Locale.ROOT);
                 break;
         }
 
