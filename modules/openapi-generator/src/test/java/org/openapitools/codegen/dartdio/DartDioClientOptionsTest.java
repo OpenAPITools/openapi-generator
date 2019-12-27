@@ -62,6 +62,11 @@ public class DartDioClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setNullableFields(Boolean.valueOf(DartDioClientOptionsProvider.NULLABLE_FIELDS));
             times = 1;
+            clientCodegen.setPubAuthor(DartDioClientOptionsProvider.PUB_AUTHOR_VALUE);
+            times = 1;
+            clientCodegen.setPubAuthorEmail(DartDioClientOptionsProvider.PUB_AUTHOR_EMAIL_VALUE);
+            times = 1;
+            clientCodegen.setPubHomepage(DartDioClientOptionsProvider.PUB_HOMEPAGE_VALUE);
         }};
     }
 }

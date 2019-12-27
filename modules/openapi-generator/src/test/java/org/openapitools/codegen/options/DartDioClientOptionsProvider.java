@@ -37,6 +37,9 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String DATE_LIBRARY = "core";
     public static final String NULLABLE_FIELDS = "true";
+    public static final String PUB_AUTHOR_VALUE = "Author";
+    public static final String PUB_AUTHOR_EMAIL_VALUE = "author@homepage";
+    public static final String PUB_HOMEPAGE_VALUE = "Homepage";
 
     @Override
     public String getLanguage() {
