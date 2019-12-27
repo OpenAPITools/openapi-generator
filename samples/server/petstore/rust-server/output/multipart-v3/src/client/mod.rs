@@ -25,6 +25,8 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
+use swagger::headers::SafeHeaders;
+
 use hyper::mime::Mime; 
 use std::io::Cursor; 
 use client::multipart::client::lazy::Multipart; 
