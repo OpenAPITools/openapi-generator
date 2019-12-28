@@ -948,6 +948,25 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/Client'
+  /fake/hyphenParam/{hyphen-param}:
+    get:
+      tags:
+        - fake
+      description: To test hyphen in path parameter name
+      operationId: hyphenParam
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: hyphen-param
+          in: path
+          description: Parameter with hyphen in name
+          required: true
+          type: string
+      responses:
+        200:
+          description: Success
 securityDefinitions:
   petstore_auth:
     type: oauth2
