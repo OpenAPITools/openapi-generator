@@ -30,6 +30,53 @@ paths:
           description: OK
         400:
           description: Bad Request
+  /multiget:
+    get:
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/anotherXmlObject'
+          description: JSON rsp
+        201:
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/inline_response_201'
+          description: XML rsp
+        202:
+          content:
+            application/octet-stream:
+              schema:
+                format: binary
+                type: string
+          description: octet rsp
+        203:
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: string rsp
+        204:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/anotherXmlObject'
+          description: Duplicate Response long text. One.
+        205:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/anotherXmlObject'
+          description: Duplicate Response long text. Two.
+        206:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/anotherXmlObject'
+          description: Duplicate Response long text. Three.
+      summary: Get some stuff.
   /xml_other:
     post:
       requestBody:
@@ -186,6 +233,8 @@ components:
         name: snake_another_xml_inner
     anotherXmlObject:
       description: An XML object
+      example:
+        inner_string: inner_string
       properties:
         inner_string:
           type: string
@@ -193,6 +242,10 @@ components:
       xml:
         name: snake_another_xml_object
         namespace: http://foo.bar
+    inline_response_201:
+      properties:
+        foo:
+          type: string
   securitySchemes:
     authScheme:
       flows:

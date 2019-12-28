@@ -5,12 +5,10 @@ with Util.Http.Clients.Curl;
 with Ada.Text_IO;
 with Ada.Command_Line;
 with Ada.Calendar.Formatting;
-with Ada.Strings.Unbounded;
 with Ada.Exceptions;
-procedure Test is
+procedure Petstore is
 
    use Ada.Text_IO;
-   use type Ada.Strings.Unbounded.Unbounded_String;
 
    procedure Usage;
    procedure Print_Pet (Pet : in Samples.Petstore.Models.Pet_Type);
@@ -65,7 +63,7 @@ procedure Test is
          Need_Indent := False;
          Put ("URLs    : ");
          for Url of Pet.Photo_Urls loop
-            Put_Line ((if Need_Indent then "          " else "") & Swagger.To_String (Url.Value));
+            Put_Line ((if Need_Indent then "          " else "") & Url);
             Need_Indent := True;
          end loop;
       end if;
@@ -130,10 +128,10 @@ procedure Test is
    begin
       for I in Arg .. Arg_Count loop
          declare
-            Status  : Swagger.Nullable_UString_Vectors.Vector;
+            Status  : Swagger.UString_Vectors.Vector;
             P : constant String := Ada.Command_Line.Argument (I);
          begin
-            Status.Append ((Is_Null => False, Value => Swagger.To_UString (P)));
+            Status.Append (New_Item => P);
             C.Find_Pets_By_Status (Status, Pets);
             for Pet of Pets loop
                Print_Pet (Pet);
@@ -143,17 +141,17 @@ procedure Test is
    end List_Pet;
 
    procedure List_Inventory (C : in out Samples.Petstore.Clients.Client_Type) is
-      List : Swagger.Nullable_Integer_Map;
-      Iter : Swagger.Nullable_Integer_Maps.Cursor;
+      List : Swagger.Integer_Map;
+      Iter : Swagger.Integer_Maps.Cursor;
    begin
       C.Get_Inventory (List);
       Ada.Text_IO.Put_Line ("Inventory size " & Natural'Image (Natural (List.Length)));
       Iter := List.First;
-      while Swagger.Nullable_Integer_Maps.Has_Element (Iter) loop
-         Put (Swagger.Nullable_Integer_Maps.Key (Iter));
+      while Swagger.Integer_Maps.Has_Element (Iter) loop
+         Put (Swagger.Integer_Maps.Key (Iter));
          Set_Col (70);
-         Put_Line (Natural'Image (Swagger.Nullable_Integer_Maps.Element (Iter).Value));
-         Swagger.Nullable_Integer_Maps.Next (Iter);
+         Put_Line (Natural'Image (Swagger.Integer_Maps.Element (Iter)));
+         Swagger.Integer_Maps.Next (Iter);
       end loop;
    end List_Inventory;
 
@@ -271,4 +269,4 @@ begin
          Put_Line ("Constraint error raised: " & Ada.Exceptions.Exception_Message (E));
 
    end;
-end Test;
+end Petstore;

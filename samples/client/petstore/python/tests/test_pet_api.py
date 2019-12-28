@@ -157,7 +157,7 @@ class PetApiTests(unittest.TestCase):
         response = thread.get()
         response2 = thread2.get()
 
-        self.assertEquals(response.id, self.pet.id)
+        self.assertEqual(response.id, self.pet.id)
         self.assertIsNotNone(response2.id, self.pet.id)
 
     def test_async_with_http_info(self):
@@ -167,7 +167,7 @@ class PetApiTests(unittest.TestCase):
         data, status, headers = thread.get()
 
         self.assertIsInstance(data, petstore_api.Pet)
-        self.assertEquals(status, 200)
+        self.assertEqual(status, 200)
 
     def test_async_exception(self):
         self.pet_api.add_pet(self.pet)

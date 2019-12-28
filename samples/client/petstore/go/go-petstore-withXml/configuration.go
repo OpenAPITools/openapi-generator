@@ -38,6 +38,7 @@ var (
 
 	// ContextAPIKey takes an APIKey as authentication for the request
 	ContextAPIKey = contextKey("apikey")
+
 )
 
 // BasicAuth provides basic http authentication to a request passed via context using ContextBasicAuth
@@ -51,6 +52,7 @@ type APIKey struct {
 	Key    string
 	Prefix string
 }
+
 
 // ServerVariable stores the information about a server variable
 type ServerVariable struct {

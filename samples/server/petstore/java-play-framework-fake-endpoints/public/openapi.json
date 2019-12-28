@@ -1934,6 +1934,13 @@
           "$ref" : "#/components/schemas/Cat_allOf"
         } ]
       },
+      "BigCat" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Cat"
+        }, {
+          "$ref" : "#/components/schemas/BigCat_allOf"
+        } ]
+      },
       "Animal" : {
         "discriminator" : {
           "propertyName" : "className"
@@ -2826,6 +2833,14 @@
         "properties" : {
           "declawed" : {
             "type" : "boolean"
+          }
+        }
+      },
+      "BigCat_allOf" : {
+        "properties" : {
+          "kind" : {
+            "enum" : [ "lions", "tigers", "leopards", "jaguars" ],
+            "type" : "string"
           }
         }
       }

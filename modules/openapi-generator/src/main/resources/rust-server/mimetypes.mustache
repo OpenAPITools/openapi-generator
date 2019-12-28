@@ -7,7 +7,7 @@ pub mod responses {
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#responses}}{{#produces}}{{#-first}}{{#dataType}}
     lazy_static! {
         /// Create Mime objects for the response content types for {{{operationId}}}
-        pub static ref {{#vendorExtensions}}{{{uppercase_operation_id}}}_{{x-uppercaseResponseId}}{{/vendorExtensions}}: Mime = "{{{mediaType}}}".parse().unwrap();
+        pub static ref {{#vendorExtensions}}{{{uppercase_operation_id}}}_{{x-uppercaseResponseId}}: Mime = "{{{mimeType}}}".parse().unwrap();{{/vendorExtensions}}
     }
 {{/dataType}}{{/-first}}{{/produces}}{{/responses}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 }
