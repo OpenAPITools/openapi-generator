@@ -523,6 +523,16 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Schema> definitions = ModelUtils.getSchemas(this.openAPI);
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
+        String pathFormatString = op.path;
+        for (CodegenParameter param : op.pathParams) {
+            // Replace {baseName} with {paramName} for format string
+            String paramSearch = "{" + param.baseName + "}";
+            String paramReplace = "{" + param.paramName + "}";
+
+            pathFormatString = pathFormatString.replace(paramSearch, paramReplace);
+        }
+        op.vendorExtensions.put("pathFormatString", pathFormatString);
+
         // The Rust code will need to contain a series of regular expressions.
         // For performance, we'll construct these at start-of-day and re-use
         // them.  That means we need labels for them.
@@ -555,10 +565,18 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
             // Don't prefix with '^' so that the templates can put the
             // basePath on the front.
-            pathSetEntry.put("pathRegEx", op.path.replace("{", "(?P<").replace("}", ">[^/?#]*)") + "$");
+            String pathRegEx = op.path;
+            for (CodegenParameter param : op.pathParams) {
+                // Replace {baseName} with (?P<paramName>[^/?#]*) for regex
+                String paramSearch = "{" + param.baseName + "}";
+                String paramReplace = "(?P<" + param.paramName + ">[^/?#]*)";
+
+                pathRegEx = pathRegEx.replace(paramSearch, paramReplace);
+            }
+
+            pathSetEntry.put("pathRegEx", pathRegEx + "$");
             pathSetMap.put(pathId, pathSetEntry);
         }
-
         op.vendorExtensions.put("operation_id", underscore(op.operationId));
         op.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase(Locale.ROOT));
         op.vendorExtensions.put("path", op.path.replace("{", ":").replace("}", ""));

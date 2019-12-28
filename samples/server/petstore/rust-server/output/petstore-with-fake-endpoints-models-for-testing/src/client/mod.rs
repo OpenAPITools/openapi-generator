@@ -47,6 +47,7 @@ use {Api,
      FakeOuterCompositeSerializeResponse,
      FakeOuterNumberSerializeResponse,
      FakeOuterStringSerializeResponse,
+     HyphenParamResponse,
      TestBodyWithQueryParamsResponse,
      TestClientModelResponse,
      TestEndpointParametersResponse,
@@ -650,6 +651,67 @@ impl<F, C> Api<C> for Client<F> where
                         .map(move |body| {
                             FakeOuterStringSerializeResponse::OutputString(body)
                         })
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<dyn Future<Item=_, Error=_>>
+                }
+            }
+        }))
+
+    }
+
+    fn hyphen_param(&self, param_hyphen_param: String, context: &C) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError>> {
+        let mut uri = format!(
+            "{}/v2/fake/hyphenParam/{hyphen_param}",
+            self.base_path, hyphen_param=utf8_percent_encode(&param_hyphen_param.to_string(), ID_ENCODE_SET)
+        );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
+        };
+
+        let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
+        Box::new(self.client_service.call(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    let body = response.body();
+                    Box::new(
+
+                        future::ok(
+                            HyphenParamResponse::Success
+                        )
                     ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
@@ -1308,8 +1370,8 @@ impl<F, C> Api<C> for Client<F> where
 
     fn delete_pet(&self, param_pet_id: i64, param_api_key: Option<String>, context: &C) -> Box<dyn Future<Item=DeletePetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2/pet/{petId}",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
+            "{}/v2/pet/{pet_id}",
+            self.base_path, pet_id=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
@@ -1575,8 +1637,8 @@ impl<F, C> Api<C> for Client<F> where
 
     fn get_pet_by_id(&self, param_pet_id: i64, context: &C) -> Box<dyn Future<Item=GetPetByIdResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2/pet/{petId}",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
+            "{}/v2/pet/{pet_id}",
+            self.base_path, pet_id=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
@@ -1774,8 +1836,8 @@ impl<F, C> Api<C> for Client<F> where
 
     fn update_pet_with_form(&self, param_pet_id: i64, param_name: Option<String>, param_status: Option<String>, context: &C) -> Box<dyn Future<Item=UpdatePetWithFormResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2/pet/{petId}",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
+            "{}/v2/pet/{pet_id}",
+            self.base_path, pet_id=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
@@ -1855,8 +1917,8 @@ impl<F, C> Api<C> for Client<F> where
 
     fn upload_file(&self, param_pet_id: i64, param_additional_metadata: Option<String>, param_file: Option<swagger::ByteArray>, context: &C) -> Box<dyn Future<Item=UploadFileResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/v2/pet/{petId}/uploadImage",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
+            "{}/v2/pet/{pet_id}/uploadImage",
+            self.base_path, pet_id=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());

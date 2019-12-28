@@ -44,6 +44,7 @@ use {Api,
      FakeOuterCompositeSerializeResponse,
      FakeOuterNumberSerializeResponse,
      FakeOuterStringSerializeResponse,
+     HyphenParamResponse,
      TestBodyWithQueryParamsResponse,
      TestClientModelResponse,
      TestEndpointParametersResponse,
@@ -87,6 +88,7 @@ mod paths {
             r"^/v2/another-fake/dummy$",
             r"^/v2/fake$",
             r"^/v2/fake/body-with-query-params$",
+            r"^/v2/fake/hyphenParam/(?P<hyphen_param>[^/?#]*)$",
             r"^/v2/fake/inline-additionalProperties$",
             r"^/v2/fake/jsonFormData$",
             r"^/v2/fake/outer/boolean$",
@@ -97,8 +99,8 @@ mod paths {
             r"^/v2/pet$",
             r"^/v2/pet/findByStatus$",
             r"^/v2/pet/findByTags$",
-            r"^/v2/pet/(?P<petId>[^/?#]*)$",
-            r"^/v2/pet/(?P<petId>[^/?#]*)/uploadImage$",
+            r"^/v2/pet/(?P<pet_id>[^/?#]*)$",
+            r"^/v2/pet/(?P<pet_id>[^/?#]*)/uploadImage$",
             r"^/v2/store/inventory$",
             r"^/v2/store/order$",
             r"^/v2/store/order/(?P<order_id>[^/?#]*)$",
@@ -113,36 +115,40 @@ mod paths {
     pub static ID_ANOTHER_FAKE_DUMMY: usize = 0;
     pub static ID_FAKE: usize = 1;
     pub static ID_FAKE_BODY_WITH_QUERY_PARAMS: usize = 2;
-    pub static ID_FAKE_INLINE_ADDITIONALPROPERTIES: usize = 3;
-    pub static ID_FAKE_JSONFORMDATA: usize = 4;
-    pub static ID_FAKE_OUTER_BOOLEAN: usize = 5;
-    pub static ID_FAKE_OUTER_COMPOSITE: usize = 6;
-    pub static ID_FAKE_OUTER_NUMBER: usize = 7;
-    pub static ID_FAKE_OUTER_STRING: usize = 8;
-    pub static ID_FAKE_CLASSNAME_TEST: usize = 9;
-    pub static ID_PET: usize = 10;
-    pub static ID_PET_FINDBYSTATUS: usize = 11;
-    pub static ID_PET_FINDBYTAGS: usize = 12;
-    pub static ID_PET_PETID: usize = 13;
+    pub static ID_FAKE_HYPHENPARAM_HYPHEN_PARAM: usize = 3;
     lazy_static! {
-        pub static ref REGEX_PET_PETID: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)$").unwrap();
+        pub static ref REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM: regex::Regex = regex::Regex::new(r"^/v2/fake/hyphenParam/(?P<hyphen_param>[^/?#]*)$").unwrap();
     }
-    pub static ID_PET_PETID_UPLOADIMAGE: usize = 14;
+    pub static ID_FAKE_INLINE_ADDITIONALPROPERTIES: usize = 4;
+    pub static ID_FAKE_JSONFORMDATA: usize = 5;
+    pub static ID_FAKE_OUTER_BOOLEAN: usize = 6;
+    pub static ID_FAKE_OUTER_COMPOSITE: usize = 7;
+    pub static ID_FAKE_OUTER_NUMBER: usize = 8;
+    pub static ID_FAKE_OUTER_STRING: usize = 9;
+    pub static ID_FAKE_CLASSNAME_TEST: usize = 10;
+    pub static ID_PET: usize = 11;
+    pub static ID_PET_FINDBYSTATUS: usize = 12;
+    pub static ID_PET_FINDBYTAGS: usize = 13;
+    pub static ID_PET_PETID: usize = 14;
     lazy_static! {
-        pub static ref REGEX_PET_PETID_UPLOADIMAGE: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)/uploadImage$").unwrap();
+        pub static ref REGEX_PET_PETID: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<pet_id>[^/?#]*)$").unwrap();
     }
-    pub static ID_STORE_INVENTORY: usize = 15;
-    pub static ID_STORE_ORDER: usize = 16;
-    pub static ID_STORE_ORDER_ORDER_ID: usize = 17;
+    pub static ID_PET_PETID_UPLOADIMAGE: usize = 15;
+    lazy_static! {
+        pub static ref REGEX_PET_PETID_UPLOADIMAGE: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<pet_id>[^/?#]*)/uploadImage$").unwrap();
+    }
+    pub static ID_STORE_INVENTORY: usize = 16;
+    pub static ID_STORE_ORDER: usize = 17;
+    pub static ID_STORE_ORDER_ORDER_ID: usize = 18;
     lazy_static! {
         pub static ref REGEX_STORE_ORDER_ORDER_ID: regex::Regex = regex::Regex::new(r"^/v2/store/order/(?P<order_id>[^/?#]*)$").unwrap();
     }
-    pub static ID_USER: usize = 18;
-    pub static ID_USER_CREATEWITHARRAY: usize = 19;
-    pub static ID_USER_CREATEWITHLIST: usize = 20;
-    pub static ID_USER_LOGIN: usize = 21;
-    pub static ID_USER_LOGOUT: usize = 22;
-    pub static ID_USER_USERNAME: usize = 23;
+    pub static ID_USER: usize = 19;
+    pub static ID_USER_CREATEWITHARRAY: usize = 20;
+    pub static ID_USER_CREATEWITHLIST: usize = 21;
+    pub static ID_USER_LOGIN: usize = 22;
+    pub static ID_USER_LOGOUT: usize = 23;
+    pub static ID_USER_USERNAME: usize = 24;
     lazy_static! {
         pub static ref REGEX_USER_USERNAME: regex::Regex = regex::Regex::new(r"^/v2/user/(?P<username>[^/?#]*)$").unwrap();
     }
@@ -538,6 +544,55 @@ where
                         }
                     })
                 ) as Box<dyn Future<Item=Response, Error=Error>>
+            },
+
+            // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
+            &hyper::Method::Get if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => {
+                // Path parameters
+                let path = uri.path().to_string();
+                let path_params =
+                    paths::REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM
+                    .captures(&path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE FAKE_HYPHENPARAM_HYPHEN_PARAM in set but failed match against \"{}\"", path, paths::REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM.as_str())
+                    );
+                let param_hyphen_param = match percent_encoding::percent_decode(path_params["hyphen_param"].as_bytes()).decode_utf8() {
+                    Ok(param_hyphen_param) => match param_hyphen_param.parse::<String>() {
+                        Ok(param_hyphen_param) => param_hyphen_param,
+                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter hyphen-param: {:?}", e)))),
+                    },
+                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["hyphen_param"]))))
+                };
+                Box::new({
+                        {{
+                                Box::new(api_impl.hyphen_param(param_hyphen_param, &context)
+                                    .then(move |result| {
+                                        let mut response = Response::new();
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                HyphenParamResponse::Success
+
+
+                                                => {
+                                                    response.set_status(StatusCode::try_from(200).unwrap());
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                response.set_status(StatusCode::InternalServerError);
+                                                response.set_body("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
@@ -1123,12 +1178,12 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
                     );
-                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
+                let param_pet_id = match percent_encoding::percent_decode(path_params["pet_id"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
+                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["pet_id"]))))
                 };
                 // Header parameters
                 header! { (RequestApiKey, "api_key") => [String] }
@@ -1342,12 +1397,12 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
                     );
-                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
+                let param_pet_id = match percent_encoding::percent_decode(path_params["pet_id"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
+                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["pet_id"]))))
                 };
                 Box::new({
                         {{
@@ -1542,12 +1597,12 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
                     );
-                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
+                let param_pet_id = match percent_encoding::percent_decode(path_params["pet_id"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
+                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["pet_id"]))))
                 };
                 Box::new({
                         {{
@@ -1625,12 +1680,12 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID_UPLOADIMAGE in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID_UPLOADIMAGE.as_str())
                     );
-                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
+                let param_pet_id = match percent_encoding::percent_decode(path_params["pet_id"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
+                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["pet_id"]))))
                 };
                 // Form Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
@@ -2521,6 +2576,9 @@ impl RequestParser for ApiRequestParser {
 
             // FakeOuterStringSerialize - POST /fake/outer/string
             &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_STRING) => Ok("FakeOuterStringSerialize"),
+
+            // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
+            &hyper::Method::Get if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => Ok("HyphenParam"),
 
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
             &hyper::Method::Put if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => Ok("TestBodyWithQueryParams"),

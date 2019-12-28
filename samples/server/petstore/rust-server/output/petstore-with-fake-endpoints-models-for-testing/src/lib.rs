@@ -87,6 +87,12 @@ pub enum FakeOuterStringSerializeResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum HyphenParamResponse {
+    /// Success
+    Success
+}
+
+#[derive(Debug, PartialEq)]
 pub enum TestBodyWithQueryParamsResponse {
     /// Success
     Success
@@ -334,6 +340,9 @@ pub trait Api<C> {
     fn fake_outer_string_serialize(&self, body: Option<models::OuterString>, context: &C) -> Box<dyn Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>>;
 
 
+    fn hyphen_param(&self, hyphen_param: String, context: &C) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError>>;
+
+
     fn test_body_with_query_params(&self, query: String, body: models::User, context: &C) -> Box<dyn Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError>>;
 
     /// To test \"client\" model
@@ -433,6 +442,9 @@ pub trait ApiNoContext {
 
 
     fn fake_outer_string_serialize(&self, body: Option<models::OuterString>) -> Box<dyn Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>>;
+
+
+    fn hyphen_param(&self, hyphen_param: String) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError>>;
 
 
     fn test_body_with_query_params(&self, query: String, body: models::User) -> Box<dyn Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError>>;
@@ -554,6 +566,11 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
     fn fake_outer_string_serialize(&self, body: Option<models::OuterString>) -> Box<dyn Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>> {
         self.api().fake_outer_string_serialize(body, &self.context())
+    }
+
+
+    fn hyphen_param(&self, hyphen_param: String) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError>> {
+        self.api().hyphen_param(hyphen_param, &self.context())
     }
 
 

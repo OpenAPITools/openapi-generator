@@ -194,12 +194,12 @@ where
   {{/hasPathParams}}
 {{/vendorExtensions}}
 {{#pathParams}}
-                let param_{{{paramName}}} = match percent_encoding::percent_decode(path_params["{{{baseName}}}"].as_bytes()).decode_utf8() {
+                let param_{{{paramName}}} = match percent_encoding::percent_decode(path_params["{{{paramName}}}"].as_bytes()).decode_utf8() {
                     Ok(param_{{{paramName}}}) => match param_{{{paramName}}}.parse::<{{{dataType}}}>() {
                         Ok(param_{{{paramName}}}) => param_{{{paramName}}},
                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter {{{baseName}}}: {:?}", e)))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["{{{baseName}}}"]))))
+                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["{{{paramName}}}"]))))
                 };
 {{/pathParams}}
 {{#headerParams}}

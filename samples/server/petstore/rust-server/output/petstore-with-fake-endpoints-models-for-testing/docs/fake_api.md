@@ -8,6 +8,7 @@ Method | HTTP request | Description
 **fakeOuterCompositeSerialize**](fake_api.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 **fakeOuterNumberSerialize**](fake_api.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 **fakeOuterStringSerialize**](fake_api.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+**hyphenParam**](fake_api.md#hyphenParam) | **GET** /fake/hyphenParam/{hyphen-param} | 
 **testBodyWithQueryParams**](fake_api.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 **testClientModel**](fake_api.md#testClientModel) | **PATCH** /fake | To test \"client\" model
 **testEndpointParameters**](fake_api.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -149,6 +150,33 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: */*, 
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **hyphenParam**
+> hyphenParam(hyphen_param)
+
+
+To test hyphen in path parameter name
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **hyphen_param** | **String**| Parameter with hyphen in name | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
