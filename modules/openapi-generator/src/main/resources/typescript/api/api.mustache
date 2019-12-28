@@ -92,7 +92,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
              localVarFormParams.append('{{baseName}}', {{paramName}} as any);
              {{/isFile}}
              {{#isFile}}
-             localVarFormParams.append('{{baseName}}', {{paramName}}.data, {{paramName}}.name);
+             localVarFormParams.append('{{baseName}}', {{paramName}}, {{paramName}}.name);
              {{/isFile}}  
         }
         {{/isListContainer}}
