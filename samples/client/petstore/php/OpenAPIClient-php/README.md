@@ -137,6 +137,8 @@ Class | Method | HTTP request | Description
  - [ArrayOfArrayOfNumberOnly](docs/Model/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/Model/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/Model/ArrayTest.md)
+ - [BigCat](docs/Model/BigCat.md)
+ - [BigCatAllOf](docs/Model/BigCatAllOf.md)
  - [Capitalization](docs/Model/Capitalization.md)
  - [Cat](docs/Model/Cat.md)
  - [CatAllOf](docs/Model/CatAllOf.md)

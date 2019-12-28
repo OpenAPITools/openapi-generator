@@ -42,6 +42,8 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
     protected String psr7Implementation = "slim-psr7";
     protected String mockDirName = "Mock";
     protected String mockPackage = "";
+    protected String utilsDirName = "Utils";
+    protected String utilsPackage = "";
 
     public PhpSlim4ServerCodegen() {
         super();
@@ -51,6 +53,7 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
                 .build();
 
         mockPackage = invokerPackage + "\\" + mockDirName;
+        utilsPackage = invokerPackage + "\\" + utilsDirName;
         outputFolder = "generated-code" + File.separator + "slim4";
         embeddedTemplateDir = templateDir = "php-slim4-server";
 
@@ -86,14 +89,20 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
         super.processOpts();
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            // Update the invokerPackage for the default mockPackage
+            // Update mockPackage and utilsPackage
             mockPackage = invokerPackage + "\\" + mockDirName;
+            utilsPackage = invokerPackage + "\\" + utilsDirName;
         }
 
         // make mock src path available in mustache template
         additionalProperties.put("mockPackage", mockPackage);
         additionalProperties.put("mockSrcPath", "./" + toSrcPath(mockPackage, srcBasePath));
         additionalProperties.put("mockTestPath", "./" + toSrcPath(mockPackage, testBasePath));
+
+        // same for utils package
+        additionalProperties.put("utilsPackage", utilsPackage);
+        additionalProperties.put("utilsSrcPath", "./" + toSrcPath(utilsPackage, srcBasePath));
+        additionalProperties.put("utilsTestPath", "./" + toSrcPath(utilsPackage, testBasePath));
 
         if (additionalProperties.containsKey(PSR7_IMPLEMENTATION)) {
             this.setPsr7Implementation((String) additionalProperties.get(PSR7_IMPLEMENTATION));
@@ -132,6 +141,12 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
         supportingFiles.add(new SupportingFile("openapi_data_mocker_interface.mustache", toSrcPath(mockPackage, srcBasePath), toInterfaceName("OpenApiDataMocker") + ".php"));
         supportingFiles.add(new SupportingFile("openapi_data_mocker.mustache", toSrcPath(mockPackage, srcBasePath), "OpenApiDataMocker.php"));
         supportingFiles.add(new SupportingFile("openapi_data_mocker_test.mustache", toSrcPath(mockPackage, testBasePath), "OpenApiDataMockerTest.php"));
+
+        // traits of ported utils
+        supportingFiles.add(new SupportingFile("string_utils_trait.mustache", toSrcPath(utilsPackage, srcBasePath), toTraitName("StringUtils") + ".php"));
+        supportingFiles.add(new SupportingFile("string_utils_trait_test.mustache", toSrcPath(utilsPackage, testBasePath), toTraitName("StringUtils") + "Test.php"));
+        supportingFiles.add(new SupportingFile("model_utils_trait.mustache", toSrcPath(utilsPackage, srcBasePath), toTraitName("ModelUtils") + ".php"));
+        supportingFiles.add(new SupportingFile("model_utils_trait_test.mustache", toSrcPath(utilsPackage, testBasePath), toTraitName("ModelUtils") + "Test.php"));
     }
 
     /**

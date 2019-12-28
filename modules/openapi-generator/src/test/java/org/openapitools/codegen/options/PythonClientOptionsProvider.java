@@ -28,6 +28,7 @@ public class PythonClientOptionsProvider implements OptionsProvider {
     public static final String PROJECT_NAME_VALUE = "swagger-client-python";
     public static final String PACKAGE_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String PACKAGE_URL_VALUE = "";
+    public static final String USE_NOSE_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -45,6 +46,7 @@ public class PythonClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.SOURCECODEONLY_GENERATION, "false")
                 .put(CodegenConstants.LIBRARY, "urllib3")
+                .put(PythonClientCodegen.USE_NOSE, USE_NOSE_VALUE)
                 .build();
     }
 

@@ -30,11 +30,13 @@
     "test": [
       "@test-apis",
       "@test-models",
-      "@test-mock"
+      "@test-mock",
+      "@test-utils"
     ],
     "test-apis": "phpunit --testsuite Apis",
     "test-models": "phpunit --testsuite Models",
     "test-mock": "phpunit --testsuite Mock",
+    "test-utils": "phpunit --testsuite Utils",
     "phpcs": "phpcs",
     "phplint": "phplint ./ --exclude=vendor"
   }

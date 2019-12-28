@@ -314,6 +314,11 @@
   infoLink: "https://www.veamly.com/"
   pinned: false
 -
+  caption: Woleet
+  image: "img/companies/woleet.png"
+  infoLink: "https://woleet.io"
+  pinned: false 
+-
   caption: WSO2
   image: "img/companies/wso2.png"
   infoLink: "https://wso2.com/"

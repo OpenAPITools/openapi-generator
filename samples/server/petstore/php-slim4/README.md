@@ -181,6 +181,8 @@ Class | Method | HTTP request | Description
 * OpenAPIServer\Model\ArrayOfArrayOfNumberOnly
 * OpenAPIServer\Model\ArrayOfNumberOnly
 * OpenAPIServer\Model\ArrayTest
+* OpenAPIServer\Model\BigCat
+* OpenAPIServer\Model\BigCatAllOf
 * OpenAPIServer\Model\Capitalization
 * OpenAPIServer\Model\Cat
 * OpenAPIServer\Model\CatAllOf

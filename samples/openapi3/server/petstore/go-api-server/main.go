@@ -13,20 +13,34 @@ import (
 	"log"
 	"net/http"
 
-	// WARNING!
-	// Change this to a fully-qualified import path
-	// once you place this file into your project.
-	// For example,
-	//
-	//    sw "github.com/myname/myrepo/go"
-	//
-	sw "./go"
+	petstoreserver "github.com/GIT_USER_ID/GIT_REPO_ID/go"
 )
 
 func main() {
 	log.Printf("Server started")
 
-	router := sw.NewRouter()
+	AnotherFakeApiService := petstoreserver.NewAnotherFakeApiService()
+	AnotherFakeApiController := petstoreserver.NewAnotherFakeApiController(AnotherFakeApiService)
+
+	DefaultApiService := petstoreserver.NewDefaultApiService()
+	DefaultApiController := petstoreserver.NewDefaultApiController(DefaultApiService)
+
+	FakeApiService := petstoreserver.NewFakeApiService()
+	FakeApiController := petstoreserver.NewFakeApiController(FakeApiService)
+
+	FakeClassnameTags123ApiService := petstoreserver.NewFakeClassnameTags123ApiService()
+	FakeClassnameTags123ApiController := petstoreserver.NewFakeClassnameTags123ApiController(FakeClassnameTags123ApiService)
+
+	PetApiService := petstoreserver.NewPetApiService()
+	PetApiController := petstoreserver.NewPetApiController(PetApiService)
+
+	StoreApiService := petstoreserver.NewStoreApiService()
+	StoreApiController := petstoreserver.NewStoreApiController(StoreApiService)
+
+	UserApiService := petstoreserver.NewUserApiService()
+	UserApiController := petstoreserver.NewUserApiController(UserApiService)
+
+	router := petstoreserver.NewRouter(AnotherFakeApiController, DefaultApiController, FakeApiController, FakeClassnameTags123ApiController, PetApiController, StoreApiController, UserApiController)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import java.util.HashMap;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -121,8 +122,9 @@ public class DartDioClientCodegen extends DartClientCodegen {
         return "Generates a Dart Dio client library.";
     }
 
-    @Override public void setBrowserClient(boolean browserClient) {
-        super.browserClient  = browserClient;
+    @Override
+    public void setBrowserClient(boolean browserClient) {
+        super.browserClient = browserClient;
     }
 
     @Override
@@ -285,37 +287,26 @@ public class DartDioClientCodegen extends DartClientCodegen {
             property.isNullable = true;
         }
 
-        if (property.isListContainer) {
-            //Updates any List properties on a model to a BuiltList. This happens in post processing rather
-            //than type mapping as we only want this to apply to models, not every other class.
-            if ("List".equals(property.baseType)) {
-                property.setDatatype(
-                    property.dataType.replaceAll(property.baseType, "BuiltList"));
-                property.setBaseType("BuiltList");
-                model.imports.add("BuiltList");
-                if ("Object".equals(property.items.baseType)) {
-                    property.setDatatype(
-                        property.dataType.replaceAll("Object", "JsonObject"));
-                    property.items.setDatatype("JsonObject");
-                    model.imports.add("JsonObject");
-                }
-            }
-        }
-        if (property.isMapContainer) {
-            //Updates any List properties on a model to a BuiltList. This happens in post processing rather
-            //than type mapping as we only want this to apply to models, not every other class.
-            if ("Map".equals(property.baseType)) {
-                property.setDatatype(property.dataType.replaceAll(property.baseType, "BuiltMap"));
-                property.setBaseType("BuiltMap");
-                model.imports.add("BuiltMap");
-                if ("Object".equals(property.items.baseType)) {
-                    property.setDatatype(property.dataType.replaceAll("Object", "JsonObject"));
-                    property.items.setDatatype("JsonObject");
-                    model.imports.add("JsonObject");
-                }
-            }
-        }
+        property.setDatatype(property.getDataType()
+                .replaceAll("\\bList\\b", "BuiltList")
+                .replaceAll("\\bMap\\b", "BuiltMap")
+                .replaceAll("\\bObject\\b", "JsonObject")
+        );
+        property.setBaseType(property.getBaseType()
+                .replaceAll("\\bList\\b", "BuiltList")
+                .replaceAll("\\bMap\\b", "BuiltMap")
+                .replaceAll("\\bObject\\b", "JsonObject")
+        );
 
+        if (property.dataType.contains("BuiltList")) {
+            model.imports.add("BuiltList");
+        }
+        if (property.dataType.contains("BuiltMap")) {
+            model.imports.add("BuiltMap");
+        }
+        if (property.dataType.contains("JsonObject")) {
+            model.imports.add("JsonObject");
+        }
     }
 
     @Override

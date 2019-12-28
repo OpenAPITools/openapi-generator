@@ -72,7 +72,7 @@ fn main() {
         {{#vendorExtensions}}{{#noClientExample}}// Disabled because there's no example.
         // {{/noClientExample}}Some("{{{operationId}}}") => {
         {{#noClientExample}}// {{/noClientExample}}    let result = core.run(client.{{{operation_id}}}{{/vendorExtensions}}({{#allParams}}{{^-first}}, {{/-first}}{{#vendorExtensions}}{{{example}}}{{/vendorExtensions}}{{/allParams}}));
-        {{#vendorExtensions}}{{#noClientExample}}// {{/noClientExample}}{{/vendorExtensions}}    println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+        {{#vendorExtensions}}{{#noClientExample}}// {{/noClientExample}}{{/vendorExtensions}}    println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         {{#vendorExtensions}}{{#noClientExample}}// {{/noClientExample}}{{/vendorExtensions}} },
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
         _ => {
