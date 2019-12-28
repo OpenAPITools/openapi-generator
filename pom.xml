@@ -1042,7 +1042,6 @@
                 <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/c</module>
                 <module>samples/client/petstore/cpp-qt5</module>
-                <!--<module>samples/client/petstore/elm-0.18</module>-->
                 <module>samples/client/petstore/rust</module>
                 <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
@@ -1247,7 +1246,7 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <module>samples/client/petstore/elm</module>
+                <module>samples/openapi3/client/elm</module>
                 <module>samples/client/petstore/elixir</module>
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
