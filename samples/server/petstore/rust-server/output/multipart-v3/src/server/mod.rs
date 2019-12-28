@@ -1,50 +1,33 @@
-#![allow(unused_extern_crates)]
-extern crate serde_ignored;
-extern crate tokio_core;
-extern crate native_tls;
-extern crate hyper_tls;
-extern crate openssl;
-extern crate mime;
-extern crate chrono;
-extern crate percent_encoding;
-extern crate url;
-extern crate multipart;
-
-use std::sync::Arc;
+#[allow(unused_imports)]
+use std::collections::{HashMap, BTreeMap, BTreeSet};
 use std::marker::PhantomData;
 use futures::{Future, future, Stream, stream};
 use hyper;
-use hyper::{Request, Response, Error, StatusCode};
-use hyper::header::{Headers, ContentType};
-use self::url::form_urlencoded;
-use mimetypes;
-use self::multipart::server::Multipart;
-use self::multipart::server::save::SaveResult;
-use std::fs;
+use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
+use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use serde_json;
-
-#[allow(unused_imports)]
-use std::collections::{HashMap, BTreeMap};
+use std::io;
 #[allow(unused_imports)]
 use swagger;
-use std::io;
+use swagger::{ApiError, XSpanIdString, Has, RequestParser};
+use swagger::auth::Scopes;
+use swagger::context::ContextualPayload;
+use url::form_urlencoded;
+use multipart::server::Multipart;
+use multipart::server::save::SaveResult;
 
-#[allow(unused_imports)]
-use std::collections::BTreeSet;
+use mimetypes;
 
 pub use swagger::auth::Authorization;
-use swagger::{ApiError, XSpanId, XSpanIdString, Has, RequestParser};
-use swagger::auth::Scopes;
 
 use {Api,
      MultipartRequestPostResponse
      };
+
 #[allow(unused_imports)]
 use models;
 
 pub mod context;
-
-header! { (Warning, "Warning") => [String] }
 
 mod paths {
     extern crate regex;
@@ -52,158 +35,227 @@ mod paths {
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
             r"^/multipart_request$"
-        ]).unwrap();
+        ])
+        .expect("Unable to create global regex set");
     }
     pub static ID_MULTIPART_REQUEST: usize = 0;
 }
 
-pub struct NewService<T, C> {
-    api_impl: Arc<T>,
-    marker: PhantomData<C>,
+pub struct MakeService<T, RC> {
+    api_impl: T,
+    marker: PhantomData<RC>,
 }
 
-impl<T, C> NewService<T, C>
+impl<T, RC> MakeService<T, RC>
 where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString>  + 'static
+    T: Api<RC> + Clone + Send + 'static,
+    RC: Has<XSpanIdString>  + 'static
 {
-    pub fn new<U: Into<Arc<T>>>(api_impl: U) -> NewService<T, C> {
-        NewService{api_impl: api_impl.into(), marker: PhantomData}
+    pub fn new(api_impl: T) -> Self {
+        MakeService {
+            api_impl,
+            marker: PhantomData
+        }
     }
 }
 
-impl<T, C> hyper::server::NewService for NewService<T, C>
+impl<'a, T, SC, RC> hyper::service::MakeService<&'a SC> for MakeService<T, RC>
 where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString>  + 'static
+    T: Api<RC> + Clone + Send + 'static,
+    RC: Has<XSpanIdString>  + 'static + Send
 {
-    type Request = (Request, C);
-    type Response = Response;
+    type ReqBody = ContextualPayload<Body, RC>;
+    type ResBody = Body;
     type Error = Error;
-    type Instance = Service<T, C>;
+    type Service = Service<T, RC>;
+    type Future = future::FutureResult<Self::Service, Self::MakeError>;
+    type MakeError = Error;
 
-    fn new_service(&self) -> Result<Self::Instance, io::Error> {
-        Ok(Service::new(self.api_impl.clone()))
+    fn make_service(&mut self, _ctx: &'a SC) -> Self::Future {
+        future::FutureResult::from(Ok(Service::new(
+            self.api_impl.clone(),
+        )))
     }
 }
 
-pub struct Service<T, C> {
-    api_impl: Arc<T>,
-    marker: PhantomData<C>,
+pub struct Service<T, RC> {
+    api_impl: T,
+    marker: PhantomData<RC>,
 }
 
-impl<T, C> Service<T, C>
+impl<T, RC> Service<T, RC>
 where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString>  + 'static {
-    pub fn new<U: Into<Arc<T>>>(api_impl: U) -> Service<T, C> {
-        Service{api_impl: api_impl.into(), marker: PhantomData}
+    T: Api<RC> + Clone + Send + 'static,
+    RC: Has<XSpanIdString>  + 'static {
+    pub fn new(api_impl: T) -> Self {
+        Service {
+            api_impl: api_impl,
+            marker: PhantomData
+        }
     }
 }
 
-impl<T, C> hyper::server::Service for Service<T, C>
+impl<T, C> hyper::service::Service for Service<T, C>
 where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString>  + 'static
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + 'static + Send
 {
-    type Request = (Request, C);
-    type Response = Response;
+    type ReqBody = ContextualPayload<Body, C>;
+    type ResBody = Body;
     type Error = Error;
-    type Future = Box<dyn Future<Item=Response, Error=Error>>;
+    type Future = Box<dyn Future<Item = Response<Self::ResBody>, Error = Self::Error> + Send>;
 
-    fn call(&self, (req, mut context): Self::Request) -> Self::Future {
+    fn call(&mut self, req: Request<Self::ReqBody>) -> Self::Future {
         let api_impl = self.api_impl.clone();
-        let (method, uri, _, headers, body) = req.deconstruct();
+        let (parts, body) = req.into_parts();
+        let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
+        let mut context = body.context;
+        let body = body.inner;
 
         // This match statement is duplicated below in `parse_operation_id()`.
         // Please update both places if changing how this code is autogenerated.
         match &method {
 
             // MultipartRequestPost - POST /multipart_request
-            &hyper::Method::Post if path.matched(paths::ID_MULTIPART_REQUEST) => {
-                let boundary = match multipart_boundary(&headers) {
+            &hyper::Method::POST if path.matched(paths::ID_MULTIPART_REQUEST) => {
+                let boundary = match swagger::multipart::boundary(&headers) {
                     Some(boundary) => boundary.to_string(),
-                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
+                    None => return Box::new(future::ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from("Couldn't find valid multipart body".to_string()))
+                                .expect("Unable to create Bad Request response for incorrect boundary"))),
                 };
                 // Form Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
+                                use std::io::Read;
+
                                 // Read Form Parameters from body
                                 let mut entries = match Multipart::with_body(&body.to_vec()[..], boundary).save().temp() {
                                     SaveResult::Full(entries) => {
                                         entries
                                     },
                                     _ => {
-                                        return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Unable to process all message parts"))))
+                                        return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Unable to process all message parts")))
+                                                        .expect("Unable to create Bad Request response due to failure to process all message")))
                                     },
                                 };
                 
-                                
-                                let file_string_field = entries.files.remove("string_field");
-                                let param_string_field = match file_string_field {
-                                    Some(file) => {
-                                        let path = &file[0].path;
-                                        let string_field_str = fs::read_to_string(path).expect("Reading saved String should never fail");
-                                        let string_field_model: String = match serde_json::from_str(&string_field_str) {
+                                let field_string_field = entries.fields.remove("string_field");
+                                let param_string_field = match field_string_field {
+                                    Some(field) => {
+                                        let mut reader = field[0].data.readable().expect("Unable to read field for string_field");
+                                        let mut data = String::new();
+                                        reader.read_to_string(&mut data).expect("Reading saved String should never fail");
+                                        let string_field_model: String = match serde_json::from_str(&data) {
                                             Ok(model) => model,
                                             Err(e) => {
                                                 return Box::new(future::ok(
-                                                    Response::new()
-                                                    .with_status(StatusCode::BadRequest)
-                                                    .with_body(format!("string_field data does not match API definition: {}", e))))
+                                                    Response::builder()
+                                                    .status(StatusCode::BAD_REQUEST)
+                                                    .body(Body::from(format!("string_field data does not match API definition: {}", e)))
+                                                    .expect("Unable to create Bad Request response due to failure to process all message")))
                                             }
                                         };
                                         string_field_model
+                                    },
+                                    None => {
+                                        return Box::new(future::ok(
+                                            Response::builder()
+                                            .status(StatusCode::BAD_REQUEST)
+                                            .body(Body::from(format!("Missing required form parameter string_field")))
+                                            .expect("Unable to create Bad Request due to missing required form parameter string_field")))
                                     }
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter string_field")))),
                                 };
-                                
 
-                                
-                                let file_optional_string_field = entries.files.remove("optional_string_field");
-                                let param_optional_string_field = match file_optional_string_field {
-                                   Some(file) => {
-                                        let path = &file[0].path;
-                                        let optional_string_field_str = fs::read_to_string(path).unwrap();
-                                        let optional_string_field_model: String = serde_json::from_str(&optional_string_field_str).expect("Impossible to fail to serialise");
-                                        Some(optional_string_field_model)
+                                let field_optional_string_field = entries.fields.remove("optional_string_field");
+                                let param_optional_string_field = match field_optional_string_field {
+                                    Some(field) => {
+                                        let mut reader = field[0].data.readable().expect("Unable to read field for optional_string_field");
+                                    Some({
+                                        let mut data = String::new();
+                                        reader.read_to_string(&mut data).expect("Reading saved String should never fail");
+                                        let optional_string_field_model: String = match serde_json::from_str(&data) {
+                                            Ok(model) => model,
+                                            Err(e) => {
+                                                return Box::new(future::ok(
+                                                    Response::builder()
+                                                    .status(StatusCode::BAD_REQUEST)
+                                                    .body(Body::from(format!("optional_string_field data does not match API definition: {}", e)))
+                                                    .expect("Unable to create Bad Request response due to failure to process all message")))
+                                            }
+                                        };
+                                        optional_string_field_model
+                                    })
+                                    },
+                                    None => {
+                                            None
                                     }
-                                    None => None,
                                 };
-                                
 
-                                
-                                let file_object_field = entries.files.remove("object_field");
-                                let param_object_field = match file_object_field {
-                                   Some(file) => {
-                                        let path = &file[0].path;
-                                        let object_field_str = fs::read_to_string(path).unwrap();
-                                        let object_field_model: models::MultipartRequestObjectField = serde_json::from_str(&object_field_str).expect("Impossible to fail to serialise");
-                                        Some(object_field_model)
+                                let field_object_field = entries.fields.remove("object_field");
+                                let param_object_field = match field_object_field {
+                                    Some(field) => {
+                                        let mut reader = field[0].data.readable().expect("Unable to read field for object_field");
+                                    Some({
+                                        let mut data = String::new();
+                                        reader.read_to_string(&mut data).expect("Reading saved String should never fail");
+                                        let object_field_model: models::MultipartRequestObjectField = match serde_json::from_str(&data) {
+                                            Ok(model) => model,
+                                            Err(e) => {
+                                                return Box::new(future::ok(
+                                                    Response::builder()
+                                                    .status(StatusCode::BAD_REQUEST)
+                                                    .body(Body::from(format!("object_field data does not match API definition: {}", e)))
+                                                    .expect("Unable to create Bad Request response due to failure to process all message")))
+                                            }
+                                        };
+                                        object_field_model
+                                    })
+                                    },
+                                    None => {
+                                            None
                                     }
-                                    None => None,
                                 };
-                                
 
-                                let file_binary_field = entries.files.remove("binary_field");
-                                let param_binary_field = match file_binary_field {
-                                    Some(file) => {
-                                        let path = &file[0].path;
-                                        let binary_field_str = fs::read_to_string(path).unwrap();
-                                        swagger::ByteArray(binary_field_str.as_bytes().to_vec())
+                                let field_binary_field = entries.fields.remove("binary_field");
+                                let param_binary_field = match field_binary_field {
+                                    Some(field) => {
+                                        let mut reader = field[0].data.readable().expect("Unable to read field for binary_field");
+                                        let mut data = vec![];
+                                        reader.read_to_end(&mut data).expect("Reading saved binary data should never fail");
+                                        swagger::ByteArray(data)
+                                    },
+                                    None => {
+                                        return Box::new(future::ok(
+                                            Response::builder()
+                                            .status(StatusCode::BAD_REQUEST)
+                                            .body(Body::from(format!("Missing required form parameter binary_field")))
+                                            .expect("Unable to create Bad Request due to missing required form parameter binary_field")))
                                     }
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter binary_field")))),
                                 };
-                                
-                                Box::new(api_impl.multipart_request_post(param_string_field, param_binary_field, param_optional_string_field, param_object_field, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.multipart_request_post(
+                                            param_string_field,
+                                            param_binary_field,
+                                            param_optional_string_field,
+                                            param_object_field,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -211,35 +263,42 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(201).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(201).expect("Unable to turn 201 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
                                         future::ok(response)
                                     }
                                 ))
-                                as Box<dyn Future<Item=Response, Error=Error>>
+                                as Self::Future
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read multipart body")))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read multipart body")))
+                                                .expect("Unable to create Bad Request response due to unable read multipart body"))),
                         }
                     })
                 )
             },
 
-            _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<dyn Future<Item=Response, Error=Error>>,
+            _ => Box::new(future::ok(
+                Response::builder().status(StatusCode::NOT_FOUND)
+                    .body(Body::empty())
+                    .expect("Unable to create Not Found response")
+            )) as Self::Future
         }
     }
 }
 
-impl<T, C> Clone for Service<T, C>
+impl<T, C> Clone for Service<T, C> where T: Clone
 {
     fn clone(&self) -> Self {
         Service {
@@ -249,27 +308,15 @@ impl<T, C> Clone for Service<T, C>
     }
 }
 
-/// Utility function to get the multipart boundary marker (if any) from the Headers.
-fn multipart_boundary<'a>(headers: &'a Headers) -> Option<&'a str> {
-    headers.get::<ContentType>().and_then(|content_type| {
-        let ContentType(ref mime) = *content_type;
-        if mime.type_() == hyper::mime::MULTIPART && mime.subtype() == hyper::mime::FORM_DATA {
-            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str())
-        } else {
-            None
-        }
-    })
-}
-
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
-impl RequestParser for ApiRequestParser {
-    fn parse_operation_id(request: &Request) -> Result<&'static str, ()> {
+impl<T> RequestParser<T> for ApiRequestParser {
+    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
         match request.method() {
 
             // MultipartRequestPost - POST /multipart_request
-            &hyper::Method::Post if path.matched(paths::ID_MULTIPART_REQUEST) => Ok("MultipartRequestPost"),
+            &hyper::Method::POST if path.matched(paths::ID_MULTIPART_REQUEST) => Ok("MultipartRequestPost"),
             _ => Err(()),
         }
     }

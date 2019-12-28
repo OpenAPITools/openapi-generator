@@ -1,42 +1,26 @@
-#![allow(unused_extern_crates)]
-extern crate serde_ignored;
-extern crate tokio_core;
-extern crate native_tls;
-extern crate hyper_tls;
-extern crate openssl;
-extern crate mime;
-extern crate chrono;
-extern crate percent_encoding;
-extern crate url;
-extern crate uuid;
-extern crate multipart;
-
-use std::sync::Arc;
+#[allow(unused_imports)]
+use std::collections::{HashMap, BTreeMap, BTreeSet};
 use std::marker::PhantomData;
 use futures::{Future, future, Stream, stream};
 use hyper;
-use hyper::{Request, Response, Error, StatusCode};
-use hyper::header::{Headers, ContentType};
-use self::url::form_urlencoded;
-use mimetypes;
-use self::multipart::server::Multipart;
-use self::multipart::server::save::SaveResult;
-use std::fs;
+use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
+use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use serde_json;
-use serde_xml_rs;
-
-#[allow(unused_imports)]
-use std::collections::{HashMap, BTreeMap};
+use std::io;
 #[allow(unused_imports)]
 use swagger;
-use std::io;
+use swagger::{ApiError, XSpanIdString, Has, RequestParser};
+use swagger::auth::Scopes;
+use swagger::context::ContextualPayload;
+use url::form_urlencoded;
+use multipart::server::Multipart;
+use multipart::server::save::SaveResult;
+use serde_xml_rs;
+use uuid;
 
-#[allow(unused_imports)]
-use std::collections::BTreeSet;
+use mimetypes;
 
 pub use swagger::auth::Authorization;
-use swagger::{ApiError, XSpanId, XSpanIdString, Has, RequestParser};
-use swagger::auth::Scopes;
 
 use {Api,
      TestSpecialTagsResponse,
@@ -72,12 +56,11 @@ use {Api,
      LogoutUserResponse,
      UpdateUserResponse
      };
+
 #[allow(unused_imports)]
 use models;
 
 pub mod context;
-
-header! { (Warning, "Warning") => [String] }
 
 mod paths {
     extern crate regex;
@@ -108,7 +91,8 @@ mod paths {
             r"^/v2/user/login$",
             r"^/v2/user/logout$",
             r"^/v2/user/(?P<username>[^/?#]*)$"
-        ]).unwrap();
+        ])
+        .expect("Unable to create global regex set");
     }
     pub static ID_ANOTHER_FAKE_DUMMY: usize = 0;
     pub static ID_FAKE: usize = 1;
@@ -125,17 +109,23 @@ mod paths {
     pub static ID_PET_FINDBYTAGS: usize = 12;
     pub static ID_PET_PETID: usize = 13;
     lazy_static! {
-        pub static ref REGEX_PET_PETID: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)$").unwrap();
+        pub static ref REGEX_PET_PETID: regex::Regex =
+            regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)$")
+                .expect("Unable to create regex for PET_PETID");
     }
     pub static ID_PET_PETID_UPLOADIMAGE: usize = 14;
     lazy_static! {
-        pub static ref REGEX_PET_PETID_UPLOADIMAGE: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)/uploadImage$").unwrap();
+        pub static ref REGEX_PET_PETID_UPLOADIMAGE: regex::Regex =
+            regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)/uploadImage$")
+                .expect("Unable to create regex for PET_PETID_UPLOADIMAGE");
     }
     pub static ID_STORE_INVENTORY: usize = 15;
     pub static ID_STORE_ORDER: usize = 16;
     pub static ID_STORE_ORDER_ORDER_ID: usize = 17;
     lazy_static! {
-        pub static ref REGEX_STORE_ORDER_ORDER_ID: regex::Regex = regex::Regex::new(r"^/v2/store/order/(?P<order_id>[^/?#]*)$").unwrap();
+        pub static ref REGEX_STORE_ORDER_ORDER_ID: regex::Regex =
+            regex::Regex::new(r"^/v2/store/order/(?P<order_id>[^/?#]*)$")
+                .expect("Unable to create regex for STORE_ORDER_ORDER_ID");
     }
     pub static ID_USER: usize = 18;
     pub static ID_USER_CREATEWITHARRAY: usize = 19;
@@ -144,80 +134,95 @@ mod paths {
     pub static ID_USER_LOGOUT: usize = 22;
     pub static ID_USER_USERNAME: usize = 23;
     lazy_static! {
-        pub static ref REGEX_USER_USERNAME: regex::Regex = regex::Regex::new(r"^/v2/user/(?P<username>[^/?#]*)$").unwrap();
+        pub static ref REGEX_USER_USERNAME: regex::Regex =
+            regex::Regex::new(r"^/v2/user/(?P<username>[^/?#]*)$")
+                .expect("Unable to create regex for USER_USERNAME");
     }
 }
 
-pub struct NewService<T, C> {
-    api_impl: Arc<T>,
-    marker: PhantomData<C>,
+pub struct MakeService<T, RC> {
+    api_impl: T,
+    marker: PhantomData<RC>,
 }
 
-impl<T, C> NewService<T, C>
+impl<T, RC> MakeService<T, RC>
 where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString> + Has<Option<Authorization>> + 'static
+    T: Api<RC> + Clone + Send + 'static,
+    RC: Has<XSpanIdString> + Has<Option<Authorization>> + 'static
 {
-    pub fn new<U: Into<Arc<T>>>(api_impl: U) -> NewService<T, C> {
-        NewService{api_impl: api_impl.into(), marker: PhantomData}
+    pub fn new(api_impl: T) -> Self {
+        MakeService {
+            api_impl,
+            marker: PhantomData
+        }
     }
 }
 
-impl<T, C> hyper::server::NewService for NewService<T, C>
+impl<'a, T, SC, RC> hyper::service::MakeService<&'a SC> for MakeService<T, RC>
 where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString> + Has<Option<Authorization>> + 'static
+    T: Api<RC> + Clone + Send + 'static,
+    RC: Has<XSpanIdString> + Has<Option<Authorization>> + 'static + Send
 {
-    type Request = (Request, C);
-    type Response = Response;
+    type ReqBody = ContextualPayload<Body, RC>;
+    type ResBody = Body;
     type Error = Error;
-    type Instance = Service<T, C>;
+    type Service = Service<T, RC>;
+    type Future = future::FutureResult<Self::Service, Self::MakeError>;
+    type MakeError = Error;
 
-    fn new_service(&self) -> Result<Self::Instance, io::Error> {
-        Ok(Service::new(self.api_impl.clone()))
+    fn make_service(&mut self, _ctx: &'a SC) -> Self::Future {
+        future::FutureResult::from(Ok(Service::new(
+            self.api_impl.clone(),
+        )))
     }
 }
 
-pub struct Service<T, C> {
-    api_impl: Arc<T>,
-    marker: PhantomData<C>,
+pub struct Service<T, RC> {
+    api_impl: T,
+    marker: PhantomData<RC>,
 }
 
-impl<T, C> Service<T, C>
+impl<T, RC> Service<T, RC>
 where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString> + Has<Option<Authorization>> + 'static {
-    pub fn new<U: Into<Arc<T>>>(api_impl: U) -> Service<T, C> {
-        Service{api_impl: api_impl.into(), marker: PhantomData}
+    T: Api<RC> + Clone + Send + 'static,
+    RC: Has<XSpanIdString> + Has<Option<Authorization>> + 'static {
+    pub fn new(api_impl: T) -> Self {
+        Service {
+            api_impl: api_impl,
+            marker: PhantomData
+        }
     }
 }
 
-impl<T, C> hyper::server::Service for Service<T, C>
+impl<T, C> hyper::service::Service for Service<T, C>
 where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString> + Has<Option<Authorization>> + 'static
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString> + Has<Option<Authorization>> + 'static + Send
 {
-    type Request = (Request, C);
-    type Response = Response;
+    type ReqBody = ContextualPayload<Body, C>;
+    type ResBody = Body;
     type Error = Error;
-    type Future = Box<dyn Future<Item=Response, Error=Error>>;
+    type Future = Box<dyn Future<Item = Response<Self::ResBody>, Error = Self::Error> + Send>;
 
-    fn call(&self, (req, mut context): Self::Request) -> Self::Future {
+    fn call(&mut self, req: Request<Self::ReqBody>) -> Self::Future {
         let api_impl = self.api_impl.clone();
-        let (method, uri, _, headers, body) = req.deconstruct();
+        let (parts, body) = req.into_parts();
+        let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
+        let mut context = body.context;
+        let body = body.inner;
 
         // This match statement is duplicated below in `parse_operation_id()`.
         // Please update both places if changing how this code is autogenerated.
         match &method {
 
             // TestSpecialTags - PATCH /another-fake/dummy
-            &hyper::Method::Patch if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => {
+            &hyper::Method::PATCH if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -228,22 +233,39 @@ where
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
+                                        Err(e) => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter body due to schema"))),
                                     }
                                 } else {
                                     None
                                 };
                                 let param_body = match param_body {
                                     Some(param_body) => param_body,
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
+                                    None => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-                                Box::new(api_impl.test_special_tags(param_body, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.test_special_tags(
+                                            param_body,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -254,19 +276,22 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::TEST_SPECIAL_TAGS_SUCCESSFUL_OPERATION.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::TEST_SPECIAL_TAGS_SUCCESSFUL_OPERATION)
+                                                            .expect("Unable to create Content-Type header for TEST_SPECIAL_TAGS_SUCCESSFUL_OPERATION"));
 
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -274,19 +299,22 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // FakeOuterBooleanSerialize - POST /fake/outer/boolean
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => {
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -302,13 +330,24 @@ where
                                 } else {
                                     None
                                 };
-                                Box::new(api_impl.fake_outer_boolean_serialize(param_body, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.fake_outer_boolean_serialize(
+                                            param_body,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -319,19 +358,22 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::FAKE_OUTER_BOOLEAN_SERIALIZE_OUTPUT_BOOLEAN.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::FAKE_OUTER_BOOLEAN_SERIALIZE_OUTPUT_BOOLEAN)
+                                                            .expect("Unable to create Content-Type header for FAKE_OUTER_BOOLEAN_SERIALIZE_OUTPUT_BOOLEAN"));
 
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -339,19 +381,22 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // FakeOuterCompositeSerialize - POST /fake/outer/composite
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => {
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -367,13 +412,24 @@ where
                                 } else {
                                     None
                                 };
-                                Box::new(api_impl.fake_outer_composite_serialize(param_body, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.fake_outer_composite_serialize(
+                                            param_body,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -384,19 +440,22 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::FAKE_OUTER_COMPOSITE_SERIALIZE_OUTPUT_COMPOSITE.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::FAKE_OUTER_COMPOSITE_SERIALIZE_OUTPUT_COMPOSITE)
+                                                            .expect("Unable to create Content-Type header for FAKE_OUTER_COMPOSITE_SERIALIZE_OUTPUT_COMPOSITE"));
 
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -404,19 +463,22 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // FakeOuterNumberSerialize - POST /fake/outer/number
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_NUMBER) => {
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_NUMBER) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -432,13 +494,24 @@ where
                                 } else {
                                     None
                                 };
-                                Box::new(api_impl.fake_outer_number_serialize(param_body, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.fake_outer_number_serialize(
+                                            param_body,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -449,19 +522,22 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::FAKE_OUTER_NUMBER_SERIALIZE_OUTPUT_NUMBER.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::FAKE_OUTER_NUMBER_SERIALIZE_OUTPUT_NUMBER)
+                                                            .expect("Unable to create Content-Type header for FAKE_OUTER_NUMBER_SERIALIZE_OUTPUT_NUMBER"));
 
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -469,19 +545,22 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // FakeOuterStringSerialize - POST /fake/outer/string
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_STRING) => {
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_STRING) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -497,13 +576,24 @@ where
                                 } else {
                                     None
                                 };
-                                Box::new(api_impl.fake_outer_string_serialize(param_body, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.fake_outer_string_serialize(
+                                            param_body,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -514,19 +604,22 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::FAKE_OUTER_STRING_SERIALIZE_OUTPUT_STRING.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::FAKE_OUTER_STRING_SERIALIZE_OUTPUT_STRING)
+                                                            .expect("Unable to create Content-Type header for FAKE_OUTER_STRING_SERIALIZE_OUTPUT_STRING"));
 
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -534,14 +627,18 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
-            &hyper::Method::Put if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => {
+            &hyper::Method::PUT if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => {
+
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_query = query_params.iter().filter(|e| e.0 == "query").map(|e| e.1.to_owned())
@@ -549,15 +646,21 @@ where
                 let param_query = match param_query {
                     Some(param_query) => match param_query.parse::<String>() {
                         Ok(param_query) => param_query,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse query parameter query - doesn't match schema: {}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse query parameter query - doesn't match schema: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid query parameter query"))),
                     },
-                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required query parameter query"))),
+                    None => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from("Missing required query parameter query"))
+                                        .expect("Unable to create Bad Request response for missing qeury parameter query"))),
                 };
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -568,22 +671,40 @@ where
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
+                                        Err(e) => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter body due to schema"))),
                                     }
                                 } else {
                                     None
                                 };
                                 let param_body = match param_body {
                                     Some(param_body) => param_body,
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
+                                    None => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-                                Box::new(api_impl.test_body_with_query_params(param_query, param_body, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.test_body_with_query_params(
+                                            param_query,
+                                            param_body,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -592,15 +713,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -608,19 +729,22 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // TestClientModel - PATCH /fake
-            &hyper::Method::Patch if path.matched(paths::ID_FAKE) => {
+            &hyper::Method::PATCH if path.matched(paths::ID_FAKE) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -631,22 +755,39 @@ where
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
+                                        Err(e) => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter body due to schema"))),
                                     }
                                 } else {
                                     None
                                 };
                                 let param_body = match param_body {
                                     Some(param_body) => param_body,
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
+                                    None => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-                                Box::new(api_impl.test_client_model(param_body, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.test_client_model(
+                                            param_body,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -657,19 +798,22 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::TEST_CLIENT_MODEL_SUCCESSFUL_OPERATION.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::TEST_CLIENT_MODEL_SUCCESSFUL_OPERATION)
+                                                            .expect("Unable to create Content-Type header for TEST_CLIENT_MODEL_SUCCESSFUL_OPERATION"));
 
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -677,44 +821,111 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // TestEndpointParameters - POST /fake
-            &hyper::Method::Post if path.matched(paths::ID_FAKE) => {
+            &hyper::Method::POST if path.matched(paths::ID_FAKE) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
-                        &None => return Box::new(future::ok(Response::new()
-                                                .with_status(StatusCode::Forbidden)
-                                                .with_body("Unauthenticated"))),
+                        &None => return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::FORBIDDEN)
+                                                .body(Body::from("Unauthenticated"))
+                                                .expect("Unable to create Authentication Forbidden response"))),
                     };
 
                 }
                 Box::new({
                         {{
                                 // Form parameters
-                                let param_integer = Some(56);
-                                let param_int32 = Some(56);
-                                let param_int64 = Some(789);
-                                let param_number = 8.14;
-                                let param_float = Some(3.4);
-                                let param_double = 1.2;
-                                let param_string = Some("string_example".to_string());
-                                let param_pattern_without_delimiter = "pattern_without_delimiter_example".to_string();
-                                let param_byte = swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE"));
-                                let param_binary = Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")));
-                                let param_date = None;
-                                let param_date_time = None;
-                                let param_password = Some("password_example".to_string());
-                                let param_callback = Some("callback_example".to_string());
-                                Box::new(api_impl.test_endpoint_parameters(param_number, param_double, param_pattern_without_delimiter, param_byte, param_integer, param_int32, param_int64, param_float, param_string, param_binary, param_date, param_date_time, param_password, param_callback, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+                                let param_integer = 
+Some(56);
+
+
+                                let param_int32 = 
+Some(56);
+
+
+                                let param_int64 = 
+Some(789);
+
+
+                                let param_number = 
+8.14;
+
+
+                                let param_float = 
+Some(3.4);
+
+
+                                let param_double = 
+1.2;
+
+
+                                let param_string = 
+Some("string_example".to_string());
+
+
+                                let param_pattern_without_delimiter = 
+"pattern_without_delimiter_example".to_string();
+
+
+                                let param_byte = 
+swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE"));
+
+
+                                let param_binary = 
+Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")));
+
+
+                                let param_date = 
+None;
+
+
+                                let param_date_time = 
+None;
+
+
+                                let param_password = 
+Some("password_example".to_string());
+
+
+                                let param_callback = 
+Some("callback_example".to_string());
+
+
+
+                                Box::new(
+                                    api_impl.test_endpoint_parameters(
+                                            param_number,
+                                            param_double,
+                                            param_pattern_without_delimiter,
+                                            param_byte,
+                                            param_integer,
+                                            param_int32,
+                                            param_int64,
+                                            param_float,
+                                            param_string,
+                                            param_binary,
+                                            param_date,
+                                            param_date_time,
+                                            param_password,
+                                            param_callback,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -722,22 +933,22 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(400).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
                                                 },
                                                 TestEndpointParametersResponse::UserNotFound
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(404).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -745,16 +956,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // TestEnumParameters - GET /fake
-            &hyper::Method::Get if path.matched(paths::ID_FAKE) => {
+            &hyper::Method::GET if path.matched(paths::ID_FAKE) => {
+
                 // Header parameters
-                header! { (RequestEnumHeaderStringArray, "enum_header_string_array") => (String)* }
-                let param_enum_header_string_array = headers.get::<RequestEnumHeaderStringArray>().map(|header| header.0.clone());
-                header! { (RequestEnumHeaderString, "enum_header_string") => [String] }
-                let param_enum_header_string = headers.get::<RequestEnumHeaderString>().map(|header| header.0.clone());
+                let param_enum_header_string_array = headers.get(HeaderName::from_static("enum_header_string_array"));
+
+                let param_enum_header_string_array = param_enum_header_string_array.map(|p| {
+                        swagger::IntoHeaderValue::<Vec<String>>::from((*p).clone()).0
+                });
+                let param_enum_header_string = headers.get(HeaderName::from_static("enum_header_string"));
+
+                let param_enum_header_string = param_enum_header_string.map(|p| {
+                        swagger::IntoHeaderValue::<String>::from((*p).clone()).0
+                });
+
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_enum_query_string_array = query_params.iter().filter(|e| e.0 == "enum_query_string_array").map(|e| e.1.to_owned())
@@ -780,11 +999,28 @@ where
                 Box::new({
                         {{
                                 // Form parameters
-                                let param_enum_form_string = Some("enum_form_string_example".to_string());
-                                Box::new(api_impl.test_enum_parameters(param_enum_header_string_array.as_ref(), param_enum_header_string, param_enum_query_string_array.as_ref(), param_enum_query_string, param_enum_query_integer, param_enum_query_double, param_enum_form_string, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+                                let param_enum_form_string = 
+Some("enum_form_string_example".to_string());
+
+
+
+                                Box::new(
+                                    api_impl.test_enum_parameters(
+                                            param_enum_header_string_array.as_ref(),
+                                            param_enum_header_string,
+                                            param_enum_query_string_array.as_ref(),
+                                            param_enum_query_string,
+                                            param_enum_query_integer,
+                                            param_enum_query_double,
+                                            param_enum_form_string,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -792,22 +1028,22 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(400).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
                                                 },
                                                 TestEnumParametersResponse::NotFound
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(404).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -815,16 +1051,16 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // TestInlineAdditionalProperties - POST /fake/inline-additionalProperties
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => {
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -835,22 +1071,39 @@ where
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_param) => param_param,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter param - doesn't match schema: {}", e)))),
+                                        Err(e) => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter param - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter param due to schema"))),
                                     }
                                 } else {
                                     None
                                 };
                                 let param_param = match param_param {
                                     Some(param_param) => param_param,
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter param"))),
+                                    None => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter param"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter param"))),
                                 };
-                                Box::new(api_impl.test_inline_additional_properties(param_param, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.test_inline_additional_properties(
+                                            param_param,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -859,15 +1112,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -875,23 +1128,41 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter param: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter param: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter param"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // TestJsonFormData - GET /fake/jsonFormData
-            &hyper::Method::Get if path.matched(paths::ID_FAKE_JSONFORMDATA) => {
+            &hyper::Method::GET if path.matched(paths::ID_FAKE_JSONFORMDATA) => {
                 Box::new({
                         {{
                                 // Form parameters
-                                let param_param = "param_example".to_string();
-                                let param_param2 = "param2_example".to_string();
-                                Box::new(api_impl.test_json_form_data(param_param, param_param2, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+                                let param_param = 
+"param_example".to_string();
+
+
+                                let param_param2 = 
+"param2_example".to_string();
+
+
+
+                                Box::new(
+                                    api_impl.test_json_form_data(
+                                            param_param,
+                                            param_param2,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -899,15 +1170,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -915,17 +1186,18 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // TestClassname - PATCH /fake_classname_test
-            &hyper::Method::Patch if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => {
+            &hyper::Method::PATCH if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
-                        &None => return Box::new(future::ok(Response::new()
-                                                .with_status(StatusCode::Forbidden)
-                                                .with_body("Unauthenticated"))),
+                        &None => return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::FORBIDDEN)
+                                                .body(Body::from("Unauthenticated"))
+                                                .expect("Unable to create Authentication Forbidden response"))),
                     };
 
                 }
@@ -933,7 +1205,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -944,22 +1216,39 @@ where
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
+                                        Err(e) => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter body due to schema"))),
                                     }
                                 } else {
                                     None
                                 };
                                 let param_body = match param_body {
                                     Some(param_body) => param_body,
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
+                                    None => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-                                Box::new(api_impl.test_classname(param_body, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.test_classname(
+                                            param_body,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -970,19 +1259,22 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::TEST_CLASSNAME_SUCCESSFUL_OPERATION.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::TEST_CLASSNAME_SUCCESSFUL_OPERATION)
+                                                            .expect("Unable to create Content-Type header for TEST_CLASSNAME_SUCCESSFUL_OPERATION"));
 
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -990,20 +1282,24 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // AddPet - POST /pet
-            &hyper::Method::Post if path.matched(paths::ID_PET) => {
+            &hyper::Method::POST if path.matched(paths::ID_PET) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
-                        &None => return Box::new(future::ok(Response::new()
-                                                .with_status(StatusCode::Forbidden)
-                                                .with_body("Unauthenticated"))),
+                        &None => return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::FORBIDDEN)
+                                                .body(Body::from("Unauthenticated"))
+                                                .expect("Unable to create Authentication Forbidden response"))),
                     };
 
                     // Authorization
@@ -1015,12 +1311,13 @@ where
 
                         if !required_scopes.is_subset(scopes) {
                             let missing_scopes = required_scopes.difference(scopes);
-                            return Box::new(future::ok(Response::new()
-                                .with_status(StatusCode::Forbidden)
-                                .with_body(missing_scopes.fold(
+                            return Box::new(future::ok(Response::builder()
+                                .status(StatusCode::FORBIDDEN)
+                                .body(Body::from(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope)
+                                    |s, scope| format!("{} {}", s, scope))
                                 ))
+                                .expect("Unable to create Authentication Insufficient response")
                             ));
                         }
                     }
@@ -1029,7 +1326,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1040,22 +1337,39 @@ where
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
+                                        Err(e) => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter body due to schema"))),
                                     }
                                 } else {
                                     None
                                 };
                                 let param_body = match param_body {
                                     Some(param_body) => param_body,
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
+                                    None => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-                                Box::new(api_impl.add_pet(param_body, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.add_pet(
+                                            param_body,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -1064,15 +1378,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(405).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(405).expect("Unable to turn 405 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1080,20 +1394,24 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // DeletePet - DELETE /pet/{petId}
-            &hyper::Method::Delete if path.matched(paths::ID_PET_PETID) => {
+            &hyper::Method::DELETE if path.matched(paths::ID_PET_PETID) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
-                        &None => return Box::new(future::ok(Response::new()
-                                                .with_status(StatusCode::Forbidden)
-                                                .with_body("Unauthenticated"))),
+                        &None => return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::FORBIDDEN)
+                                                .body(Body::from("Unauthenticated"))
+                                                .expect("Unable to create Authentication Forbidden response"))),
                     };
 
                     // Authorization
@@ -1105,18 +1423,19 @@ where
 
                         if !required_scopes.is_subset(scopes) {
                             let missing_scopes = required_scopes.difference(scopes);
-                            return Box::new(future::ok(Response::new()
-                                .with_status(StatusCode::Forbidden)
-                                .with_body(missing_scopes.fold(
+                            return Box::new(future::ok(Response::builder()
+                                .status(StatusCode::FORBIDDEN)
+                                .body(Body::from(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope)
+                                    |s, scope| format!("{} {}", s, scope))
                                 ))
+                                .expect("Unable to create Authentication Insufficient response")
                             ));
                         }
                     }
                 }
                 // Path parameters
-                let path = uri.path().to_string();
+                let path: &str = &uri.path().to_string();
                 let path_params =
                     paths::REGEX_PET_PETID
                     .captures(&path)
@@ -1126,19 +1445,38 @@ where
                 let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter petId: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter"))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
+                    Err(_) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
+
                 // Header parameters
-                header! { (RequestApiKey, "api_key") => [String] }
-                let param_api_key = headers.get::<RequestApiKey>().map(|header| header.0.clone());
+                let param_api_key = headers.get(HeaderName::from_static("api_key"));
+
+                let param_api_key = param_api_key.map(|p| {
+                        swagger::IntoHeaderValue::<String>::from((*p).clone()).0
+                });
                 Box::new({
                         {{
-                                Box::new(api_impl.delete_pet(param_pet_id, param_api_key, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.delete_pet(
+                                            param_pet_id,
+                                            param_api_key,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1146,15 +1484,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(400).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1162,17 +1500,18 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // FindPetsByStatus - GET /pet/findByStatus
-            &hyper::Method::Get if path.matched(paths::ID_PET_FINDBYSTATUS) => {
+            &hyper::Method::GET if path.matched(paths::ID_PET_FINDBYSTATUS) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
-                        &None => return Box::new(future::ok(Response::new()
-                                                .with_status(StatusCode::Forbidden)
-                                                .with_body("Unauthenticated"))),
+                        &None => return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::FORBIDDEN)
+                                                .body(Body::from("Unauthenticated"))
+                                                .expect("Unable to create Authentication Forbidden response"))),
                     };
 
                     // Authorization
@@ -1184,16 +1523,18 @@ where
 
                         if !required_scopes.is_subset(scopes) {
                             let missing_scopes = required_scopes.difference(scopes);
-                            return Box::new(future::ok(Response::new()
-                                .with_status(StatusCode::Forbidden)
-                                .with_body(missing_scopes.fold(
+                            return Box::new(future::ok(Response::builder()
+                                .status(StatusCode::FORBIDDEN)
+                                .body(Body::from(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope)
+                                    |s, scope| format!("{} {}", s, scope))
                                 ))
+                                .expect("Unable to create Authentication Insufficient response")
                             ));
                         }
                     }
                 }
+
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_status = query_params.iter().filter(|e| e.0 == "status").map(|e| e.1.to_owned())
@@ -1201,10 +1542,18 @@ where
                     .collect::<Vec<_>>();
                 Box::new({
                         {{
-                                Box::new(api_impl.find_pets_by_status(param_status.as_ref(), &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.find_pets_by_status(
+                                            param_status.as_ref(),
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1214,26 +1563,29 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::FIND_PETS_BY_STATUS_SUCCESSFUL_OPERATION.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::FIND_PETS_BY_STATUS_SUCCESSFUL_OPERATION)
+                                                            .expect("Unable to create Content-Type header for FIND_PETS_BY_STATUS_SUCCESSFUL_OPERATION"));
 
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                                 FindPetsByStatusResponse::InvalidStatusValue
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(400).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1241,17 +1593,18 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // FindPetsByTags - GET /pet/findByTags
-            &hyper::Method::Get if path.matched(paths::ID_PET_FINDBYTAGS) => {
+            &hyper::Method::GET if path.matched(paths::ID_PET_FINDBYTAGS) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
-                        &None => return Box::new(future::ok(Response::new()
-                                                .with_status(StatusCode::Forbidden)
-                                                .with_body("Unauthenticated"))),
+                        &None => return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::FORBIDDEN)
+                                                .body(Body::from("Unauthenticated"))
+                                                .expect("Unable to create Authentication Forbidden response"))),
                     };
 
                     // Authorization
@@ -1263,16 +1616,18 @@ where
 
                         if !required_scopes.is_subset(scopes) {
                             let missing_scopes = required_scopes.difference(scopes);
-                            return Box::new(future::ok(Response::new()
-                                .with_status(StatusCode::Forbidden)
-                                .with_body(missing_scopes.fold(
+                            return Box::new(future::ok(Response::builder()
+                                .status(StatusCode::FORBIDDEN)
+                                .body(Body::from(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope)
+                                    |s, scope| format!("{} {}", s, scope))
                                 ))
+                                .expect("Unable to create Authentication Insufficient response")
                             ));
                         }
                     }
                 }
+
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_tags = query_params.iter().filter(|e| e.0 == "tags").map(|e| e.1.to_owned())
@@ -1280,10 +1635,18 @@ where
                     .collect::<Vec<_>>();
                 Box::new({
                         {{
-                                Box::new(api_impl.find_pets_by_tags(param_tags.as_ref(), &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.find_pets_by_tags(
+                                            param_tags.as_ref(),
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1293,26 +1656,29 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::FIND_PETS_BY_TAGS_SUCCESSFUL_OPERATION.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::FIND_PETS_BY_TAGS_SUCCESSFUL_OPERATION)
+                                                            .expect("Unable to create Content-Type header for FIND_PETS_BY_TAGS_SUCCESSFUL_OPERATION"));
 
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                                 FindPetsByTagsResponse::InvalidTagValue
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(400).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1320,22 +1686,23 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // GetPetById - GET /pet/{petId}
-            &hyper::Method::Get if path.matched(paths::ID_PET_PETID) => {
+            &hyper::Method::GET if path.matched(paths::ID_PET_PETID) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
-                        &None => return Box::new(future::ok(Response::new()
-                                                .with_status(StatusCode::Forbidden)
-                                                .with_body("Unauthenticated"))),
+                        &None => return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::FORBIDDEN)
+                                                .body(Body::from("Unauthenticated"))
+                                                .expect("Unable to create Authentication Forbidden response"))),
                     };
 
                 }
                 // Path parameters
-                let path = uri.path().to_string();
+                let path: &str = &uri.path().to_string();
                 let path_params =
                     paths::REGEX_PET_PETID
                     .captures(&path)
@@ -1345,16 +1712,30 @@ where
                 let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter petId: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter"))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
+                    Err(_) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
                 Box::new({
                         {{
-                                Box::new(api_impl.get_pet_by_id(param_pet_id, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.get_pet_by_id(
+                                            param_pet_id,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1364,33 +1745,36 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::GET_PET_BY_ID_SUCCESSFUL_OPERATION.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::GET_PET_BY_ID_SUCCESSFUL_OPERATION)
+                                                            .expect("Unable to create Content-Type header for GET_PET_BY_ID_SUCCESSFUL_OPERATION"));
 
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                                 GetPetByIdResponse::InvalidIDSupplied
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(400).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
                                                 },
                                                 GetPetByIdResponse::PetNotFound
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(404).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1398,17 +1782,18 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // UpdatePet - PUT /pet
-            &hyper::Method::Put if path.matched(paths::ID_PET) => {
+            &hyper::Method::PUT if path.matched(paths::ID_PET) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
-                        &None => return Box::new(future::ok(Response::new()
-                                                .with_status(StatusCode::Forbidden)
-                                                .with_body("Unauthenticated"))),
+                        &None => return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::FORBIDDEN)
+                                                .body(Body::from("Unauthenticated"))
+                                                .expect("Unable to create Authentication Forbidden response"))),
                     };
 
                     // Authorization
@@ -1420,12 +1805,13 @@ where
 
                         if !required_scopes.is_subset(scopes) {
                             let missing_scopes = required_scopes.difference(scopes);
-                            return Box::new(future::ok(Response::new()
-                                .with_status(StatusCode::Forbidden)
-                                .with_body(missing_scopes.fold(
+                            return Box::new(future::ok(Response::builder()
+                                .status(StatusCode::FORBIDDEN)
+                                .body(Body::from(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope)
+                                    |s, scope| format!("{} {}", s, scope))
                                 ))
+                                .expect("Unable to create Authentication Insufficient response")
                             ));
                         }
                     }
@@ -1434,7 +1820,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1445,22 +1831,39 @@ where
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
+                                        Err(e) => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter body due to schema"))),
                                     }
                                 } else {
                                     None
                                 };
                                 let param_body = match param_body {
                                     Some(param_body) => param_body,
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
+                                    None => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-                                Box::new(api_impl.update_pet(param_body, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.update_pet(
+                                            param_body,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -1469,29 +1872,29 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(400).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
                                                 },
                                                 UpdatePetResponse::PetNotFound
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(404).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
 
                                                 },
                                                 UpdatePetResponse::ValidationException
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(405).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(405).expect("Unable to turn 405 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1499,20 +1902,24 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // UpdatePetWithForm - POST /pet/{petId}
-            &hyper::Method::Post if path.matched(paths::ID_PET_PETID) => {
+            &hyper::Method::POST if path.matched(paths::ID_PET_PETID) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
-                        &None => return Box::new(future::ok(Response::new()
-                                                .with_status(StatusCode::Forbidden)
-                                                .with_body("Unauthenticated"))),
+                        &None => return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::FORBIDDEN)
+                                                .body(Body::from("Unauthenticated"))
+                                                .expect("Unable to create Authentication Forbidden response"))),
                     };
 
                     // Authorization
@@ -1524,18 +1931,19 @@ where
 
                         if !required_scopes.is_subset(scopes) {
                             let missing_scopes = required_scopes.difference(scopes);
-                            return Box::new(future::ok(Response::new()
-                                .with_status(StatusCode::Forbidden)
-                                .with_body(missing_scopes.fold(
+                            return Box::new(future::ok(Response::builder()
+                                .status(StatusCode::FORBIDDEN)
+                                .body(Body::from(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope)
+                                    |s, scope| format!("{} {}", s, scope))
                                 ))
+                                .expect("Unable to create Authentication Insufficient response")
                             ));
                         }
                     }
                 }
                 // Path parameters
-                let path = uri.path().to_string();
+                let path: &str = &uri.path().to_string();
                 let path_params =
                     paths::REGEX_PET_PETID
                     .captures(&path)
@@ -1545,19 +1953,41 @@ where
                 let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter petId: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter"))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
+                    Err(_) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
                 Box::new({
                         {{
                                 // Form parameters
-                                let param_name = Some("name_example".to_string());
-                                let param_status = Some("status_example".to_string());
-                                Box::new(api_impl.update_pet_with_form(param_pet_id, param_name, param_status, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+                                let param_name = 
+Some("name_example".to_string());
+
+
+                                let param_status = 
+Some("status_example".to_string());
+
+
+
+                                Box::new(
+                                    api_impl.update_pet_with_form(
+                                            param_pet_id,
+                                            param_name,
+                                            param_status,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1565,15 +1995,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(405).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(405).expect("Unable to turn 405 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1581,17 +2011,18 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // UploadFile - POST /pet/{petId}/uploadImage
-            &hyper::Method::Post if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => {
+            &hyper::Method::POST if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
-                        &None => return Box::new(future::ok(Response::new()
-                                                .with_status(StatusCode::Forbidden)
-                                                .with_body("Unauthenticated"))),
+                        &None => return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::FORBIDDEN)
+                                                .body(Body::from("Unauthenticated"))
+                                                .expect("Unable to create Authentication Forbidden response"))),
                     };
 
                     // Authorization
@@ -1603,22 +2034,26 @@ where
 
                         if !required_scopes.is_subset(scopes) {
                             let missing_scopes = required_scopes.difference(scopes);
-                            return Box::new(future::ok(Response::new()
-                                .with_status(StatusCode::Forbidden)
-                                .with_body(missing_scopes.fold(
+                            return Box::new(future::ok(Response::builder()
+                                .status(StatusCode::FORBIDDEN)
+                                .body(Body::from(missing_scopes.fold(
                                     "Insufficient authorization, missing scopes".to_string(),
-                                    |s, scope| format!("{} {}", s, scope)
+                                    |s, scope| format!("{} {}", s, scope))
                                 ))
+                                .expect("Unable to create Authentication Insufficient response")
                             ));
                         }
                     }
                 }
-                let boundary = match multipart_boundary(&headers) {
+                let boundary = match swagger::multipart::boundary(&headers) {
                     Some(boundary) => boundary.to_string(),
-                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
+                    None => return Box::new(future::ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from("Couldn't find valid multipart body".to_string()))
+                                .expect("Unable to create Bad Request response for incorrect boundary"))),
                 };
                 // Path parameters
-                let path = uri.path().to_string();
+                let path: &str = &uri.path().to_string();
                 let path_params =
                     paths::REGEX_PET_PETID_UPLOADIMAGE
                     .captures(&path)
@@ -1628,56 +2063,101 @@ where
                 let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter petId: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter"))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
+                    Err(_) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
                 // Form Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
+                                use std::io::Read;
+
                                 // Read Form Parameters from body
                                 let mut entries = match Multipart::with_body(&body.to_vec()[..], boundary).save().temp() {
                                     SaveResult::Full(entries) => {
                                         entries
                                     },
                                     _ => {
-                                        return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Unable to process all message parts"))))
+                                        return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Unable to process all message parts")))
+                                                        .expect("Unable to create Bad Request response due to failure to process all message")))
                                     },
                                 };
                 
-                                
-                                let file_additional_metadata = entries.files.remove("additional_metadata");
-                                let param_additional_metadata = match file_additional_metadata {
-                                   Some(file) => {
-                                        let path = &file[0].path;
-                                        let additional_metadata_str = fs::read_to_string(path).unwrap();
-                                        let additional_metadata_model: String = serde_json::from_str(&additional_metadata_str).expect("Impossible to fail to serialise");
-                                        Some(additional_metadata_model)
+                                let field_additional_metadata = entries.fields.remove("additional_metadata");
+                                let param_additional_metadata = match field_additional_metadata {
+                                    Some(field) => {
+                                        let mut reader = field[0].data.readable().expect("Unable to read field for additional_metadata");
+                                    Some({
+                                        let mut data = String::new();
+                                        reader.read_to_string(&mut data).expect("Reading saved String should never fail");
+                                        let additional_metadata_model: String = match serde_json::from_str(&data) {
+                                            Ok(model) => model,
+                                            Err(e) => {
+                                                return Box::new(future::ok(
+                                                    Response::builder()
+                                                    .status(StatusCode::BAD_REQUEST)
+                                                    .body(Body::from(format!("additional_metadata data does not match API definition: {}", e)))
+                                                    .expect("Unable to create Bad Request response due to failure to process all message")))
+                                            }
+                                        };
+                                        additional_metadata_model
+                                    })
+                                    },
+                                    None => {
+                                            None
                                     }
-                                    None => None,
                                 };
-                                
 
-                                
-                                let file_file = entries.files.remove("file");
-                                let param_file = match file_file {
-                                   Some(file) => {
-                                        let path = &file[0].path;
-                                        let file_str = fs::read_to_string(path).unwrap();
-                                        let file_model: swagger::ByteArray = serde_json::from_str(&file_str).expect("Impossible to fail to serialise");
-                                        Some(file_model)
+                                let field_file = entries.fields.remove("file");
+                                let param_file = match field_file {
+                                    Some(field) => {
+                                        let mut reader = field[0].data.readable().expect("Unable to read field for file");
+                                    Some({
+                                        let mut data = String::new();
+                                        reader.read_to_string(&mut data).expect("Reading saved String should never fail");
+                                        let file_model: swagger::ByteArray = match serde_json::from_str(&data) {
+                                            Ok(model) => model,
+                                            Err(e) => {
+                                                return Box::new(future::ok(
+                                                    Response::builder()
+                                                    .status(StatusCode::BAD_REQUEST)
+                                                    .body(Body::from(format!("file data does not match API definition: {}", e)))
+                                                    .expect("Unable to create Bad Request response due to failure to process all message")))
+                                            }
+                                        };
+                                        file_model
+                                    })
+                                    },
+                                    None => {
+                                            None
                                     }
-                                    None => None,
                                 };
-                                
-                                Box::new(api_impl.upload_file(param_pet_id, param_additional_metadata, param_file, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.upload_file(
+                                            param_pet_id,
+                                            param_additional_metadata,
+                                            param_file,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1687,37 +2167,43 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::UPLOAD_FILE_SUCCESSFUL_OPERATION.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::UPLOAD_FILE_SUCCESSFUL_OPERATION)
+                                                            .expect("Unable to create Content-Type header for UPLOAD_FILE_SUCCESSFUL_OPERATION"));
 
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
                                         future::ok(response)
                                     }
                                 ))
-                                as Box<dyn Future<Item=Response, Error=Error>>
+                                as Self::Future
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read multipart body")))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read multipart body")))
+                                                .expect("Unable to create Bad Request response due to unable read multipart body"))),
                         }
                     })
                 )
             },
 
             // DeleteOrder - DELETE /store/order/{order_id}
-            &hyper::Method::Delete if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
+            &hyper::Method::DELETE if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
                 // Path parameters
-                let path = uri.path().to_string();
+                let path: &str = &uri.path().to_string();
                 let path_params =
                     paths::REGEX_STORE_ORDER_ORDER_ID
                     .captures(&path)
@@ -1727,16 +2213,30 @@ where
                 let param_order_id = match percent_encoding::percent_decode(path_params["order_id"].as_bytes()).decode_utf8() {
                     Ok(param_order_id) => match param_order_id.parse::<String>() {
                         Ok(param_order_id) => param_order_id,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter order_id: {:?}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter order_id: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter"))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"]))))
+                    Err(_) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
                 Box::new({
                         {{
-                                Box::new(api_impl.delete_order(param_order_id, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.delete_order(
+                                            param_order_id,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1744,22 +2244,22 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(400).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
                                                 },
                                                 DeleteOrderResponse::OrderNotFound
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(404).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1767,26 +2267,34 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // GetInventory - GET /store/inventory
-            &hyper::Method::Get if path.matched(paths::ID_STORE_INVENTORY) => {
+            &hyper::Method::GET if path.matched(paths::ID_STORE_INVENTORY) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
-                        &None => return Box::new(future::ok(Response::new()
-                                                .with_status(StatusCode::Forbidden)
-                                                .with_body("Unauthenticated"))),
+                        &None => return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::FORBIDDEN)
+                                                .body(Body::from("Unauthenticated"))
+                                                .expect("Unable to create Authentication Forbidden response"))),
                     };
 
                 }
                 Box::new({
                         {{
-                                Box::new(api_impl.get_inventory(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.get_inventory(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1796,19 +2304,22 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::GET_INVENTORY_SUCCESSFUL_OPERATION.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::GET_INVENTORY_SUCCESSFUL_OPERATION)
+                                                            .expect("Unable to create Content-Type header for GET_INVENTORY_SUCCESSFUL_OPERATION"));
 
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1816,13 +2327,13 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // GetOrderById - GET /store/order/{order_id}
-            &hyper::Method::Get if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
+            &hyper::Method::GET if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
                 // Path parameters
-                let path = uri.path().to_string();
+                let path: &str = &uri.path().to_string();
                 let path_params =
                     paths::REGEX_STORE_ORDER_ORDER_ID
                     .captures(&path)
@@ -1832,16 +2343,30 @@ where
                 let param_order_id = match percent_encoding::percent_decode(path_params["order_id"].as_bytes()).decode_utf8() {
                     Ok(param_order_id) => match param_order_id.parse::<i64>() {
                         Ok(param_order_id) => param_order_id,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter order_id: {:?}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter order_id: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter"))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"]))))
+                    Err(_) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
                 Box::new({
                         {{
-                                Box::new(api_impl.get_order_by_id(param_order_id, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.get_order_by_id(
+                                            param_order_id,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1851,33 +2376,36 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::GET_ORDER_BY_ID_SUCCESSFUL_OPERATION.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::GET_ORDER_BY_ID_SUCCESSFUL_OPERATION)
+                                                            .expect("Unable to create Content-Type header for GET_ORDER_BY_ID_SUCCESSFUL_OPERATION"));
 
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                                 GetOrderByIdResponse::InvalidIDSupplied
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(400).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
                                                 },
                                                 GetOrderByIdResponse::OrderNotFound
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(404).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1885,16 +2413,16 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // PlaceOrder - POST /store/order
-            &hyper::Method::Post if path.matched(paths::ID_STORE_ORDER) => {
+            &hyper::Method::POST if path.matched(paths::ID_STORE_ORDER) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1905,22 +2433,39 @@ where
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
+                                        Err(e) => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter body due to schema"))),
                                     }
                                 } else {
                                     None
                                 };
                                 let param_body = match param_body {
                                     Some(param_body) => param_body,
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
+                                    None => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-                                Box::new(api_impl.place_order(param_body, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.place_order(
+                                            param_body,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -1931,26 +2476,29 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::PLACE_ORDER_SUCCESSFUL_OPERATION.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::PLACE_ORDER_SUCCESSFUL_OPERATION)
+                                                            .expect("Unable to create Content-Type header for PLACE_ORDER_SUCCESSFUL_OPERATION"));
 
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                                 PlaceOrderResponse::InvalidOrder
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(400).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1958,19 +2506,22 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // CreateUser - POST /user
-            &hyper::Method::Post if path.matched(paths::ID_USER) => {
+            &hyper::Method::POST if path.matched(paths::ID_USER) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1981,22 +2532,39 @@ where
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
+                                        Err(e) => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter body due to schema"))),
                                     }
                                 } else {
                                     None
                                 };
                                 let param_body = match param_body {
                                     Some(param_body) => param_body,
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
+                                    None => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-                                Box::new(api_impl.create_user(param_body, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.create_user(
+                                            param_body,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -2005,15 +2573,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(0).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -2021,19 +2589,22 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // CreateUsersWithArrayInput - POST /user/createWithArray
-            &hyper::Method::Post if path.matched(paths::ID_USER_CREATEWITHARRAY) => {
+            &hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHARRAY) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -2044,22 +2615,39 @@ where
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
+                                        Err(e) => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter body due to schema"))),
                                     }
                                 } else {
                                     None
                                 };
                                 let param_body = match param_body {
                                     Some(param_body) => param_body,
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
+                                    None => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-                                Box::new(api_impl.create_users_with_array_input(param_body.as_ref(), &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.create_users_with_array_input(
+                                            param_body.as_ref(),
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -2068,15 +2656,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(0).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -2084,19 +2672,22 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // CreateUsersWithListInput - POST /user/createWithList
-            &hyper::Method::Post if path.matched(paths::ID_USER_CREATEWITHLIST) => {
+            &hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHLIST) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -2107,22 +2698,39 @@ where
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
+                                        Err(e) => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter body due to schema"))),
                                     }
                                 } else {
                                     None
                                 };
                                 let param_body = match param_body {
                                     Some(param_body) => param_body,
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
+                                    None => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-                                Box::new(api_impl.create_users_with_list_input(param_body.as_ref(), &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.create_users_with_list_input(
+                                            param_body.as_ref(),
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -2131,15 +2739,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(0).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -2147,16 +2755,19 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
             // DeleteUser - DELETE /user/{username}
-            &hyper::Method::Delete if path.matched(paths::ID_USER_USERNAME) => {
+            &hyper::Method::DELETE if path.matched(paths::ID_USER_USERNAME) => {
                 // Path parameters
-                let path = uri.path().to_string();
+                let path: &str = &uri.path().to_string();
                 let path_params =
                     paths::REGEX_USER_USERNAME
                     .captures(&path)
@@ -2166,16 +2777,30 @@ where
                 let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
                     Ok(param_username) => match param_username.parse::<String>() {
                         Ok(param_username) => param_username,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter username: {:?}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter username: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter"))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"]))))
+                    Err(_) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
                 Box::new({
                         {{
-                                Box::new(api_impl.delete_user(param_username, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.delete_user(
+                                            param_username,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -2183,22 +2808,22 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(400).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
                                                 },
                                                 DeleteUserResponse::UserNotFound
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(404).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -2206,13 +2831,13 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // GetUserByName - GET /user/{username}
-            &hyper::Method::Get if path.matched(paths::ID_USER_USERNAME) => {
+            &hyper::Method::GET if path.matched(paths::ID_USER_USERNAME) => {
                 // Path parameters
-                let path = uri.path().to_string();
+                let path: &str = &uri.path().to_string();
                 let path_params =
                     paths::REGEX_USER_USERNAME
                     .captures(&path)
@@ -2222,16 +2847,30 @@ where
                 let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
                     Ok(param_username) => match param_username.parse::<String>() {
                         Ok(param_username) => param_username,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter username: {:?}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter username: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter"))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"]))))
+                    Err(_) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
                 Box::new({
                         {{
-                                Box::new(api_impl.get_user_by_name(param_username, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.get_user_by_name(
+                                            param_username,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -2241,33 +2880,36 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::GET_USER_BY_NAME_SUCCESSFUL_OPERATION.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::GET_USER_BY_NAME_SUCCESSFUL_OPERATION)
+                                                            .expect("Unable to create Content-Type header for GET_USER_BY_NAME_SUCCESSFUL_OPERATION"));
 
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                                 GetUserByNameResponse::InvalidUsernameSupplied
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(400).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
                                                 },
                                                 GetUserByNameResponse::UserNotFound
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(404).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -2275,11 +2917,12 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // LoginUser - GET /user/login
-            &hyper::Method::Get if path.matched(paths::ID_USER_LOGIN) => {
+            &hyper::Method::GET if path.matched(paths::ID_USER_LOGIN) => {
+
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_username = query_params.iter().filter(|e| e.0 == "username").map(|e| e.1.to_owned())
@@ -2287,25 +2930,46 @@ where
                 let param_username = match param_username {
                     Some(param_username) => match param_username.parse::<String>() {
                         Ok(param_username) => param_username,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse query parameter username - doesn't match schema: {}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse query parameter username - doesn't match schema: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid query parameter username"))),
                     },
-                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required query parameter username"))),
+                    None => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from("Missing required query parameter username"))
+                                        .expect("Unable to create Bad Request response for missing qeury parameter username"))),
                 };
                 let param_password = query_params.iter().filter(|e| e.0 == "password").map(|e| e.1.to_owned())
                     .nth(0);
                 let param_password = match param_password {
                     Some(param_password) => match param_password.parse::<String>() {
                         Ok(param_password) => param_password,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse query parameter password - doesn't match schema: {}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse query parameter password - doesn't match schema: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid query parameter password"))),
                     },
-                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required query parameter password"))),
+                    None => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from("Missing required query parameter password"))
+                                        .expect("Unable to create Bad Request response for missing qeury parameter password"))),
                 };
                 Box::new({
                         {{
-                                Box::new(api_impl.login_user(param_username, param_password, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.login_user(
+                                            param_username,
+                                            param_password,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -2320,30 +2984,37 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
-                                                    header! { (ResponseXRateLimit, "X-Rate-Limit") => [i32] }
-                                                    response.headers_mut().set(ResponseXRateLimit(x_rate_limit));
-                                                    header! { (ResponseXExpiresAfter, "X-Expires-After") => [chrono::DateTime<chrono::Utc>] }
-                                                    response.headers_mut().set(ResponseXExpiresAfter(x_expires_after));
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        HeaderName::from_static("x-rate-limit"),
+                                                        swagger::IntoHeaderValue(x_rate_limit).into()
+                                                    );
+                                                    response.headers_mut().insert(
+                                                        HeaderName::from_static("x-expires-after"),
+                                                        swagger::IntoHeaderValue(x_expires_after).into()
+                                                    );
 
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::LOGIN_USER_SUCCESSFUL_OPERATION.clone()));
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::LOGIN_USER_SUCCESSFUL_OPERATION)
+                                                            .expect("Unable to create Content-Type header for LOGIN_USER_SUCCESSFUL_OPERATION"));
 
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-                                                    response.set_body(body);
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                                 LoginUserResponse::InvalidUsername
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(400).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -2351,17 +3022,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // LogoutUser - GET /user/logout
-            &hyper::Method::Get if path.matched(paths::ID_USER_LOGOUT) => {
+            &hyper::Method::GET if path.matched(paths::ID_USER_LOGOUT) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.logout_user(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.logout_user(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -2369,15 +3047,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(0).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(0).expect("Unable to turn 0 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -2385,13 +3063,13 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // UpdateUser - PUT /user/{username}
-            &hyper::Method::Put if path.matched(paths::ID_USER_USERNAME) => {
+            &hyper::Method::PUT if path.matched(paths::ID_USER_USERNAME) => {
                 // Path parameters
-                let path = uri.path().to_string();
+                let path: &str = &uri.path().to_string();
                 let path_params =
                     paths::REGEX_USER_USERNAME
                     .captures(&path)
@@ -2401,15 +3079,21 @@ where
                 let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
                     Ok(param_username) => match param_username.parse::<String>() {
                         Ok(param_username) => param_username,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter username: {:?}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter username: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter"))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"]))))
+                    Err(_) => return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode")))
                 };
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Self::Future {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -2420,22 +3104,40 @@ where
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_body) => param_body,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
+                                        Err(e) => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter body due to schema"))),
                                     }
                                 } else {
                                     None
                                 };
                                 let param_body = match param_body {
                                     Some(param_body) => param_body,
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
+                                    None => return Box::new(future::ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from("Missing required body parameter body"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-                                Box::new(api_impl.update_user(param_username, param_body, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.update_user(
+                                            param_username,
+                                            param_body,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
                                         }
 
                                         match result {
@@ -2444,22 +3146,22 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(400).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
 
                                                 },
                                                 UpdateUserResponse::UserNotFound
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(404).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -2467,18 +3169,25 @@ where
                                     }
                                 ))
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter body: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter body"))),
                         }
                     })
-                ) as Box<dyn Future<Item=Response, Error=Error>>
+                ) as Self::Future
             },
 
-            _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<dyn Future<Item=Response, Error=Error>>,
+            _ => Box::new(future::ok(
+                Response::builder().status(StatusCode::NOT_FOUND)
+                    .body(Body::empty())
+                    .expect("Unable to create Not Found response")
+            )) as Self::Future
         }
     }
 }
 
-impl<T, C> Clone for Service<T, C>
+impl<T, C> Clone for Service<T, C> where T: Clone
 {
     fn clone(&self) -> Self {
         Service {
@@ -2488,120 +3197,108 @@ impl<T, C> Clone for Service<T, C>
     }
 }
 
-/// Utility function to get the multipart boundary marker (if any) from the Headers.
-fn multipart_boundary<'a>(headers: &'a Headers) -> Option<&'a str> {
-    headers.get::<ContentType>().and_then(|content_type| {
-        let ContentType(ref mime) = *content_type;
-        if mime.type_() == hyper::mime::MULTIPART && mime.subtype() == hyper::mime::FORM_DATA {
-            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str())
-        } else {
-            None
-        }
-    })
-}
-
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
-impl RequestParser for ApiRequestParser {
-    fn parse_operation_id(request: &Request) -> Result<&'static str, ()> {
+impl<T> RequestParser<T> for ApiRequestParser {
+    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
         match request.method() {
 
             // TestSpecialTags - PATCH /another-fake/dummy
-            &hyper::Method::Patch if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => Ok("TestSpecialTags"),
+            &hyper::Method::PATCH if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => Ok("TestSpecialTags"),
 
             // FakeOuterBooleanSerialize - POST /fake/outer/boolean
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => Ok("FakeOuterBooleanSerialize"),
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => Ok("FakeOuterBooleanSerialize"),
 
             // FakeOuterCompositeSerialize - POST /fake/outer/composite
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => Ok("FakeOuterCompositeSerialize"),
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => Ok("FakeOuterCompositeSerialize"),
 
             // FakeOuterNumberSerialize - POST /fake/outer/number
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_NUMBER) => Ok("FakeOuterNumberSerialize"),
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_NUMBER) => Ok("FakeOuterNumberSerialize"),
 
             // FakeOuterStringSerialize - POST /fake/outer/string
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_STRING) => Ok("FakeOuterStringSerialize"),
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_STRING) => Ok("FakeOuterStringSerialize"),
 
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
-            &hyper::Method::Put if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => Ok("TestBodyWithQueryParams"),
+            &hyper::Method::PUT if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => Ok("TestBodyWithQueryParams"),
 
             // TestClientModel - PATCH /fake
-            &hyper::Method::Patch if path.matched(paths::ID_FAKE) => Ok("TestClientModel"),
+            &hyper::Method::PATCH if path.matched(paths::ID_FAKE) => Ok("TestClientModel"),
 
             // TestEndpointParameters - POST /fake
-            &hyper::Method::Post if path.matched(paths::ID_FAKE) => Ok("TestEndpointParameters"),
+            &hyper::Method::POST if path.matched(paths::ID_FAKE) => Ok("TestEndpointParameters"),
 
             // TestEnumParameters - GET /fake
-            &hyper::Method::Get if path.matched(paths::ID_FAKE) => Ok("TestEnumParameters"),
+            &hyper::Method::GET if path.matched(paths::ID_FAKE) => Ok("TestEnumParameters"),
 
             // TestInlineAdditionalProperties - POST /fake/inline-additionalProperties
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => Ok("TestInlineAdditionalProperties"),
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => Ok("TestInlineAdditionalProperties"),
 
             // TestJsonFormData - GET /fake/jsonFormData
-            &hyper::Method::Get if path.matched(paths::ID_FAKE_JSONFORMDATA) => Ok("TestJsonFormData"),
+            &hyper::Method::GET if path.matched(paths::ID_FAKE_JSONFORMDATA) => Ok("TestJsonFormData"),
 
             // TestClassname - PATCH /fake_classname_test
-            &hyper::Method::Patch if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => Ok("TestClassname"),
+            &hyper::Method::PATCH if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => Ok("TestClassname"),
 
             // AddPet - POST /pet
-            &hyper::Method::Post if path.matched(paths::ID_PET) => Ok("AddPet"),
+            &hyper::Method::POST if path.matched(paths::ID_PET) => Ok("AddPet"),
 
             // DeletePet - DELETE /pet/{petId}
-            &hyper::Method::Delete if path.matched(paths::ID_PET_PETID) => Ok("DeletePet"),
+            &hyper::Method::DELETE if path.matched(paths::ID_PET_PETID) => Ok("DeletePet"),
 
             // FindPetsByStatus - GET /pet/findByStatus
-            &hyper::Method::Get if path.matched(paths::ID_PET_FINDBYSTATUS) => Ok("FindPetsByStatus"),
+            &hyper::Method::GET if path.matched(paths::ID_PET_FINDBYSTATUS) => Ok("FindPetsByStatus"),
 
             // FindPetsByTags - GET /pet/findByTags
-            &hyper::Method::Get if path.matched(paths::ID_PET_FINDBYTAGS) => Ok("FindPetsByTags"),
+            &hyper::Method::GET if path.matched(paths::ID_PET_FINDBYTAGS) => Ok("FindPetsByTags"),
 
             // GetPetById - GET /pet/{petId}
-            &hyper::Method::Get if path.matched(paths::ID_PET_PETID) => Ok("GetPetById"),
+            &hyper::Method::GET if path.matched(paths::ID_PET_PETID) => Ok("GetPetById"),
 
             // UpdatePet - PUT /pet
-            &hyper::Method::Put if path.matched(paths::ID_PET) => Ok("UpdatePet"),
+            &hyper::Method::PUT if path.matched(paths::ID_PET) => Ok("UpdatePet"),
 
             // UpdatePetWithForm - POST /pet/{petId}
-            &hyper::Method::Post if path.matched(paths::ID_PET_PETID) => Ok("UpdatePetWithForm"),
+            &hyper::Method::POST if path.matched(paths::ID_PET_PETID) => Ok("UpdatePetWithForm"),
 
             // UploadFile - POST /pet/{petId}/uploadImage
-            &hyper::Method::Post if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => Ok("UploadFile"),
+            &hyper::Method::POST if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => Ok("UploadFile"),
 
             // DeleteOrder - DELETE /store/order/{order_id}
-            &hyper::Method::Delete if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Ok("DeleteOrder"),
+            &hyper::Method::DELETE if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Ok("DeleteOrder"),
 
             // GetInventory - GET /store/inventory
-            &hyper::Method::Get if path.matched(paths::ID_STORE_INVENTORY) => Ok("GetInventory"),
+            &hyper::Method::GET if path.matched(paths::ID_STORE_INVENTORY) => Ok("GetInventory"),
 
             // GetOrderById - GET /store/order/{order_id}
-            &hyper::Method::Get if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Ok("GetOrderById"),
+            &hyper::Method::GET if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Ok("GetOrderById"),
 
             // PlaceOrder - POST /store/order
-            &hyper::Method::Post if path.matched(paths::ID_STORE_ORDER) => Ok("PlaceOrder"),
+            &hyper::Method::POST if path.matched(paths::ID_STORE_ORDER) => Ok("PlaceOrder"),
 
             // CreateUser - POST /user
-            &hyper::Method::Post if path.matched(paths::ID_USER) => Ok("CreateUser"),
+            &hyper::Method::POST if path.matched(paths::ID_USER) => Ok("CreateUser"),
 
             // CreateUsersWithArrayInput - POST /user/createWithArray
-            &hyper::Method::Post if path.matched(paths::ID_USER_CREATEWITHARRAY) => Ok("CreateUsersWithArrayInput"),
+            &hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHARRAY) => Ok("CreateUsersWithArrayInput"),
 
             // CreateUsersWithListInput - POST /user/createWithList
-            &hyper::Method::Post if path.matched(paths::ID_USER_CREATEWITHLIST) => Ok("CreateUsersWithListInput"),
+            &hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHLIST) => Ok("CreateUsersWithListInput"),
 
             // DeleteUser - DELETE /user/{username}
-            &hyper::Method::Delete if path.matched(paths::ID_USER_USERNAME) => Ok("DeleteUser"),
+            &hyper::Method::DELETE if path.matched(paths::ID_USER_USERNAME) => Ok("DeleteUser"),
 
             // GetUserByName - GET /user/{username}
-            &hyper::Method::Get if path.matched(paths::ID_USER_USERNAME) => Ok("GetUserByName"),
+            &hyper::Method::GET if path.matched(paths::ID_USER_USERNAME) => Ok("GetUserByName"),
 
             // LoginUser - GET /user/login
-            &hyper::Method::Get if path.matched(paths::ID_USER_LOGIN) => Ok("LoginUser"),
+            &hyper::Method::GET if path.matched(paths::ID_USER_LOGIN) => Ok("LoginUser"),
 
             // LogoutUser - GET /user/logout
-            &hyper::Method::Get if path.matched(paths::ID_USER_LOGOUT) => Ok("LogoutUser"),
+            &hyper::Method::GET if path.matched(paths::ID_USER_LOGOUT) => Ok("LogoutUser"),
 
             // UpdateUser - PUT /user/{username}
-            &hyper::Method::Put if path.matched(paths::ID_USER_USERNAME) => Ok("UpdateUser"),
+            &hyper::Method::PUT if path.matched(paths::ID_USER_USERNAME) => Ok("UpdateUser"),
             _ => Err(()),
         }
     }

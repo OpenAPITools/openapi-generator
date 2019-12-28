@@ -8,9 +8,9 @@ extern crate petstore_with_fake_endpoints_models_for_testing;
 extern crate swagger;
 extern crate hyper;
 extern crate openssl;
-extern crate native_tls;
-extern crate tokio_proto;
+extern crate tokio;
 extern crate tokio_tls;
+extern crate native_tls;
 extern crate clap;
 
 // Imports required by server library.
@@ -22,14 +22,18 @@ extern crate chrono;
 extern crate error_chain;
 extern crate uuid;
 
+use futures::{Future, Stream};
+use hyper::service::MakeService;
+use hyper::server::conn::Http;
 use openssl::x509::X509_FILETYPE_PEM;
 use openssl::ssl::{SslAcceptorBuilder, SslMethod};
 use openssl::error::ErrorStack;
-use hyper::server::Http;
-use tokio_proto::TcpServer;
+use tokio::net::TcpListener;
 use clap::{App, Arg};
-use swagger::auth::AllowAllAuthenticator;
+use std::sync::{Arc, Mutex};
+use swagger::auth::MakeAllowAllAuthenticator;
 use swagger::EmptyContext;
+use tokio_tls::TlsAcceptorExt;
 
 mod server_lib;
 
@@ -54,12 +58,15 @@ fn main() {
             .help("Whether to use HTTPS or not"))
         .get_matches();
 
+    let server = server_lib::Server::new();
+
+    let service_fn = petstore_with_fake_endpoints_models_for_testing::server::MakeService::new(server);
+
+    let service_fn = MakeAllowAllAuthenticator::new(service_fn, "cosmo");
+
     let service_fn =
-        petstore_with_fake_endpoints_models_for_testing::server::context::NewAddContext::<_, EmptyContext>::new(
-            AllowAllAuthenticator::new(
-                server_lib::NewService::new(),
-                "cosmo"
-            )
+        petstore_with_fake_endpoints_models_for_testing::server::context::MakeAddContext::<_, EmptyContext>::new(
+            service_fn
         );
 
     let addr = "127.0.0.1:80".parse().expect("Failed to parse bind address");
@@ -67,9 +74,29 @@ fn main() {
         let ssl = ssl().expect("Failed to load SSL keys");
         let builder: native_tls::TlsAcceptorBuilder = native_tls::backend::openssl::TlsAcceptorBuilderExt::from_openssl(ssl);
         let tls_acceptor = builder.build().expect("Failed to build TLS acceptor");
-        TcpServer::new(tokio_tls::proto::Server::new(Http::new(), tls_acceptor), addr).serve(service_fn);
+        let service_fn = Arc::new(Mutex::new(service_fn));
+        let tls_listener = TcpListener::bind(&addr).unwrap().incoming().for_each(move |tcp| {
+           let addr = tcp.peer_addr().expect("Unable to get remote address");
+
+           let service_fn = service_fn.clone();
+
+           hyper::rt::spawn(tls_acceptor.accept_async(tcp).map_err(|_| ()).and_then(move |tls| {
+               let ms = {
+                   let mut service_fn = service_fn.lock().unwrap();
+                   service_fn.make_service(&addr)
+               };
+
+               ms.and_then(move |service| {
+                   Http::new().serve_connection(tls, service)
+               }).map_err(|_| ())
+           }));
+
+           Ok(())
+        }).map_err(|_| ());
+
+        hyper::rt::run(tls_listener);
     } else {
         // Using HTTP
-        TcpServer::new(Http::new(), addr).serve(service_fn);
+        hyper::rt::run(hyper::server::Server::bind(&addr).serve(service_fn).map_err(|e| panic!("{:?}", e)));
     }
 }

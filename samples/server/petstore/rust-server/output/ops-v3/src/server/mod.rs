@@ -1,36 +1,22 @@
-#![allow(unused_extern_crates)]
-extern crate serde_ignored;
-extern crate tokio_core;
-extern crate native_tls;
-extern crate hyper_tls;
-extern crate openssl;
-extern crate mime;
-extern crate chrono;
-extern crate percent_encoding;
-extern crate url;
-
-use std::sync::Arc;
+#[allow(unused_imports)]
+use std::collections::{HashMap, BTreeMap, BTreeSet};
 use std::marker::PhantomData;
 use futures::{Future, future, Stream, stream};
 use hyper;
-use hyper::{Request, Response, Error, StatusCode};
-use hyper::header::{Headers, ContentType};
-use self::url::form_urlencoded;
-use mimetypes;
+use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
+use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use serde_json;
-
-#[allow(unused_imports)]
-use std::collections::{HashMap, BTreeMap};
+use std::io;
 #[allow(unused_imports)]
 use swagger;
-use std::io;
+use swagger::{ApiError, XSpanIdString, Has, RequestParser};
+use swagger::auth::Scopes;
+use swagger::context::ContextualPayload;
+use url::form_urlencoded;
 
-#[allow(unused_imports)]
-use std::collections::BTreeSet;
+use mimetypes;
 
 pub use swagger::auth::Authorization;
-use swagger::{ApiError, XSpanId, XSpanIdString, Has, RequestParser};
-use swagger::auth::Scopes;
 
 use {Api,
      Op10GetResponse,
@@ -71,12 +57,11 @@ use {Api,
      Op8GetResponse,
      Op9GetResponse
      };
+
 #[allow(unused_imports)]
 use models;
 
 pub mod context;
-
-header! { (Warning, "Warning") => [String] }
 
 mod paths {
     extern crate regex;
@@ -120,7 +105,8 @@ mod paths {
             r"^/op7$",
             r"^/op8$",
             r"^/op9$"
-        ]).unwrap();
+        ])
+        .expect("Unable to create global regex set");
     }
     pub static ID_OP1: usize = 0;
     pub static ID_OP10: usize = 1;
@@ -161,77 +147,97 @@ mod paths {
     pub static ID_OP9: usize = 36;
 }
 
-pub struct NewService<T, C> {
-    api_impl: Arc<T>,
-    marker: PhantomData<C>,
+pub struct MakeService<T, RC> {
+    api_impl: T,
+    marker: PhantomData<RC>,
 }
 
-impl<T, C> NewService<T, C>
+impl<T, RC> MakeService<T, RC>
 where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString>  + 'static
+    T: Api<RC> + Clone + Send + 'static,
+    RC: Has<XSpanIdString>  + 'static
 {
-    pub fn new<U: Into<Arc<T>>>(api_impl: U) -> NewService<T, C> {
-        NewService{api_impl: api_impl.into(), marker: PhantomData}
+    pub fn new(api_impl: T) -> Self {
+        MakeService {
+            api_impl,
+            marker: PhantomData
+        }
     }
 }
 
-impl<T, C> hyper::server::NewService for NewService<T, C>
+impl<'a, T, SC, RC> hyper::service::MakeService<&'a SC> for MakeService<T, RC>
 where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString>  + 'static
+    T: Api<RC> + Clone + Send + 'static,
+    RC: Has<XSpanIdString>  + 'static + Send
 {
-    type Request = (Request, C);
-    type Response = Response;
+    type ReqBody = ContextualPayload<Body, RC>;
+    type ResBody = Body;
     type Error = Error;
-    type Instance = Service<T, C>;
+    type Service = Service<T, RC>;
+    type Future = future::FutureResult<Self::Service, Self::MakeError>;
+    type MakeError = Error;
 
-    fn new_service(&self) -> Result<Self::Instance, io::Error> {
-        Ok(Service::new(self.api_impl.clone()))
+    fn make_service(&mut self, _ctx: &'a SC) -> Self::Future {
+        future::FutureResult::from(Ok(Service::new(
+            self.api_impl.clone(),
+        )))
     }
 }
 
-pub struct Service<T, C> {
-    api_impl: Arc<T>,
-    marker: PhantomData<C>,
+pub struct Service<T, RC> {
+    api_impl: T,
+    marker: PhantomData<RC>,
 }
 
-impl<T, C> Service<T, C>
+impl<T, RC> Service<T, RC>
 where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString>  + 'static {
-    pub fn new<U: Into<Arc<T>>>(api_impl: U) -> Service<T, C> {
-        Service{api_impl: api_impl.into(), marker: PhantomData}
+    T: Api<RC> + Clone + Send + 'static,
+    RC: Has<XSpanIdString>  + 'static {
+    pub fn new(api_impl: T) -> Self {
+        Service {
+            api_impl: api_impl,
+            marker: PhantomData
+        }
     }
 }
 
-impl<T, C> hyper::server::Service for Service<T, C>
+impl<T, C> hyper::service::Service for Service<T, C>
 where
-    T: Api<C> + Clone + 'static,
-    C: Has<XSpanIdString>  + 'static
+    T: Api<C> + Clone + Send + 'static,
+    C: Has<XSpanIdString>  + 'static + Send
 {
-    type Request = (Request, C);
-    type Response = Response;
+    type ReqBody = ContextualPayload<Body, C>;
+    type ResBody = Body;
     type Error = Error;
-    type Future = Box<dyn Future<Item=Response, Error=Error>>;
+    type Future = Box<dyn Future<Item = Response<Self::ResBody>, Error = Self::Error> + Send>;
 
-    fn call(&self, (req, mut context): Self::Request) -> Self::Future {
+    fn call(&mut self, req: Request<Self::ReqBody>) -> Self::Future {
         let api_impl = self.api_impl.clone();
-        let (method, uri, _, headers, body) = req.deconstruct();
+        let (parts, body) = req.into_parts();
+        let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
+        let mut context = body.context;
+        let body = body.inner;
 
         // This match statement is duplicated below in `parse_operation_id()`.
         // Please update both places if changing how this code is autogenerated.
         match &method {
 
             // Op10Get - GET /op10
-            &hyper::Method::Get if path.matched(paths::ID_OP10) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP10) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op10_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op10_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -239,15 +245,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -255,17 +261,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op11Get - GET /op11
-            &hyper::Method::Get if path.matched(paths::ID_OP11) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP11) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op11_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op11_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -273,15 +286,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -289,17 +302,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op12Get - GET /op12
-            &hyper::Method::Get if path.matched(paths::ID_OP12) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP12) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op12_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op12_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -307,15 +327,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -323,17 +343,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op13Get - GET /op13
-            &hyper::Method::Get if path.matched(paths::ID_OP13) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP13) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op13_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op13_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -341,15 +368,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -357,17 +384,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op14Get - GET /op14
-            &hyper::Method::Get if path.matched(paths::ID_OP14) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP14) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op14_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op14_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -375,15 +409,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -391,17 +425,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op15Get - GET /op15
-            &hyper::Method::Get if path.matched(paths::ID_OP15) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP15) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op15_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op15_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -409,15 +450,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -425,17 +466,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op16Get - GET /op16
-            &hyper::Method::Get if path.matched(paths::ID_OP16) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP16) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op16_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op16_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -443,15 +491,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -459,17 +507,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op17Get - GET /op17
-            &hyper::Method::Get if path.matched(paths::ID_OP17) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP17) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op17_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op17_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -477,15 +532,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -493,17 +548,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op18Get - GET /op18
-            &hyper::Method::Get if path.matched(paths::ID_OP18) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP18) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op18_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op18_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -511,15 +573,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -527,17 +589,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op19Get - GET /op19
-            &hyper::Method::Get if path.matched(paths::ID_OP19) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP19) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op19_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op19_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -545,15 +614,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -561,17 +630,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op1Get - GET /op1
-            &hyper::Method::Get if path.matched(paths::ID_OP1) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP1) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op1_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op1_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -579,15 +655,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -595,17 +671,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op20Get - GET /op20
-            &hyper::Method::Get if path.matched(paths::ID_OP20) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP20) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op20_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op20_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -613,15 +696,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -629,17 +712,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op21Get - GET /op21
-            &hyper::Method::Get if path.matched(paths::ID_OP21) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP21) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op21_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op21_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -647,15 +737,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -663,17 +753,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op22Get - GET /op22
-            &hyper::Method::Get if path.matched(paths::ID_OP22) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP22) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op22_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op22_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -681,15 +778,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -697,17 +794,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op23Get - GET /op23
-            &hyper::Method::Get if path.matched(paths::ID_OP23) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP23) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op23_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op23_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -715,15 +819,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -731,17 +835,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op24Get - GET /op24
-            &hyper::Method::Get if path.matched(paths::ID_OP24) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP24) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op24_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op24_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -749,15 +860,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -765,17 +876,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op25Get - GET /op25
-            &hyper::Method::Get if path.matched(paths::ID_OP25) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP25) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op25_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op25_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -783,15 +901,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -799,17 +917,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op26Get - GET /op26
-            &hyper::Method::Get if path.matched(paths::ID_OP26) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP26) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op26_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op26_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -817,15 +942,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -833,17 +958,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op27Get - GET /op27
-            &hyper::Method::Get if path.matched(paths::ID_OP27) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP27) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op27_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op27_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -851,15 +983,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -867,17 +999,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op28Get - GET /op28
-            &hyper::Method::Get if path.matched(paths::ID_OP28) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP28) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op28_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op28_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -885,15 +1024,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -901,17 +1040,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op29Get - GET /op29
-            &hyper::Method::Get if path.matched(paths::ID_OP29) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP29) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op29_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op29_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -919,15 +1065,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -935,17 +1081,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op2Get - GET /op2
-            &hyper::Method::Get if path.matched(paths::ID_OP2) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP2) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op2_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op2_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -953,15 +1106,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -969,17 +1122,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op30Get - GET /op30
-            &hyper::Method::Get if path.matched(paths::ID_OP30) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP30) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op30_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op30_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -987,15 +1147,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1003,17 +1163,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op31Get - GET /op31
-            &hyper::Method::Get if path.matched(paths::ID_OP31) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP31) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op31_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op31_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1021,15 +1188,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1037,17 +1204,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op32Get - GET /op32
-            &hyper::Method::Get if path.matched(paths::ID_OP32) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP32) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op32_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op32_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1055,15 +1229,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1071,17 +1245,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op33Get - GET /op33
-            &hyper::Method::Get if path.matched(paths::ID_OP33) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP33) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op33_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op33_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1089,15 +1270,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1105,17 +1286,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op34Get - GET /op34
-            &hyper::Method::Get if path.matched(paths::ID_OP34) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP34) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op34_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op34_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1123,15 +1311,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1139,17 +1327,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op35Get - GET /op35
-            &hyper::Method::Get if path.matched(paths::ID_OP35) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP35) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op35_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op35_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1157,15 +1352,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1173,17 +1368,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op36Get - GET /op36
-            &hyper::Method::Get if path.matched(paths::ID_OP36) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP36) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op36_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op36_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1191,15 +1393,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1207,17 +1409,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op37Get - GET /op37
-            &hyper::Method::Get if path.matched(paths::ID_OP37) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP37) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op37_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op37_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1225,15 +1434,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1241,17 +1450,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op3Get - GET /op3
-            &hyper::Method::Get if path.matched(paths::ID_OP3) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP3) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op3_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op3_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1259,15 +1475,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1275,17 +1491,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op4Get - GET /op4
-            &hyper::Method::Get if path.matched(paths::ID_OP4) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP4) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op4_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op4_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1293,15 +1516,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1309,17 +1532,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op5Get - GET /op5
-            &hyper::Method::Get if path.matched(paths::ID_OP5) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP5) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op5_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op5_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1327,15 +1557,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1343,17 +1573,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op6Get - GET /op6
-            &hyper::Method::Get if path.matched(paths::ID_OP6) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP6) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op6_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op6_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1361,15 +1598,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1377,17 +1614,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op7Get - GET /op7
-            &hyper::Method::Get if path.matched(paths::ID_OP7) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP7) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op7_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op7_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1395,15 +1639,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1411,17 +1655,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op8Get - GET /op8
-            &hyper::Method::Get if path.matched(paths::ID_OP8) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP8) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op8_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op8_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1429,15 +1680,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1445,17 +1696,24 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
             // Op9Get - GET /op9
-            &hyper::Method::Get if path.matched(paths::ID_OP9) => {
+            &hyper::Method::GET if path.matched(paths::ID_OP9) => {
                 Box::new({
                         {{
-                                Box::new(api_impl.op9_get(&context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                Box::new(
+                                    api_impl.op9_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1463,15 +1721,15 @@ where
 
 
                                                 => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
                                                 },
                                             },
                                             Err(_) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
                                             },
                                         }
 
@@ -1479,15 +1737,19 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<dyn Future<Item=Response, Error=Error>>
+                }) as Self::Future
             },
 
-            _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<dyn Future<Item=Response, Error=Error>>,
+            _ => Box::new(future::ok(
+                Response::builder().status(StatusCode::NOT_FOUND)
+                    .body(Body::empty())
+                    .expect("Unable to create Not Found response")
+            )) as Self::Future
         }
     }
 }
 
-impl<T, C> Clone for Service<T, C>
+impl<T, C> Clone for Service<T, C> where T: Clone
 {
     fn clone(&self) -> Self {
         Service {
@@ -1497,124 +1759,123 @@ impl<T, C> Clone for Service<T, C>
     }
 }
 
-
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
-impl RequestParser for ApiRequestParser {
-    fn parse_operation_id(request: &Request) -> Result<&'static str, ()> {
+impl<T> RequestParser<T> for ApiRequestParser {
+    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
         match request.method() {
 
             // Op10Get - GET /op10
-            &hyper::Method::Get if path.matched(paths::ID_OP10) => Ok("Op10Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP10) => Ok("Op10Get"),
 
             // Op11Get - GET /op11
-            &hyper::Method::Get if path.matched(paths::ID_OP11) => Ok("Op11Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP11) => Ok("Op11Get"),
 
             // Op12Get - GET /op12
-            &hyper::Method::Get if path.matched(paths::ID_OP12) => Ok("Op12Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP12) => Ok("Op12Get"),
 
             // Op13Get - GET /op13
-            &hyper::Method::Get if path.matched(paths::ID_OP13) => Ok("Op13Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP13) => Ok("Op13Get"),
 
             // Op14Get - GET /op14
-            &hyper::Method::Get if path.matched(paths::ID_OP14) => Ok("Op14Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP14) => Ok("Op14Get"),
 
             // Op15Get - GET /op15
-            &hyper::Method::Get if path.matched(paths::ID_OP15) => Ok("Op15Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP15) => Ok("Op15Get"),
 
             // Op16Get - GET /op16
-            &hyper::Method::Get if path.matched(paths::ID_OP16) => Ok("Op16Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP16) => Ok("Op16Get"),
 
             // Op17Get - GET /op17
-            &hyper::Method::Get if path.matched(paths::ID_OP17) => Ok("Op17Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP17) => Ok("Op17Get"),
 
             // Op18Get - GET /op18
-            &hyper::Method::Get if path.matched(paths::ID_OP18) => Ok("Op18Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP18) => Ok("Op18Get"),
 
             // Op19Get - GET /op19
-            &hyper::Method::Get if path.matched(paths::ID_OP19) => Ok("Op19Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP19) => Ok("Op19Get"),
 
             // Op1Get - GET /op1
-            &hyper::Method::Get if path.matched(paths::ID_OP1) => Ok("Op1Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP1) => Ok("Op1Get"),
 
             // Op20Get - GET /op20
-            &hyper::Method::Get if path.matched(paths::ID_OP20) => Ok("Op20Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP20) => Ok("Op20Get"),
 
             // Op21Get - GET /op21
-            &hyper::Method::Get if path.matched(paths::ID_OP21) => Ok("Op21Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP21) => Ok("Op21Get"),
 
             // Op22Get - GET /op22
-            &hyper::Method::Get if path.matched(paths::ID_OP22) => Ok("Op22Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP22) => Ok("Op22Get"),
 
             // Op23Get - GET /op23
-            &hyper::Method::Get if path.matched(paths::ID_OP23) => Ok("Op23Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP23) => Ok("Op23Get"),
 
             // Op24Get - GET /op24
-            &hyper::Method::Get if path.matched(paths::ID_OP24) => Ok("Op24Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP24) => Ok("Op24Get"),
 
             // Op25Get - GET /op25
-            &hyper::Method::Get if path.matched(paths::ID_OP25) => Ok("Op25Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP25) => Ok("Op25Get"),
 
             // Op26Get - GET /op26
-            &hyper::Method::Get if path.matched(paths::ID_OP26) => Ok("Op26Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP26) => Ok("Op26Get"),
 
             // Op27Get - GET /op27
-            &hyper::Method::Get if path.matched(paths::ID_OP27) => Ok("Op27Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP27) => Ok("Op27Get"),
 
             // Op28Get - GET /op28
-            &hyper::Method::Get if path.matched(paths::ID_OP28) => Ok("Op28Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP28) => Ok("Op28Get"),
 
             // Op29Get - GET /op29
-            &hyper::Method::Get if path.matched(paths::ID_OP29) => Ok("Op29Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP29) => Ok("Op29Get"),
 
             // Op2Get - GET /op2
-            &hyper::Method::Get if path.matched(paths::ID_OP2) => Ok("Op2Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP2) => Ok("Op2Get"),
 
             // Op30Get - GET /op30
-            &hyper::Method::Get if path.matched(paths::ID_OP30) => Ok("Op30Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP30) => Ok("Op30Get"),
 
             // Op31Get - GET /op31
-            &hyper::Method::Get if path.matched(paths::ID_OP31) => Ok("Op31Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP31) => Ok("Op31Get"),
 
             // Op32Get - GET /op32
-            &hyper::Method::Get if path.matched(paths::ID_OP32) => Ok("Op32Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP32) => Ok("Op32Get"),
 
             // Op33Get - GET /op33
-            &hyper::Method::Get if path.matched(paths::ID_OP33) => Ok("Op33Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP33) => Ok("Op33Get"),
 
             // Op34Get - GET /op34
-            &hyper::Method::Get if path.matched(paths::ID_OP34) => Ok("Op34Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP34) => Ok("Op34Get"),
 
             // Op35Get - GET /op35
-            &hyper::Method::Get if path.matched(paths::ID_OP35) => Ok("Op35Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP35) => Ok("Op35Get"),
 
             // Op36Get - GET /op36
-            &hyper::Method::Get if path.matched(paths::ID_OP36) => Ok("Op36Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP36) => Ok("Op36Get"),
 
             // Op37Get - GET /op37
-            &hyper::Method::Get if path.matched(paths::ID_OP37) => Ok("Op37Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP37) => Ok("Op37Get"),
 
             // Op3Get - GET /op3
-            &hyper::Method::Get if path.matched(paths::ID_OP3) => Ok("Op3Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP3) => Ok("Op3Get"),
 
             // Op4Get - GET /op4
-            &hyper::Method::Get if path.matched(paths::ID_OP4) => Ok("Op4Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP4) => Ok("Op4Get"),
 
             // Op5Get - GET /op5
-            &hyper::Method::Get if path.matched(paths::ID_OP5) => Ok("Op5Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP5) => Ok("Op5Get"),
 
             // Op6Get - GET /op6
-            &hyper::Method::Get if path.matched(paths::ID_OP6) => Ok("Op6Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP6) => Ok("Op6Get"),
 
             // Op7Get - GET /op7
-            &hyper::Method::Get if path.matched(paths::ID_OP7) => Ok("Op7Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP7) => Ok("Op7Get"),
 
             // Op8Get - GET /op8
-            &hyper::Method::Get if path.matched(paths::ID_OP8) => Ok("Op8Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP8) => Ok("Op8Get"),
 
             // Op9Get - GET /op9
-            &hyper::Method::Get if path.matched(paths::ID_OP9) => Ok("Op9Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP9) => Ok("Op9Get"),
             _ => Err(()),
         }
     }

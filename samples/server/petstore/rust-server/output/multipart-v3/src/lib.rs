@@ -1,18 +1,17 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
 
-#[macro_use]
-extern crate lazy_static;
-#[macro_use]
-extern crate log;
+// Crates with macros
+
 #[macro_use]
 extern crate serde_derive;
-
-#[cfg(any(feature = "client", feature = "server"))]
+#[cfg(any(feature = "server"))]
 #[macro_use]
-extern crate hyper;
+extern crate lazy_static;
 #[cfg(any(feature = "client", feature = "server"))]
 #[macro_use]
 extern crate url;
+#[macro_use]
+extern crate log;
 
 // Crates for conversion support
 #[cfg(feature = "conversion")]
@@ -26,12 +25,40 @@ extern crate frunk_core;
 
 extern crate mime;
 extern crate serde;
-extern crate serde_json;
-
 extern crate futures;
 extern crate chrono;
 extern crate swagger;
 
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate hyper;
+#[cfg(any(feature = "client"))]
+extern crate hyper_tls;
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate openssl;
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate native_tls;
+#[cfg(feature = "server")]
+extern crate percent_encoding;
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate serde_json;
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate serde_ignored;
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate tokio;
+
+#[cfg(any(feature = "client", feature = "server"))]
+
+
+
+
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate multipart;
+extern crate mime_0_2;
+
+#[cfg(any(feature = "client", feature = "server"))]
+
+
+use hyper::header::HeaderValue;
 use futures::Stream;
 use std::io::Error;
 
@@ -61,7 +88,7 @@ pub enum MultipartRequestPostResponse {
 pub trait Api<C> {
 
 
-    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>, context: &C) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError>>;
+    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>, context: &C) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send>;
 
 }
 
@@ -69,7 +96,7 @@ pub trait Api<C> {
 pub trait ApiNoContext {
 
 
-    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError>>;
+    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send>;
 
 }
 
@@ -88,7 +115,7 @@ impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
 impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
 
-    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError>> {
+    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send> {
         self.api().multipart_request_post(string_field, binary_field, optional_string_field, object_field, &self.context())
     }
 
