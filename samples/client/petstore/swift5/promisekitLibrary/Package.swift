@@ -19,7 +19,6 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.9.1"),
         .package(url: "https://github.com/mxcl/PromiseKit.git", from: "6.12.0")
     ],
     targets: [
@@ -27,7 +26,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "PetstoreClient",
-            dependencies: ["Alamofire", "PromiseKit" ],
+            dependencies: ["PromiseKit" ],
             path: "PetstoreClient/Classes"
         )
     ]

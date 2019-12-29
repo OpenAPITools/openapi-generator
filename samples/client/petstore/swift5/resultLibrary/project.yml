@@ -11,5 +11,4 @@ targets:
     settings:
       APPLICATION_EXTENSION_API_ONLY: true
     scheme: {}
-    dependencies:
-    - carthage: Alamofire
+    

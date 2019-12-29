@@ -10,7 +10,7 @@ internal class PetstoreClientAPI {
     internal static var basePath = "http://petstore.swagger.io:80/v2"
     internal static var credential: URLCredential?
     internal static var customHeaders: [String: String] = [:]
-    internal static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
+    internal static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
     internal static var apiResponseQueue: DispatchQueue = .main
 }
 
@@ -23,6 +23,7 @@ internal class RequestBuilder<T> {
     internal let URLString: String
 
     /// Optional block to obtain a reference to the request's progress instance when available.
+    /// It only works on iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0
     internal var onProgressReady: ((Progress) -> Void)?
 
     required internal init(method: String, URLString: String, parameters: [String: Any]?, isBody: Bool, headers: [String: String] = [:]) {

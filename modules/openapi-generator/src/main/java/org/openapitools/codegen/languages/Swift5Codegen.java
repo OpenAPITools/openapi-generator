@@ -63,7 +63,6 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
     protected static final String[] RESPONSE_LIBRARIES = {RESPONSE_LIBRARY_PROMISE_KIT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_COMBINE};
     protected String projectName = "OpenAPIClient";
     protected boolean nonPublicApi = false;
-    protected boolean unwrapRequired;
     protected boolean objcCompatible = false;
     protected boolean lenientTypeCast = false;
     protected boolean swiftUseApiNamespace;
@@ -242,14 +241,14 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
                         + "string->int, int->string)")
                 .defaultValue(Boolean.FALSE.toString()));
 
-        supportedLibraries.put(LIBRARY_ALAMOFIRE, "[DEFAULT] HTTP client: Alamofire");
-        supportedLibraries.put(LIBRARY_URLSESSION, "HTTP client: URLSession");
+        supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
+        supportedLibraries.put(LIBRARY_ALAMOFIRE, "HTTP client: Alamofire");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
-        libraryOption.setDefault(LIBRARY_ALAMOFIRE);
+        libraryOption.setDefault(LIBRARY_URLSESSION);
         cliOptions.add(libraryOption);
-        setLibrary(LIBRARY_ALAMOFIRE);
+        setLibrary(LIBRARY_URLSESSION);
     }
 
     private static CodegenModel reconcileProperties(CodegenModel codegenModel,
@@ -362,7 +361,6 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
             reservedWords.addAll(objcReservedWords);
         }
 
-        // Setup unwrapRequired option, which makes all the properties with "required" non-optional
         if (additionalProperties.containsKey(RESPONSE_AS)) {
             Object responseAsObject = additionalProperties.get(RESPONSE_AS);
             if (responseAsObject instanceof String) {

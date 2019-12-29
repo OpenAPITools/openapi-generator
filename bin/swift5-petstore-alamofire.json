@@ -3,5 +3,5 @@
   "podHomepage": "https://github.com/openapitools/openapi-generator",
   "podAuthors": "",
   "projectName": "PetstoreClient",
-  "library": "urlsession"
+  "library": "alamofire"
 }

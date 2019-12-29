@@ -12,5 +12,4 @@ Pod::Spec.new do |s|
   s.summary = 'PetstoreClient'
   s.source_files = 'PetstoreClient/Classes/**/*.swift'
   s.dependency 'PromiseKit/CorePromise', '~> 6.12.0'
-  s.dependency 'Alamofire', '~> 4.9.1'
 end
