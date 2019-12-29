@@ -29,7 +29,10 @@
 {{/optionalVars}}
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
 {{#requiredVars}}
         '{{name}}': ({{{dataType}}},),  # noqa: E501
 {{/requiredVars}}

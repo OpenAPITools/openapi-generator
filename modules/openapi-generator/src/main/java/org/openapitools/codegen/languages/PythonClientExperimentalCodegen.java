@@ -651,7 +651,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // set baseType to null so the api docs will not point to a model for languageSpecificPrimitives
         if (p.baseType != null && languageSpecificPrimitives.contains(p.baseType)){
             p.baseType = null;
-        } else if (p.isListContainer && p.mostInnerItems.complexType != null && !languageSpecificPrimitives.contains(p.mostInnerItems.complexType)) {
+        } else if (p.isListContainer && p.mostInnerItems != null && p.mostInnerItems.complexType != null && !languageSpecificPrimitives.contains(p.mostInnerItems.complexType)) {
             // fix ListContainers
             p.baseType = getPythonClassName(p.mostInnerItems.complexType);
         }
