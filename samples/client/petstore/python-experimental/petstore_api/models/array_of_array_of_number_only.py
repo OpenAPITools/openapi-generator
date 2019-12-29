@@ -59,7 +59,10 @@ class ArrayOfArrayOfNumberOnly(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'array_array_number': ([[float]],),  # noqa: E501
     }
 

@@ -59,7 +59,10 @@ class HasOnlyReadOnly(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'bar': (str,),  # noqa: E501
         'foo': (str,),  # noqa: E501
     }

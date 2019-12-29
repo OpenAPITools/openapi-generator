@@ -59,7 +59,10 @@ class AdditionalPropertiesClass(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'map_string': ({str: (str,)},),  # noqa: E501
         'map_number': ({str: (float,)},),  # noqa: E501
         'map_integer': ({str: (int,)},),  # noqa: E501

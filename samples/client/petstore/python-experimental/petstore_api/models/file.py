@@ -59,7 +59,10 @@ class File(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'source_uri': (str,),  # noqa: E501
     }
 

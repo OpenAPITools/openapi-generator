@@ -59,7 +59,10 @@ class ChildDogAllOf(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'bark': (str,),  # noqa: E501
     }
 

@@ -81,7 +81,10 @@ class EnumTest(ModelNormal):
         },
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'enum_string_required': (str,),  # noqa: E501
         'enum_string': (str,),  # noqa: E501
         'enum_integer': (int,),  # noqa: E501

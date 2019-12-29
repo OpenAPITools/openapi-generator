@@ -59,7 +59,10 @@ class User(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'id': (int,),  # noqa: E501
         'username': (str,),  # noqa: E501
         'first_name': (str,),  # noqa: E501

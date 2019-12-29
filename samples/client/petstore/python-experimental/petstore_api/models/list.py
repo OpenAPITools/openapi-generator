@@ -59,7 +59,10 @@ class List(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         '_123_list': (str,),  # noqa: E501
     }
 

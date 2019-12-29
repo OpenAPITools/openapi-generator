@@ -59,7 +59,10 @@ class Tag(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'id': (int,),  # noqa: E501
         'name': (str,),  # noqa: E501
         'full_name': (str,),  # noqa: E501

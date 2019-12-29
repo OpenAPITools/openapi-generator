@@ -59,7 +59,10 @@ class SpecialModelName(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'special_property_name': (int,),  # noqa: E501
     }
 

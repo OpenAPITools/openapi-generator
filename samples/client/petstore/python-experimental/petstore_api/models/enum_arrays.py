@@ -67,7 +67,10 @@ class EnumArrays(ModelNormal):
         },
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'just_symbol': (str,),  # noqa: E501
         'array_enum': ([str],),  # noqa: E501
     }

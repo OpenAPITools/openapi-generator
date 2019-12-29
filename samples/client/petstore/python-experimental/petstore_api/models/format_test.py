@@ -59,7 +59,10 @@ class FormatTest(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'number': (float,),  # noqa: E501
         'byte': (str,),  # noqa: E501
         'date': (date,),  # noqa: E501

@@ -55,7 +55,10 @@ class OuterNumber(ModelSimple):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'value': (float,),  # noqa: E501
     }
 

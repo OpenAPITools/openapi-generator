@@ -63,7 +63,10 @@ class MixedPropertiesAndAdditionalPropertiesClass(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'uuid': (str,),  # noqa: E501
         'date_time': (datetime,),  # noqa: E501
         'map': ({str: (animal.Animal,)},),  # noqa: E501

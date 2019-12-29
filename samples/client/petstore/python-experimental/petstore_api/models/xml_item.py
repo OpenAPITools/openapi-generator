@@ -59,7 +59,10 @@ class XmlItem(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'attribute_string': (str,),  # noqa: E501
         'attribute_number': (float,),  # noqa: E501
         'attribute_integer': (int,),  # noqa: E501

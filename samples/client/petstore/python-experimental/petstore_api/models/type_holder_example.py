@@ -68,7 +68,10 @@ class TypeHolderExample(ModelNormal):
         },
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'string_item': (str,),  # noqa: E501
         'number_item': (float,),  # noqa: E501
         'integer_item': (int,),  # noqa: E501

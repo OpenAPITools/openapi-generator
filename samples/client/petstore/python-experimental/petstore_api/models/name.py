@@ -59,7 +59,10 @@ class Name(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'name': (int,),  # noqa: E501
         'snake_case': (int,),  # noqa: E501
         '_property': (str,),  # noqa: E501

@@ -64,7 +64,10 @@ class Order(ModelNormal):
         },
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'id': (int,),  # noqa: E501
         'pet_id': (int,),  # noqa: E501
         'quantity': (int,),  # noqa: E501

@@ -67,7 +67,10 @@ class Dog(ModelComposed):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'class_name': (str,),  # noqa: E501
         'breed': (str,),  # noqa: E501
         'color': (str,),  # noqa: E501

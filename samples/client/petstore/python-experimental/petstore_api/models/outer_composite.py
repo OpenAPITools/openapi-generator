@@ -63,7 +63,10 @@ class OuterComposite(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'my_number': (outer_number.OuterNumber,),  # noqa: E501
         'my_string': (str,),  # noqa: E501
         'my_boolean': (bool,),  # noqa: E501

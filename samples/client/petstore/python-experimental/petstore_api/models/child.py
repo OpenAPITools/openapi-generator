@@ -67,7 +67,10 @@ class Child(ModelComposed):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'radio_waves': (bool,),  # noqa: E501
         'tele_vision': (bool,),  # noqa: E501
         'inter_net': (bool,),  # noqa: E501

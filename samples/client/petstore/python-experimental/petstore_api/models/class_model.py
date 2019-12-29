@@ -59,7 +59,10 @@ class ClassModel(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         '_class': (str,),  # noqa: E501
     }
 

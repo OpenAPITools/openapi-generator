@@ -63,7 +63,10 @@ class FileSchemaTestClass(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'file': (file.File,),  # noqa: E501
         'files': ([file.File],),  # noqa: E501
     }

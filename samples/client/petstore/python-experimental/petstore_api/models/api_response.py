@@ -59,7 +59,10 @@ class ApiResponse(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'code': (int,),  # noqa: E501
         'type': (str,),  # noqa: E501
         'message': (str,),  # noqa: E501

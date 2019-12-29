@@ -59,7 +59,10 @@ class Capitalization(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'small_camel': (str,),  # noqa: E501
         'capital_camel': (str,),  # noqa: E501
         'small_snake': (str,),  # noqa: E501

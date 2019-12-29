@@ -63,7 +63,10 @@ class ArrayTest(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'array_of_string': ([str],),  # noqa: E501
         'array_array_of_integer': ([[int]],),  # noqa: E501
         'array_array_of_model': ([[read_only_first.ReadOnlyFirst]],),  # noqa: E501

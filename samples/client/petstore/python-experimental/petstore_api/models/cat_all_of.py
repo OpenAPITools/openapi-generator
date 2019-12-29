@@ -59,7 +59,10 @@ class CatAllOf(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'declawed': (bool,),  # noqa: E501
     }
 

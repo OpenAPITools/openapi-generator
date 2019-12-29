@@ -72,7 +72,10 @@ class Pet(ModelNormal):
         },
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'name': (str,),  # noqa: E501
         'photo_urls': ([str],),  # noqa: E501
         'id': (int,),  # noqa: E501

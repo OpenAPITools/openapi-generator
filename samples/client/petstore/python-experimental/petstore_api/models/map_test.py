@@ -67,7 +67,10 @@ class MapTest(ModelNormal):
         },
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'map_map_of_string': ({str: ({str: (str,)},)},),  # noqa: E501
         'map_of_enum_string': ({str: (str,)},),  # noqa: E501
         'direct_map': ({str: (bool,)},),  # noqa: E501

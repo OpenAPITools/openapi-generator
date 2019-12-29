@@ -67,7 +67,10 @@ class ChildDog(ModelComposed):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'pet_type': (str,),  # noqa: E501
         'bark': (str,),  # noqa: E501
     }

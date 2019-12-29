@@ -59,7 +59,10 @@ class DogAllOf(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'breed': (str,),  # noqa: E501
     }
 

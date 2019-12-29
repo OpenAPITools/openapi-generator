@@ -60,7 +60,10 @@ class OuterEnum(ModelSimple):
         },
     }
 
-    openapi_types = {
+    @staticmethod
+    @property
+    def openapi_types():
+        return {
         'value': (str,),  # noqa: E501
     }
 
