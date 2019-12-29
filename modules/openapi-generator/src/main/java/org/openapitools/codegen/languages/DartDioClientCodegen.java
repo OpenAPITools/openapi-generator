@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import java.util.HashMap;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -121,8 +122,9 @@ public class DartDioClientCodegen extends DartClientCodegen {
         return "Generates a Dart Dio client library.";
     }
 
-    @Override public void setBrowserClient(boolean browserClient) {
-        super.browserClient  = browserClient;
+    @Override
+    public void setBrowserClient(boolean browserClient) {
+        super.browserClient = browserClient;
     }
 
     @Override

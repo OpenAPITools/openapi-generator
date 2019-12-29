@@ -18,9 +18,10 @@
 package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
+
 import java.util.Map;
+
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.DartDioClientCodegen;
 import org.openapitools.codegen.languages.DartDioClientCodegen;
 
 public class DartDioClientOptionsProvider implements OptionsProvider {
@@ -28,19 +29,22 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
     public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String BROWSER_CLIENT_VALUE = "true";
-    public static final String PUB_NAME_VALUE = "swagger";
+    public static final String PUB_NAME_VALUE = "openapi";
     public static final String PUB_VERSION_VALUE = "1.0.0-SNAPSHOT";
-    public static final String PUB_DESCRIPTION_VALUE = "Swagger API client dart";
+    public static final String PUB_DESCRIPTION_VALUE = "OpenAPI API client dart";
     public static final String SOURCE_FOLDER_VALUE = "src";
     public static final String USE_ENUM_EXTENSION = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String DATE_LIBRARY = "core";
     public static final String NULLABLE_FIELDS = "true";
+    public static final String PUB_AUTHOR_VALUE = "Author";
+    public static final String PUB_AUTHOR_EMAIL_VALUE = "author@homepage";
+    public static final String PUB_HOMEPAGE_VALUE = "Homepage";
 
     @Override
     public String getLanguage() {
-        return "dart";
+        return "dart-dio";
     }
 
     @Override
@@ -53,6 +57,9 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
                 .put(DartDioClientCodegen.PUB_NAME, PUB_NAME_VALUE)
                 .put(DartDioClientCodegen.PUB_VERSION, PUB_VERSION_VALUE)
                 .put(DartDioClientCodegen.PUB_DESCRIPTION, PUB_DESCRIPTION_VALUE)
+                .put(DartDioClientCodegen.PUB_AUTHOR, PUB_AUTHOR_VALUE)
+                .put(DartDioClientCodegen.PUB_AUTHOR_EMAIL, PUB_AUTHOR_EMAIL_VALUE)
+                .put(DartDioClientCodegen.PUB_HOMEPAGE, PUB_HOMEPAGE_VALUE)
                 .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER_VALUE)
                 .put(DartDioClientCodegen.USE_ENUM_EXTENSION, USE_ENUM_EXTENSION)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
@@ -60,8 +67,7 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
                 .put(DartDioClientCodegen.SUPPORT_DART2, "false")
                 .put(DartDioClientCodegen.DATE_LIBRARY, DATE_LIBRARY)
                 .put(DartDioClientCodegen.NULLABLE_FIELDS, NULLABLE_FIELDS)
-
-            .build();
+                .build();
     }
 
     @Override

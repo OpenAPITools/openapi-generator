@@ -93,58 +93,24 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
         // as well as keywords from https://kotlinlang.org/docs/reference/keyword-reference.html
         reservedWords = new HashSet<String>(Arrays.asList(
-                "abstract",
-                "annotation",
                 "as",
                 "break",
-                "case",
-                "catch",
                 "class",
-                "companion",
-                "const",
-                "constructor",
                 "continue",
-                "crossinline",
-                "data",
-                "delegate",
                 "do",
                 "else",
-                "enum",
-                "external",
                 "false",
-                "final",
-                "finally",
                 "for",
                 "fun",
                 "if",
                 "in",
-                "infix",
-                "init",
-                "inline",
-                "inner",
                 "interface",
-                "internal",
                 "is",
-                "it",
-                "lateinit",
-                "lazy",
-                "noinline",
                 "null",
                 "object",
-                "open",
-                "operator",
-                "out",
-                "override",
                 "package",
-                "private",
-                "protected",
-                "public",
-                "reified",
                 "return",
-                "sealed",
                 "super",
-                "suspend",
-                "tailrec",
                 "this",
                 "throw",
                 "true",
@@ -153,7 +119,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "typeof",
                 "val",
                 "var",
-                "vararg",
                 "when",
                 "while"
         ));
@@ -565,7 +530,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 modified = underscore(modified);
                 break;
             case UPPERCASE:
-                modified = modified.toUpperCase(Locale.ROOT);
+                modified = underscore(modified).toUpperCase(Locale.ROOT);
                 break;
         }
 
