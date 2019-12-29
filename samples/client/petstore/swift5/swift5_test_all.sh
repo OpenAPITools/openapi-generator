@@ -8,7 +8,8 @@ DIRECTORY=`dirname $0`
 mvn -f $DIRECTORY/default/SwaggerClientTests/pom.xml integration-test
 mvn -f $DIRECTORY/promisekitLibrary/SwaggerClientTests/pom.xml integration-test
 mvn -f $DIRECTORY/rxswiftLibrary/SwaggerClientTests/pom.xml integration-test
-mvn -f $DIRECTORY/urlSessionLibrary/SwaggerClientTests/pom.xml integration-test
+mvn -f $DIRECTORY/urlsessionLibrary/SwaggerClientTests/pom.xml integration-test
+mvn -f $DIRECTORY/alamofireLibrary/SwaggerClientTests/pom.xml integration-test
 mvn -f $DIRECTORY/combineLibrary/SwaggerClientTests/pom.xml integration-test
 
 # spm build
@@ -18,5 +19,6 @@ mvn -f $DIRECTORY/objcCompatible/pom.xml integration-test
 mvn -f $DIRECTORY/promisekitLibrary/pom.xml integration-test
 mvn -f $DIRECTORY/resultLibrary/pom.xml integration-test
 mvn -f $DIRECTORY/rxswiftLibrary/pom.xml integration-test
-mvn -f $DIRECTORY/urlSessionLibrary/pom.xml integration-test
+mvn -f $DIRECTORY/urlsessionLibrary/pom.xml integration-test
+mvn -f $DIRECTORY/alamofireLibrary/pom.xml integration-test
 mvn -f $DIRECTORY/combineLibrary/pom.xml integration-test
