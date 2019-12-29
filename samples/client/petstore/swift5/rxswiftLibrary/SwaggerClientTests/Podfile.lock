@@ -1,7 +1,5 @@
 PODS:
-  - Alamofire (4.9.1)
   - PetstoreClient (1.0.0):
-    - Alamofire (~> 4.9.0)
     - RxSwift (~> 5.0.0)
   - RxSwift (5.0.1)
 
@@ -10,7 +8,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - Alamofire
     - RxSwift
 
 EXTERNAL SOURCES:
@@ -18,8 +15,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
-  PetstoreClient: 45c4b1cf8ff0a6f152d6fc8b52b4d910a5bded1f
+  PetstoreClient: ca66372305d63921e72f65b3de84aeb705eba5a1
   RxSwift: e2dc62b366a3adf6a0be44ba9f405efd4c94e0c4
 
 PODFILE CHECKSUM: 509bec696cc1d8641751b52e4fe4bef04ac4542c

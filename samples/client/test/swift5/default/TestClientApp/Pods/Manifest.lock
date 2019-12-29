@@ -1,22 +1,15 @@
 PODS:
-  - Alamofire (4.9.0)
-  - TestClient (1.0):
-    - Alamofire (~> 4.9.0)
+  - TestClient (1.0)
 
 DEPENDENCIES:
   - TestClient (from `../`)
-
-SPEC REPOS:
-  trunk:
-    - Alamofire
 
 EXTERNAL SOURCES:
   TestClient:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
-  TestClient: 2c98a7b4c137bbcf413bee5952fea31c121f1863
+  TestClient: 2c0d16f42076221adbf579221827fd034c3c4a85
 
 PODFILE CHECKSUM: 837b06bfc9f93ccd7664fd918d113c8e3824bde3
 

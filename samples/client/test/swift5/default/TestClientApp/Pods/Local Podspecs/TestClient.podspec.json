@@ -15,10 +15,5 @@
   "license": "Proprietary",
   "homepage": "https://github.com/openapitools/openapi-generator",
   "summary": "TestClient",
-  "source_files": "TestClient/Classes/**/*.swift",
-  "dependencies": {
-    "Alamofire": [
-      "~> 4.9.0"
-    ]
-  }
+  "source_files": "TestClient/Classes/**/*.swift"
 }
