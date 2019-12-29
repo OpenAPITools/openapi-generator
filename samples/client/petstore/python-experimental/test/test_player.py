@@ -28,9 +28,15 @@ class TestPlayer(unittest.TestCase):
 
     def testPlayer(self):
         """Test Player"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.Player()  # noqa: E501
-        pass
+        # we can make a player without an enemy_player property
+        jane = petstore_api.Player(name="Jane")
+        # we can make a player with an enemy_player
+        sally = petstore_api.Player(name="Sally", enemy_player=jane)
+        # we can make a player with an inline enemy_player
+        jim = petstore_api.Player(
+            name="Jim",
+            enemy_player=petstore_api.Player(name="Sam")
+        )
 
 
 if __name__ == '__main__':
