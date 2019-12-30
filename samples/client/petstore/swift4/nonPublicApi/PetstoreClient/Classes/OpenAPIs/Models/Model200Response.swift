@@ -8,7 +8,6 @@
 import Foundation
 
 /** Model for testing model name starting with number */
-
 internal struct Model200Response: Codable {
 
     internal var name: Int?

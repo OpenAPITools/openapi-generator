@@ -68,22 +68,15 @@ extension Data: JSONEncodable {
     }
 }
 
-private let dateFormatter: DateFormatter = {
-    if let formatter = CodableHelper.dateformatter {
-        return formatter
-    } else {
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.dateFormat = Configuration.dateFormat
-        return formatter
-    }
-}()
-
 extension Date: JSONEncodable {
     func encodeToJSON() -> Any {
-        return dateFormatter.string(from: self) as Any
+        return CodableHelper.dateFormatter.string(from: self) as Any
+    }
+}
+
+extension URL: JSONEncodable {
+    func encodeToJSON() -> Any {
+        return self
     }
 }
 
