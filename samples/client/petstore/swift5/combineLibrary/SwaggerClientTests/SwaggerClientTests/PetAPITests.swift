@@ -34,7 +34,7 @@ class PetAPITests: XCTestCase {
         let tags = [Tag(id: 1234, name: "New York"), Tag(id: 124321, name: "Jose")]
         let newPet = Pet(id: 1000, category: category, name: "Fluffy", photoUrls: ["https://petstore.com/sample/photo1.jpg", "https://petstore.com/sample/photo2.jpg"], tags: tags, status: .available)
 
-        let anyCancellable = PetAPI.addPet(body: newPet).sink(receiveCompletion: { (completion) in
+        PetAPI.addPet(body: newPet).sink(receiveCompletion: { (completion) in
             switch completion {
             case .failure:
                 XCTFail("error creating pet")
@@ -42,20 +42,19 @@ class PetAPITests: XCTestCase {
             }
         }, receiveValue: { _ in
             expectation.fulfill()
-        })
-        anyCancellables.append(anyCancellable)
+        }).store(in: &anyCancellables)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
     func test2GetPet() {
         let expectation = self.expectation(description: "testGetPet")
-        let anyCancellable = PetAPI.getPetById(petId: 1000).sink(receiveCompletion: { (completion) in
-                switch completion {
-                case .failure:
-                    XCTFail("error getting pet")
-                case .finished:()
-                }
-            }, receiveValue: { pet in
+        PetAPI.getPetById(petId: 1000).sink(receiveCompletion: { (completion) in
+            switch completion {
+            case .failure:
+                XCTFail("error getting pet")
+            case .finished:()
+            }
+        }, receiveValue: { pet in
             XCTAssert(pet.id == 1000, "invalid id")
             XCTAssert(pet.name == "Fluffy", "invalid name")
             XCTAssert(pet.category!.id == 1234, "invalid category id")
@@ -73,14 +72,13 @@ class PetAPITests: XCTestCase {
             XCTAssert(pet.photoUrls[1] == "https://petstore.com/sample/photo2.jpg")
 
             expectation.fulfill()
-        })
-        anyCancellables.append(anyCancellable)
+        }).store(in: &anyCancellables)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
     func test3DeletePet() {
         let expectation = self.expectation(description: "testDeletePet")
-        let anyCancellable = PetAPI.deletePet(petId: 1000).sink(receiveCompletion: { (completion) in
+        PetAPI.deletePet(petId: 1000).sink(receiveCompletion: { (completion) in
             switch completion {
             case .failure(let errorType):
                 // The server gives us no data back so alamofire parsing fails - at least
@@ -98,8 +96,7 @@ class PetAPITests: XCTestCase {
             }
         }, receiveValue: { _ in
             expectation.fulfill()
-        })
-        anyCancellables.append(anyCancellable)
+        }).store(in: &anyCancellables)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 }

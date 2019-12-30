@@ -30,7 +30,7 @@ class UserAPITests: XCTestCase {
 
     func testLogin() {
         let expectation = self.expectation(description: "testLogin")
-        let anyCancellable = UserAPI.loginUser(username: "swiftTester", password: "swift").sink(receiveCompletion: { (completion) in
+        UserAPI.loginUser(username: "swiftTester", password: "swift").sink(receiveCompletion: { (completion) in
             switch completion {
             case .failure(let errorType):
                 // The server gives us no data back so alamofire parsing fails - at least
@@ -48,14 +48,13 @@ class UserAPITests: XCTestCase {
             }
         }, receiveValue: { _ in
             expectation.fulfill()
-        })
-        anyCancellables.append(anyCancellable)
+        }).store(in: &anyCancellables)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
     func testLogout() {
         let expectation = self.expectation(description: "testLogout")
-        let anyCancellable = UserAPI.logoutUser().sink(receiveCompletion: { (completion) in
+        UserAPI.logoutUser().sink(receiveCompletion: { (completion) in
             switch completion {
             case .failure(let errorType):
                 // The server gives us no data back so alamofire parsing fails - at least
@@ -73,15 +72,14 @@ class UserAPITests: XCTestCase {
             }
         }, receiveValue: { _ in
             expectation.fulfill()
-        })
-        anyCancellables.append(anyCancellable)
+        }).store(in: &anyCancellables)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
     func test1CreateUser() {
         let expectation = self.expectation(description: "testCreateUser")
         let newUser = User(id: 1000, username: "test@test.com", firstName: "Test", lastName: "Tester", email: "test@test.com", password: "test!", phone: "867-5309", userStatus: 0)
-        let anyCancellable = UserAPI.createUser(body: newUser).sink(receiveCompletion: { (completion) in
+        UserAPI.createUser(body: newUser).sink(receiveCompletion: { (completion) in
             switch completion {
             case .failure(let errorType):
                 // The server gives us no data back so alamofire parsing fails - at least
@@ -99,14 +97,13 @@ class UserAPITests: XCTestCase {
             }
         }, receiveValue: { _ in
             expectation.fulfill()
-        })
-        anyCancellables.append(anyCancellable)
+        }).store(in: &anyCancellables)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
     func test2GetUser() {
         let expectation = self.expectation(description: "testGetUser")
-        let anyCancellable = UserAPI.getUserByName(username: "test@test.com").sink(receiveCompletion: { (completion) in
+        UserAPI.getUserByName(username: "test@test.com").sink(receiveCompletion: { (completion) in
             switch completion {
             case .failure:
                 XCTFail("error getting user")
@@ -121,14 +118,13 @@ class UserAPITests: XCTestCase {
             XCTAssert(user.phone == "867-5309", "invalid phone")
             expectation.fulfill()
 
-        })
-        anyCancellables.append(anyCancellable)
+        }).store(in: &anyCancellables)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
     func test3DeleteUser() {
         let expectation = self.expectation(description: "testDeleteUser")
-        let anyCancellable = UserAPI.deleteUser(username: "test@test.com").sink(receiveCompletion: { (completion) in
+        UserAPI.deleteUser(username: "test@test.com").sink(receiveCompletion: { (completion) in
             switch completion {
             case .failure(let errorType):
                 // The server gives us no data back so alamofire parsing fails - at least
@@ -146,8 +142,7 @@ class UserAPITests: XCTestCase {
             }
         }, receiveValue: { _ in
             expectation.fulfill()
-        })
-        anyCancellables.append(anyCancellable)
+        }).store(in: &anyCancellables)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 

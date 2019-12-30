@@ -25,7 +25,7 @@ class StoreAPITests: XCTestCase {
         let shipDate = Date()
         let order = Order(id: 1000, petId: 1000, quantity: 10, shipDate: shipDate, status: .placed, complete: true)
         let expectation = self.expectation(description: "testPlaceOrder")
-        let anyCancellable = StoreAPI.placeOrder(body: order).sink(receiveCompletion: { (completion) in
+        StoreAPI.placeOrder(body: order).sink(receiveCompletion: { (completion) in
             switch completion {
             case .failure:
                 XCTFail("error placing order")
@@ -40,14 +40,13 @@ class StoreAPITests: XCTestCase {
             XCTAssert(order.complete == true, "invalid complete")
 
             expectation.fulfill()
-        })
-        anyCancellables.append(anyCancellable)
+        }).store(in: &anyCancellables)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
     func test2GetOrder() {
         let expectation = self.expectation(description: "testGetOrder")
-        let anyCancellable = StoreAPI.getOrderById(orderId: 1000).sink(receiveCompletion: { (completion) in
+        StoreAPI.getOrderById(orderId: 1000).sink(receiveCompletion: { (completion) in
             switch completion {
             case .failure:
                 XCTFail("error placing order")
@@ -59,14 +58,13 @@ class StoreAPITests: XCTestCase {
             XCTAssert(order.status == .placed, "invalid status")
             XCTAssert(order.complete == true, "invalid complete")
             expectation.fulfill()
-        })
-        anyCancellables.append(anyCancellable)
+        }).store(in: &anyCancellables)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
     func test3DeleteOrder() {
         let expectation = self.expectation(description: "testDeleteOrder")
-        let anyCancellable = StoreAPI.deleteOrder(orderId: "1000").sink(receiveCompletion: { (completion) in
+        StoreAPI.deleteOrder(orderId: "1000").sink(receiveCompletion: { (completion) in
             switch completion {
             case .failure(let errorType):
                 // The server gives us no data back so alamofire parsing fails - at least
@@ -84,8 +82,7 @@ class StoreAPITests: XCTestCase {
             }
         }, receiveValue: { _ in
             expectation.fulfill()
-        })
-        anyCancellables.append(anyCancellable)
+        }).store(in: &anyCancellables)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
