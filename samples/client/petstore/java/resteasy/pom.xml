@@ -249,6 +249,6 @@
         <threetenbp-version>2.9.10</threetenbp-version>
         <jodatime-version>2.9.9</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <junit-version>4.12</junit-version>
+        <junit-version>4.13</junit-version>
     </properties>
 </project>

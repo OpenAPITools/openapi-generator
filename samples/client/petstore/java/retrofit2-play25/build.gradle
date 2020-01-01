@@ -100,7 +100,7 @@ ext {
     jackson_version = "2.9.10"
     play_version = "2.5.14"
     swagger_annotations_version = "1.5.22"
-    junit_version = "4.12"
+    junit_version = "4.13"
     threetenbp_version = "1.4.0"
     json_fire_version = "1.8.0"
 }
