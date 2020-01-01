@@ -25,16 +25,16 @@ var (
 	_ _context.Context
 )
 
-// FakeApiService FakeApi service
-type FakeApiService service
+// FakeAPIService FakeAPI service
+type FakeAPIService service
 
 /*
-CreateXmlItem creates an XmlItem
+CreateXMLItem creates an XmlItem
 this route creates an XmlItem
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param xmlItem XmlItem Body
+ * @param xMLItem XmlItem Body
 */
-func (a *FakeApiService) CreateXmlItem(ctx _context.Context, xmlItem XmlItem) (*_nethttp.Response, error) {
+func (a *FakeAPIService) CreateXMLItem(ctx _context.Context, xMLItem XMLItem) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -67,7 +67,7 @@ func (a *FakeApiService) CreateXmlItem(ctx _context.Context, xmlItem XmlItem) (*
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = &xmlItem
+	localVarPostBody = &xMLItem
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -108,7 +108,7 @@ Test serialization of outer boolean types
  * @param "Body" (optional.Bool) -  Input boolean as post body
 @return bool
 */
-func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context, localVarOptionals *FakeOuterBooleanSerializeOpts) (bool, *_nethttp.Response, error) {
+func (a *FakeAPIService) FakeOuterBooleanSerialize(ctx _context.Context, localVarOptionals *FakeOuterBooleanSerializeOpts) (bool, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -204,7 +204,7 @@ Test serialization of object with outer number type
  * @param "Body" (optional.Interface of OuterComposite) -  Input composite as post body
 @return OuterComposite
 */
-func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context, localVarOptionals *FakeOuterCompositeSerializeOpts) (OuterComposite, *_nethttp.Response, error) {
+func (a *FakeAPIService) FakeOuterCompositeSerialize(ctx _context.Context, localVarOptionals *FakeOuterCompositeSerializeOpts) (OuterComposite, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -304,7 +304,7 @@ Test serialization of outer number types
  * @param "Body" (optional.Float32) -  Input number as post body
 @return float32
 */
-func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context, localVarOptionals *FakeOuterNumberSerializeOpts) (float32, *_nethttp.Response, error) {
+func (a *FakeAPIService) FakeOuterNumberSerialize(ctx _context.Context, localVarOptionals *FakeOuterNumberSerializeOpts) (float32, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -400,7 +400,7 @@ Test serialization of outer string types
  * @param "Body" (optional.String) -  Input string as post body
 @return string
 */
-func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVarOptionals *FakeOuterStringSerializeOpts) (string, *_nethttp.Response, error) {
+func (a *FakeAPIService) FakeOuterStringSerialize(ctx _context.Context, localVarOptionals *FakeOuterStringSerializeOpts) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -489,7 +489,7 @@ For this test, the body for this request much reference a schema named &#x60;Fil
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param body
 */
-func (a *FakeApiService) TestBodyWithFileSchema(ctx _context.Context, body FileSchemaTestClass) (*_nethttp.Response, error) {
+func (a *FakeAPIService) TestBodyWithFileSchema(ctx _context.Context, body FileSchemaTestClass) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPut
 		localVarPostBody     interface{}
@@ -556,7 +556,7 @@ TestBodyWithQueryParams Method for TestBodyWithQueryParams
  * @param query
  * @param body
 */
-func (a *FakeApiService) TestBodyWithQueryParams(ctx _context.Context, query string, body User) (*_nethttp.Response, error) {
+func (a *FakeAPIService) TestBodyWithQueryParams(ctx _context.Context, query string, body User) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPut
 		localVarPostBody     interface{}
@@ -625,7 +625,7 @@ To test \&quot;client\&quot; model
  * @param body client model
 @return Client
 */
-func (a *FakeApiService) TestClientModel(ctx _context.Context, body Client) (Client, *_nethttp.Response, error) {
+func (a *FakeAPIService) TestClientModel(ctx _context.Context, body Client) (Client, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
@@ -739,7 +739,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
  * @param "Password" (optional.String) -  None
  * @param "Callback" (optional.String) -  None
 */
-func (a *FakeApiService) TestEndpointParameters(ctx _context.Context, number float32, double float64, patternWithoutDelimiter string, byte_ string, localVarOptionals *TestEndpointParametersOpts) (*_nethttp.Response, error) {
+func (a *FakeAPIService) TestEndpointParameters(ctx _context.Context, number float32, double float64, patternWithoutDelimiter string, byte_ string, localVarOptionals *TestEndpointParametersOpts) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -882,7 +882,7 @@ To test enum parameters
  * @param "EnumFormStringArray" (optional.Interface of []string) -  Form parameter enum test (string array)
  * @param "EnumFormString" (optional.String) -  Form parameter enum test (string)
 */
-func (a *FakeApiService) TestEnumParameters(ctx _context.Context, localVarOptionals *TestEnumParametersOpts) (*_nethttp.Response, error) {
+func (a *FakeAPIService) TestEnumParameters(ctx _context.Context, localVarOptionals *TestEnumParametersOpts) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
@@ -984,7 +984,7 @@ Fake endpoint to test group parameters (optional)
  * @param "BooleanGroup" (optional.Bool) -  Boolean in group parameters
  * @param "Int64Group" (optional.Int64) -  Integer in group parameters
 */
-func (a *FakeApiService) TestGroupParameters(ctx _context.Context, requiredStringGroup int32, requiredBooleanGroup bool, requiredInt64Group int64, localVarOptionals *TestGroupParametersOpts) (*_nethttp.Response, error) {
+func (a *FakeAPIService) TestGroupParameters(ctx _context.Context, requiredStringGroup int32, requiredBooleanGroup bool, requiredInt64Group int64, localVarOptionals *TestGroupParametersOpts) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
@@ -1060,7 +1060,7 @@ TestInlineAdditionalProperties test inline additionalProperties
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param param request body
 */
-func (a *FakeApiService) TestInlineAdditionalProperties(ctx _context.Context, param map[string]string) (*_nethttp.Response, error) {
+func (a *FakeAPIService) TestInlineAdditionalProperties(ctx _context.Context, param map[string]string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -1122,12 +1122,12 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx _context.Context, pa
 }
 
 /*
-TestJsonFormData test json serialization of form data
+TestJSONFormData test json serialization of form data
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param param field1
  * @param param2 field2
 */
-func (a *FakeApiService) TestJsonFormData(ctx _context.Context, param string, param2 string) (*_nethttp.Response, error) {
+func (a *FakeAPIService) TestJSONFormData(ctx _context.Context, param string, param2 string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
@@ -1194,11 +1194,11 @@ To test the collection format in query parameters
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param pipe
  * @param ioutil
- * @param http
- * @param url
+ * @param hTTP
+ * @param uRL
  * @param context
 */
-func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx _context.Context, pipe []string, ioutil []string, http []string, url []string, context []string) (*_nethttp.Response, error) {
+func (a *FakeAPIService) TestQueryParameterCollectionFormat(ctx _context.Context, pipe []string, ioutil []string, hTTP []string, uRL []string, context []string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPut
 		localVarPostBody     interface{}
@@ -1215,8 +1215,8 @@ func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx _context.Context
 
 	localVarQueryParams.Add("pipe", parameterToString(pipe, "csv"))
 	localVarQueryParams.Add("ioutil", parameterToString(ioutil, "csv"))
-	localVarQueryParams.Add("http", parameterToString(http, "space"))
-	localVarQueryParams.Add("url", parameterToString(url, "csv"))
+	localVarQueryParams.Add("http", parameterToString(hTTP, "space"))
+	localVarQueryParams.Add("url", parameterToString(uRL, "csv"))
 	t:=context
 	if reflect.TypeOf(t).Kind() == reflect.Slice {
 		s := reflect.ValueOf(t)

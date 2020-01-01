@@ -25,8 +25,8 @@ func GetInventory(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
-// GetOrderById - Find purchase order by ID
-func GetOrderById(c *gin.Context) {
+// GetOrderByID - Find purchase order by ID
+func GetOrderByID(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 

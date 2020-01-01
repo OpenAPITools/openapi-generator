@@ -21,15 +21,15 @@ var (
 	_ _context.Context
 )
 
-// DefaultApiService DefaultApi service
-type DefaultApiService service
+// DefaultAPIService DefaultAPI service
+type DefaultAPIService service
 
 /*
 FooGet Method for FooGet
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 @return InlineResponseDefault
 */
-func (a *DefaultApiService) FooGet(ctx _context.Context) (InlineResponseDefault, *_nethttp.Response, error) {
+func (a *DefaultAPIService) FooGet(ctx _context.Context) (InlineResponseDefault, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
@@ -39,7 +39,7 @@ func (a *DefaultApiService) FooGet(ctx _context.Context) (InlineResponseDefault,
 		localVarReturnValue  InlineResponseDefault
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "DefaultApiService.FooGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "DefaultAPIService.FooGet")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}

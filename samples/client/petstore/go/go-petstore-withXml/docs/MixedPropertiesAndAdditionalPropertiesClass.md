@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Uuid** | **string** |  | [optional] 
+**UUID** | **string** |  | [optional] 
 **DateTime** | [**time.Time**](time.Time.md) |  | [optional] 
 **Map** | [**map[string]Animal**](Animal.md) |  | [optional] 
 

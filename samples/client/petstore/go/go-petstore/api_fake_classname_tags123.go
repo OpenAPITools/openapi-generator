@@ -21,8 +21,8 @@ var (
 	_ _context.Context
 )
 
-// FakeClassnameTags123ApiService FakeClassnameTags123Api service
-type FakeClassnameTags123ApiService service
+// FakeClassnameTags123APIService FakeClassnameTags123API service
+type FakeClassnameTags123APIService service
 
 /*
 TestClassname To test class name in snake case
@@ -31,7 +31,7 @@ To test class name in snake case
  * @param body client model
 @return Client
 */
-func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context, body Client) (Client, *_nethttp.Response, error) {
+func (a *FakeClassnameTags123APIService) TestClassname(ctx _context.Context, body Client) (Client, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}

@@ -17,18 +17,18 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// A UserApiController binds http requests to an api service and writes the service results to the http response
-type UserApiController struct {
-	service UserApiServicer
+// A UserAPIController binds http requests to an api service and writes the service results to the http response
+type UserAPIController struct {
+	service UserAPIServicer
 }
 
-// NewUserApiController creates a default api controller
-func NewUserApiController(s UserApiServicer) Router {
-	return &UserApiController{ service: s }
+// NewUserAPIController creates a default api controller
+func NewUserAPIController(s UserAPIServicer) Router {
+	return &UserAPIController{ service: s }
 }
 
-// Routes returns all of the api route for the UserApiController
-func (c *UserApiController) Routes() Routes {
+// Routes returns all of the api route for the UserAPIController
+func (c *UserAPIController) Routes() Routes {
 	return Routes{ 
 		{
 			"CreateUser",
@@ -82,7 +82,7 @@ func (c *UserApiController) Routes() Routes {
 }
 
 // CreateUser - Create user
-func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) { 
+func (c *UserAPIController) CreateUser(w http.ResponseWriter, r *http.Request) { 
 	user := &User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		w.WriteHeader(500)
@@ -99,7 +99,7 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
-func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) { 
+func (c *UserAPIController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) { 
 	user := &[]User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		w.WriteHeader(500)
@@ -116,7 +116,7 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
-func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) { 
+func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) { 
 	user := &[]User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		w.WriteHeader(500)
@@ -133,7 +133,7 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 }
 
 // DeleteUser - Delete user
-func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) { 
+func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
 	username := params["username"]
 	result, err := c.service.DeleteUser(username)
@@ -146,7 +146,7 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetUserByName - Get user by user name
-func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request) { 
+func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
 	username := params["username"]
 	result, err := c.service.GetUserByName(username)
@@ -159,7 +159,7 @@ func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request
 }
 
 // LoginUser - Logs user into the system
-func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) { 
+func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) { 
 	query := r.URL.Query()
 	username := query.Get("username")
 	password := query.Get("password")
@@ -173,7 +173,7 @@ func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // LogoutUser - Logs out current logged in user session
-func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) { 
+func (c *UserAPIController) LogoutUser(w http.ResponseWriter, r *http.Request) { 
 	result, err := c.service.LogoutUser()
 	if err != nil {
 		w.WriteHeader(500)
@@ -184,7 +184,7 @@ func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // UpdateUser - Updated user
-func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) { 
+func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
 	username := params["username"]
 	user := &User{}

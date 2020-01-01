@@ -4,39 +4,39 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **int64** |  | [optional] 
+**ID** | Pointer to **int64** |  | [optional] 
 **Category** | Pointer to [**Category**](Category.md) |  | [optional] 
 **Name** | Pointer to **string** |  | 
-**PhotoUrls** | Pointer to **[]string** |  | 
+**PhotoURLs** | Pointer to **[]string** |  | 
 **Tags** | Pointer to [**[]Tag**](Tag.md) |  | [optional] 
 **Status** | Pointer to **string** | pet status in the store | [optional] 
 
 ## Methods
 
-### GetId
+### GetID
 
-`func (o *Pet) GetId() int64`
+`func (o *Pet) GetID() int64`
 
-GetId returns the Id field if non-nil, zero value otherwise.
+GetID returns the ID field if non-nil, zero value otherwise.
 
-### GetIdOk
+### GetIDOk
 
-`func (o *Pet) GetIdOk() (int64, bool)`
+`func (o *Pet) GetIDOk() (int64, bool)`
 
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+GetIDOk returns a tuple with the ID field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### HasId
+### HasID
 
-`func (o *Pet) HasId() bool`
+`func (o *Pet) HasID() bool`
 
-HasId returns a boolean if a field has been set.
+HasID returns a boolean if a field has been set.
 
-### SetId
+### SetID
 
-`func (o *Pet) SetId(v int64)`
+`func (o *Pet) SetID(v int64)`
 
-SetId gets a reference to the given int64 and assigns it to the Id field.
+SetID gets a reference to the given int64 and assigns it to the ID field.
 
 ### GetCategory
 
@@ -88,30 +88,30 @@ HasName returns a boolean if a field has been set.
 
 SetName gets a reference to the given string and assigns it to the Name field.
 
-### GetPhotoUrls
+### GetPhotoURLs
 
-`func (o *Pet) GetPhotoUrls() []string`
+`func (o *Pet) GetPhotoURLs() []string`
 
-GetPhotoUrls returns the PhotoUrls field if non-nil, zero value otherwise.
+GetPhotoURLs returns the PhotoURLs field if non-nil, zero value otherwise.
 
-### GetPhotoUrlsOk
+### GetPhotoURLsOk
 
-`func (o *Pet) GetPhotoUrlsOk() ([]string, bool)`
+`func (o *Pet) GetPhotoURLsOk() ([]string, bool)`
 
-GetPhotoUrlsOk returns a tuple with the PhotoUrls field if it's non-nil, zero value otherwise
+GetPhotoURLsOk returns a tuple with the PhotoURLs field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### HasPhotoUrls
+### HasPhotoURLs
 
-`func (o *Pet) HasPhotoUrls() bool`
+`func (o *Pet) HasPhotoURLs() bool`
 
-HasPhotoUrls returns a boolean if a field has been set.
+HasPhotoURLs returns a boolean if a field has been set.
 
-### SetPhotoUrls
+### SetPhotoURLs
 
-`func (o *Pet) SetPhotoUrls(v []string)`
+`func (o *Pet) SetPhotoURLs(v []string)`
 
-SetPhotoUrls gets a reference to the given []string and assigns it to the PhotoUrls field.
+SetPhotoURLs gets a reference to the given []string and assigns it to the PhotoURLs field.
 
 ### GetTags
 

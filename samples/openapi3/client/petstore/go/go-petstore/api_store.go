@@ -22,16 +22,16 @@ var (
 	_ _context.Context
 )
 
-// StoreApiService StoreApi service
-type StoreApiService service
+// StoreAPIService StoreAPI service
+type StoreAPIService service
 
 /*
 DeleteOrder Delete purchase order by ID
 For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param orderId ID of the order that needs to be deleted
+ * @param orderID ID of the order that needs to be deleted
 */
-func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) (*_nethttp.Response, error) {
+func (a *StoreAPIService) DeleteOrder(ctx _context.Context, orderID string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
@@ -42,7 +42,7 @@ func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) (*_n
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(parameterToString(orderId, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(parameterToString(orderID, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -98,7 +98,7 @@ Returns a map of status codes to quantities
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 @return map[string]int32
 */
-func (a *StoreApiService) GetInventory(ctx _context.Context) (map[string]int32, *_nethttp.Response, error) {
+func (a *StoreAPIService) GetInventory(ctx _context.Context) (map[string]int32, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
@@ -189,13 +189,13 @@ func (a *StoreApiService) GetInventory(ctx _context.Context) (map[string]int32, 
 }
 
 /*
-GetOrderById Find purchase order by ID
+GetOrderByID Find purchase order by ID
 For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param orderId ID of pet that needs to be fetched
+ * @param orderID ID of pet that needs to be fetched
 @return Order
 */
-func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) (Order, *_nethttp.Response, error) {
+func (a *StoreAPIService) GetOrderByID(ctx _context.Context, orderID int64) (Order, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
@@ -207,16 +207,16 @@ func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) (Ord
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(parameterToString(orderId, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.QueryEscape(parameterToString(orderID, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if orderId < 1 {
-		return localVarReturnValue, nil, reportError("orderId must be greater than 1")
+	if orderID < 1 {
+		return localVarReturnValue, nil, reportError("orderID must be greater than 1")
 	}
-	if orderId > 5 {
-		return localVarReturnValue, nil, reportError("orderId must be less than 5")
+	if orderID > 5 {
+		return localVarReturnValue, nil, reportError("orderID must be less than 5")
 	}
 
 	// to determine the Content-Type header
@@ -288,7 +288,7 @@ PlaceOrder Place an order for a pet
  * @param order order placed for purchasing the pet
 @return Order
 */
-func (a *StoreApiService) PlaceOrder(ctx _context.Context, order Order) (Order, *_nethttp.Response, error) {
+func (a *StoreAPIService) PlaceOrder(ctx _context.Context, order Order) (Order, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}

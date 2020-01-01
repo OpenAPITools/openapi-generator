@@ -14,15 +14,15 @@ import (
 	"encoding/json"
 )
 
-// ApiResponse struct for ApiResponse
-type ApiResponse struct {
+// APIResponse struct for APIResponse
+type APIResponse struct {
 	Code *int32 `json:"code,omitempty"`
 	Type *string `json:"type,omitempty"`
 	Message *string `json:"message,omitempty"`
 }
 
 // GetCode returns the Code field value if set, zero value otherwise.
-func (o *ApiResponse) GetCode() int32 {
+func (o *APIResponse) GetCode() int32 {
 	if o == nil || o.Code == nil {
 		var ret int32
 		return ret
@@ -32,7 +32,7 @@ func (o *ApiResponse) GetCode() int32 {
 
 // GetCodeOk returns a tuple with the Code field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *ApiResponse) GetCodeOk() (int32, bool) {
+func (o *APIResponse) GetCodeOk() (int32, bool) {
 	if o == nil || o.Code == nil {
 		var ret int32
 		return ret, false
@@ -41,7 +41,7 @@ func (o *ApiResponse) GetCodeOk() (int32, bool) {
 }
 
 // HasCode returns a boolean if a field has been set.
-func (o *ApiResponse) HasCode() bool {
+func (o *APIResponse) HasCode() bool {
 	if o != nil && o.Code != nil {
 		return true
 	}
@@ -50,12 +50,12 @@ func (o *ApiResponse) HasCode() bool {
 }
 
 // SetCode gets a reference to the given int32 and assigns it to the Code field.
-func (o *ApiResponse) SetCode(v int32) {
+func (o *APIResponse) SetCode(v int32) {
 	o.Code = &v
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *ApiResponse) GetType() string {
+func (o *APIResponse) GetType() string {
 	if o == nil || o.Type == nil {
 		var ret string
 		return ret
@@ -65,7 +65,7 @@ func (o *ApiResponse) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *ApiResponse) GetTypeOk() (string, bool) {
+func (o *APIResponse) GetTypeOk() (string, bool) {
 	if o == nil || o.Type == nil {
 		var ret string
 		return ret, false
@@ -74,7 +74,7 @@ func (o *ApiResponse) GetTypeOk() (string, bool) {
 }
 
 // HasType returns a boolean if a field has been set.
-func (o *ApiResponse) HasType() bool {
+func (o *APIResponse) HasType() bool {
 	if o != nil && o.Type != nil {
 		return true
 	}
@@ -83,12 +83,12 @@ func (o *ApiResponse) HasType() bool {
 }
 
 // SetType gets a reference to the given string and assigns it to the Type field.
-func (o *ApiResponse) SetType(v string) {
+func (o *APIResponse) SetType(v string) {
 	o.Type = &v
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
-func (o *ApiResponse) GetMessage() string {
+func (o *APIResponse) GetMessage() string {
 	if o == nil || o.Message == nil {
 		var ret string
 		return ret
@@ -98,7 +98,7 @@ func (o *ApiResponse) GetMessage() string {
 
 // GetMessageOk returns a tuple with the Message field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *ApiResponse) GetMessageOk() (string, bool) {
+func (o *APIResponse) GetMessageOk() (string, bool) {
 	if o == nil || o.Message == nil {
 		var ret string
 		return ret, false
@@ -107,7 +107,7 @@ func (o *ApiResponse) GetMessageOk() (string, bool) {
 }
 
 // HasMessage returns a boolean if a field has been set.
-func (o *ApiResponse) HasMessage() bool {
+func (o *APIResponse) HasMessage() bool {
 	if o != nil && o.Message != nil {
 		return true
 	}
@@ -116,16 +116,16 @@ func (o *ApiResponse) HasMessage() bool {
 }
 
 // SetMessage gets a reference to the given string and assigns it to the Message field.
-func (o *ApiResponse) SetMessage(v string) {
+func (o *APIResponse) SetMessage(v string) {
 	o.Message = &v
 }
 
-type NullableApiResponse struct {
-	Value ApiResponse
+type NullableAPIResponse struct {
+	Value APIResponse
 	ExplicitNull bool
 }
 
-func (v NullableApiResponse) MarshalJSON() ([]byte, error) {
+func (v NullableAPIResponse) MarshalJSON() ([]byte, error) {
     switch {
     case v.ExplicitNull:
         return []byte("null"), nil
@@ -134,7 +134,7 @@ func (v NullableApiResponse) MarshalJSON() ([]byte, error) {
 	}
 }
 
-func (v *NullableApiResponse) UnmarshalJSON(src []byte) error {
+func (v *NullableAPIResponse) UnmarshalJSON(src []byte) error {
 	if bytes.Equal(src, []byte("null")) {
 		v.ExplicitNull = true
 		return nil

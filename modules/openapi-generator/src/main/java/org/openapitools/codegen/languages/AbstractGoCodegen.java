@@ -121,6 +121,46 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         "float32", "float64")
         );
 
+        camelizeExeptions.clear();
+        camelizeExeptions.put("Acl", "ACL");
+        camelizeExeptions.put("Api", "API");
+        camelizeExeptions.put("Ascii", "ASCII");
+        camelizeExeptions.put("Cpu", "CPU");
+        camelizeExeptions.put("Css", "CSS");
+        camelizeExeptions.put("Dns", "DNS");
+        camelizeExeptions.put("Eof", "EOF");
+        camelizeExeptions.put("Guid", "GUID");
+        camelizeExeptions.put("Html", "HTML");
+        camelizeExeptions.put("Http", "HTTP");
+        camelizeExeptions.put("Https", "HTTPS");
+        camelizeExeptions.put("Id", "ID");
+        camelizeExeptions.put("Ip", "IP");
+        camelizeExeptions.put("Json", "JSON");
+        camelizeExeptions.put("Lhs", "LHS");
+        camelizeExeptions.put("Qps", "QPS");
+        camelizeExeptions.put("Ram", "RAM");
+        camelizeExeptions.put("Rhs", "RHS");
+        camelizeExeptions.put("Rpc", "RPS");
+        camelizeExeptions.put("Sla", "SLA");
+        camelizeExeptions.put("Smtp", "SMTP");
+        camelizeExeptions.put("Sql", "SQL");
+        camelizeExeptions.put("Ssh", "SSH");
+        camelizeExeptions.put("Tcp", "TCP");
+        camelizeExeptions.put("Tls", "TLS");
+        camelizeExeptions.put("Ttl", "TTL");
+        camelizeExeptions.put("Udp", "UDP");
+        camelizeExeptions.put("Ui", "UI");
+        camelizeExeptions.put("Uid", "UID");
+        camelizeExeptions.put("Uuid", "UUID");
+        camelizeExeptions.put("Uri", "URI");
+        camelizeExeptions.put("Url", "URL");
+        camelizeExeptions.put("Utf8", "UTF8");
+        camelizeExeptions.put("Vm", "VM");
+        camelizeExeptions.put("Xml", "XML");
+        camelizeExeptions.put("Xmpp", "XMPP");
+        camelizeExeptions.put("Xsrf", "XSRF");
+        camelizeExeptions.put("Xss", "XSS");
+
         importMapping = new HashMap<String, String>();
 
         cliOptions.clear();
@@ -178,8 +218,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return name;
 
         // camelize (lower first character) the variable name
-        // pet_id => PetId
-        name = camelize(name);
+        // pet_id => PetID
+        name = camelize(name, camelizeExeptions);
 
         // for reserved word append _
         if (isReservedWord(name)) {
@@ -204,7 +244,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // params should be lowerCamelCase. E.g. "person Person", instead of
         // "Person Person".
         //
-        name = camelize(toVarName(name), true);
+        name = camelize(toVarName(name), true, camelizeExeptions);
 
         // REVISIT: Actually, for idiomatic go, the param name should
         // really should just be a letter, e.g. "p Person"), but we'll get
@@ -221,7 +261,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public String toModelName(String name) {
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(toModel(name));
+        return camelize(toModel(name), camelizeExeptions);
     }
 
     @Override
@@ -338,17 +378,17 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to "
-                    + camelize("call_" + sanitizedOperationId));
+                    + camelize("call_" + sanitizedOperationId, camelizeExeptions));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
         // operationId starts with a number
         if (sanitizedOperationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize("call_" + sanitizedOperationId));
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize("call_" + sanitizedOperationId, camelizeExeptions));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return camelize(sanitizedOperationId);
+        return camelize(sanitizedOperationId, camelizeExeptions);
     }
 
     @Override

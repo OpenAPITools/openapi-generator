@@ -75,8 +75,8 @@ func TestInlineAdditionalProperties(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
-// TestJsonFormData - test json serialization of form data
-func TestJsonFormData(c *gin.Context) {
+// TestJSONFormData - test json serialization of form data
+func TestJSONFormData(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 

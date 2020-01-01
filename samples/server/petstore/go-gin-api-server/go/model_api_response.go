@@ -9,8 +9,8 @@
 
 package petstoreserver
 
-// ApiResponse - Describes the result of uploading an image resource
-type ApiResponse struct {
+// APIResponse - Describes the result of uploading an image resource
+type APIResponse struct {
 
 	Code int32 `json:"code,omitempty"`
 

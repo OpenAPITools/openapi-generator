@@ -17,18 +17,18 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// A PetApiController binds http requests to an api service and writes the service results to the http response
-type PetApiController struct {
-	service PetApiServicer
+// A PetAPIController binds http requests to an api service and writes the service results to the http response
+type PetAPIController struct {
+	service PetAPIServicer
 }
 
-// NewPetApiController creates a default api controller
-func NewPetApiController(s PetApiServicer) Router {
-	return &PetApiController{ service: s }
+// NewPetAPIController creates a default api controller
+func NewPetAPIController(s PetAPIServicer) Router {
+	return &PetAPIController{ service: s }
 }
 
-// Routes returns all of the api route for the PetApiController
-func (c *PetApiController) Routes() Routes {
+// Routes returns all of the api route for the PetAPIController
+func (c *PetAPIController) Routes() Routes {
 	return Routes{ 
 		{
 			"AddPet",
@@ -55,10 +55,10 @@ func (c *PetApiController) Routes() Routes {
 			c.FindPetsByTags,
 		},
 		{
-			"GetPetById",
+			"GetPetByID",
 			strings.ToUpper("Get"),
 			"/v2/pet/{petId}",
-			c.GetPetById,
+			c.GetPetByID,
 		},
 		{
 			"UpdatePet",
@@ -88,7 +88,7 @@ func (c *PetApiController) Routes() Routes {
 }
 
 // AddPet - Add a new pet to the store
-func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) { 
+func (c *PetAPIController) AddPet(w http.ResponseWriter, r *http.Request) { 
 	pet := &Pet{}
 	if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
 		w.WriteHeader(500)
@@ -105,16 +105,16 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 }
 
 // DeletePet - Deletes a pet
-func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) { 
+func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
-	petId, err := parseIntParameter(params["petId"])
+	petID, err := parseIntParameter(params["petID"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
 	
-	apiKey := r.Header.Get("apiKey")
-	result, err := c.service.DeletePet(petId, apiKey)
+	aPIKey := r.Header.Get("aPIKey")
+	result, err := c.service.DeletePet(petID, aPIKey)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -124,7 +124,7 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 }
 
 // FindPetsByStatus - Finds Pets by status
-func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) { 
+func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) { 
 	query := r.URL.Query()
 	status := strings.Split(query.Get("status"), ",")
 	result, err := c.service.FindPetsByStatus(status)
@@ -137,7 +137,7 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 }
 
 // FindPetsByTags - Finds Pets by tags
-func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request) { 
+func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request) { 
 	query := r.URL.Query()
 	tags := strings.Split(query.Get("tags"), ",")
 	result, err := c.service.FindPetsByTags(tags)
@@ -149,16 +149,16 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 	EncodeJSONResponse(result, nil, w)
 }
 
-// GetPetById - Find pet by ID
-func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) { 
+// GetPetByID - Find pet by ID
+func (c *PetAPIController) GetPetByID(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
-	petId, err := parseIntParameter(params["petId"])
+	petID, err := parseIntParameter(params["petID"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
 	
-	result, err := c.service.GetPetById(petId)
+	result, err := c.service.GetPetByID(petID)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -168,7 +168,7 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 }
 
 // UpdatePet - Update an existing pet
-func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) { 
+func (c *PetAPIController) UpdatePet(w http.ResponseWriter, r *http.Request) { 
 	pet := &Pet{}
 	if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
 		w.WriteHeader(500)
@@ -185,7 +185,7 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 }
 
 // UpdatePetWithForm - Updates a pet in the store with form data
-func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Request) { 
+func (c *PetAPIController) UpdatePetWithForm(w http.ResponseWriter, r *http.Request) { 
 	err := r.ParseForm()
 	if err != nil {
 		w.WriteHeader(500)
@@ -193,7 +193,7 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 	}
 	
 	params := mux.Vars(r)
-	petId, err := parseIntParameter(params["petId"])
+	petID, err := parseIntParameter(params["petID"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -201,7 +201,7 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 	
 	name := r.FormValue("name")
 	status := r.FormValue("status")
-	result, err := c.service.UpdatePetWithForm(petId, name, status)
+	result, err := c.service.UpdatePetWithForm(petID, name, status)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -211,7 +211,7 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 }
 
 // UploadFile - uploads an image
-func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) { 
+func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) { 
 	err := r.ParseForm()
 	if err != nil {
 		w.WriteHeader(500)
@@ -219,7 +219,7 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	params := mux.Vars(r)
-	petId, err := parseIntParameter(params["petId"])
+	petID, err := parseIntParameter(params["petID"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -232,7 +232,7 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	result, err := c.service.UploadFile(petId, additionalMetadata, file)
+	result, err := c.service.UploadFile(petID, additionalMetadata, file)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -242,7 +242,7 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 }
 
 // UploadFileWithRequiredFile - uploads an image (required)
-func (c *PetApiController) UploadFileWithRequiredFile(w http.ResponseWriter, r *http.Request) { 
+func (c *PetAPIController) UploadFileWithRequiredFile(w http.ResponseWriter, r *http.Request) { 
 	err := r.ParseForm()
 	if err != nil {
 		w.WriteHeader(500)
@@ -250,7 +250,7 @@ func (c *PetApiController) UploadFileWithRequiredFile(w http.ResponseWriter, r *
 	}
 	
 	params := mux.Vars(r)
-	petId, err := parseIntParameter(params["petId"])
+	petID, err := parseIntParameter(params["petID"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -263,7 +263,7 @@ func (c *PetApiController) UploadFileWithRequiredFile(w http.ResponseWriter, r *
 	}
 	
 	additionalMetadata := r.FormValue("additionalMetadata")
-	result, err := c.service.UploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
+	result, err := c.service.UploadFileWithRequiredFile(petID, requiredFile, additionalMetadata)
 	if err != nil {
 		w.WriteHeader(500)
 		return

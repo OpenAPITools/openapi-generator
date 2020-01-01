@@ -16,46 +16,46 @@ import (
 
 // Pet struct for Pet
 type Pet struct {
-	Id *int64 `json:"id,omitempty"`
+	ID *int64 `json:"id,omitempty"`
 	Category *Category `json:"category,omitempty"`
 	Name string `json:"name"`
-	PhotoUrls []string `json:"photoUrls"`
+	PhotoURLs []string `json:"photoUrls"`
 	Tags *[]Tag `json:"tags,omitempty"`
 	// pet status in the store
 	Status *string `json:"status,omitempty"`
 }
 
-// GetId returns the Id field value if set, zero value otherwise.
-func (o *Pet) GetId() int64 {
-	if o == nil || o.Id == nil {
+// GetID returns the ID field value if set, zero value otherwise.
+func (o *Pet) GetID() int64 {
+	if o == nil || o.ID == nil {
 		var ret int64
 		return ret
 	}
-	return *o.Id
+	return *o.ID
 }
 
-// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
+// GetIDOk returns a tuple with the ID field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Pet) GetIdOk() (int64, bool) {
-	if o == nil || o.Id == nil {
+func (o *Pet) GetIDOk() (int64, bool) {
+	if o == nil || o.ID == nil {
 		var ret int64
 		return ret, false
 	}
-	return *o.Id, true
+	return *o.ID, true
 }
 
-// HasId returns a boolean if a field has been set.
-func (o *Pet) HasId() bool {
-	if o != nil && o.Id != nil {
+// HasID returns a boolean if a field has been set.
+func (o *Pet) HasID() bool {
+	if o != nil && o.ID != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetId gets a reference to the given int64 and assigns it to the Id field.
-func (o *Pet) SetId(v int64) {
-	o.Id = &v
+// SetID gets a reference to the given int64 and assigns it to the ID field.
+func (o *Pet) SetID(v int64) {
+	o.ID = &v
 }
 
 // GetCategory returns the Category field value if set, zero value otherwise.
@@ -106,19 +106,19 @@ func (o *Pet) SetName(v string) {
 	o.Name = v
 }
 
-// GetPhotoUrls returns the PhotoUrls field value
-func (o *Pet) GetPhotoUrls() []string {
+// GetPhotoURLs returns the PhotoURLs field value
+func (o *Pet) GetPhotoURLs() []string {
 	if o == nil {
 		var ret []string
 		return ret
 	}
 
-	return o.PhotoUrls
+	return o.PhotoURLs
 }
 
-// SetPhotoUrls sets field value
-func (o *Pet) SetPhotoUrls(v []string) {
-	o.PhotoUrls = v
+// SetPhotoURLs sets field value
+func (o *Pet) SetPhotoURLs(v []string) {
+	o.PhotoURLs = v
 }
 
 // GetTags returns the Tags field value if set, zero value otherwise.

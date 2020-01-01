@@ -14,8 +14,8 @@ import (
 )
 // Order struct for Order
 type Order struct {
-	Id int64 `json:"id,omitempty" xml:"id"`
-	PetId int64 `json:"petId,omitempty" xml:"petId"`
+	ID int64 `json:"id,omitempty" xml:"id"`
+	PetID int64 `json:"petId,omitempty" xml:"petId"`
 	Quantity int32 `json:"quantity,omitempty" xml:"quantity"`
 	ShipDate time.Time `json:"shipDate,omitempty" xml:"shipDate"`
 	// Order Status

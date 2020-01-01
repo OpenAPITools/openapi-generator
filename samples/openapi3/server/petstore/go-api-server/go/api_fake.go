@@ -17,18 +17,18 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// A FakeApiController binds http requests to an api service and writes the service results to the http response
-type FakeApiController struct {
-	service FakeApiServicer
+// A FakeAPIController binds http requests to an api service and writes the service results to the http response
+type FakeAPIController struct {
+	service FakeAPIServicer
 }
 
-// NewFakeApiController creates a default api controller
-func NewFakeApiController(s FakeApiServicer) Router {
-	return &FakeApiController{ service: s }
+// NewFakeAPIController creates a default api controller
+func NewFakeAPIController(s FakeAPIServicer) Router {
+	return &FakeAPIController{ service: s }
 }
 
-// Routes returns all of the api route for the FakeApiController
-func (c *FakeApiController) Routes() Routes {
+// Routes returns all of the api route for the FakeAPIController
+func (c *FakeAPIController) Routes() Routes {
 	return Routes{ 
 		{
 			"FakeHealthGet",
@@ -103,10 +103,10 @@ func (c *FakeApiController) Routes() Routes {
 			c.TestInlineAdditionalProperties,
 		},
 		{
-			"TestJsonFormData",
+			"TestJSONFormData",
 			strings.ToUpper("Get"),
 			"/v2/fake/jsonFormData",
-			c.TestJsonFormData,
+			c.TestJSONFormData,
 		},
 		{
 			"TestQueryParameterCollectionFormat",
@@ -118,7 +118,7 @@ func (c *FakeApiController) Routes() Routes {
 }
 
 // FakeHealthGet - Health check endpoint
-func (c *FakeApiController) FakeHealthGet(w http.ResponseWriter, r *http.Request) { 
+func (c *FakeAPIController) FakeHealthGet(w http.ResponseWriter, r *http.Request) { 
 	result, err := c.service.FakeHealthGet()
 	if err != nil {
 		w.WriteHeader(500)
@@ -129,7 +129,7 @@ func (c *FakeApiController) FakeHealthGet(w http.ResponseWriter, r *http.Request
 }
 
 // FakeOuterBooleanSerialize - 
-func (c *FakeApiController) FakeOuterBooleanSerialize(w http.ResponseWriter, r *http.Request) { 
+func (c *FakeAPIController) FakeOuterBooleanSerialize(w http.ResponseWriter, r *http.Request) { 
 	body := &bool{}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		w.WriteHeader(500)
@@ -146,7 +146,7 @@ func (c *FakeApiController) FakeOuterBooleanSerialize(w http.ResponseWriter, r *
 }
 
 // FakeOuterCompositeSerialize - 
-func (c *FakeApiController) FakeOuterCompositeSerialize(w http.ResponseWriter, r *http.Request) { 
+func (c *FakeAPIController) FakeOuterCompositeSerialize(w http.ResponseWriter, r *http.Request) { 
 	outerComposite := &OuterComposite{}
 	if err := json.NewDecoder(r.Body).Decode(&outerComposite); err != nil {
 		w.WriteHeader(500)
@@ -163,7 +163,7 @@ func (c *FakeApiController) FakeOuterCompositeSerialize(w http.ResponseWriter, r
 }
 
 // FakeOuterNumberSerialize - 
-func (c *FakeApiController) FakeOuterNumberSerialize(w http.ResponseWriter, r *http.Request) { 
+func (c *FakeAPIController) FakeOuterNumberSerialize(w http.ResponseWriter, r *http.Request) { 
 	body := &float32{}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		w.WriteHeader(500)
@@ -180,7 +180,7 @@ func (c *FakeApiController) FakeOuterNumberSerialize(w http.ResponseWriter, r *h
 }
 
 // FakeOuterStringSerialize - 
-func (c *FakeApiController) FakeOuterStringSerialize(w http.ResponseWriter, r *http.Request) { 
+func (c *FakeAPIController) FakeOuterStringSerialize(w http.ResponseWriter, r *http.Request) { 
 	body := &string{}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		w.WriteHeader(500)
@@ -197,7 +197,7 @@ func (c *FakeApiController) FakeOuterStringSerialize(w http.ResponseWriter, r *h
 }
 
 // TestBodyWithFileSchema - 
-func (c *FakeApiController) TestBodyWithFileSchema(w http.ResponseWriter, r *http.Request) { 
+func (c *FakeAPIController) TestBodyWithFileSchema(w http.ResponseWriter, r *http.Request) { 
 	fileSchemaTestClass := &FileSchemaTestClass{}
 	if err := json.NewDecoder(r.Body).Decode(&fileSchemaTestClass); err != nil {
 		w.WriteHeader(500)
@@ -214,7 +214,7 @@ func (c *FakeApiController) TestBodyWithFileSchema(w http.ResponseWriter, r *htt
 }
 
 // TestBodyWithQueryParams - 
-func (c *FakeApiController) TestBodyWithQueryParams(w http.ResponseWriter, r *http.Request) { 
+func (c *FakeAPIController) TestBodyWithQueryParams(w http.ResponseWriter, r *http.Request) { 
 	query := r.URL.Query()
 	query := query.Get("query")
 	user := &User{}
@@ -233,7 +233,7 @@ func (c *FakeApiController) TestBodyWithQueryParams(w http.ResponseWriter, r *ht
 }
 
 // TestClientModel - To test \"client\" model
-func (c *FakeApiController) TestClientModel(w http.ResponseWriter, r *http.Request) { 
+func (c *FakeAPIController) TestClientModel(w http.ResponseWriter, r *http.Request) { 
 	client := &Client{}
 	if err := json.NewDecoder(r.Body).Decode(&client); err != nil {
 		w.WriteHeader(500)
@@ -250,7 +250,7 @@ func (c *FakeApiController) TestClientModel(w http.ResponseWriter, r *http.Reque
 }
 
 // TestEndpointParameters - Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-func (c *FakeApiController) TestEndpointParameters(w http.ResponseWriter, r *http.Request) { 
+func (c *FakeAPIController) TestEndpointParameters(w http.ResponseWriter, r *http.Request) { 
 	err := r.ParseForm()
 	if err != nil {
 		w.WriteHeader(500)
@@ -291,7 +291,7 @@ func (c *FakeApiController) TestEndpointParameters(w http.ResponseWriter, r *htt
 }
 
 // TestEnumParameters - To test enum parameters
-func (c *FakeApiController) TestEnumParameters(w http.ResponseWriter, r *http.Request) { 
+func (c *FakeAPIController) TestEnumParameters(w http.ResponseWriter, r *http.Request) { 
 	err := r.ParseForm()
 	if err != nil {
 		w.WriteHeader(500)
@@ -317,7 +317,7 @@ func (c *FakeApiController) TestEnumParameters(w http.ResponseWriter, r *http.Re
 }
 
 // TestGroupParameters - Fake endpoint to test group parameters (optional)
-func (c *FakeApiController) TestGroupParameters(w http.ResponseWriter, r *http.Request) { 
+func (c *FakeAPIController) TestGroupParameters(w http.ResponseWriter, r *http.Request) { 
 	query := r.URL.Query()
 	requiredStringGroup := query.Get("requiredStringGroup")
 	requiredBooleanGroup := r.Header.Get("requiredBooleanGroup")
@@ -345,7 +345,7 @@ func (c *FakeApiController) TestGroupParameters(w http.ResponseWriter, r *http.R
 }
 
 // TestInlineAdditionalProperties - test inline additionalProperties
-func (c *FakeApiController) TestInlineAdditionalProperties(w http.ResponseWriter, r *http.Request) { 
+func (c *FakeAPIController) TestInlineAdditionalProperties(w http.ResponseWriter, r *http.Request) { 
 	requestBody := &map[string]string{}
 	if err := json.NewDecoder(r.Body).Decode(&requestBody); err != nil {
 		w.WriteHeader(500)
@@ -361,8 +361,8 @@ func (c *FakeApiController) TestInlineAdditionalProperties(w http.ResponseWriter
 	EncodeJSONResponse(result, nil, w)
 }
 
-// TestJsonFormData - test json serialization of form data
-func (c *FakeApiController) TestJsonFormData(w http.ResponseWriter, r *http.Request) { 
+// TestJSONFormData - test json serialization of form data
+func (c *FakeAPIController) TestJSONFormData(w http.ResponseWriter, r *http.Request) { 
 	err := r.ParseForm()
 	if err != nil {
 		w.WriteHeader(500)
@@ -371,7 +371,7 @@ func (c *FakeApiController) TestJsonFormData(w http.ResponseWriter, r *http.Requ
 	
 	param := r.FormValue("param")
 	param2 := r.FormValue("param2")
-	result, err := c.service.TestJsonFormData(param, param2)
+	result, err := c.service.TestJSONFormData(param, param2)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -381,14 +381,14 @@ func (c *FakeApiController) TestJsonFormData(w http.ResponseWriter, r *http.Requ
 }
 
 // TestQueryParameterCollectionFormat - 
-func (c *FakeApiController) TestQueryParameterCollectionFormat(w http.ResponseWriter, r *http.Request) { 
+func (c *FakeAPIController) TestQueryParameterCollectionFormat(w http.ResponseWriter, r *http.Request) { 
 	query := r.URL.Query()
 	pipe := strings.Split(query.Get("pipe"), ",")
 	ioutil := strings.Split(query.Get("ioutil"), ",")
-	http := strings.Split(query.Get("http"), ",")
-	url := strings.Split(query.Get("url"), ",")
+	hTTP := strings.Split(query.Get("hTTP"), ",")
+	uRL := strings.Split(query.Get("uRL"), ",")
 	context := strings.Split(query.Get("context"), ",")
-	result, err := c.service.TestQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+	result, err := c.service.TestQueryParameterCollectionFormat(pipe, ioutil, hTTP, uRL, context)
 	if err != nil {
 		w.WriteHeader(500)
 		return

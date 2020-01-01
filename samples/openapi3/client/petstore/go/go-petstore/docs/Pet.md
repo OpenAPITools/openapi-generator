@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **int64** |  | [optional] 
+**ID** | **int64** |  | [optional] 
 **Category** | [**Category**](Category.md) |  | [optional] 
 **Name** | **string** |  | 
-**PhotoUrls** | **[]string** |  | 
+**PhotoURLs** | **[]string** |  | 
 **Tags** | [**[]Tag**](Tag.md) |  | [optional] 
 **Status** | **string** | pet status in the store | [optional] 
 

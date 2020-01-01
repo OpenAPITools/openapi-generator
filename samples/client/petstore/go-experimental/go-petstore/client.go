@@ -47,17 +47,17 @@ type APIClient struct {
 
 	// API Services
 
-	AnotherFakeApi *AnotherFakeApiService
+	AnotherFakeAPI *AnotherFakeAPIService
 
-	FakeApi *FakeApiService
+	FakeAPI *FakeAPIService
 
-	FakeClassnameTags123Api *FakeClassnameTags123ApiService
+	FakeClassnameTags123API *FakeClassnameTags123APIService
 
-	PetApi *PetApiService
+	PetAPI *PetAPIService
 
-	StoreApi *StoreApiService
+	StoreAPI *StoreAPIService
 
-	UserApi *UserApiService
+	UserAPI *UserAPIService
 }
 
 type service struct {
@@ -76,12 +76,12 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
-	c.AnotherFakeApi = (*AnotherFakeApiService)(&c.common)
-	c.FakeApi = (*FakeApiService)(&c.common)
-	c.FakeClassnameTags123Api = (*FakeClassnameTags123ApiService)(&c.common)
-	c.PetApi = (*PetApiService)(&c.common)
-	c.StoreApi = (*StoreApiService)(&c.common)
-	c.UserApi = (*UserApiService)(&c.common)
+	c.AnotherFakeAPI = (*AnotherFakeAPIService)(&c.common)
+	c.FakeAPI = (*FakeAPIService)(&c.common)
+	c.FakeClassnameTags123API = (*FakeClassnameTags123APIService)(&c.common)
+	c.PetAPI = (*PetAPIService)(&c.common)
+	c.StoreAPI = (*StoreAPIService)(&c.common)
+	c.UserAPI = (*UserAPIService)(&c.common)
 
 	return c
 }

@@ -16,41 +16,41 @@ import (
 
 // Category struct for Category
 type Category struct {
-	Id *int64 `json:"id,omitempty"`
+	ID *int64 `json:"id,omitempty"`
 	Name string `json:"name"`
 }
 
-// GetId returns the Id field value if set, zero value otherwise.
-func (o *Category) GetId() int64 {
-	if o == nil || o.Id == nil {
+// GetID returns the ID field value if set, zero value otherwise.
+func (o *Category) GetID() int64 {
+	if o == nil || o.ID == nil {
 		var ret int64
 		return ret
 	}
-	return *o.Id
+	return *o.ID
 }
 
-// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
+// GetIDOk returns a tuple with the ID field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Category) GetIdOk() (int64, bool) {
-	if o == nil || o.Id == nil {
+func (o *Category) GetIDOk() (int64, bool) {
+	if o == nil || o.ID == nil {
 		var ret int64
 		return ret, false
 	}
-	return *o.Id, true
+	return *o.ID, true
 }
 
-// HasId returns a boolean if a field has been set.
-func (o *Category) HasId() bool {
-	if o != nil && o.Id != nil {
+// HasID returns a boolean if a field has been set.
+func (o *Category) HasID() bool {
+	if o != nil && o.ID != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetId gets a reference to the given int64 and assigns it to the Id field.
-func (o *Category) SetId(v int64) {
-	o.Id = &v
+// SetID gets a reference to the given int64 and assigns it to the ID field.
+func (o *Category) SetID(v int64) {
+	o.ID = &v
 }
 
 // GetName returns the Name field value

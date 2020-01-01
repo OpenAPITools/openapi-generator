@@ -19,16 +19,16 @@ import (
 func main() {
 	log.Printf("Server started")
 
-	PetApiService := petstoreserver.NewPetApiService()
-	PetApiController := petstoreserver.NewPetApiController(PetApiService)
+	PetAPIService := petstoreserver.NewPetAPIService()
+	PetAPIController := petstoreserver.NewPetAPIController(PetAPIService)
 
-	StoreApiService := petstoreserver.NewStoreApiService()
-	StoreApiController := petstoreserver.NewStoreApiController(StoreApiService)
+	StoreAPIService := petstoreserver.NewStoreAPIService()
+	StoreAPIController := petstoreserver.NewStoreAPIController(StoreAPIService)
 
-	UserApiService := petstoreserver.NewUserApiService()
-	UserApiController := petstoreserver.NewUserApiController(UserApiService)
+	UserAPIService := petstoreserver.NewUserAPIService()
+	UserAPIController := petstoreserver.NewUserAPIController(UserAPIService)
 
-	router := petstoreserver.NewRouter(PetApiController, StoreApiController, UserApiController)
+	router := petstoreserver.NewRouter(PetAPIController, StoreAPIController, UserAPIController)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

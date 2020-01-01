@@ -161,10 +161,10 @@ var routes = Routes{
 	},
 
 	{
-		"TestJsonFormData",
+		"TestJSONFormData",
 		http.MethodGet,
 		"/v2/fake/jsonFormData",
-		TestJsonFormData,
+		TestJSONFormData,
 	},
 
 	{
@@ -210,10 +210,10 @@ var routes = Routes{
 	},
 
 	{
-		"GetPetById",
+		"GetPetByID",
 		http.MethodGet,
 		"/v2/pet/:petId",
-		GetPetById,
+		GetPetByID,
 	},
 
 	{
@@ -259,10 +259,10 @@ var routes = Routes{
 	},
 
 	{
-		"GetOrderById",
+		"GetOrderByID",
 		http.MethodGet,
 		"/v2/store/order/:order_id",
-		GetOrderById,
+		GetOrderByID,
 	},
 
 	{

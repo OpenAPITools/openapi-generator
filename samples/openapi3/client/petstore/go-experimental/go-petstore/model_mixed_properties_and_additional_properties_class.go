@@ -17,42 +17,42 @@ import (
 
 // MixedPropertiesAndAdditionalPropertiesClass struct for MixedPropertiesAndAdditionalPropertiesClass
 type MixedPropertiesAndAdditionalPropertiesClass struct {
-	Uuid *string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 	DateTime *time.Time `json:"dateTime,omitempty"`
 	Map *map[string]Animal `json:"map,omitempty"`
 }
 
-// GetUuid returns the Uuid field value if set, zero value otherwise.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string {
-	if o == nil || o.Uuid == nil {
+// GetUUID returns the UUID field value if set, zero value otherwise.
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUUID() string {
+	if o == nil || o.UUID == nil {
 		var ret string
 		return ret
 	}
-	return *o.Uuid
+	return *o.UUID
 }
 
-// GetUuidOk returns a tuple with the Uuid field value if set, zero value otherwise
+// GetUUIDOk returns a tuple with the UUID field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuidOk() (string, bool) {
-	if o == nil || o.Uuid == nil {
+func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUUIDOk() (string, bool) {
+	if o == nil || o.UUID == nil {
 		var ret string
 		return ret, false
 	}
-	return *o.Uuid, true
+	return *o.UUID, true
 }
 
-// HasUuid returns a boolean if a field has been set.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) HasUuid() bool {
-	if o != nil && o.Uuid != nil {
+// HasUUID returns a boolean if a field has been set.
+func (o *MixedPropertiesAndAdditionalPropertiesClass) HasUUID() bool {
+	if o != nil && o.UUID != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetUuid gets a reference to the given string and assigns it to the Uuid field.
-func (o *MixedPropertiesAndAdditionalPropertiesClass) SetUuid(v string) {
-	o.Uuid = &v
+// SetUUID gets a reference to the given string and assigns it to the UUID field.
+func (o *MixedPropertiesAndAdditionalPropertiesClass) SetUUID(v string) {
+	o.UUID = &v
 }
 
 // GetDateTime returns the DateTime field value if set, zero value otherwise.

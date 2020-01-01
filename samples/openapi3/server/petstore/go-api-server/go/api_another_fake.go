@@ -17,18 +17,18 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// A AnotherFakeApiController binds http requests to an api service and writes the service results to the http response
-type AnotherFakeApiController struct {
-	service AnotherFakeApiServicer
+// A AnotherFakeAPIController binds http requests to an api service and writes the service results to the http response
+type AnotherFakeAPIController struct {
+	service AnotherFakeAPIServicer
 }
 
-// NewAnotherFakeApiController creates a default api controller
-func NewAnotherFakeApiController(s AnotherFakeApiServicer) Router {
-	return &AnotherFakeApiController{ service: s }
+// NewAnotherFakeAPIController creates a default api controller
+func NewAnotherFakeAPIController(s AnotherFakeAPIServicer) Router {
+	return &AnotherFakeAPIController{ service: s }
 }
 
-// Routes returns all of the api route for the AnotherFakeApiController
-func (c *AnotherFakeApiController) Routes() Routes {
+// Routes returns all of the api route for the AnotherFakeAPIController
+func (c *AnotherFakeAPIController) Routes() Routes {
 	return Routes{ 
 		{
 			"Call123TestSpecialTags",
@@ -40,7 +40,7 @@ func (c *AnotherFakeApiController) Routes() Routes {
 }
 
 // Call123TestSpecialTags - To test special tags
-func (c *AnotherFakeApiController) Call123TestSpecialTags(w http.ResponseWriter, r *http.Request) { 
+func (c *AnotherFakeAPIController) Call123TestSpecialTags(w http.ResponseWriter, r *http.Request) { 
 	client := &Client{}
 	if err := json.NewDecoder(r.Body).Decode(&client); err != nil {
 		w.WriteHeader(500)

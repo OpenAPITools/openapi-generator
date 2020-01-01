@@ -38,7 +38,7 @@ type FormatTest struct {
 
 	DateTime time.Time `json:"dateTime,omitempty"`
 
-	Uuid string `json:"uuid,omitempty"`
+	UUID string `json:"uuid,omitempty"`
 
 	Password string `json:"password"`
 

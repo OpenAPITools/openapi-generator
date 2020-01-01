@@ -91,10 +91,10 @@ var routes = Routes{
 	},
 
 	{
-		"GetPetById",
+		"GetPetByID",
 		http.MethodGet,
 		"/v2/pet/:petId",
-		GetPetById,
+		GetPetByID,
 	},
 
 	{
@@ -133,10 +133,10 @@ var routes = Routes{
 	},
 
 	{
-		"GetOrderById",
+		"GetOrderByID",
 		http.MethodGet,
 		"/v2/store/order/:orderId",
-		GetOrderById,
+		GetOrderByID,
 	},
 
 	{

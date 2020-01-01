@@ -135,6 +135,9 @@ public class DefaultCodegen implements CodegenConfig {
     // acts strictly upon a spec, potentially modifying it to have consistent behavior across generators.
     protected boolean strictSpecBehavior = true;
 
+    // map of exceptions for camelized names
+    protected Map<String, String> camelizeExeptions = new HashMap<String, String>();
+
     // make openapi available to all methods
     protected OpenAPI openAPI;
 
@@ -1790,9 +1793,9 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public String toApiName(String name) {
         if (name.length() == 0) {
-            return "DefaultApi";
+            return camelize("default_api", camelizeExeptions);
         }
-        return camelize(name + "_" + apiNameSuffix);
+        return camelize(name + "_" + apiNameSuffix, camelizeExeptions);
     }
 
     /**
@@ -1803,7 +1806,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return capitalized model name
      */
     public String toModelName(final String name) {
-        return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix, camelizeExeptions);
     }
 
     /**
@@ -2151,7 +2154,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (name == null || name.length() == 0) {
             return name;
         }
-        return camelize(toVarName(name));
+        return camelize(toVarName(name), camelizeExeptions);
     }
 
     /**
@@ -2182,7 +2185,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             property.openApiType = p.getType();
         }
-        property.nameInCamelCase = camelize(property.name, false);
+        property.nameInCamelCase = camelize(property.name, false, camelizeExeptions);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
@@ -3658,7 +3661,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (builder.toString().length() == 0) {
                         part = Character.toLowerCase(part.charAt(0)) + part.substring(1);
                     } else {
-                        part = camelize(part);
+                        part = camelize(part, camelizeExeptions);
                     }
                     builder.append(part);
                 }
@@ -3769,7 +3772,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         co.operationId = uniqueName;
         co.operationIdLowerCase = uniqueName.toLowerCase(Locale.ROOT);
-        co.operationIdCamelCase = camelize(uniqueName);
+        co.operationIdCamelCase = camelize(uniqueName, camelizeExeptions);
         co.operationIdSnakeCase = underscore(uniqueName);
         opList.add(co);
         co.baseName = tag;
@@ -4326,7 +4329,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return Sanitized tag
      */
     public String sanitizeTag(String tag) {
-        tag = camelize(sanitizeName(tag));
+        tag = camelize(sanitizeName(tag), camelizeExeptions);
 
         // tag starts with numbers
         if (tag.matches("^\\d.*")) {
