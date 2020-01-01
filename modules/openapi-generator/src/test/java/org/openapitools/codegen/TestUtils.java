@@ -32,6 +32,14 @@ public class TestUtils {
         return new OpenAPIParser().readLocation(specFilePath, null, new ParseOptions()).getOpenAPI();
     }
 
+    public static OpenAPI parseFlattenSpec(String specFilePath) {
+        OpenAPI openAPI = new OpenAPIParser().readLocation(specFilePath, null, new ParseOptions()).getOpenAPI();
+        // resolve inline models
+        InlineModelResolver inlineModelResolver = new InlineModelResolver();
+        inlineModelResolver.flatten(openAPI);
+        return openAPI;
+    }
+
     public static OpenAPI parseContent(String jsonOrYaml) {
         return new OpenAPIParser().readContents(jsonOrYaml, null, null).getOpenAPI();
     }

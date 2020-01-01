@@ -37,18 +37,9 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenSecurity;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.MockDefaultGenerator;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
@@ -228,7 +219,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testGetSchemaTypeWithComposedSchemaWithAllOf() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/composed-allof.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/composed-allof.yaml");
         final JavaClientCodegen codegen = new JavaClientCodegen();
 
         Operation operation = openAPI.getPaths().get("/ping").getPost();
@@ -450,7 +441,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testReferencedHeader() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue855.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue855.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -465,7 +456,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testAuthorizationScopeValues_Issue392() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue392.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue392.yaml");
 
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
 
@@ -493,7 +484,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testAuthorizationsHasMoreWhenFiltered() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue4584.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue4584.yaml");
 
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
 
@@ -513,7 +504,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testFreeFormObjects() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue796.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue796.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
 
         Schema test1 = openAPI.getComponents().getSchemas().get("MapTest1");
@@ -546,14 +537,100 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testBearerAuth() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/pingBearerAuth.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/pingBearerAuth.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
-        
+
         List<CodegenSecurity> security = codegen.fromSecurity(openAPI.getComponents().getSecuritySchemes());
         Assert.assertEquals(security.size(), 1);
         Assert.assertEquals(security.get(0).isBasic, Boolean.TRUE);
         Assert.assertEquals(security.get(0).isBasicBasic, Boolean.FALSE);
         Assert.assertEquals(security.get(0).isBasicBearer, Boolean.TRUE);
+    }
+
+    @Test
+    public void testComposedSchemaOneOfDiscriminatorMap() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneoOfDiscriminator.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName;
+        Schema sc;
+        CodegenModel cm;
+        java.util.LinkedHashSet hs;
+        String mn;
+
+        // inline oneOf models
+        modelName = "FruitInlineDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        hs = new java.util.LinkedHashSet();
+        mn = "FruitInlineDisc_oneOf";
+        hs.add(new MappedModel(mn, codegen.toModelName(mn)));
+        mn = "FruitInlineDisc_oneOf_1";
+        hs.add(new MappedModel(mn, codegen.toModelName(mn)));
+        Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
+
+        // inline oneOf with inline oneOf model
+        modelName = "FruitInlineInlineDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        hs = new java.util.LinkedHashSet();
+        Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
+
+        // ref oneOf models with discriminator in properties in those models
+        modelName = "FruitReqDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        hs = new java.util.LinkedHashSet();
+        mn = "AppleReqDisc";
+        hs.add(new MappedModel(mn, mn));
+        mn = "BananaReqDisc";
+        hs.add(new MappedModel(mn, mn));
+        Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
+
+        // ref oneOf models with discriminator in allOf in those models
+        modelName = "FruitAllOfDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        hs = new java.util.LinkedHashSet();
+        mn = "AppleAllOfDisc";
+        hs.add(new MappedModel(mn, mn));
+        mn = "BananaAllOfDisc";
+        hs.add(new MappedModel(mn, mn));
+        Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
+
+        // ref oneOf models with discriminator in anyOf in those models
+        modelName = "FruitAnyOfDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        hs = new java.util.LinkedHashSet();
+        mn = "AppleAnyOfDisc";
+        hs.add(new MappedModel(mn, mn));
+        mn = "BananaAnyOfDisc";
+        hs.add(new MappedModel(mn, mn));
+        Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
+
+        // ref oneOf models with discriminator in oneOf in those models
+        modelName = "FruitOneOfDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        hs = new java.util.LinkedHashSet();
+        mn = "AppleOneOfDisc";
+        hs.add(new MappedModel(mn, mn));
+        mn = "BananaOneOfDisc";
+        hs.add(new MappedModel(mn, mn));
+        Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
+
+        // ref oneOf models with discriminator in the grandparent schemas of those oneof models
+        modelName = "FruitGrandparentDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        hs = new java.util.LinkedHashSet();
+        mn = "AppleGrandparentDisc";
+        hs.add(new MappedModel(mn, mn));
+        mn = "BananaGrandparentDisc";
+        hs.add(new MappedModel(mn, mn));
+        Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
     }
 
     private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {
