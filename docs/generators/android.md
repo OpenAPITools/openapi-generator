@@ -12,6 +12,7 @@ sidebar_label: android
 |apiPackage|package for generated api classes| |null|
 |artifactId|artifactId for use in the generated build.gradle and pom.xml| |null|
 |artifactVersion|artifact version for use in the generated build.gradle and pom.xml| |null|
+|discriminatorExplicitMappingVerbose|Every model that has a discriminator explicitly defines the disciminator in itself, the mapping in that discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the spec's defined discriminator mapping schemas. When true, we validate that oneOf and anyOf schemas contain the required discriminator and we throw an error if it's missing. When true model templates should not loop over {{#children}} when defining the discriminator mapping| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |groupId|groupId for use in the generated build.gradle and pom.xml| |null|
 |invokerPackage|root package for generated code| |null|

@@ -351,4 +351,8 @@ public class CodegenConstants {
 
     public static final String REMOVE_ENUM_VALUE_PREFIX = "removeEnumValuePrefix";
     public static final String REMOVE_ENUM_VALUE_PREFIX_DESC = "Remove the common prefix of enum values";
+
+    public static final String DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE = "discriminatorExplicitMappingVerbose";
+    public static final String DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE_DESC = "Every model that has a discriminator explicitly defines the disciminator in itself, the mapping in that discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the spec's defined discriminator mapping schemas. When true, we validate that oneOf and anyOf schemas contain the required discriminator and we throw an error if it's missing. When true model templates should not loop over {{#children}} when defining the discriminator mapping";
+
 }
