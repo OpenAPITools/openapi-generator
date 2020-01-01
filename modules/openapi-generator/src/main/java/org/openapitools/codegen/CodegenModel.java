@@ -696,6 +696,17 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         return sb.toString();
     }
 
+    public void addDiscriminatorMappedModelsImports(){
+        if (discriminator == null || discriminator.getMappedModels() == null) {
+            return;
+        }
+        for (CodegenDiscriminator.MappedModel mm : discriminator.getMappedModels()) {
+            if (!"".equals(mm.getModelName())) {
+                imports.add(mm.getModelName());
+            }
+        }
+    }
+
     public boolean isEmptyVars() {
         return emptyVars;
     }

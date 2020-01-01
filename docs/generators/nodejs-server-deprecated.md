@@ -6,6 +6,7 @@ sidebar_label: nodejs-server-deprecated
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
+|discriminatorExplicitMappingVerbose|Every model that has a discriminator explicitly defines the disciminator in itself, the mapping in that discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the spec's defined discriminator mapping schemas. When true, we validate that oneOf and anyOf schemas contain the required discriminator and we throw an error if it's missing. When true model templates should not loop over {{#children}} when defining the discriminator mapping| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |exportedName|When the generated code will be deployed to Google Cloud Functions, this option can be used to update the name of the exported function. By default, it refers to the basePath. This does not affect normal standalone nodejs server code.| |null|
 |googleCloudFunctions|When specified, it will generate the code which runs within Google Cloud Functions instead of standalone Node.JS server. See https://cloud.google.com/functions/docs/quickstart for the details of how to deploy the generated code.| |false|

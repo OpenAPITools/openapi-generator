@@ -77,6 +77,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
 
     @Override
     public void processOpts() {
+        this.setDiscriminatorExplicitMappingVerbose(true);
         super.processOpts();
         supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
 

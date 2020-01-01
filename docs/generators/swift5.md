@@ -7,6 +7,7 @@ sidebar_label: swift5
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiNamePrefix|Prefix that will be appended to all API names ('tags'). Default: empty string. e.g. Pet =&gt; Pet.| |null|
+|discriminatorExplicitMappingVerbose|Every model that has a discriminator explicitly defines the disciminator in itself, the mapping in that discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the spec's defined discriminator mapping schemas. When true, we validate that oneOf and anyOf schemas contain the required discriminator and we throw an error if it's missing. When true model templates should not loop over {{#children}} when defining the discriminator mapping| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |lenientTypeCast|Accept and cast values for simple types (string-&gt;bool, string-&gt;int, int-&gt;string)| |false|

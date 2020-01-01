@@ -240,6 +240,9 @@ public class Generate extends OpenApiGeneratorCommand {
     @Option(name = {"--generate-alias-as-model"}, title = "generate alias (array, map) as model", description = CodegenConstants.GENERATE_ALIAS_AS_MODEL_DESC)
     private Boolean generateAliasAsModel;
 
+    @Option(name = {"--discriminator-explicit-mapping-verbose"}, title = "explicitly define a discriminator on all models which have one, add verbose mapping to that discriminator, validate discriminators", description = CodegenConstants.DISCRIMINATOR_EXPLICIT_MAPPING_VERBOSE_DESC)
+    private Boolean discriminatorExplicitMappingVerbose;
+
     @Option(name = {"--minimal-update"},
         title = "Minimal update",
         description = "Only write output files that have changed.")
