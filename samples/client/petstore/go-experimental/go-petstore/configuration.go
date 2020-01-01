@@ -100,10 +100,10 @@ func NewConfiguration() *Configuration {
 		UserAgent:        "OpenAPI-Generator/1.0.0/go",
 		Debug:            false,
 		Servers:          ServerConfigurations{
-		{
-			URL: "http://petstore.swagger.io:80/v2",
-			Description: "No description provided",
-		},
+			{
+				URL: "http://petstore.swagger.io:80/v2",
+				Description: "No description provided",
+			},
 		},
 		OperationServers: map[string]ServerConfigurations{
 		},
