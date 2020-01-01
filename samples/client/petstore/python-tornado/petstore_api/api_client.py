@@ -626,9 +626,12 @@ class ApiClient(object):
         :param klass: class literal.
         :return: model object.
         """
+        has_discriminator = False
+        if (hasattr(klass, 'get_real_child_model')
+                and klass.discriminator_value_class_map):
+            has_discriminator = True
 
-        if not klass.openapi_types and not hasattr(klass,
-                                                   'get_real_child_model'):
+        if not klass.openapi_types and has_discriminator is False:
             return data
 
         kwargs = {}
@@ -642,7 +645,7 @@ class ApiClient(object):
 
         instance = klass(**kwargs)
 
-        if hasattr(instance, 'get_real_child_model'):
+        if has_discriminator:
             klass_name = instance.get_real_child_model(data)
             if klass_name:
                 instance = self.__deserialize(data, klass_name)

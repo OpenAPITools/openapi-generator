@@ -17,6 +17,7 @@ sidebar_label: haskell-http-client
 |dateFormat|format string used to parse/render a date| |%Y-%m-%d|
 |dateTimeFormat|format string used to parse/render a datetime| |null|
 |dateTimeParseFormat|overrides the format string used to parse a datetime| |null|
+|discriminatorExplicitMappingVerbose|Every model that has a discriminator explicitly defines the disciminator in itself, the mapping in that discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the spec's defined discriminator mapping schemas. When true, we validate that oneOf and anyOf schemas contain the required discriminator and we throw an error if it's missing. When true model templates should not loop over {{#children}} when defining the discriminator mapping| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |generateEnums|Generate specific datatypes for OpenAPI enums| |true|
 |generateFormUrlEncodedInstances|Generate FromForm/ToForm instances for models that are used by operations that produce or consume application/x-www-form-urlencoded| |true|

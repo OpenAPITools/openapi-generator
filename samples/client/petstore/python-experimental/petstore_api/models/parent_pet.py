@@ -99,13 +99,14 @@ class ParentPet(ModelComposed):
 
     @staticmethod
     def discriminator():
-        return {
-            'pet_type': {
-                'ChildCat': child_cat.ChildCat,
-                'ChildDog': child_dog.ChildDog,
-                'ChildLizard': child_lizard.ChildLizard,
-            },
+        val = {
+            'ChildCat': child_cat.ChildCat,
+            'ChildDog': child_dog.ChildDog,
+            'ChildLizard': child_lizard.ChildLizard,
         }
+        if not val:
+            return None
+        return {'pet_type': val}
 
     attribute_map = {
         'pet_type': 'pet_type',  # noqa: E501
