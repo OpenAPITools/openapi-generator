@@ -28,11 +28,11 @@ func TestMain(m *testing.M) {
 }
 
 func TestAddPet(t *testing.T) {
-	newPet := (sw.Pet{Id: sw.PtrInt64(12830), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
+	newPet := (sw.Pet{ID: sw.PtrInt64(12830), Name: "gopher",
+		PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{ID: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(context.Background(), newPet)
+	r, err := client.PetAPI.AddPet(context.Background(), newPet)
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
@@ -43,7 +43,7 @@ func TestAddPet(t *testing.T) {
 }
 
 func TestFindPetsByStatusWithMissingParam(t *testing.T) {
-	_, r, err := client.PetApi.FindPetsByStatus(context.Background(), nil)
+	_, r, err := client.PetAPI.FindPetsByStatus(context.Background(), nil)
 
 	if err != nil {
 		t.Fatalf("Error while testing TestFindPetsByStatusWithMissingParam: %v", err)
@@ -53,12 +53,12 @@ func TestFindPetsByStatusWithMissingParam(t *testing.T) {
 	}
 }
 
-func TestGetPetById(t *testing.T) {
+func TestGetPetByID(t *testing.T) {
 	isPetCorrect(t, 12830, "gopher", "pending")
 }
 
-func TestGetPetByIdWithInvalidID(t *testing.T) {
-	resp, r, err := client.PetApi.GetPetById(context.Background(), 999999999)
+func TestGetPetByIDWithInvalidID(t *testing.T) {
+	resp, r, err := client.PetAPI.GetPetByID(context.Background(), 999999999)
 	if r != nil && r.StatusCode == 404 {
 		assertedError, ok := err.(sw.GenericOpenAPIError)
 		a := assert.New(t)
@@ -75,7 +75,7 @@ func TestGetPetByIdWithInvalidID(t *testing.T) {
 }
 
 func TestUpdatePetWithForm(t *testing.T) {
-	r, err := client.PetApi.UpdatePetWithForm(context.Background(), 12830, &sw.UpdatePetWithFormOpts{
+	r, err := client.PetAPI.UpdatePetWithForm(context.Background(), 12830, &sw.UpdatePetWithFormOpts{
 		Name:   optional.NewString("golang"),
 		Status: optional.NewString("available"),
 	})
@@ -93,7 +93,7 @@ func TestUpdatePetWithForm(t *testing.T) {
 
 func TestFindPetsByTag(t *testing.T) {
 	var found = false
-	resp, r, err := client.PetApi.FindPetsByTags(context.Background(), []string{"tag2"})
+	resp, r, err := client.PetAPI.FindPetsByTags(context.Background(), []string{"tag2"})
 	if err != nil {
 		t.Fatalf("Error while getting pet by tag: %v", err)
 		t.Log(r)
@@ -104,7 +104,7 @@ func TestFindPetsByTag(t *testing.T) {
 
 			assert := assert.New(t)
 			for i := 0; i < len(resp); i++ {
-				if *resp[i].Id == 12830 {
+				if *resp[i].ID == 12830 {
 					assert.Equal(*resp[i].Status, "available", "Pet status should be `pending`")
 					found = true
 				}
@@ -122,7 +122,7 @@ func TestFindPetsByTag(t *testing.T) {
 }
 
 func TestFindPetsByStatus(t *testing.T) {
-	resp, r, err := client.PetApi.FindPetsByStatus(context.Background(), []string{"available"})
+	resp, r, err := client.PetAPI.FindPetsByStatus(context.Background(), []string{"available"})
 	if err != nil {
 		t.Fatalf("Error while getting pet by id: %v", err)
 		t.Log(r)
@@ -145,7 +145,7 @@ func TestFindPetsByStatus(t *testing.T) {
 func TestUploadFile(t *testing.T) {
 	file, _ := os.Open("../python/testfiles/foo.png")
 
-	_, r, err := client.PetApi.UploadFile(context.Background(), 12830, &sw.UploadFileOpts{
+	_, r, err := client.PetAPI.UploadFile(context.Background(), 12830, &sw.UploadFileOpts{
 		AdditionalMetadata: optional.NewString("golang"),
 		File:               optional.NewInterface(file),
 	})
@@ -163,7 +163,7 @@ func TestUploadFileRequired(t *testing.T) {
 	return // remove when server supports this endpoint
 	file, _ := os.Open("../python/testfiles/foo.png")
 
-	_, r, err := client.PetApi.UploadFileWithRequiredFile(context.Background(), 12830,
+	_, r, err := client.PetAPI.UploadFileWithRequiredFile(context.Background(), 12830,
 		file,
 		&sw.UploadFileWithRequiredFileOpts{
 			AdditionalMetadata: optional.NewString("golang"),
@@ -179,7 +179,7 @@ func TestUploadFileRequired(t *testing.T) {
 }
 
 func TestDeletePet(t *testing.T) {
-	r, err := client.PetApi.DeletePet(context.Background(), 12830, nil)
+	r, err := client.PetAPI.DeletePet(context.Background(), 12830, nil)
 
 	if err != nil {
 		t.Fatalf("Error while deleting pet by id: %v", err)
@@ -195,19 +195,19 @@ func TestConcurrency(t *testing.T) {
 	errc := make(chan error)
 
 	newPets := []sw.Pet{
-		sw.Pet{Id: 912345, Name: "gopherFred", PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending"},
-		sw.Pet{Id: 912346, Name: "gopherDan", PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "active"},
-		sw.Pet{Id: 912347, Name: "gopherRick", PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "mia"},
-		sw.Pet{Id: 912348, Name: "gopherJohn", PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "active"},
-		sw.Pet{Id: 912349, Name: "gopherAlf", PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending"},
-		sw.Pet{Id: 912350, Name: "gopherRob", PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "pending"},
-		sw.Pet{Id: 912351, Name: "gopherIan", PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "active"},
+		sw.Pet{ID: 912345, Name: "gopherFred", PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: "pending"},
+		sw.Pet{ID: 912346, Name: "gopherDan", PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: "active"},
+		sw.Pet{ID: 912347, Name: "gopherRick", PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: "mia"},
+		sw.Pet{ID: 912348, Name: "gopherJohn", PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: "active"},
+		sw.Pet{ID: 912349, Name: "gopherAlf", PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: "pending"},
+		sw.Pet{ID: 912350, Name: "gopherRob", PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: "pending"},
+		sw.Pet{ID: 912351, Name: "gopherIan", PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: "active"},
 	}
 
 	// Add the pets.
 	for _, pet := range newPets {
 		go func(newPet sw.Pet) {
-			r, err := client.PetApi.AddPet(nil, newPet)
+			r, err := client.PetAPI.AddPet(nil, newPet)
 			if r.StatusCode != 200 {
 				t.Log(r)
 			}
@@ -219,7 +219,7 @@ func TestConcurrency(t *testing.T) {
 	// Verify they are correct.
 	for _, pet := range newPets {
 		go func(pet sw.Pet) {
-			isPetCorrect(t, pet.Id, pet.Name, pet.Status)
+			isPetCorrect(t, pet.ID, pet.Name, pet.Status)
 			errc <- nil
 		}(pet)
 	}
@@ -229,19 +229,19 @@ func TestConcurrency(t *testing.T) {
 	// Update all to active with the name gopherDan
 	for _, pet := range newPets {
 		go func(id int64) {
-			r, err := client.PetApi.UpdatePet(nil, sw.Pet{Id: (int64)(id), Name: "gopherDan", PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: "active"})
+			r, err := client.PetAPI.UpdatePet(nil, sw.Pet{ID: (int64)(id), Name: "gopherDan", PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: "active"})
 			if r.StatusCode != 200 {
 				t.Log(r)
 			}
 			errc <- err
-		}(pet.Id)
+		}(pet.ID)
 	}
 	waitOnFunctions(t, errc, len(newPets))
 
 	// Verify they are correct.
 	for _, pet := range newPets {
 		go func(pet sw.Pet) {
-			isPetCorrect(t, pet.Id, "gopherDan", "active")
+			isPetCorrect(t, pet.ID, "gopherDan", "active")
 			errc <- nil
 		}(pet)
 	}
@@ -253,7 +253,7 @@ func TestConcurrency(t *testing.T) {
 		go func(id int64) {
 			deletePet(t, (int64)(id))
 			errc <- nil
-		}(pet.Id)
+		}(pet.ID)
 	}
 	waitOnFunctions(t, errc, len(newPets))
 }
@@ -269,7 +269,7 @@ func waitOnFunctions(t *testing.T, errc chan error, n int) {
 }
 
 func deletePet(t *testing.T, id int64) {
-	r, err := client.PetApi.DeletePet(context.Background(), id, nil)
+	r, err := client.PetAPI.DeletePet(context.Background(), id, nil)
 
 	if err != nil {
 		t.Fatalf("Error while deleting pet by id: %v", err)
@@ -281,11 +281,11 @@ func deletePet(t *testing.T, id int64) {
 
 func isPetCorrect(t *testing.T, id int64, name string, status string) {
 	assert := assert.New(t)
-	resp, r, err := client.PetApi.GetPetById(context.Background(), id)
+	resp, r, err := client.PetAPI.GetPetByID(context.Background(), id)
 	if err != nil {
 		t.Fatalf("Error while getting pet by id: %v", err)
 	} else {
-		assert.Equal(*resp.Id, int64(id), "Pet id should be equal")
+		assert.Equal(*resp.ID, int64(id), "Pet id should be equal")
 		assert.Equal(resp.Name, name, fmt.Sprintf("Pet name should be %s", name))
 		assert.Equal(*resp.Status, status, fmt.Sprintf("Pet status should be %s", status))
 

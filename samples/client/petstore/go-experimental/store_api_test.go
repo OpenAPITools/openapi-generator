@@ -11,14 +11,14 @@ import (
 
 func TestPlaceOrder(t *testing.T) {
 	newOrder := sw.Order{
-		Id:       sw.PtrInt64(0),
-		PetId:    sw.PtrInt64(0),
+		ID:       sw.PtrInt64(0),
+		PetID:    sw.PtrInt64(0),
 		Quantity: sw.PtrInt32(0),
 		ShipDate: sw.PtrTime(time.Now().UTC()),
 		Status:   sw.PtrString("placed"),
 		Complete: sw.PtrBool(false)}
 
-	_, r, err := client.StoreApi.PlaceOrder(context.Background(), newOrder)
+	_, r, err := client.StoreAPI.PlaceOrder(context.Background(), newOrder)
 
 	if err != nil {
 		// Skip parsing time error due to error in Petstore Test Server

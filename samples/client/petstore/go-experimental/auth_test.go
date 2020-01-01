@@ -37,11 +37,11 @@ func TestOAuth2(t *testing.T) {
 	tokenSource := cfg.TokenSource(createContext(nil), &tok)
 	auth := context.WithValue(context.Background(), sw.ContextOAuth2, tokenSource)
 
-	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
+	newPet := (sw.Pet{ID: sw.PtrInt64(12992), Name: "gopher",
+		PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{ID: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(context.Background(), newPet)
+	r, err := client.PetAPI.AddPet(context.Background(), newPet)
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
@@ -50,7 +50,7 @@ func TestOAuth2(t *testing.T) {
 		t.Log(r)
 	}
 
-	r, err = client.PetApi.DeletePet(auth, 12992, nil)
+	r, err = client.PetAPI.DeletePet(auth, 12992, nil)
 
 	if err != nil {
 		t.Fatalf("Error while deleting pet by id: %v", err)
@@ -72,11 +72,11 @@ func TestBasicAuth(t *testing.T) {
 		Password: "f4k3p455",
 	})
 
-	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
+	newPet := (sw.Pet{ID: sw.PtrInt64(12992), Name: "gopher",
+		PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{ID: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(auth, newPet)
+	r, err := client.PetAPI.AddPet(auth, newPet)
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
@@ -85,7 +85,7 @@ func TestBasicAuth(t *testing.T) {
 		t.Log(r)
 	}
 
-	r, err = client.PetApi.DeletePet(auth, 12992, nil)
+	r, err = client.PetAPI.DeletePet(auth, 12992, nil)
 
 	if err != nil {
 		t.Fatalf("Error while deleting pet by id: %v", err)
@@ -102,11 +102,11 @@ func TestBasicAuth(t *testing.T) {
 func TestAccessToken(t *testing.T) {
 	auth := context.WithValue(context.Background(), sw.ContextAccessToken, "TESTFAKEACCESSTOKENISFAKE")
 
-	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
+	newPet := (sw.Pet{ID: sw.PtrInt64(12992), Name: "gopher",
+		PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{ID: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(nil, newPet)
+	r, err := client.PetAPI.AddPet(nil, newPet)
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
@@ -115,7 +115,7 @@ func TestAccessToken(t *testing.T) {
 		t.Log(r)
 	}
 
-	r, err = client.PetApi.DeletePet(auth, 12992, nil)
+	r, err = client.PetAPI.DeletePet(auth, 12992, nil)
 
 	if err != nil {
 		t.Fatalf("Error while deleting pet by id: %v", err)
@@ -132,11 +132,11 @@ func TestAccessToken(t *testing.T) {
 func TestAPIKeyNoPrefix(t *testing.T) {
 	auth := context.WithValue(context.Background(), sw.ContextAPIKeys, map[string]sw.APIKey{"api_key": sw.APIKey{Key: "TEST123"}})
 
-	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
+	newPet := (sw.Pet{ID: sw.PtrInt64(12992), Name: "gopher",
+		PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{ID: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(context.Background(), newPet)
+	r, err := client.PetAPI.AddPet(context.Background(), newPet)
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
@@ -145,7 +145,7 @@ func TestAPIKeyNoPrefix(t *testing.T) {
 		t.Log(r)
 	}
 
-	_, r, err = client.PetApi.GetPetById(auth, 12992)
+	_, r, err = client.PetAPI.GetPetByID(auth, 12992)
 	if err != nil {
 		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
@@ -155,7 +155,7 @@ func TestAPIKeyNoPrefix(t *testing.T) {
 		t.Errorf("APIKey Authentication is missing")
 	}
 
-	r, err = client.PetApi.DeletePet(auth, 12992, nil)
+	r, err = client.PetAPI.DeletePet(auth, 12992, nil)
 	if err != nil {
 		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
@@ -167,11 +167,11 @@ func TestAPIKeyNoPrefix(t *testing.T) {
 func TestAPIKeyWithPrefix(t *testing.T) {
 	auth := context.WithValue(context.Background(), sw.ContextAPIKeys, map[string]sw.APIKey{"api_key": sw.APIKey{Key: "TEST123", Prefix: "Bearer"}})
 
-	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
+	newPet := (sw.Pet{ID: sw.PtrInt64(12992), Name: "gopher",
+		PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{ID: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(nil, newPet)
+	r, err := client.PetAPI.AddPet(nil, newPet)
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
@@ -180,7 +180,7 @@ func TestAPIKeyWithPrefix(t *testing.T) {
 		t.Log(r)
 	}
 
-	_, r, err = client.PetApi.GetPetById(auth, 12992)
+	_, r, err = client.PetAPI.GetPetByID(auth, 12992)
 	if err != nil {
 		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
@@ -190,7 +190,7 @@ func TestAPIKeyWithPrefix(t *testing.T) {
 		t.Errorf("APIKey Authentication is missing")
 	}
 
-	r, err = client.PetApi.DeletePet(auth, 12992, nil)
+	r, err = client.PetAPI.DeletePet(auth, 12992, nil)
 	if err != nil {
 		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
@@ -200,11 +200,11 @@ func TestAPIKeyWithPrefix(t *testing.T) {
 }
 
 func TestDefaultHeader(t *testing.T) {
-	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
+	newPet := (sw.Pet{ID: sw.PtrInt64(12992), Name: "gopher",
+		PhotoURLs: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		Tags: &[]sw.Tag{sw.Tag{ID: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(context.Background(), newPet)
+	r, err := client.PetAPI.AddPet(context.Background(), newPet)
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
@@ -213,7 +213,7 @@ func TestDefaultHeader(t *testing.T) {
 		t.Log(r)
 	}
 
-	r, err = client.PetApi.DeletePet(context.Background(), 12992, nil)
+	r, err = client.PetAPI.DeletePet(context.Background(), 12992, nil)
 
 	if err != nil {
 		t.Fatalf("Error while deleting pet by id: %v", err)
@@ -228,7 +228,7 @@ func TestDefaultHeader(t *testing.T) {
 }
 
 func TestHostOverride(t *testing.T) {
-	_, r, err := client.PetApi.FindPetsByStatus(context.Background(), nil)
+	_, r, err := client.PetAPI.FindPetsByStatus(context.Background(), nil)
 
 	if err != nil {
 		t.Fatalf("Error while finding pets by status: %v", err)
@@ -240,7 +240,7 @@ func TestHostOverride(t *testing.T) {
 }
 
 func TestSchemeOverride(t *testing.T) {
-	_, r, err := client.PetApi.FindPetsByStatus(context.Background(), nil)
+	_, r, err := client.PetAPI.FindPetsByStatus(context.Background(), nil)
 
 	if err != nil {
 		t.Fatalf("Error while finding pets by status: %v", err)
