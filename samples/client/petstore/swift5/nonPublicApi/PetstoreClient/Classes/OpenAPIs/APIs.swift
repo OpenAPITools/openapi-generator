@@ -23,7 +23,8 @@ internal class RequestBuilder<T> {
     internal let URLString: String
 
     /// Optional block to obtain a reference to the request's progress instance when available.
-    /// It only works on iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0
+    /// With the URLSession http client the request's progress only works on iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0.
+    /// If you need to get the request's progress in older OS versions, please use Alamofire http client.
     internal var onProgressReady: ((Progress) -> Void)?
 
     required internal init(method: String, URLString: String, parameters: [String: Any]?, isBody: Bool, headers: [String: String] = [:]) {
