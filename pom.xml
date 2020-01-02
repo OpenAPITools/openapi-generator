@@ -1310,6 +1310,9 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/client/petstore/swift5/default/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/promisekit/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/rxswift/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/rxswift/SwaggerClientTests</module>
