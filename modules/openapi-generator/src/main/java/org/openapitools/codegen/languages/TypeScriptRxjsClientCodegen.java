@@ -254,8 +254,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     private void setParamNameAlternative(CodegenParameter param, String paramName, String paramNameAlternative) {
-        if (paramName == param.paramName) {
-            param.paramNameAlternative = paramNameAlternative;
+        if (param.paramName.equals(paramName)) {
+            param.vendorExtensions.put("paramNameAlternative", paramNameAlternative);
         }
     }
 

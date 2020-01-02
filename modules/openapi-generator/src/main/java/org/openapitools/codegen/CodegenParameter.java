@@ -23,7 +23,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
             secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode;
-    public String baseName, paramName, paramNameAlternative, dataType, datatypeWithEnum, dataFormat,
+    public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
             collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style;
 
     public String example; // example value (x-example)
@@ -101,7 +101,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.secondaryParam = this.secondaryParam;
         output.baseName = this.baseName;
         output.paramName = this.paramName;
-        output.paramNameAlternative = this.paramNameAlternative;
         output.dataType = this.dataType;
         output.datatypeWithEnum = this.datatypeWithEnum;
         output.enumName = this.enumName;
@@ -184,7 +183,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, paramNameAlternative, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), multipleOf);
+        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), multipleOf);
     }
 
     @Override
@@ -233,7 +232,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 getUniqueItems() == that.getUniqueItems() &&
                 Objects.equals(baseName, that.baseName) &&
                 Objects.equals(paramName, that.paramName) &&
-                Objects.equals(paramNameAlternative, that.paramNameAlternative) &&
                 Objects.equals(dataType, that.dataType) &&
                 Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
                 Objects.equals(dataFormat, that.dataFormat) &&
@@ -281,7 +279,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", isExplode=").append(isExplode);
         sb.append(", baseName='").append(baseName).append('\'');
         sb.append(", paramName='").append(paramName).append('\'');
-        sb.append(", paramNameAlternative='").append(paramNameAlternative).append('\'');
         sb.append(", dataType='").append(dataType).append('\'');
         sb.append(", datatypeWithEnum='").append(datatypeWithEnum).append('\'');
         sb.append(", dataFormat='").append(dataFormat).append('\'');

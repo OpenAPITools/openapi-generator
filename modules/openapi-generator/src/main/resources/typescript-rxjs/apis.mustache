@@ -37,7 +37,7 @@ export class {{classname}} extends BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
-    {{nickname}} = ({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#paramNameAlternative}}: {{paramNameAlternative}}{{/paramNameAlternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> => {
+    {{nickname}} = ({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.paramNameAlternative}}: {{vendorExtensions.paramNameAlternative}}{{/vendorExtensions.paramNameAlternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> => {
         {{#hasParams}}
         {{#allParams}}
         {{#required}}
