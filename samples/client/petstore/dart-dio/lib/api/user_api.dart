@@ -20,24 +20,24 @@ class UserApi {
 
             String path = "/user";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
             var serializedBody = _serializers.serialize(body);
             var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
 
             return _dio.request(
             path,
             queryParameters: queryParams,
-                data: jsonbody,
+            data: bodyData,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
@@ -53,25 +53,25 @@ class UserApi {
 
             String path = "/user/createWithArray";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
             final type = const FullType(BuiltList, const [const FullType(User)]);
             var serializedBody = _serializers.serialize(BuiltList<User>.from(body), specifiedType: type);
             var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
 
             return _dio.request(
             path,
             queryParameters: queryParams,
-                data: jsonbody,
+            data: bodyData,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
@@ -87,25 +87,25 @@ class UserApi {
 
             String path = "/user/createWithList";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
             final type = const FullType(BuiltList, const [const FullType(User)]);
             var serializedBody = _serializers.serialize(BuiltList<User>.from(body), specifiedType: type);
             var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
 
             return _dio.request(
             path,
             queryParameters: queryParams,
-                data: jsonbody,
+            data: bodyData,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
@@ -121,21 +121,21 @@ class UserApi {
 
             String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
             path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'delete'.toUpperCase(),
             headers: headerParams,
@@ -151,21 +151,21 @@ class UserApi {
 
             String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
             path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
@@ -195,23 +195,23 @@ class UserApi {
 
             String path = "/user/login";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
                 queryParams["username"] = username;
                 queryParams["password"] = password;
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
             path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
@@ -241,21 +241,21 @@ class UserApi {
 
             String path = "/user/logout";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
             path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
@@ -271,24 +271,24 @@ class UserApi {
 
             String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
             var serializedBody = _serializers.serialize(body);
             var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
 
             return _dio.request(
             path,
             queryParameters: queryParams,
-                data: jsonbody,
+            data: bodyData,
             options: Options(
             method: 'put'.toUpperCase(),
             headers: headerParams,
