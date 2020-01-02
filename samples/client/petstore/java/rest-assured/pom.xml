@@ -247,6 +247,6 @@
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <threetenbp-version>1.4.0</threetenbp-version>
         <okio-version>1.13.0</okio-version>
-        <junit-version>4.12</junit-version>
+        <junit-version>4.13</junit-version>
     </properties>
 </project>

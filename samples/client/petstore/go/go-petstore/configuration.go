@@ -37,6 +37,7 @@ var (
 
 	// ContextAPIKey takes an APIKey as authentication for the request
 	ContextAPIKey = contextKey("apikey")
+
 )
 
 // BasicAuth provides basic http authentication to a request passed via context using ContextBasicAuth
@@ -50,6 +51,7 @@ type APIKey struct {
 	Key    string
 	Prefix string
 }
+
 
 // ServerVariable stores the information about a server variable
 type ServerVariable struct {
@@ -84,10 +86,11 @@ func NewConfiguration() *Configuration {
 		DefaultHeader: make(map[string]string),
 		UserAgent:     "OpenAPI-Generator/1.0.0/go",
 		Debug:         false,
-		Servers:       []ServerConfiguration{{
-			Url: "http://petstore.swagger.io:80/v2",
-			Description: "No description provided",
-		},
+		Servers:       []ServerConfiguration{
+			{
+				Url: "http://petstore.swagger.io:80/v2",
+				Description: "No description provided",
+			},
 		},
 	}
 	return cfg

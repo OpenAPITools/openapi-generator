@@ -65,7 +65,7 @@ Void (empty response body)
 
 # **deletePet**
 ```swift
-    internal class func deletePet(petId: Int64, apiKey: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func deletePet(apiKey: String? = nil, petId: Int64, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Deletes a pet
@@ -75,11 +75,11 @@ Deletes a pet
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let petId = 987 // Int64 | Pet id to delete
 let apiKey = "apiKey_example" // String |  (optional)
+let petId = 987 // Int64 | Pet id to delete
 
 // Deletes a pet
-PetAPI.deletePet(petId: petId, apiKey: apiKey) { (response, error) in
+PetAPI.deletePet(apiKey: apiKey, petId: petId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -95,8 +95,8 @@ PetAPI.deletePet(petId: petId, apiKey: apiKey) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64** | Pet id to delete | 
  **apiKey** | **String** |  | [optional] 
+ **petId** | **Int64** | Pet id to delete | 
 
 ### Return type
 
@@ -417,7 +417,7 @@ Name | Type | Description  | Notes
 
 # **uploadFileWithRequiredFile**
 ```swift
-    internal class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, completion: @escaping (_ data: ApiResponse?, _ error: Error?) -> Void)
+    internal class func uploadFileWithRequiredFile(petId: Int64, additionalMetadata: String? = nil, requiredFile: URL, completion: @escaping (_ data: ApiResponse?, _ error: Error?) -> Void)
 ```
 
 uploads an image (required)
@@ -428,11 +428,11 @@ uploads an image (required)
 import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to update
-let requiredFile = URL(string: "https://example.com")! // URL | file to upload
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
+let requiredFile = URL(string: "https://example.com")! // URL | file to upload
 
 // uploads an image (required)
-PetAPI.uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata) { (response, error) in
+PetAPI.uploadFileWithRequiredFile(petId: petId, additionalMetadata: additionalMetadata, requiredFile: requiredFile) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -449,8 +449,8 @@ PetAPI.uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, addi
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Int64** | ID of pet to update | 
- **requiredFile** | **URL** | file to upload | 
  **additionalMetadata** | **String** | Additional data to pass to server | [optional] 
+ **requiredFile** | **URL** | file to upload | 
 
 ### Return type
 

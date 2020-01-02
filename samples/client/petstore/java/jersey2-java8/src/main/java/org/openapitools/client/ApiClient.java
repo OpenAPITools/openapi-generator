@@ -699,6 +699,13 @@ public class ApiClient {
       }
     }
 
+    for (Entry<String, String> entry : defaultCookieMap.entrySet()) {
+      String value = entry.getValue();
+      if (value != null) {
+        invocationBuilder = invocationBuilder.cookie(entry.getKey(), value);
+      }
+    }
+
     for (Entry<String, String> entry : defaultHeaderMap.entrySet()) {
       String key = entry.getKey();
       if (!headerParams.containsKey(key)) {

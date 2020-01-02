@@ -71,6 +71,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public AbstractKotlinCodegen() {
         super();
         supportsInheritance = true;
+        setSortModelPropertiesByRequiredFlag(true);
 
         languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
                 "kotlin.Byte",
@@ -92,58 +93,24 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
         // as well as keywords from https://kotlinlang.org/docs/reference/keyword-reference.html
         reservedWords = new HashSet<String>(Arrays.asList(
-                "abstract",
-                "annotation",
                 "as",
                 "break",
-                "case",
-                "catch",
                 "class",
-                "companion",
-                "const",
-                "constructor",
                 "continue",
-                "crossinline",
-                "data",
-                "delegate",
                 "do",
                 "else",
-                "enum",
-                "external",
                 "false",
-                "final",
-                "finally",
                 "for",
                 "fun",
                 "if",
                 "in",
-                "infix",
-                "init",
-                "inline",
-                "inner",
                 "interface",
-                "internal",
                 "is",
-                "it",
-                "lateinit",
-                "lazy",
-                "noinline",
                 "null",
                 "object",
-                "open",
-                "operator",
-                "out",
-                "override",
                 "package",
-                "private",
-                "protected",
-                "public",
-                "reified",
                 "return",
-                "sealed",
                 "super",
-                "suspend",
-                "tailrec",
                 "this",
                 "throw",
                 "true",
@@ -152,7 +119,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "typeof",
                 "val",
                 "var",
-                "vararg",
                 "when",
                 "while"
         ));
@@ -228,6 +194,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         cliOptions.add(new CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG_DESC));
 
         cliOptions.add(CliOption.newBoolean(MODEL_MUTABLE, MODEL_MUTABLE_DESC, false));
     }
@@ -456,6 +424,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
         }
 
+        additionalProperties.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, getSortParamsByRequiredFlag());
+        additionalProperties.put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, getSortModelPropertiesByRequiredFlag());
+        
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
 
@@ -559,7 +530,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 modified = underscore(modified);
                 break;
             case UPPERCASE:
-                modified = modified.toUpperCase(Locale.ROOT);
+                modified = underscore(modified).toUpperCase(Locale.ROOT);
                 break;
         }
 

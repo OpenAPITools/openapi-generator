@@ -97,7 +97,7 @@ if(hasProperty('target') && target == 'android') {
 ext {
     swagger_annotations_version = "1.5.21"
     rest_assured_version = "4.0.0"
-    junit_version = "4.12"
+    junit_version = "4.13"
     gson_version = "2.8.5"
     gson_fire_version = "1.8.3"
     threetenbp_version = "1.4.0"

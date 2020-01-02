@@ -13,4 +13,5 @@ sidebar_label: go
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 |enumClassPrefix|Prefix enum with class name| |false|
 |structPrefix|whether to prefix struct with the class name. e.g. DeletePetOpts =&gt; PetApiDeletePetOpts| |false|
+|withAWSV4Signature|whether to include AWS v4 signature support| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|

@@ -186,7 +186,7 @@ internal class FakeAPI {
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": query
+            "query": query.encodeToJSON()
         ])
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
@@ -228,15 +228,15 @@ internal class FakeAPI {
     /**
      Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      
-     - parameter number: (form) None 
-     - parameter double: (form) None 
-     - parameter patternWithoutDelimiter: (form) None 
-     - parameter byte: (form) None 
      - parameter integer: (form) None (optional)
      - parameter int32: (form) None (optional)
      - parameter int64: (form) None (optional)
+     - parameter number: (form) None 
      - parameter float: (form) None (optional)
+     - parameter double: (form) None 
      - parameter string: (form) None (optional)
+     - parameter patternWithoutDelimiter: (form) None 
+     - parameter byte: (form) None 
      - parameter binary: (form) None (optional)
      - parameter date: (form) None (optional)
      - parameter dateTime: (form) None (optional)
@@ -244,8 +244,8 @@ internal class FakeAPI {
      - parameter callback: (form) None (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    internal class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (_, error) -> Void in
+    internal class func testEndpointParameters(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: Data, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
+        testEndpointParametersWithRequestBuilder(integer: integer, int32: int32, int64: int64, number: number, float: float, double: double, string: string, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (_, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -261,15 +261,15 @@ internal class FakeAPI {
      - BASIC:
        - type: http
        - name: http_basic_test
-     - parameter number: (form) None 
-     - parameter double: (form) None 
-     - parameter patternWithoutDelimiter: (form) None 
-     - parameter byte: (form) None 
      - parameter integer: (form) None (optional)
      - parameter int32: (form) None (optional)
      - parameter int64: (form) None (optional)
+     - parameter number: (form) None 
      - parameter float: (form) None (optional)
+     - parameter double: (form) None 
      - parameter string: (form) None (optional)
+     - parameter patternWithoutDelimiter: (form) None 
+     - parameter byte: (form) None 
      - parameter binary: (form) None (optional)
      - parameter date: (form) None (optional)
      - parameter dateTime: (form) None (optional)
@@ -277,24 +277,24 @@ internal class FakeAPI {
      - parameter callback: (form) None (optional)
      - returns: RequestBuilder<Void> 
      */
-    internal class func testEndpointParametersWithRequestBuilder(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> RequestBuilder<Void> {
+    internal class func testEndpointParametersWithRequestBuilder(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: Data, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
             "integer": integer?.encodeToJSON(),
             "int32": int32?.encodeToJSON(),
             "int64": int64?.encodeToJSON(),
-            "number": number,
-            "float": float,
-            "double": double,
-            "string": string,
-            "pattern_without_delimiter": patternWithoutDelimiter,
-            "byte": byte,
-            "binary": binary,
+            "number": number.encodeToJSON(),
+            "float": float?.encodeToJSON(),
+            "double": double.encodeToJSON(),
+            "string": string?.encodeToJSON(),
+            "pattern_without_delimiter": patternWithoutDelimiter.encodeToJSON(),
+            "byte": byte.encodeToJSON(),
+            "binary": binary?.encodeToJSON(),
             "date": date?.encodeToJSON(),
             "dateTime": dateTime?.encodeToJSON(),
-            "password": password,
-            "callback": callback
+            "password": password?.encodeToJSON(),
+            "callback": callback?.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -415,8 +415,8 @@ internal class FakeAPI {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
-            "enum_form_string_array": enumFormStringArray,
-            "enum_form_string": enumFormString?.rawValue
+            "enum_form_string_array": enumFormStringArray?.encodeToJSON(),
+            "enum_form_string": enumFormString?.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -424,14 +424,14 @@ internal class FakeAPI {
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "enum_query_string_array": enumQueryStringArray,
-            "enum_query_string": enumQueryString?.rawValue,
-            "enum_query_integer": enumQueryInteger?.rawValue,
-            "enum_query_double": enumQueryDouble?.rawValue
+            "enum_query_string_array": enumQueryStringArray?.encodeToJSON(),
+            "enum_query_string": enumQueryString?.encodeToJSON(),
+            "enum_query_integer": enumQueryInteger?.encodeToJSON(),
+            "enum_query_double": enumQueryDouble?.encodeToJSON()
         ])
         let nillableHeaders: [String: Any?] = [
-            "enum_header_string_array": enumHeaderStringArray,
-            "enum_header_string": enumHeaderString?.rawValue
+            "enum_header_string_array": enumHeaderStringArray?.encodeToJSON(),
+            "enum_header_string": enumHeaderString?.encodeToJSON()
         ]
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
@@ -486,8 +486,8 @@ internal class FakeAPI {
             "int64_group": int64Group?.encodeToJSON()
         ])
         let nillableHeaders: [String: Any?] = [
-            "required_boolean_group": requiredBooleanGroup,
-            "boolean_group": booleanGroup
+            "required_boolean_group": requiredBooleanGroup.encodeToJSON(),
+            "boolean_group": booleanGroup?.encodeToJSON()
         ]
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
@@ -558,8 +558,8 @@ internal class FakeAPI {
         let path = "/fake/jsonFormData"
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
-            "param": param,
-            "param2": param2
+            "param": param.encodeToJSON(),
+            "param2": param2.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)

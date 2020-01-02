@@ -109,7 +109,7 @@ where
     type Request = (Request, C);
     type Response = Response;
     type Error = Error;
-    type Future = Box<Future<Item=Response, Error=Error>>;
+    type Future = Box<dyn Future<Item=Response, Error=Error>>;
 
     fn call(&self, (req, mut context): Self::Request) -> Self::Future {
         let api_impl = self.api_impl.clone();
@@ -130,7 +130,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 // Read Form Parameters from body
@@ -203,7 +203,7 @@ where
                                 Box::new(api_impl.multipart_request_post(param_string_field, param_binary_field, param_optional_string_field, param_object_field, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -226,7 +226,7 @@ where
                                         future::ok(response)
                                     }
                                 ))
-                                as Box<Future<Item=Response, Error=Error>>
+                                as Box<dyn Future<Item=Response, Error=Error>>
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read multipart body")))),
                         }
@@ -234,7 +234,7 @@ where
                 )
             },
 
-            _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
+            _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<dyn Future<Item=Response, Error=Error>>,
         }
     }
 }

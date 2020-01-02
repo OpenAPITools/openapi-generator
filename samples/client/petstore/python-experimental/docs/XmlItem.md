@@ -1,4 +1,4 @@
-# XmlItem
+# xml_item.XmlItem
 
 ## Properties
 Name | Type | Description | Notes

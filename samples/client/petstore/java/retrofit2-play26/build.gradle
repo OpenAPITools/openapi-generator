@@ -99,10 +99,10 @@ ext {
     retrofit_version = "2.3.0"
     jackson_version = "2.9.10"
     jackson_databind_version = "2.9.10.1"
-    jackson_databind_nullable_version = "0.2.0"
+    jackson_databind_nullable_version = "0.2.1"
     play_version = "2.6.7"
     swagger_annotations_version = "1.5.22"
-    junit_version = "4.12"
+    junit_version = "4.13"
     threetenbp_version = "1.4.0"
     json_fire_version = "1.8.0"
 }

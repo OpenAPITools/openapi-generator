@@ -115,7 +115,7 @@ where
     type Request = (Request, C);
     type Response = Response;
     type Error = Error;
-    type Future = Box<Future<Item=Response, Error=Error>>;
+    type Future = Box<dyn Future<Item=Response, Error=Error>>;
 
     fn call(&self, (req, mut context): Self::Request) -> Self::Future {
         let api_impl = self.api_impl.clone();
@@ -133,7 +133,7 @@ where
                                 Box::new(api_impl.dummy_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -157,7 +157,7 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // DummyPut - PUT /dummy
@@ -166,7 +166,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -189,7 +189,7 @@ where
                                 Box::new(api_impl.dummy_put(param_nested_response, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -220,7 +220,7 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter nested_response: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // FileResponseGet - GET /file_response
@@ -230,7 +230,7 @@ where
                                 Box::new(api_impl.file_response_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -244,9 +244,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::FILE_RESPONSE_GET_SUCCESS.clone()));
 
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                             },
@@ -262,7 +260,7 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // HtmlPost - POST /html
@@ -271,7 +269,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let param_body: Option<String> = if !body.is_empty() {
@@ -286,7 +284,7 @@ where
                                 Box::new(api_impl.html_post(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -300,9 +298,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::HTML_POST_SUCCESS.clone()));
 
-
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-
+                                                    let body = body;
                                                     response.set_body(body);
                                                 },
                                             },
@@ -321,7 +317,7 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // RawJsonGet - GET /raw_json
@@ -331,7 +327,7 @@ where
                                 Box::new(api_impl.raw_json_get(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -345,9 +341,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::RAW_JSON_GET_SUCCESS.clone()));
 
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                             },
@@ -363,10 +357,10 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
-            _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
+            _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<dyn Future<Item=Response, Error=Error>>,
         }
     }
 }

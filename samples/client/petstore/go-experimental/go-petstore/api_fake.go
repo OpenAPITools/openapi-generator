@@ -42,8 +42,12 @@ func (a *FakeApiService) CreateXmlItem(ctx _context.Context, xmlItem XmlItem) (*
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake/create_xml_item"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.CreateXmlItem")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/create_xml_item"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -118,8 +122,12 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context, localVa
 		localVarReturnValue  bool
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake/outer/boolean"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.FakeOuterBooleanSerialize")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/outer/boolean"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -215,8 +223,12 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context, local
 		localVarReturnValue  OuterComposite
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake/outer/composite"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.FakeOuterCompositeSerialize")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/outer/composite"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -316,8 +328,12 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context, localVar
 		localVarReturnValue  float32
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake/outer/number"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.FakeOuterNumberSerialize")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/outer/number"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -413,8 +429,12 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVar
 		localVarReturnValue  string
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake/outer/string"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.FakeOuterStringSerialize")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/outer/string"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -502,8 +522,12 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx _context.Context, body FileS
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake/body-with-file-schema"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestBodyWithFileSchema")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/body-with-file-schema"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -570,8 +594,12 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx _context.Context, query str
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake/body-with-query-params"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestBodyWithQueryParams")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/body-with-query-params"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -641,8 +669,12 @@ func (a *FakeApiService) TestClientModel(ctx _context.Context, body Client) (Cli
 		localVarReturnValue  Client
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestClientModel")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -755,8 +787,12 @@ func (a *FakeApiService) TestEndpointParameters(ctx _context.Context, number flo
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestEndpointParameters")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -899,8 +935,12 @@ func (a *FakeApiService) TestEnumParameters(ctx _context.Context, localVarOption
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestEnumParameters")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -1002,8 +1042,12 @@ func (a *FakeApiService) TestGroupParameters(ctx _context.Context, requiredStrin
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestGroupParameters")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -1079,8 +1123,12 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx _context.Context, pa
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake/inline-additionalProperties"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestInlineAdditionalProperties")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/inline-additionalProperties"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -1147,8 +1195,12 @@ func (a *FakeApiService) TestJsonFormData(ctx _context.Context, param string, pa
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake/jsonFormData"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestJsonFormData")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/jsonFormData"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -1219,8 +1271,12 @@ func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx _context.Context
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake/test-query-paramters"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeApiService.TestQueryParameterCollectionFormat")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/test-query-paramters"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

@@ -13,6 +13,7 @@
 from __future__ import absolute_import
 
 import re  # noqa: F401
+import sys  # noqa: F401
 
 # python 2 and python 3 compatibility library
 import six
@@ -33,8 +34,8 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models.api_response import ApiResponse
-from petstore_api.models.pet import Pet
+from petstore_api.models import pet
+from petstore_api.models import api_response
 
 
 class PetApi(object):
@@ -59,7 +60,7 @@ class PetApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param Pet body: Pet object that needs to be added to the store (required)
+            :param pet.Pet body: Pet object that needs to be added to the store (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -135,7 +136,7 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (Pet,),
+                    'body': (pet.Pet,),
                 },
                 'attribute_map': {
                 },
@@ -296,7 +297,7 @@ class PetApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: [Pet]
+            :return: [pet.Pet]
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -324,7 +325,7 @@ class PetApi(object):
 
         self.find_pets_by_status = Endpoint(
             settings={
-                'response_type': ([Pet],),
+                'response_type': ([pet.Pet],),
                 'auth': [
                     'petstore_auth'
                 ],
@@ -413,7 +414,7 @@ class PetApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: [Pet]
+            :return: [pet.Pet]
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -441,7 +442,7 @@ class PetApi(object):
 
         self.find_pets_by_tags = Endpoint(
             settings={
-                'response_type': ([Pet],),
+                'response_type': ([pet.Pet],),
                 'auth': [
                     'petstore_auth'
                 ],
@@ -523,7 +524,7 @@ class PetApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: Pet
+            :return: pet.Pet
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -551,7 +552,7 @@ class PetApi(object):
 
         self.get_pet_by_id = Endpoint(
             settings={
-                'response_type': (Pet,),
+                'response_type': (pet.Pet,),
                 'auth': [
                     'api_key'
                 ],
@@ -612,7 +613,7 @@ class PetApi(object):
 
             :param async_req bool: execute request asynchronously
                 Default is False.
-            :param Pet body: Pet object that needs to be added to the store (required)
+            :param pet.Pet body: Pet object that needs to be added to the store (required)
             :param _return_http_data_only: response data without head status
                 code and headers. Default is True.
             :param _preload_content: if False, the urllib3.HTTPResponse object
@@ -688,7 +689,7 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (Pet,),
+                    'body': (pet.Pet,),
                 },
                 'attribute_map': {
                 },
@@ -858,7 +859,7 @@ class PetApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: ApiResponse
+            :return: api_response.ApiResponse
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -886,7 +887,7 @@ class PetApi(object):
 
         self.upload_file = Endpoint(
             settings={
-                'response_type': (ApiResponse,),
+                'response_type': (api_response.ApiResponse,),
                 'auth': [
                     'petstore_auth'
                 ],
@@ -982,7 +983,7 @@ class PetApi(object):
             :param _host_index: integer specifying the index of the server
                 that we want to use.
                 Default is 0.
-            :return: ApiResponse
+            :return: api_response.ApiResponse
                 If the method is called asynchronously, returns the request
                 thread.
             """
@@ -1011,7 +1012,7 @@ class PetApi(object):
 
         self.upload_file_with_required_file = Endpoint(
             settings={
-                'response_type': (ApiResponse,),
+                'response_type': (api_response.ApiResponse,),
                 'auth': [
                     'petstore_auth'
                 ],

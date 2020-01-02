@@ -1,0 +1,119 @@
+    allowed_values = {
+{{#requiredVars}}
+{{#isEnum}}
+        ('{{name}}',): {
+{{#isNullable}}
+            'None': None,
+{{/isNullable}}
+{{#allowableValues}}
+{{#enumVars}}
+            '{{name}}': {{{value}}},
+{{/enumVars}}
+{{/allowableValues}}
+        },
+{{/isEnum}}
+{{/requiredVars}}
+{{#optionalVars}}
+{{#isEnum}}
+        ('{{name}}',): {
+{{#isNullable}}
+            'None': None,
+{{/isNullable}}
+{{#allowableValues}}
+{{#enumVars}}
+            '{{name}}': {{{value}}},
+{{/enumVars}}
+{{/allowableValues}}
+        },
+{{/isEnum}}
+{{/optionalVars}}
+    }
+
+    openapi_types = {
+{{#requiredVars}}
+        '{{name}}': ({{{dataType}}},),  # noqa: E501
+{{/requiredVars}}
+{{#optionalVars}}
+        '{{name}}': ({{{dataType}}},),  # noqa: E501
+{{/optionalVars}}
+    }
+
+    validations = {
+{{#requiredVars}}
+{{#hasValidation}}
+        ('{{name}}',): {
+{{#maxLength}}
+            'max_length': {{maxLength}},
+{{/maxLength}}
+{{#minLength}}
+            'min_length': {{minLength}},
+{{/minLength}}
+{{#maxItems}}
+            'max_items': {{maxItems}},
+{{/maxItems}}
+{{#minItems}}
+            'min_items': {{minItems}},
+{{/minItems}}
+{{#maximum}}
+            {{#exclusiveMaximum}}'exclusive_maximum'{{/exclusiveMaximum}}'inclusive_maximum'{{^exclusiveMaximum}}{{/exclusiveMaximum}}: {{maximum}},
+{{/maximum}}
+{{#minimum}}
+            {{#exclusiveMinimum}}'exclusive_minimum'{{/exclusiveMinimum}}'inclusive_minimum'{{^exclusiveMinimum}}{{/exclusiveMinimum}}: {{minimum}},
+{{/minimum}}
+{{#pattern}}
+            'regex': {
+                'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501{{#vendorExtensions.x-modifiers}}
+                {{#-first}}'flags': (re.{{.}}{{/-first}}{{^-first}}          re.{{.}}{{/-first}}{{^-last}} | {{/-last}}{{#-last}}){{/-last}}{{/vendorExtensions.x-modifiers}}
+            },
+{{/pattern}}
+        },
+{{/hasValidation}}
+{{/requiredVars}}
+{{#optionalVars}}
+{{#hasValidation}}
+        ('{{name}}',): {
+{{#maxLength}}
+            'max_length': {{maxLength}},
+{{/maxLength}}
+{{#minLength}}
+            'min_length': {{minLength}},
+{{/minLength}}
+{{#maxItems}}
+            'max_items': {{maxItems}},
+{{/maxItems}}
+{{#minItems}}
+            'min_items': {{minItems}},
+{{/minItems}}
+{{#maximum}}
+            {{#exclusiveMaximum}}'exclusive_maximum'{{/exclusiveMaximum}}'inclusive_maximum'{{^exclusiveMaximum}}{{/exclusiveMaximum}}: {{maximum}},
+{{/maximum}}
+{{#minimum}}
+            {{#exclusiveMinimum}}'exclusive_minimum'{{/exclusiveMinimum}}'inclusive_minimum'{{^exclusiveMinimum}}{{/exclusiveMinimum}}: {{minimum}},
+{{/minimum}}
+{{#pattern}}
+            'regex': {
+                'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501{{#vendorExtensions.x-modifiers}}
+                {{#-first}}'flags': (re.{{.}}{{/-first}}{{^-first}}          re.{{.}}{{/-first}}{{^-last}} | {{/-last}}{{#-last}}){{/-last}}{{/vendorExtensions.x-modifiers}}
+            },
+{{/pattern}}
+        },
+{{/hasValidation}}
+{{/optionalVars}}
+    }
+
+    additional_properties_type = {{#additionalPropertiesType}}({{{additionalPropertiesType}}},)  # noqa: E501{{/additionalPropertiesType}}{{^additionalPropertiesType}}None{{/additionalPropertiesType}}
+
+    @staticmethod
+    def discriminator():
+        return {{^discriminator}}None{{/discriminator}}{{#discriminator}}{
+            '{{{discriminatorName}}}': {
+{{#children}}
+                '{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}': {{{classname}}},
+{{/children}}
+{{^children}}
+{{#mappedModels}}
+                '{{mappingName}}': {{{modelName}}},
+{{/mappedModels}}
+{{/children}}
+            },
+        }{{/discriminator}}

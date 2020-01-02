@@ -37,6 +37,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public static final String WITH_GO_CODEGEN_COMMENT = "withGoCodegenComment";
     public static final String WITH_XML = "withXml";
     public static final String STRUCT_PREFIX = "structPrefix";
+    public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
 
     public GoClientCodegen() {
         super();
@@ -58,6 +59,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_CLASS_PREFIX, CodegenConstants.ENUM_CLASS_PREFIX_DESC));
         cliOptions.add(CliOption.newBoolean(STRUCT_PREFIX, "whether to prefix struct with the class name. e.g. DeletePetOpts => PetApiDeletePetOpts"));
+        cliOptions.add(CliOption.newBoolean(WITH_AWSV4_SIGNATURE, "whether to include AWS v4 signature support"));
 
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(
@@ -106,6 +108,13 @@ public class GoClientCodegen extends AbstractGoCodegen {
             setWithGoCodegenComment(Boolean.parseBoolean(additionalProperties.get(WITH_GO_CODEGEN_COMMENT).toString()));
             if (withGoCodegenComment) {
                 additionalProperties.put(WITH_GO_CODEGEN_COMMENT, "true");
+            }
+        }
+
+        if (additionalProperties.containsKey(WITH_AWSV4_SIGNATURE)) {
+            setWithAWSV4Signature(Boolean.parseBoolean(additionalProperties.get(WITH_AWSV4_SIGNATURE).toString()));
+            if (withAWSV4Signature) {
+                additionalProperties.put(WITH_AWSV4_SIGNATURE, "true");
             }
         }
 

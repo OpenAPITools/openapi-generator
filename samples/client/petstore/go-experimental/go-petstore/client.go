@@ -197,11 +197,6 @@ func (c *APIClient) callAPI(request *http.Request) (*http.Response, error) {
 	return resp, err
 }
 
-// ChangeBasePath changes base path to allow switching to mocks
-func (c *APIClient) ChangeBasePath(path string) {
-	c.cfg.BasePath = path
-}
-
 // Allow modification of underlying config for alternate implementations and testing
 // Caution: modifying the configuration while live can cause data races and potentially unwanted behavior
 func (c *APIClient) GetConfig() *Configuration {
