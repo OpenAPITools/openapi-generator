@@ -16,23 +16,13 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
   private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
 
-  {{#vars}}/**
-   {{#description}}
-   * {{description}}
-   {{/description}}
-   {{#minimum}}
-   * minimum: {{minimum}}
-   {{/minimum}}
-   {{#maximum}}
-   * maximum: {{maximum}}
-   {{/maximum}}
-   **/
-  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#generateBuilders}}public {{classname}}({{#vars}}{{{datatypeWithEnum}}} {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}) {
+    {{#vars}}
     this.{{name}} = {{name}};
-    return this;
-  }
+    {{/vars}}
+  }{{/generateBuilders}}
 
-  {{#vendorExtensions.extraAnnotation}}{{{vendorExtensions.extraAnnotation}}}{{/vendorExtensions.extraAnnotation}}{{#useSwaggerAnnotations}}
+  {{#vars}}{{#vendorExtensions.extraAnnotation}}{{{vendorExtensions.extraAnnotation}}}{{/vendorExtensions.extraAnnotation}}{{#useSwaggerAnnotations}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
   @JsonProperty("{{baseName}}")
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
@@ -83,4 +73,37 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  {{#generateBuilders}}
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    {{#vars}}
+    private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+    {{/vars}}
+
+    {{#vars}}
+    /**
+      {{#description}}
+      * {{description}}
+      {{/description}}
+      {{#minimum}}
+      * minimum: {{minimum}}
+      {{/minimum}}
+      {{#maximum}}
+      * maximum: {{maximum}}
+      {{/maximum}}
+      **/
+    public Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
+      this.{{name}} = {{name}};
+      return this;
+    }
+    {{/vars}}
+
+    public {{classname}} build() {
+      return new {{classname}}({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}});
+    }
+  }{{/generateBuilders}}
 }
