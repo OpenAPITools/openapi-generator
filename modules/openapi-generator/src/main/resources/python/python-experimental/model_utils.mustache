@@ -592,8 +592,11 @@ def deserialize_model(model_data, model_class, path_to_item, check_type,
 
     used_model_class = model_class
     if model_class.discriminator() is not None:
-        used_model_class = model_class.get_discriminator_class(
-            from_server, model_data)
+        used_model_class = recursive_discriminator_lookup(model_class, from_server, model_data)
+
+    # This is the case if the used_model_class isn't a subclass but rather the parent class itself
+    if not used_model_class:
+        used_model_class = model_class
 
     if issubclass(used_model_class, ModelSimple):
         instance = used_model_class(value=model_data, **kw_args)
@@ -609,6 +612,35 @@ def deserialize_model(model_data, model_class, path_to_item, check_type,
         instance = used_model_class(**kw_args)
     return instance
 
+recursive_discriminators_cache = {}
+
+def recursive_discriminators(model_class):
+    """
+    Return the discriminator mapping for all possible subtypes (recursively found down to the leaves)
+    :param model_class:
+    :return:
+    """
+    if model_class in recursive_discriminators_cache:
+        return recursive_discriminators_cache[model_class]
+    recursive_discriminated_types = model_class.discriminator()
+    if not recursive_discriminated_types:
+        return {}
+    for discriminator_key, discriminator_dict in model_class.discriminator().items():
+        for child_class in discriminator_dict.values():
+            for child_discriminator_key, child_discriminator_dict in recursive_discriminators(child_class).items():
+                if child_discriminator_key in recursive_discriminated_types:
+                    recursive_discriminated_types[child_discriminator_key].update(child_discriminator_dict)
+                else:
+                    recursive_discriminated_types[child_discriminator_key] = child_discriminator_dict
+    recursive_discriminators_cache[model_class] = recursive_discriminated_types
+    return recursive_discriminated_types
+
+def recursive_discriminator_lookup(model_class, from_server, model_data):
+    discr_propertyname_py = list(model_class.discriminator().keys())[0]
+    try:
+        return recursive_discriminators(model_class)[discr_propertyname_py][model_data[model_class.attribute_map[discr_propertyname_py]]]
+    except KeyError as e:
+        return
 
 def deserialize_file(response_data, configuration, content_disposition=None):
     """Deserializes body to file

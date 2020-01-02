@@ -848,6 +848,10 @@ def deserialize_model(model_data, model_class, path_to_item, check_type,
         used_model_class = model_class.get_discriminator_class(
             from_server, model_data)
 
+    # This is the case if the used_model_class isn't a subclass but rather the parent class itself
+    if not used_model_class:
+        used_model_class = model_class
+
     if issubclass(used_model_class, ModelSimple):
         instance = used_model_class(value=model_data, **kw_args)
         return instance
