@@ -117,7 +117,7 @@ ext {
     jackson_databind_nullable_version = "0.2.1"
     jersey_version = "1.19.4"
     jodatime_version = "2.9.9"
-    junit_version = "4.12"
+    junit_version = "4.13"
 }
 
 dependencies {

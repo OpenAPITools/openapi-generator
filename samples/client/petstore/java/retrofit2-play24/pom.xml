@@ -285,6 +285,6 @@
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         <retrofit-version>2.5.0</retrofit-version>
         <oltu-version>1.0.1</oltu-version>
-        <junit-version>4.12</junit-version>
+        <junit-version>4.13</junit-version>
     </properties>
 </project>

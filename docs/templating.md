@@ -150,7 +150,7 @@ index 04a9d55..7a93c50 100644
 @@ -140,9 +142,18 @@ ext {
      jersey_version = "1.19.4"
      jodatime_version = "2.9.9"
-     junit_version = "4.12"
+     junit_version = "4.13"
 +    aspectjVersion = '1.9.0'
  }
 

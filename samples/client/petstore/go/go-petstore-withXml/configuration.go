@@ -87,10 +87,11 @@ func NewConfiguration() *Configuration {
 		DefaultHeader: make(map[string]string),
 		UserAgent:     "OpenAPI-Generator/1.0.0/go",
 		Debug:         false,
-		Servers:       []ServerConfiguration{{
-			URL: "http://petstore.swagger.io:80/v2",
-			Description: "No description provided",
-		},
+		Servers:       []ServerConfiguration{
+			{
+				URL: "http://petstore.swagger.io:80/v2",
+				Description: "No description provided",
+			},
 		},
 	}
 	return cfg

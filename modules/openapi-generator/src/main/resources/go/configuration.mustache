@@ -92,32 +92,33 @@ func NewConfiguration() *Configuration {
 		Debug:         false,
 		{{#servers}}
 		{{#-first}}
-		Servers:       []ServerConfiguration{{
+		Servers:       []ServerConfiguration{
 		{{/-first}}
-			URL: "{{{url}}}",
-			Description: "{{{description}}}{{^description}}No description provided{{/description}}",
-			{{#variables}}
-			{{#-first}}
-			Variables: map[string]ServerVariable{
-			{{/-first}}
-				"{{{name}}}": ServerVariable{
-					Description: "{{{description}}}{{^description}}No description provided{{/description}}",
-					DefaultValue: "{{{defaultValue}}}",
-					{{#enumValues}}
-					{{#-first}}
-					EnumValues: []string{
-					{{/-first}}
-						"{{{.}}}",
-					{{#-last}}
+			{
+				URL: "{{{url}}}",
+				Description: "{{{description}}}{{^description}}No description provided{{/description}}",
+				{{#variables}}
+				{{#-first}}
+				Variables: map[string]ServerVariable{
+				{{/-first}}
+					"{{{name}}}": ServerVariable{
+						Description: "{{{description}}}{{^description}}No description provided{{/description}}",
+						DefaultValue: "{{{defaultValue}}}",
+						{{#enumValues}}
+						{{#-first}}
+						EnumValues: []string{
+						{{/-first}}
+							"{{{.}}}",
+						{{#-last}}
+						},
+						{{/-last}}
+						{{/enumValues}}
 					},
-					{{/-last}}
-					{{/enumValues}}
+				{{#-last}}
 				},
-			{{#-last}}
+				{{/-last}}
+				{{/variables}}
 			},
-			{{/-last}}
-			{{/variables}}
-		},
 		{{#-last}}
 		},
 		{{/-last}}

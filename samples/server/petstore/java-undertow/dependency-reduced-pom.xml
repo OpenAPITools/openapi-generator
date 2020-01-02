@@ -123,7 +123,7 @@
     <version.slf4j>1.7.21</version.slf4j>
     <version.commons.io>2.5</version.commons.io>
     <version.logback>1.1.7</version.logback>
-    <version.junit>4.12</version.junit>
+    <version.junit>4.13</version.junit>
     <version.antlr4>4.5.3</version.antlr4>
   </properties>
 </project>

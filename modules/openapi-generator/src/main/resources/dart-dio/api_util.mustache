@@ -1,0 +1,18 @@
+/// Format the given parameter object into string.
+String parameterToString(dynamic value) {
+  if (value == null) {
+    return '';
+  } else if (value is DateTime) {
+    return value.toUtc().toIso8601String();
+  {{#models}}
+    {{#model}}
+      {{#isEnum}}
+  } else if (value is {{classname}}) {
+    return {{classname}}TypeTransformer().encode(value).toString();
+      {{/isEnum}}
+    {{/model}}
+  {{/models}}
+  } else {
+    return value.toString();
+  }
+}

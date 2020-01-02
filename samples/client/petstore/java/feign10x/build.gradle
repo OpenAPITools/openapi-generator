@@ -102,7 +102,7 @@ ext {
     jackson_threetenbp_version = "2.9.10"
     feign_version = "10.2.3"
     feign_form_version = "2.1.0"
-    junit_version = "4.12"
+    junit_version = "4.13"
     oltu_version = "1.0.1"
 }
 
