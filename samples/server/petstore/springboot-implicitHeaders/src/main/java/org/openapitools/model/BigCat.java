@@ -35,8 +35,12 @@ public class BigCat extends Cat  {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
