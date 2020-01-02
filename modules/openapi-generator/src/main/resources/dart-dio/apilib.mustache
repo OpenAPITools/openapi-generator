@@ -11,7 +11,7 @@ class {{clientName}} {
 
     Dio dio;
     Serializers serializers;
-    String basePath = "http://petstore.swagger.io/v2";
+    String basePath = "{{{basePath}}}";
 
     {{clientName}}({this.dio, Serializers serializers}) {
     if (dio == null) {
