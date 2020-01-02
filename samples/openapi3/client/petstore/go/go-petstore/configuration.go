@@ -86,42 +86,44 @@ func NewConfiguration() *Configuration {
 		DefaultHeader: make(map[string]string),
 		UserAgent:     "OpenAPI-Generator/1.0.0/go",
 		Debug:         false,
-		Servers:       []ServerConfiguration{{
-			Url: "http://{server}.swagger.io:{port}/v2",
-			Description: "petstore server",
-			Variables: map[string]ServerVariable{
-				"server": ServerVariable{
-					Description: "No description provided",
-					DefaultValue: "petstore",
-					EnumValues: []string{
-						"petstore",
-						"qa-petstore",
-						"dev-petstore",
+		Servers:       []ServerConfiguration{
+			{
+				Url: "http://{server}.swagger.io:{port}/v2",
+				Description: "petstore server",
+				Variables: map[string]ServerVariable{
+					"server": ServerVariable{
+						Description: "No description provided",
+						DefaultValue: "petstore",
+						EnumValues: []string{
+							"petstore",
+							"qa-petstore",
+							"dev-petstore",
+						},
 					},
-				},
-				"port": ServerVariable{
-					Description: "No description provided",
-					DefaultValue: "80",
-					EnumValues: []string{
-						"80",
-						"8080",
-					},
-				},
-			},
-		},
-			Url: "https://localhost:8080/{version}",
-			Description: "The local server",
-			Variables: map[string]ServerVariable{
-				"version": ServerVariable{
-					Description: "No description provided",
-					DefaultValue: "v2",
-					EnumValues: []string{
-						"v1",
-						"v2",
+					"port": ServerVariable{
+						Description: "No description provided",
+						DefaultValue: "80",
+						EnumValues: []string{
+							"80",
+							"8080",
+						},
 					},
 				},
 			},
-		},
+			{
+				Url: "https://localhost:8080/{version}",
+				Description: "The local server",
+				Variables: map[string]ServerVariable{
+					"version": ServerVariable{
+						Description: "No description provided",
+						DefaultValue: "v2",
+						EnumValues: []string{
+							"v1",
+							"v2",
+						},
+					},
+				},
+			},
 		},
 	}
 	return cfg
