@@ -26,7 +26,7 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.Swift5Codegen;
+import org.openapitools.codegen.languages.Swift5ClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -42,7 +42,7 @@ public class Swift5ModelEnumTest {
         enumSchema.setDefault("VALUE2");
         final Schema model = new Schema().type("object").addProperties("name", enumSchema);
 
-        final DefaultCodegen codegen = new Swift5Codegen();
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -66,7 +66,7 @@ public class Swift5ModelEnumTest {
         enumSchema.setDefault("2nd");
         final Schema model = new Schema().type("object").addProperties("name", enumSchema);
 
-        final DefaultCodegen codegen = new Swift5Codegen();
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -90,7 +90,7 @@ public class Swift5ModelEnumTest {
         enumSchema.setDefault(2);
         final Schema model = new Schema().type("object").addProperties("name", enumSchema);
 
-        final DefaultCodegen codegen = new Swift5Codegen();
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -114,7 +114,7 @@ public class Swift5ModelEnumTest {
         enumSchema.setDefault(new BigDecimal((100)));
         final Schema model = new Schema().type("object").addProperties("name", enumSchema);
 
-        final DefaultCodegen codegen = new Swift5Codegen();
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);

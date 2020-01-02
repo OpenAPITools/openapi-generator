@@ -24,6 +24,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +38,8 @@ import java.util.regex.Pattern;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
-public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Swift5Codegen.class);
+public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Swift5ClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
@@ -75,8 +77,13 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
     /**
      * Constructor for the swift5 language codegen module.
      */
-    public Swift5Codegen() {
+    public Swift5ClientCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
+
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");
         apiTemplateFiles.put("api.mustache", ".swift");
@@ -212,7 +219,7 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
                         + StringUtils.join(RESPONSE_LIBRARIES, ", ")
                         + " are available."));
         cliOptions.add(new CliOption(CodegenConstants.NON_PUBLIC_API,
-                CodegenConstants.NON_PUBLIC_API_DESC 
+                CodegenConstants.NON_PUBLIC_API_DESC
                         + "(default: false)"));
         cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
@@ -405,8 +412,8 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Cartfile.mustache",
                 "",
                 "Cartfile"));
-        supportingFiles.add(new SupportingFile("Package.swift.mustache", 
-                "", 
+        supportingFiles.add(new SupportingFile("Package.swift.mustache",
+                "",
                 "Package.swift"));
         supportingFiles.add(new SupportingFile("APIHelper.mustache",
                 sourceFolder,
@@ -742,7 +749,7 @@ public class Swift5Codegen extends DefaultCodegen implements CodegenConfig {
                 final Schema parentModel = allDefinitions.get(parentSchema);
                 final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent,
                         parentModel);
-                codegenModel = Swift5Codegen.reconcileProperties(codegenModel, parentCodegenModel);
+                codegenModel = Swift5ClientCodegen.reconcileProperties(codegenModel, parentCodegenModel);
 
                 // get the next parent
                 parentSchema = parentCodegenModel.parentSchema;
