@@ -20,7 +20,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     {{#vars}}
     this.{{name}} = {{name}};
     {{/vars}}
-  }{{/generateBuilders}}
+  }
+  {{/generateBuilders}}
 
   {{#vars}}{{#vendorExtensions.extraAnnotation}}{{{vendorExtensions.extraAnnotation}}}{{/vendorExtensions.extraAnnotation}}{{#useSwaggerAnnotations}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
