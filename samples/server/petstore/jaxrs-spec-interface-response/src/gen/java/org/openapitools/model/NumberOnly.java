@@ -19,11 +19,8 @@ public class NumberOnly  implements Serializable {
   
   private @Valid BigDecimal justNumber;
 
-  /**
-   **/
-  public NumberOnly justNumber(BigDecimal justNumber) {
+  public NumberOnly(BigDecimal justNumber) {
     this.justNumber = justNumber;
-    return this;
   }
 
   
@@ -32,10 +29,10 @@ public class NumberOnly  implements Serializable {
   public BigDecimal getJustNumber() {
     return justNumber;
   }
+
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -46,7 +43,7 @@ public class NumberOnly  implements Serializable {
       return false;
     }
     NumberOnly numberOnly = (NumberOnly) o;
-    return Objects.equals(justNumber, numberOnly.justNumber);
+    return Objects.equals(this.justNumber, numberOnly.justNumber);
   }
 
   @Override
@@ -73,6 +70,25 @@ public class NumberOnly  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private BigDecimal justNumber;
+
+    /**
+      **/
+    public Builder justNumber(BigDecimal justNumber) {
+      this.justNumber = justNumber;
+      return this;
+    }
+
+    public NumberOnly build() {
+      return new NumberOnly(justNumber);
+    }
   }
 }
 

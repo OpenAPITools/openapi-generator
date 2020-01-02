@@ -3,6 +3,7 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
+import org.openapitools.model.CatAllOf;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -19,11 +20,8 @@ public class Cat extends Animal implements Serializable {
   
   private @Valid Boolean declawed;
 
-  /**
-   **/
-  public Cat declawed(Boolean declawed) {
+  public Cat(Boolean declawed) {
     this.declawed = declawed;
-    return this;
   }
 
   
@@ -32,10 +30,10 @@ public class Cat extends Animal implements Serializable {
   public Boolean getDeclawed() {
     return declawed;
   }
+
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -46,12 +44,13 @@ public class Cat extends Animal implements Serializable {
       return false;
     }
     Cat cat = (Cat) o;
-    return Objects.equals(declawed, cat.declawed);
+    return Objects.equals(this.declawed, cat.declawed) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(declawed);
+    return Objects.hash(declawed, super.hashCode());
   }
 
   @Override
@@ -73,6 +72,25 @@ public class Cat extends Animal implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private Boolean declawed;
+
+    /**
+      **/
+    public Builder declawed(Boolean declawed) {
+      this.declawed = declawed;
+      return this;
+    }
+
+    public Cat build() {
+      return new Cat(declawed);
+    }
   }
 }
 

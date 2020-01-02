@@ -18,11 +18,8 @@ public class CatAllOf  implements Serializable {
   
   private @Valid Boolean declawed;
 
-  /**
-   **/
-  public CatAllOf declawed(Boolean declawed) {
+  public CatAllOf(Boolean declawed) {
     this.declawed = declawed;
-    return this;
   }
 
   
@@ -31,10 +28,10 @@ public class CatAllOf  implements Serializable {
   public Boolean getDeclawed() {
     return declawed;
   }
+
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -72,6 +69,25 @@ public class CatAllOf  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private Boolean declawed;
+
+    /**
+      **/
+    public Builder declawed(Boolean declawed) {
+      this.declawed = declawed;
+      return this;
+    }
+
+    public CatAllOf build() {
+      return new CatAllOf(declawed);
+    }
   }
 }
 

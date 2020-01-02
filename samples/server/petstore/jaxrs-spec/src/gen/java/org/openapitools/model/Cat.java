@@ -20,11 +20,8 @@ public class Cat extends Animal implements Serializable {
   
   private @Valid Boolean declawed;
 
-  /**
-   **/
-  public Cat declawed(Boolean declawed) {
+  public Cat(Boolean declawed) {
     this.declawed = declawed;
-    return this;
   }
 
   
@@ -33,10 +30,10 @@ public class Cat extends Animal implements Serializable {
   public Boolean getDeclawed() {
     return declawed;
   }
+
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -75,6 +72,25 @@ public class Cat extends Animal implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private Boolean declawed;
+
+    /**
+      **/
+    public Builder declawed(Boolean declawed) {
+      this.declawed = declawed;
+      return this;
+    }
+
+    public Cat build() {
+      return new Cat(declawed);
+    }
   }
 }
 

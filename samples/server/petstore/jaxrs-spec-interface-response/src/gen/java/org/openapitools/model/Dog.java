@@ -3,6 +3,7 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
+import org.openapitools.model.DogAllOf;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -19,11 +20,8 @@ public class Dog extends Animal implements Serializable {
   
   private @Valid String breed;
 
-  /**
-   **/
-  public Dog breed(String breed) {
+  public Dog(String breed) {
     this.breed = breed;
-    return this;
   }
 
   
@@ -32,10 +30,10 @@ public class Dog extends Animal implements Serializable {
   public String getBreed() {
     return breed;
   }
+
   public void setBreed(String breed) {
     this.breed = breed;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -46,12 +44,13 @@ public class Dog extends Animal implements Serializable {
       return false;
     }
     Dog dog = (Dog) o;
-    return Objects.equals(breed, dog.breed);
+    return Objects.equals(this.breed, dog.breed) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(breed);
+    return Objects.hash(breed, super.hashCode());
   }
 
   @Override
@@ -73,6 +72,25 @@ public class Dog extends Animal implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private String breed;
+
+    /**
+      **/
+    public Builder breed(String breed) {
+      this.breed = breed;
+      return this;
+    }
+
+    public Dog build() {
+      return new Dog(breed);
+    }
   }
 }
 

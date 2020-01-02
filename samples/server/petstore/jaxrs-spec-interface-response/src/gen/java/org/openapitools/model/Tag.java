@@ -19,11 +19,9 @@ public class Tag  implements Serializable {
   private @Valid Long id;
   private @Valid String name;
 
-  /**
-   **/
-  public Tag id(Long id) {
+  public Tag(Long id, String name) {
     this.id = id;
-    return this;
+    this.name = name;
   }
 
   
@@ -32,27 +30,19 @@ public class Tag  implements Serializable {
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
   }
-
-  /**
-   **/
-  public Tag name(String name) {
-    this.name = name;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -63,8 +53,8 @@ public class Tag  implements Serializable {
       return false;
     }
     Tag tag = (Tag) o;
-    return Objects.equals(id, tag.id) &&
-        Objects.equals(name, tag.name);
+    return Objects.equals(this.id, tag.id) &&
+        Objects.equals(this.name, tag.name);
   }
 
   @Override
@@ -92,6 +82,32 @@ public class Tag  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private Long id;
+    private String name;
+
+    /**
+      **/
+    public Builder id(Long id) {
+      this.id = id;
+      return this;
+    }
+    /**
+      **/
+    public Builder name(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public Tag build() {
+      return new Tag(id, name);
+    }
   }
 }
 

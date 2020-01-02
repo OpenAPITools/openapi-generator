@@ -18,11 +18,8 @@ public class SpecialModelName  implements Serializable {
   
   private @Valid Long $specialPropertyName;
 
-  /**
-   **/
-  public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+  public SpecialModelName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
-    return this;
   }
 
   
@@ -31,10 +28,10 @@ public class SpecialModelName  implements Serializable {
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
+
   public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -45,7 +42,7 @@ public class SpecialModelName  implements Serializable {
       return false;
     }
     SpecialModelName $specialModelName = (SpecialModelName) o;
-    return Objects.equals($specialPropertyName, $specialModelName.$specialPropertyName);
+    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
   }
 
   @Override
@@ -72,6 +69,25 @@ public class SpecialModelName  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private Long $specialPropertyName;
+
+    /**
+      **/
+    public Builder $specialPropertyName(Long $specialPropertyName) {
+      this.$specialPropertyName = $specialPropertyName;
+      return this;
+    }
+
+    public SpecialModelName build() {
+      return new SpecialModelName($specialPropertyName);
+    }
   }
 }
 

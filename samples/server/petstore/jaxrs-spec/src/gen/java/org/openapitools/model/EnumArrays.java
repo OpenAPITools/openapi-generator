@@ -87,11 +87,9 @@ public enum ArrayEnumEnum {
 
   private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
 
-  /**
-   **/
-  public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
+  public EnumArrays(JustSymbolEnum justSymbol, List<ArrayEnumEnum> arrayEnum) {
     this.justSymbol = justSymbol;
-    return this;
+    this.arrayEnum = arrayEnum;
   }
 
   
@@ -100,27 +98,19 @@ public enum ArrayEnumEnum {
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
+
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
-
-  /**
-   **/
-  public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
-    this.arrayEnum = arrayEnum;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
+
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -160,6 +150,32 @@ public enum ArrayEnumEnum {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private JustSymbolEnum justSymbol;
+    private List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
+
+    /**
+      **/
+    public Builder justSymbol(JustSymbolEnum justSymbol) {
+      this.justSymbol = justSymbol;
+      return this;
+    }
+    /**
+      **/
+    public Builder arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+      this.arrayEnum = arrayEnum;
+      return this;
+    }
+
+    public EnumArrays build() {
+      return new EnumArrays(justSymbol, arrayEnum);
+    }
   }
 }
 

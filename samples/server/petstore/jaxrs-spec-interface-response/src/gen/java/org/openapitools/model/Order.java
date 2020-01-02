@@ -44,24 +44,26 @@ public enum StatusEnum {
     }
 
     @JsonCreator
-    public static StatusEnum fromValue(String v) {
+    public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
   private @Valid StatusEnum status;
   private @Valid Boolean complete = false;
 
-  /**
-   **/
-  public Order id(Long id) {
+  public Order(Long id, Long petId, Integer quantity, Date shipDate, StatusEnum status, Boolean complete) {
     this.id = id;
-    return this;
+    this.petId = petId;
+    this.quantity = quantity;
+    this.shipDate = shipDate;
+    this.status = status;
+    this.complete = complete;
   }
 
   
@@ -70,96 +72,55 @@ public enum StatusEnum {
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
   }
-
-  /**
-   **/
-  public Order petId(Long petId) {
-    this.petId = petId;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("petId")
   public Long getPetId() {
     return petId;
   }
+
   public void setPetId(Long petId) {
     this.petId = petId;
   }
-
-  /**
-   **/
-  public Order quantity(Integer quantity) {
-    this.quantity = quantity;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("quantity")
   public Integer getQuantity() {
     return quantity;
   }
+
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
-
-  /**
-   **/
-  public Order shipDate(Date shipDate) {
-    this.shipDate = shipDate;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
   public Date getShipDate() {
     return shipDate;
   }
+
   public void setShipDate(Date shipDate) {
     this.shipDate = shipDate;
   }
-
-  /**
-   * Order Status
-   **/
-  public Order status(StatusEnum status) {
-    this.status = status;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
+
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
-  /**
-   **/
-  public Order complete(Boolean complete) {
-    this.complete = complete;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("complete")
   public Boolean getComplete() {
     return complete;
   }
+
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -170,12 +131,12 @@ public enum StatusEnum {
       return false;
     }
     Order order = (Order) o;
-    return Objects.equals(id, order.id) &&
-        Objects.equals(petId, order.petId) &&
-        Objects.equals(quantity, order.quantity) &&
-        Objects.equals(shipDate, order.shipDate) &&
-        Objects.equals(status, order.status) &&
-        Objects.equals(complete, order.complete);
+    return Objects.equals(this.id, order.id) &&
+        Objects.equals(this.petId, order.petId) &&
+        Objects.equals(this.quantity, order.quantity) &&
+        Objects.equals(this.shipDate, order.shipDate) &&
+        Objects.equals(this.status, order.status) &&
+        Objects.equals(this.complete, order.complete);
   }
 
   @Override
@@ -207,6 +168,61 @@ public enum StatusEnum {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private Long id;
+    private Long petId;
+    private Integer quantity;
+    private Date shipDate;
+    private StatusEnum status;
+    private Boolean complete = false;
+
+    /**
+      **/
+    public Builder id(Long id) {
+      this.id = id;
+      return this;
+    }
+    /**
+      **/
+    public Builder petId(Long petId) {
+      this.petId = petId;
+      return this;
+    }
+    /**
+      **/
+    public Builder quantity(Integer quantity) {
+      this.quantity = quantity;
+      return this;
+    }
+    /**
+      **/
+    public Builder shipDate(Date shipDate) {
+      this.shipDate = shipDate;
+      return this;
+    }
+    /**
+      * Order Status
+      **/
+    public Builder status(StatusEnum status) {
+      this.status = status;
+      return this;
+    }
+    /**
+      **/
+    public Builder complete(Boolean complete) {
+      this.complete = complete;
+      return this;
+    }
+
+    public Order build() {
+      return new Order(id, petId, quantity, shipDate, status, complete);
+    }
   }
 }
 

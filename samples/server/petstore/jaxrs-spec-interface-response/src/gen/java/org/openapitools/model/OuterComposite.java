@@ -21,11 +21,10 @@ public class OuterComposite  implements Serializable {
   private @Valid String myString;
   private @Valid Boolean myBoolean;
 
-  /**
-   **/
-  public OuterComposite myNumber(BigDecimal myNumber) {
+  public OuterComposite(BigDecimal myNumber, String myString, Boolean myBoolean) {
     this.myNumber = myNumber;
-    return this;
+    this.myString = myString;
+    this.myBoolean = myBoolean;
   }
 
   
@@ -34,44 +33,28 @@ public class OuterComposite  implements Serializable {
   public BigDecimal getMyNumber() {
     return myNumber;
   }
+
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
-
-  /**
-   **/
-  public OuterComposite myString(String myString) {
-    this.myString = myString;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("my_string")
   public String getMyString() {
     return myString;
   }
+
   public void setMyString(String myString) {
     this.myString = myString;
   }
-
-  /**
-   **/
-  public OuterComposite myBoolean(Boolean myBoolean) {
-    this.myBoolean = myBoolean;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("my_boolean")
   public Boolean getMyBoolean() {
     return myBoolean;
   }
+
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -82,9 +65,9 @@ public class OuterComposite  implements Serializable {
       return false;
     }
     OuterComposite outerComposite = (OuterComposite) o;
-    return Objects.equals(myNumber, outerComposite.myNumber) &&
-        Objects.equals(myString, outerComposite.myString) &&
-        Objects.equals(myBoolean, outerComposite.myBoolean);
+    return Objects.equals(this.myNumber, outerComposite.myNumber) &&
+        Objects.equals(this.myString, outerComposite.myString) &&
+        Objects.equals(this.myBoolean, outerComposite.myBoolean);
   }
 
   @Override
@@ -113,6 +96,39 @@ public class OuterComposite  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private BigDecimal myNumber;
+    private String myString;
+    private Boolean myBoolean;
+
+    /**
+      **/
+    public Builder myNumber(BigDecimal myNumber) {
+      this.myNumber = myNumber;
+      return this;
+    }
+    /**
+      **/
+    public Builder myString(String myString) {
+      this.myString = myString;
+      return this;
+    }
+    /**
+      **/
+    public Builder myBoolean(Boolean myBoolean) {
+      this.myBoolean = myBoolean;
+      return this;
+    }
+
+    public OuterComposite build() {
+      return new OuterComposite(myNumber, myString, myBoolean);
+    }
   }
 }
 

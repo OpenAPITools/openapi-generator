@@ -21,11 +21,8 @@ public class AdditionalPropertiesArray extends HashMap<String, List> implements 
   
   private @Valid String name;
 
-  /**
-   **/
-  public AdditionalPropertiesArray name(String name) {
+  public AdditionalPropertiesArray(String name) {
     this.name = name;
-    return this;
   }
 
   
@@ -34,10 +31,10 @@ public class AdditionalPropertiesArray extends HashMap<String, List> implements 
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -76,6 +73,25 @@ public class AdditionalPropertiesArray extends HashMap<String, List> implements 
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private String name;
+
+    /**
+      **/
+    public Builder name(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public AdditionalPropertiesArray build() {
+      return new AdditionalPropertiesArray(name);
+    }
   }
 }
 

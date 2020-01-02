@@ -23,11 +23,13 @@ public class Capitalization  implements Serializable {
   private @Valid String scAETHFlowPoints;
   private @Valid String ATT_NAME;
 
-  /**
-   **/
-  public Capitalization smallCamel(String smallCamel) {
+  public Capitalization(String smallCamel, String capitalCamel, String smallSnake, String capitalSnake, String scAETHFlowPoints, String ATT_NAME) {
     this.smallCamel = smallCamel;
-    return this;
+    this.capitalCamel = capitalCamel;
+    this.smallSnake = smallSnake;
+    this.capitalSnake = capitalSnake;
+    this.scAETHFlowPoints = scAETHFlowPoints;
+    this.ATT_NAME = ATT_NAME;
   }
 
   
@@ -36,96 +38,55 @@ public class Capitalization  implements Serializable {
   public String getSmallCamel() {
     return smallCamel;
   }
+
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
   }
-
-  /**
-   **/
-  public Capitalization capitalCamel(String capitalCamel) {
-    this.capitalCamel = capitalCamel;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
     return capitalCamel;
   }
+
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
-
-  /**
-   **/
-  public Capitalization smallSnake(String smallSnake) {
-    this.smallSnake = smallSnake;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("small_Snake")
   public String getSmallSnake() {
     return smallSnake;
   }
+
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
   }
-
-  /**
-   **/
-  public Capitalization capitalSnake(String capitalSnake) {
-    this.capitalSnake = capitalSnake;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
     return capitalSnake;
   }
+
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
-
-  /**
-   **/
-  public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
-    this.scAETHFlowPoints = scAETHFlowPoints;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
+
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
-
-  /**
-   * Name of the pet 
-   **/
-  public Capitalization ATT_NAME(String ATT_NAME) {
-    this.ATT_NAME = ATT_NAME;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "Name of the pet ")
   @JsonProperty("ATT_NAME")
   public String getATTNAME() {
     return ATT_NAME;
   }
+
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -173,6 +134,61 @@ public class Capitalization  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private String smallCamel;
+    private String capitalCamel;
+    private String smallSnake;
+    private String capitalSnake;
+    private String scAETHFlowPoints;
+    private String ATT_NAME;
+
+    /**
+      **/
+    public Builder smallCamel(String smallCamel) {
+      this.smallCamel = smallCamel;
+      return this;
+    }
+    /**
+      **/
+    public Builder capitalCamel(String capitalCamel) {
+      this.capitalCamel = capitalCamel;
+      return this;
+    }
+    /**
+      **/
+    public Builder smallSnake(String smallSnake) {
+      this.smallSnake = smallSnake;
+      return this;
+    }
+    /**
+      **/
+    public Builder capitalSnake(String capitalSnake) {
+      this.capitalSnake = capitalSnake;
+      return this;
+    }
+    /**
+      **/
+    public Builder scAETHFlowPoints(String scAETHFlowPoints) {
+      this.scAETHFlowPoints = scAETHFlowPoints;
+      return this;
+    }
+    /**
+      * Name of the pet 
+      **/
+    public Builder ATT_NAME(String ATT_NAME) {
+      this.ATT_NAME = ATT_NAME;
+      return this;
+    }
+
+    public Capitalization build() {
+      return new Capitalization(smallCamel, capitalCamel, smallSnake, capitalSnake, scAETHFlowPoints, ATT_NAME);
+    }
   }
 }
 

@@ -26,11 +26,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   private @Valid Date dateTime;
   private @Valid Map<String, Animal> map = new HashMap<String, Animal>();
 
-  /**
-   **/
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
+  public MixedPropertiesAndAdditionalPropertiesClass(UUID uuid, Date dateTime, Map<String, Animal> map) {
     this.uuid = uuid;
-    return this;
+    this.dateTime = dateTime;
+    this.map = map;
   }
 
   
@@ -39,44 +38,28 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   public UUID getUuid() {
     return uuid;
   }
+
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
-
-  /**
-   **/
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(Date dateTime) {
-    this.dateTime = dateTime;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
     return dateTime;
   }
+
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
   }
-
-  /**
-   **/
-  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
-    this.map = map;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("map")
   public Map<String, Animal> getMap() {
     return map;
   }
+
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -118,6 +101,39 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private UUID uuid;
+    private Date dateTime;
+    private Map<String, Animal> map = new HashMap<String, Animal>();
+
+    /**
+      **/
+    public Builder uuid(UUID uuid) {
+      this.uuid = uuid;
+      return this;
+    }
+    /**
+      **/
+    public Builder dateTime(Date dateTime) {
+      this.dateTime = dateTime;
+      return this;
+    }
+    /**
+      **/
+    public Builder map(Map<String, Animal> map) {
+      this.map = map;
+      return this;
+    }
+
+    public MixedPropertiesAndAdditionalPropertiesClass build() {
+      return new MixedPropertiesAndAdditionalPropertiesClass(uuid, dateTime, map);
+    }
   }
 }
 

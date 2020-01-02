@@ -21,11 +21,9 @@ public class FileSchemaTestClass  implements Serializable {
   private @Valid java.io.File file;
   private @Valid List<java.io.File> files = new ArrayList<java.io.File>();
 
-  /**
-   **/
-  public FileSchemaTestClass file(java.io.File file) {
+  public FileSchemaTestClass(java.io.File file, List<java.io.File> files) {
     this.file = file;
-    return this;
+    this.files = files;
   }
 
   
@@ -34,27 +32,19 @@ public class FileSchemaTestClass  implements Serializable {
   public java.io.File getFile() {
     return file;
   }
+
   public void setFile(java.io.File file) {
     this.file = file;
   }
-
-  /**
-   **/
-  public FileSchemaTestClass files(List<java.io.File> files) {
-    this.files = files;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("files")
   public List<java.io.File> getFiles() {
     return files;
   }
+
   public void setFiles(List<java.io.File> files) {
     this.files = files;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -94,6 +84,32 @@ public class FileSchemaTestClass  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private java.io.File file;
+    private List<java.io.File> files = new ArrayList<java.io.File>();
+
+    /**
+      **/
+    public Builder file(java.io.File file) {
+      this.file = file;
+      return this;
+    }
+    /**
+      **/
+    public Builder files(List<java.io.File> files) {
+      this.files = files;
+      return this;
+    }
+
+    public FileSchemaTestClass build() {
+      return new FileSchemaTestClass(file, files);
+    }
   }
 }
 

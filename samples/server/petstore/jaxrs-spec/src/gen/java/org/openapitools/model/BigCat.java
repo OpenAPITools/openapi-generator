@@ -53,11 +53,8 @@ public enum KindEnum {
 
   private @Valid KindEnum kind;
 
-  /**
-   **/
-  public BigCat kind(KindEnum kind) {
+  public BigCat(KindEnum kind) {
     this.kind = kind;
-    return this;
   }
 
   
@@ -66,10 +63,10 @@ public enum KindEnum {
   public KindEnum getKind() {
     return kind;
   }
+
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -108,6 +105,25 @@ public enum KindEnum {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private KindEnum kind;
+
+    /**
+      **/
+    public Builder kind(KindEnum kind) {
+      this.kind = kind;
+      return this;
+    }
+
+    public BigCat build() {
+      return new BigCat(kind);
+    }
   }
 }
 

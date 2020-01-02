@@ -20,11 +20,8 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> implem
   
   private @Valid String name;
 
-  /**
-   **/
-  public AdditionalPropertiesInteger name(String name) {
+  public AdditionalPropertiesInteger(String name) {
     this.name = name;
-    return this;
   }
 
   
@@ -33,10 +30,10 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> implem
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -75,6 +72,25 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> implem
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private String name;
+
+    /**
+      **/
+    public Builder name(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public AdditionalPropertiesInteger build() {
+      return new AdditionalPropertiesInteger(name);
+    }
   }
 }
 

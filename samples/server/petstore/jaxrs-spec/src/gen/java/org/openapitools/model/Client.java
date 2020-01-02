@@ -18,11 +18,8 @@ public class Client  implements Serializable {
   
   private @Valid String client;
 
-  /**
-   **/
-  public Client client(String client) {
+  public Client(String client) {
     this.client = client;
-    return this;
   }
 
   
@@ -31,10 +28,10 @@ public class Client  implements Serializable {
   public String getClient() {
     return client;
   }
+
   public void setClient(String client) {
     this.client = client;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -72,6 +69,25 @@ public class Client  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private String client;
+
+    /**
+      **/
+    public Builder client(String client) {
+      this.client = client;
+      return this;
+    }
+
+    public Client build() {
+      return new Client(client);
+    }
   }
 }
 

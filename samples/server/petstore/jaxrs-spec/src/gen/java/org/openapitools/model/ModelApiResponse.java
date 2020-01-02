@@ -20,11 +20,10 @@ public class ModelApiResponse  implements Serializable {
   private @Valid String type;
   private @Valid String message;
 
-  /**
-   **/
-  public ModelApiResponse code(Integer code) {
+  public ModelApiResponse(Integer code, String type, String message) {
     this.code = code;
-    return this;
+    this.type = type;
+    this.message = message;
   }
 
   
@@ -33,44 +32,28 @@ public class ModelApiResponse  implements Serializable {
   public Integer getCode() {
     return code;
   }
+
   public void setCode(Integer code) {
     this.code = code;
   }
-
-  /**
-   **/
-  public ModelApiResponse type(String type) {
-    this.type = type;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("type")
   public String getType() {
     return type;
   }
+
   public void setType(String type) {
     this.type = type;
   }
-
-  /**
-   **/
-  public ModelApiResponse message(String message) {
-    this.message = message;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("message")
   public String getMessage() {
     return message;
   }
+
   public void setMessage(String message) {
     this.message = message;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -112,6 +95,39 @@ public class ModelApiResponse  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private Integer code;
+    private String type;
+    private String message;
+
+    /**
+      **/
+    public Builder code(Integer code) {
+      this.code = code;
+      return this;
+    }
+    /**
+      **/
+    public Builder type(String type) {
+      this.type = type;
+      return this;
+    }
+    /**
+      **/
+    public Builder message(String message) {
+      this.message = message;
+      return this;
+    }
+
+    public ModelApiResponse build() {
+      return new ModelApiResponse(code, type, message);
+    }
   }
 }
 

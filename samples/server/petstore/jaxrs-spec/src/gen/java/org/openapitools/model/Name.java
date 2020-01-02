@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-
 /**
  * Model for testing model name same as property name
  **/
@@ -24,11 +23,11 @@ public class Name  implements Serializable {
   private @Valid String property;
   private @Valid Integer _123number;
 
-  /**
-   **/
-  public Name name(Integer name) {
+  public Name(Integer name, Integer snakeCase, String property, Integer _123number) {
     this.name = name;
-    return this;
+    this.snakeCase = snakeCase;
+    this.property = property;
+    this._123number = _123number;
   }
 
   
@@ -38,61 +37,37 @@ public class Name  implements Serializable {
   public Integer getName() {
     return name;
   }
+
   public void setName(Integer name) {
     this.name = name;
   }
-
-  /**
-   **/
-  public Name snakeCase(Integer snakeCase) {
-    this.snakeCase = snakeCase;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
   }
+
   public void setSnakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
-
-  /**
-   **/
-  public Name property(String property) {
-    this.property = property;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("property")
   public String getProperty() {
     return property;
   }
+
   public void setProperty(String property) {
     this.property = property;
   }
-
-  /**
-   **/
-  public Name _123number(Integer _123number) {
-    this._123number = _123number;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("123Number")
   public Integer get123number() {
     return _123number;
   }
+
   public void set123number(Integer _123number) {
     this._123number = _123number;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -136,6 +111,46 @@ public class Name  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private Integer name;
+    private Integer snakeCase;
+    private String property;
+    private Integer _123number;
+
+    /**
+      **/
+    public Builder name(Integer name) {
+      this.name = name;
+      return this;
+    }
+    /**
+      **/
+    public Builder snakeCase(Integer snakeCase) {
+      this.snakeCase = snakeCase;
+      return this;
+    }
+    /**
+      **/
+    public Builder property(String property) {
+      this.property = property;
+      return this;
+    }
+    /**
+      **/
+    public Builder _123number(Integer _123number) {
+      this._123number = _123number;
+      return this;
+    }
+
+    public Name build() {
+      return new Name(name, snakeCase, property, _123number);
+    }
   }
 }
 

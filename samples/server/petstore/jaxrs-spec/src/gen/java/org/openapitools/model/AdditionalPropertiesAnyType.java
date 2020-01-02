@@ -20,11 +20,8 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> impleme
   
   private @Valid String name;
 
-  /**
-   **/
-  public AdditionalPropertiesAnyType name(String name) {
+  public AdditionalPropertiesAnyType(String name) {
     this.name = name;
-    return this;
   }
 
   
@@ -33,10 +30,10 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> impleme
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -75,6 +72,25 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> impleme
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private String name;
+
+    /**
+      **/
+    public Builder name(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public AdditionalPropertiesAnyType build() {
+      return new AdditionalPropertiesAnyType(name);
+    }
   }
 }
 

@@ -60,11 +60,13 @@ public enum StatusEnum {
 
   private @Valid StatusEnum status;
 
-  /**
-   **/
-  public Pet id(Long id) {
+  public Pet(Long id, Category category, String name, List<String> photoUrls, List<Tag> tags, StatusEnum status) {
     this.id = id;
-    return this;
+    this.category = category;
+    this.name = name;
+    this.photoUrls = photoUrls;
+    this.tags = tags;
+    this.status = status;
   }
 
   
@@ -73,98 +75,57 @@ public enum StatusEnum {
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
   }
-
-  /**
-   **/
-  public Pet category(Category category) {
-    this.category = category;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("category")
   public Category getCategory() {
     return category;
   }
+
   public void setCategory(Category category) {
     this.category = category;
   }
-
-  /**
-   **/
-  public Pet name(String name) {
-    this.name = name;
-    return this;
-  }
-
-  
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
   @NotNull
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
-
-  /**
-   **/
-  public Pet photoUrls(List<String> photoUrls) {
-    this.photoUrls = photoUrls;
-    return this;
-  }
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
   @NotNull
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
+
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
-
-  /**
-   **/
-  public Pet tags(List<Tag> tags) {
-    this.tags = tags;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
     return tags;
   }
+
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
-
-  /**
-   * pet status in the store
-   **/
-  public Pet status(StatusEnum status) {
-    this.status = status;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
+
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -212,6 +173,61 @@ public enum StatusEnum {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private Long id;
+    private Category category;
+    private String name;
+    private List<String> photoUrls = new ArrayList<String>();
+    private List<Tag> tags = new ArrayList<Tag>();
+    private StatusEnum status;
+
+    /**
+      **/
+    public Builder id(Long id) {
+      this.id = id;
+      return this;
+    }
+    /**
+      **/
+    public Builder category(Category category) {
+      this.category = category;
+      return this;
+    }
+    /**
+      **/
+    public Builder name(String name) {
+      this.name = name;
+      return this;
+    }
+    /**
+      **/
+    public Builder photoUrls(List<String> photoUrls) {
+      this.photoUrls = photoUrls;
+      return this;
+    }
+    /**
+      **/
+    public Builder tags(List<Tag> tags) {
+      this.tags = tags;
+      return this;
+    }
+    /**
+      * pet status in the store
+      **/
+    public Builder status(StatusEnum status) {
+      this.status = status;
+      return this;
+    }
+
+    public Pet build() {
+      return new Pet(id, category, name, photoUrls, tags, status);
+    }
   }
 }
 

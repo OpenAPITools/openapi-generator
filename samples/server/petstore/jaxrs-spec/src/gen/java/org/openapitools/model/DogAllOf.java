@@ -18,11 +18,8 @@ public class DogAllOf  implements Serializable {
   
   private @Valid String breed;
 
-  /**
-   **/
-  public DogAllOf breed(String breed) {
+  public DogAllOf(String breed) {
     this.breed = breed;
-    return this;
   }
 
   
@@ -31,10 +28,10 @@ public class DogAllOf  implements Serializable {
   public String getBreed() {
     return breed;
   }
+
   public void setBreed(String breed) {
     this.breed = breed;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -72,6 +69,25 @@ public class DogAllOf  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private String breed;
+
+    /**
+      **/
+    public Builder breed(String breed) {
+      this.breed = breed;
+      return this;
+    }
+
+    public DogAllOf build() {
+      return new DogAllOf(breed);
+    }
   }
 }
 

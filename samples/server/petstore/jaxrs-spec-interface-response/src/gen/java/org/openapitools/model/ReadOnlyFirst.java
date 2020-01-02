@@ -19,11 +19,9 @@ public class ReadOnlyFirst  implements Serializable {
   private @Valid String bar;
   private @Valid String baz;
 
-  /**
-   **/
-  public ReadOnlyFirst bar(String bar) {
+  public ReadOnlyFirst(String bar, String baz) {
     this.bar = bar;
-    return this;
+    this.baz = baz;
   }
 
   
@@ -32,27 +30,19 @@ public class ReadOnlyFirst  implements Serializable {
   public String getBar() {
     return bar;
   }
+
   public void setBar(String bar) {
     this.bar = bar;
   }
-
-  /**
-   **/
-  public ReadOnlyFirst baz(String baz) {
-    this.baz = baz;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("baz")
   public String getBaz() {
     return baz;
   }
+
   public void setBaz(String baz) {
     this.baz = baz;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -63,8 +53,8 @@ public class ReadOnlyFirst  implements Serializable {
       return false;
     }
     ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
-    return Objects.equals(bar, readOnlyFirst.bar) &&
-        Objects.equals(baz, readOnlyFirst.baz);
+    return Objects.equals(this.bar, readOnlyFirst.bar) &&
+        Objects.equals(this.baz, readOnlyFirst.baz);
   }
 
   @Override
@@ -92,6 +82,32 @@ public class ReadOnlyFirst  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private String bar;
+    private String baz;
+
+    /**
+      **/
+    public Builder bar(String bar) {
+      this.bar = bar;
+      return this;
+    }
+    /**
+      **/
+    public Builder baz(String baz) {
+      this.baz = baz;
+      return this;
+    }
+
+    public ReadOnlyFirst build() {
+      return new ReadOnlyFirst(bar, baz);
+    }
   }
 }
 

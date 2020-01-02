@@ -21,11 +21,8 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
   
   private @Valid List<List<BigDecimal>> arrayArrayNumber = new ArrayList<List<BigDecimal>>();
 
-  /**
-   **/
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
-    return this;
   }
 
   
@@ -34,10 +31,10 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
+
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -75,6 +72,25 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<List<BigDecimal>>();
+
+    /**
+      **/
+    public Builder arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+      this.arrayArrayNumber = arrayArrayNumber;
+      return this;
+    }
+
+    public ArrayOfArrayOfNumberOnly build() {
+      return new ArrayOfArrayOfNumberOnly(arrayArrayNumber);
+    }
   }
 }
 

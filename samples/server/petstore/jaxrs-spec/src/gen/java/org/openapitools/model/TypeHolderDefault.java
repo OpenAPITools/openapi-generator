@@ -25,11 +25,12 @@ public class TypeHolderDefault  implements Serializable {
   private @Valid Boolean boolItem = true;
   private @Valid List<Integer> arrayItem = new ArrayList<Integer>();
 
-  /**
-   **/
-  public TypeHolderDefault stringItem(String stringItem) {
+  public TypeHolderDefault(String stringItem, BigDecimal numberItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
     this.stringItem = stringItem;
-    return this;
+    this.numberItem = numberItem;
+    this.integerItem = integerItem;
+    this.boolItem = boolItem;
+    this.arrayItem = arrayItem;
   }
 
   
@@ -39,82 +40,50 @@ public class TypeHolderDefault  implements Serializable {
   public String getStringItem() {
     return stringItem;
   }
+
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
-
-  /**
-   **/
-  public TypeHolderDefault numberItem(BigDecimal numberItem) {
-    this.numberItem = numberItem;
-    return this;
-  }
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number_item")
   @NotNull
   public BigDecimal getNumberItem() {
     return numberItem;
   }
+
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
-
-  /**
-   **/
-  public TypeHolderDefault integerItem(Integer integerItem) {
-    this.integerItem = integerItem;
-    return this;
-  }
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("integer_item")
   @NotNull
   public Integer getIntegerItem() {
     return integerItem;
   }
+
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
-
-  /**
-   **/
-  public TypeHolderDefault boolItem(Boolean boolItem) {
-    this.boolItem = boolItem;
-    return this;
-  }
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("bool_item")
   @NotNull
   public Boolean getBoolItem() {
     return boolItem;
   }
+
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
-
-  /**
-   **/
-  public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
-    this.arrayItem = arrayItem;
-    return this;
-  }
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("array_item")
   @NotNull
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
+
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -160,6 +129,53 @@ public class TypeHolderDefault  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private String stringItem = "what";
+    private BigDecimal numberItem;
+    private Integer integerItem;
+    private Boolean boolItem = true;
+    private List<Integer> arrayItem = new ArrayList<Integer>();
+
+    /**
+      **/
+    public Builder stringItem(String stringItem) {
+      this.stringItem = stringItem;
+      return this;
+    }
+    /**
+      **/
+    public Builder numberItem(BigDecimal numberItem) {
+      this.numberItem = numberItem;
+      return this;
+    }
+    /**
+      **/
+    public Builder integerItem(Integer integerItem) {
+      this.integerItem = integerItem;
+      return this;
+    }
+    /**
+      **/
+    public Builder boolItem(Boolean boolItem) {
+      this.boolItem = boolItem;
+      return this;
+    }
+    /**
+      **/
+    public Builder arrayItem(List<Integer> arrayItem) {
+      this.arrayItem = arrayItem;
+      return this;
+    }
+
+    public TypeHolderDefault build() {
+      return new TypeHolderDefault(stringItem, numberItem, integerItem, boolItem, arrayItem);
+    }
   }
 }
 

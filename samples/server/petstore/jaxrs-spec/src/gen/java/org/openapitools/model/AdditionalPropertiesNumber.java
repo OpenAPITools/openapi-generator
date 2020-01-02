@@ -21,11 +21,8 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
   
   private @Valid String name;
 
-  /**
-   **/
-  public AdditionalPropertiesNumber name(String name) {
+  public AdditionalPropertiesNumber(String name) {
     this.name = name;
-    return this;
   }
 
   
@@ -34,10 +31,10 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -76,6 +73,25 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private String name;
+
+    /**
+      **/
+    public Builder name(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public AdditionalPropertiesNumber build() {
+      return new AdditionalPropertiesNumber(name);
+    }
   }
 }
 

@@ -20,11 +20,8 @@ public class Dog extends Animal implements Serializable {
   
   private @Valid String breed;
 
-  /**
-   **/
-  public Dog breed(String breed) {
+  public Dog(String breed) {
     this.breed = breed;
-    return this;
   }
 
   
@@ -33,10 +30,10 @@ public class Dog extends Animal implements Serializable {
   public String getBreed() {
     return breed;
   }
+
   public void setBreed(String breed) {
     this.breed = breed;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -75,6 +72,25 @@ public class Dog extends Animal implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private String breed;
+
+    /**
+      **/
+    public Builder breed(String breed) {
+      this.breed = breed;
+      return this;
+    }
+
+    public Dog build() {
+      return new Dog(breed);
+    }
   }
 }
 

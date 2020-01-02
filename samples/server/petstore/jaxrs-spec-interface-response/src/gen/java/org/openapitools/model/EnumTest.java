@@ -40,13 +40,13 @@ public enum EnumStringEnum {
     }
 
     @JsonCreator
-    public static EnumStringEnum fromValue(String v) {
+    public static EnumStringEnum fromValue(String value) {
         for (EnumStringEnum b : EnumStringEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
@@ -74,13 +74,13 @@ public enum EnumStringRequiredEnum {
     }
 
     @JsonCreator
-    public static EnumStringRequiredEnum fromValue(String v) {
+    public static EnumStringRequiredEnum fromValue(String value) {
         for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
@@ -108,13 +108,13 @@ public enum EnumIntegerEnum {
     }
 
     @JsonCreator
-    public static EnumIntegerEnum fromValue(String v) {
+    public static EnumIntegerEnum fromValue(Integer value) {
         for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
@@ -142,24 +142,25 @@ public enum EnumNumberEnum {
     }
 
     @JsonCreator
-    public static EnumNumberEnum fromValue(String v) {
+    public static EnumNumberEnum fromValue(Double value) {
         for (EnumNumberEnum b : EnumNumberEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
   private @Valid EnumNumberEnum enumNumber;
-  private @Valid OuterEnum outerEnum = null;
+  private @Valid OuterEnum outerEnum;
 
-  /**
-   **/
-  public EnumTest enumString(EnumStringEnum enumString) {
+  public EnumTest(EnumStringEnum enumString, EnumStringRequiredEnum enumStringRequired, EnumIntegerEnum enumInteger, EnumNumberEnum enumNumber, OuterEnum outerEnum) {
     this.enumString = enumString;
-    return this;
+    this.enumStringRequired = enumStringRequired;
+    this.enumInteger = enumInteger;
+    this.enumNumber = enumNumber;
+    this.outerEnum = outerEnum;
   }
 
   
@@ -168,79 +169,47 @@ public enum EnumNumberEnum {
   public EnumStringEnum getEnumString() {
     return enumString;
   }
+
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
-
-  /**
-   **/
-  public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
-    this.enumStringRequired = enumStringRequired;
-    return this;
-  }
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("enum_string_required")
   @NotNull
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
+
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
-
-  /**
-   **/
-  public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
-    this.enumInteger = enumInteger;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_integer")
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
+
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
-
-  /**
-   **/
-  public EnumTest enumNumber(EnumNumberEnum enumNumber) {
-    this.enumNumber = enumNumber;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_number")
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
+
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
-
-  /**
-   **/
-  public EnumTest outerEnum(OuterEnum outerEnum) {
-    this.outerEnum = outerEnum;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("outerEnum")
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
+
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -251,11 +220,11 @@ public enum EnumNumberEnum {
       return false;
     }
     EnumTest enumTest = (EnumTest) o;
-    return Objects.equals(enumString, enumTest.enumString) &&
-        Objects.equals(enumStringRequired, enumTest.enumStringRequired) &&
-        Objects.equals(enumInteger, enumTest.enumInteger) &&
-        Objects.equals(enumNumber, enumTest.enumNumber) &&
-        Objects.equals(outerEnum, enumTest.outerEnum);
+    return Objects.equals(this.enumString, enumTest.enumString) &&
+        Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
+        Objects.equals(this.enumInteger, enumTest.enumInteger) &&
+        Objects.equals(this.enumNumber, enumTest.enumNumber) &&
+        Objects.equals(this.outerEnum, enumTest.outerEnum);
   }
 
   @Override
@@ -286,6 +255,53 @@ public enum EnumNumberEnum {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private EnumStringEnum enumString;
+    private EnumStringRequiredEnum enumStringRequired;
+    private EnumIntegerEnum enumInteger;
+    private EnumNumberEnum enumNumber;
+    private OuterEnum outerEnum;
+
+    /**
+      **/
+    public Builder enumString(EnumStringEnum enumString) {
+      this.enumString = enumString;
+      return this;
+    }
+    /**
+      **/
+    public Builder enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+      this.enumStringRequired = enumStringRequired;
+      return this;
+    }
+    /**
+      **/
+    public Builder enumInteger(EnumIntegerEnum enumInteger) {
+      this.enumInteger = enumInteger;
+      return this;
+    }
+    /**
+      **/
+    public Builder enumNumber(EnumNumberEnum enumNumber) {
+      this.enumNumber = enumNumber;
+      return this;
+    }
+    /**
+      **/
+    public Builder outerEnum(OuterEnum outerEnum) {
+      this.outerEnum = outerEnum;
+      return this;
+    }
+
+    public EnumTest build() {
+      return new EnumTest(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
+    }
   }
 }
 

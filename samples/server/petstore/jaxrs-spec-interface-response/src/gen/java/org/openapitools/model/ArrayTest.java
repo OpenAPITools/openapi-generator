@@ -23,11 +23,10 @@ public class ArrayTest  implements Serializable {
   private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
   private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
 
-  /**
-   **/
-  public ArrayTest arrayOfString(List<String> arrayOfString) {
+  public ArrayTest(List<String> arrayOfString, List<List<Long>> arrayArrayOfInteger, List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayOfString = arrayOfString;
-    return this;
+    this.arrayArrayOfInteger = arrayArrayOfInteger;
+    this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
   
@@ -36,44 +35,28 @@ public class ArrayTest  implements Serializable {
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
+
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
-
-  /**
-   **/
-  public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
-    this.arrayArrayOfInteger = arrayArrayOfInteger;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
+
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
-
-  /**
-   **/
-  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
-    this.arrayArrayOfModel = arrayArrayOfModel;
-    return this;
-  }
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_model")
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
+
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -84,9 +67,9 @@ public class ArrayTest  implements Serializable {
       return false;
     }
     ArrayTest arrayTest = (ArrayTest) o;
-    return Objects.equals(arrayOfString, arrayTest.arrayOfString) &&
-        Objects.equals(arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
-        Objects.equals(arrayArrayOfModel, arrayTest.arrayArrayOfModel);
+    return Objects.equals(this.arrayOfString, arrayTest.arrayOfString) &&
+        Objects.equals(this.arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
+        Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel);
   }
 
   @Override
@@ -115,6 +98,39 @@ public class ArrayTest  implements Serializable {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private List<String> arrayOfString = new ArrayList<String>();
+    private List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
+    private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+
+    /**
+      **/
+    public Builder arrayOfString(List<String> arrayOfString) {
+      this.arrayOfString = arrayOfString;
+      return this;
+    }
+    /**
+      **/
+    public Builder arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+      this.arrayArrayOfInteger = arrayArrayOfInteger;
+      return this;
+    }
+    /**
+      **/
+    public Builder arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+      this.arrayArrayOfModel = arrayArrayOfModel;
+      return this;
+    }
+
+    public ArrayTest build() {
+      return new ArrayTest(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
+    }
   }
 }
 
