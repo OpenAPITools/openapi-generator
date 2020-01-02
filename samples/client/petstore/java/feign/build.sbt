@@ -21,7 +21,7 @@ lazy val root = (project in file(".")).
       "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.9.10" % "compile",
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1" % "compile",
       "com.brsanthu" % "migbase64" % "2.2" % "compile",
-      "junit" % "junit" % "4.12" % "test",
+      "junit" % "junit" % "4.13" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )
   )

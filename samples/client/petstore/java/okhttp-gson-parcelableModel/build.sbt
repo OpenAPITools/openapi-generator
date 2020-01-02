@@ -18,7 +18,7 @@ lazy val root = (project in file(".")).
       "org.threeten" % "threetenbp" % "1.4.0" % "compile",
       "io.gsonfire" % "gson-fire" % "1.8.3" % "compile",
       "javax.annotation" % "jsr250-api" % "1.0" % "compile",
-      "junit" % "junit" % "4.12" % "test",
+      "junit" % "junit" % "4.13" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )
   )

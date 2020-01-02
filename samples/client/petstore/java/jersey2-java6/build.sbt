@@ -20,7 +20,7 @@ lazy val root = (project in file(".")).
       "com.brsanthu" % "migbase64" % "2.2",
       "org.apache.commons" % "commons-lang3" % "3.6",
       "commons-io" % "commons-io" % "2.5",
-      "junit" % "junit" % "4.12" % "test",
+      "junit" % "junit" % "4.13" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )
   )
