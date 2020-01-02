@@ -1364,7 +1364,11 @@ class JsonCacheImpl implements JsonCache.Root {
         } else {
             JsonNode node = root.at(ptr);
             Object value = node.isPojo() && !JsonNode.class.isAssignableFrom(type) ? ((POJONode) node).getPojo() : node;
-            result = mapper.convertValue(value, type);
+            if ((value != null) && (value.getClass() == type)) {
+                result = (T) value;
+            } else {
+                result = mapper.convertValue(value, type);
+            }
         }
         return result;
     }
