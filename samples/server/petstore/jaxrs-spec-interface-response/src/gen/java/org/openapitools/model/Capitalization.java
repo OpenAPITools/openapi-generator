@@ -136,12 +136,12 @@ public class Capitalization  implements Serializable {
       return false;
     }
     Capitalization capitalization = (Capitalization) o;
-    return Objects.equals(smallCamel, capitalization.smallCamel) &&
-        Objects.equals(capitalCamel, capitalization.capitalCamel) &&
-        Objects.equals(smallSnake, capitalization.smallSnake) &&
-        Objects.equals(capitalSnake, capitalization.capitalSnake) &&
-        Objects.equals(scAETHFlowPoints, capitalization.scAETHFlowPoints) &&
-        Objects.equals(ATT_NAME, capitalization.ATT_NAME);
+    return Objects.equals(this.smallCamel, capitalization.smallCamel) &&
+        Objects.equals(this.capitalCamel, capitalization.capitalCamel) &&
+        Objects.equals(this.smallSnake, capitalization.smallSnake) &&
+        Objects.equals(this.capitalSnake, capitalization.capitalSnake) &&
+        Objects.equals(this.scAETHFlowPoints, capitalization.scAETHFlowPoints) &&
+        Objects.equals(this.ATT_NAME, capitalization.ATT_NAME);
   }
 
   @Override

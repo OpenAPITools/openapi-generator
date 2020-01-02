@@ -62,7 +62,7 @@ Configure petstore_auth:
 
 <a name="deletePet"></a>
 # **deletePet**
-> deletePet(apiKey, petId)
+> deletePet(petId, apiKey)
 
 Deletes a pet
 
@@ -73,10 +73,10 @@ Deletes a pet
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val apiKey : kotlin.String = apiKey_example // kotlin.String | 
 val petId : kotlin.Long = 789 // kotlin.Long | Pet id to delete
+val apiKey : kotlin.String = apiKey_example // kotlin.String | 
 try {
-    apiInstance.deletePet(apiKey, petId)
+    apiInstance.deletePet(petId, apiKey)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#deletePet")
     e.printStackTrace()
@@ -90,8 +90,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **apiKey** | **kotlin.String**|  | [optional]
  **petId** | **kotlin.Long**| Pet id to delete |
+ **apiKey** | **kotlin.String**|  | [optional]
 
 ### Return type
 

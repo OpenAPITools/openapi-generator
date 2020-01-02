@@ -13,9 +13,9 @@ import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/fake_classname_test")
-@Api(description = "the fake_classname_test API")
-public interface FakeClassnameTestApi {
+@Path("/FakeClassnameTags123")
+@Api(description = "the FakeClassnameTags123 API")
+public interface FakeClassnameTags123Api {
 
     @PATCH
     @Consumes({ "application/json" })
@@ -25,5 +25,5 @@ public interface FakeClassnameTestApi {
     }, tags={ "fake_classname_tags 123#$%^" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    Response testClassname(@Valid Client body);
+    Client testClassname(@Valid Client body);
 }

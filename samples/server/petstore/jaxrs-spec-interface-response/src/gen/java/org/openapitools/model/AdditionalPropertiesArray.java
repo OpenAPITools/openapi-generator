@@ -2,8 +2,9 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.Animal;
-import org.openapitools.model.CatAllOf;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -16,25 +17,25 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class Cat extends Animal implements Serializable {
+public class AdditionalPropertiesArray extends HashMap<String, List> implements Serializable {
   
-  private @Valid Boolean declawed;
+  private @Valid String name;
 
   /**
    **/
-  public Cat declawed(Boolean declawed) {
-    this.declawed = declawed;
+  public AdditionalPropertiesArray name(String name) {
+    this.name = name;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
-  @JsonProperty("declawed")
-  public Boolean getDeclawed() {
-    return declawed;
+  @JsonProperty("name")
+  public String getName() {
+    return name;
   }
-  public void setDeclawed(Boolean declawed) {
-    this.declawed = declawed;
+  public void setName(String name) {
+    this.name = name;
   }
 
 
@@ -46,22 +47,22 @@ public class Cat extends Animal implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Cat cat = (Cat) o;
-    return Objects.equals(this.declawed, cat.declawed) &&
+    AdditionalPropertiesArray additionalPropertiesArray = (AdditionalPropertiesArray) o;
+    return Objects.equals(this.name, additionalPropertiesArray.name) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(declawed, super.hashCode());
+    return Objects.hash(name, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Cat {\n");
+    sb.append("class AdditionalPropertiesArray {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
     return sb.toString();
   }

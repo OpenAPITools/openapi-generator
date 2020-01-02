@@ -2,8 +2,6 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.Animal;
-import org.openapitools.model.CatAllOf;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -16,13 +14,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class Cat extends Animal implements Serializable {
+public class CatAllOf  implements Serializable {
   
   private @Valid Boolean declawed;
 
   /**
    **/
-  public Cat declawed(Boolean declawed) {
+  public CatAllOf declawed(Boolean declawed) {
     this.declawed = declawed;
     return this;
   }
@@ -46,21 +44,20 @@ public class Cat extends Animal implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Cat cat = (Cat) o;
-    return Objects.equals(this.declawed, cat.declawed) &&
-        super.equals(o);
+    CatAllOf catAllOf = (CatAllOf) o;
+    return Objects.equals(this.declawed, catAllOf.declawed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(declawed, super.hashCode());
+    return Objects.hash(declawed);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Cat {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("class CatAllOf {\n");
+    
     sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
     sb.append("}");
     return sb.toString();

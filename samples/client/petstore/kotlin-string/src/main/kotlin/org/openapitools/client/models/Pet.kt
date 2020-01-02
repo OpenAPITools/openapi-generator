@@ -18,23 +18,23 @@ import com.squareup.moshi.Json
 import java.io.Serializable
 /**
  * A pet for sale in the pet store
- * @param id 
- * @param category 
  * @param name 
  * @param photoUrls 
+ * @param id 
+ * @param category 
  * @param tags 
  * @param status pet status in the store
  */
 
 data class Pet (
-    @Json(name = "id")
-    val id: kotlin.Long? = null,
-    @Json(name = "category")
-    val category: Category? = null,
     @Json(name = "name")
     val name: kotlin.String,
     @Json(name = "photoUrls")
     val photoUrls: kotlin.Array<kotlin.String>,
+    @Json(name = "id")
+    val id: kotlin.Long? = null,
+    @Json(name = "category")
+    val category: Category? = null,
     @Json(name = "tags")
     val tags: kotlin.Array<Tag>? = null,
     /* pet status in the store */

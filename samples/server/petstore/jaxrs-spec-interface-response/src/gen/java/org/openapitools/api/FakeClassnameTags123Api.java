@@ -13,9 +13,9 @@ import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/fake_classname_test")
-@Api(description = "the fake_classname_test API")
-public interface FakeClassnameTestApi {
+@Path("/FakeClassnameTags123")
+@Api(description = "the FakeClassnameTags123 API")
+public interface FakeClassnameTags123Api {
 
     @PATCH
     @Consumes({ "application/json" })
