@@ -33,9 +33,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   }
 
   {{#generateBuilders}}public {{classname}}({{#vars}}{{{datatypeWithEnum}}} {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}) {
-  {{#vars}}
-      this.{{name}} = {{name}};
-  {{/vars}}
+    {{#vars}}
+    this.{{name}} = {{name}};
+    {{/vars}}
   }{{/generateBuilders}}
 
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
