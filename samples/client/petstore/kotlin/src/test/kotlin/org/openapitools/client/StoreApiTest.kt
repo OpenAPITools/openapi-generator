@@ -1,5 +1,6 @@
 package org.openapitools.client
 
+import io.kotlintest.DoNotParallelize
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 import org.openapitools.client.apis.PetApi
@@ -8,6 +9,7 @@ import org.openapitools.client.models.Order
 import org.openapitools.client.models.Pet
 import java.time.OffsetDateTime.now
 
+@DoNotParallelize
 class StoreApiTest : ShouldSpec() {
     init {
 

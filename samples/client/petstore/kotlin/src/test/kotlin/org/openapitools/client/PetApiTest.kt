@@ -1,5 +1,6 @@
 package org.openapitools.client
 
+import io.kotlintest.DoNotParallelize
 import io.kotlintest.shouldBe
 import io.kotlintest.matchers.numerics.shouldBeGreaterThan
 import io.kotlintest.matchers.string.shouldContain
@@ -11,6 +12,7 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Pet
 import org.openapitools.client.models.Tag
 
+@DoNotParallelize
 class PetApiTest : ShouldSpec() {
     init {
 
