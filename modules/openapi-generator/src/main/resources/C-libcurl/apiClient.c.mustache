@@ -9,10 +9,22 @@
 
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 
-apiClient_t *apiClient_create() {
+apiClient_t *apiClient_create(const char *basePath
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{#isApiKey}}
+, list_t *apiKeys
+{{/isApiKey}}
+{{/authMethods}}
+{{/hasAuthMethods}}
+) {
     curl_global_init(CURL_GLOBAL_ALL);
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
-    apiClient->basePath = "{{{basePath}}}";
+    if(basePath){
+        apiClient->basePath = strdup(basePath);
+    }else{
+        apiClient->basePath = strdup("{{{basePath}}}");
+    }
     apiClient->dataReceived = NULL;
     apiClient->response_code = 0;
     {{#hasAuthMethods}}
@@ -25,7 +37,7 @@ apiClient_t *apiClient_create() {
     apiClient->accessToken = NULL;
     {{/isOAuth}}
     {{#isApiKey}}
-    apiClient->apiKeys = NULL;
+    apiClient->apiKeys = apiKeys;
     {{/isApiKey}}
     {{/authMethods}}
     {{/hasAuthMethods}}
@@ -34,6 +46,9 @@ apiClient_t *apiClient_create() {
 }
 
 void apiClient_free(apiClient_t *apiClient) {
+    if(apiClient->basePath) {
+        free(apiClient->basePath);
+    }
     {{#hasAuthMethods}}
     {{#authMethods}}
     {{#isBasic}}
