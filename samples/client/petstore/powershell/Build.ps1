@@ -78,9 +78,11 @@ $Manifest = @{
     # Kirk Munro recommends against it:
     # https://www.sapien.com/blog/2016/02/15/use-prefixes-to-prevent-command-name-collision/#comment-20820
     #
-    # If not, we'd need to generate functions name with prefix.
+    # If not, we'd need to generate functions name with prefix. For examples,
     #
-    # DefaultCommandPrefix = 'PetStore'
+    # DefaultCommandPrefix = 'PetApi'
+    # DefaultCommandPrefix = 'StoreApi'
+    # DefaultCommandPrefix = 'UserApi'
 }
 
 New-ModuleManifest @Manifest
