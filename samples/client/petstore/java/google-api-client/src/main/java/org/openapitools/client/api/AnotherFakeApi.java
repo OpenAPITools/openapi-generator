@@ -51,7 +51,7 @@ public class AnotherFakeApi {
     **/
     public Client call123testSpecialTags(Client body) throws IOException {
         HttpResponse response = call123testSpecialTagsForHttpResponse(body);
-        TypeReference typeRef = new TypeReference<Client>() {};
+        TypeReference<Client> typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -66,7 +66,7 @@ public class AnotherFakeApi {
     **/
     public Client call123testSpecialTags(Client body, Map<String, Object> params) throws IOException {
         HttpResponse response = call123testSpecialTagsForHttpResponse(body, params);
-        TypeReference typeRef = new TypeReference<Client>() {};
+        TypeReference<Client> typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 

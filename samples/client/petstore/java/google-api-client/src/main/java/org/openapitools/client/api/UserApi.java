@@ -384,7 +384,7 @@ public class UserApi {
     **/
     public User getUserByName(String username) throws IOException {
         HttpResponse response = getUserByNameForHttpResponse(username);
-        TypeReference typeRef = new TypeReference<User>() {};
+        TypeReference<User> typeRef = new TypeReference<User>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -400,7 +400,7 @@ public class UserApi {
     **/
     public User getUserByName(String username, Map<String, Object> params) throws IOException {
         HttpResponse response = getUserByNameForHttpResponse(username, params);
-        TypeReference typeRef = new TypeReference<User>() {};
+        TypeReference<User> typeRef = new TypeReference<User>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -468,7 +468,7 @@ public class UserApi {
     **/
     public String loginUser(String username, String password) throws IOException {
         HttpResponse response = loginUserForHttpResponse(username, password);
-        TypeReference typeRef = new TypeReference<String>() {};
+        TypeReference<String> typeRef = new TypeReference<String>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -484,7 +484,7 @@ public class UserApi {
     **/
     public String loginUser(String username, String password, Map<String, Object> params) throws IOException {
         HttpResponse response = loginUserForHttpResponse(username, password, params);
-        TypeReference typeRef = new TypeReference<String>() {};
+        TypeReference<String> typeRef = new TypeReference<String>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
