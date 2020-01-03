@@ -36,5 +36,5 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
-    testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.5"
+    testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.3"
 }
