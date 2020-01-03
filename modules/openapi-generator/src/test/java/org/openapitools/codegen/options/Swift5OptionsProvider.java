@@ -19,7 +19,7 @@ package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.Swift5Codegen;
+import org.openapitools.codegen.languages.Swift5ClientCodegen;
 
 import java.util.Map;
 
@@ -59,22 +59,22 @@ public class Swift5OptionsProvider implements OptionsProvider {
         return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
-                .put(Swift5Codegen.PROJECT_NAME, PROJECT_NAME_VALUE)
-                .put(Swift5Codegen.RESPONSE_AS, RESPONSE_AS_VALUE)
+                .put(Swift5ClientCodegen.PROJECT_NAME, PROJECT_NAME_VALUE)
+                .put(Swift5ClientCodegen.RESPONSE_AS, RESPONSE_AS_VALUE)
                 .put(CodegenConstants.NON_PUBLIC_API, NON_PUBLIC_API_REQUIRED_VALUE)
-                .put(Swift5Codegen.OBJC_COMPATIBLE, OBJC_COMPATIBLE_VALUE)
-                .put(Swift5Codegen.LENIENT_TYPE_CAST, LENIENT_TYPE_CAST_VALUE)
-                .put(Swift5Codegen.POD_SOURCE, POD_SOURCE_VALUE)
+                .put(Swift5ClientCodegen.OBJC_COMPATIBLE, OBJC_COMPATIBLE_VALUE)
+                .put(Swift5ClientCodegen.LENIENT_TYPE_CAST, LENIENT_TYPE_CAST_VALUE)
+                .put(Swift5ClientCodegen.POD_SOURCE, POD_SOURCE_VALUE)
                 .put(CodegenConstants.POD_VERSION, POD_VERSION_VALUE)
-                .put(Swift5Codegen.POD_AUTHORS, POD_AUTHORS_VALUE)
-                .put(Swift5Codegen.POD_SOCIAL_MEDIA_URL, POD_SOCIAL_MEDIA_URL_VALUE)
-                .put(Swift5Codegen.POD_LICENSE, POD_LICENSE_VALUE)
-                .put(Swift5Codegen.POD_HOMEPAGE, POD_HOMEPAGE_VALUE)
-                .put(Swift5Codegen.POD_SUMMARY, POD_SUMMARY_VALUE)
-                .put(Swift5Codegen.POD_DESCRIPTION, POD_DESCRIPTION_VALUE)
-                .put(Swift5Codegen.POD_SCREENSHOTS, POD_SCREENSHOTS_VALUE)
-                .put(Swift5Codegen.POD_DOCUMENTATION_URL, POD_DOCUMENTATION_URL_VALUE)
-                .put(Swift5Codegen.SWIFT_USE_API_NAMESPACE, SWIFT_USE_API_NAMESPACE_VALUE)
+                .put(Swift5ClientCodegen.POD_AUTHORS, POD_AUTHORS_VALUE)
+                .put(Swift5ClientCodegen.POD_SOCIAL_MEDIA_URL, POD_SOCIAL_MEDIA_URL_VALUE)
+                .put(Swift5ClientCodegen.POD_LICENSE, POD_LICENSE_VALUE)
+                .put(Swift5ClientCodegen.POD_HOMEPAGE, POD_HOMEPAGE_VALUE)
+                .put(Swift5ClientCodegen.POD_SUMMARY, POD_SUMMARY_VALUE)
+                .put(Swift5ClientCodegen.POD_DESCRIPTION, POD_DESCRIPTION_VALUE)
+                .put(Swift5ClientCodegen.POD_SCREENSHOTS, POD_SCREENSHOTS_VALUE)
+                .put(Swift5ClientCodegen.POD_DOCUMENTATION_URL, POD_DOCUMENTATION_URL_VALUE)
+                .put(Swift5ClientCodegen.SWIFT_USE_API_NAMESPACE, SWIFT_USE_API_NAMESPACE_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)

@@ -22,14 +22,14 @@ import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.Swift5Codegen;
+import org.openapitools.codegen.languages.Swift5ClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 
-public class Swift5CodegenTest {
+public class Swift5ClientCodegenTest {
 
-    Swift5Codegen swiftCodegen = new Swift5Codegen();
+    Swift5ClientCodegen swiftCodegen = new Swift5ClientCodegen();
 
     @Test(enabled = true)
     public void testCapitalizedReservedWord() throws Exception {
@@ -93,7 +93,7 @@ public class Swift5CodegenTest {
         // TODO update json file
 
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/binaryDataTest.json");
-        final DefaultCodegen codegen = new Swift5Codegen();
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/binaryResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
@@ -108,7 +108,7 @@ public class Swift5CodegenTest {
     @Test(description = "returns Date when response format is date", enabled = true)
     public void dateTest() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/datePropertyTest.json");
-        final DefaultCodegen codegen = new Swift5Codegen();
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/dateResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
@@ -126,21 +126,21 @@ public class Swift5CodegenTest {
         swiftCodegen.processOpts();
 
         // Then
-        final String podAuthors = (String) swiftCodegen.additionalProperties().get(Swift5Codegen.POD_AUTHORS);
-        Assert.assertEquals(podAuthors, Swift5Codegen.DEFAULT_POD_AUTHORS);
+        final String podAuthors = (String) swiftCodegen.additionalProperties().get(Swift5ClientCodegen.POD_AUTHORS);
+        Assert.assertEquals(podAuthors, Swift5ClientCodegen.DEFAULT_POD_AUTHORS);
     }
 
     @Test(enabled = true)
     public void testPodAuthors() throws Exception {
         // Given
         final String openAPIDevs = "OpenAPI Devs";
-        swiftCodegen.additionalProperties().put(Swift5Codegen.POD_AUTHORS, openAPIDevs);
+        swiftCodegen.additionalProperties().put(Swift5ClientCodegen.POD_AUTHORS, openAPIDevs);
 
         // When
         swiftCodegen.processOpts();
 
         // Then
-        final String podAuthors = (String) swiftCodegen.additionalProperties().get(Swift5Codegen.POD_AUTHORS);
+        final String podAuthors = (String) swiftCodegen.additionalProperties().get(Swift5ClientCodegen.POD_AUTHORS);
         Assert.assertEquals(podAuthors, openAPIDevs);
     }
 

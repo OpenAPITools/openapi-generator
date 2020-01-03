@@ -21,13 +21,13 @@ import mockit.Expectations;
 import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.Swift5Codegen;
+import org.openapitools.codegen.languages.Swift5ClientCodegen;
 import org.openapitools.codegen.options.Swift5OptionsProvider;
 
 public class Swift5OptionsTest extends AbstractOptionsTest {
 
     @Tested
-    private Swift5Codegen clientCodegen;
+    private Swift5ClientCodegen clientCodegen;
 
     public Swift5OptionsTest() {
         super(new Swift5OptionsProvider());
