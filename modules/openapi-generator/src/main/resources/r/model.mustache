@@ -20,11 +20,24 @@
     {{#vars}}
     `{{{baseName}}}` = NULL,
     {{/vars}}
+    {{#isEnum}}
+    `{{name}}` = NULL,
+    {{/isEnum}}
     initialize = function({{#requiredVars}}`{{baseName}}`{{#hasMore}}, {{/hasMore}}{{/requiredVars}}{{#optionalVars}}{{#-first}}{{#requiredVars.0}}, {{/requiredVars.0}}{{/-first}}`{{baseName}}`={{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}NULL{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalVars}}, ...){
       local.optional.var <- list(...)
         {{#isEnum}}
         {{#allowableValues}}
-        # WIP:  enumenv <- {{name}}_Enum()
+            val <- unlist(local.optional.var)
+            enumlist <- {{name}}_Enum()
+            if (is.null(val))
+                val <- names(enumlist)[[1L]]
+            else
+                stopifnot(length(val) == 1L)
+
+            if (!val %in% names(enumlist))
+                stop("Use one of the valid values: ",
+                    paste0(names(enumlist), collapse = ", "))
+            self$`{{name}}` <- val
         {{/allowableValues}}
         {{/isEnum}}
       {{#requiredVars}}
@@ -111,6 +124,10 @@
       {{/optionalVars}}
     },
     toJSON = function() {
+    {{#isEnum}}
+        jsonlite::toJSON(self$`{{name}}`)
+    {{/isEnum}}
+    {{^isEnum}}
       {{classname}}Object <- list()
       {{#vars}}
       if (!is.null(self$`{{baseName}}`)) {
@@ -145,8 +162,13 @@
       {{/vars}}
 
       {{classname}}Object
+      {{/isEnum}}
     },
     fromJSON = function({{classname}}Json) {
+      {{#isEnum}}
+        self$`{{name}}` <- jsonlite::fromJSON({{classname}}Json)
+      {{/isEnum}}
+      {{^isEnum}}
       {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
       {{#vars}}
       if (!is.null({{classname}}Object$`{{baseName}}`)) {
@@ -165,8 +187,13 @@
         {{/isContainer}}
       }
       {{/vars}}
+      {{/isEnum}}
     },
     toJSONString = function() {
+      {{#isEnum}}
+        as.character(jsonlite::toJSON(self$`{{name}}`))
+      {{/isEnum}}
+      {{^isEnum}}
       jsoncontent <- c(
       {{#vars}}
         if (!is.null(self$`{{baseName}}`)) {
@@ -226,8 +253,13 @@
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
       paste('{', jsoncontent, '}', sep = "")
+      {{/isEnum}}
     },
     fromJSONString = function({{classname}}Json) {
+      {{#isEnum}}
+        self$`{{name}}` <- jsonlite::fromJSON({{classname}}Json)
+      {{/isEnum}}
+      {{^isEnum}}
       {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
       {{#vars}}
       {{! AAPI - added condition for handling container type of parameters, map and array}}
@@ -243,6 +275,7 @@
       {{/isPrimitiveType}}
       {{/isContainer}}
       {{/vars}}
+      {{/isEnum}}
       self
     }
   )

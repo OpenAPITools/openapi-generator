@@ -2,7 +2,7 @@
 #' @export
 {{#allowableValues}}
 {{name}}_Enum <- function() {
-    res <- gsub("\\[|\\]|,", "",
+    res <- gsub("\\[|\\]", "",
         "{{values}}"
     )
     htmlEncoded <- any(grepl("[&;]", res))
@@ -18,11 +18,22 @@
         }
         res <- html2txt(res)
     }
-    res <- unlist(strsplit(res, " "))
-    res <- setNames(res, res)
-    res <- as.environment(as.list(res))
-    lockEnvironment(res, bindings = TRUE)
-    res
+
+    .names_table <- data.frame(
+        op = c("=", "!=", ">", "<", ">=", "<=", "in", "and", "or", "not"),
+        name = c("==", "!=", ">", "<", ">=", "<=", "%in%", "&", "|", "!"),
+        stringsAsFactors = FALSE
+    )
+
+    res <- unlist(strsplit(res, ", "))
+    if (all(res %in% .names_table[["op"]]))
+       res <- setNames(
+           .names_table[na.omit(match(res, .names_table[["op"]])), "name"],
+           res
+       )
+    else
+        res <- setNames(res, res)
+    as.list(res)
 }
 {{/allowableValues}}
 {{/isEnum}}
