@@ -8,6 +8,7 @@ import 'package:built_value/serializer.dart';
 import 'package:openapi/model/pet.dart';
 import 'package:openapi/model/api_response.dart';
 import 'dart:typed_data';
+import 'package:openapi/api_util.dart';
 
 class PetApi {
     final Dio _dio;
@@ -22,26 +23,24 @@ class PetApi {
 
             String path = "/pet";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [
-                "application/json",
-                "application/xml"];
+        List<String> contentTypes = ["application/json","application/xml"];
+
 
             var serializedBody = _serializers.serialize(body);
             var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
 
             return _dio.request(
             path,
             queryParameters: queryParams,
-                data: jsonbody,
+            data: bodyData,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
@@ -57,22 +56,22 @@ class PetApi {
 
             String path = "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
                 headerParams["api_key"] = apiKey;
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
             path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'delete'.toUpperCase(),
             headers: headerParams,
@@ -88,22 +87,22 @@ class PetApi {
 
             String path = "/pet/findByStatus";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
                 queryParams["status"] = status;
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
             path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
@@ -134,22 +133,22 @@ class PetApi {
 
             String path = "/pet/findByTags";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
                 queryParams["tags"] = tags;
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
             path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
@@ -180,21 +179,21 @@ class PetApi {
 
             String path = "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
             path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
@@ -224,26 +223,24 @@ class PetApi {
 
             String path = "/pet";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [
-                "application/json",
-                "application/xml"];
+        List<String> contentTypes = ["application/json","application/xml"];
+
 
             var serializedBody = _serializers.serialize(body);
             var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
 
             return _dio.request(
             path,
             queryParameters: queryParams,
-                data: jsonbody,
+            data: bodyData,
             options: Options(
             method: 'put'.toUpperCase(),
             headers: headerParams,
@@ -259,22 +256,23 @@ class PetApi {
 
             String path = "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [
-                "application/x-www-form-urlencoded"];
+        List<String> contentTypes = ["application/x-www-form-urlencoded"];
+
+        Map<String, dynamic> formData = {};
+        bodyData = FormData.fromMap(formData);
 
 
             return _dio.request(
             path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
@@ -290,22 +288,29 @@ class PetApi {
 
             String path = "/pet/{petId}/uploadImage".replaceAll("{" + "petId" + "}", petId.toString());
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [
-                "multipart/form-data"];
+        List<String> contentTypes = ["multipart/form-data"];
+
+        Map<String, dynamic> formData = {};
+                if (additionalMetadata != null) {
+                    formData['additionalMetadata'] = parameterToString(additionalMetadata);
+                }
+                if (file != null) {
+                    formData['file'] = MultipartFile.fromBytes(file, filename: "file");
+                }
+        bodyData = FormData.fromMap(formData);
 
 
             return _dio.request(
             path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
