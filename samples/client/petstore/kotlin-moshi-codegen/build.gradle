@@ -35,5 +35,5 @@ dependencies {
     compile "com.squareup.moshi:moshi:1.9.2"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:1.9.2"
     compile "com.squareup.okhttp3:okhttp:4.2.2"
-    testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.3"
+    testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.4"
 }
