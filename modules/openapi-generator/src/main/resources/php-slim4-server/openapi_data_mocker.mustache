@@ -367,6 +367,24 @@ final class OpenApiDataMocker implements IMocker
     }
 
     /**
+     * Mocks OpenApi Data from schema.
+     *
+     * @param array|object $schema OpenAPI schema
+     *
+     * @throws \InvalidArgumentException when invalid arguments passed
+     *
+     * @return mixed
+     */
+    public function mockFromSchema($schema)
+    {
+        $props = $this->extractSchemaProperties($schema);
+        if ($props['type'] === null) {
+            throw new InvalidArgumentException('"schema" must be object or assoc array with "type" property');
+        }
+        return $this->mock($props['type'], $props['format'], $props);
+    }
+
+    /**
      * @internal Extract OAS properties from array or object.
      * @codeCoverageIgnore
      *

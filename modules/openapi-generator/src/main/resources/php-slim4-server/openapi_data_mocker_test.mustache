@@ -38,6 +38,7 @@ use {{mockPackage}}\{{interfaceNamePrefix}}OpenApiDataMocker{{interfaceNameSuffi
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Constraint\IsType;
 use StdClass;
+use DateTime;
 
 /**
  * OpenApiDataMockerTest Class Doc Comment
@@ -519,7 +520,7 @@ class OpenApiDataMockerTest extends TestCase
             $subMaxItems = $items->maxItems ?? null;
             $subUniqueItems = $items->uniqueItems ?? null;
         }
-        
+
 
         foreach ($arr as $item) {
             switch ($dataType) {
@@ -767,6 +768,115 @@ class OpenApiDataMockerTest extends TestCase
             'required array of non-strings' => [
                 [], null, null, null, [1, 2, 3],
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMockFromSchemaCorrectArguments
+     * @covers ::mockFromSchema
+     */
+    public function testMockFromSchemaWithCorrectArguments($schema, $expectedType)
+    {
+        $mocker = new OpenApiDataMocker();
+        $data = $mocker->mockFromSchema($schema);
+        $this->assertInternalType($expectedType, $data);
+    }
+
+    public function provideMockFromSchemaCorrectArguments()
+    {
+        return [
+            'string from object' => [
+                (object) ['type' => IMocker::DATA_TYPE_STRING],
+                IsType::TYPE_STRING,
+            ],
+            'string from array' => [
+                ['type' => IMocker::DATA_TYPE_STRING],
+                IsType::TYPE_STRING,
+            ],
+            'integer from object' => [
+                (object) ['type' => IMocker::DATA_TYPE_INTEGER],
+                IsType::TYPE_INT,
+            ],
+            'integer from array' => [
+                ['type' => IMocker::DATA_TYPE_INTEGER],
+                IsType::TYPE_INT,
+            ],
+            'number from object' => [
+                (object) ['type' => IMocker::DATA_TYPE_NUMBER],
+                IsType::TYPE_FLOAT,
+            ],
+            'number from array' => [
+                ['type' => IMocker::DATA_TYPE_NUMBER],
+                IsType::TYPE_FLOAT,
+            ],
+            'string from object' => [
+                (object) ['type' => IMocker::DATA_TYPE_STRING],
+                IsType::TYPE_STRING,
+            ],
+            'string from array' => [
+                ['type' => IMocker::DATA_TYPE_STRING],
+                IsType::TYPE_STRING,
+            ],
+            'boolean from object' => [
+                (object) ['type' => IMocker::DATA_TYPE_BOOLEAN],
+                IsType::TYPE_BOOL,
+            ],
+            'boolean from array' => [
+                ['type' => IMocker::DATA_TYPE_BOOLEAN],
+                IsType::TYPE_BOOL,
+            ],
+            'array of strings from object' => [
+                (object) [
+                    'type' => IMocker::DATA_TYPE_ARRAY,
+                    'items' => ['type' => IMocker::DATA_TYPE_STRING],
+                ],
+                IsType::TYPE_ARRAY,
+            ],
+            'array of strings from array' => [
+                [
+                    'type' => IMocker::DATA_TYPE_ARRAY,
+                    'items' => ['type' => IMocker::DATA_TYPE_STRING],
+                ],
+                IsType::TYPE_ARRAY,
+            ],
+            'object with username prop from object' => [
+                (object) [
+                    'type' => IMocker::DATA_TYPE_OBJECT,
+                    'properties' => ['username' => ['type' => IMocker::DATA_TYPE_STRING]],
+                ],
+                IsType::TYPE_OBJECT,
+            ],
+            'object with username prop from array' => [
+                [
+                    'type' => IMocker::DATA_TYPE_OBJECT,
+                    'properties' => ['username' => ['type' => IMocker::DATA_TYPE_STRING]],
+                ],
+                IsType::TYPE_OBJECT,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMockFromSchemaInvalidArguments
+     * @expectedException \InvalidArgumentException
+     * @covers ::mockFromSchema
+     */
+    public function testMockFromSchemaWithInvalidArguments($schema)
+    {
+        $mocker = new OpenApiDataMocker();
+        $data = $mocker->mockFromSchema($schema);
+    }
+
+
+    public function provideMockFromSchemaInvalidArguments()
+    {
+        return [
+            'null' => [null],
+            'numeric' => [3.14],
+            'empty array' => [[]],
+            'empty object' => [(object) []],
+            'string' => ['foobar'],
+            'DateTime object' => [new DateTime()],
         ];
     }
 }
