@@ -104,7 +104,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         typeMapping.put("date-time", "DateTime");
         typeMapping.put("date", "DateTime");
 
-        instantiationTypes.put("array", "List");
+        instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "HashMap");
 
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
@@ -212,7 +212,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            String collectionType = typeMapping.get("array");
+            String collectionType = ModelUtils.isSet(ap) ? typeMapping.get("set") : typeMapping.get("array");
 
             // We assume that users would map these collections to a monoid with an identity function
             // There's no reason to assume mutable structure here (which may make consumption more difficult)

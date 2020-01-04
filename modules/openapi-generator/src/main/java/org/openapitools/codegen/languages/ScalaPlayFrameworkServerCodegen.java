@@ -69,7 +69,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         modelPackage = "model";
 
         instantiationTypes.put("map", "Map");
-        instantiationTypes.put("array", "List");
+        instantiationTypes.put("array", "ListBuffer");
 
         typeMapping.put("DateTime", "OffsetDateTime");
         typeMapping.put("Date", "LocalDate");
@@ -348,6 +348,9 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         if (ModelUtils.isArraySchema(p)) {
             Schema items = ((ArraySchema) p).getItems();
             String inner = getSchemaType(items);
+            if (ModelUtils.isSet(p)) {
+                return "Set.empty[" + inner + "]";
+            }
             return "List.empty[" + inner + "]";
         }
 

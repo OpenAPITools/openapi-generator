@@ -23,9 +23,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,6 +103,10 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 "with",
                 "yield"
         ));
+
+        importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
+        importMapping.put("Set", "scala.collection.immutable.Set");
+        instantiationTypes.put("set", "Set");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -187,9 +189,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            boolean isSet = ModelUtils.isSet(ap);
-            String arrayType = isSet ? typeMapping.get("set") : typeMapping.get("array");
-            return arrayType + "[" + getTypeDeclaration(inner) + "]";
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
 
@@ -201,6 +201,10 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
+        if (ModelUtils.isSet(p)) {
+            openAPIType = "set";
+        }
+
         String type = null;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
@@ -221,7 +225,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            return instantiationTypes.get("array") + "[" + inner + "]";
+            return ( ModelUtils.isSet(ap) ? instantiationTypes.get("set") : instantiationTypes.get("array") ) + "[" + inner + "]";
         } else {
             return null;
         }
@@ -230,9 +234,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     @Override
     public String toDefaultValue(Schema p) {
         if (p.getDefault() != null) {
-            if (ModelUtils.isArraySchema(p) && p.getDefault().toString().equals("[]")) {
-                 return ModelUtils.isSet((ArraySchema) p) ? "Set.empty " : "List.empty ";
-            }
             return p.getDefault().toString();
         }
 
@@ -252,12 +253,35 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             return "new HashMap[String, " + inner + "]() ";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
-            return ModelUtils.isSet(ap) ? "Set.empty " : "List.empty ";
+            String inner = getSchemaType(ap.getItems());
+            if (ModelUtils.isSet(ap)) {
+                return "Set[" + inner + "].empty ";
+            }
+            return "new ListBuffer[" + inner + "]() ";
         } else if (ModelUtils.isStringSchema(p)) {
             return null;
         } else {
             return null;
         }
+    }
+
+    /**
+     * Convert OAS Property object to Codegen Property object
+     *
+     * @param name name of the property
+     * @param p    OAS property object
+     * @return Codegen Property object
+     */
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p) {
+        CodegenProperty prop = super.fromProperty(name, p);
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema as = (ArraySchema) p;
+            if (ModelUtils.isSet(as)) {
+                prop.containerType = "set";
+            }
+        }
+        return prop;
     }
 
     @Override

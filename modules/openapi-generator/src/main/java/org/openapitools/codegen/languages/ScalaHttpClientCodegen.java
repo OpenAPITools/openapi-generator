@@ -132,7 +132,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
         typeMapping.put("date-time", "Date");
         typeMapping.put("DateTime", "Date");
 
-        instantiationTypes.put("array", "List");
+        instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "HashMap");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));

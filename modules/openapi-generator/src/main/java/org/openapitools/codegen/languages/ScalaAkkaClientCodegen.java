@@ -113,7 +113,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         typeMapping.put("binary", "File");
         typeMapping.put("number", "Double");
 
-        instantiationTypes.put("array", "List");
+        instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
 
         cliOptions.add(new CliOption("mainPackage", "Top-level package name, which defines 'apiPackage', 'modelPackage', 'invokerPackage'").defaultValue("org.openapitools.client"));
@@ -265,6 +265,9 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
+            if (ModelUtils.isSet(ap)) {
+                return "Set[" + inner + "].empty ";
+            }
             return "Seq[" + inner + "].empty ";
         } else if (ModelUtils.isStringSchema(p)) {
             return null;

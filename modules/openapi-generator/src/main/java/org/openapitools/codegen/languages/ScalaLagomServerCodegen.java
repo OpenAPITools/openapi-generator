@@ -99,7 +99,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
 
-        instantiationTypes.put("array", "List");
+        instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "HashMap");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING,

@@ -172,7 +172,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
         typeMapping.put("date-time", "Date");
         typeMapping.put("DateTime", "Date");
 
-        instantiationTypes.put("array", "List");
+        instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "HashMap");
 
         setReservedWordsLowerCase(
