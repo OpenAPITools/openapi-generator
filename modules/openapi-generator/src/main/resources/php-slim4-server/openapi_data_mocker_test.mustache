@@ -732,6 +732,9 @@ class OpenApiDataMockerTest extends TestCase
             'properties cannot be a string' => [
                 'foobar', 0, 10, false, null,
             ],
+            'property value cannot be a string' => [
+                ['username' => 'foobar'], 0, 10, false, null,
+            ],
             'minProperties is not integer' => [
                 [], 3.12, null, false, null,
             ],
