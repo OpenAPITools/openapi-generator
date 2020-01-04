@@ -105,7 +105,11 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         ));
 
         importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
+        // although Seq is a predef, before Scala 2.13, it _could_ refer to a mutable Seq in some cases.
+        importMapping.put("Seq", "scala.collection.immutable.Seq");
         importMapping.put("Set", "scala.collection.immutable.Set");
+        importMapping.put("ListSet", "scala.collection.immutable.ListSet");
+
         instantiationTypes.put("set", "Set");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
@@ -205,7 +209,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             openAPIType = "set";
         }
 
-        String type = null;
+        String type;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
@@ -254,10 +258,28 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
+            String genericType;
             if (ModelUtils.isSet(ap)) {
-                return "Set[" + inner + "].empty ";
+                genericType = instantiationTypes.get("set");
+            } else {
+                genericType = instantiationTypes.get("array");
             }
-            return "new ListBuffer[" + inner + "]() ";
+
+            // test for immutable Monoids with .empty method for idiomatic defaults
+            if ("List".equals(genericType) ||
+                "Set".equals(genericType) ||
+                "Seq".equals(genericType) ||
+                "Array".equals(genericType) ||
+                "Vector".equals(genericType) ||
+                "IndexedSeq".equals(genericType) ||
+                "Iterable".equals(genericType) ||
+                "ListSet".equals(genericType)
+            ) {
+                return genericType + "[" + inner + "].empty ";
+            }
+
+            // Assume that any other generic types can be new'd up.
+            return "new " + genericType + "[" + inner + "]() ";
         } else if (ModelUtils.isStringSchema(p)) {
             return null;
         } else {
