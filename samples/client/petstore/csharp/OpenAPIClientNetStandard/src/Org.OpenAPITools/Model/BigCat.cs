@@ -12,43 +12,73 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
-    /// Cat
+    /// BigCat
     /// </summary>
     [DataContract]
-    public partial class Cat : Animal,  IEquatable<Cat>, IValidatableObject
+    public partial class BigCat : Cat,  IEquatable<BigCat>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Cat" /> class.
+        /// Defines Kind
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum KindEnum
+        {
+            /// <summary>
+            /// Enum Lions for value: lions
+            /// </summary>
+            [EnumMember(Value = "lions")]
+            Lions = 1,
+
+            /// <summary>
+            /// Enum Tigers for value: tigers
+            /// </summary>
+            [EnumMember(Value = "tigers")]
+            Tigers = 2,
+
+            /// <summary>
+            /// Enum Leopards for value: leopards
+            /// </summary>
+            [EnumMember(Value = "leopards")]
+            Leopards = 3,
+
+            /// <summary>
+            /// Enum Jaguars for value: jaguars
+            /// </summary>
+            [EnumMember(Value = "jaguars")]
+            Jaguars = 4
+
+        }
+
+        /// <summary>
+        /// Gets or Sets Kind
+        /// </summary>
+        [DataMember(Name="kind", EmitDefaultValue=false)]
+        public KindEnum? Kind { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigCat" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Cat() { }
+        protected BigCat() { }
         /// <summary>
-        /// Initializes a new instance of the <see cref="Cat" /> class.
+        /// Initializes a new instance of the <see cref="BigCat" /> class.
         /// </summary>
-        /// <param name="declawed">declawed.</param>
-        public Cat(bool declawed = default(bool), string className = default(string), string color = "red") : base(className, color)
+        /// <param name="kind">kind.</param>
+        public BigCat(KindEnum? kind = default(KindEnum?), string className = default(string), string color = "red", bool declawed = default(bool)) : base(declawed)
         {
-            this.Declawed = declawed;
+            this.Kind = kind;
         }
         
-        /// <summary>
-        /// Gets or Sets Declawed
-        /// </summary>
-        [DataMember(Name="declawed", EmitDefaultValue=false)]
-        public bool Declawed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -57,9 +87,9 @@ namespace Org.OpenAPITools.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Cat {\n");
+            sb.Append("class BigCat {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  Declawed: ").Append(Declawed).Append("\n");
+            sb.Append("  Kind: ").Append(Kind).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -80,24 +110,24 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Cat);
+            return this.Equals(input as BigCat);
         }
 
         /// <summary>
-        /// Returns true if Cat instances are equal
+        /// Returns true if BigCat instances are equal
         /// </summary>
-        /// <param name="input">Instance of Cat to be compared</param>
+        /// <param name="input">Instance of BigCat to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Cat input)
+        public bool Equals(BigCat input)
         {
             if (input == null)
                 return false;
 
             return base.Equals(input) && 
                 (
-                    this.Declawed == input.Declawed ||
-                    (this.Declawed != null &&
-                    this.Declawed.Equals(input.Declawed))
+                    this.Kind == input.Kind ||
+                    (this.Kind != null &&
+                    this.Kind.Equals(input.Kind))
                 );
         }
 
@@ -110,31 +140,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                if (this.Declawed != null)
-                    hashCode = hashCode * 59 + this.Declawed.GetHashCode();
+                if (this.Kind != null)
+                    hashCode = hashCode * 59 + this.Kind.GetHashCode();
                 return hashCode;
             }
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
-        {
-            foreach(var x in base.BaseValidate(validationContext)) yield return x;
-            yield break;
         }
     }
 

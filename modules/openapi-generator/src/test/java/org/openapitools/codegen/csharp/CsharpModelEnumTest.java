@@ -16,6 +16,7 @@
  */
 
 package org.openapitools.codegen.csharp;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -30,7 +31,6 @@ import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CsharpModelEnumTest {
@@ -93,6 +93,25 @@ public class CsharpModelEnumTest {
         */
     }
 
+    @Test(description = "use custom suffixes for enums")
+    public void useCustomEnumSuffixes() {
+        final AspNetCoreServerCodegen codegen = new AspNetCoreServerCodegen();
+        codegen.setEnumNameSuffix("EnumName");
+        codegen.setEnumValueSuffix("EnumValue");
+
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        final Schema petSchema = openAPI.getComponents().getSchemas().get("Pet");
+        final CodegenModel cm = codegen.fromModel("Pet", petSchema);
+        final CodegenProperty statusProperty = cm.vars.get(5);
+        Assert.assertEquals(statusProperty.name, "Status");
+        Assert.assertTrue(statusProperty.isEnum);
+        Assert.assertEquals(statusProperty.datatypeWithEnum, "StatusEnumName");
+
+        Assert.assertEquals(codegen.toEnumVarName("Aaaa", ""), "AaaaEnumValue");
+    }
+
     @Test(description = "use default suffixes for enums")
     public void useDefaultEnumSuffixes() {
         final AspNetCoreServerCodegen codegen = new AspNetCoreServerCodegen();
@@ -110,11 +129,11 @@ public class CsharpModelEnumTest {
         Assert.assertEquals(codegen.toEnumVarName("Aaaa", ""), "AaaaEnum");
     }
 
-    @Test(description = "use custom suffixes for enums")
-    public void useCustomEnumSuffixes() {
+    @Test(description = "support empty suffixes for enums")
+    public void useEmptyEnumSuffixes() {
         final AspNetCoreServerCodegen codegen = new AspNetCoreServerCodegen();
-        codegen.setEnumNameSuffix("EnumName");
-        codegen.setEnumValueNameSuffix("EnumValue");
+        codegen.setEnumNameSuffix("");
+        codegen.setEnumValueSuffix("");
 
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
         codegen.setOpenAPI(openAPI);
@@ -124,8 +143,9 @@ public class CsharpModelEnumTest {
         final CodegenProperty statusProperty = cm.vars.get(5);
         Assert.assertEquals(statusProperty.name, "Status");
         Assert.assertTrue(statusProperty.isEnum);
-        Assert.assertEquals(statusProperty.datatypeWithEnum, "StatusEnumName");
+        Assert.assertEquals(statusProperty.datatypeWithEnum, "Status");
 
-        Assert.assertEquals(codegen.toEnumVarName("Aaaa", ""), "AaaaEnumValue");
+        Assert.assertEquals(codegen.toEnumVarName("Aaaa", ""), "Aaaa");
     }
+
 }

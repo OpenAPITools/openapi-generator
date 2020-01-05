@@ -63,7 +63,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected String interfacePrefix = "I";
     protected String enumNameSuffix = "Enum";
-    protected String enumValueNameSuffix = "Enum";
+    protected String enumValueSuffix = "Enum";
 
     protected String sourceFolder = "src";
 
@@ -367,8 +367,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             setEnumNameSuffix(additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString());
         }
 
-        if (additionalProperties().containsKey(CodegenConstants.ENUM_VALUE_NAME_SUFFIX)) {
-            setEnumValueNameSuffix(additionalProperties.get(CodegenConstants.ENUM_VALUE_NAME_SUFFIX).toString());
+        if (additionalProperties().containsKey(CodegenConstants.ENUM_VALUE_SUFFIX)) {
+            setEnumValueSuffix(additionalProperties.get(CodegenConstants.ENUM_VALUE_SUFFIX).toString());
         }
 
         // This either updates additionalProperties with the above fixes, or sets the default if the option was not specified.
@@ -1017,8 +1017,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.enumNameSuffix = enumNameSuffix;
     }
 
-    public void setEnumValueNameSuffix(final String enumValueNameSuffix) {
-        this.enumValueNameSuffix = enumValueNameSuffix;
+    public void setEnumValueSuffix(final String enumValueSuffix) {
+        this.enumValueSuffix = enumValueSuffix;
     }
 
     public boolean isSupportNullable() {
@@ -1058,7 +1058,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        enumName = camelize(enumName) + this.enumValueNameSuffix;
+        enumName = camelize(enumName) + this.enumValueSuffix;
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;

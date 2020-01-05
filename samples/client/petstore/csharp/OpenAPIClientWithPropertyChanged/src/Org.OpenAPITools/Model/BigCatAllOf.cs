@@ -19,7 +19,6 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using JsonSubTypes;
 using PropertyChanged;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -28,60 +27,58 @@ using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
-    /// Animal
+    /// BigCatAllOf
     /// </summary>
     [DataContract]
-    [JsonConverter(typeof(JsonSubtypes), "ClassName")]
-    [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
-    [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
-    [JsonSubtypes.KnownSubType(typeof(BigCat), "BigCat")]
     [ImplementPropertyChanged]
-    public partial class Animal :  IEquatable<Animal>, IValidatableObject
+    public partial class BigCatAllOf :  IEquatable<BigCatAllOf>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Animal" /> class.
+        /// Defines Kind
         /// </summary>
-        [JsonConstructorAttribute]
-        protected Animal() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Animal" /> class.
-        /// </summary>
-        /// <param name="className">className (required).</param>
-        /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Animal(string className = default(string), string color = "red")
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum KindEnum
         {
-            // to ensure "className" is required (not null)
-            if (className == null)
-            {
-                throw new InvalidDataException("className is a required property for Animal and cannot be null");
-            }
-            else
-            {
-                this.ClassName = className;
-            }
-            
-            // use default value if no "color" provided
-            if (color == null)
-            {
-                this.Color = "red";
-            }
-            else
-            {
-                this.Color = color;
-            }
+            /// <summary>
+            /// Enum Lions for value: lions
+            /// </summary>
+            [EnumMember(Value = "lions")]
+            Lions = 1,
+
+            /// <summary>
+            /// Enum Tigers for value: tigers
+            /// </summary>
+            [EnumMember(Value = "tigers")]
+            Tigers = 2,
+
+            /// <summary>
+            /// Enum Leopards for value: leopards
+            /// </summary>
+            [EnumMember(Value = "leopards")]
+            Leopards = 3,
+
+            /// <summary>
+            /// Enum Jaguars for value: jaguars
+            /// </summary>
+            [EnumMember(Value = "jaguars")]
+            Jaguars = 4
+
         }
-        
-        /// <summary>
-        /// Gets or Sets ClassName
-        /// </summary>
-        [DataMember(Name="className", EmitDefaultValue=true)]
-        public string ClassName { get; set; }
 
         /// <summary>
-        /// Gets or Sets Color
+        /// Gets or Sets Kind
         /// </summary>
-        [DataMember(Name="color", EmitDefaultValue=true)]
-        public string Color { get; set; }
+        [DataMember(Name="kind", EmitDefaultValue=true)]
+        public KindEnum? Kind { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigCatAllOf" /> class.
+        /// </summary>
+        /// <param name="kind">kind.</param>
+        public BigCatAllOf(KindEnum? kind = default(KindEnum?))
+        {
+            this.Kind = kind;
+        }
+        
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -90,9 +87,8 @@ namespace Org.OpenAPITools.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Animal {\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-            sb.Append("  Color: ").Append(Color).Append("\n");
+            sb.Append("class BigCatAllOf {\n");
+            sb.Append("  Kind: ").Append(Kind).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -113,29 +109,24 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Animal);
+            return this.Equals(input as BigCatAllOf);
         }
 
         /// <summary>
-        /// Returns true if Animal instances are equal
+        /// Returns true if BigCatAllOf instances are equal
         /// </summary>
-        /// <param name="input">Instance of Animal to be compared</param>
+        /// <param name="input">Instance of BigCatAllOf to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Animal input)
+        public bool Equals(BigCatAllOf input)
         {
             if (input == null)
                 return false;
 
             return 
                 (
-                    this.ClassName == input.ClassName ||
-                    (this.ClassName != null &&
-                    this.ClassName.Equals(input.ClassName))
-                ) && 
-                (
-                    this.Color == input.Color ||
-                    (this.Color != null &&
-                    this.Color.Equals(input.Color))
+                    this.Kind == input.Kind ||
+                    (this.Kind != null &&
+                    this.Kind.Equals(input.Kind))
                 );
         }
 
@@ -148,10 +139,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ClassName != null)
-                    hashCode = hashCode * 59 + this.ClassName.GetHashCode();
-                if (this.Color != null)
-                    hashCode = hashCode * 59 + this.Color.GetHashCode();
+                if (this.Kind != null)
+                    hashCode = hashCode * 59 + this.Kind.GetHashCode();
                 return hashCode;
             }
         }
@@ -182,16 +171,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }

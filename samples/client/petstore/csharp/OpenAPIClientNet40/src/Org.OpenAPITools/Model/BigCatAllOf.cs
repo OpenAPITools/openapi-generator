@@ -25,30 +25,57 @@ using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
-    /// Cat
+    /// BigCatAllOf
     /// </summary>
     [DataContract]
-    public partial class Cat : Animal,  IEquatable<Cat>, IValidatableObject
+    public partial class BigCatAllOf :  IEquatable<BigCatAllOf>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Cat" /> class.
+        /// Defines Kind
         /// </summary>
-        [JsonConstructorAttribute]
-        protected Cat() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Cat" /> class.
-        /// </summary>
-        /// <param name="declawed">declawed.</param>
-        public Cat(bool declawed = default(bool), string className = default(string), string color = "red") : base(className, color)
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum KindEnum
         {
-            this.Declawed = declawed;
+            /// <summary>
+            /// Enum Lions for value: lions
+            /// </summary>
+            [EnumMember(Value = "lions")]
+            Lions = 1,
+
+            /// <summary>
+            /// Enum Tigers for value: tigers
+            /// </summary>
+            [EnumMember(Value = "tigers")]
+            Tigers = 2,
+
+            /// <summary>
+            /// Enum Leopards for value: leopards
+            /// </summary>
+            [EnumMember(Value = "leopards")]
+            Leopards = 3,
+
+            /// <summary>
+            /// Enum Jaguars for value: jaguars
+            /// </summary>
+            [EnumMember(Value = "jaguars")]
+            Jaguars = 4
+
+        }
+
+        /// <summary>
+        /// Gets or Sets Kind
+        /// </summary>
+        [DataMember(Name="kind", EmitDefaultValue=false)]
+        public KindEnum? Kind { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BigCatAllOf" /> class.
+        /// </summary>
+        /// <param name="kind">kind.</param>
+        public BigCatAllOf(KindEnum? kind = default(KindEnum?))
+        {
+            this.Kind = kind;
         }
         
-        /// <summary>
-        /// Gets or Sets Declawed
-        /// </summary>
-        [DataMember(Name="declawed", EmitDefaultValue=false)]
-        public bool Declawed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -57,9 +84,8 @@ namespace Org.OpenAPITools.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Cat {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  Declawed: ").Append(Declawed).Append("\n");
+            sb.Append("class BigCatAllOf {\n");
+            sb.Append("  Kind: ").Append(Kind).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -68,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public override string ToJson()
+        public virtual string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -80,24 +106,24 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Cat);
+            return this.Equals(input as BigCatAllOf);
         }
 
         /// <summary>
-        /// Returns true if Cat instances are equal
+        /// Returns true if BigCatAllOf instances are equal
         /// </summary>
-        /// <param name="input">Instance of Cat to be compared</param>
+        /// <param name="input">Instance of BigCatAllOf to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Cat input)
+        public bool Equals(BigCatAllOf input)
         {
             if (input == null)
                 return false;
 
-            return base.Equals(input) && 
+            return 
                 (
-                    this.Declawed == input.Declawed ||
-                    (this.Declawed != null &&
-                    this.Declawed.Equals(input.Declawed))
+                    this.Kind == input.Kind ||
+                    (this.Kind != null &&
+                    this.Kind.Equals(input.Kind))
                 );
         }
 
@@ -109,9 +135,9 @@ namespace Org.OpenAPITools.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = base.GetHashCode();
-                if (this.Declawed != null)
-                    hashCode = hashCode * 59 + this.Declawed.GetHashCode();
+                int hashCode = 41;
+                if (this.Kind != null)
+                    hashCode = hashCode * 59 + this.Kind.GetHashCode();
                 return hashCode;
             }
         }
@@ -123,17 +149,6 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
-        {
-            foreach(var x in base.BaseValidate(validationContext)) yield return x;
             yield break;
         }
     }

@@ -214,9 +214,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.ENUM_NAME_SUFFIX_DESC,
                 enumNameSuffix);
 
-        addOption(CodegenConstants.ENUM_VALUE_NAME_SUFFIX,
-                CodegenConstants.ENUM_VALUE_NAME_SUFFIX_DESC,
-                enumValueNameSuffix);
+        addOption(CodegenConstants.ENUM_VALUE_SUFFIX,
+                "Suffix that will be appended to all enum values.",
+                enumValueSuffix);
 
         classModifier.addEnum("", "Keep class default with no modifier");
         classModifier.addEnum("abstract", "Make class abstract");
