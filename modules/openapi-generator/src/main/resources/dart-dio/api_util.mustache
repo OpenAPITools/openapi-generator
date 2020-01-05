@@ -1,18 +1,14 @@
+import 'dart:convert';
+
+import 'package:built_value/serializer.dart';
+
 /// Format the given parameter object into string.
-String parameterToString(dynamic value) {
-  if (value == null) {
-    return '';
-  } else if (value is DateTime) {
-    return value.toUtc().toIso8601String();
-  {{#models}}
-    {{#model}}
-      {{#isEnum}}
-  } else if (value is {{classname}}) {
-    return {{classname}}TypeTransformer().encode(value).toString();
-      {{/isEnum}}
-    {{/model}}
-  {{/models}}
-  } else {
-    return value.toString();
-  }
+String parameterToString(Serializers serializers, dynamic value) {
+	if (value == null) {
+		return '';
+	} else if (value is String || value is num) {
+		return value.toString();
+	} else {
+		return json.encode(serializers.serialize(value));
+	}
 }

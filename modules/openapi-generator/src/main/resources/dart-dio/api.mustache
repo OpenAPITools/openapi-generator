@@ -23,7 +23,7 @@ class {{classname}} {
         /// {{notes}}
         Future<Response{{#returnType}}<{{{returnType}}}>{{/returnType}}>{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "{{{path}}}"{{#pathParams}}.replaceAll("{" + "{{baseName}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
+        String path = "{{{path}}}"{{#pathParams}}.replaceAll("{" + "{{baseName}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -46,7 +46,7 @@ class {{classname}} {
         {{#isMultipart}}
             {{^isFile}}
                 if ({{paramName}} != null) {
-                    formData['{{baseName}}'] = parameterToString({{paramName}});
+                    formData['{{baseName}}'] = parameterToString(_serializers, {{paramName}});
                 }
             {{/isFile}}
             {{#isFile}}
