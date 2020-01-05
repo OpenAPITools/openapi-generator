@@ -69,7 +69,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         modelPackage = "model";
 
         instantiationTypes.put("map", "Map");
-        instantiationTypes.put("array", "ListBuffer");
+        instantiationTypes.put("array", "List");
 
         typeMapping.put("DateTime", "OffsetDateTime");
         typeMapping.put("Date", "LocalDate");
