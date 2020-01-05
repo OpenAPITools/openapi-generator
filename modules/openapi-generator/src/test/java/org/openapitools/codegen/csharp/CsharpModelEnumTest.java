@@ -16,15 +16,21 @@
  */
 
 package org.openapitools.codegen.csharp;
-
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.languages.AspNetCoreServerCodegen;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CsharpModelEnumTest {
@@ -85,5 +91,41 @@ public class CsharpModelEnumTest {
         Assert.assertEquals(enumVar.datatypeWithEnum, "UnsharedThingEnum");
         Assert.assertTrue(enumVar.isEnum);
         */
+    }
+
+    @Test(description = "use default suffixes for enums")
+    public void useDefaultEnumSuffixes() {
+        final AspNetCoreServerCodegen codegen = new AspNetCoreServerCodegen();
+
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        final Schema petSchema = openAPI.getComponents().getSchemas().get("Pet");
+        final CodegenModel cm = codegen.fromModel("Pet", petSchema);
+        final CodegenProperty statusProperty = cm.vars.get(5);
+        Assert.assertEquals(statusProperty.name, "Status");
+        Assert.assertTrue(statusProperty.isEnum);
+        Assert.assertEquals(statusProperty.datatypeWithEnum, "StatusEnum");
+
+        Assert.assertEquals(codegen.toEnumVarName("Aaaa", ""), "AaaaEnum");
+    }
+
+    @Test(description = "use custom suffixes for enums")
+    public void useCustomEnumSuffixes() {
+        final AspNetCoreServerCodegen codegen = new AspNetCoreServerCodegen();
+        codegen.setEnumNameSuffix("EnumName");
+        codegen.setEnumValueNameSuffix("EnumValue");
+
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        final Schema petSchema = openAPI.getComponents().getSchemas().get("Pet");
+        final CodegenModel cm = codegen.fromModel("Pet", petSchema);
+        final CodegenProperty statusProperty = cm.vars.get(5);
+        Assert.assertEquals(statusProperty.name, "Status");
+        Assert.assertTrue(statusProperty.isEnum);
+        Assert.assertEquals(statusProperty.datatypeWithEnum, "StatusEnumName");
+
+        Assert.assertEquals(codegen.toEnumVarName("Aaaa", ""), "AaaaEnumValue");
     }
 }
