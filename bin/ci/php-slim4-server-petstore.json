@@ -1,0 +1,6 @@
+{
+  "generatorName": "php-slim4",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/server/petstore/php-slim4",
+  "templateDir": "modules/openapi-generator/src/main/resources/php-slim4-server"
+}

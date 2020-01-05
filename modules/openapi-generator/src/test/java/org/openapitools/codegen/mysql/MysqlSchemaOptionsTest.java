@@ -45,6 +45,8 @@ public class MysqlSchemaOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setJsonDataTypeEnabled(Boolean.valueOf(MysqlSchemaOptionsProvider.JSON_DATA_TYPE_ENABLED_VALUE));
             times = 1;
+            clientCodegen.setIdentifierNamingConvention(MysqlSchemaOptionsProvider.IDENTIFIER_NAMING_CONVENTION_VALUE);
+            times = 1;
         }};
     }
 }

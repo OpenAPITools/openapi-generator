@@ -160,6 +160,8 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [OpenApiPetstore.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [OpenApiPetstore.ArrayTest](docs/ArrayTest.md)
+ - [OpenApiPetstore.BigCat](docs/BigCat.md)
+ - [OpenApiPetstore.BigCatAllOf](docs/BigCatAllOf.md)
  - [OpenApiPetstore.Capitalization](docs/Capitalization.md)
  - [OpenApiPetstore.Cat](docs/Cat.md)
  - [OpenApiPetstore.CatAllOf](docs/CatAllOf.md)

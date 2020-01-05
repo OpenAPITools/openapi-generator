@@ -1422,6 +1422,10 @@ components:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Cat_allOf'
+    BigCat:
+      allOf:
+      - $ref: '#/components/schemas/Cat'
+      - $ref: '#/components/schemas/BigCat_allOf'
     Animal:
       discriminator:
         propertyName: className
@@ -2086,6 +2090,15 @@ components:
       properties:
         declawed:
           type: boolean
+    BigCat_allOf:
+      properties:
+        kind:
+          enum:
+          - lions
+          - tigers
+          - leopards
+          - jaguars
+          type: string
   securitySchemes:
     petstore_auth:
       flows:

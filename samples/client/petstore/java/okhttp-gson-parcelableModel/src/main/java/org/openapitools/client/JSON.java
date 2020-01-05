@@ -58,6 +58,7 @@ public class JSON {
                         Map classByDiscriminatorValue = new HashMap();
                         classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
                         classByDiscriminatorValue.put("Cat".toUpperCase(Locale.ROOT), Cat.class);
+                        classByDiscriminatorValue.put("BigCat".toUpperCase(Locale.ROOT), BigCat.class);
                         classByDiscriminatorValue.put("Animal".toUpperCase(Locale.ROOT), Animal.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));

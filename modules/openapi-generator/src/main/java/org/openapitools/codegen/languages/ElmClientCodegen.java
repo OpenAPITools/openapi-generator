@@ -370,6 +370,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 });
             }
         }
+        setCircularReferences(allModels);
         for (Map.Entry<String, Object> entry : objs.entrySet()) {
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
             List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
@@ -396,7 +397,13 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                         elmImports.add(elmImport);
                     }
                 }
-                if (cm.discriminator != null) {
+                if (cm.oneOf != null) {
+                    for (String variant : cm.oneOf) {
+                        final ElmImport elmImport = createImport(variant);
+                        elmImports.add(elmImport);
+                    }
+                }
+                if (cm.discriminator != null && cm.children != null) {
                     for (CodegenModel child : cm.children) {
                         // add child imports
                         final ElmImport elmImport = createImport(child.classname);

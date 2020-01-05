@@ -25,10 +25,9 @@ class {{classname}} {
 
             String path = "{{{path}}}"{{#pathParams}}.replaceAll("{" + "{{baseName}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
         {{#headerParams}}
                 headerParams["{{baseName}}"] = {{paramName}};
@@ -36,12 +35,29 @@ class {{classname}} {
         {{#queryParams}}
                 queryParams["{{baseName}}"] = {{paramName}};
         {{/queryParams}}
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [{{#consumes}}
-                "{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}];
+        List<String> contentTypes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}];
+
+        {{#hasFormParams}}
+        Map<String, dynamic> formData = {};
+        {{#formParams}}
+        {{#isMultipart}}
+            {{^isFile}}
+                if ({{paramName}} != null) {
+                    formData['{{baseName}}'] = parameterToString({{paramName}});
+                }
+            {{/isFile}}
+            {{#isFile}}
+                if ({{paramName}} != null) {
+                    formData['{{baseName}}'] = MultipartFile.fromBytes({{paramName}}, filename: "{{baseName}}");
+                }
+            {{/isFile}}
+        {{/isMultipart}}
+        {{/formParams}}
+        bodyData = FormData.fromMap(formData);
+        {{/hasFormParams}}
 
         {{#bodyParam}}
             {{#isListContainer}}
@@ -52,14 +68,13 @@ class {{classname}} {
             var serializedBody = _serializers.serialize({{paramName}});
             {{/isListContainer}}
             var json{{paramName}} = json.encode(serializedBody);
+            bodyData = json{{paramName}};
         {{/bodyParam}}
 
             return _dio.request(
             path,
             queryParameters: queryParams,
-        {{#bodyParam}}
-                data: json{{paramName}},
-        {{/bodyParam}}
+            data: bodyData,
             options: Options(
             method: '{{httpMethod}}'.toUpperCase(),
             headers: headerParams,

@@ -129,6 +129,8 @@ Class | Method | HTTP request | Description
  - [Petstore::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [Petstore::ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [Petstore::ArrayTest](docs/ArrayTest.md)
+ - [Petstore::BigCat](docs/BigCat.md)
+ - [Petstore::BigCatAllOf](docs/BigCatAllOf.md)
  - [Petstore::Capitalization](docs/Capitalization.md)
  - [Petstore::Cat](docs/Cat.md)
  - [Petstore::CatAllOf](docs/CatAllOf.md)

@@ -245,6 +245,8 @@ use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayTest;
+use WWW::OpenAPIClient::Object::BigCat;
+use WWW::OpenAPIClient::Object::BigCatAllOf;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
 use WWW::OpenAPIClient::Object::CatAllOf;
@@ -310,6 +312,8 @@ use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayTest;
+use WWW::OpenAPIClient::Object::BigCat;
+use WWW::OpenAPIClient::Object::BigCatAllOf;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
 use WWW::OpenAPIClient::Object::CatAllOf;
@@ -422,6 +426,8 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [WWW::OpenAPIClient::Object::ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [WWW::OpenAPIClient::Object::ArrayTest](docs/ArrayTest.md)
+ - [WWW::OpenAPIClient::Object::BigCat](docs/BigCat.md)
+ - [WWW::OpenAPIClient::Object::BigCatAllOf](docs/BigCatAllOf.md)
  - [WWW::OpenAPIClient::Object::Capitalization](docs/Capitalization.md)
  - [WWW::OpenAPIClient::Object::Cat](docs/Cat.md)
  - [WWW::OpenAPIClient::Object::CatAllOf](docs/CatAllOf.md)

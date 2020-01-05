@@ -1,11 +1,11 @@
 #include "UserApiTests.h"
 
+#include <QDebug>
 #include <QTest>
 #include <QTimer>
-#include <QDebug>
 
-OAIUser UserApiTests::createRandomUser() {
-    OAIUser user;
+PFXUser UserApiTests::createRandomUser() {
+    PFXUser user;
     user.setId(QDateTime::currentMSecsSinceEpoch());
     user.setEmail("Jane.Doe@openapitools.io");
     user.setFirstName("Jane");
@@ -17,15 +17,14 @@ OAIUser UserApiTests::createRandomUser() {
     return user;
 }
 
-void UserApiTests::createUserTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+void UserApiTests::createUserTest() {
+    PFXUserApi api;
     QEventLoop loop;
     bool userCreated = false;
 
-    connect(&api, &OAIUserApi::createUserSignal, [&](){
-            userCreated = true;
-            loop.quit();
+    connect(&api, &PFXUserApi::createUserSignal, [&]() {
+        userCreated = true;
+        loop.quit();
     });
 
     api.createUser(createRandomUser());
@@ -34,18 +33,17 @@ void UserApiTests::createUserTest(){
     QVERIFY2(userCreated, "didn't finish within timeout");
 }
 
-void UserApiTests::createUsersWithArrayInputTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+void UserApiTests::createUsersWithArrayInputTest() {
+    PFXUserApi api;
     QEventLoop loop;
     bool usersCreated = false;
 
-    connect(&api, &OAIUserApi::createUsersWithArrayInputSignal, [&](){
-            usersCreated = true;
-            loop.quit();
+    connect(&api, &PFXUserApi::createUsersWithArrayInputSignal, [&]() {
+        usersCreated = true;
+        loop.quit();
     });
 
-    QList<OAIUser> users;
+    QList<PFXUser> users;
     users.append(createRandomUser());
     users.append(createRandomUser());
     users.append(createRandomUser());
@@ -55,18 +53,17 @@ void UserApiTests::createUsersWithArrayInputTest(){
     QVERIFY2(usersCreated, "didn't finish within timeout");
 }
 
-void UserApiTests::createUsersWithListInputTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+void UserApiTests::createUsersWithListInputTest() {
+    PFXUserApi api;
     QEventLoop loop;
     bool usersCreated = false;
 
-    connect(&api, &OAIUserApi::createUsersWithListInputSignal, [&](){
-            usersCreated = true;
-            loop.quit();
+    connect(&api, &PFXUserApi::createUsersWithListInputSignal, [&]() {
+        usersCreated = true;
+        loop.quit();
     });
 
-    QList<OAIUser> users;
+    QList<PFXUser> users;
     auto johndoe = createRandomUser();
     johndoe.setUsername("johndoe");
     auto rambo = createRandomUser();
@@ -80,15 +77,14 @@ void UserApiTests::createUsersWithListInputTest(){
     QVERIFY2(usersCreated, "didn't finish within timeout");
 }
 
-void UserApiTests::deleteUserTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+void UserApiTests::deleteUserTest() {
+    PFXUserApi api;
     QEventLoop loop;
     bool userDeleted = false;
 
-    connect(&api, &OAIUserApi::deleteUserSignal, [&](){
-            userDeleted = true;
-            loop.quit();
+    connect(&api, &PFXUserApi::deleteUserSignal, [&]() {
+        userDeleted = true;
+        loop.quit();
     });
 
     api.deleteUser("rambo");
@@ -97,13 +93,12 @@ void UserApiTests::deleteUserTest(){
     QVERIFY2(userDeleted, "didn't finish within timeout");
 }
 
-void UserApiTests::getUserByNameTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+void UserApiTests::getUserByNameTest() {
+    PFXUserApi api;
     QEventLoop loop;
     bool userFetched = false;
 
-    connect(&api, &OAIUserApi::getUserByNameSignal, [&](OAIUser summary) {
+    connect(&api, &PFXUserApi::getUserByNameSignal, [&](PFXUser summary) {
         userFetched = true;
         qDebug() << summary.getUsername();
         QVERIFY(summary.getUsername() == "johndoe");
@@ -116,13 +111,12 @@ void UserApiTests::getUserByNameTest(){
     QVERIFY2(userFetched, "didn't finish within timeout");
 }
 
-void UserApiTests::loginUserTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+void UserApiTests::loginUserTest() {
+    PFXUserApi api;
     QEventLoop loop;
     bool userLogged = false;
 
-    connect(&api, &OAIUserApi::loginUserSignal, [&](QString summary) {
+    connect(&api, &PFXUserApi::loginUserSignal, [&](QString summary) {
         userLogged = true;
         qDebug() << summary;
         loop.quit();
@@ -134,13 +128,12 @@ void UserApiTests::loginUserTest(){
     QVERIFY2(userLogged, "didn't finish within timeout");
 }
 
-void UserApiTests::logoutUserTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+void UserApiTests::logoutUserTest() {
+    PFXUserApi api;
     QEventLoop loop;
     bool userLoggedOut = false;
 
-    connect(&api, &OAIUserApi::logoutUserSignal, [&](){
+    connect(&api, &PFXUserApi::logoutUserSignal, [&]() {
         userLoggedOut = true;
         loop.quit();
     });
@@ -151,15 +144,14 @@ void UserApiTests::logoutUserTest(){
     QVERIFY2(userLoggedOut, "didn't finish within timeout");
 }
 
-void UserApiTests::updateUserTest(){
-    OAIUserApi api;
-    api.setHost(PetStoreHost);
+void UserApiTests::updateUserTest() {
+    PFXUserApi api;
     QEventLoop loop;
     bool userUpdated = false;
 
-    connect(&api, &OAIUserApi::updateUserSignal, [&]() {
-            userUpdated = true;
-            loop.quit();
+    connect(&api, &PFXUserApi::updateUserSignal, [&]() {
+        userUpdated = true;
+        loop.quit();
     });
 
     auto johndoe = createRandomUser();

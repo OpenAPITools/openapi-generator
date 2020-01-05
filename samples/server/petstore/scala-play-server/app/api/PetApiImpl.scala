@@ -7,7 +7,7 @@ import play.api.libs.Files.TemporaryFile
 /**
   * Provides a default implementation for [[PetApi]].
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-03-26T16:21:58.590+08:00[Asia/Hong_Kong]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2020-01-04T23:10:22.106-05:00[America/New_York]")
 class PetApiImpl extends PetApi {
   /**
     * @inheritdoc

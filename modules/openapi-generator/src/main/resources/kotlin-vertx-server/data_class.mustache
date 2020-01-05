@@ -36,7 +36,7 @@ data class {{classname}} (
     }
 {{/isEnum}}{{/vars}}{{/hasEnums}}
     {{#requiredVars}}
-        var {{{name}}} get() = _{{{name}}} ?: throw IllegalArgumentException("{{{name}}} is required")
-                    set(value){ _{{{name}}} = value }
+        {{>modelMutable}} {{{name}}} get() = _{{{name}}} ?: throw IllegalArgumentException("{{{name}}} is required")
+                    {{#modelMutable}}set(value){ _{{{name}}} = value }{{/modelMutable}}
     {{/requiredVars}}
 }

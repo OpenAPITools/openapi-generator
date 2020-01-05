@@ -1,4 +1,4 @@
-# SpecialModelName
+# special_model_name.SpecialModelName
 
 ## Properties
 Name | Type | Description | Notes

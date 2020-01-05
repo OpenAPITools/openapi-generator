@@ -62,9 +62,9 @@ public class StoreApi {
         }
         
         // create path and map variables
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();
-        uriVariables.put("order_id", orderId);
-        String path = UriComponentsBuilder.fromPath("/store/order/{order_id}").buildAndExpand(uriVariables).toUriString();
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        pathParams.put("order_id", orderId);
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -79,7 +79,7 @@ public class StoreApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI(path, HttpMethod.DELETE, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * Returns pet inventories by status
@@ -91,7 +91,9 @@ public class StoreApi {
     public Mono<Map<String, Integer>> getInventory() throws RestClientException {
         Object postBody = null;
         
-        String path = UriComponentsBuilder.fromPath("/store/inventory").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -108,7 +110,7 @@ public class StoreApi {
         String[] authNames = new String[] { "api_key" };
 
         ParameterizedTypeReference<Map<String, Integer>> returnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
-        return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/store/inventory", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * Find purchase order by ID
@@ -129,9 +131,9 @@ public class StoreApi {
         }
         
         // create path and map variables
-        final Map<String, Object> uriVariables = new HashMap<String, Object>();
-        uriVariables.put("order_id", orderId);
-        String path = UriComponentsBuilder.fromPath("/store/order/{order_id}").buildAndExpand(uriVariables).toUriString();
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        pathParams.put("order_id", orderId);
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -148,7 +150,7 @@ public class StoreApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Order> returnType = new ParameterizedTypeReference<Order>() {};
-        return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * Place an order for a pet
@@ -167,7 +169,9 @@ public class StoreApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling placeOrder");
         }
         
-        String path = UriComponentsBuilder.fromPath("/store/order").build().toUriString();
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -184,6 +188,6 @@ public class StoreApi {
         String[] authNames = new String[] {  };
 
         ParameterizedTypeReference<Order> returnType = new ParameterizedTypeReference<Order>() {};
-        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        return apiClient.invokeAPI("/store/order", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
 }

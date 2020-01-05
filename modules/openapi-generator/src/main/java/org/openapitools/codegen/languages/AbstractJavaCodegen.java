@@ -55,6 +55,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String SUPPORT_JAVA6 = "supportJava6";
     public static final String DISABLE_HTML_ESCAPING = "disableHtmlEscaping";
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
+    public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
 
     protected String dateLibrary = "threetenbp";
     protected boolean supportAsync = false;
@@ -92,6 +93,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String parentArtifactId = "";
     protected String parentVersion = "";
     protected boolean parentOverridden = false;
+    protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
 
     public AbstractJavaCodegen() {
         super();
@@ -206,6 +208,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         cliOptions.add(CliOption.newBoolean(DISABLE_HTML_ESCAPING, "Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)", disableHtmlEscaping));
         cliOptions.add(CliOption.newString(BOOLEAN_GETTER_PREFIX, "Set booleanGetterPrefix").defaultValue(this.getBooleanGetterPrefix()));
+        cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations)"));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -242,6 +245,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setBooleanGetterPrefix(additionalProperties.get(BOOLEAN_GETTER_PREFIX).toString());
         }
         additionalProperties.put(BOOLEAN_GETTER_PREFIX, booleanGetterPrefix);
+
+        if (additionalProperties.containsKey(ADDITIONAL_MODEL_TYPE_ANNOTATIONS)) {
+            String additionalAnnotationsList = additionalProperties.get(ADDITIONAL_MODEL_TYPE_ANNOTATIONS).toString();
+
+            this.setAdditionalModelTypeAnnotations(Arrays.asList(additionalAnnotationsList.split(";")));
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -510,6 +519,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        objs = super.updateAllModels(objs);
+
+        if (!additionalModelTypeAnnotations.isEmpty()) {
+            for (String modelName : objs.keySet()) {
+                Map<String, Object> models = (Map<String, Object>) objs.get(modelName);
+                models.put(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, additionalModelTypeAnnotations);
+            }
+        }
+
+        return objs;
+    }
+
     private void sanitizeConfig() {
         // Sanitize any config options here. We also have to update the additionalProperties because
         // the whole additionalProperties object is injected into the main object passed to the mustache layer
@@ -711,7 +734,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             Schema<?> items = getSchemaItems((ArraySchema) p);
-            return getSchemaType(p) + "<" + getTypeDeclaration(items) + ">";
+            return getSchemaType(p) + "<" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             if (inner == null) {
@@ -719,7 +742,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 inner = new StringSchema().description("TODO default missing map inner type to string");
                 p.setAdditionalProperties(inner);
             }
-            return getSchemaType(p) + "<String, " + getTypeDeclaration(inner) + ">";
+            return getSchemaType(p) + "<String, " + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + ">";
         }
         return super.getTypeDeclaration(p);
     }
@@ -1062,23 +1085,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+        // TODO: Setting additionalProperties is not the responsibility of this method. These side-effects should be moved elsewhere to prevent unexpected behaviors.
         if(artifactVersion == null) {
             // If no artifactVersion is provided in additional properties, version from API specification is used.
             // If none of them is provided then fallbacks to default version
-            if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
+            if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION) && additionalProperties.get(CodegenConstants.ARTIFACT_VERSION) != null) {
                 this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
             } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
                 this.setArtifactVersion(openAPI.getInfo().getVersion());
             } else {
                 this.setArtifactVersion(ARTIFACT_VERSION_DEFAULT_VALUE);
             }
-        } else {
-            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         }
+        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
-            Boolean useSnapshotVersion = Boolean.valueOf((String) additionalProperties.get(CodegenConstants.SNAPSHOT_VERSION));
-            if (useSnapshotVersion) {
+            if (convertPropertyToBooleanAndWriteBack(CodegenConstants.SNAPSHOT_VERSION)) {
                 this.setArtifactVersion(this.buildSnapshotVersion(this.getArtifactVersion()));
             }
         }
@@ -1568,6 +1590,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setParentOverridden(final boolean parentOverridden) {
         this.parentOverridden = parentOverridden;
+    }
+
+    public void setAdditionalModelTypeAnnotations(final List<String> additionalModelTypeAnnotations) {
+        this.additionalModelTypeAnnotations = additionalModelTypeAnnotations;
     }
 
     @Override

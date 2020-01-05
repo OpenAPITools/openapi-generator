@@ -39,8 +39,12 @@ func (a *DefaultApiService) FooGet(ctx _context.Context) (InlineResponseDefault,
 		localVarReturnValue  InlineResponseDefault
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/foo"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "DefaultApiService.FooGet")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/foo"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

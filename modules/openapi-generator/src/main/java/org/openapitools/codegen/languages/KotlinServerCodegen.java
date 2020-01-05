@@ -169,7 +169,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         super.processOpts();
 
         if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
-                this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
+            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
 
         // set default library to "ktor"
@@ -209,7 +209,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(Constants.COMPRESSION, getCompressionFeatureEnabled());
         }
 
-        boolean generateApis = additionalProperties.containsKey(CodegenConstants.GENERATE_APIS) && (Boolean)additionalProperties.get(CodegenConstants.GENERATE_APIS);
+        boolean generateApis = additionalProperties.containsKey(CodegenConstants.GENERATE_APIS) && (Boolean) additionalProperties.get(CodegenConstants.GENERATE_APIS);
         String packageFolder = (sourceFolder + File.separator + packageName).replace(".", File.separator);
         String resourcesFolder = "src/main/resources"; // not sure this can be user configurable.
 

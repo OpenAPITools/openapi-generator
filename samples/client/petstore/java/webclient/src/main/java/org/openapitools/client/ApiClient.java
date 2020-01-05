@@ -74,7 +74,7 @@ public class ApiClient {
             this.separator = separator;
         }
 
-        private String collectionToString(Collection<? extends CharSequence> collection) {
+        private String collectionToString(Collection<?> collection) {
             return StringUtils.collectionToDelimitedString(collection, separator);
         }
     }
@@ -493,7 +493,7 @@ public class ApiClient {
             formParams
                     .toSingleValueMap()
                     .entrySet()
-                    .forEach(es -> map.add(es.getKey(), (String) es.getValue()));
+                    .forEach(es -> map.add(es.getKey(), String.valueOf(es.getValue())));
 
             return BodyInserters.fromFormData(map);
         } else if(MediaType.MULTIPART_FORM_DATA.equals(contentType)) {
@@ -509,6 +509,7 @@ public class ApiClient {
      * @param <T> the return type to use
      * @param path The sub-path of the HTTP URL
      * @param method The request method
+     * @param pathParams The path parameters
      * @param queryParams The query parameters
      * @param body The request body object
      * @param headerParams The header parameters
@@ -519,8 +520,8 @@ public class ApiClient {
      * @param returnType The return type into which to deserialize the response
      * @return The response body in chosen type
      */
-    public <T> Mono<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
-        final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
+    public <T> Mono<T> invokeAPI(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, pathParams, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
         return requestBuilder.retrieve().bodyToMono(returnType);
     }
 
@@ -530,6 +531,7 @@ public class ApiClient {
      * @param <T> the return type to use
      * @param path The sub-path of the HTTP URL
      * @param method The request method
+     * @param pathParams The path parameters
      * @param queryParams The query parameters
      * @param body The request body object
      * @param headerParams The header parameters
@@ -540,12 +542,12 @@ public class ApiClient {
      * @param returnType The return type into which to deserialize the response
      * @return The response body in chosen type
      */
-    public <T> Flux<T> invokeFluxAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
-        final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
+    public <T> Flux<T> invokeFluxAPI(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, pathParams, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
         return requestBuilder.retrieve().bodyToFlux(returnType);
     }
 
-    private WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames) {
+    private WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames) {
         updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
@@ -565,7 +567,7 @@ public class ApiClient {
             builder.queryParams(queryParams);
         }
 
-        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.build(true).toUri());
+        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.encode().toUriString(), pathParams);
         if(accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }
@@ -630,6 +632,28 @@ public class ApiClient {
             }
             auth.applyToParams(queryParams, headerParams, cookieParams);
         }
+    }
+
+    /**
+    * Formats the specified collection path parameter to a string value.
+    *
+    * @param collectionFormat The collection format of the parameter.
+    * @param values The values of the parameter.
+    * @return String representation of the parameter
+    */
+    public String collectionPathParameterToString(CollectionFormat collectionFormat, Collection<?> values) {
+        // create the value based on the collection format
+        if (CollectionFormat.MULTI.equals(collectionFormat)) {
+            // not valid for path params
+            return parameterToString(values);
+        }
+
+         // collectionFormat is assumed to be "csv" by default
+         if(collectionFormat == null) {
+             collectionFormat = CollectionFormat.CSV;
+         }
+
+         return collectionFormat.collectionToString(values);
     }
 
     private class ApiClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {

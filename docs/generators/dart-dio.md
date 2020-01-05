@@ -6,6 +6,7 @@ sidebar_label: dart-dio
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
@@ -13,7 +14,11 @@ sidebar_label: dart-dio
 |pubName|Name in generated pubspec| |null|
 |pubVersion|Version in generated pubspec| |null|
 |pubDescription|Description in generated pubspec| |null|
+|pubAuthor|Author name in generated pubspec| |null|
+|pubAuthorEmail|Email address of the author in generated pubspec| |null|
+|pubHomepage|Homepage in generated pubspec| |null|
 |useEnumExtension|Allow the 'x-enum-values' extension for enums| |null|
 |sourceFolder|Source folder for generated code| |null|
 |supportDart2|Support Dart 2.x (Dart 1.x support has been deprecated)| |true|
 |nullableFields|Is the null fields should be in the JSON payload| |null|
+|dateLibrary|Option. Date library to use|<dl><dt>**core**</dt><dd>Dart core library (DateTime)</dd><dt>**timemachine**</dt><dd>Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.</dd><dl>|core|

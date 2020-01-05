@@ -8,13 +8,11 @@
 #ifndef {{prefix}}_HTTPREQUESTWORKER_H
 #define {{prefix}}_HTTPREQUESTWORKER_H
 
-#include <QObject>
-#include <QString>
-#include <QTimer>
 #include <QMap>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-
+#include <QObject>
+#include <QString>
 
 #include "{{prefix}}HttpFileElement.h"
 
@@ -22,8 +20,12 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-enum {{prefix}}HttpRequestVarLayout {NOT_SET, ADDRESS, URL_ENCODED, MULTIPART};
-
+enum {{prefix}}HttpRequestVarLayout {
+    NOT_SET,
+    ADDRESS,
+    URL_ENCODED,
+    MULTIPART
+};
 
 class {{prefix}}HttpRequestInput {
 
@@ -41,9 +43,7 @@ public:
     void initialize();
     void add_var(QString key, QString value);
     void add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type);
-
 };
-
 
 class {{prefix}}HttpRequestWorker : public QObject {
     Q_OBJECT
@@ -52,36 +52,35 @@ public:
     QByteArray response;
     QNetworkReply::NetworkError error_type;
     QString error_str;
-    QTimer *timer;
     explicit {{prefix}}HttpRequestWorker(QObject *parent = nullptr);
     virtual ~{{prefix}}HttpRequestWorker();
 
     QMap<QString, QString> getResponseHeaders() const;
     QString http_attribute_encode(QString attribute_name, QString input);
     void execute({{prefix}}HttpRequestInput *input);
-    static QSslConfiguration* sslDefaultConfiguration;
+    static QSslConfiguration *sslDefaultConfiguration;
     void setTimeOut(int tout);
     void setWorkingDirectory(const QString &path);
     {{prefix}}HttpFileElement getHttpFileElement(const QString &fieldname = QString());
-    QByteArray* getMultiPartField(const QString &fieldname = QString());    
+    QByteArray *getMultiPartField(const QString &fieldname = QString());
 signals:
     void on_execution_finished({{prefix}}HttpRequestWorker *worker);
 
 private:
     QNetworkAccessManager *manager;
     QMap<QString, QString> headers;
-    QMap<QString, OAIHttpFileElement> files;
-    QMap<QString, QByteArray*> multiPartFields;
+    QMap<QString, {{prefix}}HttpFileElement> files;
+    QMap<QString, QByteArray *> multiPartFields;
     QString workingDirectory;
-    int timeout;
+    int _timeOut;
     void on_manager_timeout(QNetworkReply *reply);
-    void process_form_response();    
+    void process_form_response();
 private slots:
     void on_manager_finished(QNetworkReply *reply);
 };
 
 {{#cppNamespaceDeclarations}}
-}
+} // namespace {{this}}
 {{/cppNamespaceDeclarations}}
 
 #endif // {{prefix}}_HTTPREQUESTWORKER_H

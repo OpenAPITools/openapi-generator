@@ -73,7 +73,7 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<F> where
   F: Future<Item=hyper::Response, Error=hyper::Error> + 'static {
-    client_service: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
+    client_service: Arc<Box<dyn hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
     base_path: String,
 }
 
@@ -184,7 +184,7 @@ impl Client<hyper::client::FutureResponse> {
         handle: Handle,
         base_path: &str,
         protocol: Option<&'static str>,
-        connector_fn: Box<Fn(&Handle) -> C + Send + Sync>,
+        connector_fn: Box<dyn Fn(&Handle) -> C + Send + Sync>,
     ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
     where
         C: hyper::client::Connect + hyper::client::Service,
@@ -211,7 +211,7 @@ impl Client<hyper::client::FutureResponse> {
     /// should be mentioned here.
     #[deprecated(note="Use try_new_with_client_service instead")]
     pub fn try_new_with_hyper_client(
-        hyper_client: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
+        hyper_client: Arc<Box<dyn hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
         handle: Handle,
         base_path: &str
     ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
@@ -229,7 +229,7 @@ impl<F> Client<F> where
     /// Constructor for creating a `Client` by passing in a pre-made `hyper` client Service.
     ///
     /// This allows adding custom wrappers around the underlying transport, for example for logging.
-    pub fn try_new_with_client_service(client_service: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
+    pub fn try_new_with_client_service(client_service: Arc<Box<dyn hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
                                        handle: Handle,
                                        base_path: &str)
                                     -> Result<Client<F>, ClientInitError>
@@ -245,7 +245,7 @@ impl<F, C> Api<C> for Client<F> where
     F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static,
     C: Has<XSpanIdString> {
 
-    fn dummy_get(&self, context: &C) -> Box<Future<Item=DummyGetResponse, Error=ApiError>> {
+    fn dummy_get(&self, context: &C) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/dummy",
             self.base_path
@@ -268,7 +268,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -280,7 +280,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             DummyGetResponse::Success
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -299,14 +299,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn dummy_put(&self, param_nested_response: models::InlineObject, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
+    fn dummy_put(&self, param_nested_response: models::InlineObject, context: &C) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/dummy",
             self.base_path
@@ -333,7 +333,7 @@ impl<F, C> Api<C> for Client<F> where
 
         request.headers_mut().set(ContentType(mimetypes::requests::DUMMY_PUT.clone()));
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -345,7 +345,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             DummyPutResponse::Success
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -364,14 +364,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn file_response_get(&self, context: &C) -> Box<Future<Item=FileResponseGetResponse, Error=ApiError>> {
+    fn file_response_get(&self, context: &C) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/file_response",
             self.base_path
@@ -394,7 +394,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -406,20 +406,17 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<swagger::ByteArray>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<swagger::ByteArray>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             FileResponseGetResponse::Success(body)
                         })
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -438,14 +435,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn html_post(&self, param_body: String, context: &C) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>> {
+    fn html_post(&self, param_body: String, context: &C) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/html",
             self.base_path
@@ -472,7 +469,7 @@ impl<F, C> Api<C> for Client<F> where
 
         request.headers_mut().set(ContentType(mimetypes::requests::HTML_POST.clone()));
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -484,20 +481,16 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<String>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                Ok(body.to_string())
+                            )
+                        )
                         .map(move |body| {
                             HtmlPostResponse::Success(body)
                         })
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -516,14 +509,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn raw_json_get(&self, context: &C) -> Box<Future<Item=RawJsonGetResponse, Error=ApiError>> {
+    fn raw_json_get(&self, context: &C) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/raw_json",
             self.base_path
@@ -546,7 +539,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -558,20 +551,17 @@ impl<F, C> Api<C> for Client<F> where
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
                         .and_then(|body|
-
-                        str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 serde_json::from_str::<serde_json::Value>(body)
-                                                     .map_err(|e| e.into())
-                                             )
-
-                                 )
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<serde_json::Value>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
                         .map(move |body| {
                             RawJsonGetResponse::Success(body)
                         })
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -590,7 +580,7 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
@@ -621,7 +611,7 @@ impl From<openssl::error::ErrorStack> for ClientInitError {
 
 impl fmt::Display for ClientInitError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        (self as &fmt::Debug).fmt(f)
+        (self as &dyn fmt::Debug).fmt(f)
     }
 }
 

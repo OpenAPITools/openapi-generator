@@ -116,7 +116,7 @@ public class {{classname}} {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();{{#hasQueryParams}}
+        final MultiValueMap formParams = new LinkedMultiValueMap();{{#hasQueryParams}}
 
         {{#queryParams}}queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));{{#hasMore}}
         {{/hasMore}}{{/queryParams}}{{/hasQueryParams}}{{#hasHeaderParams}}
@@ -130,7 +130,7 @@ public class {{classname}} {
         {{/hasMore}}{{/cookieParams}}{{/hasCookieParams}}{{#hasFormParams}}
 
         {{#formParams}}if ({{paramName}} != null)
-            formParams.add("{{baseName}}", {{#isFile}}new FileSystemResource({{paramName}}){{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});{{#hasMore}}
+            formParams.{{^collectionFormat}}add{{/collectionFormat}}{{#collectionFormat}}put{{/collectionFormat}}("{{baseName}}", {{#isFile}}new FileSystemResource({{paramName}}){{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});{{#hasMore}}
         {{/hasMore}}{{/formParams}}{{/hasFormParams}}
 
         final String[] accepts = { {{#hasProduces}}

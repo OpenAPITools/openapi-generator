@@ -9,7 +9,7 @@
 {{/vars}}
 })
 {{/jackson}}
-{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
 public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcelableModel}}implements Parcelable {{#serializableModel}}, Serializable {{/serializableModel}}{{/parcelableModel}}{{^parcelableModel}}{{#serializableModel}}implements Serializable {{/serializableModel}}{{/parcelableModel}}{
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
@@ -231,7 +231,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   @Override
   public boolean equals(java.lang.Object o) {
   {{#useReflectionEqualsHashCode}}
-    return EqualsBuilder.reflectionEquals(this, o);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   {{/useReflectionEqualsHashCode}}
   {{^useReflectionEqualsHashCode}}
     if (this == o) {

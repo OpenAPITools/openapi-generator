@@ -139,6 +139,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
     @Override
     public void processOpts() {
+        defaultProcessOpts();
         if (additionalProperties.containsKey(NULLABLE_FIELDS)) {
             nullableFields = convertPropertyToBooleanAndWriteBack(NULLABLE_FIELDS);
         } else {

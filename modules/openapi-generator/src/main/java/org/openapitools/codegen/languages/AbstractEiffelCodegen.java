@@ -477,7 +477,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         // Because the child models extend the parents, the enums will be available via the parent.
 
         // Only bother with reconciliation if the parent model has enums.
-        if (!parentCodegenModel.hasEnums) {
+        if (parentCodegenModel == null || !parentCodegenModel.hasEnums) {
             return codegenModel;
         }
 

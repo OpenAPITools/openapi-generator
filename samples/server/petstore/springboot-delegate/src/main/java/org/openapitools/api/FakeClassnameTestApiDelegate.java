@@ -16,6 +16,11 @@ import java.util.Map;
 public interface FakeClassnameTestApiDelegate {
 
     /**
+     * PATCH /fake_classname_test : To test class name in snake case
+     * To test class name in snake case
+     *
+     * @param body client model (required)
+     * @return successful operation (status code 200)
      * @see FakeClassnameTestApi#testClassname
      */
     ResponseEntity<Client> testClassname(Client body);

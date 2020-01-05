@@ -5,7 +5,7 @@
     {{#model}}
 
 [#{{classname}}]
-==== _{{classname}}_ {{title}}
+=== _{{classname}}_ {{title}}
 
 {{unescapedDescription}}
 
@@ -15,11 +15,11 @@
 | Field Name| Required| Type| Description| Format
 
 {{#vars}}
-| {{name}} 
+| {{baseName}} 
 | {{#required}}X{{/required}} 
 | {{dataType}} {{#isContainer}} of <<{{complexType}}>>{{/isContainer}} 
 | {{description}}
-| {{{dataFormat}}} {{#isEnum}}Enum: _ {{#_enum}}{{this}}, {{/_enum}}{{/isEnum}} _
+| {{{dataFormat}}} {{#isEnum}}_Enum:_ {{#_enum}}{{this}}, {{/_enum}}{{/isEnum}}
 
 {{/vars}}
 |===

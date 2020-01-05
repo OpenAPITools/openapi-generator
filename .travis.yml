@@ -62,7 +62,7 @@ before_install:
   - gem install bundler
   - npm install -g typescript
   - npm install -g npm
-  - npm install -g elm@0.18.0-exp5
+  #- npm install -g elm@0.18.0-exp5
   - npm config set registry http://registry.npmjs.org/
   # set python 3.6.3 as default
   - source ~/virtualenv/python3.6/bin/activate
@@ -136,9 +136,10 @@ script:
   - mvn --quiet --batch-mode --show-version clean install
   - mvn --quiet --batch-mode --show-version verify -Psamples
   # test maven plugin
-  - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml
-  - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml
-  - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml
+  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml
+  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml
+  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml
+  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/spring.xml
   # test gradle plugin
   - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
   - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)

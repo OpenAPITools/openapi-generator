@@ -14,9 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public abstract class JavaJaxrsBaseTest {
 
@@ -34,9 +33,9 @@ public abstract class JavaJaxrsBaseTest {
 
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
-        ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
@@ -46,20 +45,11 @@ public abstract class JavaJaxrsBaseTest {
         String jsonSubType = "@JsonSubTypes({\n" +
                 "  @JsonSubTypes.Type(value = Dog.class, name = \"Dog\"),\n" +
                 "  @JsonSubTypes.Type(value = Cat.class, name = \"Cat\"),\n" +
+                "  @JsonSubTypes.Type(value = BigDog.class, name = \"BigDog\"),\n" +
                 "})";
-        checkFileContains(generator, outputPath + "/src/gen/java/org/openapitools/model/Animal.java", jsonTypeInfo, jsonSubType);
+        assertFileContains(generator, outputPath + "/src/gen/java/org/openapitools/model/Animal.java", jsonTypeInfo, jsonSubType);
     }
 
-    private void checkFileContains(MockDefaultGenerator generator, String path, String... lines) {
-        String file = linearize(generator.getFiles().get(path));
-        assertNotNull(file);
-        for (String line : lines)
-            assertTrue(file.contains(linearize(line)));
-    }
-
-    private String linearize(String target) {
-        return target.replaceAll("\r?\n", "").replaceAll("\\s+", "\\s");
-    }
 
     @Test
     public void doNotGenerateJsonAnnotationForPolymorphismIfJsonExclude() throws IOException {
@@ -74,9 +64,9 @@ public abstract class JavaJaxrsBaseTest {
 
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
-        ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
@@ -87,15 +77,9 @@ public abstract class JavaJaxrsBaseTest {
                 "  @JsonSubTypes.Type(value = Dog.class, name = \"Dog\"),\n" +
                 "  @JsonSubTypes.Type(value = Cat.class, name = \"Cat\"),\n" +
                 "})";
-        checkFileNotContains(generator, outputPath + "/src/gen/java/org/openapitools/model/Animal.java",  jsonTypeInfo, jsonSubType);
+        assertFileNotContains(generator, outputPath + "/src/gen/java/org/openapitools/model/Animal.java",  jsonTypeInfo, jsonSubType);
     }
 
-    private void checkFileNotContains(MockDefaultGenerator generator, String path, String... lines) {
-        String file = linearize(generator.getFiles().get(path));
-        assertNotNull(file);
-        for (String line : lines)
-            assertFalse(file.contains(linearize(line)));
-    }
 
     @Test
     public void doNotAddDefaultValueDocumentationForContainers() throws IOException {
@@ -109,14 +93,14 @@ public abstract class JavaJaxrsBaseTest {
 
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
-        ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
 
-        checkFileNotContains(generator, outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java",  "DefaultValue");
+        assertFileNotContains(generator, outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java",  "DefaultValue");
     }
 
     @Test
@@ -133,13 +117,13 @@ public abstract class JavaJaxrsBaseTest {
 
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
-        ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        ClientOptInput input = new ClientOptInput()
+        .openAPI(openAPI)
+        .config(codegen);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
 
-        checkFileContains(generator, outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java",  "DefaultValue");
+        assertFileContains(generator, outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java",  "DefaultValue");
     }
 }

@@ -27,7 +27,11 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -40,16 +44,22 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PUB_NAME = "pubName";
     public static final String PUB_VERSION = "pubVersion";
     public static final String PUB_DESCRIPTION = "pubDescription";
+    public static final String PUB_AUTHOR = "pubAuthor";
+    public static final String PUB_AUTHOR_EMAIL = "pubAuthorEmail";
+    public static final String PUB_HOMEPAGE = "pubHomepage";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
     public static final String SUPPORT_DART2 = "supportDart2";
     protected boolean browserClient = true;
     protected String pubName = "openapi";
     protected String pubVersion = "1.0.0";
     protected String pubDescription = "OpenAPI API client";
+    protected String pubAuthor = "Author";
+    protected String pubAuthorEmail = "author@homepage";
+    protected String pubHomepage = "homepage";
     protected boolean useEnumExtension = false;
     protected String sourceFolder = "";
-    protected String apiDocPath = "docs" + File.separator;
-    protected String modelDocPath = "docs" + File.separator;
+    protected String apiDocPath = "doc" + File.separator;
+    protected String modelDocPath = "doc" + File.separator;
     protected String apiTestPath = "test" + File.separator;
     protected String modelTestPath = "test" + File.separator;
 
@@ -80,8 +90,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
                 .build();
 
-        // clear import mapping (from default generator) as dart does not use it
-        // at the moment
+        // clear import mapping (from default generator) as dart does not use it at the moment
         importMapping.clear();
 
         outputFolder = "generated-code/dart";
@@ -96,19 +105,17 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTestTemplateFiles.put("model_test.mustache", ".dart");
         apiTestTemplateFiles.put("api_test.mustache", ".dart");
 
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        "abstract", "as", "assert", "async", "async*", "await",
-                        "break", "case", "catch", "class", "const", "continue",
-                        "default", "deferred", "do", "dynamic", "else", "enum",
-                        "export", "external", "extends", "factory", "false", "final",
-                        "finally", "for", "get", "if", "implements", "import", "in",
-                        "is", "library", "new", "null", "operator", "part", "rethrow",
-                        "return", "set", "static", "super", "switch", "sync*", "this",
-                        "throw", "true", "try", "typedef", "var", "void", "while",
-                        "with", "yield", "yield*", "hide", "interface", "mixin", "on",
-                        "show", "async")
-        );
+        List<String> reservedWordsList = new ArrayList<String>();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(DartClientCodegen.class.getResourceAsStream("/dart/dart-keywords.txt"), Charset.forName("UTF-8")));
+            while (reader.ready()) {
+                reservedWordsList.add(reader.readLine());
+            }
+            reader.close();
+        } catch (Exception e) {
+            LOGGER.error("Error reading dart keywords. Exception: {}", e.getMessage());
+        }
+        setReservedWordsLowerCase(reservedWordsList);
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
@@ -148,6 +155,9 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
         cliOptions.add(new CliOption(PUB_VERSION, "Version in generated pubspec"));
         cliOptions.add(new CliOption(PUB_DESCRIPTION, "Description in generated pubspec"));
+        cliOptions.add(new CliOption(PUB_AUTHOR, "Author name in generated pubspec"));
+        cliOptions.add(new CliOption(PUB_AUTHOR_EMAIL, "Email address of the author in generated pubspec"));
+        cliOptions.add(new CliOption(PUB_HOMEPAGE, "Homepage in generated pubspec"));
         cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "Source folder for generated code"));
         cliOptions.add(CliOption.newBoolean(SUPPORT_DART2, "Support Dart 2.x (Dart 1.x support has been deprecated)").defaultValue(Boolean.TRUE.toString()));
@@ -168,9 +178,13 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         return "Generates a Dart (1.x (deprecated) or 2.x) client library.";
     }
 
+    protected void defaultProcessOpts() {
+        super.processOpts();
+    }
+
     @Override
     public void processOpts() {
-        super.processOpts();
+        defaultProcessOpts();
 
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
@@ -203,6 +217,27 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             //not set, use to be passed to template
             additionalProperties.put(PUB_DESCRIPTION, pubDescription);
+        }
+
+        if (additionalProperties.containsKey(PUB_AUTHOR)) {
+            this.setPubAuthor((String) additionalProperties.get(PUB_AUTHOR));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_AUTHOR, pubAuthor);
+        }
+
+        if (additionalProperties.containsKey(PUB_AUTHOR_EMAIL)) {
+            this.setPubAuthorEmail((String) additionalProperties.get(PUB_AUTHOR_EMAIL));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_AUTHOR_EMAIL, pubAuthorEmail);
+        }
+
+        if (additionalProperties.containsKey(PUB_HOMEPAGE)) {
+            this.setPubHomepage((String) additionalProperties.get(PUB_HOMEPAGE));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_HOMEPAGE, pubHomepage);
         }
 
         if (additionalProperties.containsKey(USE_ENUM_EXTENSION)) {
@@ -540,6 +575,18 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setPubDescription(String pubDescription) {
         this.pubDescription = pubDescription;
+    }
+
+    public void setPubAuthor(String pubAuthor) {
+        this.pubAuthor = pubAuthor;
+    }
+
+    public void setPubAuthorEmail(String pubAuthorEmail) {
+        this.pubAuthorEmail = pubAuthorEmail;
+    }
+
+    public void setPubHomepage(String pubHomepage) {
+        this.pubHomepage = pubHomepage;
     }
 
     public void setUseEnumExtension(boolean useEnumExtension) {

@@ -86,6 +86,8 @@ Class | Method | HTTP request | Description
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
+ - [BigCat](docs/BigCat.md)
+ - [BigCatAllOf](docs/BigCatAllOf.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)
@@ -198,6 +200,7 @@ tokenSource := oauth2cfg.TokenSource(createContext(httpClient), &token)
 auth := context.WithValue(oauth2.NoContext, sw.ContextOAuth2, tokenSource)
 r, err := client.Service.Operation(auth, args)
 ```
+
 
 
 ## Author
