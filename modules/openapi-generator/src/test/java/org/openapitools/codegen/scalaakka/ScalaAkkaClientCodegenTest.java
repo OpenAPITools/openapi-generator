@@ -212,6 +212,37 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertTrue(property1.isContainer);
     }
 
+    @Test(description = "convert a model with set (unique array) property")
+    public void complexSetPropertyTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("children", new ArraySchema()
+                        .items(new Schema().$ref("#/definitions/Children"))
+                        .uniqueItems(Boolean.TRUE));
+        final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "children");
+        Assert.assertEquals(property1.complexType, "Children");
+        Assert.assertEquals(property1.getter, "getChildren");
+        Assert.assertEquals(property1.setter, "setChildren");
+        Assert.assertEquals(property1.dataType, "Set[Children]");
+        Assert.assertEquals(property1.name, "children");
+        Assert.assertEquals(property1.defaultValue, "Set[Children].empty ");
+        Assert.assertEquals(property1.baseType, "Set");
+        Assert.assertEquals(property1.containerType, "set");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isContainer);
+    }
+
     @Test(description = "convert a model with complex map property")
     public void complexMapPropertyTest() {
         final Schema model = new Schema()
@@ -258,8 +289,31 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "ListBuffer[Children]");
+        Assert.assertEquals(cm.arrayModelType, "Children");
         Assert.assertEquals(cm.imports.size(), 2);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ListBuffer", "Children")).size(), 2);
+    }
+
+    @Test(description = "convert an array model with unique items to set")
+    public void arrayAsSetModelTest() {
+        final Schema schema = new ArraySchema()
+                .items(new Schema().$ref("#/definitions/Children"))
+                .description("a set of Children models");
+        schema.setUniqueItems(true);
+
+        final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a set of Children models");
+        Assert.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.parent, "Set[Children]");
+        Assert.assertEquals(cm.arrayModelType, "Children");
+        Assert.assertEquals(cm.imports.size(), 2);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Set", "Children")).size(), 2);
     }
 
     @Test(description = "convert a map model")

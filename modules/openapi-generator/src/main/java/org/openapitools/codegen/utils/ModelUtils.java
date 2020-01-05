@@ -386,6 +386,10 @@ public class ModelUtils {
         return (schema instanceof ArraySchema);
     }
 
+    public static boolean isSet(Schema schema) {
+        return ModelUtils.isArraySchema(schema) && Boolean.TRUE.equals(schema.getUniqueItems());
+    }
+
     public static boolean isStringSchema(Schema schema) {
         if (schema instanceof StringSchema || SchemaTypeUtil.STRING_TYPE.equals(schema.getType())) {
             return true;
