@@ -617,18 +617,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
     }
 
-    // Can't figure out the logic in DefaultCodegen but optional vars are getting duplicated when there's
-    // inheritance involved. Also, isInherited doesn't seem to be getting set properly ¯\_(ツ)_/¯
-    @Override
-    public CodegenModel fromModel(String name, Schema schema) {
-        CodegenModel m = super.fromModel(name, schema);
-
-        m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
-        m.allVars.stream().filter(p -> !m.vars.contains(p)).forEach(p -> p.isInherited = true);
-
-        return m;
-    }
-
     /**
      * Output the proper model name (capitalized).
      * In case the name belongs to the TypeSystem it won't be renamed.

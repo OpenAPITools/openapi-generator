@@ -33,7 +33,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -771,7 +773,22 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public CodegenModel fromModel(String name, Schema schema) {
         CodegenModel m = super.fromModel(name, schema);
         m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
-        m.allVars.stream().filter(p -> !m.vars.contains(p)).forEach(p -> p.isInherited = true);
+        // Update allVars/requiredVars/optionalVars with isInherited
+        // Each of these lists contains elements that are similar, but they are all cloned
+        // via CodegenModel.removeAllDuplicatedProperty and therefore need to be updated
+        // separately.
+        // First find only the parent vars via baseName matching
+        Map<String, CodegenProperty> allVarsMap = m.allVars.stream()
+                .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity()));
+        allVarsMap.keySet()
+                .removeAll(m.vars.stream().map(CodegenProperty::getBaseName).collect(Collectors.toSet()));
+        // Update the allVars
+        allVarsMap.values().forEach(p -> p.isInherited = true);
+        // Update any other vars (requiredVars, optionalVars)
+        Stream.of(m.requiredVars, m.optionalVars)
+                .flatMap(List::stream)
+                .filter(p -> allVarsMap.containsKey(p.baseName))
+                .forEach(p -> p.isInherited = true);
         return m;
     }
 
