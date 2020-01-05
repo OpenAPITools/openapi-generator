@@ -194,6 +194,63 @@ public class ConfigHelp implements Runnable {
 
             sb.append(newline);
         }
+
+
+        if (Boolean.TRUE.equals(importMappings)) {
+            sb.append(newline);
+            sb.append("## IMPORT MAPPING");
+            sb.append(newline);
+            sb.append(newline);
+
+            sb.append("| Type/Alias | Imports |").append(newline);
+            sb.append("| ---------- | ------- |").append(newline);
+
+            config.importMapping().forEach((key, value)-> {
+                sb.append("|").append(escapeHtml4(key)).append("|").append(escapeHtml4(value)).append("|");
+                sb.append(newline);
+            });
+
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(instantiationTypes)) {
+            sb.append(newline);
+            sb.append("## INSTANTIATION TYPES");
+            sb.append(newline);
+            sb.append(newline);
+
+            sb.append("| Type/Alias | Instantiated By |").append(newline);
+            sb.append("| ---------- | --------------- |").append(newline);
+
+            config.instantiationTypes().forEach((key, value)-> {
+                sb.append("|").append(escapeHtml4(key)).append("|").append(escapeHtml4(value)).append("|");
+                sb.append(newline);
+            });
+
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(languageSpecificPrimitives)) {
+            sb.append(newline);
+            sb.append("## LANGUAGE PRIMITIVES");
+            sb.append(newline);
+            sb.append(newline);
+            sb.append("<ul data-columns=\"2\" style=\"list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto\">");
+            config.languageSpecificPrimitives().forEach(s -> sb.append("<li>").append(escapeHtml4(s)).append("</li>").append(newline));
+            sb.append("</ul>");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(reservedWords)) {
+            sb.append(newline);
+            sb.append("## RESERVED WORDS");
+            sb.append(newline);
+            sb.append(newline);
+            sb.append("<ul data-columns=\"2\" style=\"list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto\">");
+            config.reservedWords().forEach(s -> sb.append("<li>").append(escapeHtml4(s)).append("</li>").append(newline));
+            sb.append("</ul>");
+            sb.append(newline);
+        }
     }
 
     private void generateYamlSample(StringBuilder sb, CodegenConfig config) {
