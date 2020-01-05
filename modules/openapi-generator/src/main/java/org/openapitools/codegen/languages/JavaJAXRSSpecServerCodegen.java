@@ -52,7 +52,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean interfaceOnly = false;
     private boolean returnResponse = false;
     private boolean generatePom = true;
-    private boolean generateBuilders = true;
+    private boolean generateBuilders = false;
     private boolean useSwaggerAnnotations = true;
     private boolean useJackson = false;
     private String openApiSpecFileLocation = "src/main/openapi/openapi.yaml";
