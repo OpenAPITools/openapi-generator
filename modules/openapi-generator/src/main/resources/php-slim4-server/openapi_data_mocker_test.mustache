@@ -648,7 +648,31 @@ class OpenApiDataMockerTest extends TestCase
             'maxItems less than minItems' => [
                 $intItems, 5, 2, false,
             ],
+            'items with ref to unknown class' => [
+                ['$ref' => '#/components/schemas/UnknownClass'], null, null, false,
+            ],
+            'items with ref to class without getOpenApiSchema method' => [
+                ['$ref' => '#/components/schemas/ClassWithoutGetSchemaMethod'], null, null, false,
+            ],
         ];
+    }
+
+    /**
+     * @covers ::mockArray
+     */
+    public function testMockArrayWithRef()
+    {
+        $mocker = new OpenApiDataMocker();
+        $arr = $mocker->mockArray(['$ref' => '#/components/schemas/CatRefTestClass']);
+        $this->assertIsArray($arr);
+        $this->assertCount(1, $arr);
+        foreach ($arr as $item) {
+            // TODO: replace with assertInstanceOf assertion
+            $this->assertInternalType(IsType::TYPE_OBJECT, $item);
+            $this->assertInternalType(IsType::TYPE_STRING, $item->className);
+            $this->assertInternalType(IsType::TYPE_STRING, $item->color);
+            $this->assertInternalType(IsType::TYPE_BOOL, $item->declawed);
+        }
     }
 
     /**
@@ -882,5 +906,42 @@ class OpenApiDataMockerTest extends TestCase
             'DateTime object' => [new DateTime()],
         ];
     }
+}
+
+namespace {{modelPackage}};
+
+// phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
+final class CatRefTestClass
+{
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+    "required" : [ "className" ],
+    "type" : "object",
+    "properties" : {
+        "className" : {
+            "type" : "string"
+        },
+        "color" : {
+            "type" : "string",
+            "default" : "red"
+        },
+        "declawed" : {
+            "type" : "boolean"
+        }
+    },
+    "discriminator" : {
+        "propertyName" : "className"
+    }
+}
+SCHEMA;
+
+    public static function getOpenApiSchema()
+    {
+        return json_decode(static::MODEL_SCHEMA, true);
+    }
+}
+
+final class ClassWithoutGetSchemaMethod
+{
 }
 {{/apiInfo}}
