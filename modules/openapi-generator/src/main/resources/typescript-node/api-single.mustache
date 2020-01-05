@@ -36,7 +36,7 @@ export enum {{classname}}ApiKeys {
 
 export class {{classname}} {
     protected _basePath = defaultBasePath;
-    protected defaultHeaders : any = {};
+    protected _defaultHeaders : any = {};
     protected _useQuerystring : boolean = false;
 
     protected authentications = {
@@ -91,6 +91,14 @@ export class {{classname}} {
 
     set basePath(basePath: string) {
         this._basePath = basePath;
+    }
+
+    set defaultHeaders(defaultHeaders: any) {
+        this._defaultHeaders = defaultHeaders;
+    }
+
+    get defaultHeaders() {
+        return this._defaultHeaders;
     }
 
     get basePath() {
@@ -149,7 +157,7 @@ export class {{classname}} {
         const localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
 {{#hasProduces}}
         const produces = [{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}];
         // give precedence to 'application/json'
@@ -216,8 +224,26 @@ export class {{classname}} {
 
         let authenticationPromise = Promise.resolve();
 {{#authMethods}}
-        authenticationPromise = authenticationPromise.then(() => this.authentications.{{name}}.applyToRequest(localVarRequestOptions));
-
+    {{#isApiKey}}
+        if (this.authentications.{{name}}.apiKey) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.{{name}}.applyToRequest(localVarRequestOptions));
+        }
+    {{/isApiKey}}
+    {{#isBasicBasic}}
+        if (this.authentications.{{name}}.username && this.authentications.{{name}}.password) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.{{name}}.applyToRequest(localVarRequestOptions));
+        }
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}
+        if (this.authentications.{{name}}.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.{{name}}.applyToRequest(localVarRequestOptions));
+        }
+    {{/isBasicBearer}}
+    {{#isOAuth}}
+        if (this.authentications.{{name}}.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.{{name}}.applyToRequest(localVarRequestOptions));
+        }
+    {{/isOAuth}}
 {{/authMethods}}
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
 
