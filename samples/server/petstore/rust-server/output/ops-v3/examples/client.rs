@@ -1,23 +1,18 @@
 #![allow(missing_docs, unused_variables, trivial_casts)]
 
 extern crate ops_v3;
-#[allow(unused_extern_crates)]
 extern crate futures;
-#[allow(unused_extern_crates)]
 #[macro_use]
 extern crate swagger;
-#[allow(unused_extern_crates)]
 extern crate clap;
-extern crate tokio_core;
-extern crate uuid;
+extern crate tokio;
 
 use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
 
 #[allow(unused_imports)]
 use futures::{Future, future, Stream, stream};
-use tokio_core::reactor;
 #[allow(unused_imports)]
-use ops_v3::{ApiNoContext, ContextWrapperExt,
+use ops_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       ApiError,
                       Op10GetResponse,
                       Op11GetResponse,
@@ -64,44 +59,82 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
-    "Op10Get",
-    "Op11Get",
-    "Op12Get",
-    "Op13Get",
-    "Op14Get",
-    "Op15Get",
-    "Op16Get",
-    "Op17Get",
-    "Op18Get",
-    "Op19Get",
-    "Op1Get",
-    "Op20Get",
-    "Op21Get",
-    "Op22Get",
-    "Op23Get",
-    "Op24Get",
-    "Op25Get",
-    "Op26Get",
-    "Op27Get",
-    "Op28Get",
-    "Op29Get",
-    "Op2Get",
-    "Op30Get",
-    "Op31Get",
-    "Op32Get",
-    "Op33Get",
-    "Op34Get",
-    "Op35Get",
-    "Op36Get",
-    "Op37Get",
-    "Op3Get",
-    "Op4Get",
-    "Op5Get",
-    "Op6Get",
-    "Op7Get",
-    "Op8Get",
-    "Op9Get",
-])
+
+                "Op10Get",
+
+                "Op11Get",
+
+                "Op12Get",
+
+                "Op13Get",
+
+                "Op14Get",
+
+                "Op15Get",
+
+                "Op16Get",
+
+                "Op17Get",
+
+                "Op18Get",
+
+                "Op19Get",
+
+                "Op1Get",
+
+                "Op20Get",
+
+                "Op21Get",
+
+                "Op22Get",
+
+                "Op23Get",
+
+                "Op24Get",
+
+                "Op25Get",
+
+                "Op26Get",
+
+                "Op27Get",
+
+                "Op28Get",
+
+                "Op29Get",
+
+                "Op2Get",
+
+                "Op30Get",
+
+                "Op31Get",
+
+                "Op32Get",
+
+                "Op33Get",
+
+                "Op34Get",
+
+                "Op35Get",
+
+                "Op36Get",
+
+                "Op37Get",
+
+                "Op3Get",
+
+                "Op4Get",
+
+                "Op5Get",
+
+                "Op6Get",
+
+                "Op7Get",
+
+                "Op8Get",
+
+                "Op9Get",
+
+            ])
             .required(true)
             .index(1))
         .arg(Arg::with_name("https")
@@ -119,216 +152,293 @@ fn main() {
             .help("Port to contact"))
         .get_matches();
 
-    let mut core = reactor::Core::new().unwrap();
     let is_https = matches.is_present("https");
     let base_url = format!("{}://{}:{}",
                            if is_https { "https" } else { "http" },
                            matches.value_of("host").unwrap(),
                            matches.value_of("port").unwrap());
+
     let client = if matches.is_present("https") {
         // Using Simple HTTPS
-        ops_v3::Client::try_new_https(core.handle(), &base_url, "examples/ca.pem")
+        Client::try_new_https(
+            &base_url,
+            "examples/ca.pem")
             .expect("Failed to create HTTPS client")
     } else {
         // Using HTTP
-        ops_v3::Client::try_new_http(core.handle(), &base_url)
+        Client::try_new_http(
+            &base_url)
             .expect("Failed to create HTTP client")
     };
 
     let context: make_context_ty!(ContextBuilder, EmptyContext, Option<AuthData>, XSpanIdString) =
-        make_context!(ContextBuilder, EmptyContext, None as Option<AuthData>, XSpanIdString(self::uuid::Uuid::new_v4().to_string()));
+        make_context!(ContextBuilder, EmptyContext, None as Option<AuthData>, XSpanIdString::default());
+
     let client = client.with_context(context);
 
     match matches.value_of("operation") {
 
         Some("Op10Get") => {
-            let result = core.run(client.op10_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op10_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op11Get") => {
-            let result = core.run(client.op11_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op11_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op12Get") => {
-            let result = core.run(client.op12_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op12_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op13Get") => {
-            let result = core.run(client.op13_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op13_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op14Get") => {
-            let result = core.run(client.op14_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op14_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op15Get") => {
-            let result = core.run(client.op15_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op15_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op16Get") => {
-            let result = core.run(client.op16_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op16_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op17Get") => {
-            let result = core.run(client.op17_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op17_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op18Get") => {
-            let result = core.run(client.op18_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op18_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op19Get") => {
-            let result = core.run(client.op19_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op19_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op1Get") => {
-            let result = core.run(client.op1_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op1_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op20Get") => {
-            let result = core.run(client.op20_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op20_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op21Get") => {
-            let result = core.run(client.op21_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op21_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op22Get") => {
-            let result = core.run(client.op22_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op22_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op23Get") => {
-            let result = core.run(client.op23_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op23_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op24Get") => {
-            let result = core.run(client.op24_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op24_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op25Get") => {
-            let result = core.run(client.op25_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op25_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op26Get") => {
-            let result = core.run(client.op26_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op26_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op27Get") => {
-            let result = core.run(client.op27_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op27_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op28Get") => {
-            let result = core.run(client.op28_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op28_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op29Get") => {
-            let result = core.run(client.op29_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op29_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op2Get") => {
-            let result = core.run(client.op2_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op2_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op30Get") => {
-            let result = core.run(client.op30_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op30_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op31Get") => {
-            let result = core.run(client.op31_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op31_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op32Get") => {
-            let result = core.run(client.op32_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op32_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op33Get") => {
-            let result = core.run(client.op33_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op33_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op34Get") => {
-            let result = core.run(client.op34_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op34_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op35Get") => {
-            let result = core.run(client.op35_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op35_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op36Get") => {
-            let result = core.run(client.op36_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op36_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op37Get") => {
-            let result = core.run(client.op37_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op37_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op3Get") => {
-            let result = core.run(client.op3_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op3_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op4Get") => {
-            let result = core.run(client.op4_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op4_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op5Get") => {
-            let result = core.run(client.op5_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op5_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op6Get") => {
-            let result = core.run(client.op6_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op6_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op7Get") => {
-            let result = core.run(client.op7_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op7_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op8Get") => {
-            let result = core.run(client.op8_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op8_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         Some("Op9Get") => {
-            let result = core.run(client.op9_get());
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.op9_get(
+            ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-         },
+        },
 
         _ => {
             panic!("Invalid operation provided")
         }
     }
 }
-

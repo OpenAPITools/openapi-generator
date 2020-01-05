@@ -1,37 +1,44 @@
 //! Main library entry point for multipart_v3 implementation.
 
-mod server;
+#![allow(unused_imports)]
 
 mod errors {
     error_chain!{}
 }
 
 pub use self::errors::*;
-use std::io;
-use std::clone::Clone;
+
+use futures::{self, Future};
+use chrono;
+use std::collections::HashMap;
 use std::marker::PhantomData;
-use hyper;
-use multipart_v3;
+
+use swagger;
 use swagger::{Has, XSpanIdString};
 
-pub struct NewService<C>{
-    marker: PhantomData<C>
+use multipart_v3::{Api, ApiError,
+                      MultipartRequestPostResponse
+};
+use multipart_v3::models;
+
+#[derive(Copy, Clone)]
+pub struct Server<C> {
+    marker: PhantomData<C>,
 }
 
-impl<C> NewService<C>{
+impl<C> Server<C> {
     pub fn new() -> Self {
-        NewService{marker:PhantomData}
+        Server{marker: PhantomData}
     }
 }
 
-impl<C> hyper::server::NewService for NewService<C> where C: Has<XSpanIdString>  + Clone + 'static {
-    type Request = (hyper::Request, C);
-    type Response = hyper::Response;
-    type Error = hyper::Error;
-    type Instance = multipart_v3::server::Service<server::Server<C>, C>;
+impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
-    /// Instantiate a new server.
-    fn new_service(&self) -> io::Result<Self::Instance> {
-        Ok(multipart_v3::server::Service::new(server::Server::new()))
+
+    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>, context: &C) -> Box<Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send> {
+        let context = context.clone();
+        println!("multipart_request_post(\"{}\", {:?}, {:?}, {:?}) - X-Span-ID: {:?}", string_field, binary_field, optional_string_field, object_field, context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
     }
+
 }

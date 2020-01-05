@@ -1,22 +1,18 @@
-#![allow(unused_extern_crates)]
-extern crate tokio_core;
-extern crate native_tls;
-extern crate hyper_tls;
-extern crate openssl;
-extern crate mime;
-extern crate chrono;
-extern crate url;
-extern crate multipart;
-
 use hyper;
-use hyper::header::{Headers, ContentType};
-use hyper::Uri;
-use self::url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
+use hyper::client::HttpConnector;
+use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
+use hyper::{Body, Uri, Response};
+use hyper_tls::HttpsConnector;
+
+use url::form_urlencoded;
+use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
 use futures;
 use futures::{Future, Stream};
 use futures::{future, stream};
-use self::tokio_core::reactor::Handle;
+use serde_json;
 use std::borrow::Cow;
+#[allow(unused_imports)]
+use std::collections::{HashMap, BTreeMap};
 use std::io::{Read, Error, ErrorKind};
 use std::error;
 use std::fmt;
@@ -25,22 +21,19 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
-use hyper::mime::Mime; 
-use std::io::Cursor; 
-use client::multipart::client::lazy::Multipart; 
-use mimetypes;
-use serde_json;
-
-#[allow(unused_imports)]
-use std::collections::{HashMap, BTreeMap};
-#[allow(unused_imports)]
 use swagger;
+use swagger::{ApiError, XSpanIdString, Has, AuthData};
+use swagger::client::Service;
 
-use swagger::{ApiError, XSpanId, XSpanIdString, Has, AuthData};
+use mime::Mime;
+use std::io::Cursor;
+use multipart::client::lazy::Multipart;
 
 use {Api,
      MultipartRequestPostResponse
      };
+
+use mimetypes;
 use models;
 
 define_encode_set! {
@@ -56,7 +49,7 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
     // First convert to Uri, since a base path is a subset of Uri.
     let uri = Uri::from_str(input)?;
 
-    let scheme = uri.scheme().ok_or(ClientInitError::InvalidScheme)?;
+    let scheme = uri.scheme_part().ok_or(ClientInitError::InvalidScheme)?;
 
     // Check the scheme if necessary
     if let Some(correct_scheme) = correct_scheme {
@@ -66,104 +59,36 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
     }
 
     let host = uri.host().ok_or_else(|| ClientInitError::MissingHost)?;
-    let port = uri.port().map(|x| format!(":{}", x)).unwrap_or_default();
+    let port = uri.port_part().map(|x| format!(":{}", x)).unwrap_or_default();
     Ok(format!("{}://{}{}", scheme, host, port))
 }
 
 /// A client that implements the API by making HTTP calls out to a server.
-pub struct Client<F> where
-  F: Future<Item=hyper::Response, Error=hyper::Error> + 'static {
-    client_service: Arc<Box<dyn hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
+pub struct Client<F>
+{
+    client_service: Arc<Box<dyn Service<ReqBody=Body, Future=F> + Send + Sync>>,
     base_path: String,
 }
 
-impl<F> fmt::Debug for Client<F> where
-   F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static {
+impl<F> fmt::Debug for Client<F>
+{
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "Client {{ base_path: {} }}", self.base_path)
     }
 }
 
-impl<F> Clone for Client<F> where
-   F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static {
+impl<F> Clone for Client<F>
+{
     fn clone(&self) -> Self {
         Client {
             client_service: self.client_service.clone(),
-            base_path: self.base_path.clone()
+            base_path: self.base_path.clone(),
         }
     }
 }
 
-impl Client<hyper::client::FutureResponse> {
-
-    /// Create an HTTP client.
-    ///
-    /// # Arguments
-    /// * `handle` - tokio reactor handle to use for execution
-    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
-    pub fn try_new_http(handle: Handle, base_path: &str) -> Result<Client<hyper::client::FutureResponse>, ClientInitError> {
-        let http_connector = swagger::http_connector();
-        Self::try_new_with_connector::<hyper::client::HttpConnector>(
-            handle,
-            base_path,
-            Some("http"),
-            http_connector,
-        )
-    }
-
-    /// Create a client with a TLS connection to the server.
-    ///
-    /// # Arguments
-    /// * `handle` - tokio reactor handle to use for execution
-    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
-    /// * `ca_certificate` - Path to CA certificate used to authenticate the server
-    pub fn try_new_https<CA>(
-        handle: Handle,
-        base_path: &str,
-        ca_certificate: CA,
-    ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
-    where
-        CA: AsRef<Path>,
-    {
-        let https_connector = swagger::https_connector(ca_certificate);
-        Self::try_new_with_connector::<hyper_tls::HttpsConnector<hyper::client::HttpConnector>>(
-            handle,
-            base_path,
-            Some("https"),
-            https_connector,
-        )
-    }
-
-    /// Create a client with a mutually authenticated TLS connection to the server.
-    ///
-    /// # Arguments
-    /// * `handle` - tokio reactor handle to use for execution
-    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
-    /// * `ca_certificate` - Path to CA certificate used to authenticate the server
-    /// * `client_key` - Path to the client private key
-    /// * `client_certificate` - Path to the client's public certificate associated with the private key
-    pub fn try_new_https_mutual<CA, K, C>(
-        handle: Handle,
-        base_path: &str,
-        ca_certificate: CA,
-        client_key: K,
-        client_certificate: C,
-    ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
-    where
-        CA: AsRef<Path>,
-        K: AsRef<Path>,
-        C: AsRef<Path>,
-    {
-        let https_connector =
-            swagger::https_mutual_connector(ca_certificate, client_key, client_certificate);
-        Self::try_new_with_connector::<hyper_tls::HttpsConnector<hyper::client::HttpConnector>>(
-            handle,
-            base_path,
-            Some("https"),
-            https_connector,
-        )
-    }
-
+impl Client<hyper::client::ResponseFuture>
+{
     /// Create a client with a custom implementation of hyper::client::Connect.
     ///
     /// Intended for use with custom implementations of connect for e.g. protocol logging
@@ -176,23 +101,21 @@ impl Client<hyper::client::FutureResponse> {
     ///
     /// # Arguments
     ///
-    /// * `handle` - tokio reactor handle to use for execution
     /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
     /// * `protocol` - Which protocol to use when constructing the request url, e.g. `Some("http")`
     /// * `connector_fn` - Function which returns an implementation of `hyper::client::Connect`
     pub fn try_new_with_connector<C>(
-        handle: Handle,
         base_path: &str,
         protocol: Option<&'static str>,
-        connector_fn: Box<dyn Fn(&Handle) -> C + Send + Sync>,
-    ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
-    where
-        C: hyper::client::Connect + hyper::client::Service,
+        connector_fn: Box<dyn Fn() -> C + Send + Sync>,
+    ) -> Result<Self, ClientInitError> where
+      C: hyper::client::connect::Connect + 'static,
+      C::Transport: 'static,
+      C::Future: 'static,
     {
-        let connector = connector_fn(&handle);
-        let client_service = Box::new(hyper::Client::configure().connector(connector).build(
-            &handle,
-        ));
+        let connector = connector_fn();
+
+        let client_service = Box::new(hyper::client::Client::builder().build(connector));
 
         Ok(Client {
             client_service: Arc::new(client_service),
@@ -200,40 +123,67 @@ impl Client<hyper::client::FutureResponse> {
         })
     }
 
-    /// Constructor for creating a `Client` by passing in a pre-made `hyper` client.
+    /// Create an HTTP client.
     ///
-    /// One should avoid relying on this function if possible, since it adds a dependency on the underlying transport
-    /// implementation, which it would be better to abstract away. Therefore, using this function may lead to a loss of
-    /// code generality, which may make it harder to move the application to a serverless environment, for example.
+    /// # Arguments
+    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
+    pub fn try_new_http(
+        base_path: &str,
+    ) -> Result<Self, ClientInitError> {
+        let http_connector = swagger::http_connector();
+
+        Self::try_new_with_connector(base_path, Some("http"), http_connector)
+    }
+
+    /// Create a client with a TLS connection to the server.
     ///
-    /// The reason for this function's existence is to support legacy test code, which did mocking at the hyper layer.
-    /// This is not a recommended way to write new tests. If other reasons are found for using this function, they
-    /// should be mentioned here.
-    #[deprecated(note="Use try_new_with_client_service instead")]
-    pub fn try_new_with_hyper_client(
-        hyper_client: Arc<Box<dyn hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
-        handle: Handle,
-        base_path: &str
-    ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
+    /// # Arguments
+    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
+    /// * `ca_certificate` - Path to CA certificate used to authenticate the server
+    pub fn try_new_https<CA>(
+        base_path: &str,
+        ca_certificate: CA,
+    ) -> Result<Self, ClientInitError>
+    where
+        CA: AsRef<Path>,
     {
-        Ok(Client {
-            client_service: hyper_client,
-            base_path: into_base_path(base_path, None)?,
-        })
+        let https_connector = swagger::https_connector(ca_certificate);
+        Self::try_new_with_connector(base_path, Some("https"), https_connector)
+    }
+
+    /// Create a client with a mutually authenticated TLS connection to the server.
+    ///
+    /// # Arguments
+    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
+    /// * `ca_certificate` - Path to CA certificate used to authenticate the server
+    /// * `client_key` - Path to the client private key
+    /// * `client_certificate` - Path to the client's public certificate associated with the private key
+    pub fn try_new_https_mutual<CA, K, D>(
+        base_path: &str,
+        ca_certificate: CA,
+        client_key: K,
+        client_certificate: D,
+    ) -> Result<Self, ClientInitError>
+    where
+        CA: AsRef<Path>,
+        K: AsRef<Path>,
+        D: AsRef<Path>,
+    {
+        let https_connector =
+            swagger::https_mutual_connector(ca_certificate, client_key, client_certificate);
+        Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 }
 
-impl<F> Client<F> where
-    F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static
+impl<F> Client<F>
 {
-    /// Constructor for creating a `Client` by passing in a pre-made `hyper` client Service.
+    /// Constructor for creating a `Client` by passing in a pre-made `swagger::client::Service`
     ///
     /// This allows adding custom wrappers around the underlying transport, for example for logging.
-    pub fn try_new_with_client_service(client_service: Arc<Box<dyn hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
-                                       handle: Handle,
-                                       base_path: &str)
-                                    -> Result<Client<F>, ClientInitError>
-    {
+    pub fn try_new_with_client_service(
+        client_service: Arc<Box<dyn Service<ReqBody=Body, Future=F> + Send + Sync>>,
+        base_path: &str,
+    ) -> Result<Self, ClientInitError> {
         Ok(Client {
             client_service: client_service,
             base_path: into_base_path(base_path, None)?,
@@ -241,19 +191,19 @@ impl<F> Client<F> where
     }
 }
 
-impl<F, C> Api<C> for Client<F> where
-    F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static,
-    C: Has<XSpanIdString> {
+impl<C, F> Api<C> for Client<F> where
+    C: Has<XSpanIdString> ,
+    F: Future<Item=Response<Body>, Error=hyper::Error> + Send + 'static
+{
 
-    fn multipart_request_post(&self, param_string_field: String, param_binary_field: swagger::ByteArray, param_optional_string_field: Option<String>, param_object_field: Option<models::MultipartRequestObjectField>, context: &C) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError>> {
+    fn multipart_request_post(&self, param_string_field: String, param_binary_field: swagger::ByteArray, param_optional_string_field: Option<String>, param_object_field: Option<models::MultipartRequestObjectField>, context: &C) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send> {
         let mut uri = format!(
             "{}/multipart_request",
             self.base_path
         );
 
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
-
-
+        // Query parameters
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -262,10 +212,16 @@ impl<F, C> Api<C> for Client<F> where
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
+            Err(err) => return Box::new(future::err(ApiError(format!("Unable to build URI: {}", err)))),
         };
 
-        let mut request = hyper::Request::new(hyper::Method::Post, uri);
+        let mut request = match hyper::Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
+        };
 
         let mut multipart = Multipart::new(); 
 
@@ -273,94 +229,97 @@ impl<F, C> Api<C> for Client<F> where
 
         let string_field_str = match serde_json::to_string(&param_string_field) {
             Ok(str) => str,
-            Err(e) => return Box::new(futures::done(Err(ApiError(format!("Unable to parse string_field to string: {}", e))))),
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to parse string_field to string: {}", e)))),
         };
 
         let string_field_vec = string_field_str.as_bytes().to_vec();
 
-        let string_field_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
+        let string_field_mime = mime_0_2::Mime::from_str("application/json").expect("impossible to fail to parse");
 
         let string_field_cursor = Cursor::new(string_field_vec);
 
         multipart.add_stream("string_field",  string_field_cursor,  None as Option<&str>, Some(string_field_mime));  
 
-
         let optional_string_field_str = match serde_json::to_string(&param_optional_string_field) {
             Ok(str) => str,
-            Err(e) => return Box::new(futures::done(Err(ApiError(format!("Unable to parse optional_string_field to string: {}", e))))),
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to parse optional_string_field to string: {}", e)))),
         };
 
         let optional_string_field_vec = optional_string_field_str.as_bytes().to_vec();
 
-        let optional_string_field_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
+        let optional_string_field_mime = mime_0_2::Mime::from_str("application/json").expect("impossible to fail to parse");
 
         let optional_string_field_cursor = Cursor::new(optional_string_field_vec);
 
         multipart.add_stream("optional_string_field",  optional_string_field_cursor,  None as Option<&str>, Some(optional_string_field_mime));  
 
-
         let object_field_str = match serde_json::to_string(&param_object_field) {
             Ok(str) => str,
-            Err(e) => return Box::new(futures::done(Err(ApiError(format!("Unable to parse object_field to string: {}", e))))),
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to parse object_field to string: {}", e)))),
         };
 
         let object_field_vec = object_field_str.as_bytes().to_vec();
 
-        let object_field_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
+        let object_field_mime = mime_0_2::Mime::from_str("application/json").expect("impossible to fail to parse");
 
         let object_field_cursor = Cursor::new(object_field_vec);
 
         multipart.add_stream("object_field",  object_field_cursor,  None as Option<&str>, Some(object_field_mime));  
 
-
         let binary_field_vec = param_binary_field.to_vec();
 
-        let binary_field_mime = match mime::Mime::from_str("application/octet-stream") {
+        let binary_field_mime = match mime_0_2::Mime::from_str("application/octet-stream") {
             Ok(mime) => mime,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to get mime type: {:?}", err))))),
+            Err(err) => return Box::new(future::err(ApiError(format!("Unable to get mime type: {:?}", err)))),
         };
 
         let binary_field_cursor = Cursor::new(binary_field_vec);
 
         let filename = None as Option<&str> ;
-        multipart.add_stream("binary_field",  binary_field_cursor,  filename, Some(binary_field_mime));  
-
+        multipart.add_stream("binary_field",  binary_field_cursor,  filename, Some(binary_field_mime));
 
         let mut fields = match multipart.prepare() {
             Ok(fields) => fields,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build request: {}", err))))),
+            Err(err) => return Box::new(future::err(ApiError(format!("Unable to build request: {}", err)))),
         };
 
         let mut body_string = String::new();
-        fields.to_body().read_to_string(&mut body_string).unwrap();
+        match fields.read_to_string(&mut body_string) {
+            Ok(_) => (),
+            Err(err) => return Box::new(future::err(ApiError(format!("Unable to build body: {}", err)))),
+        }
         let boundary = fields.boundary();
 
-        let multipart_header = match Mime::from_str(&format!("multipart/form-data;boundary={}", boundary)) {
-            Ok(multipart_header) => multipart_header,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build multipart header: {:?}", err))))),
-        };
+        let multipart_header = format!("multipart/form-data;boundary={}", boundary);
 
-        request.set_body(body_string.into_bytes());
-        request.headers_mut().set(ContentType(multipart_header));
+        *request.body_mut() = Body::from(body_string);
+        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(&multipart_header) {
+            Ok(h) => h,
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", multipart_header, e))))
+        });
+
+        let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
+        });
 
 
-        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
-        Box::new(self.client_service.call(request)
+        Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 201 => {
-                    let body = response.body();
+                    let body = response.into_body();
                     Box::new(
-
                         future::ok(
                             MultipartRequestPostResponse::OK
                         )
-                    ) as Box<dyn Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
                 },
                 code => {
                     let headers = response.headers().clone();
-                    Box::new(response.body()
+                    Box::new(response.into_body()
                             .take(100)
                             .concat2()
                             .then(move |body|
@@ -375,7 +334,7 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<dyn Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
                 }
             }
         }))
@@ -387,13 +346,13 @@ impl<F, C> Api<C> for Client<F> where
 #[derive(Debug)]
 pub enum ClientInitError {
     InvalidScheme,
-    InvalidUri(hyper::error::UriError),
+    InvalidUri(hyper::http::uri::InvalidUri),
     MissingHost,
     SslError(openssl::error::ErrorStack)
 }
 
-impl From<hyper::error::UriError> for ClientInitError {
-    fn from(err: hyper::error::UriError) -> ClientInitError {
+impl From<hyper::http::uri::InvalidUri> for ClientInitError {
+    fn from(err: hyper::http::uri::InvalidUri) -> ClientInitError {
         ClientInitError::InvalidUri(err)
     }
 }

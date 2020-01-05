@@ -1,18 +1,17 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
 
-#[macro_use]
-extern crate lazy_static;
-#[macro_use]
-extern crate log;
+// Crates with macros
+
 #[macro_use]
 extern crate serde_derive;
-
-#[cfg(any(feature = "client", feature = "server"))]
+#[cfg(any(feature = "server"))]
 #[macro_use]
-extern crate hyper;
+extern crate lazy_static;
 #[cfg(any(feature = "client", feature = "server"))]
 #[macro_use]
 extern crate url;
+#[macro_use]
+extern crate log;
 
 // Crates for conversion support
 #[cfg(feature = "conversion")]
@@ -26,12 +25,37 @@ extern crate frunk_core;
 
 extern crate mime;
 extern crate serde;
-extern crate serde_json;
-
 extern crate futures;
 extern crate chrono;
 extern crate swagger;
 
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate hyper;
+#[cfg(any(feature = "client"))]
+extern crate hyper_tls;
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate openssl;
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate native_tls;
+#[cfg(feature = "server")]
+extern crate percent_encoding;
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate serde_json;
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate serde_ignored;
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate tokio;
+
+#[cfg(any(feature = "client", feature = "server"))]
+
+
+
+
+
+#[cfg(any(feature = "client", feature = "server"))]
+
+
+use hyper::header::HeaderValue;
 use futures::Stream;
 use std::io::Error;
 
@@ -88,19 +112,19 @@ pub enum RawJsonGetResponse {
 pub trait Api<C> {
 
     /// A dummy endpoint to make the spec valid.
-    fn dummy_get(&self, context: &C) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError>>;
+    fn dummy_get(&self, context: &C) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError> + Send>;
 
 
-    fn dummy_put(&self, nested_response: models::InlineObject, context: &C) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError>>;
+    fn dummy_put(&self, nested_response: models::InlineObject, context: &C) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError> + Send>;
 
     /// Get a file
-    fn file_response_get(&self, context: &C) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError>>;
+    fn file_response_get(&self, context: &C) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError> + Send>;
 
     /// Test HTML handling
-    fn html_post(&self, body: String, context: &C) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError>>;
+    fn html_post(&self, body: String, context: &C) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError> + Send>;
 
     /// Get an arbitrary JSON blob.
-    fn raw_json_get(&self, context: &C) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError>>;
+    fn raw_json_get(&self, context: &C) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError> + Send>;
 
 }
 
@@ -108,19 +132,19 @@ pub trait Api<C> {
 pub trait ApiNoContext {
 
     /// A dummy endpoint to make the spec valid.
-    fn dummy_get(&self) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError>>;
+    fn dummy_get(&self) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError> + Send>;
 
 
-    fn dummy_put(&self, nested_response: models::InlineObject) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError>>;
+    fn dummy_put(&self, nested_response: models::InlineObject) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError> + Send>;
 
     /// Get a file
-    fn file_response_get(&self) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError>>;
+    fn file_response_get(&self) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError> + Send>;
 
     /// Test HTML handling
-    fn html_post(&self, body: String) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError>>;
+    fn html_post(&self, body: String) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError> + Send>;
 
     /// Get an arbitrary JSON blob.
-    fn raw_json_get(&self) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError>>;
+    fn raw_json_get(&self) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError> + Send>;
 
 }
 
@@ -139,27 +163,27 @@ impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
 impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
     /// A dummy endpoint to make the spec valid.
-    fn dummy_get(&self) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError>> {
+    fn dummy_get(&self) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError> + Send> {
         self.api().dummy_get(&self.context())
     }
 
 
-    fn dummy_put(&self, nested_response: models::InlineObject) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError>> {
+    fn dummy_put(&self, nested_response: models::InlineObject) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError> + Send> {
         self.api().dummy_put(nested_response, &self.context())
     }
 
     /// Get a file
-    fn file_response_get(&self) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError>> {
+    fn file_response_get(&self) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError> + Send> {
         self.api().file_response_get(&self.context())
     }
 
     /// Test HTML handling
-    fn html_post(&self, body: String) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError>> {
+    fn html_post(&self, body: String) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError> + Send> {
         self.api().html_post(body, &self.context())
     }
 
     /// Get an arbitrary JSON blob.
-    fn raw_json_get(&self) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError>> {
+    fn raw_json_get(&self) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError> + Send> {
         self.api().raw_json_get(&self.context())
     }
 

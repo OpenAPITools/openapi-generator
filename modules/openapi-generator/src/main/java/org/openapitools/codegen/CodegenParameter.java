@@ -26,6 +26,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
             collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style;
 
+    public String nameInLowerCase; // property name in lower case
     public String example; // example value (x-example)
     public String jsonSchema;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary,

@@ -205,7 +205,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("example-server.mustache", "examples", "server.rs"));
         supportingFiles.add(new SupportingFile("example-client.mustache", "examples", "client.rs"));
         supportingFiles.add(new SupportingFile("example-server_lib.mustache", "examples/server_lib", "mod.rs"));
-        supportingFiles.add(new SupportingFile("example-server_server.mustache", "examples/server_lib", "server.rs"));
         supportingFiles.add(new SupportingFile("example-ca.pem", "examples", "ca.pem"));
         supportingFiles.add(new SupportingFile("example-server-chain.pem", "examples", "server-chain.pem"));
         supportingFiles.add(new SupportingFile("example-server-key.pem", "examples", "server-key.pem"));
@@ -564,7 +563,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         op.vendorExtensions.put("path", op.path.replace("{", ":").replace("}", ""));
         op.vendorExtensions.put("PATH_ID", pathId);
         op.vendorExtensions.put("hasPathParams", !op.pathParams.isEmpty());
-        op.vendorExtensions.put("HttpMethod", Character.toUpperCase(op.httpMethod.charAt(0)) + op.httpMethod.substring(1).toLowerCase(Locale.ROOT));
+        op.vendorExtensions.put("HttpMethod", op.httpMethod.toUpperCase(Locale.ROOT));
         for (CodegenParameter param : op.allParams) {
             processParam(param, op);
         }
@@ -757,13 +756,20 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     additionalProperties.put("apiUsesUuid", true);
                 }
                 header.nameInCamelCase = toModelName(header.baseName);
+                header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
             }
         }
+
+        for (CodegenParameter header : op.headerParams) {
+            header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
+        }
+
         for (CodegenProperty header : op.responseHeaders) {
             if (header.dataType.equals(uuidType)) {
                 additionalProperties.put("apiUsesUuid", true);
             }
             header.nameInCamelCase = toModelName(header.baseName);
+            header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
         }
 
         return op;
@@ -829,11 +835,16 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 processParam(param, op);
             }
 
+            for (CodegenParameter header : op.headerParams) {
+                header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
+            }
+
             for (CodegenProperty header : op.responseHeaders) {
                 if (header.dataType.equals(uuidType)) {
                     additionalProperties.put("apiUsesUuid", true);
                 }
                 header.nameInCamelCase = toModelName(header.baseName);
+                header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
             }
 
             if (op.authMethods != null) {
@@ -1035,6 +1046,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 String xmlName = modelXmlNames.get(prop.dataType);
                 if (xmlName != null) {
                     prop.vendorExtensions.put("itemXmlName", xmlName);
+                }
+
+                if (prop.dataType.equals(uuidType)) {
+                    additionalProperties.put("apiUsesUuid", true);
                 }
             }
         }
@@ -1242,6 +1257,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 // get them recognised correctly.
                 cm.isAlias = false;
                 cm.dataType = typeMapping.get(cm.dataType);
+
+                if (uuidType.equals(cm.dataType)) {
+                    additionalProperties.put("apiUsesUuid", true);
+                }
             }
 
             cm.vendorExtensions.put("isString", "String".equals(cm.dataType));
