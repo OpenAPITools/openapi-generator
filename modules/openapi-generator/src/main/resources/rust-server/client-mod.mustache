@@ -33,6 +33,8 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
+use swagger::headers::SafeHeaders;
+
 {{#apiUsesMultipart}}
 use hyper::mime::Mime; 
 use std::io::Cursor; 
@@ -478,7 +480,7 @@ impl<F, C> Api<C> for Client<F> where
 {{#responses}}
                 {{{code}}} => {
 {{#headers}}                    header! { (Response{{{nameInCamelCase}}}, "{{{baseName}}}") => [{{{datatype}}}] }
-                    let response_{{{name}}} = match response.headers().get::<Response{{{nameInCamelCase}}}>() {
+                    let response_{{{name}}} = match response.headers().safe_get::<Response{{{nameInCamelCase}}}>() {
                         Some(response_{{{name}}}) => response_{{{name}}}.0.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header {{{baseName}}} for response {{{code}}} was not found.")))) as Box<dyn Future<Item=_, Error=_>>,
                     };

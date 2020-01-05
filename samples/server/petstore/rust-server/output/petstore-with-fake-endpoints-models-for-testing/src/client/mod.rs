@@ -27,6 +27,8 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
+use swagger::headers::SafeHeaders;
+
 use hyper::mime::Mime; 
 use std::io::Cursor; 
 use client::multipart::client::lazy::Multipart; 
@@ -2705,12 +2707,12 @@ impl<F, C> Api<C> for Client<F> where
             match response.status().as_u16() {
                 200 => {
                     header! { (ResponseXRateLimit, "X-Rate-Limit") => [i32] }
-                    let response_x_rate_limit = match response.headers().get::<ResponseXRateLimit>() {
+                    let response_x_rate_limit = match response.headers().safe_get::<ResponseXRateLimit>() {
                         Some(response_x_rate_limit) => response_x_rate_limit.0.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header X-Rate-Limit for response 200 was not found.")))) as Box<dyn Future<Item=_, Error=_>>,
                     };
                     header! { (ResponseXExpiresAfter, "X-Expires-After") => [chrono::DateTime<chrono::Utc>] }
-                    let response_x_expires_after = match response.headers().get::<ResponseXExpiresAfter>() {
+                    let response_x_expires_after = match response.headers().safe_get::<ResponseXExpiresAfter>() {
                         Some(response_x_expires_after) => response_x_expires_after.0.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header X-Expires-After for response 200 was not found.")))) as Box<dyn Future<Item=_, Error=_>>,
                     };

@@ -37,6 +37,7 @@ use std::collections::BTreeSet;
 pub use swagger::auth::Authorization;
 use swagger::{ApiError, XSpanId, XSpanIdString, Has, RequestParser};
 use swagger::auth::Scopes;
+use swagger::headers::SafeHeaders;
 
 use {Api,
      TestSpecialTagsResponse,
@@ -752,9 +753,9 @@ where
             &hyper::Method::Get if path.matched(paths::ID_FAKE) => {
                 // Header parameters
                 header! { (RequestEnumHeaderStringArray, "enum_header_string_array") => (String)* }
-                let param_enum_header_string_array = headers.get::<RequestEnumHeaderStringArray>().map(|header| header.0.clone());
+                let param_enum_header_string_array = headers.safe_get::<RequestEnumHeaderStringArray>().map(|header| header.0.clone());
                 header! { (RequestEnumHeaderString, "enum_header_string") => [String] }
-                let param_enum_header_string = headers.get::<RequestEnumHeaderString>().map(|header| header.0.clone());
+                let param_enum_header_string = headers.safe_get::<RequestEnumHeaderString>().map(|header| header.0.clone());
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_enum_query_string_array = query_params.iter().filter(|e| e.0 == "enum_query_string_array").map(|e| e.1.to_owned())
@@ -1132,7 +1133,7 @@ where
                 };
                 // Header parameters
                 header! { (RequestApiKey, "api_key") => [String] }
-                let param_api_key = headers.get::<RequestApiKey>().map(|header| header.0.clone());
+                let param_api_key = headers.safe_get::<RequestApiKey>().map(|header| header.0.clone());
                 Box::new({
                         {{
                                 Box::new(api_impl.delete_pet(param_pet_id, param_api_key, &context)
@@ -1614,7 +1615,7 @@ where
                     }
                 }
                 let boundary = match multipart_boundary(&headers) {
-                    Some(boundary) => boundary.to_string(),
+                    Some(boundary) => boundary,
                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
                 };
                 // Path parameters
@@ -2489,11 +2490,11 @@ impl<T, C> Clone for Service<T, C>
 }
 
 /// Utility function to get the multipart boundary marker (if any) from the Headers.
-fn multipart_boundary<'a>(headers: &'a Headers) -> Option<&'a str> {
-    headers.get::<ContentType>().and_then(|content_type| {
-        let ContentType(ref mime) = *content_type;
+fn multipart_boundary(headers: &Headers) -> Option<String> {
+    headers.safe_get::<ContentType>().and_then(|content_type| {
+        let ContentType(mime) = content_type;
         if mime.type_() == hyper::mime::MULTIPART && mime.subtype() == hyper::mime::FORM_DATA {
-            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str())
+            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str().to_string())
         } else {
             None
         }

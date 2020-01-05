@@ -25,6 +25,8 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
+use swagger::headers::SafeHeaders;
+
 use mimetypes;
 use serde_json;
 use serde_xml_rs;
@@ -675,7 +677,7 @@ impl<F, C> Api<C> for Client<F> where
             match response.status().as_u16() {
                 200 => {
                     header! { (ResponseSuccessInfo, "Success-Info") => [String] }
-                    let response_success_info = match response.headers().get::<ResponseSuccessInfo>() {
+                    let response_success_info = match response.headers().safe_get::<ResponseSuccessInfo>() {
                         Some(response_success_info) => response_success_info.0.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header Success-Info for response 200 was not found.")))) as Box<dyn Future<Item=_, Error=_>>,
                     };
@@ -699,12 +701,12 @@ impl<F, C> Api<C> for Client<F> where
                 },
                 412 => {
                     header! { (ResponseFurtherInfo, "Further-Info") => [String] }
-                    let response_further_info = match response.headers().get::<ResponseFurtherInfo>() {
+                    let response_further_info = match response.headers().safe_get::<ResponseFurtherInfo>() {
                         Some(response_further_info) => response_further_info.0.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header Further-Info for response 412 was not found.")))) as Box<dyn Future<Item=_, Error=_>>,
                     };
                     header! { (ResponseFailureInfo, "Failure-Info") => [String] }
-                    let response_failure_info = match response.headers().get::<ResponseFailureInfo>() {
+                    let response_failure_info = match response.headers().safe_get::<ResponseFailureInfo>() {
                         Some(response_failure_info) => response_failure_info.0.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header Failure-Info for response 412 was not found.")))) as Box<dyn Future<Item=_, Error=_>>,
                     };
