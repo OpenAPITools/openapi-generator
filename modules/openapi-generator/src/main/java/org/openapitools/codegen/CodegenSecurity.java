@@ -52,7 +52,6 @@ public class CodegenSecurity {
         filteredSecurity.isBasicBasic = isBasicBasic;
         filteredSecurity.isHttpSignature = isHttpSignature;
         filteredSecurity.isBasicBearer = isBasicBearer;
-        filteredSecurity.isHttpSignature = isHttpSignature;
         filteredSecurity.isApiKey = isApiKey;
         filteredSecurity.isOAuth = isOAuth;
         filteredSecurity.keyParamName = keyParamName;
@@ -138,7 +137,6 @@ public class CodegenSecurity {
         sb.append(", isBasicBasic=").append(isBasicBasic);
         sb.append(", isHttpSignature=").append(isHttpSignature);
         sb.append(", isBasicBearer=").append(isBasicBearer);
-        sb.append(", isHttpSignature=").append(isHttpSignature);
         sb.append(", bearerFormat='").append(bearerFormat).append('\'');
         sb.append(", vendorExtensions=").append(vendorExtensions);
         sb.append(", keyParamName='").append(keyParamName).append('\'');
