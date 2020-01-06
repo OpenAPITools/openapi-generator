@@ -851,6 +851,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             if (hasBearerMethods(authMethods)) {
                 bundle.put("hasBearerMethods", true);
             }
+            if (hasHttpSignatureMethods(authMethods)) {
+                bundle.put("hasHttpSignatureMethods", true);
+            }
         }
 
         List<CodegenServer> servers = config.fromServers(openAPI.getServers());
@@ -1324,6 +1327,16 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private boolean hasBearerMethods(List<CodegenSecurity> authMethods) {
         for (CodegenSecurity cs : authMethods) {
             if (Boolean.TRUE.equals(cs.isBasicBearer)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean hasHttpSignatureMethods(List<CodegenSecurity> authMethods) {
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isHttpSignature)) {
                 return true;
             }
         }

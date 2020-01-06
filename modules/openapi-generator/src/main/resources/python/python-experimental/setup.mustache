@@ -23,6 +23,10 @@ REQUIRES.append("aiohttp >= 3.0.0")
 {{#tornado}}
 REQUIRES.append("tornado>=4.2,<5")
 {{/tornado}}
+{{#hasHttpSignatureMethods}}
+REQUIRES.append("pem>=19.3.0")
+REQUIRES.append("pycryptodome>=3.9.0")
+{{/hasHttpSignatureMethods}}
 EXTRAS = {':python_version <= "2.7"': ['future']}
 
 setup(
