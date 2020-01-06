@@ -4,13 +4,15 @@
 {{>partial_header}}
 #' @docType class
 #' @title {{classname}}
+#'
 #' @description {{classname}} Class
+#'
 #' @format An \code{R6Class} generator object
+#'
 {{#vars}}
 #' @field {{baseName}} {{title}} {{#isContainer}}{{#isListContainer}}list( {{/isListContainer}}{{#isMapContainer}}named list( {{/isMapContainer}}{{/isContainer}}{{^isPrimitiveType}}\link{{=<% %>=}}{<%/isPrimitiveType%><%={{ }}=%>{{#isContainer}}{{#items}}{{dataType}}{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}{{=<% %>=}}<%^isPrimitiveType%>}<%={{ }}=%>{{/isPrimitiveType}}{{#isContainer}}{{#isListContainer}} ){{/isListContainer}}{{#isMapContainer}} ){{/isMapContainer}}{{/isContainer}} {{^required}}[optional]{{/required}}
 #'
 {{/vars}}
-#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -125,7 +127,7 @@
     },
     toJSON = function() {
     {{#isEnum}}
-        jsonlite::toJSON(self$`{{name}}`)
+        jsonlite::toJSON(self$`{{name}}`, auto_unbox = TRUE)
     {{/isEnum}}
     {{^isEnum}}
       {{classname}}Object <- list()
@@ -166,10 +168,12 @@
     },
     fromJSON = function({{classname}}Json) {
       {{#isEnum}}
-        self$`{{name}}` <- jsonlite::fromJSON({{classname}}Json)
+        self$`{{name}}` <- jsonlite::fromJSON({{classname}}Json,
+            simplifyVector = FALSE)
       {{/isEnum}}
       {{^isEnum}}
-      {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
+      {{classname}}Object <- jsonlite::fromJSON({{classname}}Json,
+            simplifyVector = FALSE)
       {{#vars}}
       if (!is.null({{classname}}Object$`{{baseName}}`)) {
         {{#isContainer}}
@@ -188,10 +192,12 @@
       }
       {{/vars}}
       {{/isEnum}}
+      self
     },
     toJSONString = function() {
       {{#isEnum}}
-        as.character(jsonlite::toJSON(self$`{{name}}`))
+        as.character(jsonlite::toJSON(self$`{{name}}`,
+            auto_unbox = TRUE))
       {{/isEnum}}
       {{^isEnum}}
       jsoncontent <- c(
@@ -257,10 +263,12 @@
     },
     fromJSONString = function({{classname}}Json) {
       {{#isEnum}}
-        self$`{{name}}` <- jsonlite::fromJSON({{classname}}Json)
+        self$`{{name}}` <- jsonlite::fromJSON({{classname}}Json,
+            simplifyVector = FALSE)
       {{/isEnum}}
       {{^isEnum}}
-      {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
+      {{classname}}Object <- jsonlite::fromJSON({{classname}}Json,
+            simplifyVector = FALSE)
       {{#vars}}
       {{! AAPI - added condition for handling container type of parameters, map and array}}
       {{#isContainer}}
