@@ -16,6 +16,8 @@
  */
 namespace OpenAPIServer\Model;
 
+use OpenAPIServer\Interfaces\ModelInterface;
+
 /**
  * User
  *
@@ -23,30 +25,80 @@ namespace OpenAPIServer\Model;
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class User
+class User implements ModelInterface
 {
-    
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+  "type" : "object",
+  "properties" : {
+    "id" : {
+      "type" : "integer",
+      "format" : "int64",
+      "x-is-unique" : true
+    },
+    "username" : {
+      "type" : "string"
+    },
+    "firstName" : {
+      "type" : "string"
+    },
+    "lastName" : {
+      "type" : "string"
+    },
+    "email" : {
+      "type" : "string"
+    },
+    "password" : {
+      "type" : "string"
+    },
+    "phone" : {
+      "type" : "string"
+    },
+    "userStatus" : {
+      "type" : "integer",
+      "description" : "User Status",
+      "format" : "int32"
+    }
+  },
+  "xml" : {
+    "name" : "User"
+  }
+}
+SCHEMA;
+
     /** @var int $id */
     private $id;
-    
+
     /** @var string $username */
     private $username;
-    
+
     /** @var string $firstName */
     private $firstName;
-    
+
     /** @var string $lastName */
     private $lastName;
-    
+
     /** @var string $email */
     private $email;
-    
+
     /** @var string $password */
     private $password;
-    
+
     /** @var string $phone */
     private $phone;
-    
+
     /** @var int $userStatus User Status*/
     private $userStatus;
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }

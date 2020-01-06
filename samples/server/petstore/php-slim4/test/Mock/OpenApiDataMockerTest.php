@@ -30,6 +30,7 @@ use OpenAPIServer\Mock\OpenApiDataMockerInterface as IMocker;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Constraint\IsType;
 use StdClass;
+use DateTime;
 
 /**
  * OpenApiDataMockerTest Class Doc Comment
@@ -511,7 +512,7 @@ class OpenApiDataMockerTest extends TestCase
             $subMaxItems = $items->maxItems ?? null;
             $subUniqueItems = $items->uniqueItems ?? null;
         }
-        
+
 
         foreach ($arr as $item) {
             switch ($dataType) {
@@ -639,6 +640,45 @@ class OpenApiDataMockerTest extends TestCase
             'maxItems less than minItems' => [
                 $intItems, 5, 2, false,
             ],
+            'items with ref to unknown class' => [
+                ['$ref' => '#/components/schemas/UnknownClass'], null, null, false,
+            ],
+            'items with ref to class without getOpenApiSchema method' => [
+                ['$ref' => '#/components/schemas/ClassWithoutGetSchemaMethod'], null, null, false,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMockArrayWithRefArguments
+     * @covers ::mockArray
+     */
+    public function testMockArrayWithRef($items, $expectedStructure)
+    {
+        $mocker = new OpenApiDataMocker();
+        $arr = $mocker->mockArray($items);
+        $this->assertIsArray($arr);
+        $this->assertCount(1, $arr);
+        foreach ($arr as $item) {
+            // TODO: replace with assertInstanceOf assertion
+            $this->assertInternalType(IsType::TYPE_OBJECT, $item);
+            foreach ($expectedStructure as $expectedProp => $expectedType) {
+                $this->assertInternalType($expectedType, $item->$expectedProp);
+            }
+        }
+    }
+
+    public function provideMockArrayWithRefArguments()
+    {
+        return [
+            'items with ref to CatRefTestClass' => [
+                ['$ref' => '#/components/schemas/CatRefTestClass'],
+                [
+                    'className' => IsType::TYPE_STRING,
+                    'color' => IsType::TYPE_STRING,
+                    'declawed' => IsType::TYPE_BOOL,
+                ],
+            ],
         ];
     }
 
@@ -723,6 +763,9 @@ class OpenApiDataMockerTest extends TestCase
             'properties cannot be a string' => [
                 'foobar', 0, 10, false, null,
             ],
+            'property value cannot be a string' => [
+                ['username' => 'foobar'], 0, 10, false, null,
+            ],
             'minProperties is not integer' => [
                 [], 3.12, null, false, null,
             ],
@@ -761,4 +804,215 @@ class OpenApiDataMockerTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @covers ::mockObject
+     */
+    public function testMockObjectWithReferencedProps()
+    {
+        $mocker = new OpenApiDataMocker();
+        $obj = $mocker->mockObject(
+            (object) [
+                'cat' => [
+                    '$ref' => '#/components/schemas/CatRefTestClass',
+                ],
+            ]
+        );
+        $this->assertInternalType(IsType::TYPE_OBJECT, $obj->cat);
+        $this->assertInternalType(IsType::TYPE_STRING, $obj->cat->className);
+        $this->assertInternalType(IsType::TYPE_STRING, $obj->cat->color);
+        $this->assertInternalType(IsType::TYPE_BOOL, $obj->cat->declawed);
+    }
+
+    /**
+     * @dataProvider provideMockFromSchemaCorrectArguments
+     * @covers ::mockFromSchema
+     */
+    public function testMockFromSchemaWithCorrectArguments($schema, $expectedType)
+    {
+        $mocker = new OpenApiDataMocker();
+        $data = $mocker->mockFromSchema($schema);
+        $this->assertInternalType($expectedType, $data);
+    }
+
+    public function provideMockFromSchemaCorrectArguments()
+    {
+        return [
+            'string from object' => [
+                (object) ['type' => IMocker::DATA_TYPE_STRING],
+                IsType::TYPE_STRING,
+            ],
+            'string from array' => [
+                ['type' => IMocker::DATA_TYPE_STRING],
+                IsType::TYPE_STRING,
+            ],
+            'integer from object' => [
+                (object) ['type' => IMocker::DATA_TYPE_INTEGER],
+                IsType::TYPE_INT,
+            ],
+            'integer from array' => [
+                ['type' => IMocker::DATA_TYPE_INTEGER],
+                IsType::TYPE_INT,
+            ],
+            'number from object' => [
+                (object) ['type' => IMocker::DATA_TYPE_NUMBER],
+                IsType::TYPE_FLOAT,
+            ],
+            'number from array' => [
+                ['type' => IMocker::DATA_TYPE_NUMBER],
+                IsType::TYPE_FLOAT,
+            ],
+            'string from object' => [
+                (object) ['type' => IMocker::DATA_TYPE_STRING],
+                IsType::TYPE_STRING,
+            ],
+            'string from array' => [
+                ['type' => IMocker::DATA_TYPE_STRING],
+                IsType::TYPE_STRING,
+            ],
+            'boolean from object' => [
+                (object) ['type' => IMocker::DATA_TYPE_BOOLEAN],
+                IsType::TYPE_BOOL,
+            ],
+            'boolean from array' => [
+                ['type' => IMocker::DATA_TYPE_BOOLEAN],
+                IsType::TYPE_BOOL,
+            ],
+            'array of strings from object' => [
+                (object) [
+                    'type' => IMocker::DATA_TYPE_ARRAY,
+                    'items' => ['type' => IMocker::DATA_TYPE_STRING],
+                ],
+                IsType::TYPE_ARRAY,
+            ],
+            'array of strings from array' => [
+                [
+                    'type' => IMocker::DATA_TYPE_ARRAY,
+                    'items' => ['type' => IMocker::DATA_TYPE_STRING],
+                ],
+                IsType::TYPE_ARRAY,
+            ],
+            'object with username prop from object' => [
+                (object) [
+                    'type' => IMocker::DATA_TYPE_OBJECT,
+                    'properties' => ['username' => ['type' => IMocker::DATA_TYPE_STRING]],
+                ],
+                IsType::TYPE_OBJECT,
+            ],
+            'object with username prop from array' => [
+                [
+                    'type' => IMocker::DATA_TYPE_OBJECT,
+                    'properties' => ['username' => ['type' => IMocker::DATA_TYPE_STRING]],
+                ],
+                IsType::TYPE_OBJECT,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMockFromSchemaInvalidArguments
+     * @expectedException \InvalidArgumentException
+     * @covers ::mockFromSchema
+     */
+    public function testMockFromSchemaWithInvalidArguments($schema)
+    {
+        $mocker = new OpenApiDataMocker();
+        $data = $mocker->mockFromSchema($schema);
+    }
+
+
+    public function provideMockFromSchemaInvalidArguments()
+    {
+        return [
+            'null' => [null],
+            'numeric' => [3.14],
+            'empty array' => [[]],
+            'empty object' => [(object) []],
+            'string' => ['foobar'],
+            'DateTime object' => [new DateTime()],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMockFromRefCorrectArguments
+     * @covers ::mockFromRef
+     */
+    public function testMockFromRefWithCorrectArguments($ref, $expectedStructure)
+    {
+        $mocker = new OpenApiDataMocker();
+        $data = $mocker->mockFromRef($ref);
+        foreach ($expectedStructure as $expectedProp => $expectedType) {
+            $this->assertInternalType($expectedType, $data->$expectedProp);
+        }
+    }
+
+    public function provideMockFromRefCorrectArguments()
+    {
+        return [
+            'CatRefTestClass model' => [
+                '#/components/schemas/CatRefTestClass',
+                [
+                    'className' => IsType::TYPE_STRING,
+                    'color' => IsType::TYPE_STRING,
+                    'declawed' => IsType::TYPE_BOOL,
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMockFromRefInvalidArguments
+     * @expectedException \InvalidArgumentException
+     * @covers ::mockFromRef
+     */
+    public function testMockFromRefWithInvalidArguments($ref)
+    {
+        $mocker = new OpenApiDataMocker();
+        $data = $mocker->mockFromRef($ref);
+    }
+
+    public function provideMockFromRefInvalidArguments()
+    {
+        return [
+            'ref to unknown class' => ['#/components/schemas/UnknownClass'],
+            'ref to class without getOpenApiSchema method' => ['#/components/schemas/ClassWithoutGetSchemaMethod'],
+        ];
+    }
+}
+
+namespace OpenAPIServer\Model;
+
+// phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
+final class CatRefTestClass
+{
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+    "required" : [ "className" ],
+    "type" : "object",
+    "properties" : {
+        "className" : {
+            "type" : "string"
+        },
+        "color" : {
+            "type" : "string",
+            "default" : "red"
+        },
+        "declawed" : {
+            "type" : "boolean"
+        }
+    },
+    "discriminator" : {
+        "propertyName" : "className"
+    }
+}
+SCHEMA;
+
+    public static function getOpenApiSchema()
+    {
+        return json_decode(static::MODEL_SCHEMA, true);
+    }
+}
+
+final class ClassWithoutGetSchemaMethod
+{
 }

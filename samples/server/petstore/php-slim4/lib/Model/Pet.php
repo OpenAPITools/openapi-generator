@@ -16,6 +16,8 @@
  */
 namespace OpenAPIServer\Model;
 
+use OpenAPIServer\Interfaces\ModelInterface;
+
 /**
  * Pet
  *
@@ -23,24 +25,84 @@ namespace OpenAPIServer\Model;
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class Pet
+class Pet implements ModelInterface
 {
-    
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+  "required" : [ "name", "photoUrls" ],
+  "type" : "object",
+  "properties" : {
+    "id" : {
+      "type" : "integer",
+      "format" : "int64",
+      "x-is-unique" : true
+    },
+    "category" : {
+      "$ref" : "#/components/schemas/Category"
+    },
+    "name" : {
+      "type" : "string",
+      "example" : "doggie"
+    },
+    "photoUrls" : {
+      "type" : "array",
+      "xml" : {
+        "name" : "photoUrl",
+        "wrapped" : true
+      },
+      "items" : {
+        "type" : "string"
+      }
+    },
+    "tags" : {
+      "type" : "array",
+      "xml" : {
+        "name" : "tag",
+        "wrapped" : true
+      },
+      "items" : {
+        "$ref" : "#/components/schemas/Tag"
+      }
+    },
+    "status" : {
+      "type" : "string",
+      "description" : "pet status in the store",
+      "enum" : [ "available", "pending", "sold" ]
+    }
+  },
+  "xml" : {
+    "name" : "Pet"
+  }
+}
+SCHEMA;
+
     /** @var int $id */
     private $id;
-    
+
     /** @var \OpenAPIServer\Model\Category $category */
     private $category;
-    
+
     /** @var string $name */
     private $name;
-    
+
     /** @var string[] $photoUrls */
     private $photoUrls;
-    
+
     /** @var \OpenAPIServer\Model\Tag[] $tags */
     private $tags;
-    
+
     /** @var string $status pet status in the store*/
     private $status;
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }
