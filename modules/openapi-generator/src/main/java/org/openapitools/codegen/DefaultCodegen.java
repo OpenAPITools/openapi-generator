@@ -1631,6 +1631,10 @@ public class DefaultCodegen implements CodegenConfig {
     private String getPrimitiveType(Schema schema) {
         if (schema == null) {
             throw new RuntimeException("schema cannot be null in getPrimitiveType");
+        } else if (typeMapping.containsKey(schema.getType() + "_" + schema.getFormat())) {
+            // allows custom type_format mapping.
+            // use {type}_{format}
+            return typeMapping.get(schema.getType() + "_" + schema.getFormat());
         } else if (ModelUtils.isStringSchema(schema) && "number".equals(schema.getFormat())) {
             // special handle of type: string, format: number
             return "BigDecimal";
