@@ -8,6 +8,10 @@ import logging
 {{^asyncio}}
 import multiprocessing
 {{/asyncio}}
+{{#hasHttpSignatureMethods}}
+import pem
+from Crypto.PublicKey import RSA, ECC
+{{/hasHttpSignatureMethods}}
 import sys
 import urllib3
 
@@ -26,12 +30,17 @@ class Configuration(object):
     :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
+    :param key_id: The identifier of the cryptographic key, when signing HTTP requests.
+    :param private_key_path: The path of the file containing a private key, when signing HTTP requests.
+    :param signing_scheme: The signature scheme, when signing HTTP requests. Supported values is hs2019.
+    :param signing_algorithm: The signature algorithm, when signing HTTP requests. PKCS1-v1_5, PSS; fips-186-3, deterministic-rfc6979.
+    :param signed_headers: A list of HTTP headers that must be added to the signed message, when signing HTTP requests.
     """
 
     def __init__(self, host="{{{basePath}}}",
                  api_key=None, api_key_prefix=None,
                  username="", password="",
-                 key_id=None, private_key_path=None, signing_algorithm=None, signed_headers=None):
+                 key_id=None, private_key_path=None, signing_scheme=None, signing_algorithm=None, signed_headers=None):
         """Constructor
         """
         self.host = host
@@ -61,13 +70,18 @@ class Configuration(object):
         """Password for HTTP basic authentication
         """
         self.key_id = key_id
-        """ The identifier of the key used to sign HTTP requests. 
+        """The identifier of the key used to sign HTTP requests.
         """
         self.private_key_path = private_key_path
-        """ The path of the file containing a private key, used to sign HTTP requests. 
+        """The path of the file containing a private key, used to sign HTTP requests.
+        """
+        self.signing_scheme = signing_scheme
+        """The signature scheme when signing HTTP requests. Supported values are hs2019, rsa-sha256, rsa-sha512.
         """
         self.signing_algorithm = signing_algorithm
-        """The signature algorithm when signing HTTP requests. Supported values are rsa-sha256, rsa-sha512, hs2019.
+        """The signature algorithm when signing HTTP requests.
+        For RSA keys, supported values are PKCS1-v1_5, PSS.
+        For ECDSA keys, supported values are fips-186-3, deterministic-rfc6979.
         """
         self.signed_headers = signed_headers
         """A list of HTTP headers that must be signed, when signing HTTP requests.
@@ -122,6 +136,12 @@ class Configuration(object):
         self.assert_hostname = None
         """Set this to True/False to enable/disable SSL hostname verification.
         """
+
+{{#hasHttpSignatureMethods}}
+        self.private_key = None
+        """The private key used to sign HTTP requests. Initialized when the PEM-encoded private key is loaded from a file.
+        """
+{{/hasHttpSignatureMethods}}
 
         {{#asyncio}}
         self.connection_pool_maxsize = 100
@@ -281,7 +301,7 @@ class Configuration(object):
                 },
 {{/isApiKey}}
 {{#isBasic}}
-  {{^isBasicBearer}}
+  {{#isBasicBasic}}
             '{{name}}':
                 {
                     'type': 'basic',
@@ -289,7 +309,7 @@ class Configuration(object):
                     'key': 'Authorization',
                     'value': self.get_basic_auth_token()
                 },
-  {{/isBasicBearer}}
+  {{/isBasicBasic}}
   {{#isBasicBearer}}
             '{{name}}':
                 {
@@ -302,6 +322,15 @@ class Configuration(object):
                     'value': 'Bearer ' + self.access_token
                 },
   {{/isBasicBearer}}
+  {{#isHttpSignature}}
+            '{{name}}':
+                {
+                    'type': 'http-signature',
+                    'in': 'header',
+                    'key': 'Authorization',
+                    'value': None  # Signature headers are calculated for every HTTP request
+                },
+  {{/isHttpSignature}}
 {{/isBasic}}
 {{#isOAuth}}
             '{{name}}':
@@ -314,6 +343,27 @@ class Configuration(object):
 {{/isOAuth}}
 {{/authMethods}}
         }
+
+{{#hasHttpSignatureMethods}}
+    def load_private_key(self):
+        """Load the private key used to sign HTTP requests.
+        """
+        if self.private_key is not None:
+            return
+        with open(self.private_key_path, "rb") as f:
+            # Decode PEM file and determine key type from PEM header.
+            # Supported values are "RSA PRIVATE KEY" and "ECDSA PRIVATE KEY".
+            keys = pem.parse(f.read())
+            if len(keys) != 1:
+                raise Exception("File must contain exactly one private key")
+            key = keys[0].as_text()
+            if key.startswith("-----BEGIN RSA PRIVATE KEY-----"):
+                self.private_key = RSA.importKey(key)
+            elif key.startswith("-----BEGIN EC PRIVATE KEY-----"):
+                self.private_key = ECC.importKey(key)
+            else:
+                raise Exception("Unsupported key")
+{{/hasHttpSignatureMethods}}
 
     def to_debug_report(self):
         """Gets the essential information for debugging.

@@ -1168,6 +1168,9 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    http_signature_test:
+      type: http
+      scheme: signature
   schemas:
     Foo:
       type: object

@@ -9,11 +9,13 @@ import os
 
 # python 2 and python 3 compatibility library
 import six
-from six.moves.urllib.parse import quote
-from Crypto.PublicKey import RSA
-from Crypto.Signature import PKCS1_v1_5
-from Crypto.Hash import SHA256
+from six.moves.urllib.parse import quote, urlencode, urlparse
+{{#hasHttpSignatureMethods}}
+from Crypto.PublicKey import RSA, ECC
+from Crypto.Signature import PKCS1_v1_5, pss, DSS
+from Crypto.Hash import SHA256, SHA512
 from base64 import b64encode
+{{/hasHttpSignatureMethods}}
 {{#tornado}}
 import tornado.gen
 {{/tornado}}
@@ -155,7 +157,7 @@ class ApiClient(object):
             post_params.extend(self.files_parameters(files))
 
         # auth setting
-        self.update_params_for_auth(header_params, query_params, auth_settings)
+        self.update_params_for_auth(header_params, query_params, auth_settings, resource_path, method, body)
 
         # body
         if body:
@@ -521,12 +523,15 @@ class ApiClient(object):
         else:
             return content_types[0]
 
-    def update_params_for_auth(self, headers, querys, auth_settings):
+    def update_params_for_auth(self, headers, querys, auth_settings, resource_path=None, method=None, body=None):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
         :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
+        :resource_path: The HTTP request resource path.
+        :method: The HTTP request method.
+        :body: The body of the HTTP request. 
         """
         if not auth_settings:
             return
@@ -534,6 +539,14 @@ class ApiClient(object):
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
+{{#hasHttpSignatureMethods}}
+                if auth_setting['type'] == 'http-signature':
+                    # The HTTP signature scheme requires multiple HTTP headers that are calculated dynamically.
+                    auth_headers = self.get_http_signature_headers(resource_path, method, headers, body, querys)
+                    for key, value in auth_headers.items():
+                        headers[key] = value
+                    continue
+{{/hasHttpSignatureMethods}}
                 if not auth_setting['value']:
                     continue
                 elif auth_setting['in'] == 'cookie':
@@ -547,25 +560,31 @@ class ApiClient(object):
                         'Authentication token must be in `query` or `header`'
                     )
 
-    def prepare_auth_header(self, resource_path, method, body, query_params):
+{{#hasHttpSignatureMethods}}
+    def get_http_signature_headers(self, resource_path, method, headers, body, query_params):
         """
         Create a message signature for the HTTP request and add the signed headers.
         
         :param resource_path : resource path which is the api being called upon.
-        :param method: request type
+        :param method: the HTTP request method.
+        :param headers: the request headers.
         :param body: body passed in the http request.
         :param query_params: query parameters used by the API 
         :return: instance of digest object 
         """
+        if method is None:
+            raise Exception("HTTP method must be set")
+        if resource_path is None:
+            raise Exception("Resource path must be set")
         if body is None:
             body = ''
         else:
             body = json.dumps(body)
 
-        target_host = urlparse(self.host).netloc
-        target_path = urlparse(self.host).path
+        target_host = urlparse(self.configuration.host).netloc
+        target_path = urlparse(self.configuration.host).path
 
-        request_target = method + " " + target_path + resource_path
+        request_target = method.lower() + " " + target_path + resource_path
 
         if query_params:
             raw_query = urlencode(query_params).replace('+', '%20')
@@ -575,56 +594,86 @@ class ApiClient(object):
         cdate=formatdate(timeval=None, localtime=False, usegmt=True)
 
         request_body = body.encode()
-        body_digest = self.get_sha256_digest(request_body)
+        body_digest, digest_prefix = self.get_message_digest(request_body)
         b64_body_digest = b64encode(body_digest.digest())
 
-        headers = {'Content-Type': 'application/json', 'Date' : cdate, 'Host' : target_host, 'Digest' : "SHA-256=" + b64_body_digest.decode('ascii')}
+        signed_headers = {
+            'Date': cdate,
+            'Host': target_host,
+            'Digest': digest_prefix + b64_body_digest.decode('ascii')
+        }
+        for hdr_key in self.configuration.signed_headers:
+            signed_headers[hdr_key] = headers[hdr_key]
 
-        string_to_sign = self.prepare_str_to_sign(request_target, headers)
+        string_to_sign = self.get_str_to_sign(request_target, signed_headers)
 
-        digest = self.get_sha256_digest(string_to_sign.encode())
+        digest, digest_prefix = self.get_message_digest(string_to_sign.encode())
+        b64_signed_msg = self.sign_digest(digest)
 
-        b64_signed_msg = self.get_rsasig_b64encode(self.private_key_file, digest)
+        auth_header = self.get_authorization_header(signed_headers, b64_signed_msg)
 
-        auth_header = self.get_auth_header(headers, b64_signed_msg)
+        return {
+            'Date': '{0}'.format(cdate),
+            'Host': '{0}'.format(target_host),
+            'Digest': '{0}{1}'.format(digest_prefix, b64_body_digest.decode('ascii')),
+            'Authorization': '{0}'.format(auth_header)
+        }
 
-        self.set_default_header('Date', '{0}'.format(cdate))
-        self.set_default_header('Host', '{0}'.format(target_host))
-        self.set_default_header('Digest', 'SHA-256={0}'.format(b64_body_digest.decode('ascii')))
-        self.set_default_header('Authorization', '{0}'.format(auth_header))
-
-    def get_sha256_digest(self, data):
+    def get_message_digest(self, data):
         """
-        :param data: Data set by User
-        :return: instance of digest object 
+        Calculates and returns a cryptographic digest of a specified HTTP request.
+
+        :param data: The message to be hashed with a cryptographic hash.
+        :return: The message digest encoded as a byte string. 
         """
-        digest = SHA256.new()
+        if self.configuration.signing_scheme in ["rsa-sha512", "hs2019"]:
+            digest = SHA512.new()
+            prefix = "SHA-512="
+        elif self.configuration.signing_scheme in ["rsa-sha256"]:
+            digest = SHA256.new()
+            prefix = "SHA-256="
+        else:
+            raise Exception("Unsupported signing algorithm: {0}".format(self.configuration.signing_scheme))
         digest.update(data)
+        return digest, prefix
 
-        return digest
-
-    def get_rsasig_b64encode(self, private_key_path, digest):
+    def sign_digest(self, digest):
         """
-        :param private_key_path : abs path to private key .pem file.
-        :param digest: digest
-        :return: instance of digest object 
+        Signs a message digest with a private key specified in the configuration.
+
+        :param digest: digest of the HTTP message.
+        :return: the HTTP message signature encoded as a byte string.
         """
+        self.configuration.load_private_key()
+        privkey = self.configuration.private_key
+        if isinstance(privkey, RSA.RsaKey):
+            if self.configuration.signing_algorithm == 'PSS':
+                # RSASSA-PSS in Section 8.1 of RFC8017.
+                signature = pss.new(privkey).sign(digest)
+            elif self.configuration.signing_algorithm == 'PKCS1-v1_5':
+                # RSASSA-PKCS1-v1_5 in Section 8.2 of RFC8017.
+                signature = PKCS1_v1_5.new(privkey).sign(digest)
+            else:
+                raise Exception("Unsupported signature algorithm: {0}".format(self.configuration.signing_algorithm))
+        elif isinstance(privkey, ECC.EccKey):
+            if self.configuration.signing_algorithm in ['fips-186-3', 'deterministic-rfc6979']:
+                signature = DSS.new(privkey, self.configuration.signing_algorithm).sign(digest)
+            else:
+                raise Exception("Unsupported signature algorithm: {0}".format(self.configuration.signing_algorithm))
+        else:
+            raise Exception("Unsupported private key: {0}".format(type(privkey)))
+        return b64encode(signature)
 
-        key = open(private_key_path, "r").read()
-        rsakey = RSA.importKey(key)
-        signer = PKCS1_v1_5.new(rsakey)
-        sign = signer.sign(digest)
-
-        return b64encode(sign)
-
-    def prepare_str_to_sign(self, req_tgt, hdrs):
+    def get_str_to_sign(self, req_tgt, hdrs):
         """
+        Generate and return a string value representing the HTTP request to be signed.
+
         :param req_tgt : Request Target as stored in http header.
         :param hdrs: HTTP Headers to be signed.
         :return: instance of digest object 
         """
         ss = ""
-        ss = ss + "(request-target): " + req_tgt.lower() + "\n"
+        ss = ss + "(request-target): " + req_tgt + "\n"
 
         length = len(hdrs.items())
 
@@ -637,11 +686,11 @@ class ApiClient(object):
 
         return ss
 
-    def get_auth_header(self, hdrs, signed_msg):
+    def get_authorization_header(self, hdrs, signed_msg):
         """
-        This method prepares the Auth header string
+        Calculates and returns the value of the 'Authorization' header when signing HTTP requests.
         
-        :param hdrs : HTTP Headers
+        :param hdrs : The list of signed HTTP Headers
         :param signed_msg: Signed Digest
         :return: instance of digest object 
         """
@@ -649,7 +698,7 @@ class ApiClient(object):
         auth_str = ""
         auth_str = auth_str + "Signature"
 
-        auth_str = auth_str + " " + "keyId=\"" + self.api_key_id + "\"," + "algorithm=\"" + self.digest_algorithm + "\"," + "headers=\"(request-target)"
+        auth_str = auth_str + " " + "keyId=\"" + self.configuration.key_id + "\"," + "algorithm=\"" + self.configuration.signing_scheme + "\"," + "headers=\"(request-target)"
 
         for key, _ in hdrs.items():
             auth_str = auth_str + " " + key.lower()
@@ -659,3 +708,4 @@ class ApiClient(object):
 
         return auth_str
 
+{{/hasHttpSignatureMethods}}

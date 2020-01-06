@@ -32,11 +32,16 @@ class Configuration(object):
     :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
+    :param key_id: The identifier of the cryptographic key, when signing HTTP requests
+    :param private_key_path: The path of the file containing a private key, when signing HTTP requests
+    :param signing_algorithm: The signature algorithm, when signing HTTP requests. Supported values are hs2019, rsa-sha256, rsa-sha512
+    :param signed_headers: A list of HTTP headers that must be signed, when signing HTTP requests
     """
 
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
-                 username="", password=""):
+                 username="", password="",
+                 key_id=None, private_key_path=None, signing_algorithm=None, signed_headers=None):
         """Constructor
         """
         self.host = host
@@ -64,6 +69,18 @@ class Configuration(object):
         """
         self.password = password
         """Password for HTTP basic authentication
+        """
+        self.key_id = key_id
+        """The identifier of the key used to sign HTTP requests
+        """
+        self.private_key_path = private_key_path
+        """The path of the file containing a private key, used to sign HTTP requests
+        """
+        self.signing_algorithm = signing_algorithm
+        """The signature algorithm when signing HTTP requests. Supported values are hs2019, rsa-sha256, rsa-sha512
+        """
+        self.signed_headers = signed_headers
+        """A list of HTTP headers that must be signed, when signing HTTP requests
         """
         self.access_token = ""
         """access token for OAuth/Bearer
@@ -106,6 +123,7 @@ class Configuration(object):
         self.assert_hostname = None
         """Set this to True/False to enable/disable SSL hostname verification.
         """
+
 
         self.connection_pool_maxsize = multiprocessing.cpu_count() * 5
         """urllib3 connection pool's maximum number of connections saved
@@ -275,6 +293,7 @@ class Configuration(object):
                     'value': 'Bearer ' + self.access_token
                 },
         }
+
 
     def to_debug_report(self):
         """Gets the essential information for debugging.
