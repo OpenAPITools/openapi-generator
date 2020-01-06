@@ -658,21 +658,36 @@ class OpenApiDataMockerTest extends TestCase
     }
 
     /**
+     * @dataProvider provideMockArrayWithRefArguments
      * @covers ::mockArray
      */
-    public function testMockArrayWithRef()
+    public function testMockArrayWithRef($items, $expectedStructure)
     {
         $mocker = new OpenApiDataMocker();
-        $arr = $mocker->mockArray(['$ref' => '#/components/schemas/CatRefTestClass']);
+        $arr = $mocker->mockArray($items);
         $this->assertIsArray($arr);
         $this->assertCount(1, $arr);
         foreach ($arr as $item) {
             // TODO: replace with assertInstanceOf assertion
             $this->assertInternalType(IsType::TYPE_OBJECT, $item);
-            $this->assertInternalType(IsType::TYPE_STRING, $item->className);
-            $this->assertInternalType(IsType::TYPE_STRING, $item->color);
-            $this->assertInternalType(IsType::TYPE_BOOL, $item->declawed);
+            foreach ($expectedStructure as $expectedProp => $expectedType) {
+                $this->assertInternalType($expectedType, $item->$expectedProp);
+            }
         }
+    }
+
+    public function provideMockArrayWithRefArguments()
+    {
+        return [
+            'items with ref to CatRefTestClass' => [
+                ['$ref' => '#/components/schemas/CatRefTestClass'],
+                [
+                    'className' => IsType::TYPE_STRING,
+                    'color' => IsType::TYPE_STRING,
+                    'declawed' => IsType::TYPE_BOOL,
+                ],
+            ],
+        ];
     }
 
     /**
@@ -904,6 +919,52 @@ class OpenApiDataMockerTest extends TestCase
             'empty object' => [(object) []],
             'string' => ['foobar'],
             'DateTime object' => [new DateTime()],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMockFromRefCorrectArguments
+     * @covers ::mockFromRef
+     */
+    public function testMockFromRefWithCorrectArguments($ref, $expectedStructure)
+    {
+        $mocker = new OpenApiDataMocker();
+        $data = $mocker->mockFromRef($ref);
+        foreach ($expectedStructure as $expectedProp => $expectedType) {
+            $this->assertInternalType($expectedType, $data->$expectedProp);
+        }
+    }
+
+    public function provideMockFromRefCorrectArguments()
+    {
+        return [
+            'CatRefTestClass model' => [
+                '#/components/schemas/CatRefTestClass',
+                [
+                    'className' => IsType::TYPE_STRING,
+                    'color' => IsType::TYPE_STRING,
+                    'declawed' => IsType::TYPE_BOOL,
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMockFromRefInvalidArguments
+     * @expectedException \InvalidArgumentException
+     * @covers ::mockFromRef
+     */
+    public function testMockFromRefWithInvalidArguments($ref)
+    {
+        $mocker = new OpenApiDataMocker();
+        $data = $mocker->mockFromRef($ref);
+    }
+
+    public function provideMockFromRefInvalidArguments()
+    {
+        return [
+            'ref to unknown class' => ['#/components/schemas/UnknownClass'],
+            'ref to class without getOpenApiSchema method' => ['#/components/schemas/ClassWithoutGetSchemaMethod'],
         ];
     }
 }

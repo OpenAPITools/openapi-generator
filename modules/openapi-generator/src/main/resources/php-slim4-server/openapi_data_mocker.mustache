@@ -284,21 +284,8 @@ final class OpenApiDataMocker implements IMocker
         // always generate smallest possible array to avoid huge JSON responses
         $arrSize = ($maxSize < 1) ? $maxSize : max($minSize, 1);
         while (count($arr) < $arrSize) {
-            if (is_string($ref) && !empty($ref)) {
-                $refName = static::getSimpleRef($ref);
-                $modelName = static::toModelName($refName);
-                $modelClass = '{{modelPackage}}\\' . $modelName;
-                if (!class_exists($modelClass) || !method_exists($modelClass, 'getOpenApiSchema')) {
-                    throw new InvalidArgumentException(sprintf(
-                        'Model %s not found or method %s doesn\'t exist',
-                        $modelClass,
-                        $modelClass . '::getOpenApiSchema'
-                    ));
-                }
-                $arr[] = $this->mockFromSchema($modelClass::getOpenApiSchema());
-            } else {
-                $arr[] = $this->mock($dataType, $dataFormat, $options);
-            }
+            $data = $this->mockFromRef($ref);
+            $arr[] = ($data) ? $data : $this->mock($dataType, $dataFormat, $options);
         }
         return $arr;
     }
@@ -400,6 +387,34 @@ final class OpenApiDataMocker implements IMocker
             throw new InvalidArgumentException('"schema" must be object or assoc array with "type" property');
         }
         return $this->mock($props['type'], $props['format'], $props);
+    }
+
+    /**
+     * Mock data by referenced schema.
+     * TODO: this method will return model instance, not an StdClass
+     *
+     * @param string|null $ref Ref to model, eg. #/components/schemas/User
+     *
+     * @return mixed
+     */
+    public function mockFromRef($ref)
+    {
+        $data = null;
+        if (is_string($ref) && !empty($ref)) {
+            $refName = static::getSimpleRef($ref);
+            $modelName = static::toModelName($refName);
+            $modelClass = '{{modelPackage}}\\' . $modelName;
+            if (!class_exists($modelClass) || !method_exists($modelClass, 'getOpenApiSchema')) {
+                throw new InvalidArgumentException(sprintf(
+                    'Model %s not found or method %s doesn\'t exist',
+                    $modelClass,
+                    $modelClass . '::getOpenApiSchema'
+                ));
+            }
+            $data = $this->mockFromSchema($modelClass::getOpenApiSchema(true));
+        }
+
+        return $data;
     }
 
     /**
