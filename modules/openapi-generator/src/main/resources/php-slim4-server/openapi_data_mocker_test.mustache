@@ -814,6 +814,25 @@ class OpenApiDataMockerTest extends TestCase
     }
 
     /**
+     * @covers ::mockObject
+     */
+    public function testMockObjectWithReferencedProps()
+    {
+        $mocker = new OpenApiDataMocker();
+        $obj = $mocker->mockObject(
+            (object) [
+                'cat' => [
+                    '$ref' => '#/components/schemas/CatRefTestClass',
+                ],
+            ]
+        );
+        $this->assertInternalType(IsType::TYPE_OBJECT, $obj->cat);
+        $this->assertInternalType(IsType::TYPE_STRING, $obj->cat->className);
+        $this->assertInternalType(IsType::TYPE_STRING, $obj->cat->color);
+        $this->assertInternalType(IsType::TYPE_BOOL, $obj->cat->declawed);
+    }
+
+    /**
      * @dataProvider provideMockFromSchemaCorrectArguments
      * @covers ::mockFromSchema
      */
