@@ -1,11 +1,11 @@
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct {{classname}}: Codable {
 
-{{#allVars}}
+{{#vars}}
 {{#isEnum}}
 {{> modelInlineEnumDeclaration}}
 {{/isEnum}}
-{{/allVars}}
-{{#allVars}}
+{{/vars}}
+{{#vars}}
 {{#isEnum}}
     {{#description}}/** {{description}} */
     {{/description}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var {{name}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
@@ -23,13 +23,13 @@
     {{/vendorExtensions.x-swift-optional-scalar}}
     {{/objcCompatible}}
 {{/isEnum}}
-{{/allVars}}
+{{/vars}}
 
 {{#hasVars}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allVars}}) {
-        {{#allVars}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init({{#vars}}{{name}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/vars}}) {
+        {{#vars}}
         self.{{name}} = {{name}}
-        {{/allVars}}
+        {{/vars}}
     }
 {{/hasVars}}
 {{#additionalPropertiesType}}
@@ -54,9 +54,9 @@
 
         var container = encoder.container(keyedBy: String.self)
 
-        {{#allVars}}
+        {{#vars}}
         try container.encode{{#required}}{{#isNullable}}IfPresent{{/isNullable}}{{/required}}{{^required}}IfPresent{{/required}}({{{name}}}, forKey: "{{{baseName}}}")
-        {{/allVars}}
+        {{/vars}}
         try container.encodeMap(additionalProperties)
     }
 
@@ -65,20 +65,20 @@
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        {{#allVars}}
+        {{#vars}}
         {{name}} = try container.decode{{#required}}{{#isNullable}}IfPresent{{/isNullable}}{{/required}}{{^required}}IfPresent{{/required}}({{{datatypeWithEnum}}}.self, forKey: "{{{baseName}}}")
-        {{/allVars}}
+        {{/vars}}
         var nonAdditionalPropertyKeys = Set<String>()
-        {{#allVars}}
+        {{#vars}}
         nonAdditionalPropertyKeys.insert("{{{baseName}}}")
-        {{/allVars}}
+        {{/vars}}
         additionalProperties = try container.decodeMap({{{additionalPropertiesType}}}.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 
 {{/additionalPropertiesType}}
 {{^additionalPropertiesType}}{{#vendorExtensions.x-codegen-has-escaped-property-names}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum CodingKeys: String, CodingKey, CaseIterable { {{#allVars}}
-        case {{name}}{{#vendorExtensions.x-codegen-escaped-property-name}} = "{{{baseName}}}"{{/vendorExtensions.x-codegen-escaped-property-name}}{{/allVars}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum CodingKeys: String, CodingKey, CaseIterable { {{#vars}}
+        case {{name}}{{#vendorExtensions.x-codegen-escaped-property-name}} = "{{{baseName}}}"{{/vendorExtensions.x-codegen-escaped-property-name}}{{/vars}}
     }
 {{/vendorExtensions.x-codegen-has-escaped-property-names}}{{/additionalPropertiesType}}
 }
