@@ -906,6 +906,10 @@ class OpenApiDataMockerTest extends TestCase
                 ],
                 IsType::TYPE_OBJECT,
             ],
+            'referenced class' => [
+                ['$ref' => '#/components/schemas/CatRefTestClass'],
+                IsType::TYPE_OBJECT,
+            ],
         ];
     }
 

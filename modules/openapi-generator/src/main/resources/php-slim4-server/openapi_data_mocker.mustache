@@ -385,7 +385,9 @@ final class OpenApiDataMocker implements IMocker
     public function mockFromSchema($schema)
     {
         $props = $this->extractSchemaProperties($schema);
-        if ($props['type'] === null) {
+        if (array_key_exists('$ref', $props) && !empty($props['$ref'])) {
+            return $this->mockFromRef($props['$ref']);
+        } elseif ($props['type'] === null) {
             throw new InvalidArgumentException('"schema" must be object or assoc array with "type" property');
         }
         return $this->mock($props['type'], $props['format'], $props);
