@@ -123,8 +123,9 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
 
         Assert.assertEquals(operationList.size(), 1);
-        Assert.assertTrue(operationList.containsKey(""));
-        Assert.assertEquals(codegenOperation.baseName, "Primaryresource");
+        Assert.assertFalse(operationList.containsKey(""));
+        Assert.assertTrue(operationList.containsKey("Primaryresource"));
+        Assert.assertEquals(codegenOperation.baseName, "");
     }
 
     /**
@@ -141,8 +142,9 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.addOperationToGroup("Primaryresource", "/{uuid}", operation, codegenOperation, operationList);
 
         Assert.assertEquals(operationList.size(), 1);
-        Assert.assertTrue(operationList.containsKey(""));
-        Assert.assertEquals(codegenOperation.baseName, "Primaryresource");
+        Assert.assertFalse(operationList.containsKey(""));
+        Assert.assertTrue(operationList.containsKey("Primaryresource"));
+        Assert.assertEquals(codegenOperation.baseName, "{uuid}");
     }
 
     /**
@@ -161,7 +163,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         Assert.assertEquals(codegenOperation.baseName, "subresource");
         Assert.assertEquals(operationList.size(), 1);
-        Assert.assertTrue(operationList.containsKey("subresource"));
+        Assert.assertTrue(operationList.containsKey("Default"));
     }
 
     /**
@@ -185,7 +187,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
 
         final String subresource = codegen.toApiName("");
-        Assert.assertEquals(subresource, "PrimaryresourceApi");
+        Assert.assertEquals(subresource, "DefaultApi");
     }
 
     @Test
@@ -308,7 +310,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         Map<String, String> generatedFiles = generator.getFiles();
         validateJavaSourceFiles(generatedFiles);
         TestUtils.ensureContainsFile(generatedFiles, output, "openapi.yml");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/gen/java/org/openapitools/api/DefaultApi.java");
+        TestUtils.ensureContainsFile(generatedFiles, output, "src/gen/java/org/openapitools/api/DocumentApi.java");
 
         output.deleteOnExit();
     }
