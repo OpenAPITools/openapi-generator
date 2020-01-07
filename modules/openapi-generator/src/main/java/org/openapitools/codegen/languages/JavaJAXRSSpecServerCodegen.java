@@ -224,21 +224,26 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             basePath = basePath.substring(0, pos);
         }
 
-        String operationKey = basePath;
-        if (StringUtils.isEmpty(basePath)) {
-            basePath = tag;
-            operationKey = "";
-            primaryResourceName = tag;
-        } else if (basePath.matches("\\{.*\\}")) {
-            basePath = tag;
-            operationKey = "";
-            co.subresourceOperation = true;
-        } else {
-            if (co.path.startsWith("/" + basePath)) {
-                co.path = co.path.substring(("/" + basePath).length());
+        String operationKey = tag;
+
+        if (StringUtils.isEmpty(tag)) {
+            operationKey = basePath;
+            if (StringUtils.isEmpty(basePath)) {
+                basePath = tag;
+                operationKey = "";
+                primaryResourceName = tag;
+            } else if (basePath.matches("\\{.*\\}")) {
+                basePath = tag;
+                operationKey = "";
+                co.subresourceOperation = true;
+            } else {
+                if (co.path.startsWith("/" + basePath)) {
+                    co.path = co.path.substring(("/" + basePath).length());
+                }
+                co.subresourceOperation = !co.path.isEmpty();
             }
-            co.subresourceOperation = !co.path.isEmpty();
         }
+
         List<CodegenOperation> opList = operations.get(operationKey);
         if (opList == null || opList.isEmpty()) {
             opList = new ArrayList<CodegenOperation>();
