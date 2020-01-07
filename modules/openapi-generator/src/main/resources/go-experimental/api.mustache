@@ -242,7 +242,7 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if auth, ok := auth["{{keyParamName}}"]; ok {
+			if auth, ok := auth["{{#vendorExtensions.x-lookup}}{{vendorExtensions.x-lookup}}{{/vendorExtensions.x-lookup}}{{^vendorExtensions.x-lookup}}{{keyParamName}}{{/vendorExtensions.x-lookup}}"]; ok {
 				var key string
 				if auth.Prefix != "" {
 					key = auth.Prefix + " " + auth.Key
