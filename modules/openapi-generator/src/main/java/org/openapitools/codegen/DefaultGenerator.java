@@ -532,7 +532,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Set<String> apisToGenerate = null;
         String apiNames = GlobalSettings.getProperty("apis");
         if (apiNames != null && !apiNames.isEmpty()) {
-            apisToGenerate = new HashSet<String>(Arrays.asList(apiNames.split(",")));
+            apisToGenerate = new HashSet<String>(Arrays.asList(apiNames.split("\\s*;\\s*")));
         }
         if (apisToGenerate != null && !apisToGenerate.isEmpty()) {
             Map<String, List<CodegenOperation>> updatedPaths = new TreeMap<String, List<CodegenOperation>>();
