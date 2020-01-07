@@ -530,7 +530,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
         Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
         Set<String> apisToGenerate = null;
-        String apiNames = GlobalSettings.getProperty("apis");
+        String apiNames = GlobalSettings.getProperty(CodegenConstants.APIS);
+
+        if (apiNames == null || StringUtils.isBlank(apiNames)) {
+            apiNames = (String) opts.getConfig().additionalProperties().get(CodegenConstants.APIS);
+        }
+
         if (apiNames != null && !apiNames.isEmpty()) {
             apisToGenerate = new HashSet<String>(Arrays.asList(apiNames.split(",")));
         }
