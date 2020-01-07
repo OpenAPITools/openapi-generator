@@ -105,6 +105,18 @@ class OpenApiDataMockerTest extends TestCase
     }
 
     /**
+     * @covers ::mock
+     */
+    public function testMockWithStringEnumOptions()
+    {
+        $mocker = new OpenApiDataMocker();
+        $string = $mocker->mock(IMocker::DATA_TYPE_STRING, null, [
+            'enum' => ['foobar', 'foobaz', 'helloworld'],
+        ]);
+        $this->assertContains($string, ['foobar', 'foobaz', 'helloworld']);
+    }
+
+    /**
      * @dataProvider provideMockIntegerCorrectArguments
      * @covers ::mockInteger
      */

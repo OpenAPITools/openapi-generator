@@ -69,7 +69,8 @@ final class OpenApiDataMocker implements IMocker
             case IMocker::DATA_TYPE_STRING:
                 $minLength = $options['minLength'] ?? 0;
                 $maxLength = $options['maxLength'] ?? null;
-                return $this->mockString($dataFormat, $minLength, $maxLength);
+                $enum = $options['enum'] ?? null;
+                return $this->mockString($dataFormat, $minLength, $maxLength, $enum);
             case IMocker::DATA_TYPE_BOOLEAN:
                 return $this->mockBoolean();
             case IMocker::DATA_TYPE_ARRAY:
