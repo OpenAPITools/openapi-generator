@@ -71,15 +71,15 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
     /**
     * Deletes a pet
     * 
-    * @param petId Pet id to delete 
     * @param apiKey  (optional)
+    * @param petId Pet id to delete 
     * @return void
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?) : Unit {
+    fun deletePet(apiKey: kotlin.String?, petId: kotlin.Long) : Unit {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("api_key" to apiKey.toString())
