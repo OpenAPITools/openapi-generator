@@ -535,13 +535,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             apisToGenerate = new HashSet<String>(Arrays.asList(apiNames.split(",")));
         }
         if (apisToGenerate != null && !apisToGenerate.isEmpty()) {
-            Map<String, List<CodegenOperation>> updatedPaths = new TreeMap<String, List<CodegenOperation>>();
             for (String m : paths.keySet()) {
-                if (apisToGenerate.contains(m)) {
-                    updatedPaths.put(m, paths.get(m));
+                if (!apisToGenerate.contains(m)) {
+                    paths.remove(m);
                 }
             }
-            paths = updatedPaths;
         }
         for (String tag : paths.keySet()) {
             try {
