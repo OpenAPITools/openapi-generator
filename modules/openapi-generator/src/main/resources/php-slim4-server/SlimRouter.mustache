@@ -41,6 +41,8 @@ use Dyorg\TokenAuthentication;
 use Dyorg\TokenAuthentication\TokenSearch;
 use Psr\Http\Message\ServerRequestInterface;
 use {{invokerPackage}}\Middleware\JsonBodyParserMiddleware;
+use {{mockPackage}}\OpenApiDataMocker;
+use {{mockPackage}}\OpenApiDataMockerMiddleware;
 use Exception;
 
 /**
@@ -170,12 +172,13 @@ class SlimRouter
         };
         {{/hasAuthMethods}}
 
-        $userOptions = null;
-        if ($settings instanceof ContainerInterface && $settings->has('tokenAuthenticationOptions')) {
-            $userOptions = $settings->get('tokenAuthenticationOptions');
-        } elseif (is_array($settings) && isset($settings['tokenAuthenticationOptions'])) {
-            $userOptions = $settings['tokenAuthenticationOptions'];
-        }
+        $userOptions = $this->getSetting($settings, 'tokenAuthenticationOptions', null);
+
+        // mocker options
+        $mockerOptions = $this->getSetting($settings, 'mockerOptions', null);
+        $dataMocker = $mockerOptions['dataMocker'] ?? new OpenApiDataMocker();
+        $getMockResponseCallback = $mockerOptions['getMockResponseCallback'] ?? null;
+        $mockAfterCallback = $mockerOptions['afterCallback'] ?? null;
 
         foreach ($this->operations as $operation) {
             $callback = function ($request, $response, $arguments) use ($operation) {
@@ -244,6 +247,10 @@ class SlimRouter
             }
             {{/hasAuthMethods}}
 
+            if (is_callable($getMockResponseCallback)) {
+                $middlewares[] = new OpenApiDataMockerMiddleware($dataMocker, $operation['responses'], $getMockResponseCallback, $mockAfterCallback);
+            }
+
             $this->addRoute(
                 [$operation['httpMethod']],
                 "{$operation['basePathWithoutHost']}{$operation['path']}",
@@ -268,6 +275,26 @@ class SlimRouter
         }
 
         return array_merge($userOptions, $staticOptions);
+    }
+
+    /**
+     * Returns app setting by name.
+     *
+     * @param ContainerInterface|array $settings    Either a ContainerInterface or an associative array of app settings
+     * @param string                   $settingName Setting name
+     * @param mixed                    $default     Default setting value.
+     *
+     * @return mixed
+     */
+    private function getSetting($settings, $settingName, $default = null)
+    {
+        if ($settings instanceof ContainerInterface && $settings->has($settingName)) {
+            return $settings->get($settingName);
+        } elseif (is_array($settings) && array_key_exists($settingName, $settings)) {
+            return $settings[$settingName];
+        }
+
+        return $default;
     }
 
     /**
