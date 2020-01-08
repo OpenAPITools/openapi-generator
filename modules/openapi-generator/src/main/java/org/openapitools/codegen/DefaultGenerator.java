@@ -528,19 +528,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (!generateApis) {
             return;
         }
-        Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
-        Set<String> apisToGenerate = null;
-        String apiNames = GlobalSettings.getProperty("apis");
-        if (apiNames != null && !apiNames.isEmpty()) {
-            apisToGenerate = new HashSet<String>(Arrays.asList(apiNames.split(",")));
-        }
-        if (apisToGenerate != null && !apisToGenerate.isEmpty()) {
-            for (String m : paths.keySet()) {
-                if (!apisToGenerate.contains(m)) {
-                    paths.remove(m);
-                }
-            }
-        }
+        Map<String, List<CodegenOperation>> paths = getApisToGenerate();
         for (String tag : paths.keySet()) {
             try {
                 List<CodegenOperation> ops = paths.get(tag);
@@ -668,6 +656,23 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             Json.prettyPrint(allOperations);
         }
 
+    }
+
+    protected Map<String, List<CodegenOperation>> getApisToGenerate() {
+        Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
+        Set<String> apisToGenerate = null;
+        String apiNames = GlobalSettings.getProperty("apis");
+        if (apiNames != null && !apiNames.isEmpty()) {
+            apisToGenerate = new HashSet<String>(Arrays.asList(apiNames.split(",")));
+        }
+        if (apisToGenerate != null && !apisToGenerate.isEmpty()) {
+            for (String m : paths.keySet()) {
+                if (!apisToGenerate.contains(m)) {
+                    paths.remove(m);
+                }
+            }
+        }
+        return paths;
     }
 
     private void generateSupportingFiles(List<File> files, Map<String, Object> bundle) {
