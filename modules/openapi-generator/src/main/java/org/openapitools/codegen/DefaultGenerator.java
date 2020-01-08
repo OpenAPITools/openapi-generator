@@ -51,6 +51,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DefaultGenerator extends AbstractGenerator implements Generator {
     protected final Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
@@ -534,6 +535,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (apiNames != null && !apiNames.isEmpty()) {
             apisToGenerate = new HashSet<String>(Arrays.asList(apiNames.split(",")));
         }
+
+        apisToGenerate = apisToGenerate.stream()
+                .map(config::sanitizeTag)
+                .collect(Collectors.toSet());
+
         if (apisToGenerate != null && !apisToGenerate.isEmpty()) {
             Map<String, List<CodegenOperation>> updatedPaths = new TreeMap<String, List<CodegenOperation>>();
             for (String m : paths.keySet()) {
