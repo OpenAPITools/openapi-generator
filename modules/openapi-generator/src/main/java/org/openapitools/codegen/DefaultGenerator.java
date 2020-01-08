@@ -668,6 +668,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (apisToGenerate != null && !apisToGenerate.isEmpty()) {
             for (String m : paths.keySet()) {
                 if (!apisToGenerate.contains(m)) {
+                    LOGGER.info("Filtered out {} API by the use of `apis` option", m);
                     paths.remove(m);
                 }
             }
