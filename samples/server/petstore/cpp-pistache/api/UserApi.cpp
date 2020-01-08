@@ -143,17 +143,17 @@ void UserApi::login_user_handler(const Pistache::Rest::Request &request, Pistach
     auto usernameQuery = request.query().get("username");
     Pistache::Optional<std::string> username;
     if(!usernameQuery.isEmpty()){
-        std::string value;
-        if(fromStringValue(usernameQuery.get(), value)){
-            username = Pistache::Some(value);
+        std::string valueQuery_instance;
+        if(fromStringValue(usernameQuery.get(), valueQuery_instance)){
+            username = Pistache::Some(valueQuery_instance);
         }
     }
     auto passwordQuery = request.query().get("password");
     Pistache::Optional<std::string> password;
     if(!passwordQuery.isEmpty()){
-        std::string value;
-        if(fromStringValue(passwordQuery.get(), value)){
-            password = Pistache::Some(value);
+        std::string valueQuery_instance;
+        if(fromStringValue(passwordQuery.get(), valueQuery_instance)){
+            password = Pistache::Some(valueQuery_instance);
         }
     }
     
