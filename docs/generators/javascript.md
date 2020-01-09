@@ -26,6 +26,7 @@ sidebar_label: javascript
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |useES6|use JavaScript ES6 (ECMAScript 6) (beta). Default is ES6.| |true|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
+|npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
 
 ## IMPORT MAPPING
 
