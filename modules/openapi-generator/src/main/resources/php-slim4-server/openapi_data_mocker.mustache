@@ -177,6 +177,16 @@ final class OpenApiDataMocker implements IMocker
         $enum = null,
         $pattern = null
     ) {
+        $str = '';
+        $getLoremIpsum = function ($length) {
+            return str_pad(
+                '',
+                $length,
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+                \STR_PAD_RIGHT
+            );
+        };
+
         if ($enum !== null) {
             if (
                 is_array($enum) === false
@@ -215,7 +225,27 @@ final class OpenApiDataMocker implements IMocker
             throw new InvalidArgumentException('"maxLength" value cannot be less than "minLength"');
         }
 
-        return str_pad('', mt_rand($minLength, $maxLength), 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ', \STR_PAD_RIGHT);
+        switch ($dataFormat) {
+            case IMocker::DATA_FORMAT_BYTE:
+                // base64 encoded string
+                $inputLength = 1;
+                $str = base64_encode($getLoremIpsum($inputLength));
+                while (mb_strlen($str) < $minLength) {
+                    $inputLength++;
+                    $str = base64_encode($getLoremIpsum($inputLength));
+                }
+
+                // base64 encoding produces strings devided by 4, so resulted string can exceed maxLength parameter
+                // I think truncated(invalid) base64 string is better than oversized, cause this data is fake anyway
+                if (mb_strlen($str) > $maxLength) {
+                    $str = substr($str, 0, $maxLength);
+                }
+                break;
+            default:
+                $str = $getLoremIpsum(mt_rand($minLength, $maxLength));
+        }
+
+        return $str;
     }
 
     /**
