@@ -405,6 +405,53 @@ class OpenApiDataMockerTest extends TestCase
     }
 
     /**
+     * @covers ::mock
+     * @covers ::mockString
+     * @dataProvider provideMockStringDateFormatArguments
+     */
+    public function testMockStringWithDateAndDateTimeFormat(
+        $dataFormat,
+        $minLength,
+        $maxLength,
+        $dtFormat
+    ) {
+        $mocker = new OpenApiDataMocker();
+        $str = $mocker->mockString($dataFormat, $minLength, $maxLength);
+        $str2 = $mocker->mock(IMocker::DATA_TYPE_STRING, $dataFormat, ['minLength' => $minLength, 'maxLength' => $maxLength]);
+
+        if ($dtFormat !== null) {
+            $date = DateTime::createFromFormat($dtFormat, $str);
+            $date2 = DateTime::createFromFormat($dtFormat, $str2);
+            $this->assertInstanceOf(DateTime::class, $date);
+            $this->assertInstanceOf(DateTime::class, $date2);
+        }
+        if ($minLength !== null) {
+            $this->assertGreaterThanOrEqual($minLength, mb_strlen($str));
+            $this->assertGreaterThanOrEqual($minLength, mb_strlen($str2));
+        }
+        if ($maxLength !== null) {
+            $this->assertLessThanOrEqual($maxLength, mb_strlen($str));
+            $this->assertLessThanOrEqual($maxLength, mb_strlen($str2));
+        }
+    }
+
+    public function provideMockStringDateFormatArguments()
+    {
+        return [
+            [IMocker::DATA_FORMAT_DATE, null, null, 'Y-m-d'],
+            [IMocker::DATA_FORMAT_DATE, 10, null, 'Y-m-d'],
+            [IMocker::DATA_FORMAT_DATE, 10, 10, 'Y-m-d'],
+            [IMocker::DATA_FORMAT_DATE, null, 8, null],
+            [IMocker::DATA_FORMAT_DATE, 16, null, null],
+            [IMocker::DATA_FORMAT_DATE_TIME, null, null, 'Y-m-d\TH:i:sP'],
+            [IMocker::DATA_FORMAT_DATE_TIME, 25, null, 'Y-m-d\TH:i:sP'],
+            [IMocker::DATA_FORMAT_DATE_TIME, 25, 25, 'Y-m-d\TH:i:sP'],
+            [IMocker::DATA_FORMAT_DATE_TIME, null, 20, null],
+            [IMocker::DATA_FORMAT_DATE_TIME, 30, null, null],
+        ];
+    }
+
+    /**
      * @covers ::mockBoolean
      */
     public function testMockBoolean()

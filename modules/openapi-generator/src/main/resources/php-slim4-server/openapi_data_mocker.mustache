@@ -36,6 +36,7 @@ namespace {{mockPackage}};
 use {{mockPackage}}\{{interfaceNamePrefix}}OpenApiDataMocker{{interfaceNameSuffix}} as IMocker;
 use {{utilsPackage}}\{{traitNamePrefix}}ModelUtils{{traitNameSuffix}};
 use StdClass;
+use DateTime;
 use InvalidArgumentException;
 
 /**
@@ -186,6 +187,16 @@ final class OpenApiDataMocker implements IMocker
                 \STR_PAD_RIGHT
             );
         };
+        $truncateOrPad = function ($text, $min = null, $max = null) {
+            if ($max !== null && mb_strlen($text) > $max) {
+                // truncate
+                $text = substr($text, 0, $max);
+            } elseif ($min !== null && mb_strlen($text) < $min) {
+                // pad
+                $text = str_pad('', $min, $text . '. ', \STR_PAD_RIGHT);
+            }
+            return $text;
+        };
 
         if ($enum !== null) {
             if (
@@ -237,9 +248,16 @@ final class OpenApiDataMocker implements IMocker
 
                 // base64 encoding produces strings devided by 4, so resulted string can exceed maxLength parameter
                 // I think truncated(invalid) base64 string is better than oversized, cause this data is fake anyway
-                if (mb_strlen($str) > $maxLength) {
-                    $str = substr($str, 0, $maxLength);
-                }
+                $str = $truncateOrPad($str, null, $maxLength);
+                break;
+            case IMocker::DATA_FORMAT_DATE:
+            case IMocker::DATA_FORMAT_DATE_TIME:
+                // min unix timestamp is 0 and max is 2147483647 for 32bit systems which equals 2038-01-19 03:14:07
+                $date = DateTime::createFromFormat('U', mt_rand(0, 2147483647));
+                $str = ($dataFormat === IMocker::DATA_FORMAT_DATE) ? $date->format('Y-m-d') : $date->format('Y-m-d\TH:i:sP');
+
+                // truncate or pad datestring to fit minLength and maxLength
+                $str = $truncateOrPad($str, $minLength, $maxLength);
                 break;
             default:
                 $str = $getLoremIpsum(mt_rand($minLength, $maxLength));
