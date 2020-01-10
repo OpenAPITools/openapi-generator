@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **Binary** | Pointer to [***os.File**](*os.File.md) |  | [optional] 
 **Date** | Pointer to **string** |  | 
 **DateTime** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
-**Uuid** | Pointer to **string** |  | [optional] 
+**UUID** | Pointer to **string** |  | [optional] 
 **Password** | Pointer to **string** |  | 
 **PatternWithDigits** | Pointer to **string** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
 **PatternWithDigitsAndDelimiter** | Pointer to **string** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. | [optional] 
@@ -297,30 +297,30 @@ HasDateTime returns a boolean if a field has been set.
 
 SetDateTime gets a reference to the given time.Time and assigns it to the DateTime field.
 
-### GetUuid
+### GetUUID
 
-`func (o *FormatTest) GetUuid() string`
+`func (o *FormatTest) GetUUID() string`
 
-GetUuid returns the Uuid field if non-nil, zero value otherwise.
+GetUUID returns the UUID field if non-nil, zero value otherwise.
 
-### GetUuidOk
+### GetUUIDOk
 
-`func (o *FormatTest) GetUuidOk() (string, bool)`
+`func (o *FormatTest) GetUUIDOk() (string, bool)`
 
-GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
+GetUUIDOk returns a tuple with the UUID field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### HasUuid
+### HasUUID
 
-`func (o *FormatTest) HasUuid() bool`
+`func (o *FormatTest) HasUUID() bool`
 
-HasUuid returns a boolean if a field has been set.
+HasUUID returns a boolean if a field has been set.
 
-### SetUuid
+### SetUUID
 
-`func (o *FormatTest) SetUuid(v string)`
+`func (o *FormatTest) SetUUID(v string)`
 
-SetUuid gets a reference to the given string and assigns it to the Uuid field.
+SetUUID gets a reference to the given string and assigns it to the UUID field.
 
 ### GetPassword
 

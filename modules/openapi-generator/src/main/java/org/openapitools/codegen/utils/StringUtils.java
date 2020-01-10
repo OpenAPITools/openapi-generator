@@ -1,5 +1,6 @@
 package org.openapitools.codegen.utils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -63,6 +64,29 @@ public class StringUtils {
      * @return camelized string
      */
     public static String camelize(String word, boolean lowercaseFirstLetter) {
+        return camelize(word, lowercaseFirstLetter, new HashMap<String, String>());
+    }
+
+    /**
+     * Camelize name (parameter, property, method, etc)
+     *
+     * @param word                 string to be camelize
+     * @param camelizeExceptions   map of exceptions
+     * @return camelized string
+     */
+    public static String camelize(String word, Map<String, String> camelizeExceptions) {
+        return camelize(word, false, camelizeExceptions);
+    }
+
+    /**
+     * Camelize name (parameter, property, method, etc)
+     *
+     * @param word                 string to be camelize
+     * @param lowercaseFirstLetter lower case for first letter if set to true
+     * @param camelizeExceptions   map of exceptions
+     * @return camelized string
+     */
+    public static String camelize(String word, boolean lowercaseFirstLetter, Map<String, String> camelizeExceptions) {
         // Replace all slashes with dots (package separator)
         Pattern p = Pattern.compile("\\/(.?)");
         Matcher m = p.matcher(word);
@@ -131,6 +155,11 @@ public class StringUtils {
 
         // remove all underscore
         word = word.replaceAll("_", "");
+
+        // exceptions
+        for (String key : camelizeExceptions.keySet()) {
+            word = word.replaceAll(key, camelizeExceptions.get(key));
+        }
 
         return word;
     }

@@ -5,6 +5,9 @@ import org.testng.annotations.Test;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class StringUtilsTest {
     // we'll assume that <i>underscore</i> (Twitter elephant bird) works fine
     @Test
@@ -28,6 +31,18 @@ public class StringUtilsTest {
 
         Assert.assertEquals(camelize("123", true), "123");
         Assert.assertEquals(camelize("$123", true), "$123");
+
+        Map<String, String> exc = new HashMap<String, String>();
+        exc.put("Id", "ID");
+        exc.put("Api", "API");
+        exc.put("Xml", "XML");
+        exc.put("Http", "HTTP");
+        Assert.assertEquals(camelize("name_id", exc), "NameID");
+        Assert.assertEquals(camelize("some-api", exc), "SomeAPI");
+        Assert.assertEquals(camelize("id-name", exc), "IDName");
+        Assert.assertEquals(camelize("id-name", true, exc), "idName");
+        Assert.assertEquals(camelize("xml-http-request", exc), "XMLHTTPRequest");
+        Assert.assertEquals(camelize("xml-http-request", true, exc), "xmlHTTPRequest");
     }
 
     @Test

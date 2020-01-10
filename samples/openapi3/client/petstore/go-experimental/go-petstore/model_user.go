@@ -16,7 +16,7 @@ import (
 
 // User struct for User
 type User struct {
-	Id *int64 `json:"id,omitempty"`
+	ID *int64 `json:"id,omitempty"`
 	Username *string `json:"username,omitempty"`
 	FirstName *string `json:"firstName,omitempty"`
 	LastName *string `json:"lastName,omitempty"`
@@ -27,37 +27,37 @@ type User struct {
 	UserStatus *int32 `json:"userStatus,omitempty"`
 }
 
-// GetId returns the Id field value if set, zero value otherwise.
-func (o *User) GetId() int64 {
-	if o == nil || o.Id == nil {
+// GetID returns the ID field value if set, zero value otherwise.
+func (o *User) GetID() int64 {
+	if o == nil || o.ID == nil {
 		var ret int64
 		return ret
 	}
-	return *o.Id
+	return *o.ID
 }
 
-// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
+// GetIDOk returns a tuple with the ID field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetIdOk() (int64, bool) {
-	if o == nil || o.Id == nil {
+func (o *User) GetIDOk() (int64, bool) {
+	if o == nil || o.ID == nil {
 		var ret int64
 		return ret, false
 	}
-	return *o.Id, true
+	return *o.ID, true
 }
 
-// HasId returns a boolean if a field has been set.
-func (o *User) HasId() bool {
-	if o != nil && o.Id != nil {
+// HasID returns a boolean if a field has been set.
+func (o *User) HasID() bool {
+	if o != nil && o.ID != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetId gets a reference to the given int64 and assigns it to the Id field.
-func (o *User) SetId(v int64) {
-	o.Id = &v
+// SetID gets a reference to the given int64 and assigns it to the ID field.
+func (o *User) SetID(v int64) {
+	o.ID = &v
 }
 
 // GetUsername returns the Username field value if set, zero value otherwise.

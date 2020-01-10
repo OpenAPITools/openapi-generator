@@ -11,6 +11,6 @@
 package petstore
 // Tag struct for Tag
 type Tag struct {
-	Id int64 `json:"id,omitempty" xml:"id"`
+	ID int64 `json:"id,omitempty" xml:"id"`
 	Name string `json:"name,omitempty" xml:"name"`
 }

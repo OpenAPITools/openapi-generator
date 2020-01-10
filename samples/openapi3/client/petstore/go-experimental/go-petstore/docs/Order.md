@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **int64** |  | [optional] 
-**PetId** | Pointer to **int64** |  | [optional] 
+**ID** | Pointer to **int64** |  | [optional] 
+**PetID** | Pointer to **int64** |  | [optional] 
 **Quantity** | Pointer to **int32** |  | [optional] 
 **ShipDate** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
 **Status** | Pointer to **string** | Order Status | [optional] 
@@ -13,55 +13,55 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### GetId
+### GetID
 
-`func (o *Order) GetId() int64`
+`func (o *Order) GetID() int64`
 
-GetId returns the Id field if non-nil, zero value otherwise.
+GetID returns the ID field if non-nil, zero value otherwise.
 
-### GetIdOk
+### GetIDOk
 
-`func (o *Order) GetIdOk() (int64, bool)`
+`func (o *Order) GetIDOk() (int64, bool)`
 
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+GetIDOk returns a tuple with the ID field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### HasId
+### HasID
 
-`func (o *Order) HasId() bool`
+`func (o *Order) HasID() bool`
 
-HasId returns a boolean if a field has been set.
+HasID returns a boolean if a field has been set.
 
-### SetId
+### SetID
 
-`func (o *Order) SetId(v int64)`
+`func (o *Order) SetID(v int64)`
 
-SetId gets a reference to the given int64 and assigns it to the Id field.
+SetID gets a reference to the given int64 and assigns it to the ID field.
 
-### GetPetId
+### GetPetID
 
-`func (o *Order) GetPetId() int64`
+`func (o *Order) GetPetID() int64`
 
-GetPetId returns the PetId field if non-nil, zero value otherwise.
+GetPetID returns the PetID field if non-nil, zero value otherwise.
 
-### GetPetIdOk
+### GetPetIDOk
 
-`func (o *Order) GetPetIdOk() (int64, bool)`
+`func (o *Order) GetPetIDOk() (int64, bool)`
 
-GetPetIdOk returns a tuple with the PetId field if it's non-nil, zero value otherwise
+GetPetIDOk returns a tuple with the PetID field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### HasPetId
+### HasPetID
 
-`func (o *Order) HasPetId() bool`
+`func (o *Order) HasPetID() bool`
 
-HasPetId returns a boolean if a field has been set.
+HasPetID returns a boolean if a field has been set.
 
-### SetPetId
+### SetPetID
 
-`func (o *Order) SetPetId(v int64)`
+`func (o *Order) SetPetID(v int64)`
 
-SetPetId gets a reference to the given int64 and assigns it to the PetId field.
+SetPetID gets a reference to the given int64 and assigns it to the PetID field.
 
 ### GetQuantity
 

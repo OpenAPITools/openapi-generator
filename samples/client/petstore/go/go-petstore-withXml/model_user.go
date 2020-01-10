@@ -11,7 +11,7 @@
 package petstore
 // User struct for User
 type User struct {
-	Id int64 `json:"id,omitempty" xml:"id"`
+	ID int64 `json:"id,omitempty" xml:"id"`
 	Username string `json:"username,omitempty" xml:"username"`
 	FirstName string `json:"firstName,omitempty" xml:"firstName"`
 	LastName string `json:"lastName,omitempty" xml:"lastName"`

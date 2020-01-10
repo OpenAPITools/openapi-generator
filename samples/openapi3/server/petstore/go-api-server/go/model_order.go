@@ -15,9 +15,9 @@ import (
 
 type Order struct {
 
-	Id int64 `json:"id,omitempty"`
+	ID int64 `json:"id,omitempty"`
 
-	PetId int64 `json:"petId,omitempty"`
+	PetID int64 `json:"petId,omitempty"`
 
 	Quantity int32 `json:"quantity,omitempty"`
 

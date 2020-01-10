@@ -21,8 +21,8 @@ var (
 	_ _context.Context
 )
 
-// AnotherFakeApiService AnotherFakeApi service
-type AnotherFakeApiService service
+// AnotherFakeAPIService AnotherFakeAPI service
+type AnotherFakeAPIService service
 
 /*
 Call123TestSpecialTags To test special tags
@@ -31,7 +31,7 @@ To test special tags and operation ID starting with number
  * @param client client model
 @return Client
 */
-func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context, client Client) (Client, *_nethttp.Response, error) {
+func (a *AnotherFakeAPIService) Call123TestSpecialTags(ctx _context.Context, client Client) (Client, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
@@ -41,7 +41,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context, cli
 		localVarReturnValue  Client
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "AnotherFakeApiService.Call123TestSpecialTags")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "AnotherFakeAPIService.Call123TestSpecialTags")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}

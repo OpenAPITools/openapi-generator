@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **int64** |  | [optional] 
+**ID** | Pointer to **int64** |  | [optional] 
 **Username** | Pointer to **string** |  | [optional] 
 **FirstName** | Pointer to **string** |  | [optional] 
 **LastName** | Pointer to **string** |  | [optional] 
@@ -15,30 +15,30 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### GetId
+### GetID
 
-`func (o *User) GetId() int64`
+`func (o *User) GetID() int64`
 
-GetId returns the Id field if non-nil, zero value otherwise.
+GetID returns the ID field if non-nil, zero value otherwise.
 
-### GetIdOk
+### GetIDOk
 
-`func (o *User) GetIdOk() (int64, bool)`
+`func (o *User) GetIDOk() (int64, bool)`
 
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+GetIDOk returns a tuple with the ID field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### HasId
+### HasID
 
-`func (o *User) HasId() bool`
+`func (o *User) HasID() bool`
 
-HasId returns a boolean if a field has been set.
+HasID returns a boolean if a field has been set.
 
-### SetId
+### SetID
 
-`func (o *User) SetId(v int64)`
+`func (o *User) SetID(v int64)`
 
-SetId gets a reference to the given int64 and assigns it to the Id field.
+SetID gets a reference to the given int64 and assigns it to the ID field.
 
 ### GetUsername
 

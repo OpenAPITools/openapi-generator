@@ -29,7 +29,7 @@ type FormatTest struct {
 	Binary **os.File `json:"binary,omitempty"`
 	Date string `json:"date"`
 	DateTime *time.Time `json:"dateTime,omitempty"`
-	Uuid *string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 	Password string `json:"password"`
 	// A string that is a 10 digit number. Can have leading zeros.
 	PatternWithDigits *string `json:"pattern_with_digits,omitempty"`
@@ -346,37 +346,37 @@ func (o *FormatTest) SetDateTime(v time.Time) {
 	o.DateTime = &v
 }
 
-// GetUuid returns the Uuid field value if set, zero value otherwise.
-func (o *FormatTest) GetUuid() string {
-	if o == nil || o.Uuid == nil {
+// GetUUID returns the UUID field value if set, zero value otherwise.
+func (o *FormatTest) GetUUID() string {
+	if o == nil || o.UUID == nil {
 		var ret string
 		return ret
 	}
-	return *o.Uuid
+	return *o.UUID
 }
 
-// GetUuidOk returns a tuple with the Uuid field value if set, zero value otherwise
+// GetUUIDOk returns a tuple with the UUID field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *FormatTest) GetUuidOk() (string, bool) {
-	if o == nil || o.Uuid == nil {
+func (o *FormatTest) GetUUIDOk() (string, bool) {
+	if o == nil || o.UUID == nil {
 		var ret string
 		return ret, false
 	}
-	return *o.Uuid, true
+	return *o.UUID, true
 }
 
-// HasUuid returns a boolean if a field has been set.
-func (o *FormatTest) HasUuid() bool {
-	if o != nil && o.Uuid != nil {
+// HasUUID returns a boolean if a field has been set.
+func (o *FormatTest) HasUUID() bool {
+	if o != nil && o.UUID != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetUuid gets a reference to the given string and assigns it to the Uuid field.
-func (o *FormatTest) SetUuid(v string) {
-	o.Uuid = &v
+// SetUUID gets a reference to the given string and assigns it to the UUID field.
+func (o *FormatTest) SetUUID(v string) {
+	o.UUID = &v
 }
 
 // GetPassword returns the Password field value

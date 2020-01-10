@@ -17,8 +17,8 @@ import (
 
 // Order struct for Order
 type Order struct {
-	Id *int64 `json:"id,omitempty"`
-	PetId *int64 `json:"petId,omitempty"`
+	ID *int64 `json:"id,omitempty"`
+	PetID *int64 `json:"petId,omitempty"`
 	Quantity *int32 `json:"quantity,omitempty"`
 	ShipDate *time.Time `json:"shipDate,omitempty"`
 	// Order Status
@@ -26,70 +26,70 @@ type Order struct {
 	Complete *bool `json:"complete,omitempty"`
 }
 
-// GetId returns the Id field value if set, zero value otherwise.
-func (o *Order) GetId() int64 {
-	if o == nil || o.Id == nil {
+// GetID returns the ID field value if set, zero value otherwise.
+func (o *Order) GetID() int64 {
+	if o == nil || o.ID == nil {
 		var ret int64
 		return ret
 	}
-	return *o.Id
+	return *o.ID
 }
 
-// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
+// GetIDOk returns a tuple with the ID field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetIdOk() (int64, bool) {
-	if o == nil || o.Id == nil {
+func (o *Order) GetIDOk() (int64, bool) {
+	if o == nil || o.ID == nil {
 		var ret int64
 		return ret, false
 	}
-	return *o.Id, true
+	return *o.ID, true
 }
 
-// HasId returns a boolean if a field has been set.
-func (o *Order) HasId() bool {
-	if o != nil && o.Id != nil {
+// HasID returns a boolean if a field has been set.
+func (o *Order) HasID() bool {
+	if o != nil && o.ID != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetId gets a reference to the given int64 and assigns it to the Id field.
-func (o *Order) SetId(v int64) {
-	o.Id = &v
+// SetID gets a reference to the given int64 and assigns it to the ID field.
+func (o *Order) SetID(v int64) {
+	o.ID = &v
 }
 
-// GetPetId returns the PetId field value if set, zero value otherwise.
-func (o *Order) GetPetId() int64 {
-	if o == nil || o.PetId == nil {
+// GetPetID returns the PetID field value if set, zero value otherwise.
+func (o *Order) GetPetID() int64 {
+	if o == nil || o.PetID == nil {
 		var ret int64
 		return ret
 	}
-	return *o.PetId
+	return *o.PetID
 }
 
-// GetPetIdOk returns a tuple with the PetId field value if set, zero value otherwise
+// GetPetIDOk returns a tuple with the PetID field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *Order) GetPetIdOk() (int64, bool) {
-	if o == nil || o.PetId == nil {
+func (o *Order) GetPetIDOk() (int64, bool) {
+	if o == nil || o.PetID == nil {
 		var ret int64
 		return ret, false
 	}
-	return *o.PetId, true
+	return *o.PetID, true
 }
 
-// HasPetId returns a boolean if a field has been set.
-func (o *Order) HasPetId() bool {
-	if o != nil && o.PetId != nil {
+// HasPetID returns a boolean if a field has been set.
+func (o *Order) HasPetID() bool {
+	if o != nil && o.PetID != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetPetId gets a reference to the given int64 and assigns it to the PetId field.
-func (o *Order) SetPetId(v int64) {
-	o.PetId = &v
+// SetPetID gets a reference to the given int64 and assigns it to the PetID field.
+func (o *Order) SetPetID(v int64) {
+	o.PetID = &v
 }
 
 // GetQuantity returns the Quantity field value if set, zero value otherwise.

@@ -11,6 +11,6 @@
 package petstore
 // Category struct for Category
 type Category struct {
-	Id int64 `json:"id,omitempty" xml:"id"`
+	ID int64 `json:"id,omitempty" xml:"id"`
 	Name string `json:"name" xml:"name"`
 }

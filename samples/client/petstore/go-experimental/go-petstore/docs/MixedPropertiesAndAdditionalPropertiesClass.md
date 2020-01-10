@@ -4,36 +4,36 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Uuid** | Pointer to **string** |  | [optional] 
+**UUID** | Pointer to **string** |  | [optional] 
 **DateTime** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
 **Map** | Pointer to [**map[string]Animal**](Animal.md) |  | [optional] 
 
 ## Methods
 
-### GetUuid
+### GetUUID
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUUID() string`
 
-GetUuid returns the Uuid field if non-nil, zero value otherwise.
+GetUUID returns the UUID field if non-nil, zero value otherwise.
 
-### GetUuidOk
+### GetUUIDOk
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuidOk() (string, bool)`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUUIDOk() (string, bool)`
 
-GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
+GetUUIDOk returns a tuple with the UUID field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### HasUuid
+### HasUUID
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) HasUuid() bool`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) HasUUID() bool`
 
-HasUuid returns a boolean if a field has been set.
+HasUUID returns a boolean if a field has been set.
 
-### SetUuid
+### SetUUID
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) SetUuid(v string)`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) SetUUID(v string)`
 
-SetUuid gets a reference to the given string and assigns it to the Uuid field.
+SetUUID gets a reference to the given string and assigns it to the UUID field.
 
 ### GetDateTime
 

@@ -21,8 +21,8 @@ var (
 	_ _context.Context
 )
 
-// FakeClassnameTags123ApiService FakeClassnameTags123Api service
-type FakeClassnameTags123ApiService service
+// FakeClassnameTags123APIService FakeClassnameTags123API service
+type FakeClassnameTags123APIService service
 
 /*
 TestClassname To test class name in snake case
@@ -31,7 +31,7 @@ To test class name in snake case
  * @param body client model
 @return Client
 */
-func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context, body Client) (Client, *_nethttp.Response, error) {
+func (a *FakeClassnameTags123APIService) TestClassname(ctx _context.Context, body Client) (Client, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
@@ -41,7 +41,7 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context, bod
 		localVarReturnValue  Client
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeClassnameTags123ApiService.TestClassname")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(ctx, "FakeClassnameTags123APIService.TestClassname")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}

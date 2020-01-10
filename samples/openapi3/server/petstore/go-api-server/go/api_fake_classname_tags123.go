@@ -17,18 +17,18 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// A FakeClassnameTags123ApiController binds http requests to an api service and writes the service results to the http response
-type FakeClassnameTags123ApiController struct {
-	service FakeClassnameTags123ApiServicer
+// A FakeClassnameTags123APIController binds http requests to an api service and writes the service results to the http response
+type FakeClassnameTags123APIController struct {
+	service FakeClassnameTags123APIServicer
 }
 
-// NewFakeClassnameTags123ApiController creates a default api controller
-func NewFakeClassnameTags123ApiController(s FakeClassnameTags123ApiServicer) Router {
-	return &FakeClassnameTags123ApiController{ service: s }
+// NewFakeClassnameTags123APIController creates a default api controller
+func NewFakeClassnameTags123APIController(s FakeClassnameTags123APIServicer) Router {
+	return &FakeClassnameTags123APIController{ service: s }
 }
 
-// Routes returns all of the api route for the FakeClassnameTags123ApiController
-func (c *FakeClassnameTags123ApiController) Routes() Routes {
+// Routes returns all of the api route for the FakeClassnameTags123APIController
+func (c *FakeClassnameTags123APIController) Routes() Routes {
 	return Routes{ 
 		{
 			"TestClassname",
@@ -40,7 +40,7 @@ func (c *FakeClassnameTags123ApiController) Routes() Routes {
 }
 
 // TestClassname - To test class name in snake case
-func (c *FakeClassnameTags123ApiController) TestClassname(w http.ResponseWriter, r *http.Request) { 
+func (c *FakeClassnameTags123APIController) TestClassname(w http.ResponseWriter, r *http.Request) { 
 	client := &Client{}
 	if err := json.NewDecoder(r.Body).Decode(&client); err != nil {
 		w.WriteHeader(500)

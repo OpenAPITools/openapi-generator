@@ -17,18 +17,18 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// A DefaultApiController binds http requests to an api service and writes the service results to the http response
-type DefaultApiController struct {
-	service DefaultApiServicer
+// A DefaultAPIController binds http requests to an api service and writes the service results to the http response
+type DefaultAPIController struct {
+	service DefaultAPIServicer
 }
 
-// NewDefaultApiController creates a default api controller
-func NewDefaultApiController(s DefaultApiServicer) Router {
-	return &DefaultApiController{ service: s }
+// NewDefaultAPIController creates a default api controller
+func NewDefaultAPIController(s DefaultAPIServicer) Router {
+	return &DefaultAPIController{ service: s }
 }
 
-// Routes returns all of the api route for the DefaultApiController
-func (c *DefaultApiController) Routes() Routes {
+// Routes returns all of the api route for the DefaultAPIController
+func (c *DefaultAPIController) Routes() Routes {
 	return Routes{ 
 		{
 			"FooGet",
@@ -40,7 +40,7 @@ func (c *DefaultApiController) Routes() Routes {
 }
 
 // FooGet - 
-func (c *DefaultApiController) FooGet(w http.ResponseWriter, r *http.Request) { 
+func (c *DefaultAPIController) FooGet(w http.ResponseWriter, r *http.Request) { 
 	result, err := c.service.FooGet()
 	if err != nil {
 		w.WriteHeader(500)

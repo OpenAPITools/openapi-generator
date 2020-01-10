@@ -15,7 +15,7 @@ import (
 
 type MixedPropertiesAndAdditionalPropertiesClass struct {
 
-	Uuid string `json:"uuid,omitempty"`
+	UUID string `json:"uuid,omitempty"`
 
 	DateTime time.Time `json:"dateTime,omitempty"`
 

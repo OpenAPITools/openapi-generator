@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **Binary** | [***os.File**](*os.File.md) |  | [optional] 
 **Date** | **string** |  | 
 **DateTime** | [**time.Time**](time.Time.md) |  | [optional] 
-**Uuid** | **string** |  | [optional] 
+**UUID** | **string** |  | [optional] 
 **Password** | **string** |  | 
 **BigDecimal** | **float64** |  | [optional] 
 

@@ -35,8 +35,8 @@ func FindPetsByTags(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
-// GetPetById - Find pet by ID
-func GetPetById(c *gin.Context) {
+// GetPetByID - Find pet by ID
+func GetPetByID(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 

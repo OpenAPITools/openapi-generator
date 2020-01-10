@@ -19,28 +19,28 @@ import (
 func main() {
 	log.Printf("Server started")
 
-	AnotherFakeApiService := petstoreserver.NewAnotherFakeApiService()
-	AnotherFakeApiController := petstoreserver.NewAnotherFakeApiController(AnotherFakeApiService)
+	AnotherFakeAPIService := petstoreserver.NewAnotherFakeAPIService()
+	AnotherFakeAPIController := petstoreserver.NewAnotherFakeAPIController(AnotherFakeAPIService)
 
-	DefaultApiService := petstoreserver.NewDefaultApiService()
-	DefaultApiController := petstoreserver.NewDefaultApiController(DefaultApiService)
+	DefaultAPIService := petstoreserver.NewDefaultAPIService()
+	DefaultAPIController := petstoreserver.NewDefaultAPIController(DefaultAPIService)
 
-	FakeApiService := petstoreserver.NewFakeApiService()
-	FakeApiController := petstoreserver.NewFakeApiController(FakeApiService)
+	FakeAPIService := petstoreserver.NewFakeAPIService()
+	FakeAPIController := petstoreserver.NewFakeAPIController(FakeAPIService)
 
-	FakeClassnameTags123ApiService := petstoreserver.NewFakeClassnameTags123ApiService()
-	FakeClassnameTags123ApiController := petstoreserver.NewFakeClassnameTags123ApiController(FakeClassnameTags123ApiService)
+	FakeClassnameTags123APIService := petstoreserver.NewFakeClassnameTags123APIService()
+	FakeClassnameTags123APIController := petstoreserver.NewFakeClassnameTags123APIController(FakeClassnameTags123APIService)
 
-	PetApiService := petstoreserver.NewPetApiService()
-	PetApiController := petstoreserver.NewPetApiController(PetApiService)
+	PetAPIService := petstoreserver.NewPetAPIService()
+	PetAPIController := petstoreserver.NewPetAPIController(PetAPIService)
 
-	StoreApiService := petstoreserver.NewStoreApiService()
-	StoreApiController := petstoreserver.NewStoreApiController(StoreApiService)
+	StoreAPIService := petstoreserver.NewStoreAPIService()
+	StoreAPIController := petstoreserver.NewStoreAPIController(StoreAPIService)
 
-	UserApiService := petstoreserver.NewUserApiService()
-	UserApiController := petstoreserver.NewUserApiController(UserApiService)
+	UserAPIService := petstoreserver.NewUserAPIService()
+	UserAPIController := petstoreserver.NewUserAPIController(UserAPIService)
 
-	router := petstoreserver.NewRouter(AnotherFakeApiController, DefaultApiController, FakeApiController, FakeClassnameTags123ApiController, PetApiController, StoreApiController, UserApiController)
+	router := petstoreserver.NewRouter(AnotherFakeAPIController, DefaultAPIController, FakeAPIController, FakeClassnameTags123APIController, PetAPIController, StoreAPIController, UserAPIController)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

@@ -9,7 +9,7 @@
 
 package petstoreserver
 
-type ApiResponse struct {
+type APIResponse struct {
 
 	Code int32 `json:"code,omitempty"`
 

@@ -14,68 +14,68 @@ import (
 	"os"
 )
 
-// PetApiService is a service that implents the logic for the PetApiServicer
-// This service should implement the business logic for every endpoint for the PetApi API. 
+// PetAPIService is a service that implents the logic for the PetAPIServicer
+// This service should implement the business logic for every endpoint for the PetAPI API. 
 // Include any external packages or services that will be required by this service.
-type PetApiService struct {
+type PetAPIService struct {
 }
 
-// NewPetApiService creates a default api service
-func NewPetApiService() PetApiServicer {
-	return &PetApiService{}
+// NewPetAPIService creates a default api service
+func NewPetAPIService() PetAPIServicer {
+	return &PetAPIService{}
 }
 
 // AddPet - Add a new pet to the store
-func (s *PetApiService) AddPet(body Pet) (interface{}, error) {
+func (s *PetAPIService) AddPet(body Pet) (interface{}, error) {
 	// TODO - update AddPet with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'AddPet' not implemented")
 }
 
 // DeletePet - Deletes a pet
-func (s *PetApiService) DeletePet(petId int64, apiKey string) (interface{}, error) {
+func (s *PetAPIService) DeletePet(petID int64, aPIKey string) (interface{}, error) {
 	// TODO - update DeletePet with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'DeletePet' not implemented")
 }
 
 // FindPetsByStatus - Finds Pets by status
-func (s *PetApiService) FindPetsByStatus(status []string) (interface{}, error) {
+func (s *PetAPIService) FindPetsByStatus(status []string) (interface{}, error) {
 	// TODO - update FindPetsByStatus with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'FindPetsByStatus' not implemented")
 }
 
 // FindPetsByTags - Finds Pets by tags
-func (s *PetApiService) FindPetsByTags(tags []string) (interface{}, error) {
+func (s *PetAPIService) FindPetsByTags(tags []string) (interface{}, error) {
 	// TODO - update FindPetsByTags with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'FindPetsByTags' not implemented")
 }
 
-// GetPetById - Find pet by ID
-func (s *PetApiService) GetPetById(petId int64) (interface{}, error) {
-	// TODO - update GetPetById with the required logic for this service method.
+// GetPetByID - Find pet by ID
+func (s *PetAPIService) GetPetByID(petID int64) (interface{}, error) {
+	// TODO - update GetPetByID with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return nil, errors.New("service method 'GetPetById' not implemented")
+	return nil, errors.New("service method 'GetPetByID' not implemented")
 }
 
 // UpdatePet - Update an existing pet
-func (s *PetApiService) UpdatePet(body Pet) (interface{}, error) {
+func (s *PetAPIService) UpdatePet(body Pet) (interface{}, error) {
 	// TODO - update UpdatePet with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'UpdatePet' not implemented")
 }
 
 // UpdatePetWithForm - Updates a pet in the store with form data
-func (s *PetApiService) UpdatePetWithForm(petId int64, name string, status string) (interface{}, error) {
+func (s *PetAPIService) UpdatePetWithForm(petID int64, name string, status string) (interface{}, error) {
 	// TODO - update UpdatePetWithForm with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'UpdatePetWithForm' not implemented")
 }
 
 // UploadFile - uploads an image
-func (s *PetApiService) UploadFile(petId int64, additionalMetadata string, file *os.File) (interface{}, error) {
+func (s *PetAPIService) UploadFile(petID int64, additionalMetadata string, file *os.File) (interface{}, error) {
 	// TODO - update UploadFile with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'UploadFile' not implemented")

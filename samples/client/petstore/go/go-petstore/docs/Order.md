@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **int64** |  | [optional] 
-**PetId** | **int64** |  | [optional] 
+**ID** | **int64** |  | [optional] 
+**PetID** | **int64** |  | [optional] 
 **Quantity** | **int32** |  | [optional] 
 **ShipDate** | [**time.Time**](time.Time.md) |  | [optional] 
 **Status** | **string** | Order Status | [optional] 

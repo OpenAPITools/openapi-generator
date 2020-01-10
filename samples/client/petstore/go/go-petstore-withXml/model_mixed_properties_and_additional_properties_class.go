@@ -14,7 +14,7 @@ import (
 )
 // MixedPropertiesAndAdditionalPropertiesClass struct for MixedPropertiesAndAdditionalPropertiesClass
 type MixedPropertiesAndAdditionalPropertiesClass struct {
-	Uuid string `json:"uuid,omitempty" xml:"uuid"`
+	UUID string `json:"uuid,omitempty" xml:"uuid"`
 	DateTime time.Time `json:"dateTime,omitempty" xml:"dateTime"`
 	Map map[string]Animal `json:"map,omitempty" xml:"map"`
 }

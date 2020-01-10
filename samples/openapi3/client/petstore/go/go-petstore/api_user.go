@@ -22,8 +22,8 @@ var (
 	_ _context.Context
 )
 
-// UserApiService UserApi service
-type UserApiService service
+// UserAPIService UserAPI service
+type UserAPIService service
 
 /*
 CreateUser Create user
@@ -31,7 +31,7 @@ This can only be done by the logged in user.
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param user Created user object
 */
-func (a *UserApiService) CreateUser(ctx _context.Context, user User) (*_nethttp.Response, error) {
+func (a *UserAPIService) CreateUser(ctx _context.Context, user User) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -97,7 +97,7 @@ CreateUsersWithArrayInput Creates list of users with given input array
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param user List of user object
 */
-func (a *UserApiService) CreateUsersWithArrayInput(ctx _context.Context, user []User) (*_nethttp.Response, error) {
+func (a *UserAPIService) CreateUsersWithArrayInput(ctx _context.Context, user []User) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -163,7 +163,7 @@ CreateUsersWithListInput Creates list of users with given input array
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param user List of user object
 */
-func (a *UserApiService) CreateUsersWithListInput(ctx _context.Context, user []User) (*_nethttp.Response, error) {
+func (a *UserAPIService) CreateUsersWithListInput(ctx _context.Context, user []User) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -230,7 +230,7 @@ This can only be done by the logged in user.
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param username The name that needs to be deleted
 */
-func (a *UserApiService) DeleteUser(ctx _context.Context, username string) (*_nethttp.Response, error) {
+func (a *UserAPIService) DeleteUser(ctx _context.Context, username string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
@@ -297,7 +297,7 @@ GetUserByName Get user by user name
  * @param username The name that needs to be fetched. Use user1 for testing.
 @return User
 */
-func (a *UserApiService) GetUserByName(ctx _context.Context, username string) (User, *_nethttp.Response, error) {
+func (a *UserAPIService) GetUserByName(ctx _context.Context, username string) (User, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
@@ -385,7 +385,7 @@ LoginUser Logs user into the system
  * @param password The password for login in clear text
 @return string
 */
-func (a *UserApiService) LoginUser(ctx _context.Context, username string, password string) (string, *_nethttp.Response, error) {
+func (a *UserAPIService) LoginUser(ctx _context.Context, username string, password string) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
@@ -470,7 +470,7 @@ func (a *UserApiService) LoginUser(ctx _context.Context, username string, passwo
 LogoutUser Logs out current logged in user session
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 */
-func (a *UserApiService) LogoutUser(ctx _context.Context) (*_nethttp.Response, error) {
+func (a *UserAPIService) LogoutUser(ctx _context.Context) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
@@ -536,7 +536,7 @@ This can only be done by the logged in user.
  * @param username name that need to be deleted
  * @param user Updated user object
 */
-func (a *UserApiService) UpdateUser(ctx _context.Context, username string, user User) (*_nethttp.Response, error) {
+func (a *UserAPIService) UpdateUser(ctx _context.Context, username string, user User) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPut
 		localVarPostBody     interface{}

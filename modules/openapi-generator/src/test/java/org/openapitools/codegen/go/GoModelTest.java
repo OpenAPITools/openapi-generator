@@ -56,7 +56,7 @@ public class GoModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "int64");
-        Assert.assertEquals(property1.name, "Id");
+        Assert.assertEquals(property1.name, "ID");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int64");
         Assert.assertTrue(property1.hasMore);
@@ -105,7 +105,7 @@ public class GoModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "int64");
-        Assert.assertEquals(property1.name, "Id");
+        Assert.assertEquals(property1.name, "ID");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int64");
         Assert.assertTrue(property1.hasMore);
@@ -115,7 +115,7 @@ public class GoModelTest {
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
         Assert.assertEquals(property2.dataType, "[]string");
-        Assert.assertEquals(property2.name, "Urls");
+        Assert.assertEquals(property2.name, "URLs");
         Assert.assertEquals(property2.baseType, "array");
         Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
