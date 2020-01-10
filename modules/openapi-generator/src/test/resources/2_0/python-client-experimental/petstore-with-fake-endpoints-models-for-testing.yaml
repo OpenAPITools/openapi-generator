@@ -1341,6 +1341,16 @@ definitions:
     properties:
       _class:
         type: string
+  Player:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+      enemyPlayer:
+        type: object
+        $ref: '#/components/schemas/Player'
   Dog:
     allOf:
       - $ref: '#/definitions/Animal'

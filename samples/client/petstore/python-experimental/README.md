@@ -167,6 +167,7 @@ Class | Method | HTTP request | Description
  - [parent_all_of.ParentAllOf](docs/ParentAllOf.md)
  - [parent_pet.ParentPet](docs/ParentPet.md)
  - [pet.Pet](docs/Pet.md)
+ - [player.Player](docs/Player.md)
  - [read_only_first.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [special_model_name.SpecialModelName](docs/SpecialModelName.md)
  - [string_boolean_map.StringBooleanMap](docs/StringBooleanMap.md)

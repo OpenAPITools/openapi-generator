@@ -643,6 +643,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             // fix ListContainers
             p.complexType = getPythonClassName(p.mostInnerItems.complexType);
         }
+        // if a model has a property that is of type self, remove the module name from the dataType
+        if (p.complexType != null && p.dataType.contains(model.classname)) {
+            String classNameNoModule = getPythonClassName(model.classname);
+            p.dataType = p.dataType.replace(model.classname, classNameNoModule);
+        }
     }
 
     @Override
@@ -752,6 +757,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 cp.hasValidation = false;
                 result.imports.add(modelName);
             }
+        }
+        // if a class has a property of type self, remove the self import from imports
+        if (result.imports.contains(result.classname)) {
+            result.imports.remove(result.classname);
         }
         return result;
     }
