@@ -77,7 +77,7 @@ declare -a samples=(
 "${root}/bin/dart-petstore.sh"
 "${root}/bin/dart2-petstore.sh"
 "${root}/bin/java-play-framework-petstore-server-all.sh"
-#"${root}/bin/elm-petstore-all.sh"
+"${root}/bin/openapi3/elm.sh"
 "${root}/bin/typescript-redux-query-petstore-with-npm-version.sh"
 )
 
