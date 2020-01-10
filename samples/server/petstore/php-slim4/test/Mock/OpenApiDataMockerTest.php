@@ -191,6 +191,36 @@ class OpenApiDataMockerTest extends TestCase
     }
 
     /**
+     * @covers ::mockInteger
+     * @dataProvider provideMockIntegerFormats
+     */
+    public function testMockIntegerWithFormats(
+        $dataFormat,
+        $minimum,
+        $maximum,
+        $expectedMin,
+        $expectedMax
+    ) {
+        $mocker = new OpenApiDataMocker();
+        $integer = $mocker->mockInteger($dataFormat, $minimum, $maximum);
+        $this->assertGreaterThanOrEqual($expectedMin, $integer);
+        $this->assertLessThanOrEqual($expectedMax, $integer);
+    }
+
+    public function provideMockIntegerFormats()
+    {
+        return [
+            [IMocker::DATA_FORMAT_INT32, -2147483648, 2147483648, -2147483647, 2147483647],
+            [IMocker::DATA_FORMAT_INT64, '-9223372036854775808', '9223372036854775808', -9223372036854775807, 9223372036854775807],
+            [IMocker::DATA_FORMAT_INT32, -10, 10, -10, 10],
+            [IMocker::DATA_FORMAT_INT64, -10, 10, -10, 10],
+            [IMocker::DATA_FORMAT_INT32, -9223372036854775807, 9223372036854775807, -2147483647, 2147483647],
+            [strtoupper(IMocker::DATA_FORMAT_INT32), -2147483648, 2147483648, -2147483647, 2147483647],
+            [strtoupper(IMocker::DATA_FORMAT_INT64), '-9223372036854775808', '9223372036854775808', -9223372036854775807, 9223372036854775807],
+        ];
+    }
+
+    /**
      * @dataProvider provideMockNumberCorrectArguments
      * @covers ::mockNumber
      */
