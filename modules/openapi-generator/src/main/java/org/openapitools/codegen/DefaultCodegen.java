@@ -3776,10 +3776,10 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void addParentContainer(CodegenModel model, String name, Schema schema) {
-        final CodegenProperty property = fromProperty(name, schema);
-        addImport(model, property.complexType);
+        model.parentContainer = fromProperty(name, schema);
+        addImport(model, model.parentContainer.complexType);
         model.parent = toInstantiationType(schema);
-        final String containerType = property.containerType;
+        final String containerType = model.parentContainer.containerType;
         final String instantiationType = instantiationTypes.get(containerType);
         if (instantiationType != null) {
             addImport(model, instantiationType);

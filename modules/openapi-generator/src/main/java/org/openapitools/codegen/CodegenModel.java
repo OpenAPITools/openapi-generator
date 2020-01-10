@@ -61,6 +61,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public Set<String> imports = new TreeSet<String>();
     public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel;
+    public CodegenProperty parentContainer;
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
