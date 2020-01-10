@@ -108,6 +108,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String xmlName;
     public String xmlNamespace;
     public boolean isXmlWrapped = false;
+    public boolean isDiscriminator = false;
 
     public String getBaseName() {
         return baseName;

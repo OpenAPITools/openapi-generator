@@ -2061,6 +2061,13 @@ public class DefaultCodegen implements CodegenConfig {
             });
         }
 
+        for (CodegenProperty var : m.vars) {
+            if (var.name.equals(m.getDiscriminatorName())) {
+                var.isDiscriminator = true;
+                break;
+            }
+        }
+
         return m;
     }
 

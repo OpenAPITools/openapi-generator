@@ -1,6 +1,7 @@
 package org.openapitools.model;
 
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -23,6 +24,7 @@ import javax.validation.constraints.*;
 })
 
 public class Animal   {
+  @JsonIgnore
   @JsonProperty("className")
   private String className;
 
@@ -38,6 +40,7 @@ public class Animal   {
    * Get className
    * @return className
   */
+  @JsonIgnore
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
