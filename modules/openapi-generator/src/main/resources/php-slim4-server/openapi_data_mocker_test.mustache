@@ -458,6 +458,60 @@ class OpenApiDataMockerTest extends TestCase
     }
 
     /**
+     * @covers ::mock
+     * @covers ::mockString
+     * @dataProvider provideMockStringUuidFormatArguments
+     */
+    public function testMockStringWithUuidFormat(
+        $minLength,
+        $maxLength
+    ) {
+        $mocker = new OpenApiDataMocker();
+        $arr = [];
+        $arr2 = [];
+        $hexPattern = '/^[a-f0-9]*$/';
+
+        while (count($arr) < 100 && count($arr2) < 100) {
+            $str = $mocker->mockString(IMocker::DATA_FORMAT_UUID, $minLength, $maxLength);
+            $str2 = $mocker->mock(IMocker::DATA_TYPE_STRING, IMocker::DATA_FORMAT_UUID, ['minLength' => $minLength, 'maxLength' => $maxLength]);
+            $arr[] = $str;
+            $arr2[] = $str2;
+
+            // $this->assertNotContains($str, $arr);
+            // $this->assertNotContains($str2, $arr2);
+
+            $this->assertRegExp($hexPattern, $str);
+            $this->assertRegExp($hexPattern, $str2);
+
+            if ($minLength !== null) {
+                $this->assertGreaterThanOrEqual($minLength, mb_strlen($str));
+                $this->assertGreaterThanOrEqual($minLength, mb_strlen($str2));
+            }
+            if ($maxLength !== null) {
+                $this->assertLessThanOrEqual($maxLength, mb_strlen($str));
+                $this->assertLessThanOrEqual($maxLength, mb_strlen($str2));
+            }
+        }
+    }
+
+    public function provideMockStringUuidFormatArguments()
+    {
+        return [
+            [null, null],
+            [10, null],
+            [10, 10],
+            [null, 8],
+            [16, null],
+            [null, null],
+            [25, null],
+            [25, 25],
+            [null, 20],
+            [30, null],
+            [1, 1],
+        ];
+    }
+
+    /**
      * @covers ::mockBoolean
      */
     public function testMockBoolean()

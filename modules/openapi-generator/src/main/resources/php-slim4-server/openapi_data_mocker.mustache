@@ -187,13 +187,13 @@ final class OpenApiDataMocker implements IMocker
                 \STR_PAD_RIGHT
             );
         };
-        $truncateOrPad = function ($text, $min = null, $max = null) {
+        $truncateOrPad = function ($text, $min = null, $max = null, $glue = '') {
             if ($max !== null && mb_strlen($text) > $max) {
                 // truncate
                 $text = substr($text, 0, $max);
             } elseif ($min !== null && mb_strlen($text) < $min) {
                 // pad
-                $text = str_pad('', $min, $text . '. ', \STR_PAD_RIGHT);
+                $text = str_pad('', $min, $text . $glue, \STR_PAD_RIGHT);
             }
             return $text;
         };
@@ -248,7 +248,7 @@ final class OpenApiDataMocker implements IMocker
 
                 // base64 encoding produces strings devided by 4, so resulted string can exceed maxLength parameter
                 // I think truncated(invalid) base64 string is better than oversized, cause this data is fake anyway
-                $str = $truncateOrPad($str, null, $maxLength);
+                $str = $truncateOrPad($str, null, $maxLength, '. ');
                 break;
             case IMocker::DATA_FORMAT_DATE:
             case IMocker::DATA_FORMAT_DATE_TIME:
@@ -257,7 +257,7 @@ final class OpenApiDataMocker implements IMocker
                 $str = ($dataFormat === IMocker::DATA_FORMAT_DATE) ? $date->format('Y-m-d') : $date->format('Y-m-d\TH:i:sP');
 
                 // truncate or pad datestring to fit minLength and maxLength
-                $str = $truncateOrPad($str, $minLength, $maxLength);
+                $str = $truncateOrPad($str, $minLength, $maxLength, ' ');
                 break;
             case IMocker::DATA_FORMAT_PASSWORD:
                 // use list of most popular passwords
@@ -271,6 +271,13 @@ final class OpenApiDataMocker implements IMocker
                     'qwertyuiop[]',
                 ];
                 $str = $obviousPassList[mt_rand(0, count($obviousPassList) - 1)];
+
+                // truncate or pad password to fit minLength and maxLength
+                $str = $truncateOrPad($str, $minLength, $maxLength);
+                break;
+            case IMocker::DATA_FORMAT_UUID:
+                // use php built-in uniqid function
+                $str = uniqid();
 
                 // truncate or pad password to fit minLength and maxLength
                 $str = $truncateOrPad($str, $minLength, $maxLength);
