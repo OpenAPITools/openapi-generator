@@ -333,6 +333,12 @@ class OpenApiDataMockerTest extends TestCase
             [null, null, null, null, $types, $notTypes],
             [null, null, null, ['foobar', 'foobaz', 'hello world'], $types, $notTypes],
             [null, null, null, ['foobar'], $types, $notTypes],
+            [IMocker::DATA_FORMAT_PASSWORD, 0, null, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_PASSWORD, 10, null, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_PASSWORD, 0, 100, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_PASSWORD, 10, 50, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_PASSWORD, 10, 10, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_PASSWORD, 0, 0, null, $types, $notTypes],
         ];
     }
 

@@ -259,6 +259,22 @@ final class OpenApiDataMocker implements IMocker
                 // truncate or pad datestring to fit minLength and maxLength
                 $str = $truncateOrPad($str, $minLength, $maxLength);
                 break;
+            case IMocker::DATA_FORMAT_PASSWORD:
+                // use list of most popular passwords
+                $obviousPassList = [
+                    'qwerty',
+                    'qwerty12345',
+                    'hello',
+                    '12345',
+                    '0000',
+                    'qwerty12345!',
+                    'qwertyuiop[]',
+                ];
+                $str = $obviousPassList[mt_rand(0, count($obviousPassList) - 1)];
+
+                // truncate or pad password to fit minLength and maxLength
+                $str = $truncateOrPad($str, $minLength, $maxLength);
+                break;
             default:
                 $str = $getLoremIpsum(mt_rand($minLength, $maxLength));
         }
