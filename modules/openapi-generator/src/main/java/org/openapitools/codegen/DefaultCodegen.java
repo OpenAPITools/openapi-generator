@@ -2162,6 +2162,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @return Codegen Property object
      */
     public CodegenProperty fromProperty(String name, Schema p) {
+        return fromProperty(name, p, null);
+    }
+
+    private CodegenProperty fromProperty(String name, Schema p, Integer itemsDepth) {
         if (p == null) {
             LOGGER.error("Undefined property/schema for `{}`. Default to type:string.", name);
             return null;
@@ -2175,6 +2179,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         ModelUtils.syncValidationProperties(p, property);
 
+        property.itemsDepth = itemsDepth;
         property.name = toVarName(name);
         property.baseName = name;
         if (p.getType() == null) {
@@ -2401,7 +2406,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (arraySchema.getItems() == null) {
                 arraySchema.setItems(innerSchema);
             }
-            CodegenProperty cp = fromProperty(itemName, innerSchema);
+            CodegenProperty cp = fromProperty(itemName, innerSchema,
+                    itemsDepth == null ? 1 : itemsDepth.intValue() + 1);
             updatePropertyForArray(property, cp);
         } else if (ModelUtils.isMapSchema(p)) {
             property.isContainer = true;
@@ -2418,7 +2424,8 @@ public class DefaultCodegen implements CodegenConfig {
                 innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
                 p.setAdditionalProperties(innerSchema);
             }
-            CodegenProperty cp = fromProperty("inner", innerSchema);
+            CodegenProperty cp = fromProperty("inner", innerSchema,
+                    itemsDepth == null ? 1 : itemsDepth.intValue() + 1);
             updatePropertyForMap(property, cp);
         } else if (ModelUtils.isFreeFormObject(p)) {
             property.isFreeFormObject = true;
