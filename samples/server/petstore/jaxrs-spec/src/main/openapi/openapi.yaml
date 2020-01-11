@@ -862,11 +862,11 @@ paths:
       x-tags:
       - tag: fake
     post:
-      description: |
+      description: |-
         Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
+         假端點
+         偽のエンドポイント
+         가짜 엔드 포인트
       operationId: testEndpointParameters
       requestBody:
         content:
@@ -953,11 +953,11 @@ paths:
           description: User not found
       security:
       - http_basic_test: []
-      summary: |
+      summary: |-
         Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
+         假端點
+         偽のエンドポイント
+         가짜 엔드 포인트
       tags:
       - fake
       x-contentType: application/x-www-form-urlencoded
@@ -1557,6 +1557,10 @@ components:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Cat_allOf'
+    BigCat:
+      allOf:
+      - $ref: '#/components/schemas/Cat'
+      - $ref: '#/components/schemas/BigCat_allOf'
     Animal:
       discriminator:
         propertyName: className
@@ -2221,6 +2225,15 @@ components:
       properties:
         declawed:
           type: boolean
+    BigCat_allOf:
+      properties:
+        kind:
+          enum:
+          - lions
+          - tigers
+          - leopards
+          - jaguars
+          type: string
   securitySchemes:
     petstore_auth:
       flows:

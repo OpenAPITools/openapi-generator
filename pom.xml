@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>4.2.2-SNAPSHOT</version>
+    <version>4.2.3-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -1048,6 +1048,7 @@
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/server/petstore/php-slim</module>
+                <module>samples/server/petstore/php-slim4</module>
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/openapi3/client/petstore/javascript-es6</module>
@@ -1078,7 +1079,7 @@
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
                 <module>samples/server/petstore/rust-server</module>
                 <module>samples/server/petstore/python-flask</module>
-                <module>samples/server/petstore/python-flask-python2</module>
+                <!--<module>samples/server/petstore/python-flask-python2</module>-->
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1204,6 +1205,7 @@
                 <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
+                <module>samples/client/petstore/java/microprofile-rest-client</module>
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1253,9 +1255,12 @@
                 <module>samples/client/petstore/kotlin/</module>
                 <module>samples/client/petstore/kotlin-gson/</module>
                 <module>samples/client/petstore/kotlin-nonpublic/</module>
+                <module>samples/client/petstore/kotlin-nullable/</module>
                 <module>samples/client/petstore/kotlin-okhttp3/</module>
                 <module>samples/client/petstore/kotlin-threetenbp/</module>
                 <module>samples/client/petstore/kotlin-string/</module>
+                <module>samples/client/petstore/kotlin-moshi-codegen/</module>
+                <module>samples/client/petstore/kotlin-json-request-date/</module>
                 <!-- servers -->
                 <module>samples/server/petstore/erlang-server</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
@@ -1305,6 +1310,9 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/client/petstore/swift5/default/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/promisekit/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/rxswift/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/rxswift/SwaggerClientTests</module>
@@ -1400,7 +1408,7 @@
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
-        <junit-version>4.8.1</junit-version>
+        <junit-version>4.13</junit-version>
         <jackson-version>2.8.9</jackson-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <commons-lang-version>3.4</commons-lang-version>

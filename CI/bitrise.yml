@@ -40,12 +40,40 @@ workflows:
 
             sh bin/swift4-all.sh
     - script@1.1.5:
+        title: Run Swift4 tests
         inputs:
         - content: |
             #!/usr/bin/env bash
 
             set -e
 
-            ./samples/client/petstore/swift4/swift4_test_all.sh && ./samples/client/test/swift4/swift4_test_all.sh && exit ${PIPESTATUS[0]}
-        title: Run Swift4 tests
+            ./samples/client/petstore/swift4/swift4_test_all.sh
+            ./samples/client/test/swift4/swift4_test_all.sh
+    - script@1.1.5:
+        title: Update Swift5 samples
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
 
+            set -e
+
+            sh bin/swift5-all.sh
+    - script@1.1.5:
+        title: Run Swift5 tests
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+
+            set -e
+
+            ./samples/client/petstore/swift5/swift5_test_all.sh
+            ./samples/client/test/swift5/swift5_test_all.sh
+    - script@1.1.5:
+        title: Run all bin scripts
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            set -e
+
+            ./bin/run-all-petstore

@@ -38,6 +38,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     private static final String NUMERIC_ENUM_PREFIX = "_";
 
     protected boolean withGoCodegenComment = false;
+    protected boolean withAWSV4Signature = false;
     protected boolean withXml = false;
     protected boolean enumClassPrefix = false;
     protected boolean structPrefix = false;
@@ -376,7 +377,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // this will only import "fmt" and "strings" if there are items in pathParams
         for (CodegenOperation operation : operations) {
             if (operation.pathParams != null && operation.pathParams.size() > 0) {
-                imports.add(createMapping("import", "fmt"));
                 imports.add(createMapping("import", "strings"));
                 break; //just need to import once
             }
@@ -632,6 +632,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     public void setWithGoCodegenComment(boolean withGoCodegenComment) {
         this.withGoCodegenComment = withGoCodegenComment;
+    }
+
+    public void setWithAWSV4Signature(boolean withAWSV4Signature) {
+        this.withAWSV4Signature = withAWSV4Signature;
     }
 
     public void setWithXml(boolean withXml) {

@@ -17,10 +17,10 @@ import org.openapitools.client.models.Tag
 import com.squareup.moshi.Json
 /**
  * A pet for sale in the pet store
- * @param id 
- * @param category 
  * @param name 
  * @param photoUrls 
+ * @param id 
+ * @param category 
  * @param tags 
  * @param status pet status in the store
  */

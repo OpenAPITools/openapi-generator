@@ -274,4 +274,24 @@ public class MysqlSchemaCodegenTest {
         Assert.assertFalse(codegen.getJsonDataTypeEnabled());
     }
 
+    @Test
+    public void testSetIdentifierNamingConvention() {
+        final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
+        Assert.assertSame("original", codegen.getIdentifierNamingConvention());
+        codegen.setIdentifierNamingConvention("invalidValue");
+        Assert.assertSame("original", codegen.getIdentifierNamingConvention());
+        codegen.setIdentifierNamingConvention("snake_case");
+        Assert.assertSame("snake_case", codegen.getIdentifierNamingConvention());
+        codegen.setIdentifierNamingConvention("anotherInvalid");
+        Assert.assertSame("snake_case", codegen.getIdentifierNamingConvention());
+    }
+
+    @Test
+    public void testGetIdentifierNamingConvention() {
+        final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
+        Assert.assertSame("original", codegen.getIdentifierNamingConvention());
+        codegen.setIdentifierNamingConvention("snake_case");
+        Assert.assertSame("snake_case", codegen.getIdentifierNamingConvention());
+    }
+
 }

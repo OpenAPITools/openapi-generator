@@ -74,17 +74,17 @@ return 0;
     {{^isContainer}}
     {{^isModel}}
     {{#isEnum}}
-    char* {{baseName}}{{classname}}_ToString({{baseName}}_e {{baseName}}){
-    char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
-        return {{baseName}}Array[{{baseName}}];
+    char* {{name}}{{classname}}_ToString({{name}}_e {{name}}){
+    char *{{name}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+        return {{name}}Array[{{name}}];
     }
 
-    {{baseName}}_e {{baseName}}{{classname}}_FromString(char* {{baseName}}){
+    {{name}}_e {{name}}{{classname}}_FromString(char* {{name}}){
     int stringToReturn = 0;
-    char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
-    size_t sizeofArray = sizeof({{baseName}}Array) / sizeof({{baseName}}Array[0]);
+    char *{{name}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+    size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
     while(stringToReturn < sizeofArray) {
-        if(strcmp({{baseName}}, {{baseName}}Array[stringToReturn]) == 0) {
+        if(strcmp({{name}}, {{name}}Array[stringToReturn]) == 0) {
             return stringToReturn;
         }
         stringToReturn++;
@@ -98,17 +98,17 @@ return 0;
     {{#items}}
     {{^isModel}}
     {{#isEnum}}
-    char* {{baseName}}{{classname}}_ToString({{baseName}}_e {{baseName}}){
-        char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
-        return {{baseName}}Array[{{baseName}} - 1];
+    char* {{name}}{{classname}}_ToString({{name}}_e {{name}}){
+        char *{{name}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+        return {{name}}Array[{{name}} - 1];
     }
 
-    {{baseName}}_e {{baseName}}{{classname}}_FromString(char* {{baseName}}){
+    {{name}}_e {{name}}{{classname}}_FromString(char* {{name}}){
     int stringToReturn = 0;
-    char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
-    size_t sizeofArray = sizeof({{baseName}}Array) / sizeof({{baseName}}Array[0]);
+    char *{{name}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+    size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
     while(stringToReturn < sizeofArray) {
-        if(strcmp({{baseName}}, {{baseName}}Array[stringToReturn]) == 0) {
+        if(strcmp({{name}}, {{name}}Array[stringToReturn]) == 0) {
             return stringToReturn + 1;
         }
         stringToReturn++;
@@ -127,64 +127,64 @@ return 0;
     {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
-    {{datatype}}_e {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_e {{name}}{{#hasMore}},{{/hasMore}}
     {{/isEnum}}
     {{^isEnum}}
-    {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isEnum}}
     {{/isModel}}
     {{#isUuid}}
-    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isUuid}}
     {{#isEmail}}
-    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isEmail}}
     {{#isFreeFormObject}}
-    {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isFreeFormObject}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
     {{/isNumeric}}
     {{#isBoolean}}
-    {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{baseName}}_e {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{name}}_e {{name}}{{#hasMore}},{{/hasMore}}
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
-    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
     {{/isByteArray}}
     {{#isBinary}}
-    {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
     {{/isBinary}}
     {{#isDate}}
-    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isDate}}
     {{#isDateTime}}
-    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isDateTime}}
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
     {{#isListContainer}}
     {{#isPrimitiveType}}
-    {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isPrimitiveType}}
     {{/isListContainer}}
     {{#isMapContainer}}
-    {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
     {{/isMapContainer}}
     {{/isContainer}}
     {{/vars}}
@@ -194,7 +194,7 @@ return 0;
         return NULL;
     }
     {{#vars}}
-    {{classname}}_local_var->{{{baseName}}} = {{{baseName}}};
+    {{classname}}_local_var->{{{name}}} = {{{name}}};
     {{/vars}}
 
     return {{classname}}_local_var;
@@ -208,58 +208,58 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     {{^isPrimitiveType}}
     {{#isModel}}
     {{^isEnum}}
-    {{{complexType}}}_free({{{classname}}}->{{{baseName}}});
+    {{{complexType}}}_free({{{classname}}}->{{{name}}});
     {{/isEnum}}
     {{/isModel}}
     {{#isUuid}}
-    free({{{classname}}}->{{{baseName}}});
+    free({{{classname}}}->{{{name}}});
     {{/isUuid}}
     {{#isEmail}}
-    free({{{classname}}}->{{{baseName}}});
+    free({{{classname}}}->{{{name}}});
     {{/isEmail}}
     {{#isFreeFormObject}}
-    object_free({{{classname}}}->{{{baseName}}});
+    object_free({{{classname}}}->{{{name}}});
     {{/isFreeFormObject}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{^isEnum}}
     {{#isString}}
-    free({{{classname}}}->{{{baseName}}});
+    free({{{classname}}}->{{{name}}});
     {{/isString}}
     {{/isEnum}}
     {{#isBinary}}
-    free({{{classname}}}->{{{baseName}}}->data);
+    free({{{classname}}}->{{{name}}}->data);
     {{/isBinary}}
     {{#isDate}}
-    free({{{classname}}}->{{{baseName}}});
+    free({{{classname}}}->{{{name}}});
     {{/isDate}}
     {{#isDateTime}}
-    free({{{classname}}}->{{{baseName}}});
+    free({{{classname}}}->{{{name}}});
     {{/isDateTime}}
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
     {{#isListContainer}}
     {{#isPrimitiveType}}
-    list_ForEach(listEntry, {{classname}}->{{baseName}}) {
+    list_ForEach(listEntry, {{classname}}->{{name}}) {
         free(listEntry->data);
     }
-    list_free({{classname}}->{{baseName}});
+    list_free({{classname}}->{{name}});
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    list_ForEach(listEntry, {{classname}}->{{baseName}}) {
+    list_ForEach(listEntry, {{classname}}->{{name}}) {
         {{complexType}}_free(listEntry->data);
     }
-    list_free({{classname}}->{{baseName}});
+    list_free({{classname}}->{{name}});
     {{/isPrimitiveType}}
     {{/isListContainer}}
     {{#isMapContainer}}
-    list_ForEach(listEntry, {{classname}}->{{baseName}}) {
+    list_ForEach(listEntry, {{classname}}->{{name}}) {
         keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
         free (localKeyValue->key);
         free (localKeyValue->value);
     }
-    list_free({{classname}}->{{baseName}});
+    list_free({{classname}}->{{name}});
     {{/isMapContainer}}
     {{/isContainer}}
     {{/vars}}
@@ -270,30 +270,30 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     cJSON *item = cJSON_CreateObject();
     {{#vars}}
 
-    // {{{classname}}}->{{{baseName}}}
+    // {{{classname}}}->{{{name}}}
     {{#required}}
     {{^isEnum}}
-    if (!{{{classname}}}->{{{baseName}}}) {
+    if (!{{{classname}}}->{{{name}}}) {
         goto fail;
     }
     {{/isEnum}}
     {{/required}}
-    {{^required}}{{^isEnum}}if({{{classname}}}->{{{baseName}}}) { {{/isEnum}}{{/required}}
+    {{^required}}{{^isEnum}}if({{{classname}}}->{{{name}}}) { {{/isEnum}}{{/required}}
     {{^isContainer}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //Numeric
     }
     {{/isNumeric}}
     {{#isBoolean}}
-    if(cJSON_AddBoolToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    if(cJSON_AddBoolToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //Bool
     }
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{baseName}}}{{classname}}_ToString({{{classname}}}->{{{baseName}}})) == NULL)
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{name}}}{{classname}}_ToString({{{classname}}}->{{{name}}})) == NULL)
     {
     goto fail; //Enum
     }
@@ -301,30 +301,30 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
-    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //String
     }
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //Byte
     }
     {{/isByteArray}}
     {{#isBinary}}
-    char* encoded_str_{{{baseName}}} = base64encode({{{classname}}}->{{{baseName}}}->data,{{{classname}}}->{{{baseName}}}->len);
-    if(cJSON_AddStringToObject(item, "{{{baseName}}}", encoded_str_{{{baseName}}}) == NULL) {
+    char* encoded_str_{{{name}}} = base64encode({{{classname}}}->{{{name}}}->data,{{{classname}}}->{{{name}}}->len);
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", encoded_str_{{{name}}}) == NULL) {
     goto fail; //Binary
     }
-    free (encoded_str_{{{baseName}}});
+    free (encoded_str_{{{name}}});
     {{/isBinary}}
     {{#isDate}}
-    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //Date
     }
     {{/isDate}}
     {{#isDateTime}}
-    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //Date-Time
     }
     {{/isDateTime}}
@@ -332,42 +332,42 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
-    cJSON *{{{baseName}}}_enum_local_JSON = {{datatypeWithEnum}}_convertToJSON({{{classname}}}->{{{baseName}}});
-    if({{{baseName}}}_enum_local_JSON == NULL) {
+    cJSON *{{{name}}}_enum_local_JSON = {{datatypeWithEnum}}_convertToJSON({{{classname}}}->{{{name}}});
+    if({{{name}}}_enum_local_JSON == NULL) {
     goto fail; // enum
     }
-    cJSON_AddItemToObject(item, "{{{baseName}}}", {{{baseName}}}_enum_local_JSON);
+    cJSON_AddItemToObject(item, "{{{baseName}}}", {{{name}}}_enum_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
     {{/isEnum}}
     {{^isEnum}}
-    cJSON *{{{baseName}}}_local_JSON = {{complexType}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_convertToJSON({{{classname}}}->{{{baseName}}});
-    if({{{baseName}}}_local_JSON == NULL) {
+    cJSON *{{{name}}}_local_JSON = {{complexType}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_convertToJSON({{{classname}}}->{{{name}}});
+    if({{{name}}}_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "{{{baseName}}}", {{{baseName}}}_local_JSON);
+    cJSON_AddItemToObject(item, "{{{baseName}}}", {{{name}}}_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
     {{/isEnum}}
     {{/isModel}}
     {{#isUuid}}
-    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //uuid
     }
     {{/isUuid}}
     {{#isEmail}}
-    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //Email
     }
     {{/isEmail}}
     {{#isFreeFormObject}}
-    cJSON *{{{baseName}}}_object = object_convertToJSON({{{classname}}}->{{{baseName}}});
-    if({{{baseName}}}_object == NULL) {
+    cJSON *{{{name}}}_object = object_convertToJSON({{{classname}}}->{{{name}}});
+    if({{{name}}}_object == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "{{{baseName}}}", {{{baseName}}}_object);
+    cJSON_AddItemToObject(item, "{{{baseName}}}", {{{name}}}_object);
     if(item->child == NULL) {
     goto fail;
     }
@@ -383,16 +383,16 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     }
 
     listEntry_t *{{{name}}}ListEntry;
-    list_ForEach({{{name}}}ListEntry, {{{classname}}}->{{{baseName}}}) {
+    list_ForEach({{{name}}}ListEntry, {{{classname}}}->{{{name}}}) {
     {{#items}}
     {{#isString}}
-    if(cJSON_AddStringToObject({{{baseName}}}, "", (char*){{{baseName}}}ListEntry->data) == NULL)
+    if(cJSON_AddStringToObject({{{name}}}, "", (char*){{{name}}}ListEntry->data) == NULL)
     {
         goto fail;
     }
     {{/isString}}
     {{^isString}}
-    if(cJSON_AddNumberToObject({{{baseName}}}, "", *(double *){{{baseName}}}ListEntry->data) == NULL)
+    if(cJSON_AddNumberToObject({{{name}}}, "", *(double *){{{name}}}ListEntry->data) == NULL)
     {
         goto fail;
     }
@@ -401,33 +401,33 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     }
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    cJSON *{{{baseName}}} = cJSON_AddArrayToObject(item, "{{{baseName}}}");
-    if({{{baseName}}} == NULL) {
+    cJSON *{{{name}}} = cJSON_AddArrayToObject(item, "{{{baseName}}}");
+    if({{{name}}} == NULL) {
     goto fail; //nonprimitive container
     }
 
-    listEntry_t *{{{baseName}}}ListEntry;
-    if ({{{classname}}}->{{{baseName}}}) {
-    list_ForEach({{{baseName}}}ListEntry, {{classname}}->{{{baseName}}}) {
-    cJSON *itemLocal = {{complexType}}_convertToJSON({{#isEnum}}{{#items}}({{datatypeWithEnum}}_e){{/items}}{{/isEnum}}{{{baseName}}}ListEntry->data);
+    listEntry_t *{{{name}}}ListEntry;
+    if ({{{classname}}}->{{{name}}}) {
+    list_ForEach({{{name}}}ListEntry, {{classname}}->{{{name}}}) {
+    cJSON *itemLocal = {{complexType}}_convertToJSON({{#isEnum}}{{#items}}({{datatypeWithEnum}}_e){{/items}}{{/isEnum}}{{{name}}}ListEntry->data);
     if(itemLocal == NULL) {
     goto fail;
     }
-    cJSON_AddItemToArray({{{baseName}}}, itemLocal);
+    cJSON_AddItemToArray({{{name}}}, itemLocal);
     }
     }
     {{/isPrimitiveType}}
     {{/isListContainer}}
     {{#isMapContainer}}
-    cJSON *{{{baseName}}} = cJSON_AddObjectToObject(item, "{{{baseName}}}");
-    if({{{baseName}}} == NULL) {
+    cJSON *{{{name}}} = cJSON_AddObjectToObject(item, "{{{baseName}}}");
+    if({{{name}}} == NULL) {
         goto fail; //primitive map container
     }
     cJSON *localMapObject = cJSON_CreateObject(); //Memory free to be implemented in user code
-    listEntry_t *{{{baseName}}}ListEntry;
-    if ({{{classname}}}->{{{baseName}}}) {
-    list_ForEach({{{baseName}}}ListEntry, {{{classname}}}->{{{baseName}}}) {
-        keyValuePair_t *localKeyValue = (keyValuePair_t*){{{baseName}}}ListEntry->data;
+    listEntry_t *{{{name}}}ListEntry;
+    if ({{{classname}}}->{{{name}}}) {
+    list_ForEach({{{name}}}ListEntry, {{{classname}}}->{{{name}}}) {
+        keyValuePair_t *localKeyValue = (keyValuePair_t*){{{name}}}ListEntry->data;
         {{#items}}
         {{#isString}}
         if(cJSON_AddStringToObject(localMapObject, localKeyValue->key, (char*)localKeyValue->value) == NULL)
@@ -442,7 +442,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
         }
         {{/isString}}
         {{/items}}
-        cJSON_AddItemToObject({{{baseName}}},"", localMapObject);
+        cJSON_AddItemToObject({{{name}}},"", localMapObject);
     }
     }
     {{/isMapContainer}}
@@ -465,10 +465,10 @@ fail:
     {{classname}}_t *{{classname}}_local_var = NULL;
 
     {{#vars}}
-    // {{{classname}}}->{{{baseName}}}
-    cJSON *{{{baseName}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
+    // {{{classname}}}->{{{name}}}
+    cJSON *{{{name}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
     {{#required}}
-    if (!{{{baseName}}}) {
+    if (!{{{name}}}) {
         goto end;
     }
 
@@ -476,71 +476,71 @@ fail:
     {{^isContainer}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    if(!cJSON_IsNumber({{{baseName}}}))
+    {{^required}}if ({{{name}}}) { {{/required}}
+    if(!cJSON_IsNumber({{{name}}}))
     {
     goto end; //Numeric
     }
     {{/isNumeric}}
     {{#isBoolean}}
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    if(!cJSON_IsBool({{{baseName}}}))
+    {{^required}}if ({{{name}}}) { {{/required}}
+    if(!cJSON_IsBool({{{name}}}))
     {
     goto end; //Bool
     }
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{{baseName}}}_e {{baseName}}Variable;
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    if(!cJSON_IsString({{{baseName}}}))
+    {{{name}}}_e {{name}}Variable;
+    {{^required}}if ({{{name}}}) { {{/required}}
+    if(!cJSON_IsString({{{name}}}))
     {
     goto end; //Enum
     }
-    {{baseName}}Variable = {{baseName}}{{classname}}_FromString({{{baseName}}}->valuestring);
+    {{name}}Variable = {{name}}{{classname}}_FromString({{{name}}}->valuestring);
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    if(!cJSON_IsString({{{baseName}}}))
+    {{^required}}if ({{{name}}}) { {{/required}}
+    if(!cJSON_IsString({{{name}}}))
     {
     goto end; //String
     }
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    if(!cJSON_IsNumber({{{baseName}}}))
+    {{^required}}if ({{{name}}}) { {{/required}}
+    if(!cJSON_IsNumber({{{name}}}))
     {
     goto end; //Byte
     }
     {{/isByteArray}}
     {{#isBinary}}
-    binary_t* decoded_str_{{{baseName}}};
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    if(!cJSON_IsString({{{baseName}}}))
+    binary_t* decoded_str_{{{name}}};
+    {{^required}}if ({{{name}}}) { {{/required}}
+    if(!cJSON_IsString({{{name}}}))
     {
     goto end; //Binary
     }
-    char* decoded = base64decode({{{baseName}}}->valuestring, strlen({{{baseName}}}->valuestring));
-    decoded_str_{{{baseName}}}->data = malloc(strlen(decoded) - 1);
-    if (!decoded_str_{{{baseName}}}->data) {
+    char* decoded = base64decode({{{name}}}->valuestring, strlen({{{name}}}->valuestring));
+    decoded_str_{{{name}}}->data = malloc(strlen(decoded) - 1);
+    if (!decoded_str_{{{name}}}->data) {
         goto end;
     }
-    memcpy(decoded_str_{{{baseName}}}->data,decoded,(strlen(decoded)-1));
-    decoded_str_{{{baseName}}}->len = strlen(decoded) - 1;
+    memcpy(decoded_str_{{{name}}}->data,decoded,(strlen(decoded)-1));
+    decoded_str_{{{name}}}->len = strlen(decoded) - 1;
     {{/isBinary}}
     {{#isDate}}
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    if(!cJSON_IsString({{{baseName}}}))
+    {{^required}}if ({{{name}}}) { {{/required}}
+    if(!cJSON_IsString({{{name}}}))
     {
     goto end; //Date
     }
     {{/isDate}}
     {{#isDateTime}}
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    if(!cJSON_IsString({{{baseName}}}))
+    {{^required}}if ({{{name}}}) { {{/required}}
+    if(!cJSON_IsString({{{name}}}))
     {
     goto end; //DateTime
     }
@@ -549,34 +549,34 @@ fail:
     {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
-    {{datatypeWithEnum}}_e {{baseName}}_local_nonprim_enum;
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    {{{baseName}}}_local_nonprim_enum = {{datatypeWithEnum}}_parseFromJSON({{{baseName}}}); //enum model
+    {{datatypeWithEnum}}_e {{name}}_local_nonprim_enum;
+    {{^required}}if ({{{name}}}) { {{/required}}
+    {{{name}}}_local_nonprim_enum = {{datatypeWithEnum}}_parseFromJSON({{{name}}}); //enum model
     {{/isEnum}}
     {{^isEnum}}
-    {{^isFreeFormObject}}{{complexType}}{{/isFreeFormObject}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_t *{{baseName}}_local_nonprim = NULL;
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    {{{baseName}}}_local_nonprim = {{complexType}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_parseFromJSON({{{baseName}}}); //nonprimitive
+    {{^isFreeFormObject}}{{complexType}}{{/isFreeFormObject}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_t *{{name}}_local_nonprim = NULL;
+    {{^required}}if ({{{name}}}) { {{/required}}
+    {{{name}}}_local_nonprim = {{complexType}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_parseFromJSON({{{name}}}); //nonprimitive
     {{/isEnum}}
     {{/isModel}}
     {{#isUuid}}
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    if(!cJSON_IsString({{{baseName}}}))
+    {{^required}}if ({{{name}}}) { {{/required}}
+    if(!cJSON_IsString({{{name}}}))
     {
     goto end; //uuid
     }
     {{/isUuid}}
     {{#isEmail}}
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    if(!cJSON_IsString({{{baseName}}}))
+    {{^required}}if ({{{name}}}) { {{/required}}
+    if(!cJSON_IsString({{{name}}}))
     {
     goto end; //email
     }
     {{/isEmail}}
     {{#isFreeFormObject}}
-    object_t *{{baseName}}_local_object = NULL;
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    {{{baseName}}}_local_object = object_parseFromJSON({{{baseName}}}); //object
+    object_t *{{name}}_local_object = NULL;
+    {{^required}}if ({{{name}}}) { {{/required}}
+    {{{name}}}_local_object = object_parseFromJSON({{{name}}}); //object
     {{/isFreeFormObject}}
     {{/isPrimitiveType}}
     {{/isContainer}}
@@ -584,80 +584,80 @@ fail:
     {{#isListContainer}}
     {{#isPrimitiveType}}
     list_t *{{{name}}}List;
-    {{^required}}if ({{{baseName}}}) { {{/required}}
+    {{^required}}if ({{{name}}}) { {{/required}}
     cJSON *{{{name}}}_local;
-    if(!cJSON_IsArray({{{baseName}}})) {
+    if(!cJSON_IsArray({{{name}}})) {
         goto end;//primitive container
     }
     {{{name}}}List = list_create();
 
-    cJSON_ArrayForEach({{{name}}}_local, {{{baseName}}})
+    cJSON_ArrayForEach({{{name}}}_local, {{{name}}})
     {
         {{#items}}
         {{#isString}}
-        if(!cJSON_IsString({{{baseName}}}_local))
+        if(!cJSON_IsString({{{name}}}_local))
         {
             goto end;
         }
-        list_addElement({{{baseName}}}List , strdup({{{baseName}}}_local->valuestring));
+        list_addElement({{{name}}}List , strdup({{{name}}}_local->valuestring));
         {{/isString}}
         {{^isString}}
-        if(!cJSON_IsNumber({{{baseName}}}_local))
+        if(!cJSON_IsNumber({{{name}}}_local))
         {
             goto end;
         }
-        list_addElement({{{baseName}}}List , &{{{baseName}}}_local->valuedouble);
+        list_addElement({{{name}}}List , &{{{name}}}_local->valuedouble);
         {{/isString}}
         {{/items}}
     }
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    list_t *{{{baseName}}}List;
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    cJSON *{{{baseName}}}_local_nonprimitive;
-    if(!cJSON_IsArray({{{baseName}}})){
+    list_t *{{{name}}}List;
+    {{^required}}if ({{{name}}}) { {{/required}}
+    cJSON *{{{name}}}_local_nonprimitive;
+    if(!cJSON_IsArray({{{name}}})){
         goto end; //nonprimitive container
     }
 
-    {{{baseName}}}List = list_create();
+    {{{name}}}List = list_create();
 
-    cJSON_ArrayForEach({{{baseName}}}_local_nonprimitive,{{{baseName}}} )
+    cJSON_ArrayForEach({{{name}}}_local_nonprimitive,{{{name}}} )
     {
-        if(!cJSON_IsObject({{{baseName}}}_local_nonprimitive)){
+        if(!cJSON_IsObject({{{name}}}_local_nonprimitive)){
             goto end;
         }
-        {{#isEnum}}{{#items}}{{datatypeWithEnum}}_e {{/items}}{{/isEnum}}{{^isEnum}}{{complexType}}_t *{{/isEnum}}{{{baseName}}}Item = {{complexType}}_parseFromJSON({{{baseName}}}_local_nonprimitive);
+        {{#isEnum}}{{#items}}{{datatypeWithEnum}}_e {{/items}}{{/isEnum}}{{^isEnum}}{{complexType}}_t *{{/isEnum}}{{{name}}}Item = {{complexType}}_parseFromJSON({{{name}}}_local_nonprimitive);
 
-        list_addElement({{{baseName}}}List, {{#isEnum}}{{#items}}(void *){{/items}}{{/isEnum}}{{{baseName}}}Item);
+        list_addElement({{{name}}}List, {{#isEnum}}{{#items}}(void *){{/items}}{{/isEnum}}{{{name}}}Item);
     }
     {{/isPrimitiveType}}
     {{/isListContainer}}
     {{#isMapContainer}}
-    list_t *{{{complexType}}}List;
-    {{^required}}if ({{{baseName}}}) { {{/required}}
-    cJSON *{{{complexType}}}_local_map;
-    if(!cJSON_IsObject({{{baseName}}})) {
+    list_t *{{{name}}}List;
+    {{^required}}if ({{{name}}}) { {{/required}}
+    cJSON *{{{name}}}_local_map;
+    if(!cJSON_IsObject({{{name}}})) {
         goto end;//primitive map container
     }
-    {{{complexType}}}List = list_create();
+    {{{name}}}List = list_create();
     keyValuePair_t *localMapKeyPair;
-    cJSON_ArrayForEach({{{complexType}}}_local_map, {{{baseName}}})
+    cJSON_ArrayForEach({{{name}}}_local_map, {{{name}}})
     {
         {{#isString}}
-        if(!cJSON_IsString({{{complexType}}}_local_map))
+        if(!cJSON_IsString({{{name}}}_local_map))
         {
             goto end;
         }
-        localMapKeyPair = keyValuePair_create(strdup({{{complexType}}}_local_map->string),strdup({{{complexType}}}_local_map->valuestring))
-        list_addElement({{{complexType}}}List , localMapKeyPair);
+        localMapKeyPair = keyValuePair_create(strdup({{{name}}}_local_map->string),strdup({{{name}}}_local_map->valuestring))
+        list_addElement({{{name}}}List , localMapKeyPair);
         {{/isString}}
         {{^isString}}
-        if(!cJSON_IsNumber({{{complexType}}}_local_map))
+        if(!cJSON_IsNumber({{{name}}}_local_map))
         {
             goto end;
         }
-        localMapKeyPair = keyValuePair_create(strdup({{{complexType}}}_local_map->string),&{{{complexType}}}_local_map->valuedouble );
-        list_addElement({{{complexType}}}List , localMapKeyPair);
+        localMapKeyPair = keyValuePair_create(strdup({{{name}}}_local_map->string),&{{{name}}}_local_map->valuedouble );
+        list_addElement({{{name}}}List , localMapKeyPair);
         {{/isString}}
     }
     {{/isMapContainer}}
@@ -674,64 +674,64 @@ fail:
         {{^isPrimitiveType}}
         {{#isModel}}
         {{#isEnum}}
-        {{^required}}{{{baseName}}} ? {{/required}}{{{baseName}}}_local_nonprim_enum{{^required}} : -1{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim_enum{{^required}} : -1{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isEnum}}
         {{^isEnum}}
-        {{^required}}{{{baseName}}} ? {{/required}}{{{baseName}}}_local_nonprim{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isEnum}}
         {{/isModel}}
         {{#isUuid}}
-        {{^required}}{{{baseName}}} ? {{/required}}strdup({{{baseName}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isUuid}}
         {{#isEmail}}
-        {{^required}}{{{baseName}}} ? {{/required}}strdup({{{baseName}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isEmail}}
         {{#isFreeFormObject}}
-        {{^required}}{{{baseName}}} ? {{/required}}{{{baseName}}}_local_object{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_object{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isFreeFormObject}}
         {{/isPrimitiveType}}
         {{#isPrimitiveType}}
         {{#isNumeric}}
-        {{^required}}{{{baseName}}} ? {{/required}}{{{baseName}}}->valuedouble{{^required}} : 0{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valuedouble{{^required}} : 0{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isNumeric}}
         {{#isBoolean}}
-        {{^required}}{{{baseName}}} ? {{/required}}{{{baseName}}}->valueint{{^required}} : 0{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valueint{{^required}} : 0{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isBoolean}}
         {{#isEnum}}
         {{#isString}}
-        {{^required}}{{{baseName}}} ? {{/required}}{{baseName}}Variable{{^required}} : -1{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{name}}Variable{{^required}} : -1{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isString}}
         {{/isEnum}}
         {{^isEnum}}
         {{#isString}}
-        {{^required}}{{{baseName}}} ? {{/required}}strdup({{{baseName}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isString}}
         {{/isEnum}}
         {{#isByteArray}}
-        {{^required}}{{{baseName}}} ? {{/required}}{{{baseName}}}->valueint{{^required}} : 0{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valueint{{^required}} : 0{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isByteArray}}
         {{#isBinary}}
-        {{^required}}{{{baseName}}} ? {{/required}}decoded_str_{{{baseName}}}{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}decoded_str_{{{name}}}{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isBinary}}
         {{#isDate}}
-        {{^required}}{{{baseName}}} ? {{/required}}strdup({{{baseName}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isDate}}
         {{#isDateTime}}
-        {{^required}}{{{baseName}}} ? {{/required}}strdup({{{baseName}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isDateTime}}
         {{/isPrimitiveType}}
         {{/isContainer}}
         {{#isContainer}}
         {{#isListContainer}}
         {{#isPrimitiveType}}
-        {{^required}}{{{baseName}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{^required}}{{{baseName}}} ? {{/required}}{{{baseName}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isPrimitiveType}}
         {{/isListContainer}}
         {{#isMapContainer}}
-        {{^required}}{{{baseName}}} ? {{/required}}{{{complexType}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}List{{^required}} : NULL{{/required}}{{#hasMore}},{{/hasMore}}
         {{/isMapContainer}}
         {{/isContainer}}
         {{/vars}}

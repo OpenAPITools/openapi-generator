@@ -1,5 +1,6 @@
 package org.openapitools.client.infrastructure
 
+import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -168,5 +169,9 @@ open class ApiClient(val baseUrl: String) {
                     response.headers.toMultimap()
             )
         }
+    }
+
+    protected inline fun <reified T: Any> parseDateToQueryString(value : T): String {
+        return value.toString()
     }
 }

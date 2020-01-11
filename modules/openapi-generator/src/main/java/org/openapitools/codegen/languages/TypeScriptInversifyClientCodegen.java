@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
@@ -42,6 +43,11 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
     public TypeScriptInversifyClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
+
         this.outputFolder = "generated-code/typescript-inversify";
 
         embeddedTemplateDir = templateDir = "typescript-inversify";

@@ -26,6 +26,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -t modules/openapi-generator/src/main/resources/asciidoc-documentation  --additional-properties=specDir=modules/openapi-generator/src/main/resources/asciidoc-documentation,snippetDir=. -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g asciidoc -o samples/documentation/asciidoc"
+ags="generate -t modules/openapi-generator/src/main/resources/asciidoc-documentation  --additional-properties=specDir=modules/openapi-generator/src/main/resources/asciidoc-documentation,snippetDir=. -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g asciidoc -o samples/documentation/asciidoc $@"
 
 java ${JAVA_OPTS} -jar ${executable} ${ags}

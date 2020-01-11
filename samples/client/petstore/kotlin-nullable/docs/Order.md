@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **id** | **kotlin.Long** |  |  [optional]
 **petId** | **kotlin.Long** |  |  [optional]
 **quantity** | **kotlin.Int** |  |  [optional]
-**shipDate** | [**java.time.LocalDateTime**](java.time.LocalDateTime.md) |  |  [optional]
+**shipDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional]
 **status** | [**inline**](#StatusEnum) | Order Status |  [optional]
 **complete** | **kotlin.Boolean** |  |  [optional]
 

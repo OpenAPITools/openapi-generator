@@ -76,6 +76,10 @@ private:
 		{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
 	)> handler_{{httpMethod}}_;
 	{{/vendorExtensions.x-codegen-otherMethods}}
+
+	{{#allParams}}
+	{{{dataType}}} {{paramName}}{};
+	{{/allParams}}
 };
 
 {{/operation}}

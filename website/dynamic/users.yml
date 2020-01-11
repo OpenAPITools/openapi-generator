@@ -69,14 +69,14 @@
   infoLink: "https://www.camptocamp.com/en"
   pinned: false
 -
+  caption: Cisco 
+  image: "img/companies/cisco.png"
+  infoLink: "https://www.cisco.com"
+  pinned: false
+-
   caption: "codecentric AG"
   image: "img/companies/codecentric.png"
   infoLink: "https://www.codecentric.de/"
-  pinned: false
--
-  caption: FiNC Technologies
-  image: "img/companies/finc-technologies.png"
-  infoLink: "https://company.finc.com/"
   pinned: false
 -
   caption: Commencis
@@ -99,6 +99,11 @@
   infoLink: "https://www.dbsystel.de"
   pinned: false
 -
+  caption: "DocSpring"
+  image: "img/companies/docspring.png"
+  infoLink: "https://docspring.com"
+  pinned: false
+-
   caption: "dwango"
   image: "img/companies/dwango.png"
   infoLink: "https://dwango.co.jp/"
@@ -119,9 +124,9 @@
   infoLink: "https://www.fenergo.com/"
   pinned: false
 -
-  caption: "FormAPI"
-  image: "img/companies/formapi.png"
-  infoLink: "https://formapi.io/"
+  caption: FiNC Technologies
+  image: "img/companies/finc-technologies.png"
+  infoLink: "https://company.finc.com/"
   pinned: false
 -
   caption: "FreshCells"
@@ -174,6 +179,11 @@
   infoLink: "https://www.klarna.com/us/"
   pinned: false
 -
+  caption: "Linode"
+  image: "img/companies/linode.png"
+  infoLink: "https://www.linode.com/"
+  pinned: false
+-
   caption: "Kronsoft Development"
   image: "img/companies/kronsoft.png"
   infoLink: "https://www.kronsoft.ro/home/"
@@ -217,6 +227,11 @@
   caption: OPTiM
   image: "img/companies/optim.png"
   infoLink: "https://www.optim.co.jp/"
+  pinned: false
+-
+  caption: Oracle
+  image: "img/companies/oracle.png"
+  infoLink: "https://www.oracle.com"
   pinned: false
 -
   caption: Paxos
@@ -303,6 +318,11 @@
   image: "img/companies/veamly.png"
   infoLink: "https://www.veamly.com/"
   pinned: false
+-
+  caption: Woleet
+  image: "img/companies/woleet.png"
+  infoLink: "https://woleet.io"
+  pinned: false 
 -
   caption: WSO2
   image: "img/companies/wso2.png"

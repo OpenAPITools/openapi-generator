@@ -39,17 +39,17 @@ import {{packageName}}.infrastructure.toMultiValue
                 {{#queryParams}}
                 {{^required}}
                 if ({{paramName}} != null) {
-                    put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})
+                    put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{paramName}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{paramName}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{paramName}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
                 }
                 {{/required}}
                 {{#required}}
                 {{#isNullable}}
                 if ({{paramName}} != null) {
-                    put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})
+                    put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{paramName}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{paramName}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{paramName}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
                 }
                 {{/isNullable}}
                 {{^isNullable}}
-                put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{paramName}}.toString()){{/isContainer}})
+                put("{{paramName}}", {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{paramName}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{paramName}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{paramName}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
                 {{/isNullable}}
                 {{/required}}
                 {{/queryParams}}
@@ -71,8 +71,14 @@ import {{packageName}}.infrastructure.toMultiValue
             ResponseType.Success -> {{#returnType}}(localVarResponse as Success<*>).data as {{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+            }
         }
     }
 

@@ -71,6 +71,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -101,6 +102,7 @@ public class FakeApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -133,6 +135,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -164,6 +167,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -194,6 +198,7 @@ public class FakeApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -229,6 +234,7 @@ public class FakeApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -271,6 +277,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -309,6 +316,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -329,8 +337,8 @@ public class FakeApi {
         return apiClient.invokeAPI("/fake", HttpMethod.PATCH, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
      * @param number None
@@ -374,6 +382,7 @@ public class FakeApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -442,6 +451,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -507,6 +517,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -550,6 +561,7 @@ public class FakeApi {
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -590,6 +602,7 @@ public class FakeApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -654,6 +667,7 @@ public class FakeApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();

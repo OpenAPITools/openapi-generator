@@ -6,6 +6,7 @@ sidebar_label: java
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
@@ -36,6 +37,7 @@ sidebar_label: java
 |java8|Option. Use Java8 classes instead of third party equivalents|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd><dl>|false|
 |disableHtmlEscaping|Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
+|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations)| |null|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
@@ -53,5 +55,122 @@ sidebar_label: java
 |feignVersion|Version of OpenFeign: '10.x', '9.x' (default)| |false|
 |useReflectionEqualsHashCode|Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact.| |false|
 |caseInsensitiveResponseHeaders|Make API response's headers case-insensitive. Available on okhttp-gson, jersey2 libraries| |false|
-|library|library template (sub-template) to use|<dl><dt>**jersey1**</dt><dd>HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.</dd><dt>**jersey2**</dt><dd>HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x</dd><dt>**feign**</dt><dd>HTTP client: OpenFeign 9.x or 10.x. JSON processing: Jackson 2.9.x. To enable OpenFeign 10.x, set the 'feignVersion' option to '10.x'</dd><dt>**okhttp-gson**</dt><dd>[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.</dd><dt>**retrofit**</dt><dd>HTTP client: OkHttp 2.x. JSON processing: Gson 2.x (Retrofit 1.9.0). IMPORTANT NOTE: retrofit1.x is no longer actively maintained so please upgrade to 'retrofit2' instead.</dd><dt>**retrofit2**</dt><dd>HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2]=true'. (RxJava 1.x or 2.x)</dd><dt>**resttemplate**</dt><dd>HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x</dd><dt>**webclient**</dt><dd>HTTP client: Spring WebClient 5.x. JSON processing: Jackson 2.9.x</dd><dt>**resteasy**</dt><dd>HTTP client: Resteasy client 3.x. JSON processing: Jackson 2.9.x</dd><dt>**vertx**</dt><dd>HTTP client: VertX client 3.x. JSON processing: Jackson 2.9.x</dd><dt>**google-api-client**</dt><dd>HTTP client: Google API client 1.x. JSON processing: Jackson 2.9.x</dd><dt>**rest-assured**</dt><dd>HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.9.x. Only for Java8</dd><dt>**native**</dt><dd>HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+</dd><dl>|okhttp-gson|
+|library|library template (sub-template) to use|<dl><dt>**jersey1**</dt><dd>HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.</dd><dt>**jersey2**</dt><dd>HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x</dd><dt>**feign**</dt><dd>HTTP client: OpenFeign 9.x or 10.x. JSON processing: Jackson 2.9.x. To enable OpenFeign 10.x, set the 'feignVersion' option to '10.x'</dd><dt>**okhttp-gson**</dt><dd>[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.</dd><dt>**retrofit**</dt><dd>HTTP client: OkHttp 2.x. JSON processing: Gson 2.x (Retrofit 1.9.0). IMPORTANT NOTE: retrofit1.x is no longer actively maintained so please upgrade to 'retrofit2' instead.</dd><dt>**retrofit2**</dt><dd>HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2]=true'. (RxJava 1.x or 2.x)</dd><dt>**resttemplate**</dt><dd>HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x</dd><dt>**webclient**</dt><dd>HTTP client: Spring WebClient 5.x. JSON processing: Jackson 2.9.x</dd><dt>**resteasy**</dt><dd>HTTP client: Resteasy client 3.x. JSON processing: Jackson 2.9.x</dd><dt>**vertx**</dt><dd>HTTP client: VertX client 3.x. JSON processing: Jackson 2.9.x</dd><dt>**google-api-client**</dt><dd>HTTP client: Google API client 1.x. JSON processing: Jackson 2.9.x</dd><dt>**rest-assured**</dt><dd>HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.9.x. Only for Java8</dd><dt>**native**</dt><dd>HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+</dd><dt>**microprofile**</dt><dd>HTTP client: Microprofile client X.x. JSON processing: Jackson 2.9.x</dd><dl>|okhttp-gson|
 |serializationLibrary|Serialization library, default depends from the library|<dl><dt>**jackson**</dt><dd>Use Jackson as serialization library</dd><dt>**gson**</dt><dd>Use Gson as serialization library</dd><dl>|null|
+
+## IMPORT MAPPING
+
+| Type/Alias | Imports |
+| ---------- | ------- |
+|LocalDateTime|org.joda.time.*|
+|Set|java.util.*|
+|LocalTime|org.joda.time.*|
+|HashMap|java.util.HashMap|
+|ArrayList|java.util.ArrayList|
+|URI|java.net.URI|
+|Timestamp|java.sql.Timestamp|
+|LocalDate|org.joda.time.*|
+|BigDecimal|java.math.BigDecimal|
+|Date|java.util.Date|
+|DateTime|org.joda.time.*|
+|Array|java.util.List|
+|List|java.util.*|
+|UUID|java.util.UUID|
+|File|java.io.File|
+|Map|java.util.Map|
+
+
+## INSTANTIATION TYPES
+
+| Type/Alias | Instantiated By |
+| ---------- | --------------- |
+|array|ArrayList|
+|map|HashMap|
+
+
+## LANGUAGE PRIMITIVES
+
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Integer</li>
+<li>byte[]</li>
+<li>Float</li>
+<li>boolean</li>
+<li>Long</li>
+<li>Object</li>
+<li>String</li>
+<li>Boolean</li>
+<li>Double</li>
+</ul>
+
+## RESERVED WORDS
+
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>localvaraccepts</li>
+<li>synchronized</li>
+<li>do</li>
+<li>float</li>
+<li>while</li>
+<li>localvarpath</li>
+<li>protected</li>
+<li>continue</li>
+<li>else</li>
+<li>apiclient</li>
+<li>localvarqueryparams</li>
+<li>catch</li>
+<li>if</li>
+<li>case</li>
+<li>new</li>
+<li>package</li>
+<li>static</li>
+<li>void</li>
+<li>localvaraccept</li>
+<li>double</li>
+<li>byte</li>
+<li>finally</li>
+<li>this</li>
+<li>strictfp</li>
+<li>throws</li>
+<li>enum</li>
+<li>extends</li>
+<li>null</li>
+<li>transient</li>
+<li>apiexception</li>
+<li>final</li>
+<li>try</li>
+<li>object</li>
+<li>localvarcontenttypes</li>
+<li>implements</li>
+<li>private</li>
+<li>import</li>
+<li>const</li>
+<li>configuration</li>
+<li>for</li>
+<li>apiresponse</li>
+<li>interface</li>
+<li>long</li>
+<li>switch</li>
+<li>default</li>
+<li>goto</li>
+<li>public</li>
+<li>localvarheaderparams</li>
+<li>native</li>
+<li>localvarcontenttype</li>
+<li>assert</li>
+<li>stringutil</li>
+<li>class</li>
+<li>localvarcollectionqueryparams</li>
+<li>localvarcookieparams</li>
+<li>localreturntype</li>
+<li>localvarformparams</li>
+<li>break</li>
+<li>volatile</li>
+<li>localvarauthnames</li>
+<li>abstract</li>
+<li>int</li>
+<li>instanceof</li>
+<li>super</li>
+<li>boolean</li>
+<li>throw</li>
+<li>localvarpostbody</li>
+<li>char</li>
+<li>short</li>
+<li>return</li>
+</ul>

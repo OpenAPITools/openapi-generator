@@ -269,6 +269,41 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testComposedSchemaOneOfWithProperties() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("fruit");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel fruit = codegen.fromModel("Fruit", schema);
+
+        Set<String> oneOf = new TreeSet<String>();
+        oneOf.add("Apple");
+        oneOf.add("Banana");
+        Assert.assertEquals(fruit.oneOf, oneOf);
+        Assert.assertEquals(fruit.optionalVars.size(), 3);
+        Assert.assertEquals(fruit.vars.size(), 3);
+        // make sure that fruit has the property color
+        boolean colorSeen = false;
+        for (CodegenProperty cp : fruit.vars) {
+            if (cp.name.equals("color")) {
+                colorSeen = true;
+                break;
+            }
+        }
+        Assert.assertTrue(colorSeen);
+        colorSeen = false;
+        for (CodegenProperty cp : fruit.optionalVars) {
+            if (cp.name.equals("color")) {
+                colorSeen = true;
+                break;
+            }
+        }
+        Assert.assertTrue(colorSeen);
+    }
+
+
+    @Test
     public void testEscapeText() {
         final DefaultCodegen codegen = new DefaultCodegen();
 
@@ -450,8 +485,10 @@ public class DefaultCodegenTest {
         CodegenDiscriminator discriminator = animalModel.getDiscriminator();
         CodegenDiscriminator test = new CodegenDiscriminator();
         test.setPropertyName("className");
+        test.setPropertyBaseName("className");
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Dog", "Dog"));
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Cat", "Cat"));
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("BigCat", "BigCat"));
         Assert.assertEquals(discriminator, test);
     }
 
@@ -804,6 +841,7 @@ public class DefaultCodegenTest {
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
         CodegenDiscriminator test = new CodegenDiscriminator();
         test.setPropertyName("DollarUnderscoretype");
+        test.setPropertyBaseName("$_type");
         test.setMapping(new HashMap<>());
         test.getMapping().put("a", "#/components/schemas/Adult");
         test.getMapping().put("c", "Child");
@@ -1075,5 +1113,56 @@ public class DefaultCodegenTest {
             boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
             Assert.assertFalse(result);
         }
+    }
+
+    @Test
+    public void testCircularReferencesDetection() {
+        // given
+        DefaultCodegen codegen = new DefaultCodegen();
+        final CodegenProperty inboundOut = new CodegenProperty();
+        inboundOut.baseName = "out";
+        inboundOut.dataType = "RoundA";
+        final CodegenProperty roundANext = new CodegenProperty();
+        roundANext.baseName = "next";
+        roundANext.dataType = "RoundB";
+        final CodegenProperty roundBNext = new CodegenProperty();
+        roundBNext.baseName = "next";
+        roundBNext.dataType = "RoundC";
+        final CodegenProperty roundCNext = new CodegenProperty();
+        roundCNext.baseName = "next";
+        roundCNext.dataType = "RoundA";
+        final CodegenProperty roundCOut = new CodegenProperty();
+        roundCOut.baseName = "out";
+        roundCOut.dataType = "Outbound";
+        final CodegenModel inboundModel = new CodegenModel();
+        inboundModel.setDataType("Inbound");
+        inboundModel.setAllVars(Collections.singletonList(inboundOut));
+        final CodegenModel roundAModel = new CodegenModel();
+        roundAModel.setDataType("RoundA");
+        roundAModel.setAllVars(Collections.singletonList(roundANext));
+        final CodegenModel roundBModel = new CodegenModel();
+        roundBModel.setDataType("RoundB");
+        roundBModel.setAllVars(Collections.singletonList(roundBNext));
+        final CodegenModel roundCModel = new CodegenModel();
+        roundCModel.setDataType("RoundC");
+        roundCModel.setAllVars(Arrays.asList(roundCNext, roundCOut));
+        final CodegenModel outboundModel = new CodegenModel();
+        outboundModel.setDataType("Outbound");
+        final Map<String, CodegenModel> models = new HashMap<>();
+        models.put("Inbound", inboundModel);
+        models.put("RoundA", roundAModel);
+        models.put("RoundB", roundBModel);
+        models.put("RoundC", roundCModel);
+        models.put("Outbound", outboundModel);
+
+        // when
+        codegen.setCircularReferences(models);
+
+        // then
+        Assert.assertFalse(inboundOut.isCircularReference);
+        Assert.assertTrue(roundANext.isCircularReference);
+        Assert.assertTrue(roundBNext.isCircularReference);
+        Assert.assertTrue(roundCNext.isCircularReference);
+        Assert.assertFalse(roundCOut.isCircularReference);
     }
 }

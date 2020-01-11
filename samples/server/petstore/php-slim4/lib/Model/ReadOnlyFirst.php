@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ReadOnlyFirst
  *
@@ -15,6 +16,8 @@
  */
 namespace OpenAPIServer\Model;
 
+use OpenAPIServer\Interfaces\ModelInterface;
+
 /**
  * ReadOnlyFirst
  *
@@ -22,12 +25,38 @@ namespace OpenAPIServer\Model;
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class ReadOnlyFirst
+class ReadOnlyFirst implements ModelInterface
 {
-    
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+  "type" : "object",
+  "properties" : {
+    "bar" : {
+      "type" : "string",
+      "readOnly" : true
+    },
+    "baz" : {
+      "type" : "string"
+    }
+  }
+}
+SCHEMA;
+
     /** @var string $bar */
     private $bar;
-    
+
     /** @var string $baz */
     private $baz;
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }

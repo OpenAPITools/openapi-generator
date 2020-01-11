@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -42,6 +44,24 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
 
     public ScalazClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .build();
+
         outputFolder = "generated-code/scalaz";
         embeddedTemplateDir = templateDir = "scalaz";
         apiPackage = "org.openapitools.client.api";
@@ -76,8 +96,6 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         importMapping.remove("List");
         importMapping.remove("Set");
         importMapping.remove("Map");
-        
-        importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
 
         // Overrides defaults applied in DefaultCodegen which don't apply cleanly to Scala.
         importMapping.put("Date", "java.util.Date");
@@ -214,7 +232,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            String collectionType = typeMapping.get("array");
+            String collectionType = ModelUtils.isSet(ap) ? typeMapping.get("set") : typeMapping.get("array");
 
             // We assume that users would map these collections to a monoid with an identity function
             // There's no reason to assume mutable structure here (which may make consumption more difficult)

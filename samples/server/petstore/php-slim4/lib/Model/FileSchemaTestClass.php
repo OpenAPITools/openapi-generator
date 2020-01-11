@@ -1,4 +1,5 @@
 <?php
+
 /**
  * FileSchemaTestClass
  *
@@ -15,6 +16,8 @@
  */
 namespace OpenAPIServer\Model;
 
+use OpenAPIServer\Interfaces\ModelInterface;
+
 /**
  * FileSchemaTestClass
  *
@@ -22,12 +25,40 @@ namespace OpenAPIServer\Model;
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class FileSchemaTestClass
+class FileSchemaTestClass implements ModelInterface
 {
-    
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+  "type" : "object",
+  "properties" : {
+    "file" : {
+      "$ref" : "#/components/schemas/File"
+    },
+    "files" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/components/schemas/File"
+      }
+    }
+  }
+}
+SCHEMA;
+
     /** @var \OpenAPIServer\Model\File $file */
     private $file;
-    
+
     /** @var \OpenAPIServer\Model\File[] $files */
     private $files;
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }

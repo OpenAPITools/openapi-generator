@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CatAllOf
  *
@@ -15,6 +16,8 @@
  */
 namespace OpenAPIServer\Model;
 
+use OpenAPIServer\Interfaces\ModelInterface;
+
 /**
  * CatAllOf
  *
@@ -22,9 +25,30 @@ namespace OpenAPIServer\Model;
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class CatAllOf
+class CatAllOf implements ModelInterface
 {
-    
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+  "properties" : {
+    "declawed" : {
+      "type" : "boolean"
+    }
+  }
+}
+SCHEMA;
+
     /** @var bool $declawed */
     private $declawed;
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }
