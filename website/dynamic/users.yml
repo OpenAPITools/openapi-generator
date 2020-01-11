@@ -69,14 +69,14 @@
   infoLink: "https://www.camptocamp.com/en"
   pinned: false
 -
+  caption: Cisco 
+  image: "img/companies/cisco.png"
+  infoLink: "https://www.cisco.com"
+  pinned: false
+-
   caption: "codecentric AG"
   image: "img/companies/codecentric.png"
   infoLink: "https://www.codecentric.de/"
-  pinned: false
--
-  caption: FiNC Technologies
-  image: "img/companies/finc-technologies.png"
-  infoLink: "https://company.finc.com/"
   pinned: false
 -
   caption: Commencis
@@ -122,6 +122,11 @@
   caption: "Fenergo"
   image: "img/companies/fenergo.png"
   infoLink: "https://www.fenergo.com/"
+  pinned: false
+-
+  caption: FiNC Technologies
+  image: "img/companies/finc-technologies.png"
+  infoLink: "https://company.finc.com/"
   pinned: false
 -
   caption: "FreshCells"
