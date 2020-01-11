@@ -304,7 +304,6 @@ class OpenApiDataMockerTest extends TestCase
             IsType::TYPE_STRING,
         ];
         $notTypes = [
-            IsType::TYPE_NUMERIC,
             IsType::TYPE_FLOAT,
             IsType::TYPE_INT,
             IsType::TYPE_ARRAY,
@@ -325,6 +324,22 @@ class OpenApiDataMockerTest extends TestCase
             [null, null, null, null, $types, $notTypes],
             [null, null, null, ['foobar', 'foobaz', 'hello world'], $types, $notTypes],
             [null, null, null, ['foobar'], $types, $notTypes],
+            [IMocker::DATA_FORMAT_PASSWORD, 0, null, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_PASSWORD, 10, null, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_PASSWORD, 0, 100, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_PASSWORD, 10, 50, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_PASSWORD, 10, 10, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_PASSWORD, 0, 0, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_EMAIL, null, null, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_EMAIL, 10, null, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_EMAIL, 10, 10, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_EMAIL, null, 8, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_EMAIL, 16, null, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_EMAIL, 25, null, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_EMAIL, 25, 25, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_EMAIL, null, 20, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_EMAIL, 30, null, null, $types, $notTypes],
+            [IMocker::DATA_FORMAT_EMAIL, 1, 1, null, $types, $notTypes],
         ];
     }
 
@@ -357,6 +372,175 @@ class OpenApiDataMockerTest extends TestCase
             'enum is string' => [null, null, null, 'foobar'],
             'enum is empty array' => [null, null, null, []],
             'enum array is not unique' => [null, null, null, ['foobar', 'foobaz', 'foobar']],
+        ];
+    }
+
+    /**
+     * @covers ::mock
+     * @covers ::mockString
+     * @dataProvider provideMockStringByteFormatArguments
+     */
+    public function testMockStringWithByteFormat(
+        $dataFormat,
+        $minLength,
+        $maxLength
+    ) {
+        $mocker = new OpenApiDataMocker();
+        $str = $mocker->mockString($dataFormat, $minLength, $maxLength);
+        $str2 = $mocker->mock(IMocker::DATA_TYPE_STRING, $dataFormat, ['minLength' => $minLength, 'maxLength' => $maxLength]);
+        $base64pattern = '/^[\w\+\/\=]*$/';
+        $this->assertRegExp($base64pattern, $str);
+        $this->assertRegExp($base64pattern, $str2);
+        if ($minLength !== null) {
+            $this->assertGreaterThanOrEqual($minLength, mb_strlen($str));
+            $this->assertGreaterThanOrEqual($minLength, mb_strlen($str2));
+        }
+        if ($maxLength !== null) {
+            $this->assertLessThanOrEqual($maxLength, mb_strlen($str));
+            $this->assertLessThanOrEqual($maxLength, mb_strlen($str2));
+        }
+    }
+
+    public function provideMockStringByteFormatArguments()
+    {
+        return [
+            [IMocker::DATA_FORMAT_BYTE, null, null],
+            [IMocker::DATA_FORMAT_BYTE, 10, null],
+            [IMocker::DATA_FORMAT_BYTE, 10, 10],
+            [IMocker::DATA_FORMAT_BYTE, null, 12],
+        ];
+    }
+
+    /**
+     * @covers ::mock
+     * @covers ::mockString
+     * @dataProvider provideMockStringBinaryFormatArguments
+     */
+    public function testMockStringWithBinaryFormat(
+        $dataFormat,
+        $minLength,
+        $maxLength
+    ) {
+        $mocker = new OpenApiDataMocker();
+        $str = $mocker->mockString($dataFormat, $minLength, $maxLength);
+        $str2 = $mocker->mock(IMocker::DATA_TYPE_STRING, $dataFormat, ['minLength' => $minLength, 'maxLength' => $maxLength]);
+        if ($minLength !== null) {
+            $this->assertGreaterThanOrEqual($minLength, strlen($str));
+            $this->assertGreaterThanOrEqual($minLength, strlen($str2));
+        }
+        if ($maxLength !== null) {
+            $this->assertLessThanOrEqual($maxLength, strlen($str));
+            $this->assertLessThanOrEqual($maxLength, strlen($str2));
+        }
+    }
+
+    public function provideMockStringBinaryFormatArguments()
+    {
+        return [
+            [IMocker::DATA_FORMAT_BINARY, 0, null],
+            [IMocker::DATA_FORMAT_BINARY, 10, null],
+            [IMocker::DATA_FORMAT_BINARY, 0, 100],
+            [IMocker::DATA_FORMAT_BINARY, 10, 50],
+            [IMocker::DATA_FORMAT_BINARY, 10, 10],
+            [IMocker::DATA_FORMAT_BINARY, 0, 0],
+        ];
+    }
+
+    /**
+     * @covers ::mock
+     * @covers ::mockString
+     * @dataProvider provideMockStringDateFormatArguments
+     */
+    public function testMockStringWithDateAndDateTimeFormat(
+        $dataFormat,
+        $minLength,
+        $maxLength,
+        $dtFormat
+    ) {
+        $mocker = new OpenApiDataMocker();
+        $str = $mocker->mockString($dataFormat, $minLength, $maxLength);
+        $str2 = $mocker->mock(IMocker::DATA_TYPE_STRING, $dataFormat, ['minLength' => $minLength, 'maxLength' => $maxLength]);
+
+        if ($dtFormat !== null) {
+            $date = DateTime::createFromFormat($dtFormat, $str);
+            $date2 = DateTime::createFromFormat($dtFormat, $str2);
+            $this->assertInstanceOf(DateTime::class, $date);
+            $this->assertInstanceOf(DateTime::class, $date2);
+        }
+        if ($minLength !== null) {
+            $this->assertGreaterThanOrEqual($minLength, mb_strlen($str));
+            $this->assertGreaterThanOrEqual($minLength, mb_strlen($str2));
+        }
+        if ($maxLength !== null) {
+            $this->assertLessThanOrEqual($maxLength, mb_strlen($str));
+            $this->assertLessThanOrEqual($maxLength, mb_strlen($str2));
+        }
+    }
+
+    public function provideMockStringDateFormatArguments()
+    {
+        return [
+            [IMocker::DATA_FORMAT_DATE, null, null, 'Y-m-d'],
+            [IMocker::DATA_FORMAT_DATE, 10, null, 'Y-m-d'],
+            [IMocker::DATA_FORMAT_DATE, 10, 10, 'Y-m-d'],
+            [IMocker::DATA_FORMAT_DATE, null, 8, null],
+            [IMocker::DATA_FORMAT_DATE, 16, null, null],
+            [IMocker::DATA_FORMAT_DATE_TIME, null, null, 'Y-m-d\TH:i:sP'],
+            [IMocker::DATA_FORMAT_DATE_TIME, 25, null, 'Y-m-d\TH:i:sP'],
+            [IMocker::DATA_FORMAT_DATE_TIME, 25, 25, 'Y-m-d\TH:i:sP'],
+            [IMocker::DATA_FORMAT_DATE_TIME, null, 20, null],
+            [IMocker::DATA_FORMAT_DATE_TIME, 30, null, null],
+        ];
+    }
+
+    /**
+     * @covers ::mock
+     * @covers ::mockString
+     * @dataProvider provideMockStringUuidFormatArguments
+     */
+    public function testMockStringWithUuidFormat(
+        $minLength,
+        $maxLength
+    ) {
+        $mocker = new OpenApiDataMocker();
+        $arr = [];
+        $arr2 = [];
+        $hexPattern = '/^[a-f0-9]*$/';
+
+        while (count($arr) < 100 && count($arr2) < 100) {
+            $str = $mocker->mockString(IMocker::DATA_FORMAT_UUID, $minLength, $maxLength);
+            $str2 = $mocker->mock(IMocker::DATA_TYPE_STRING, IMocker::DATA_FORMAT_UUID, ['minLength' => $minLength, 'maxLength' => $maxLength]);
+            $arr[] = $str;
+            $arr2[] = $str2;
+
+            $this->assertRegExp($hexPattern, $str);
+            $this->assertRegExp($hexPattern, $str2);
+
+            if ($minLength !== null) {
+                $this->assertGreaterThanOrEqual($minLength, mb_strlen($str));
+                $this->assertGreaterThanOrEqual($minLength, mb_strlen($str2));
+            }
+            if ($maxLength !== null) {
+                $this->assertLessThanOrEqual($maxLength, mb_strlen($str));
+                $this->assertLessThanOrEqual($maxLength, mb_strlen($str2));
+            }
+        }
+    }
+
+    public function provideMockStringUuidFormatArguments()
+    {
+        return [
+            [null, null],
+            [10, null],
+            [10, 10],
+            [null, 8],
+            [16, null],
+            [null, null],
+            [25, null],
+            [25, 25],
+            [null, 20],
+            [30, null],
+            [1, 1],
         ];
     }
 
