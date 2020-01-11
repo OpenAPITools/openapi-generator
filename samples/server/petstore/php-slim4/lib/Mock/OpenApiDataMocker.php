@@ -357,7 +357,7 @@ final class OpenApiDataMocker implements IMocker
         foreach ($properties as $propName => $propValue) {
             $options = $this->extractSchemaProperties($propValue);
             $dataType = $options['type'];
-            $dataFormat = $options['dataFormat'] ?? null;
+            $dataFormat = $options['format'] ?? null;
             $ref = $options['$ref'] ?? null;
             $data = $this->mockFromRef($ref);
             $obj->$propName = ($data) ? $data : $this->mock($dataType, $dataFormat, $options);
