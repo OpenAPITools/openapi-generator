@@ -412,6 +412,41 @@ class OpenApiDataMockerTest extends TestCase
     /**
      * @covers ::mock
      * @covers ::mockString
+     * @dataProvider provideMockStringBinaryFormatArguments
+     */
+    public function testMockStringWithBinaryFormat(
+        $dataFormat,
+        $minLength,
+        $maxLength
+    ) {
+        $mocker = new OpenApiDataMocker();
+        $str = $mocker->mockString($dataFormat, $minLength, $maxLength);
+        $str2 = $mocker->mock(IMocker::DATA_TYPE_STRING, $dataFormat, ['minLength' => $minLength, 'maxLength' => $maxLength]);
+        if ($minLength !== null) {
+            $this->assertGreaterThanOrEqual($minLength, strlen($str));
+            $this->assertGreaterThanOrEqual($minLength, strlen($str2));
+        }
+        if ($maxLength !== null) {
+            $this->assertLessThanOrEqual($maxLength, strlen($str));
+            $this->assertLessThanOrEqual($maxLength, strlen($str2));
+        }
+    }
+
+    public function provideMockStringBinaryFormatArguments()
+    {
+        return [
+            [IMocker::DATA_FORMAT_BINARY, 0, null],
+            [IMocker::DATA_FORMAT_BINARY, 10, null],
+            [IMocker::DATA_FORMAT_BINARY, 0, 100],
+            [IMocker::DATA_FORMAT_BINARY, 10, 50],
+            [IMocker::DATA_FORMAT_BINARY, 10, 10],
+            [IMocker::DATA_FORMAT_BINARY, 0, 0],
+        ];
+    }
+
+    /**
+     * @covers ::mock
+     * @covers ::mockString
      * @dataProvider provideMockStringDateFormatArguments
      */
     public function testMockStringWithDateAndDateTimeFormat(

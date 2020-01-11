@@ -250,6 +250,14 @@ final class OpenApiDataMocker implements IMocker
                 // I think truncated(invalid) base64 string is better than oversized, cause this data is fake anyway
                 $str = $truncateOrPad($str, null, $maxLength, '. ');
                 break;
+            case IMocker::DATA_FORMAT_BINARY:
+                // use random_bytes function
+                // no need crypto secure values
+                $binaryLength = mt_rand($minLength, $maxLength);
+                if ($binaryLength > 0) {
+                    $str = random_bytes($binaryLength);
+                }
+                break;
             case IMocker::DATA_FORMAT_DATE:
             case IMocker::DATA_FORMAT_DATE_TIME:
                 // min unix timestamp is 0 and max is 2147483647 for 32bit systems which equals 2038-01-19 03:14:07
