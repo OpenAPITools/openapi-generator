@@ -290,6 +290,20 @@ final class OpenApiDataMocker implements IMocker
                 // truncate or pad password to fit minLength and maxLength
                 $str = $truncateOrPad($str, $minLength, $maxLength);
                 break;
+            case IMocker::DATA_FORMAT_EMAIL:
+                // just for visionary purpose, not related to real persons
+                $fakeEmailList = [
+                    'johndoe',
+                    'lhoswald',
+                    'ojsimpson',
+                    'mlking',
+                    'jfkennedy',
+                ];
+                $str = $fakeEmailList[mt_rand(0, count($fakeEmailList) - 1)] . '@example.com';
+
+                // truncate or pad email to fit minLength and maxLength
+                $str = $truncateOrPad($str, $minLength, $maxLength);
+                break;
             default:
                 $str = $getLoremIpsum(mt_rand($minLength, $maxLength));
         }
