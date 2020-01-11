@@ -713,11 +713,11 @@ paths:
       - fake
       x-codegen-request-body-name: body
     post:
-      description: |
+      description: |-
         Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
+         假端點
+         偽のエンドポイント
+         가짜 엔드 포인트
       operationId: testEndpointParameters
       requestBody:
         content:
@@ -804,11 +804,11 @@ paths:
           description: User not found
       security:
       - http_basic_test: []
-      summary: |
+      summary: |-
         Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
+         假端點
+         偽のエンドポイント
+         가짜 엔드 포인트
       tags:
       - fake
   /fake/outer/number:

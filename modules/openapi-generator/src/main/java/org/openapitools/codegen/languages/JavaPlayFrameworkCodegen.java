@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 
 import java.io.File;
 import java.util.List;
@@ -53,6 +54,11 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
     public JavaPlayFrameworkCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
+
         outputFolder = "generated-code/javaPlayFramework";
         apiTestTemplateFiles.clear();
         embeddedTemplateDir = templateDir = "JavaPlayFramework";
