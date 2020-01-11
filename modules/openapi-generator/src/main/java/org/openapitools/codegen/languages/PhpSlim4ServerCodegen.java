@@ -113,6 +113,9 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
         additionalProperties.put("interfacesSrcPath", "./" + toSrcPath(interfacesPackage, srcBasePath));
         additionalProperties.put("interfacesTestPath", "./" + toSrcPath(interfacesPackage, testBasePath));
 
+        // external docs folder
+        additionalProperties.put("docsBasePath", "./" + docsBasePath);
+
         if (additionalProperties.containsKey(PSR7_IMPLEMENTATION)) {
             this.setPsr7Implementation((String) additionalProperties.get(PSR7_IMPLEMENTATION));
         }
@@ -152,6 +155,7 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
         supportingFiles.add(new SupportingFile("openapi_data_mocker_test.mustache", toSrcPath(mockPackage, testBasePath), "OpenApiDataMockerTest.php"));
         supportingFiles.add(new SupportingFile("openapi_data_mocker_middleware.mustache", toSrcPath(mockPackage, srcBasePath), "OpenApiDataMockerMiddleware.php"));
         supportingFiles.add(new SupportingFile("openapi_data_mocker_middleware_test.mustache", toSrcPath(mockPackage, testBasePath), "OpenApiDataMockerMiddlewareTest.php"));
+        supportingFiles.add(new SupportingFile("mock_server.mustache", docsBasePath, "MockServer.md"));
 
         // traits of ported utils
         supportingFiles.add(new SupportingFile("string_utils_trait.mustache", toSrcPath(utilsPackage, srcBasePath), toTraitName("StringUtils") + ".php"));
