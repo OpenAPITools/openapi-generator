@@ -1,4 +1,4 @@
-package org.openapitools.codegen.validations;
+package org.openapitools.codegen.validations.oas;
 
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -7,11 +7,14 @@ import org.openapitools.codegen.validation.ValidationRule;
 
 import java.util.ArrayList;
 
-public class OpenApiSchemaValidations extends GenericValidator<Schema> {
+/**
+ * A standalone instance for evaluating rules and recommendations related to OAS {@link Schema}
+ */
+class OpenApiSchemaValidations extends GenericValidator<Schema> {
     OpenApiSchemaValidations(RuleConfiguration ruleConfiguration) {
         super(new ArrayList<>());
         if (ruleConfiguration.isEnableRecommendations()) {
-            if (ruleConfiguration.isEnableOneOfWithPropertiesSuggestion()) {
+            if (ruleConfiguration.isEnableOneOfWithPropertiesRecommendation()) {
                 rules.add(ValidationRule.warn(
                         "Schema defines properties alongside oneOf.",
                         "Schemas defining properties and oneOf are not clearly defined in the OpenAPI Specification. While our tooling supports this, it may cause issues with other tools.",

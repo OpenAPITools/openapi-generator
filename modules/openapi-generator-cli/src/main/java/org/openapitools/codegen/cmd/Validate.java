@@ -21,24 +21,15 @@ import io.airlift.airline.Command;
 import io.airlift.airline.Option;
 
 import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Paths;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.apache.commons.lang3.text.WordUtils;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.validation.ValidationResult;
-import org.openapitools.codegen.validations.OpenApiEvaluator;
-import org.openapitools.codegen.validations.OpenApiParameterValidations;
-import org.openapitools.codegen.validations.OpenApiSecuritySchemeValidations;
-import org.openapitools.codegen.validations.RuleConfiguration;
+import org.openapitools.codegen.validations.oas.OpenApiEvaluator;
+import org.openapitools.codegen.validations.oas.RuleConfiguration;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Command(name = "validate", description = "Validate specification")
@@ -64,7 +55,7 @@ public class Validate implements Runnable {
         OpenAPI specification = result.getOpenAPI();
 
         RuleConfiguration ruleConfiguration = new RuleConfiguration();
-        ruleConfiguration.setEnableRecommendations(recommend != null ? recommend : true);
+        ruleConfiguration.setEnableRecommendations(recommend != null ? recommend : false);
 
         OpenApiEvaluator evaluator = new OpenApiEvaluator(ruleConfiguration);
         ValidationResult validationResult = evaluator.validate(specification);

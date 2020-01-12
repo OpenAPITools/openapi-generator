@@ -1,4 +1,4 @@
-package org.openapitools.codegen.validations;
+package org.openapitools.codegen.validations.oas;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -14,9 +14,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+/**
+ * A validator which evaluates an OpenAPI 3.x specification document
+ */
 public class OpenApiEvaluator implements Validator<OpenAPI> {
     private RuleConfiguration ruleConfiguration;
 
+    /**
+     * Constructs a new instance of {@link OpenApiEvaluator} with applied rules.
+     *
+     * @param ruleConfiguration The set of rules to be applied to evaluation.
+     */
     public OpenApiEvaluator(RuleConfiguration ruleConfiguration) {
         this.ruleConfiguration = ruleConfiguration;
     }
@@ -36,7 +44,7 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
         OpenApiSecuritySchemeValidations securitySchemeValidations = new OpenApiSecuritySchemeValidations(ruleConfiguration);
         OpenApiSchemaValidations schemaValidations = new OpenApiSchemaValidations(ruleConfiguration);
 
-        if (ruleConfiguration.isEnableUnusedSchemasSuggestion()) {
+        if (ruleConfiguration.isEnableUnusedSchemasRecommendation()) {
             ValidationRule unusedSchema = ValidationRule.create(Severity.WARNING, "Unused schema", "A schema was determined to be unused.", s -> true);
             ModelUtils.getUnusedSchemas(specification).forEach(schemaName -> validationResult.addResult(Validated.invalid(unusedSchema, "Unused model: " + schemaName)));
         }
@@ -68,7 +76,6 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
             });
         }
 
-
         Components components = specification.getComponents();
         if (components != null) {
             Map<String, SecurityScheme> securitySchemes = components.getSecuritySchemes();
@@ -84,7 +91,6 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
         parameters.forEach(parameter -> {
             validationResult.consume(parameterValidations.validate(parameter));
         });
-
 
         return validationResult;
     }

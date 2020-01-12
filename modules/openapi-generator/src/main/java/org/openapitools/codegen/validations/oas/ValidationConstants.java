@@ -1,4 +1,4 @@
-package org.openapitools.codegen.validations;
+package org.openapitools.codegen.validations.oas;
 
 final class ValidationConstants {
     static String ApacheNginxUnderscoreDescription = "Apache and Nginx may fail on headers keys with underscore!";
