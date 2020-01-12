@@ -23,6 +23,7 @@ package org.openapitools.codegen.validation;
 public final class Invalid extends Validated {
     private String message;
     private ValidationRule rule;
+    private String details;
 
     /**
      * Constructs a new {@link Invalid} instance.
@@ -33,6 +34,22 @@ public final class Invalid extends Validated {
     Invalid(ValidationRule rule, String message) {
         this.rule = rule;
         this.message = message;
+    }
+
+    /**
+     * Constructs a new {@link Invalid} instance.
+     *
+     * @param rule The rule which was evaluated and resulted in this state.
+     * @param message The message to be displayed for this invalid state.
+     * @param details Additional contextual details related to the invalid state.
+     */
+    public Invalid(ValidationRule rule, String message, String details) {
+        this(rule, message);
+        this.details = details;
+    }
+
+    public String getDetails() {
+        return details;
     }
 
     @Override

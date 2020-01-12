@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 /**
  * Encapsulates details about the result of a validation test.
  */
-@SuppressWarnings("WeakerAccess")
 public final class ValidationResult {
     private final List<Validated> validations;
 

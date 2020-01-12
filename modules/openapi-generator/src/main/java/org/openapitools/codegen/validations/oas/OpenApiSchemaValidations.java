@@ -18,7 +18,7 @@ class OpenApiSchemaValidations extends GenericValidator<Schema> {
                 rules.add(ValidationRule.warn(
                         "Schema defines properties alongside oneOf.",
                         "Schemas defining properties and oneOf are not clearly defined in the OpenAPI Specification. While our tooling supports this, it may cause issues with other tools.",
-                        OpenApiSchemaValidations::validOneOfWithProperties
+                        OpenApiSchemaValidations::checkOneOfWithProperties
                 ));
             }
         }
@@ -35,10 +35,11 @@ class OpenApiSchemaValidations extends GenericValidator<Schema> {
      * properties on the schema defining oneOf relationships may not be intentional in the OpenAPI Specification.
      *
      * @param schema An input schema, regardless of the type of schema
-     * @return <code>true</code> if the schema has oneOf defined along with properties other than discriminator.
+     * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
      */
-    private static boolean validOneOfWithProperties(Schema schema) {
-        boolean valid = true;
+    private static ValidationRule.Result checkOneOfWithProperties(Schema schema) {
+        ValidationRule.Result result = ValidationRule.Pass.empty();
+
         if (schema instanceof ComposedSchema) {
             final ComposedSchema composed = (ComposedSchema) schema;
             // check for loosely defined oneOf extension requirements.
@@ -47,10 +48,10 @@ class OpenApiSchemaValidations extends GenericValidator<Schema> {
             if (composed.getOneOf() != null && composed.getOneOf().size() > 0) {
                 if (composed.getProperties() != null && composed.getProperties().size() >= 1 && composed.getProperties().get("discriminator") == null) {
                     // not necessarily "invalid" here, but we trigger the recommendation which requires the method to return false.
-                    valid = false;
+                    result = ValidationRule.Fail.empty();
                 }
             }
         }
-        return valid;
+        return result;
     }
 }

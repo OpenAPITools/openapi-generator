@@ -26,7 +26,7 @@ public class ValidationRule {
     private Severity severity;
     private String description;
     private String failureMessage;
-    private Function<Object, Boolean> test;
+    private Function<Object, Result> test;
 
     /**
      * Constructs a new instance of {@link ValidationRule}
@@ -37,7 +37,7 @@ public class ValidationRule {
      * @param test The test condition to be applied as a part of this rule, when this function returns <code>true</code>,
      *             the evaluated instance will be considered "valid" according to this rule.
      */
-    ValidationRule(Severity severity, String description, String failureMessage, Function<Object, Boolean> test) {
+    ValidationRule(Severity severity, String description, String failureMessage, Function<Object, Result> test) {
         this.severity = severity;
         this.description = description;
         this.failureMessage = failureMessage;
@@ -60,7 +60,7 @@ public class ValidationRule {
      *
      * @return <code>true</code> if the object state is valid according to this rule, otherwise <code>false</code>.
      */
-    public boolean evaluate(Object input) {
+    public Result evaluate(Object input) {
         return test.apply(input);
     }
 
@@ -90,7 +90,7 @@ public class ValidationRule {
      * @return An "empty" rule.
      */
     static ValidationRule empty() {
-        return new ValidationRule(Severity.ERROR, "empty", "failure message", (i) -> false);
+        return new ValidationRule(Severity.ERROR, "empty", "failure message", (i) -> Fail.empty() );
     }
 
     /**
@@ -106,8 +106,8 @@ public class ValidationRule {
      * @return A new instance of a {@link ValidationRule}
      */
     @SuppressWarnings("unchecked")
-    public static <T> ValidationRule create(Severity severity, String description, String failureMessage, Function<T, Boolean> fn) {
-        return new ValidationRule(severity, description, failureMessage, (Function<Object, Boolean>) fn);
+    public static <T> ValidationRule create(Severity severity, String description, String failureMessage, Function<T, Result> fn) {
+        return new ValidationRule(severity, description, failureMessage, (Function<Object, Result>) fn);
     }
 
     /**
@@ -121,8 +121,8 @@ public class ValidationRule {
      * @return A new instance of a {@link ValidationRule}
      */
     @SuppressWarnings("unchecked")
-    public static <T> ValidationRule error(String failureMessage, Function<T, Boolean> fn) {
-        return new ValidationRule(Severity.ERROR, null, failureMessage, (Function<Object, Boolean>) fn);
+    public static <T> ValidationRule error(String failureMessage, Function<T, Result> fn) {
+        return new ValidationRule(Severity.ERROR, null, failureMessage, (Function<Object, Result>) fn);
     }
 
     /**
@@ -137,8 +137,8 @@ public class ValidationRule {
      * @return A new instance of a {@link ValidationRule}
      */
     @SuppressWarnings("unchecked")
-    public static <T> ValidationRule warn(String description, String failureMessage, Function<T, Boolean> fn) {
-        return new ValidationRule(Severity.WARNING, description, failureMessage, (Function<Object, Boolean>) fn);
+    public static <T> ValidationRule warn(String description, String failureMessage, Function<T, Result> fn) {
+        return new ValidationRule(Severity.WARNING, description, failureMessage, (Function<Object, Result>) fn);
     }
 
     @Override
@@ -148,5 +148,70 @@ public class ValidationRule {
                 ", description='" + description + '\'' +
                 ", failureMessage='" + failureMessage + '\'' +
                 '}';
+    }
+
+    public static abstract class Result {
+        protected String details = null;
+        protected Throwable throwable = null;
+
+        public String getDetails() {
+            return details;
+        }
+
+        public void setDetails(String details) {
+            assert this.details == null;
+            this.details = details;
+        }
+
+        public abstract boolean passed();
+        public final boolean failed() { return !passed(); }
+
+        public Throwable getThrowable() {
+            return throwable;
+        }
+
+        public boolean thrown() { return this.throwable == null; }
+    }
+
+    public static final class Pass extends Result {
+        public static Result empty() { return new Pass(); }
+
+        public Pass() {
+            super();
+        }
+
+        public Pass(String details) {
+            this();
+            this.details = details;
+        }
+
+        @Override
+        public boolean passed() {
+            return true;
+        }
+    }
+
+    public static final class Fail extends Result {
+        public static Result empty() { return new Fail(); }
+
+        public Fail() {
+            super();
+        }
+
+        public Fail(String details) {
+            this();
+            this.details = details;
+        }
+
+        public Fail(String details, Throwable throwable) {
+            this();
+            this.throwable = throwable;
+            this.details = details;
+        }
+
+        @Override
+        public boolean passed() {
+            return false;
+        }
     }
 }

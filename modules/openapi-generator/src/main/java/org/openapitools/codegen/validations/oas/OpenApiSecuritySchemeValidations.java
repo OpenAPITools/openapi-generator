@@ -6,6 +6,7 @@ import org.openapitools.codegen.validation.GenericValidator;
 import org.openapitools.codegen.validation.ValidationRule;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * A standalone instance for evaluating rules and recommendations related to OAS {@link SecurityScheme}
@@ -18,7 +19,7 @@ class OpenApiSecuritySchemeValidations extends GenericValidator<SecurityScheme> 
                 rules.add(ValidationRule.warn(
                         ValidationConstants.ApacheNginxUnderscoreDescription,
                         ValidationConstants.ApacheNginxUnderscoreFailureMessage,
-                        OpenApiSecuritySchemeValidations::passesApacheNginxHeaderCheck
+                        OpenApiSecuritySchemeValidations::apacheNginxHeaderCheck
                 ));
             }
         }
@@ -31,9 +32,16 @@ class OpenApiSecuritySchemeValidations extends GenericValidator<SecurityScheme> 
      *
      * @return <code>true</code> if the check succeeds (header does not have an underscore, e.g. 'api_key')
      */
-    private static boolean passesApacheNginxHeaderCheck(SecurityScheme securityScheme) {
-        if (securityScheme == null || securityScheme.getIn() != SecurityScheme.In.HEADER) return true;
+    private static ValidationRule.Result apacheNginxHeaderCheck(SecurityScheme securityScheme) {
+        if (securityScheme == null || securityScheme.getIn() != SecurityScheme.In.HEADER) return ValidationRule.Pass.empty();
+        ValidationRule.Result result = ValidationRule.Pass.empty();
 
-        return !StringUtils.contains(securityScheme.getName(), '_');
+        String key = securityScheme.getName();
+        if (StringUtils.contains(key, '_')) {
+            result = new ValidationRule.Fail();
+            result.setDetails(String.format(Locale.ROOT, "%s contains an underscore.", key));
+        }
+
+        return result;
     }
 }

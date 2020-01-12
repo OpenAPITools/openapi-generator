@@ -7,6 +7,7 @@ import org.openapitools.codegen.validation.GenericValidator;
 import org.openapitools.codegen.validation.ValidationRule;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * A standalone instance for evaluating rules and recommendations related to OAS {@link Parameter}
@@ -19,7 +20,7 @@ class OpenApiParameterValidations extends GenericValidator<Parameter> {
                 rules.add(ValidationRule.warn(
                         ValidationConstants.ApacheNginxUnderscoreDescription,
                         ValidationConstants.ApacheNginxUnderscoreFailureMessage,
-                        OpenApiParameterValidations::passesApacheNginxHeaderCheck
+                        OpenApiParameterValidations::apacheNginxHeaderCheck
                 ));
             }
         }
@@ -30,18 +31,18 @@ class OpenApiParameterValidations extends GenericValidator<Parameter> {
      *
      * @param parameter Any spec doc parameter. The method will handle {@link HeaderParameter} evaluation.
      *
-     * @return <code>true</code> if the check succeeds (header does not have an underscore, e.g. 'api_key')
+     * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail} with details "[key] contains an underscore."
      */
-    private static boolean passesApacheNginxHeaderCheck(Parameter parameter) {
-        if (parameter == null || !parameter.getIn().equals("header")) return true;
-
-        boolean valid = true;
+    private static ValidationRule.Result apacheNginxHeaderCheck(Parameter parameter) {
+        if (parameter == null || !parameter.getIn().equals("header")) return ValidationRule.Pass.empty();
+        ValidationRule.Result result = ValidationRule.Pass.empty();
 
         String headerName = parameter.getName();
         if (StringUtils.isNotEmpty(headerName) && StringUtils.contains(headerName, '_')) {
-            valid = false;
+            result = new ValidationRule.Fail();
+            result.setDetails(String.format(Locale.ROOT, "%s contains an underscore.", headerName));
         }
 
-        return valid;
+        return result;
     }
 }

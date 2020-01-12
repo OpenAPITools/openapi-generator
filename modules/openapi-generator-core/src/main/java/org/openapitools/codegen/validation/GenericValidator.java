@@ -23,7 +23,6 @@ import java.util.List;
  *
  * @param <TInput> The type of object being evaluated.
  */
-@SuppressWarnings({"WeakerAccess"})
 public class GenericValidator<TInput> implements Validator<TInput> {
     protected List<ValidationRule> rules;
 
@@ -48,11 +47,11 @@ public class GenericValidator<TInput> implements Validator<TInput> {
         ValidationResult result = new ValidationResult();
         if (rules != null) {
             rules.forEach(it -> {
-                boolean passes = it.evaluate(input);
-                if (passes) {
+                ValidationRule.Result attempt = it.evaluate(input);
+                if (attempt.passed()) {
                     result.addResult(Validated.valid(it));
                 } else {
-                    result.addResult(Validated.invalid(it, it.getFailureMessage()));
+                    result.addResult(Validated.invalid(it, it.getFailureMessage(), attempt.getDetails()));
                 }
             });
         }
