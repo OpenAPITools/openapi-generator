@@ -759,12 +759,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public String toDefaultValue(Schema p) {
         p = ModelUtils.getReferencedSchema(this.openAPI, p);
         if (ModelUtils.isArraySchema(p)) {
-            final String pattern;
-            if (fullJavaUtil) {
-                pattern = "new java.util.ArrayList<%s>()";
-            } else {
-                pattern = "new ArrayList<%s>()";
-            }
+
+            final String pattern = "new " + instantiationTypes().get("array") + "<%s>()";
 
             Schema<?> items = getSchemaItems((ArraySchema) p);
 
@@ -779,12 +775,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             return String.format(Locale.ROOT, pattern, typeDeclaration);
         } else if (ModelUtils.isMapSchema(p)) {
-            final String pattern;
-            if (fullJavaUtil) {
-                pattern = "new java.util.HashMap<%s>()";
-            } else {
-                pattern = "new HashMap<%s>()";
-            }
+
+            final String pattern = "new " + instantiationTypes().get("map") + "<%s>()";
+
             if (ModelUtils.getAdditionalProperties(p) == null) {
                 return null;
             }
