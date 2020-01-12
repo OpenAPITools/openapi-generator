@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.EnumSet;
 
 public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
@@ -75,7 +76,7 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
 
         try {
             String outputFile = outputFolder + File.separator + "openapi.json";
-            FileUtils.writeStringToFile(new File(outputFile), jsonOpenAPI);
+            FileUtils.writeStringToFile(new File(outputFile), jsonOpenAPI, StandardCharsets.UTF_8);
             LOGGER.info("wrote file to " + outputFile);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
