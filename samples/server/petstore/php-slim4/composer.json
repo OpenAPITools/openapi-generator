@@ -28,10 +28,7 @@
   },
   "scripts": {
     "test": [
-      "@test-apis",
-      "@test-models",
-      "@test-mock",
-      "@test-utils"
+      "phpunit"
     ],
     "test-apis": "phpunit --testsuite Apis",
     "test-models": "phpunit --testsuite Models",

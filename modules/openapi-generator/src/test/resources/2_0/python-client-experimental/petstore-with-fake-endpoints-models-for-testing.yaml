@@ -702,16 +702,14 @@ paths:
     post:
       tags:
         - fake
-      summary: |
-        Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
-      description: |
-        Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
+      summary: "Fake endpoint for testing various parameters\n
+        假端點\n
+        偽のエンドポイント\n
+        가짜 엔드 포인트"
+      description: "Fake endpoint for testing various parameters\n
+        假端點\n
+        偽のエンドポイント\n
+        가짜 엔드 포인트"
       operationId: testEndpointParameters
       consumes:
         - application/x-www-form-urlencoded
@@ -1341,6 +1339,16 @@ definitions:
     properties:
       _class:
         type: string
+  Player:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+      enemyPlayer:
+        type: object
+        $ref: '#/components/schemas/Player'
   Dog:
     allOf:
       - $ref: '#/definitions/Animal'

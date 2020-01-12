@@ -70,7 +70,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 |                                | Languages/Frameworks |
 |-|-|
-**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later, .NET Standard 1.3 - 2.0, .NET Core 2.0), **C++** (cpp-restsdk, Qt5, Tizen), **Clojure**, **Dart (1.x, 2.x)**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client, MicroProfile Rest Client), **Kotlin**, **Lua**, **Nim**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types), **Objective-C**, **OCaml**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x), **Typescript** (AngularJS, Angular (2.x - 8.x), Aurelia, Axios, Fetch, Inversify, jQuery, Node, Rxjs)
+**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later, .NET Standard 1.3 - 2.0, .NET Core 2.0), **C++** (cpp-restsdk, Qt5, Tizen), **Clojure**, **Dart (1.x, 2.x)**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client, MicroProfile Rest Client), **Kotlin**, **Lua**, **Nim**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types), **Objective-C**, **OCaml**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x, 5.x), **Typescript** (AngularJS, Angular (2.x - 8.x), Aurelia, Axios, Fetch, Inversify, jQuery, Node, Rxjs)
 **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, NancyFx), **C++** (Pistache, Restbed, Qt5 QHTTPEngine), **Erlang**, **F#** (Giraffe), **Go** (net/http, Gin), **Haskell** (Servant), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, Jersey, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples), [Vert.x](https://vertx.io/)), **Kotlin** (Spring Boot, Ktor, Vertx), **PHP** (Laravel, Lumen, Slim, Silex, [Symfony](https://symfony.com/), [Zend Expressive](https://github.com/zendframework/zend-expressive)), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** ([Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), [Play](https://www.playframework.com/), Scalatra)
 **API documentation generators** | **HTML**, **Confluence Wiki**, **Asciidoc**
 **Configuration files**          | [**Apache2**](https://httpd.apache.org/)
@@ -580,6 +580,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [California State University, Northridge](https://www.csun.edu)
 - [CAM](https://www.cam-inc.co.jp/)
 - [Camptocamp](https://www.camptocamp.com/en)
+- [Cisco](https://www.cisco.com/)
 - [codecentric AG](https://www.codecentric.de/)
 - [Commencis](https://www.commencis.com/)
 - [Crossover Health](https://crossoverhealth.com/)
@@ -714,7 +715,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-11-24 - [Accelerate Flutter development with OpenAPI and Dart code generation](https://medium.com/@irinasouthwell_220/accelerate-flutter-development-with-openapi-and-dart-code-generation-1f16f8329a6a) by [Irina Southwell](https://medium.com/@irinasouthwell_220)
 - 2019-11-25 - [openapi-generatorで手軽にスタブサーバとクライアントの生成](https://qiita.com/pochopocho13/items/8db662e1934fb2b408b8) by [@pochopocho13](https://twitter.com/pochopocho13)
 - 2019-11-26 - [CordaCon 2019 Highlights: Braid Server and OpenAPI Generator for Corda Client API’s](https://blog.b9lab.com/cordacon-2019-highlights-braid-server-and-openapi-generator-for-corda-flows-api-s-d24179ccb27c) by [Adel Rustum](https://blog.b9lab.com/@adelrestom) at [B9lab](https://blog.b9lab.com/)
-- 2020-12-04 - [Angular＋NestJS＋OpenAPI（Swagger）でマイクロサービスを視野に入れた環境を考える](https://qiita.com/teracy55/items/0327c7a170ec772970c6) by [てらしー](https://twitter.com/teracy55)
+- 2019-12-04 - [Angular＋NestJS＋OpenAPI（Swagger）でマイクロサービスを視野に入れた環境を考える](https://qiita.com/teracy55/items/0327c7a170ec772970c6) by [てらしー](https://twitter.com/teracy55)
+- 2019-12-23 - [Use Ada for Your Web Development](https://www.electronicdesign.com/technologies/embedded-revolution/article/21119177/use-ada-for-your-web-development) by [Stephane Carrez](https://github.com/stcarrez)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -795,6 +797,7 @@ Here is a list of template creators:
    * Swift: @tkqubo
    * Swift 3: @hexelon
    * Swift 4: @ehyche
+   * Swift 5: @4brunu
    * TypeScript (Angular1): @mhardorf
    * TypeScript (Angular2): @roni-frantchi
    * TypeScript (Angular6): @akehir

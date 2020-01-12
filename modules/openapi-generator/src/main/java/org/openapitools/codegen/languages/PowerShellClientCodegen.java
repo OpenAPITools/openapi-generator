@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -49,6 +50,28 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     public PowerShellClientCodegen() {
         super();
 
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .build();
+        
         outputFolder = "generated-code" + File.separator + "powershell";
         modelTemplateFiles.put("model.mustache", ".ps1");
         apiTemplateFiles.put("api.mustache", ".ps1");

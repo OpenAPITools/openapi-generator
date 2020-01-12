@@ -6,6 +6,7 @@ use hyper::{Request, Response, Error, StatusCode};
 use server::url::form_urlencoded;
 use swagger::auth::{Authorization, AuthData, Scopes};
 use swagger::{Has, Pop, Push, XSpanIdString};
+use swagger::headers::SafeHeaders;
 use Api;
 
 pub struct NewAddContext<T, A>

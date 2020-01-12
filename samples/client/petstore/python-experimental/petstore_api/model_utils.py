@@ -54,8 +54,9 @@ class OpenApiModel(object):
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
 
-        if name in self.openapi_types:
-            required_types_mixed = self.openapi_types[name]
+        openapi_types = self.openapi_types()
+        if name in openapi_types:
+            required_types_mixed = openapi_types[name]
         elif self.additional_properties_type is None:
             raise ApiKeyError(
                 "{0} has no key '{1}'".format(type(self).__name__, name),
@@ -1181,7 +1182,7 @@ def get_allof_instances(self, model_args, constant_args):
 
         # extract a dict of only required keys from fixed_model_args
         kwargs = {}
-        var_names = set(allof_class.openapi_types.keys())
+        var_names = set(allof_class.openapi_types().keys())
         for var_name in var_names:
             if var_name in fixed_model_args:
                 kwargs[var_name] = fixed_model_args[var_name]
@@ -1216,7 +1217,7 @@ def get_oneof_instance(self, model_args, constant_args):
 
         # extract a dict of only required keys from fixed_model_args
         kwargs = {}
-        var_names = set(oneof_class.openapi_types.keys())
+        var_names = set(oneof_class.openapi_types().keys())
         for var_name in var_names:
             if var_name in fixed_model_args:
                 kwargs[var_name] = fixed_model_args[var_name]
@@ -1259,7 +1260,7 @@ def get_anyof_instances(self, model_args, constant_args):
 
         # extract a dict of only required keys from these_model_vars
         kwargs = {}
-        var_names = set(anyof_class.openapi_types.keys())
+        var_names = set(anyof_class.openapi_types().keys())
         for var_name in var_names:
             if var_name in fixed_model_args:
                 kwargs[var_name] = fixed_model_args[var_name]
@@ -1296,7 +1297,7 @@ def get_var_name_to_model_instances(self, composed_instances):
     all_instances = [self]
     all_instances.extend(composed_instances)
     for instance in all_instances:
-        for var_name in instance.openapi_types:
+        for var_name in instance.openapi_types():
             if var_name not in var_name_to_model_instances:
                 var_name_to_model_instances[var_name] = [instance]
             else:

@@ -45,7 +45,7 @@ declare -a samples=(
 "${root}/bin/php-symfony-petstore.sh"
 "${root}/bin/php-lumen-petstore-server.sh"
 "${root}/bin/php-slim-server-petstore.sh"
-"${root}/bin/php-slim4-server-petstore.sh"
+#"${root}/bin/php-slim4-server-petstore.sh"
 "${root}/bin/php-ze-ph-petstore-server.sh"
 "${root}/bin/openapi3/php-petstore.sh"
 "${root}/bin/typescript-angularjs-petstore.sh"

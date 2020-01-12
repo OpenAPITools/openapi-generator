@@ -52,6 +52,12 @@ public class DartClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setPubDescription(DartClientOptionsProvider.PUB_DESCRIPTION_VALUE);
             times = 1;
+            clientCodegen.setPubAuthor(DartClientOptionsProvider.PUB_AUTHOR_VALUE);
+            times = 1;
+            clientCodegen.setPubAuthorEmail(DartClientOptionsProvider.PUB_AUTHOR_EMAIL_VALUE);
+            times = 1;
+            clientCodegen.setPubHomepage(DartClientOptionsProvider.PUB_HOMEPAGE_VALUE);
+            times = 1;
             clientCodegen.setSourceFolder(DartClientOptionsProvider.SOURCE_FOLDER_VALUE);
             times = 1;
             clientCodegen.setUseEnumExtension(Boolean.valueOf(DartClientOptionsProvider.USE_ENUM_EXTENSION));

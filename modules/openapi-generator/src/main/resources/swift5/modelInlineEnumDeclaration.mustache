@@ -1,0 +1,7 @@
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{enumName}}: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}String{{/isContainer}}, Codable, CaseIterable {
+        {{#allowableValues}}
+        {{#enumVars}}
+        case {{name}} = {{{value}}}
+        {{/enumVars}}
+        {{/allowableValues}}
+    }

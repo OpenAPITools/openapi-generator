@@ -22,13 +22,14 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.EnumSet;
 import java.util.Locale;
 import java.util.Map;
 
@@ -68,6 +69,33 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     public RubyClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath,
+                        ClientModificationFeature.UserAgent
+                )
+                .build();
 
         supportsInheritance = true;
 
@@ -244,8 +272,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         writeOptional(outputFolder, new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.rb"));
         writeOptional(outputFolder, new SupportingFile("configuration_spec.mustache", specFolder, "configuration_spec.rb"));
         writeOptional(outputFolder, new SupportingFile("api_client_spec.mustache", specFolder, "api_client_spec.rb"));
-        // not including base object test as the moment as not all API has model
-        //writeOptional(outputFolder, new SupportingFile("base_object_spec.mustache", specFolder, "base_object_spec.rb"));
     }
 
     @Override

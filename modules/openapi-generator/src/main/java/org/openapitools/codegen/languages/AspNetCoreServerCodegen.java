@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -86,6 +87,37 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     public AspNetCoreServerCodegen() {
         super();
+
+        // TODO: AspnetCore community review
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .excludeWireFormatFeatures(WireFormatFeature.PROTOBUF)
+                .includeSecurityFeatures(
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken
+                )
+                .excludeSecurityFeatures(
+                        SecurityFeature.OpenIDConnect,
+                        SecurityFeature.OAuth2_Password,
+                        SecurityFeature.OAuth2_AuthorizationCode,
+                        SecurityFeature.OAuth2_ClientCredentials,
+                        SecurityFeature.OAuth2_Implicit
+                )
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling,
+                        GlobalFeature.MultiServer
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .includeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .build();
 
         outputFolder = "generated-code" + File.separator + getName();
 
@@ -206,10 +238,17 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 "Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+",
                 newtonsoftVersion);
 
-
         addSwitch(USE_DEFAULT_ROUTING,
                 "Use default routing for the  ASP.NET Core version. For 3.0 turn off default because it is not yet supported.",
                 useDefaultRouting);
+
+        addOption(CodegenConstants.ENUM_NAME_SUFFIX,
+                CodegenConstants.ENUM_NAME_SUFFIX_DESC,
+                enumNameSuffix);
+
+        addOption(CodegenConstants.ENUM_VALUE_SUFFIX,
+                "Suffix that will be appended to all enum values.",
+                enumValueSuffix);
 
         classModifier.addEnum("", "Keep class default with no modifier");
         classModifier.addEnum("abstract", "Make class abstract");
@@ -347,7 +386,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         } else {
             supportingFiles.add(new SupportingFile("Project.nuspec.mustache", packageFolder, packageName + ".nuspec"));
         }
-
 
         if (useSwashbuckle) {
             supportingFiles.add(new SupportingFile("Filters" + File.separator + "BasePathFilter.mustache",

@@ -235,4 +235,28 @@ public class ModelUtilsTest {
         // Test a null schema
         Assert.assertFalse(ModelUtils.isFreeFormObject(null));
     }
+
+    @Test
+    public void testIsSetForValidSet() {
+        ArraySchema as = new ArraySchema()
+                .items(new StringSchema());
+        as.setUniqueItems(true);
+
+        Assert.assertTrue(ModelUtils.isSet(as));
+    }
+
+    @Test
+    public void testIsSetFalseForInvalidSet() {
+        ArraySchema as = new ArraySchema()
+                .items(new StringSchema());
+        as.setUniqueItems(false);
+
+        Assert.assertFalse(ModelUtils.isSet(as));
+    }
+
+    @Test
+    public void testIsSetFailsForNullSchema() {
+        ArraySchema as = null;
+        Assert.assertFalse(ModelUtils.isSet(as));
+    }
 }

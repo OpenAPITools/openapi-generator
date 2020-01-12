@@ -45,8 +45,6 @@ class AdditionalPropertiesClass(ModelNormal):
           and the value is json key in definition.
       discriminator_value_class_map (dict): A dict to go from the discriminator
           variable value to the discriminator class name.
-      openapi_types (dict): The key is attribute name
-          and the value is attribute type.
       validations (dict): The key is the tuple path to the attribute
           and the for var_name this is (var_name,). The value is a dict
           that stores validations for max_length, min_length, max_items,
@@ -59,24 +57,34 @@ class AdditionalPropertiesClass(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
-        'map_string': ({str: (str,)},),  # noqa: E501
-        'map_number': ({str: (float,)},),  # noqa: E501
-        'map_integer': ({str: (int,)},),  # noqa: E501
-        'map_boolean': ({str: (bool,)},),  # noqa: E501
-        'map_array_integer': ({str: ([int],)},),  # noqa: E501
-        'map_array_anytype': ({str: ([bool, date, datetime, dict, float, int, list, str],)},),  # noqa: E501
-        'map_map_string': ({str: ({str: (str,)},)},),  # noqa: E501
-        'map_map_anytype': ({str: ({str: (bool, date, datetime, dict, float, int, list, str,)},)},),  # noqa: E501
-        'anytype_1': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
-        'anytype_2': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
-        'anytype_3': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
-    }
-
     validations = {
     }
 
     additional_properties_type = None
+
+    @staticmethod
+    def openapi_types():
+        """
+        This must be a class method so a model may have properties that are
+        of type self, this ensures that we don't create a cyclic import
+
+        Returns
+            openapi_types (dict): The key is attribute name
+                and the value is attribute type.
+        """
+        return {
+            'map_string': ({str: (str,)},),  # noqa: E501
+            'map_number': ({str: (float,)},),  # noqa: E501
+            'map_integer': ({str: (int,)},),  # noqa: E501
+            'map_boolean': ({str: (bool,)},),  # noqa: E501
+            'map_array_integer': ({str: ([int],)},),  # noqa: E501
+            'map_array_anytype': ({str: ([bool, date, datetime, dict, float, int, list, str],)},),  # noqa: E501
+            'map_map_string': ({str: ({str: (str,)},)},),  # noqa: E501
+            'map_map_anytype': ({str: ({str: (bool, date, datetime, dict, float, int, list, str,)},)},),  # noqa: E501
+            'anytype_1': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
+            'anytype_2': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
+            'anytype_3': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
+        }
 
     @staticmethod
     def discriminator():

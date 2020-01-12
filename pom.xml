@@ -1310,6 +1310,9 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/client/petstore/swift5/default/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/promisekit/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/rxswift/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/rxswift/SwaggerClientTests</module>
@@ -1405,7 +1408,7 @@
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
-        <junit-version>4.8.1</junit-version>
+        <junit-version>4.13</junit-version>
         <jackson-version>2.8.9</jackson-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <commons-lang-version>3.4</commons-lang-version>

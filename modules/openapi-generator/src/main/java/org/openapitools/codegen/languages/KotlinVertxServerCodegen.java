@@ -21,11 +21,12 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Locale;
+import java.util.EnumSet;
 
 public class KotlinVertxServerCodegen extends AbstractKotlinCodegen {
 
@@ -52,6 +53,26 @@ public class KotlinVertxServerCodegen extends AbstractKotlinCodegen {
 
     public KotlinVertxServerCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.noneOf(
+                        SecurityFeature.class
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .includeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .build();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)

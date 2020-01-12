@@ -18,8 +18,10 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 
 import java.io.File;
+import java.util.EnumSet;
 
 public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "org.openapitools.client";
@@ -30,6 +32,16 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
 
     public StaticDocCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
+                .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
+                .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
+                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
+                .globalFeatures(EnumSet.allOf(GlobalFeature.class))
+                .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
+                .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class))
+                .build();
 
         // clear import mapping (from default generator) as this generator does not use it
         // at the moment

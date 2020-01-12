@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.URLPathUtils;
 
 import java.io.File;
@@ -42,6 +43,10 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
 
     public CppQt5QHttpEngineServerCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         // set the output folder here
         outputFolder = "generated-code/cpp-qt5-qhttpengine-server";

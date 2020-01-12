@@ -22,6 +22,7 @@ import com.google.common.collect.*;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -66,6 +67,25 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
     private boolean asyncServer = false;
 
     public CSharpNancyFXServerCodegen() {
+        super();
+
+        featureSet = getFeatureSet().modify()
+                .excludeDocumentationFeatures(DocumentationFeature.Readme)
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .build();
+
         outputFolder = "generated-code" + File.separator + getName();
         apiTemplateFiles.put("api.mustache", ".cs");
 

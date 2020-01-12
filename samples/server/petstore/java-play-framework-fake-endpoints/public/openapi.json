@@ -1049,7 +1049,7 @@
         "x-accepts" : "application/json"
       },
       "post" : {
-        "description" : "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n가짜 엔드 포인트\n",
+        "description" : "Fake endpoint for testing various parameters\n 假端點\n 偽のエンドポイント\n 가짜 엔드 포인트",
         "operationId" : "testEndpointParameters",
         "requestBody" : {
           "content" : {
@@ -1155,7 +1155,7 @@
         "security" : [ {
           "http_basic_test" : [ ]
         } ],
-        "summary" : "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n가짜 엔드 포인트\n",
+        "summary" : "Fake endpoint for testing various parameters\n 假端點\n 偽のエンドポイント\n 가짜 엔드 포인트",
         "tags" : [ "fake" ],
         "x-contentType" : "application/x-www-form-urlencoded",
         "x-accepts" : "application/json"
@@ -1932,6 +1932,13 @@
           "$ref" : "#/components/schemas/Animal"
         }, {
           "$ref" : "#/components/schemas/Cat_allOf"
+        } ]
+      },
+      "BigCat" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Cat"
+        }, {
+          "$ref" : "#/components/schemas/BigCat_allOf"
         } ]
       },
       "Animal" : {
@@ -2826,6 +2833,14 @@
         "properties" : {
           "declawed" : {
             "type" : "boolean"
+          }
+        }
+      },
+      "BigCat_allOf" : {
+        "properties" : {
+          "kind" : {
+            "enum" : [ "lions", "tigers", "leopards", "jaguars" ],
+            "type" : "string"
           }
         }
       }

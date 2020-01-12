@@ -20,21 +20,21 @@ class StoreApi {
 
             String path = "/store/order/{orderId}".replaceAll("{" + "orderId" + "}", orderId.toString());
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
             path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'delete'.toUpperCase(),
             headers: headerParams,
@@ -50,21 +50,21 @@ class StoreApi {
 
             String path = "/store/inventory";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
             path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
@@ -94,21 +94,21 @@ class StoreApi {
 
             String path = "/store/order/{orderId}".replaceAll("{" + "orderId" + "}", orderId.toString());
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
             path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
@@ -138,24 +138,24 @@ class StoreApi {
 
             String path = "/store/order";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
             var serializedBody = _serializers.serialize(body);
             var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
 
             return _dio.request(
             path,
             queryParameters: queryParams,
-                data: jsonbody,
+            data: bodyData,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,

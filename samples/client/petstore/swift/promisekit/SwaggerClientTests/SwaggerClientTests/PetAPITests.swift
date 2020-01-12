@@ -12,19 +12,19 @@ import XCTest
 @testable import SwaggerClient
 
 class PetAPITests: XCTestCase {
-    
+
     let testTimeout = 10.0
 
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func test1CreatePet() {
         let expectation = self.expectationWithDescription("testCreatePet")
         let newPet = Pet()
@@ -39,12 +39,12 @@ class PetAPITests: XCTestCase {
                 expectation.fulfill()
             }.always {
                 // Noop for now
-            }.error { errorType -> Void in
+            }.error { _ -> Void in
                 XCTFail("error creating pet")
         }
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
-    
+
     func test2GetPet() {
         let expectation = self.expectationWithDescription("testGetPet")
         PetAPI.getPetById(petId: 1000).then { pet -> Void in
@@ -53,12 +53,12 @@ class PetAPITests: XCTestCase {
                 expectation.fulfill()
             }.always {
                 // Noop for now
-            }.error { errorType -> Void in
+            }.error { _ -> Void in
                 XCTFail("error creating pet")
         }
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
-    
+
     func test3DeletePet() {
         let expectation = self.expectationWithDescription("testDeletePet")
         PetAPI.deletePet(petId: 1000).then {

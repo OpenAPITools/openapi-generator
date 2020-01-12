@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import org.apache.commons.lang3.BooleanUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +41,10 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
     public JavaUndertowServerCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         embeddedTemplateDir = templateDir = "java-undertow-server";
         invokerPackage = "org.openapitools.handler";

@@ -224,6 +224,12 @@ public class CodegenConstants {
     public static final String MODEL_NAME_SUFFIX = "modelNameSuffix";
     public static final String MODEL_NAME_SUFFIX_DESC = "Suffix that will be appended to all model names.";
 
+    public static final String ENUM_NAME_SUFFIX = "enumNameSuffix";
+    public static final String ENUM_NAME_SUFFIX_DESC = "Suffix that will be appended to all enum names.";
+
+    public static final String ENUM_VALUE_SUFFIX = "enumValueSuffix";
+    public static final String ENUM_VALUE_SUFFIX_DESC = "Suffix that will be appended to all enum values. Note: For clients this may impact serialization and deserialization of enum values.";
+
     public static final String GIT_HOST = "gitHost";
     public static final String GIT_HOST_DESC = "Git host, e.g. gitlab.com.";
 

@@ -25,6 +25,7 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +61,9 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
 
     public FsharpGiraffeServerCodegen() {
         super();
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)

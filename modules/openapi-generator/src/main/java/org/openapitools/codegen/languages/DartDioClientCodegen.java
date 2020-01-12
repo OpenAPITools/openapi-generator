@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import java.util.HashMap;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -121,8 +122,9 @@ public class DartDioClientCodegen extends DartClientCodegen {
         return "Generates a Dart Dio client library.";
     }
 
-    @Override public void setBrowserClient(boolean browserClient) {
-        super.browserClient  = browserClient;
+    @Override
+    public void setBrowserClient(boolean browserClient) {
+        super.browserClient = browserClient;
     }
 
     @Override
@@ -230,6 +232,8 @@ public class DartDioClientCodegen extends DartClientCodegen {
         supportingFiles.add(new SupportingFile("pubspec.mustache", "", "pubspec.yaml"));
         supportingFiles.add(new SupportingFile("analysis_options.mustache", "", "analysis_options.yaml"));
         supportingFiles.add(new SupportingFile("apilib.mustache", libFolder, "api.dart"));
+        supportingFiles.add(new SupportingFile("api_util.mustache", libFolder, "api_util.dart"));
+
         supportingFiles.add(new SupportingFile("serializers.mustache", libFolder, "serializers.dart"));
 
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
@@ -344,6 +348,10 @@ public class DartDioClientCodegen extends DartClientCodegen {
             op.vendorExtensions.put("isForm", isForm);
             op.vendorExtensions.put("isMultipart", isMultipart);
 
+            if (op.getHasFormParams()) {
+                fullImports.add("package:" + pubName + "/api_util.dart");
+            }
+
             Set<String> imports = new HashSet<>();
             for (String item : op.imports) {
                 if (!modelToIgnore.contains(item.toLowerCase(Locale.ROOT))) {
@@ -354,6 +362,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
             }
             modelImports.addAll(imports);
             op.imports = imports;
+
         }
 
         objs.put("modelImports", modelImports);

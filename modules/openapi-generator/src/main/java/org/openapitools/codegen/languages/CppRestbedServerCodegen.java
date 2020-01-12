@@ -21,11 +21,13 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.Map.Entry;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -42,6 +44,25 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
     public CppRestbedServerCodegen() {
         super();
+
+        // TODO: cpp-restbed-server maintainer review
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling,
+                        GlobalFeature.MultiServer
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .build();
 
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";
@@ -98,6 +119,52 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         importMapping.put("std::string", "#include <string>");
         importMapping.put("Object", "#include \"Object.h\"");
         importMapping.put("restbed::Bytes", "#include <corvusoft/restbed/byte.hpp>");
+    }
+
+    @Override
+    public Map<String, Object> updateAllModels(Map<String, Object> objs) {
+        // Index all CodegenModels by model name.
+        Map<String, CodegenModel> allModels = getAllModels(objs);
+
+        // Clean interfaces of ambiguity
+        for (Entry<String, CodegenModel> cm : allModels.entrySet())  {
+            if (cm.getValue().getInterfaces() != null && !cm.getValue().getInterfaces().isEmpty()) {
+                List<String> newIntf = new ArrayList<String>(cm.getValue().getInterfaces());
+
+                for (String intf : allModels.get(cm.getKey()).getInterfaces()) {
+                    if (allModels.get(intf).getInterfaces() != null && !allModels.get(intf).getInterfaces().isEmpty()) {
+                        for (String intfInner : allModels.get(intf).getInterfaces()) {
+                            newIntf.remove(intfInner);
+                        }
+                    }
+                }
+                cm.getValue().setInterfaces(newIntf);
+            }
+        }
+
+        objs = super.updateAllModels(objs);
+        return objs;
+    }
+
+    /**
+     * Camelize the method name of the getter and setter, but keep underscores at the front
+     *
+     * @param name string to be camelized
+     * @return Camelized string
+     */
+    @Override
+    public String getterAndSetterCapitalize(String name) {
+        if (name == null || name.length() == 0) {
+            return name;
+        }
+
+        name = toVarName(name);
+
+        if (name.startsWith("_")) {
+            return "_" + camelize(name);
+        }
+
+        return camelize(name);
     }
 
     /**
@@ -187,10 +254,12 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 codegenModel.imports.add(newImp);
             }
         }
-
+        // Import vector if an enum is present
+        if (codegenModel.hasEnums) {
+            codegenModel.imports.add("#include <vector>");
+        }
         return codegenModel;
     }
-
 
     @Override
     public String toModelFilename(String name) {
@@ -355,7 +424,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             }
             return "std::vector<" + inner + ">()";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return "new " + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
+            return "std::make_shared<" + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + ">()";
         }
 
         return "nullptr";
@@ -371,6 +440,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
         if (!isPrimitiveType && !isListContainer && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
             parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
+            parameter.defaultValue = "std::make_shared<" + parameter.dataType + ">()";
         }
     }
 
@@ -392,5 +462,13 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         } else
             type = openAPIType;
         return toModelName(type);
+    }
+
+    @Override
+    public void updateCodegenPropertyEnum(CodegenProperty var) {
+        // Remove prefix added by DefaultCodegen
+        String originalDefaultValue = var.defaultValue;
+        super.updateCodegenPropertyEnum(var);
+        var.defaultValue = originalDefaultValue;
     }
 }
