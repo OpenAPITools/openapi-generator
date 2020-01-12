@@ -18,7 +18,7 @@ class OpenApiSecuritySchemeValidations extends GenericValidator<SecurityScheme> 
                 rules.add(ValidationRule.warn(
                         ValidationConstants.ApacheNginxUnderscoreDescription,
                         ValidationConstants.ApacheNginxUnderscoreFailureMessage,
-                        OpenApiSecuritySchemeValidations::isApacheNginxHeaderSuggestion
+                        OpenApiSecuritySchemeValidations::passesApacheNginxHeaderCheck
                 ));
             }
         }
@@ -29,11 +29,11 @@ class OpenApiSecuritySchemeValidations extends GenericValidator<SecurityScheme> 
      *
      * @param securityScheme Security schemes are often used as header parameters (e.g. APIKEY).
      *
-     * @return <code>true</code> if the header has an underscore (e.g. 'api_key')
+     * @return <code>true</code> if the check succeeds (header does not have an underscore, e.g. 'api_key')
      */
-    private static boolean isApacheNginxHeaderSuggestion(SecurityScheme securityScheme) {
-        return securityScheme != null &&
-                securityScheme.getIn() == SecurityScheme.In.HEADER &&
-                StringUtils.contains(securityScheme.getName(), '_');
+    private static boolean passesApacheNginxHeaderCheck(SecurityScheme securityScheme) {
+        if (securityScheme == null || securityScheme.getIn() != SecurityScheme.In.HEADER) return true;
+
+        return !StringUtils.contains(securityScheme.getName(), '_');
     }
 }

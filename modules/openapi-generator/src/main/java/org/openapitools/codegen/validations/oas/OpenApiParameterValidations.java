@@ -19,7 +19,7 @@ class OpenApiParameterValidations extends GenericValidator<Parameter> {
                 rules.add(ValidationRule.warn(
                         ValidationConstants.ApacheNginxUnderscoreDescription,
                         ValidationConstants.ApacheNginxUnderscoreFailureMessage,
-                        OpenApiParameterValidations::isApacheNginxHeaderSuggestion
+                        OpenApiParameterValidations::passesApacheNginxHeaderCheck
                 ));
             }
         }
@@ -30,17 +30,18 @@ class OpenApiParameterValidations extends GenericValidator<Parameter> {
      *
      * @param parameter Any spec doc parameter. The method will handle {@link HeaderParameter} evaluation.
      *
-     * @return <code>true</code> if the header has an underscore (e.g. 'api_key')
+     * @return <code>true</code> if the check succeeds (header does not have an underscore, e.g. 'api_key')
      */
-    private static boolean isApacheNginxHeaderSuggestion(Parameter parameter) {
-        boolean result = false;
-        if (parameter instanceof HeaderParameter) {
-            HeaderParameter headerParameter = (HeaderParameter) parameter;
-            String headerName = headerParameter.getName();
-            if (StringUtils.isNotEmpty(headerName) && StringUtils.contains(headerName, '_')) {
-                result = true;
-            }
+    private static boolean passesApacheNginxHeaderCheck(Parameter parameter) {
+        if (parameter == null || !parameter.getIn().equals("header")) return true;
+
+        boolean valid = true;
+
+        String headerName = parameter.getName();
+        if (StringUtils.isNotEmpty(headerName) && StringUtils.contains(headerName, '_')) {
+            valid = false;
         }
-        return result;
+
+        return valid;
     }
 }
