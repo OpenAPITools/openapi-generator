@@ -36,12 +36,12 @@ public final class Invalid extends Validated {
     }
 
     @Override
-    String getMessage() {
+    public String getMessage() {
         return message;
     }
 
     @Override
-    ValidationRule getRule() {
+    public ValidationRule getRule() {
         return rule;
     }
 

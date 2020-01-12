@@ -25,7 +25,7 @@ import java.util.List;
  */
 @SuppressWarnings({"WeakerAccess"})
 public class GenericValidator<TInput> implements Validator<TInput> {
-    private List<ValidationRule> rules;
+    protected List<ValidationRule> rules;
 
     /**
      * Constructs a new instance of {@link GenericValidator}.
