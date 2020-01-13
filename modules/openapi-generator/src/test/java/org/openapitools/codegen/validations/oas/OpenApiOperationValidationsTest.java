@@ -20,15 +20,15 @@ public class OpenApiOperationValidationsTest {
     public Object[][] getOrHeadWithBodyExpectations() {
         return new Object[][]{
                 /* method */ /* operationId */ /* ref */ /* content */ /* triggers warning */
-                {PathItem.HttpMethod.GET, "opWithRerf", "#/components/schemas/Animal", null, true},
-                {PathItem.HttpMethod.GET, "opWithRerf", null, new Content().addMediaType("a", new MediaType()), true},
-                {PathItem.HttpMethod.GET, "opWithoutRerf", null, null, false},
-                {PathItem.HttpMethod.HEAD, "opWithRerf", "#/components/schemas/Animal", null, true},
-                {PathItem.HttpMethod.HEAD, "opWithRerf", null, new Content().addMediaType("a", new MediaType()), true},
-                {PathItem.HttpMethod.HEAD, "opWithoutRerf", null, null, false},
-                {PathItem.HttpMethod.POST, "opWithRerf", "#/components/schemas/Animal", null, false},
-                {PathItem.HttpMethod.POST, "opWithRerf", null, new Content().addMediaType("a", new MediaType()), false},
-                {PathItem.HttpMethod.POST, "opWithoutRerf", null, null, false}
+                {PathItem.HttpMethod.GET, "opWithRef", "#/components/schemas/Animal", null, true},
+                {PathItem.HttpMethod.GET, "opWithContent", null, new Content().addMediaType("a", new MediaType()), true},
+                {PathItem.HttpMethod.GET, "opWithoutRefOrContent", null, null, false},
+                {PathItem.HttpMethod.HEAD, "opWithRef", "#/components/schemas/Animal", null, true},
+                {PathItem.HttpMethod.HEAD, "opWithContent", null, new Content().addMediaType("a", new MediaType()), true},
+                {PathItem.HttpMethod.HEAD, "opWithoutRefOrContent", null, null, false},
+                {PathItem.HttpMethod.POST, "opWithRef", "#/components/schemas/Animal", null, false},
+                {PathItem.HttpMethod.POST, "opWithContent", null, new Content().addMediaType("a", new MediaType()), false},
+                {PathItem.HttpMethod.POST, "opWithoutRefOrContent", null, null, false}
         };
     }
 
