@@ -108,7 +108,8 @@ class {{classname}}(object):
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
 {{#requiredParams}}
-            kwargs['{{paramName}}'] = {{paramName}}
+            kwargs['{{paramName}}'] = \
+                {{paramName}}
 {{/requiredParams}}
             return self.call_with_http_info(**kwargs)
 
@@ -216,7 +217,8 @@ class {{classname}}(object):
                 },
                 'openapi_types': {
 {{#allParams}}
-                    '{{paramName}}': ({{{dataType}}},),
+                    '{{paramName}}':
+                        ({{{dataType}}},),
 {{/allParams}}
                 },
                 'attribute_map': {
