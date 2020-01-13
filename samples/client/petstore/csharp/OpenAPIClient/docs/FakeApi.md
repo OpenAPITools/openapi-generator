@@ -12,7 +12,7 @@ Method | HTTP request | Description
 [**TestBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 [**TestBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 [**TestClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**TestEndpointParameters**](FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**TestEndpointParameters**](FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 [**TestEnumParameters**](FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
 [**TestGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**TestInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
@@ -616,9 +616,9 @@ No authorization required
 
 > void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int integer = null, int int32 = null, long int64 = null, float _float = null, string _string = null, System.IO.Stream binary = null, DateTime date = null, DateTime dateTime = null, string password = null, string callback = null)
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
 ### Example
 
@@ -658,7 +658,7 @@ namespace Example
 
             try
             {
-                // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+                // Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
                 apiInstance.TestEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
             }
             catch (ApiException e)

@@ -23,17 +23,17 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.StoreApi()
 order_id = 'order_id_example' # str | ID of the order that needs to be deleted
 
+# example passing only required values which don't have defaults set
 try:
     # Delete purchase order by ID
     api_instance.delete_order(order_id)
-except ApiException as e:
+except petstore_api.ApiException as e:
     print("Exception when calling StoreApi->delete_order: %s\n" % e)
 ```
 
@@ -78,7 +78,6 @@ Returns a map of status codes to quantities
 from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
 from pprint import pprint
 configuration = petstore_api.Configuration()
 # Configure API key authorization: api_key
@@ -91,11 +90,12 @@ configuration.host = "http://petstore.swagger.io:80/v2"
 # Create an instance of the API class
 api_instance = petstore_api.StoreApi(petstore_api.ApiClient(configuration))
 
+# example, this endpoint has no required or optional parameters
 try:
     # Returns pet inventories by status
     api_response = api_instance.get_inventory()
     pprint(api_response)
-except ApiException as e:
+except petstore_api.ApiException as e:
     print("Exception when calling StoreApi->get_inventory: %s\n" % e)
 ```
 
@@ -123,7 +123,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_order_by_id**
-> Order get_order_by_id(order_id)
+> order.Order get_order_by_id(order_id)
 
 Find purchase order by ID
 
@@ -135,18 +135,18 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.StoreApi()
 order_id = 56 # int | ID of pet that needs to be fetched
 
+# example passing only required values which don't have defaults set
 try:
     # Find purchase order by ID
     api_response = api_instance.get_order_by_id(order_id)
     pprint(api_response)
-except ApiException as e:
+except petstore_api.ApiException as e:
     print("Exception when calling StoreApi->get_order_by_id: %s\n" % e)
 ```
 
@@ -158,7 +158,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Order**](Order.md)
+[**order.Order**](Order.md)
 
 ### Authorization
 
@@ -179,7 +179,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **place_order**
-> Order place_order(body)
+> order.Order place_order(body)
 
 Place an order for a pet
 
@@ -189,18 +189,18 @@ Place an order for a pet
 from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
 api_instance = petstore_api.StoreApi()
-body = petstore_api.Order() # Order | order placed for purchasing the pet
+body = petstore_api.Order() # order.Order | order placed for purchasing the pet
 
+# example passing only required values which don't have defaults set
 try:
     # Place an order for a pet
     api_response = api_instance.place_order(body)
     pprint(api_response)
-except ApiException as e:
+except petstore_api.ApiException as e:
     print("Exception when calling StoreApi->place_order: %s\n" % e)
 ```
 
@@ -208,11 +208,11 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet |
+ **body** | [**order.Order**](Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
-[**Order**](Order.md)
+[**order.Order**](Order.md)
 
 ### Authorization
 

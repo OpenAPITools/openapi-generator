@@ -57,6 +57,7 @@ The following generators are available:
 * [swift2-deprecated (deprecated)](generators/swift2-deprecated.md)  
 * [swift3-deprecated (deprecated)](generators/swift3-deprecated.md)  
 * [swift4](generators/swift4.md)  
+* [swift5 (beta)](generators/swift5.md)  
 * [typescript-angular](generators/typescript-angular.md)  
 * [typescript-angularjs](generators/typescript-angularjs.md)  
 * [typescript-aurelia](generators/typescript-aurelia.md)  
@@ -65,6 +66,7 @@ The following generators are available:
 * [typescript-inversify](generators/typescript-inversify.md)  
 * [typescript-jquery](generators/typescript-jquery.md)  
 * [typescript-node](generators/typescript-node.md)  
+* [typescript-redux-query](generators/typescript-redux-query.md)  
 * [typescript-rxjs](generators/typescript-rxjs.md)  
 
 
@@ -127,6 +129,7 @@ The following generators are available:
 * [dynamic-html](generators/dynamic-html.md)  
 * [html](generators/html.md)  
 * [html2](generators/html2.md)  
+* [markdown (beta)](generators/markdown.md)  
 * [openapi](generators/openapi.md)  
 * [openapi-yaml](generators/openapi-yaml.md)  
 

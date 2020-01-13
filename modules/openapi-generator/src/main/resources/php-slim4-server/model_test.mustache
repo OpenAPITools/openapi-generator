@@ -1,4 +1,5 @@
 <?php
+
 {{#models}}
 {{#model}}
 /**
@@ -94,5 +95,17 @@ class {{classname}}Test extends TestCase
     {
     }
 {{/vars}}
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = {{classname}}::getOpenApiSchema();
+        $schemaArr = {{classname}}::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
+    }
 }
 {{/model}}{{/models}}

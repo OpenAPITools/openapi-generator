@@ -61,7 +61,7 @@ pub enum MultipartRequestPostResponse {
 pub trait Api<C> {
 
 
-    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>, context: &C) -> Box<Future<Item=MultipartRequestPostResponse, Error=ApiError>>;
+    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>, context: &C) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError>>;
 
 }
 
@@ -69,7 +69,7 @@ pub trait Api<C> {
 pub trait ApiNoContext {
 
 
-    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>) -> Box<Future<Item=MultipartRequestPostResponse, Error=ApiError>>;
+    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError>>;
 
 }
 
@@ -88,7 +88,7 @@ impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
 impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
 
-    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>) -> Box<Future<Item=MultipartRequestPostResponse, Error=ApiError>> {
+    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError>> {
         self.api().multipart_request_post(string_field, binary_field, optional_string_field, object_field, &self.context())
     }
 

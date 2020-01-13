@@ -6,6 +6,7 @@ sidebar_label: cwiki
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
@@ -19,3 +20,23 @@ sidebar_label: cwiki
 |groupId|groupId in generated pom.xml| |null|
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |null|
 |artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |null|
+
+## IMPORT MAPPING
+
+| Type/Alias | Imports |
+| ---------- | ------- |
+
+
+## INSTANTIATION TYPES
+
+| Type/Alias | Instantiated By |
+| ---------- | --------------- |
+
+
+## LANGUAGE PRIMITIVES
+
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"></ul>
+
+## RESERVED WORDS
+
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"></ul>

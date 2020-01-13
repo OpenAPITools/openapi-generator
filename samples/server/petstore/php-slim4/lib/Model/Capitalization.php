@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Capitalization
  *
@@ -15,6 +16,8 @@
  */
 namespace OpenAPIServer\Model;
 
+use OpenAPIServer\Interfaces\ModelInterface;
+
 /**
  * Capitalization
  *
@@ -22,24 +25,62 @@ namespace OpenAPIServer\Model;
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class Capitalization
+class Capitalization implements ModelInterface
 {
-    
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+  "type" : "object",
+  "properties" : {
+    "smallCamel" : {
+      "type" : "string"
+    },
+    "CapitalCamel" : {
+      "type" : "string"
+    },
+    "small_Snake" : {
+      "type" : "string"
+    },
+    "Capital_Snake" : {
+      "type" : "string"
+    },
+    "SCA_ETH_Flow_Points" : {
+      "type" : "string"
+    },
+    "ATT_NAME" : {
+      "type" : "string",
+      "description" : "Name of the pet\n"
+    }
+  }
+}
+SCHEMA;
+
     /** @var string $smallCamel */
     private $smallCamel;
-    
+
     /** @var string $capitalCamel */
     private $capitalCamel;
-    
+
     /** @var string $smallSnake */
     private $smallSnake;
-    
+
     /** @var string $capitalSnake */
     private $capitalSnake;
-    
+
     /** @var string $sCAETHFlowPoints */
     private $sCAETHFlowPoints;
-    
+
     /** @var string $aTTNAME Name of the pet*/
     private $aTTNAME;
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }

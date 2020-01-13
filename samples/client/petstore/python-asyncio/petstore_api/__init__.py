@@ -46,6 +46,8 @@ from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
 from petstore_api.models.array_test import ArrayTest
+from petstore_api.models.big_cat import BigCat
+from petstore_api.models.big_cat_all_of import BigCatAllOf
 from petstore_api.models.capitalization import Capitalization
 from petstore_api.models.cat import Cat
 from petstore_api.models.cat_all_of import CatAllOf

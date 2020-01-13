@@ -15,6 +15,85 @@ sidebar_label: kotlin
 |serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson'| |moshi|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
-|dateLibrary|Option. Date library to use|<dl><dt>**string**</dt><dd>String</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (jvm only)</dd><dt>**threetenbp**</dt><dd>Threetenbp (jvm only)</dd><dl>|java8|
+|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
+|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
+|modelMutable|Create mutable models| |false|
+|dateLibrary|Option. Date library to use|<dl><dt>**threetenbp-localdatetime**</dt><dd>Threetenbp - Backport of JSR310 (jvm only, for legacy app only)</dd><dt>**string**</dt><dd>String</dd><dt>**java8-localdatetime**</dt><dd>Java 8 native JSR310 (jvm only, for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (jvm only, preferred for jdk 1.8+)</dd><dt>**threetenbp**</dt><dd>Threetenbp - Backport of JSR310 (jvm only, preferred for jdk &lt; 1.8)</dd><dl>|java8|
 |collectionType|Option. Collection type to use|<dl><dt>**array**</dt><dd>kotlin.Array</dd><dt>**list**</dt><dd>kotlin.collections.List</dd><dl>|array|
-|library|Library template (sub-template) to use|<dl><dt>**jvm-okhttp4**</dt><dd>[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.</dd><dt>**jvm-okhttp3**</dt><dd>Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.</dd><dt>**multiplatform**</dt><dd>Platform: Kotlin multiplatform. HTTP client: Ktor 1.2.4. JSON processing: Kotlinx Serialization: 0.12.0.</dd><dl>|jvm-okhttp4|
+|library|Library template (sub-template) to use|<dl><dt>**jvm-okhttp4**</dt><dd>[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.</dd><dt>**jvm-okhttp3**</dt><dd>Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.</dd><dt>**jvm-retrofit2**</dt><dd>Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.</dd><dt>**multiplatform**</dt><dd>Platform: Kotlin multiplatform. HTTP client: Ktor 1.2.4. JSON processing: Kotlinx Serialization: 0.12.0.</dd><dl>|jvm-okhttp4|
+|requestDateConverter|JVM-Option. Defines in how to handle date-time objects that are used for a request (as query or parameter)|<dl><dt>**toJson**</dt><dd>Date formater option using a json converter.</dd><dt>**toString**</dt><dd>[DEFAULT] Use the 'toString'-method of the date-time object to retrieve the related string representation.</dd><dl>|toString|
+
+## IMPORT MAPPING
+
+| Type/Alias | Imports |
+| ---------- | ------- |
+|LocalDateTime|java.time.LocalDateTime|
+|LocalTime|java.time.LocalTime|
+|UUID|java.util.UUID|
+|URI|java.net.URI|
+|File|java.io.File|
+|Timestamp|java.sql.Timestamp|
+|LocalDate|java.time.LocalDate|
+|BigDecimal|java.math.BigDecimal|
+|Date|java.util.Date|
+|DateTime|java.time.LocalDateTime|
+
+
+## INSTANTIATION TYPES
+
+| Type/Alias | Instantiated By |
+| ---------- | --------------- |
+|array|kotlin.arrayOf|
+|list|kotlin.arrayOf|
+|map|kotlin.mapOf|
+
+
+## LANGUAGE PRIMITIVES
+
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>kotlin.collections.List</li>
+<li>kotlin.Float</li>
+<li>kotlin.Double</li>
+<li>kotlin.String</li>
+<li>kotlin.Array</li>
+<li>kotlin.Byte</li>
+<li>kotlin.collections.Map</li>
+<li>kotlin.Short</li>
+<li>kotlin.Boolean</li>
+<li>kotlin.Long</li>
+<li>kotlin.Char</li>
+<li>kotlin.ByteArray</li>
+<li>kotlin.Int</li>
+<li>kotlin.collections.Set</li>
+</ul>
+
+## RESERVED WORDS
+
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>for</li>
+<li>do</li>
+<li>interface</li>
+<li>while</li>
+<li>when</li>
+<li>continue</li>
+<li>else</li>
+<li>typealias</li>
+<li>class</li>
+<li>if</li>
+<li>typeof</li>
+<li>val</li>
+<li>package</li>
+<li>break</li>
+<li>in</li>
+<li>var</li>
+<li>false</li>
+<li>this</li>
+<li>is</li>
+<li>super</li>
+<li>as</li>
+<li>null</li>
+<li>throw</li>
+<li>true</li>
+<li>try</li>
+<li>fun</li>
+<li>return</li>
+<li>object</li>
+</ul>

@@ -23,11 +23,14 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.EnumSet;
 
 public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
 
@@ -35,6 +38,17 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
 
     public OpenAPIGenerator() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
+                .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
+                .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
+                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
+                .globalFeatures(EnumSet.allOf(GlobalFeature.class))
+                .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
+                .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class))
+                .build();
+
         embeddedTemplateDir = templateDir = "openapi";
         outputFolder = "generated-code/openapi";
 
@@ -62,7 +76,7 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
 
         try {
             String outputFile = outputFolder + File.separator + "openapi.json";
-            FileUtils.writeStringToFile(new File(outputFile), jsonOpenAPI);
+            FileUtils.writeStringToFile(new File(outputFile), jsonOpenAPI, StandardCharsets.UTF_8);
             LOGGER.info("wrote file to " + outputFile);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

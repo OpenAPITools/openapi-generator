@@ -151,10 +151,12 @@ ApiClient  <- R6::R6Class(
             }
           }
         } else {
-          returnObj <- vector("list", length = nrow(obj))
-          if (nrow(obj) > 0) {
-            for (row in 1:nrow(obj)) {
-              returnObj[[row]] <- self$deserializeObj(obj[row, , drop = FALSE], innerReturnType, pkgEnv)
+          if(!is.null(nrow(obj))){
+            returnObj <- vector("list", length = nrow(obj))
+            if (nrow(obj) > 0) {
+              for (row in 1:nrow(obj)) {
+                returnObj[[row]] <- self$deserializeObj(obj[row, , drop = FALSE], innerReturnType, pkgEnv)
+              }
             }
           }
         }

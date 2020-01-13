@@ -69,19 +69,24 @@
   infoLink: "https://www.camptocamp.com/en"
   pinned: false
 -
+  caption: Cisco 
+  image: "img/companies/cisco.png"
+  infoLink: "https://www.cisco.com"
+  pinned: false
+-
   caption: "codecentric AG"
   image: "img/companies/codecentric.png"
   infoLink: "https://www.codecentric.de/"
   pinned: false
 -
-  caption: FiNC Technologies
-  image: "img/companies/finc-technologies.png"
-  infoLink: "https://company.finc.com/"
-  pinned: false
--
   caption: Commencis
   image: "img/companies/commencis.png"
   infoLink: "https://www.commencis.com/"
+  pinned: false
+-
+  caption: "Crossover Health"
+  image: "img/companies/crossover_health.png"
+  infoLink: "https://crossoverhealth.com/"
   pinned: false
 -
   caption: Cupix
@@ -92,6 +97,11 @@
   caption: "DB Systel"
   image: "img/companies/db-systel.png"
   infoLink: "https://www.dbsystel.de"
+  pinned: false
+-
+  caption: "DocSpring"
+  image: "img/companies/docspring.png"
+  infoLink: "https://docspring.com"
   pinned: false
 -
   caption: "dwango"
@@ -114,9 +124,9 @@
   infoLink: "https://www.fenergo.com/"
   pinned: false
 -
-  caption: "FormAPI"
-  image: "img/companies/formapi.png"
-  infoLink: "https://formapi.io/"
+  caption: FiNC Technologies
+  image: "img/companies/finc-technologies.png"
+  infoLink: "https://company.finc.com/"
   pinned: false
 -
   caption: "FreshCells"
@@ -132,6 +142,11 @@
   caption: "Gantner"
   image: "img/companies/gantner.png"
   infoLink: "https://www.gantner.com/"
+  pinned: false
+-
+  caption: "GetYourGuide"
+  image: "img/companies/getyourguide.png"
+  infoLink: "https://www.getyourguide.com/"
   pinned: false
 -
   caption: "GMO Pepabo"
@@ -164,8 +179,13 @@
   infoLink: "https://www.klarna.com/us/"
   pinned: false
 -
+  caption: "Linode"
+  image: "img/companies/linode.png"
+  infoLink: "https://www.linode.com/"
+  pinned: false
+-
   caption: "Kronsoft Development"
-  image: "img/companies/kronsoft.svg"
+  image: "img/companies/kronsoft.png"
   infoLink: "https://www.kronsoft.ro/home/"
   pinned: false
 -
@@ -207,6 +227,11 @@
   caption: OPTiM
   image: "img/companies/optim.png"
   infoLink: "https://www.optim.co.jp/"
+  pinned: false
+-
+  caption: Oracle
+  image: "img/companies/oracle.png"
+  infoLink: "https://www.oracle.com"
   pinned: false
 -
   caption: Paxos
@@ -254,6 +279,11 @@
   infoLink: "https://restunited.com/"
   pinned: false
 -
+  caption: "Sony Interactive Entertainment"
+  image: "img/companies/sie.jpeg"
+  infoLink: "https://www.sie.com/en/index.html"
+  pinned: false
+-
   caption: Stingray
   image: "img/companies/stingray.png"
   infoLink: "http://www.stingray.com/"
@@ -289,6 +319,11 @@
   infoLink: "https://www.veamly.com/"
   pinned: false
 -
+  caption: Woleet
+  image: "img/companies/woleet.png"
+  infoLink: "https://woleet.io"
+  pinned: false 
+-
   caption: WSO2
   image: "img/companies/wso2.png"
   infoLink: "https://wso2.com/"
@@ -302,6 +337,11 @@
   caption: Xero
   image: "img/companies/xero.png"
   infoLink: "https://www.xero.com/"
+  pinned: false
+-
+  caption: Yahoo! Japan
+  image: "img/companies/yahoo_japan.png"
+  infoLink: "https://www.yahoo.co.jp"
   pinned: false
 -
   caption: Yelp 

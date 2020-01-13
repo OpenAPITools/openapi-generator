@@ -23,11 +23,13 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +46,26 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     public GoServerCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.noneOf(
+                        SecurityFeature.class
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .build();
 
         // set the output folder here
         outputFolder = "generated-code/go";
@@ -144,10 +166,19 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof Integer) {
             this.setServerPort((int) additionalProperties.get("serverPort"));
+        } else if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof String){
+            try {
+                this.setServerPort(Integer.parseInt(additionalProperties.get("serverPort").toString()));
+                additionalProperties.put("serverPort", serverPort);
+            }
+            catch (NumberFormatException e)
+            {
+                LOGGER.warn("serverPort is not a valid integer... defaulting to {}", serverPort);
+                additionalProperties.put("serverPort", serverPort);
+            }
         } else {
             additionalProperties.put("serverPort", serverPort);
         }
-
         if (additionalProperties.containsKey("featureCORS")) {
             this.setFeatureCORS(convertPropertyToBooleanAndWriteBack("featureCORS"));
         } else {
@@ -165,6 +196,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
+        supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
         supportingFiles.add(new SupportingFile("routers.mustache", sourceFolder, "routers.go"));
         supportingFiles.add(new SupportingFile("logger.mustache", sourceFolder, "logger.go"));
         supportingFiles.add(new SupportingFile("api.mustache", sourceFolder, "api.go"));

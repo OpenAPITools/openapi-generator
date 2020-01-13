@@ -6,6 +6,7 @@
   "templateDir": "modules/openapi-generator/src/main/resources/Java/libraries/feign",
   "additionalProperties": {
     "hideGenerationTimestamp": true,
-    "booleanGetterPrefix": "is"
+    "booleanGetterPrefix": "is",
+    "additionalModelTypeAnnotations": "@javax.annotation.concurrent.Immutable"
   }
 }

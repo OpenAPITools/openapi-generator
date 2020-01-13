@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,12 +25,15 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(MysqlSchemaCodegen.class);
 
     public static final String CODEGEN_VENDOR_EXTENSION_KEY = "x-mysqlSchema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
     public static final String JSON_DATA_TYPE_ENABLED = "jsonDataTypeEnabled";
+    public static final String IDENTIFIER_NAMING_CONVENTION = "identifierNamingConvention";
     public static final Integer ENUM_MAX_ELEMENTS = 65535;
     public static final Integer IDENTIFIER_MAX_LENGTH = 64;
 
@@ -53,10 +57,26 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     protected String tableNamePrefix = "tbl_", tableNameSuffix = "";
     protected String columnNamePrefix = "col_", columnNameSuffix = "";
     protected Boolean jsonDataTypeEnabled = true;
+    protected String identifierNamingConvention = "original";
 
     public MysqlSchemaCodegen() {
         super();
 
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.noneOf(WireFormatFeature.class))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
+                .build();
         // clear import mapping (from default generator) as mysql does not use import directives
         importMapping.clear();
 
@@ -158,6 +178,16 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         cliOptions.clear();
         addOption(DEFAULT_DATABASE_NAME, "Default database name for all MySQL queries", defaultDatabaseName);
         addSwitch(JSON_DATA_TYPE_ENABLED, "Use special JSON MySQL data type for complex model properties. Requires MySQL version 5.7.8. Generates TEXT data type when disabled", jsonDataTypeEnabled);
+
+        // we used to snake_case table/column names, let's add this option
+        CliOption identifierNamingOpt = new CliOption(IDENTIFIER_NAMING_CONVENTION,
+                "Naming convention of MySQL identifiers(table names and column names). This is not related to database name which is defined by " + DEFAULT_DATABASE_NAME + " option");
+
+        identifierNamingOpt.addEnum("original", "Do not transform original names")
+                .addEnum("snake_case", "Use snake_case names")
+                .setDefault("original");
+
+        cliOptions.add(identifierNamingOpt);
     }
 
     @Override
@@ -195,6 +225,10 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             additionalProperties.put(JSON_DATA_TYPE_ENABLED, getJsonDataTypeEnabled());
         }
 
+        if (additionalProperties.containsKey(IDENTIFIER_NAMING_CONVENTION)) {
+            this.setIdentifierNamingConvention((String) additionalProperties.get(IDENTIFIER_NAMING_CONVENTION));
+        }
+
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("mysql_schema.mustache", "", "mysql_schema.sql"));
     }
@@ -208,10 +242,17 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel model = (CodegenModel) mo.get("model");
             String modelName = model.getName();
+            String tableName = this.toTableName(modelName);
             String modelDescription = model.getDescription();
             Map<String, Object> modelVendorExtensions = model.getVendorExtensions();
             Map<String, Object> mysqlSchema = new HashMap<String, Object>();
             Map<String, Object> tableDefinition = new HashMap<String, Object>();
+
+            if (this.getIdentifierNamingConvention().equals("snake_case") && !modelName.equals(tableName)) {
+                // add original name in table comment
+                String commentExtra = "Original model name - " + modelName + ".";
+                modelDescription = (modelDescription == null || modelDescription.isEmpty()) ? commentExtra : modelDescription + ". " + commentExtra;
+            }
 
             if (modelVendorExtensions.containsKey(CODEGEN_VENDOR_EXTENSION_KEY)) {
                 // user already specified schema values
@@ -220,7 +261,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             } else {
                 modelVendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
                 mysqlSchema.put("tableDefinition", tableDefinition);
-                tableDefinition.put("tblName", toTableName(modelName));
+                tableDefinition.put("tblName", tableName);
                 tableDefinition.put("tblComment", modelDescription);
             }
         }
@@ -271,6 +312,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
+        String colName = this.toColumnName(baseName);
         String dataType = property.getDataType();
         String dataFormat = property.getDataFormat();
         String description = property.getDescription();
@@ -290,9 +332,15 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             return;
         }
 
+        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
+            // add original name in column comment
+            String commentExtra = "Original param name - " + baseName + ".";
+            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
+        }
+
         vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", toColumnName(baseName));
+        columnDefinition.put("colName", colName);
 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
@@ -352,6 +400,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
+        String colName = this.toColumnName(baseName);
         String dataType = property.getDataType();
         String dataFormat = property.getDataFormat();
         String description = property.getDescription();
@@ -370,9 +419,15 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             return;
         }
 
+        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
+            // add original name in column comment
+            String commentExtra = "Original param name - " + baseName + ".";
+            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
+        }
+
         vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", toColumnName(baseName));
+        columnDefinition.put("colName", colName);
 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
@@ -431,6 +486,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
+        String colName = this.toColumnName(baseName);
         String description = property.getDescription();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
@@ -441,9 +497,15 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             return;
         }
 
+        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
+            // add original name in column comment
+            String commentExtra = "Original param name - " + baseName + ".";
+            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
+        }
+
         vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", toColumnName(baseName));
+        columnDefinition.put("colName", colName);
         columnDefinition.put("colDataType", "TINYINT");
         columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
         columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(1, false));
@@ -477,6 +539,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
+        String colName = this.toColumnName(baseName);
         String dataType = property.getDataType();
         String dataFormat = property.getDataFormat();
         String description = property.getDescription();
@@ -492,9 +555,15 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             return;
         }
 
+        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
+            // add original name in column comment
+            String commentExtra = "Original param name - " + baseName + ".";
+            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
+        }
+
         vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", toColumnName(baseName));
+        columnDefinition.put("colName", colName);
 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
@@ -548,6 +617,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         Map<String, Object> mysqlSchema = new HashMap<String, Object>();
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
         String baseName = property.getBaseName();
+        String colName = this.toColumnName(baseName);
         String dataType = property.getDataType();
         Boolean required = property.getRequired();
         String description = property.getDescription();
@@ -559,9 +629,15 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             return;
         }
 
+        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
+            // add original name in column comment
+            String commentExtra = "Original param name - " + baseName + ".";
+            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
+        }
+
         vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", toColumnName(baseName));
+        columnDefinition.put("colName", colName);
         columnDefinition.put("colDataType", dataType);
 
         if (Boolean.TRUE.equals(required)) {
@@ -592,6 +668,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         Map<String, Object> mysqlSchema = new HashMap<String, Object>();
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
         String baseName = property.getBaseName();
+        String colName = this.toColumnName(baseName);
         String dataType = property.getDataType();
         Boolean required = property.getRequired();
         String description = property.getDescription();
@@ -603,9 +680,15 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             return;
         }
 
+        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
+            // add original name in column comment
+            String commentExtra = "Original param name - " + baseName + ".";
+            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
+        }
+
         vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", toColumnName(baseName));
+        columnDefinition.put("colName", colName);
         columnDefinition.put("colDataType", dataType);
         if (Boolean.FALSE.equals(getJsonDataTypeEnabled())) {
             columnDefinition.put("colDataType", "TEXT");
@@ -640,6 +723,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         Map<String, Object> mysqlSchema = new HashMap<String, Object>();
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
         String baseName = property.getBaseName();
+        String colName = this.toColumnName(baseName);
         Boolean required = property.getRequired();
         String description = property.getDescription();
         String defaultValue = property.getDefaultValue();
@@ -650,9 +734,15 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             return;
         }
 
+        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
+            // add original name in column comment
+            String commentExtra = "Original param name - " + baseName + ".";
+            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
+        }
+
         vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", toColumnName(baseName));
+        columnDefinition.put("colName", colName);
         columnDefinition.put("colDataType", "TEXT");
 
         if (Boolean.TRUE.equals(required)) {
@@ -897,6 +987,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public String toTableName(String name) {
         String identifier = toMysqlIdentifier(name, tableNamePrefix, tableNameSuffix);
+        if (identifierNamingConvention.equals("snake_case")) {
+            identifier = underscore(identifier);
+        }
         if (identifier.length() > IDENTIFIER_MAX_LENGTH) {
             LOGGER.warn("Table name cannot exceed 64 chars. Name '" + name + "' will be truncated");
             identifier = identifier.substring(0, IDENTIFIER_MAX_LENGTH);
@@ -913,6 +1006,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public String toColumnName(String name) {
         String identifier = toMysqlIdentifier(name, columnNamePrefix, columnNameSuffix);
+        if (identifierNamingConvention.equals("snake_case")) {
+            identifier = underscore(identifier);
+        }
         if (identifier.length() > IDENTIFIER_MAX_LENGTH) {
             LOGGER.warn("Column name cannot exceed 64 chars. Name '" + name + "' will be truncated");
             identifier = identifier.substring(0, IDENTIFIER_MAX_LENGTH);
@@ -1052,6 +1148,32 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public Boolean getJsonDataTypeEnabled() {
         return this.jsonDataTypeEnabled;
+    }
+
+    /**
+     * Sets identifier naming convention for table names and column names.
+     * This is not related to database name which is defined by defaultDatabaseName option.
+     *
+     * @param naming identifier naming convention (original|snake_case)
+     */
+    public void setIdentifierNamingConvention(String naming) {
+        switch (naming) {
+            case "original":
+            case "snake_case":
+                this.identifierNamingConvention = naming;
+                break;
+            default:
+                LOGGER.warn("\"" + (String) naming + "\" is invalid \"identifierNamingConvention\" argument. Current \"" + (String) this.identifierNamingConvention + "\" used instead.");
+        }
+    }
+
+    /**
+     * Returns identifier naming convention for table names and column names.
+     *
+     * @return identifier naming convention
+     */
+    public String getIdentifierNamingConvention() {
+        return this.identifierNamingConvention;
     }
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * MapTest
  *
@@ -15,6 +16,8 @@
  */
 namespace OpenAPIServer\Model;
 
+use OpenAPIServer\Interfaces\ModelInterface;
+
 /**
  * MapTest
  *
@@ -22,18 +25,62 @@ namespace OpenAPIServer\Model;
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class MapTest
+class MapTest implements ModelInterface
 {
-    
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+  "type" : "object",
+  "properties" : {
+    "map_map_of_string" : {
+      "type" : "object",
+      "additionalProperties" : {
+        "type" : "object",
+        "additionalProperties" : {
+          "type" : "string"
+        }
+      }
+    },
+    "map_of_enum_string" : {
+      "type" : "object",
+      "additionalProperties" : {
+        "type" : "string",
+        "enum" : [ "UPPER", "lower" ]
+      }
+    },
+    "direct_map" : {
+      "type" : "object",
+      "additionalProperties" : {
+        "type" : "boolean"
+      }
+    },
+    "indirect_map" : {
+      "$ref" : "#/components/schemas/StringBooleanMap"
+    }
+  }
+}
+SCHEMA;
+
     /** @var map[string,map[string,string]] $mapMapOfString */
     private $mapMapOfString;
-    
+
     /** @var map[string,string] $mapOfEnumString */
     private $mapOfEnumString;
-    
+
     /** @var map[string,bool] $directMap */
     private $directMap;
-    
+
     /** @var map[string,bool] $indirectMap */
     private $indirectMap;
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }

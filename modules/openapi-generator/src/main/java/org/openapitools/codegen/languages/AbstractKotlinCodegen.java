@@ -33,7 +33,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -42,6 +44,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson'";
 
     public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson}
+
+    public static final String MODEL_MUTABLE = "modelMutable";
+    public static final String MODEL_MUTABLE_DESC = "Create mutable models";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 
@@ -68,6 +73,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public AbstractKotlinCodegen() {
         super();
         supportsInheritance = true;
+        setSortModelPropertiesByRequiredFlag(true);
 
         languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
                 "kotlin.Byte",
@@ -89,58 +95,24 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
         // as well as keywords from https://kotlinlang.org/docs/reference/keyword-reference.html
         reservedWords = new HashSet<String>(Arrays.asList(
-                "abstract",
-                "annotation",
                 "as",
                 "break",
-                "case",
-                "catch",
                 "class",
-                "companion",
-                "const",
-                "constructor",
                 "continue",
-                "crossinline",
-                "data",
-                "delegate",
                 "do",
                 "else",
-                "enum",
-                "external",
                 "false",
-                "final",
-                "finally",
                 "for",
                 "fun",
                 "if",
                 "in",
-                "infix",
-                "init",
-                "inline",
-                "inner",
                 "interface",
-                "internal",
                 "is",
-                "it",
-                "lateinit",
-                "lazy",
-                "noinline",
                 "null",
                 "object",
-                "open",
-                "operator",
-                "out",
-                "override",
                 "package",
-                "private",
-                "protected",
-                "public",
-                "reified",
                 "return",
-                "sealed",
                 "super",
-                "suspend",
-                "tailrec",
                 "this",
                 "throw",
                 "true",
@@ -149,7 +121,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "typeof",
                 "val",
                 "var",
-                "vararg",
                 "when",
                 "while"
         ));
@@ -225,6 +196,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         cliOptions.add(new CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG_DESC));
+
+        cliOptions.add(CliOption.newBoolean(MODEL_MUTABLE, MODEL_MUTABLE_DESC, false));
     }
 
     @Override
@@ -434,40 +409,31 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
-            this.setSerializableModel(getBooleanOption(CodegenConstants.SERIALIZABLE_MODEL));
+            this.setSerializableModel(convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL));
         } else {
             additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
-            this.setParcelizeModels(getBooleanOption(CodegenConstants.PARCELIZE_MODELS));
+            this.setParcelizeModels(convertPropertyToBooleanAndWriteBack(CodegenConstants.PARCELIZE_MODELS));
         } else {
             additionalProperties.put(CodegenConstants.PARCELIZE_MODELS, parcelizeModels);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.NON_PUBLIC_API)) {
-            this.setNonPublicApi(getBooleanOption(CodegenConstants.NON_PUBLIC_API));
+            this.setNonPublicApi(convertPropertyToBooleanAndWriteBack(CodegenConstants.NON_PUBLIC_API));
         } else {
             additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
         }
+
+        additionalProperties.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, getSortParamsByRequiredFlag());
+        additionalProperties.put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, getSortModelPropertiesByRequiredFlag());
 
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
-    }
-
-    private boolean getBooleanOption(String key) {
-        final Object booleanValue = additionalProperties.get(key);
-        Boolean result = Boolean.FALSE;
-        if (booleanValue instanceof Boolean) {
-            result = (Boolean) booleanValue;
-        } else if (booleanValue instanceof String) {
-            result = Boolean.parseBoolean((String) booleanValue);
-        }
-        additionalProperties.put(key, result);
-        return result;
     }
 
     public void setArtifactId(String artifactId) {
@@ -566,7 +532,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 modified = underscore(modified);
                 break;
             case UPPERCASE:
-                modified = modified.toUpperCase(Locale.ROOT);
+                modified = underscore(modified).toUpperCase(Locale.ROOT);
                 break;
         }
 
@@ -709,9 +675,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     private String getArrayTypeDeclaration(ArraySchema arr) {
         // TODO: collection type here should be fully qualified namespace to avoid model conflicts
         // This supports arrays of arrays.
-        String arrayType = typeMapping.get("array");
-        if (Boolean.TRUE.equals(arr.getUniqueItems())) {
+        String arrayType;
+        if (ModelUtils.isSet(arr)) {
             arrayType = typeMapping.get("set");
+        } else {
+            arrayType = typeMapping.get("array");
         }
         StringBuilder instantiationType = new StringBuilder(arrayType);
         Schema items = arr.getItems();
@@ -807,7 +775,22 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public CodegenModel fromModel(String name, Schema schema) {
         CodegenModel m = super.fromModel(name, schema);
         m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
-        m.allVars.stream().filter(p -> !m.vars.contains(p)).forEach(p -> p.isInherited = true);
+        // Update allVars/requiredVars/optionalVars with isInherited
+        // Each of these lists contains elements that are similar, but they are all cloned
+        // via CodegenModel.removeAllDuplicatedProperty and therefore need to be updated
+        // separately.
+        // First find only the parent vars via baseName matching
+        Map<String, CodegenProperty> allVarsMap = m.allVars.stream()
+                .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity()));
+        allVarsMap.keySet()
+                .removeAll(m.vars.stream().map(CodegenProperty::getBaseName).collect(Collectors.toSet()));
+        // Update the allVars
+        allVarsMap.values().forEach(p -> p.isInherited = true);
+        // Update any other vars (requiredVars, optionalVars)
+        Stream.of(m.requiredVars, m.optionalVars)
+                .flatMap(List::stream)
+                .filter(p -> allVarsMap.containsKey(p.baseName))
+                .forEach(p -> p.isInherited = true);
         return m;
     }
 

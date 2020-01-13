@@ -19,7 +19,7 @@ package org.openapitools.codegen;
 
 import java.util.*;
 
-public class CodegenProperty implements Cloneable {
+public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
     public String openApiType, baseName, complexType, getter, setter, description, dataType,
             datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
             baseType, containerType, title;
@@ -51,17 +51,38 @@ public class CodegenProperty implements Cloneable {
     public String maximum;
     public boolean exclusiveMinimum;
     public boolean exclusiveMaximum;
-    public boolean hasMore, required, secondaryParam;
+    public boolean hasMore;
+    public boolean required;
+    public boolean secondaryParam;
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
-    public boolean isPrimitiveType, isModel, isContainer;
-    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
-            isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject;
-    public boolean isListContainer, isMapContainer;
+    public boolean isPrimitiveType;
+    public boolean isModel;
+    public boolean isContainer;
+    public boolean isString;
+    public boolean isNumeric;
+    public boolean isInteger;
+    public boolean isLong;
+    public boolean isNumber;
+    public boolean isFloat;
+    public boolean isDouble;
+    public boolean isByteArray;
+    public boolean isBinary;
+    public boolean isFile;
+    public boolean isBoolean;
+    public boolean isDate;
+    public boolean isDateTime;
+    public boolean isUuid;
+    public boolean isUri;
+    public boolean isEmail;
+    public boolean isFreeFormObject;
+    public boolean isListContainer;
+    public boolean isMapContainer;
     public boolean isEnum;
     public boolean isReadOnly;
     public boolean isWriteOnly;
     public boolean isNullable;
     public boolean isSelfReference;
+    public boolean isCircularReference;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
@@ -76,6 +97,10 @@ public class CodegenProperty implements Cloneable {
     public String enumName;
     public Integer maxItems;
     public Integer minItems;
+
+    private Integer maxProperties;
+    private Integer minProperties;
+    private boolean uniqueItems;
 
     // XML
     public boolean isXmlAttribute = false;
@@ -230,26 +255,32 @@ public class CodegenProperty implements Cloneable {
         this.unescapedDescription = unescapedDescription;
     }
 
+    @Override
     public Integer getMaxLength() {
         return maxLength;
     }
 
+    @Override
     public void setMaxLength(Integer maxLength) {
         this.maxLength = maxLength;
     }
 
+    @Override
     public Integer getMinLength() {
         return minLength;
     }
 
+    @Override
     public void setMinLength(Integer minLength) {
         this.minLength = minLength;
     }
 
+    @Override
     public String getPattern() {
         return pattern;
     }
 
+    @Override
     public void setPattern(String pattern) {
         this.pattern = pattern;
     }
@@ -270,26 +301,37 @@ public class CodegenProperty implements Cloneable {
         this.jsonSchema = jsonSchema;
     }
 
+    @Override
     public String getMinimum() {
         return minimum;
     }
 
+    @Override
     public void setMinimum(String minimum) {
         this.minimum = minimum;
     }
 
+    @Override
+    public boolean getExclusiveMaximum() {
+        return this.exclusiveMaximum;
+    }
+
+    @Override
     public String getMaximum() {
         return maximum;
     }
 
+    @Override
     public void setMaximum(String maximum) {
         this.maximum = maximum;
     }
 
+    @Override
     public boolean getExclusiveMinimum() {
         return exclusiveMinimum;
     }
 
+    @Override
     public void setExclusiveMinimum(boolean exclusiveMinimum) {
         this.exclusiveMinimum = exclusiveMinimum;
     }
@@ -298,6 +340,7 @@ public class CodegenProperty implements Cloneable {
         return exclusiveMaximum;
     }
 
+    @Override
     public void setExclusiveMaximum(boolean exclusiveMaximum) {
         this.exclusiveMaximum = exclusiveMaximum;
     }
@@ -370,18 +413,22 @@ public class CodegenProperty implements Cloneable {
         this.enumName = enumName;
     }
 
+    @Override
     public Integer getMaxItems() {
         return maxItems;
     }
 
+    @Override
     public void setMaxItems(Integer maxItems) {
         this.maxItems = maxItems;
     }
 
+    @Override
     public Integer getMinItems() {
         return minItems;
     }
 
+    @Override
     public void setMinItems(Integer minItems) {
         this.minItems = minItems;
     }
@@ -411,170 +458,6 @@ public class CodegenProperty implements Cloneable {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(
-            _enum,
-            allowableValues,
-            openApiType,
-            baseName,
-            baseType,
-            complexType,
-            containerType,
-            dataType,
-            datatypeWithEnum,
-            dataFormat,
-            defaultValue,
-            defaultValueWithParam,
-            description,
-            title,
-            example,
-            exclusiveMaximum,
-            exclusiveMinimum,
-            getter,
-            hasMore,
-            hasMoreNonReadOnly,
-            isContainer,
-            isEnum,
-            isPrimitiveType,
-            isModel,
-            isReadOnly,
-            isWriteOnly,
-            isNullable,
-            isSelfReference,
-            items,
-            mostInnerItems,
-            jsonSchema,
-            max,
-            maxLength,
-            maximum,
-            min,
-            minLength,
-            minimum,
-            name,
-            pattern,
-            required,
-            secondaryParam,
-            setter,
-            unescapedDescription,
-            vendorExtensions,
-            hasValidation,
-            isString,
-            isNumeric,
-            isInteger,
-            isLong,
-            isNumber,
-            isFloat,
-            isDouble,
-            isByteArray,
-            isBinary,
-            isFile,
-            isBoolean,
-            isDate,
-            isDateTime,
-            isUuid,
-            isUri,
-            isEmail,
-            isFreeFormObject,
-            isMapContainer,
-            isListContainer,
-            isInherited,
-            discriminatorValue,
-            nameInCamelCase,
-            nameInSnakeCase,
-            enumName,
-            maxItems,
-            minItems,
-            isXmlAttribute,
-            xmlPrefix,
-            xmlName,
-            xmlNamespace,
-            isXmlWrapped);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-
-        final CodegenProperty other = (CodegenProperty) obj;
-
-        return Objects.equals(baseName, other.baseName) &&
-            Objects.equals(openApiType, other.openApiType) &&
-            Objects.equals(complexType, other.complexType) &&
-            Objects.equals(getter, other.getter) &&
-            Objects.equals(setter, other.setter) &&
-            Objects.equals(description, other.description) &&
-            Objects.equals(title, other.title) &&
-            Objects.equals(dataType, other.dataType) &&
-            Objects.equals(datatypeWithEnum, other.datatypeWithEnum) &&
-            Objects.equals(dataFormat, other.dataFormat) &&
-            Objects.equals(name, other.name) &&
-            Objects.equals(min, other.min) &&
-            Objects.equals(max, other.max) &&
-            Objects.equals(defaultValue, other.defaultValue) &&
-            Objects.equals(baseType, other.baseType) &&
-            Objects.equals(containerType, other.containerType) &&
-            Objects.equals(maxLength, other.maxLength) &&
-            Objects.equals(minLength, other.minLength) &&
-            Objects.equals(pattern, other.pattern) &&
-            Objects.equals(example, other.example) &&
-            Objects.equals(jsonSchema, other.jsonSchema) &&
-            Objects.equals(minimum, other.minimum) &&
-            Objects.equals(maximum, other.maximum) &&
-            Objects.equals(exclusiveMinimum, other.exclusiveMinimum) &&
-            Objects.equals(exclusiveMaximum, other.exclusiveMaximum) &&
-            Objects.equals(required, other.required) &&
-            Objects.equals(secondaryParam, other.secondaryParam) &&
-            Objects.equals(isPrimitiveType, other.isPrimitiveType) &&
-            Objects.equals(isModel, other.isModel) &&
-            Objects.equals(isContainer, other.isContainer) &&
-            Objects.equals(isEnum, other.isEnum) &&
-            Objects.equals(isReadOnly, other.isReadOnly) &&
-            Objects.equals(isWriteOnly, other.isWriteOnly) &&
-            Objects.equals(isNullable, other.isNullable) &&
-            Objects.equals(isSelfReference, other.isSelfReference) &&
-            Objects.equals(_enum, other._enum) &&
-            Objects.equals(allowableValues, other.allowableValues) &&
-            Objects.equals(vendorExtensions, other.vendorExtensions) &&
-            Objects.equals(hasValidation, other.hasValidation) &&
-            Objects.equals(isString, other.isString) &&
-            Objects.equals(isNumeric, other.isNumeric) &&
-            Objects.equals(isInteger, other.isInteger) &&
-            Objects.equals(isLong, other.isLong) &&
-            Objects.equals(isNumber, other.isNumber) &&
-            Objects.equals(isFloat, other.isFloat) &&
-            Objects.equals(isDouble, other.isDouble) &&
-            Objects.equals(isByteArray, other.isByteArray) &&
-            Objects.equals(isBoolean, other.isBoolean) &&
-            Objects.equals(isDate, other.isDate) &&
-            Objects.equals(isDateTime, other.isDateTime) &&
-            Objects.equals(isUuid, other.isUuid) &&
-            Objects.equals(isUri, other.isUri) &&
-            Objects.equals(isEmail, other.isEmail) &&
-            Objects.equals(isFreeFormObject, other.isFreeFormObject) &&
-            Objects.equals(isBinary, other.isBinary) &&
-            Objects.equals(isFile, other.isFile) &&
-            Objects.equals(isListContainer, other.isListContainer) &&
-            Objects.equals(isMapContainer, other.isMapContainer) &&
-            Objects.equals(isInherited, other.isInherited) &&
-            Objects.equals(discriminatorValue, other.discriminatorValue) &&
-            Objects.equals(nameInCamelCase, other.nameInCamelCase) &&
-            Objects.equals(nameInSnakeCase, other.nameInSnakeCase) &&
-            Objects.equals(enumName, other.enumName) &&
-            Objects.equals(maxItems, other.maxItems) &&
-            Objects.equals(minItems, other.minItems) &&
-            Objects.equals(isXmlAttribute, other.isXmlAttribute) &&
-            Objects.equals(xmlPrefix, other.xmlPrefix) &&
-            Objects.equals(xmlName, other.xmlName) &&
-            Objects.equals(xmlNamespace, other.xmlNamespace) &&
-            Objects.equals(isXmlWrapped, other.isXmlWrapped);
-    }
-
-    @Override
     public CodegenProperty clone() {
         try {
             CodegenProperty cp = (CodegenProperty) super.clone();
@@ -600,86 +483,220 @@ public class CodegenProperty implements Cloneable {
         }
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
-        return "CodegenProperty{" +
-                "baseName='" + baseName + '\'' +
-                ", openApiType='" + openApiType + '\'' +
-                ", complexType='" + complexType + '\'' +
-                ", getter='" + getter + '\'' +
-                ", setter='" + setter + '\'' +
-                ", description='" + description + '\'' +
-                ", datatype='" + dataType + '\'' +
-                ", datatypeWithEnum='" + datatypeWithEnum + '\'' +
-                ", dataFormat='" + dataFormat + '\'' +
-                ", name='" + name + '\'' +
-                ", min='" + min + '\'' +
-                ", max='" + max + '\'' +
-                ", defaultValue='" + defaultValue + '\'' +
-                ", defaultValueWithParam='" + defaultValueWithParam + '\'' +
-                ", baseType='" + baseType + '\'' +
-                ", containerType='" + containerType + '\'' +
-                ", title='" + title + '\'' +
-                ", unescapedDescription='" + unescapedDescription + '\'' +
-                ", maxLength=" + maxLength +
-                ", minLength=" + minLength +
-                ", pattern='" + pattern + '\'' +
-                ", example='" + example + '\'' +
-                ", jsonSchema='" + jsonSchema + '\'' +
-                ", minimum='" + minimum + '\'' +
-                ", maximum='" + maximum + '\'' +
-                ", exclusiveMinimum=" + exclusiveMinimum +
-                ", exclusiveMaximum=" + exclusiveMaximum +
-                ", hasMore=" + hasMore +
-                ", required=" + required +
-                ", secondaryParam=" + secondaryParam +
-                ", hasMoreNonReadOnly=" + hasMoreNonReadOnly +
-                ", isPrimitiveType=" + isPrimitiveType +
-                ", isModel=" + isModel +
-                ", isContainer=" + isContainer +
-                ", isString=" + isString +
-                ", isNumeric=" + isNumeric +
-                ", isInteger=" + isInteger +
-                ", isLong=" + isLong +
-                ", isNumber=" + isNumber +
-                ", isFloat=" + isFloat +
-                ", isDouble=" + isDouble +
-                ", isByteArray=" + isByteArray +
-                ", isBinary=" + isBinary +
-                ", isFile=" + isFile +
-                ", isBoolean=" + isBoolean +
-                ", isDate=" + isDate +
-                ", isDateTime=" + isDateTime +
-                ", isUuid=" + isUuid +
-                ", isUri=" + isUri +
-                ", isEmail=" + isEmail +
-                ", isFreeFormObject=" + isFreeFormObject +
-                ", isListContainer=" + isListContainer +
-                ", isMapContainer=" + isMapContainer +
-                ", isEnum=" + isEnum +
-                ", isReadOnly=" + isReadOnly +
-                ", isWriteOnly=" + isWriteOnly +
-                ", isNullable=" + isNullable +
-                ", isSelfReference=" + isSelfReference +
-                ", _enum=" + _enum +
-                ", allowableValues=" + allowableValues +
-                ", items=" + items +
-                ", mostInnerItems=" + mostInnerItems +
-                ", vendorExtensions=" + vendorExtensions +
-                ", hasValidation=" + hasValidation +
-                ", isInherited=" + isInherited +
-                ", discriminatorValue='" + discriminatorValue + '\'' +
-                ", nameInCamelCase='" + nameInCamelCase + '\'' +
-                ", enumName='" + enumName + '\'' +
-                ", maxItems=" + maxItems +
-                ", minItems=" + minItems +
-                ", isXmlAttribute=" + isXmlAttribute +
-                ", xmlPrefix='" + xmlPrefix + '\'' +
-                ", xmlName='" + xmlName + '\'' +
-                ", xmlNamespace='" + xmlNamespace + '\'' +
-                ", isXmlWrapped=" + isXmlWrapped +
-                '}';
+    @Override
+    public boolean getUniqueItems() {
+        return uniqueItems;
     }
 
+    @Override
+    public void setUniqueItems(boolean uniqueItems) {
+        this.uniqueItems = uniqueItems;
+    }
 
+    @Override
+    public Integer getMinProperties() {
+        return minProperties;
+    }
+
+    @Override
+    public void setMinProperties(Integer minProperties) {
+        this.minProperties = minProperties;
+    }
+
+    @Override
+    public Integer getMaxProperties() {
+        return maxProperties;
+    }
+
+    @Override
+    public void setMaxProperties(Integer maxProperties) {
+        this.maxProperties = maxProperties;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("CodegenProperty{");
+        sb.append("openApiType='").append(openApiType).append('\'');
+        sb.append(", baseName='").append(baseName).append('\'');
+        sb.append(", complexType='").append(complexType).append('\'');
+        sb.append(", getter='").append(getter).append('\'');
+        sb.append(", setter='").append(setter).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", dataType='").append(dataType).append('\'');
+        sb.append(", datatypeWithEnum='").append(datatypeWithEnum).append('\'');
+        sb.append(", dataFormat='").append(dataFormat).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", min='").append(min).append('\'');
+        sb.append(", max='").append(max).append('\'');
+        sb.append(", defaultValue='").append(defaultValue).append('\'');
+        sb.append(", defaultValueWithParam='").append(defaultValueWithParam).append('\'');
+        sb.append(", baseType='").append(baseType).append('\'');
+        sb.append(", containerType='").append(containerType).append('\'');
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", unescapedDescription='").append(unescapedDescription).append('\'');
+        sb.append(", maxLength=").append(maxLength);
+        sb.append(", minLength=").append(minLength);
+        sb.append(", pattern='").append(pattern).append('\'');
+        sb.append(", example='").append(example).append('\'');
+        sb.append(", jsonSchema='").append(jsonSchema).append('\'');
+        sb.append(", minimum='").append(minimum).append('\'');
+        sb.append(", maximum='").append(maximum).append('\'');
+        sb.append(", exclusiveMinimum=").append(exclusiveMinimum);
+        sb.append(", exclusiveMaximum=").append(exclusiveMaximum);
+        sb.append(", hasMore=").append(hasMore);
+        sb.append(", required=").append(required);
+        sb.append(", secondaryParam=").append(secondaryParam);
+        sb.append(", hasMoreNonReadOnly=").append(hasMoreNonReadOnly);
+        sb.append(", isPrimitiveType=").append(isPrimitiveType);
+        sb.append(", isModel=").append(isModel);
+        sb.append(", isContainer=").append(isContainer);
+        sb.append(", isString=").append(isString);
+        sb.append(", isNumeric=").append(isNumeric);
+        sb.append(", isInteger=").append(isInteger);
+        sb.append(", isLong=").append(isLong);
+        sb.append(", isNumber=").append(isNumber);
+        sb.append(", isFloat=").append(isFloat);
+        sb.append(", isDouble=").append(isDouble);
+        sb.append(", isByteArray=").append(isByteArray);
+        sb.append(", isBinary=").append(isBinary);
+        sb.append(", isFile=").append(isFile);
+        sb.append(", isBoolean=").append(isBoolean);
+        sb.append(", isDate=").append(isDate);
+        sb.append(", isDateTime=").append(isDateTime);
+        sb.append(", isUuid=").append(isUuid);
+        sb.append(", isUri=").append(isUri);
+        sb.append(", isEmail=").append(isEmail);
+        sb.append(", isFreeFormObject=").append(isFreeFormObject);
+        sb.append(", isListContainer=").append(isListContainer);
+        sb.append(", isMapContainer=").append(isMapContainer);
+        sb.append(", isEnum=").append(isEnum);
+        sb.append(", isReadOnly=").append(isReadOnly);
+        sb.append(", isWriteOnly=").append(isWriteOnly);
+        sb.append(", isNullable=").append(isNullable);
+        sb.append(", isSelfReference=").append(isSelfReference);
+        sb.append(", isCircularReference=").append(isCircularReference);
+        sb.append(", _enum=").append(_enum);
+        sb.append(", allowableValues=").append(allowableValues);
+        sb.append(", items=").append(items);
+        sb.append(", mostInnerItems=").append(mostInnerItems);
+        sb.append(", vendorExtensions=").append(vendorExtensions);
+        sb.append(", hasValidation=").append(hasValidation);
+        sb.append(", isInherited=").append(isInherited);
+        sb.append(", discriminatorValue='").append(discriminatorValue).append('\'');
+        sb.append(", nameInCamelCase='").append(nameInCamelCase).append('\'');
+        sb.append(", nameInSnakeCase='").append(nameInSnakeCase).append('\'');
+        sb.append(", enumName='").append(enumName).append('\'');
+        sb.append(", maxItems=").append(maxItems);
+        sb.append(", minItems=").append(minItems);
+        sb.append(", maxProperties=").append(maxProperties);
+        sb.append(", minProperties=").append(minProperties);
+        sb.append(", uniqueItems=").append(uniqueItems);
+        sb.append(", isXmlAttribute=").append(isXmlAttribute);
+        sb.append(", xmlPrefix='").append(xmlPrefix).append('\'');
+        sb.append(", xmlName='").append(xmlName).append('\'');
+        sb.append(", xmlNamespace='").append(xmlNamespace).append('\'');
+        sb.append(", isXmlWrapped=").append(isXmlWrapped);
+        sb.append('}');
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CodegenProperty that = (CodegenProperty) o;
+        return exclusiveMinimum == that.exclusiveMinimum &&
+                exclusiveMaximum == that.exclusiveMaximum &&
+                hasMore == that.hasMore &&
+                required == that.required &&
+                secondaryParam == that.secondaryParam &&
+                hasMoreNonReadOnly == that.hasMoreNonReadOnly &&
+                isPrimitiveType == that.isPrimitiveType &&
+                isModel == that.isModel &&
+                isContainer == that.isContainer &&
+                isString == that.isString &&
+                isNumeric == that.isNumeric &&
+                isInteger == that.isInteger &&
+                isLong == that.isLong &&
+                isNumber == that.isNumber &&
+                isFloat == that.isFloat &&
+                isDouble == that.isDouble &&
+                isByteArray == that.isByteArray &&
+                isBinary == that.isBinary &&
+                isFile == that.isFile &&
+                isBoolean == that.isBoolean &&
+                isDate == that.isDate &&
+                isDateTime == that.isDateTime &&
+                isUuid == that.isUuid &&
+                isUri == that.isUri &&
+                isEmail == that.isEmail &&
+                isFreeFormObject == that.isFreeFormObject &&
+                isListContainer == that.isListContainer &&
+                isMapContainer == that.isMapContainer &&
+                isEnum == that.isEnum &&
+                isReadOnly == that.isReadOnly &&
+                isWriteOnly == that.isWriteOnly &&
+                isNullable == that.isNullable &&
+                isSelfReference == that.isSelfReference &&
+                isCircularReference == that.isCircularReference &&
+                hasValidation == that.hasValidation &&
+                isInherited == that.isInherited &&
+                isXmlAttribute == that.isXmlAttribute &&
+                isXmlWrapped == that.isXmlWrapped &&
+                Objects.equals(openApiType, that.openApiType) &&
+                Objects.equals(baseName, that.baseName) &&
+                Objects.equals(complexType, that.complexType) &&
+                Objects.equals(getter, that.getter) &&
+                Objects.equals(setter, that.setter) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(dataType, that.dataType) &&
+                Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
+                Objects.equals(dataFormat, that.dataFormat) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(min, that.min) &&
+                Objects.equals(max, that.max) &&
+                Objects.equals(defaultValue, that.defaultValue) &&
+                Objects.equals(defaultValueWithParam, that.defaultValueWithParam) &&
+                Objects.equals(baseType, that.baseType) &&
+                Objects.equals(containerType, that.containerType) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(unescapedDescription, that.unescapedDescription) &&
+                Objects.equals(maxLength, that.maxLength) &&
+                Objects.equals(minLength, that.minLength) &&
+                Objects.equals(pattern, that.pattern) &&
+                Objects.equals(example, that.example) &&
+                Objects.equals(jsonSchema, that.jsonSchema) &&
+                Objects.equals(minimum, that.minimum) &&
+                Objects.equals(maximum, that.maximum) &&
+                Objects.equals(_enum, that._enum) &&
+                Objects.equals(allowableValues, that.allowableValues) &&
+                Objects.equals(items, that.items) &&
+                Objects.equals(mostInnerItems, that.mostInnerItems) &&
+                Objects.equals(vendorExtensions, that.vendorExtensions) &&
+                Objects.equals(discriminatorValue, that.discriminatorValue) &&
+                Objects.equals(nameInCamelCase, that.nameInCamelCase) &&
+                Objects.equals(nameInSnakeCase, that.nameInSnakeCase) &&
+                Objects.equals(enumName, that.enumName) &&
+                Objects.equals(maxItems, that.maxItems) &&
+                Objects.equals(minItems, that.minItems) &&
+                Objects.equals(xmlPrefix, that.xmlPrefix) &&
+                Objects.equals(xmlName, that.xmlName) &&
+                Objects.equals(xmlNamespace, that.xmlNamespace);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(openApiType, baseName, complexType, getter, setter, description, dataType,
+                datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam, baseType,
+                containerType, title, unescapedDescription, maxLength, minLength, pattern, example, jsonSchema,
+                minimum, maximum, exclusiveMinimum, exclusiveMaximum, hasMore, required, secondaryParam,
+                hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric, isInteger,
+                isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime,
+                isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isEnum, isReadOnly,
+                isWriteOnly, isNullable, isSelfReference, isCircularReference, _enum, allowableValues, items,
+                mostInnerItems, vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
+                nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName, xmlNamespace,
+                isXmlWrapped);
+    }
 }

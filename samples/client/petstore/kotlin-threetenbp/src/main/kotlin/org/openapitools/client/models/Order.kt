@@ -31,7 +31,7 @@ data class Order (
     @Json(name = "quantity")
     val quantity: kotlin.Int? = null,
     @Json(name = "shipDate")
-    val shipDate: org.threeten.bp.LocalDateTime? = null,
+    val shipDate: org.threeten.bp.OffsetDateTime? = null,
     /* Order Status */
     @Json(name = "status")
     val status: Order.Status? = null,

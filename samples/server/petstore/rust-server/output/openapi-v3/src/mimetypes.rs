@@ -6,6 +6,41 @@ pub mod responses {
     // The macro is called per-operation to beat the recursion limit
 
     lazy_static! {
+        /// Create Mime objects for the response content types for MultigetGet
+        pub static ref MULTIGET_GET_JSON_RSP: Mime = "application/json".parse().unwrap();
+    }
+
+    lazy_static! {
+        /// Create Mime objects for the response content types for MultigetGet
+        pub static ref MULTIGET_GET_XML_RSP: Mime = "application/xml".parse().unwrap();
+    }
+
+    lazy_static! {
+        /// Create Mime objects for the response content types for MultigetGet
+        pub static ref MULTIGET_GET_OCTET_RSP: Mime = "application/octet-stream".parse().unwrap();
+    }
+
+    lazy_static! {
+        /// Create Mime objects for the response content types for MultigetGet
+        pub static ref MULTIGET_GET_STRING_RSP: Mime = "text/plain".parse().unwrap();
+    }
+
+    lazy_static! {
+        /// Create Mime objects for the response content types for MultigetGet
+        pub static ref MULTIGET_GET_DUPLICATE_RESPONSE_LONG_TEXT: Mime = "application/json".parse().unwrap();
+    }
+
+    lazy_static! {
+        /// Create Mime objects for the response content types for MultigetGet
+        pub static ref MULTIGET_GET_DUPLICATE_RESPONSE_LONG_TEXT_2: Mime = "application/json".parse().unwrap();
+    }
+
+    lazy_static! {
+        /// Create Mime objects for the response content types for MultigetGet
+        pub static ref MULTIGET_GET_DUPLICATE_RESPONSE_LONG_TEXT_3: Mime = "application/json".parse().unwrap();
+    }
+
+    lazy_static! {
         /// Create Mime objects for the response content types for ResponsesWithHeadersGet
         pub static ref RESPONSES_WITH_HEADERS_GET_SUCCESS: Mime = "application/json".parse().unwrap();
     }

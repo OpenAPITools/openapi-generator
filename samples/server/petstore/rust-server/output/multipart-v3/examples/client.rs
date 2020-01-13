@@ -71,7 +71,7 @@ fn main() {
 
         Some("MultipartRequestPost") => {
             let result = core.run(client.multipart_request_post("string_field_example".to_string(), swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE")), Some("optional_string_field_example".to_string()), None));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         _ => {

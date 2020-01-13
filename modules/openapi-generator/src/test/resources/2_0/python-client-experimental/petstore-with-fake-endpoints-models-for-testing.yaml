@@ -702,16 +702,14 @@ paths:
     post:
       tags:
         - fake
-      summary: |
-        Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
-      description: |
-        Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
+      summary: "Fake endpoint for testing various parameters\n
+        假端點\n
+        偽のエンドポイント\n
+        가짜 엔드 포인트"
+      description: "Fake endpoint for testing various parameters\n
+        假端點\n
+        偽のエンドポイント\n
+        가짜 엔드 포인트"
       operationId: testEndpointParameters
       consumes:
         - application/x-www-form-urlencoded
@@ -1238,6 +1236,10 @@ definitions:
         format: int64
       name:
         type: string
+      # we added fullName to make sure that serialization/deserialization
+      # works for a submodel of Pet that also uses js variable names
+      fullName:
+        type: string
     xml:
       name: Tag
   Pet:
@@ -1337,6 +1339,16 @@ definitions:
     properties:
       _class:
         type: string
+  Player:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+      enemyPlayer:
+        type: object
+        $ref: '#/components/schemas/Player'
   Dog:
     allOf:
       - $ref: '#/definitions/Animal'
@@ -2039,3 +2051,56 @@ definitions:
           xml:
             namespace: http://g.com/schema
             prefix: g
+  Grandparent:
+    type: object
+    properties:
+      radioWaves:
+        type: boolean
+  Parent:
+    allOf:
+      - $ref: '#/definitions/Grandparent'
+      - type: object
+        properties:
+          teleVision:
+            type: boolean
+  Child:
+    allOf:
+      - $ref: '#/definitions/Parent'
+      - type: object
+        properties:
+          interNet:
+            type: boolean
+  GrandparentAnimal:
+    type: object
+    required:
+    - pet_type
+    properties:
+      pet_type:
+        type: string
+  ParentPet:
+    type: object
+    allOf:
+    - $ref: '#/definitions/GrandparentAnimal'
+    - type: object
+      discriminator: pet_type
+  ChildCat:
+    allOf:
+    - $ref: '#/definitions/ParentPet'
+    - type: object
+      properties:
+        name:
+          type: string
+  ChildDog:
+    allOf:
+    - $ref: '#/definitions/ParentPet'
+    - type: object
+      properties:
+        bark:
+          type: string
+  ChildLizard:
+    allOf:
+    - $ref: '#/definitions/ParentPet'
+    - type: object
+      properties:
+        lovesRocks:
+          type: boolean

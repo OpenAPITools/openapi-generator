@@ -61,6 +61,7 @@ cargo run --example server
 To run a client, follow one of the following simple steps:
 
 ```
+cargo run --example client MultigetGet
 cargo run --example client MultipleAuthSchemeGet
 cargo run --example client ReadonlyAuthSchemeGet
 cargo run --example client RequiredOctetStreamPut
@@ -104,6 +105,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
 [****](docs/default_api.md#) | **GET** /multiple_auth_scheme | 
 [****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
 [****](docs/default_api.md#) | **PUT** /required_octet_stream | 
@@ -122,6 +124,7 @@ Method | HTTP request | Description
  - [AnotherXmlInner](docs/AnotherXmlInner.md)
  - [AnotherXmlObject](docs/AnotherXmlObject.md)
  - [DuplicateXmlObject](docs/DuplicateXmlObject.md)
+ - [InlineResponse201](docs/InlineResponse201.md)
  - [UuidObject](docs/UuidObject.md)
  - [XmlArray](docs/XmlArray.md)
  - [XmlInner](docs/XmlInner.md)

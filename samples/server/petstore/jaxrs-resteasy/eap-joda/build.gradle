@@ -18,7 +18,7 @@ dependencies {
     providedCompile 'javax.validation:validation-api:1.1.0.Final'
     compile         'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.9.9'
     compile         'joda-time:joda-time:2.7'
-    testCompile     'junit:junit:4.12',
+    testCompile     'junit:junit:4.13',
                     'org.hamcrest:hamcrest-core:1.3'
 }
 
