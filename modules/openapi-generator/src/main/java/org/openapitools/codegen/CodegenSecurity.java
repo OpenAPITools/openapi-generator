@@ -29,7 +29,9 @@ public class CodegenSecurity {
     public String type;
     public String scheme;
     public Boolean hasMore, isBasic, isOAuth, isApiKey;
-    // is Basic is true for all http authentication type. Those are to differentiate basic and bearer authentication
+    // is Basic is true for all http authentication type.
+    // Those are to differentiate basic and bearer authentication
+    // isHttpSignature is to support https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
     public Boolean isBasicBasic, isBasicBearer, isHttpSignature;
     public String bearerFormat;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
