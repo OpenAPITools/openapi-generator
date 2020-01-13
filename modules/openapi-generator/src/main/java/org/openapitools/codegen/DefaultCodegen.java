@@ -3628,6 +3628,9 @@ public class DefaultCodegen implements CodegenConfig {
                     cs.isBasicBearer = true;
                     cs.bearerFormat = securityScheme.getBearerFormat();
                 } else if ("signature".equals(securityScheme.getScheme())) {
+                    // HTTP signature as defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
+                    // The registry of security schemes is maintained by IANA.
+                    // https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml
                     cs.isHttpSignature = true;
                 } else {
                     throw new RuntimeException("Unsupported security scheme: " + securityScheme.getScheme());
