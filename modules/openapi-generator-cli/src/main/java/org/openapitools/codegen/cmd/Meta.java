@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -159,7 +160,7 @@ public class Meta implements Runnable {
                         LOGGER.info("copying file to {}", outputFile.getAbsolutePath());
                     }
 
-                    FileUtils.writeStringToFile(outputFile, formatted);
+                    FileUtils.writeStringToFile(outputFile, formatted, StandardCharsets.UTF_8);
                     return outputFile;
 
                 } catch (IOException e) {
