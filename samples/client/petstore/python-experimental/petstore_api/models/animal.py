@@ -53,8 +53,6 @@ class Animal(ModelNormal):
           and the value is json key in definition.
       discriminator_value_class_map (dict): A dict to go from the discriminator
           variable value to the discriminator class name.
-      openapi_types (dict): The key is attribute name
-          and the value is attribute type.
       validations (dict): The key is the tuple path to the attribute
           and the for var_name this is (var_name,). The value is a dict
           that stores validations for max_length, min_length, max_items,
@@ -67,15 +65,25 @@ class Animal(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
-        'class_name': (str,),  # noqa: E501
-        'color': (str,),  # noqa: E501
-    }
-
     validations = {
     }
 
     additional_properties_type = None
+
+    @staticmethod
+    def openapi_types():
+        """
+        This must be a class method so a model may have properties that are
+        of type self, this ensures that we don't create a cyclic import
+
+        Returns
+            openapi_types (dict): The key is attribute name
+                and the value is attribute type.
+        """
+        return {
+            'class_name': (str,),  # noqa: E501
+            'color': (str,),  # noqa: E501
+        }
 
     @staticmethod
     def discriminator():

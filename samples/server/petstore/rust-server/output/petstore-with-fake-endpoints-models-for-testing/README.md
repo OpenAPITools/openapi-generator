@@ -133,7 +133,7 @@ Method | HTTP request | Description
 [**fakeOuterStringSerialize**](docs/fake_api.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 [**testBodyWithQueryParams**](docs/fake_api.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](docs/fake_api.md#testClientModel) | **PATCH** /fake | To test \"client\" model
-[**testEndpointParameters**](docs/fake_api.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**testEndpointParameters**](docs/fake_api.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 [**testEnumParameters**](docs/fake_api.md#testEnumParameters) | **GET** /fake | To test enum parameters
 [**testInlineAdditionalProperties**](docs/fake_api.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](docs/fake_api.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data

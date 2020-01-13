@@ -555,7 +555,7 @@ sub test_client_model {
 #
 # test_endpoint_parameters
 #
-# Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+# Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 # 
 # @param double $number None (required)
 # @param double $double None (required)
@@ -645,7 +645,7 @@ sub test_client_model {
     },
     };
     __PACKAGE__->method_documentation->{ 'test_endpoint_parameters' } = { 
-        summary => 'Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ',
+        summary => 'Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트',
         params => $params,
         returns => undef,
         };

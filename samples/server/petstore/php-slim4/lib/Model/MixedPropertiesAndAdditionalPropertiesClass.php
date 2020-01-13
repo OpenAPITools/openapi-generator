@@ -16,6 +16,8 @@
  */
 namespace OpenAPIServer\Model;
 
+use OpenAPIServer\Interfaces\ModelInterface;
+
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  *
@@ -23,15 +25,48 @@ namespace OpenAPIServer\Model;
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class MixedPropertiesAndAdditionalPropertiesClass
+class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface
 {
-    
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+  "type" : "object",
+  "properties" : {
+    "uuid" : {
+      "type" : "string",
+      "format" : "uuid"
+    },
+    "dateTime" : {
+      "type" : "string",
+      "format" : "date-time"
+    },
+    "map" : {
+      "type" : "object",
+      "additionalProperties" : {
+        "$ref" : "#/components/schemas/Animal"
+      }
+    }
+  }
+}
+SCHEMA;
+
     /** @var string $uuid */
     private $uuid;
-    
+
     /** @var \DateTime $dateTime */
     private $dateTime;
-    
+
     /** @var map[string,\OpenAPIServer\Model\Animal] $map */
     private $map;
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }

@@ -17,10 +17,12 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.EnumSet;
 
 public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServerCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonBluePlanetServerCodegen.class);
@@ -30,6 +32,30 @@ public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServer
 
     public PythonBluePlanetServerCodegen() {
         super("python-blueplanet", true);
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .build();
+
         testPackage = "tests";
         embeddedTemplateDir = templateDir = "python-blueplanet";
     }

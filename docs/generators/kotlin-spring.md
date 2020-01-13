@@ -33,3 +33,81 @@ sidebar_label: kotlin-spring
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dl>|spring-boot|
+
+## IMPORT MAPPING
+
+| Type/Alias | Imports |
+| ---------- | ------- |
+|LocalDateTime|java.time.LocalDateTime|
+|LocalTime|java.time.LocalTime|
+|UUID|java.util.UUID|
+|URI|java.net.URI|
+|File|java.io.File|
+|Timestamp|java.sql.Timestamp|
+|LocalDate|java.time.LocalDate|
+|BigDecimal|java.math.BigDecimal|
+|Date|java.time.LocalDate|
+|DateTime|java.time.OffsetDateTime|
+
+
+## INSTANTIATION TYPES
+
+| Type/Alias | Instantiated By |
+| ---------- | --------------- |
+|array|kotlin.arrayOf|
+|list|kotlin.arrayOf|
+|map|kotlin.mapOf|
+
+
+## LANGUAGE PRIMITIVES
+
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>kotlin.collections.List</li>
+<li>kotlin.Float</li>
+<li>kotlin.Double</li>
+<li>kotlin.String</li>
+<li>kotlin.Array</li>
+<li>kotlin.Byte</li>
+<li>kotlin.collections.Map</li>
+<li>kotlin.Short</li>
+<li>kotlin.Boolean</li>
+<li>kotlin.Long</li>
+<li>kotlin.Char</li>
+<li>kotlin.ByteArray</li>
+<li>kotlin.Int</li>
+<li>kotlin.collections.Set</li>
+</ul>
+
+## RESERVED WORDS
+
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>for</li>
+<li>do</li>
+<li>interface</li>
+<li>while</li>
+<li>when</li>
+<li>ApiResponse</li>
+<li>continue</li>
+<li>else</li>
+<li>typealias</li>
+<li>class</li>
+<li>if</li>
+<li>typeof</li>
+<li>val</li>
+<li>package</li>
+<li>break</li>
+<li>in</li>
+<li>var</li>
+<li>false</li>
+<li>this</li>
+<li>is</li>
+<li>ApiClient</li>
+<li>super</li>
+<li>as</li>
+<li>null</li>
+<li>throw</li>
+<li>true</li>
+<li>try</li>
+<li>fun</li>
+<li>return</li>
+<li>object</li>
+<li>ApiException</li>
+</ul>
