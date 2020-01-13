@@ -561,9 +561,13 @@ No authorization required
 
 > testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
 
-Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+
+Fake endpoint for testing various parameters
+ 假端點
+ 偽のエンドポイント
+ 가짜 엔드 포인트
 
 ### Example
 
@@ -1026,3 +1030,4 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Success |  -  |
+
