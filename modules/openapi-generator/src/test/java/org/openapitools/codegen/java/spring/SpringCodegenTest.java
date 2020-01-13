@@ -490,11 +490,11 @@ public class SpringCodegenTest {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setOpenAPI(openAPI);
 
-        String int64Val = "9223372036854775807";
-        String floatVal = "3.14159";
-        String doubleVal = "3.14159";
+        String int64Val = "9223372036854775807l";
+        String floatVal = "3.14159f";
+        String doubleVal = "3.14159d";
 
-        // make sure that the model properties are correct
+        // make sure that the model properties include character suffixes
         String modelName = "NumberHolder";
         Schema nhSchema = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, nhSchema);
@@ -505,7 +505,11 @@ public class SpringCodegenTest {
         Assert.assertEquals(floatProp.defaultValue, floatVal);
         Assert.assertEquals(doubleProp.defaultValue, doubleVal);
 
-        // make sure that the operation parameters are correct
+        int64Val = "9223372036854775807";
+        floatVal = "3.14159";
+        doubleVal = "3.14159";
+
+        // make sure that the operation parameters omit character suffixes
         String route = "/numericqueryparams";
         Operation op = openAPI.getPaths().get(route).getGet();
         CodegenOperation co = codegen.fromOperation(route, "GET", op, null);
