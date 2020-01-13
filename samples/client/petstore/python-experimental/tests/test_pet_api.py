@@ -73,6 +73,7 @@ class PetApiTests(unittest.TestCase):
     def setUp(self):
         config = Configuration()
         config.host = HOST
+        config.access_token = 'ACCESS_TOKEN'
         self.api_client = petstore_api.ApiClient(config)
         self.pet_api = petstore_api.PetApi(self.api_client)
         self.setUpModels()
@@ -115,6 +116,26 @@ class PetApiTests(unittest.TestCase):
         resp.close()
         resp.release_conn()
 
+    def test_config(self):
+        config = Configuration(host=HOST, access_token='ACCESS_TOKEN')
+        self.assertIsNotNone(config.get_host_settings())
+        self.assertEquals(config.get_basic_auth_token(),
+                          urllib3.util.make_headers(basic_auth=":").get('authorization'))
+        self.assertEquals(len(config.auth_settings()), 1)
+        self.assertIn("petstore_auth", config.auth_settings().keys())
+        config.username = "user"
+        config.password = "password"
+        self.assertEquals(
+            config.get_basic_auth_token(),
+            urllib3.util.make_headers(basic_auth="user:password").get('authorization'))
+        self.assertEquals(len(config.auth_settings()), 2)
+        self.assertIn("petstore_auth", config.auth_settings().keys())
+        self.assertIn("http_basic_test", config.auth_settings().keys())
+        config.username = None
+        config.password = None
+        self.assertEquals(len(config.auth_settings()), 1)
+        self.assertIn("petstore_auth", config.auth_settings().keys())
+
     def test_timeout(self):
         mock_pool = MockPoolManager(self)
         self.api_client.rest_client.pool_manager = mock_pool
@@ -122,13 +143,13 @@ class PetApiTests(unittest.TestCase):
         mock_pool.expect_request('POST', 'http://localhost/v2/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Bearer ',
+                                          'Authorization': 'Bearer ACCESS_TOKEN',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(total=5))
         mock_pool.expect_request('POST', 'http://localhost/v2/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Bearer ',
+                                          'Authorization': 'Bearer ACCESS_TOKEN',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(connect=1, read=2))
 
@@ -325,7 +346,7 @@ class PetApiTests(unittest.TestCase):
                         'Accept': 'application/json',
                         'Content-Type': 'multipart/form-data',
                         'User-Agent': 'OpenAPI-Generator/1.0.0/python',
-                        'Authorization': 'Bearer '
+                        'Authorization': 'Bearer ACCESS_TOKEN'
                     },
                     post_params=[
                         ('files', ('1px_pic1.png', b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x00\x00\x00\x00:~\x9bU\x00\x00\x00\nIDATx\x9cc\xfa\x0f\x00\x01\x05\x01\x02\xcf\xa0.\xcd\x00\x00\x00\x00IEND\xaeB`\x82', 'image/png')),
