@@ -856,10 +856,11 @@ public class SpringCodegen extends AbstractJavaCodegen
     // override to post-process any parameters
     @SuppressWarnings("unused")
     public void postProcessParameter(CodegenParameter p) {
-        // we use a custom version of this function to remove the l, d, and f suffixes from integer and double values
-        // remove the l because our users will process this string with Long.parseLong(String defaultValue)
-        // remove the d because our users will process this string with Double.parseDouble(String defaultValue)
-        // remove the f because our users will process this string with Float.parseFloat(String defaultValue)
+        // we use a custom version of this function to remove the l, d, and f suffixes from Long/Double/Float
+        // defaultValues
+        // remove the l because our users will use Long.parseLong(String defaultValue)
+        // remove the d because our users will use Double.parseDouble(String defaultValue)
+        // remove the f because our users will use Float.parseFloat(String defaultValue)
         // NOTE: for CodegenParameters we DO need these suffixes because those defaultValues are used as java value
         // literals assigned to Long/Double/Float
         Boolean fixLong = (p.isLong && "l".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
