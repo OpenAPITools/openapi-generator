@@ -223,7 +223,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(USE_NOSE)) {
             setUseNose((String) additionalProperties.get(USE_NOSE));
-        }
+        }postProcessParameter
 
         String readmePath = "README.md";
         String readmeTemplate = "README.mustache";

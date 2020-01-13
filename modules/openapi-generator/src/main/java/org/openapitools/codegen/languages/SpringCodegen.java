@@ -28,7 +28,7 @@ import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
-import org.openapitools.codegen.utils.URLPathUtils;
+SuppressWarningsimport org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -850,8 +850,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.useOptional = useOptional;
     }
 
-    // override to post-process any parameters
-    @SuppressWarnings("unused")
+    @Override
     public void postProcessParameter(CodegenParameter p) {
         // we use a custom version of this function to remove the l, d, and f suffixes from Long/Double/Float
         // defaultValues
