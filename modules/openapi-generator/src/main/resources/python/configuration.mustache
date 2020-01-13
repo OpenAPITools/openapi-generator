@@ -44,7 +44,8 @@ class Configuration(object):
     def __init__(self, host="{{{basePath}}}",
                  api_key=None, api_key_prefix=None,
                  username="", password="",
-                 key_id=None, private_key_path=None, signing_scheme=None, signing_algorithm=None, signed_headers=None):
+                 key_id=None, private_key_path=None, signing_scheme=None,
+                 signing_algorithm=None, signed_headers=None):
         """Constructor
         """
         self.host = host
@@ -80,7 +81,8 @@ class Configuration(object):
         """The path of the file containing a private key, used to sign HTTP requests.
         """
         self.signing_scheme = signing_scheme
-        """The signature scheme when signing HTTP requests. Supported values are hs2019, rsa-sha256, rsa-sha512.
+        """The signature scheme when signing HTTP requests.
+        Supported values are hs2019, rsa-sha256, rsa-sha512.
         """
         self.signing_algorithm = signing_algorithm
         """The signature algorithm when signing HTTP requests.
