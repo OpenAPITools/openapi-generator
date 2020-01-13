@@ -528,30 +528,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (!generateApis) {
             return;
         }
-        Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
-        Set<String> apisToGenerate = null;
-        String apiNames = GlobalSettings.getProperty("apis");
-        if (apiNames != null && !apiNames.isEmpty()) {
-            apisToGenerate = new HashSet<String>(Arrays.asList(apiNames.split(",")));
-        }
-        if (apisToGenerate != null && !apisToGenerate.isEmpty()) {
-            Map<String, List<CodegenOperation>> updatedPaths = new TreeMap<String, List<CodegenOperation>>();
-            for (String m : paths.keySet()) {
-                if (apisToGenerate.contains(m)) {
-                    updatedPaths.put(m, paths.get(m));
-                }
-            }
-            paths = updatedPaths;
-        }
+        Map<String, List<CodegenOperation>> paths = getApisToGenerate();
         for (String tag : paths.keySet()) {
             try {
                 List<CodegenOperation> ops = paths.get(tag);
-                Collections.sort(ops, new Comparator<CodegenOperation>() {
-                    @Override
-                    public int compare(CodegenOperation one, CodegenOperation another) {
-                        return ObjectUtils.compare(one.operationId, another.operationId);
-                    }
-                });
+                ops.sort((one, another) -> ObjectUtils.compare(one.operationId, another.operationId));
                 Map<String, Object> operation = processOperations(config, tag, ops, allModels);
                 URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
                 operation.put("basePath", basePath);
@@ -675,6 +656,24 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             Json.prettyPrint(allOperations);
         }
 
+    }
+
+    protected Map<String, List<CodegenOperation>> getApisToGenerate() {
+        Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
+        Set<String> apisToGenerate = null;
+        String apiNames = GlobalSettings.getProperty("apis");
+        if (apiNames != null && !apiNames.isEmpty()) {
+            apisToGenerate = new HashSet<String>(Arrays.asList(apiNames.split(",")));
+        }
+        if (apisToGenerate != null && !apisToGenerate.isEmpty()) {
+            for (String m : paths.keySet()) {
+                if (!apisToGenerate.contains(m)) {
+                    LOGGER.info("Filtered out {} API by the use of `apis` option", m);
+                    paths.remove(m);
+                }
+            }
+        }
+        return paths;
     }
 
     private void generateSupportingFiles(List<File> files, Map<String, Object> bundle) {
