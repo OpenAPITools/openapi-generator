@@ -29,11 +29,11 @@ class OpenApiSecuritySchemeValidations extends GenericValidator<SecurityScheme> 
      * Apache and Nginx default to legacy CGI behavior in which header with underscore are ignored. Raise this for awareness to the user.
      *
      * @param securityScheme Security schemes are often used as header parameters (e.g. APIKEY).
-     *
      * @return <code>true</code> if the check succeeds (header does not have an underscore, e.g. 'api_key')
      */
     private static ValidationRule.Result apacheNginxHeaderCheck(SecurityScheme securityScheme) {
-        if (securityScheme == null || securityScheme.getIn() != SecurityScheme.In.HEADER) return ValidationRule.Pass.empty();
+        if (securityScheme == null || securityScheme.getIn() != SecurityScheme.In.HEADER)
+            return ValidationRule.Pass.empty();
         ValidationRule.Result result = ValidationRule.Pass.empty();
 
         String key = securityScheme.getName();

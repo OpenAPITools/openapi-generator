@@ -11,6 +11,8 @@ public class RuleConfiguration {
     private boolean enableOneOfWithPropertiesRecommendation = defaultedBoolean(propertyPrefix + ".oneof-properties-ambiguity", true);
     private boolean enableUnusedSchemasRecommendation = defaultedBoolean(propertyPrefix + ".unused-schemas", true);
 
+    private boolean enableApiRequestUriWithBodyRecommendation = defaultedBoolean(propertyPrefix + ".anti-patterns.uri-unexpected-body", true);
+
     @SuppressWarnings("SameParameterValue")
     private static boolean defaultedBoolean(String key, boolean defaultValue) {
         String property = System.getProperty(key);
@@ -30,7 +32,7 @@ public class RuleConfiguration {
 
     /**
      * Enable or Disable the recommendation check for Apache/Nginx potentially ignoring header with underscore by default.
-     *
+     * <p>
      * For more details, see {@link RuleConfiguration#isEnableApacheNginxUnderscoreRecommendation()}
      *
      * @param enableApacheNginxUnderscoreRecommendation <code>true</code> to enable, <code>false</code> to disable
@@ -40,8 +42,28 @@ public class RuleConfiguration {
     }
 
     /**
-     * Gets whether the recommendation check for oneOf with sibling properties exists.
+     * Gets whether we will raise awareness a GET or HEAD operation is defined with body.
      *
+     * @return <code>true</code> if enabled, <code>false</code> if disabled
+     */
+    public boolean isEnableApiRequestUriWithBodyRecommendation() {
+        return enableApiRequestUriWithBodyRecommendation;
+    }
+
+    /**
+     * Enable or Disable the recommendation check for GET or HEAD operations with bodies.
+     * <p>
+     * For more details, see {@link RuleConfiguration#isEnableApiRequestUriWithBodyRecommendation()}
+     *
+     * @param enableApiRequestUriWithBodyRecommendation <code>true</code> to enable, <code>false</code> to disable
+     */
+    public void setEnableApiRequestUriWithBodyRecommendation(boolean enableApiRequestUriWithBodyRecommendation) {
+        this.enableApiRequestUriWithBodyRecommendation = enableApiRequestUriWithBodyRecommendation;
+    }
+
+    /**
+     * Gets whether the recommendation check for oneOf with sibling properties exists.
+     * <p>
      * JSON Schema defines oneOf as a validation property which can be applied to any schema.
      * <p>
      * OpenAPI Specification is a variant of JSON Schema for which oneOf is defined as:
@@ -59,7 +81,7 @@ public class RuleConfiguration {
 
     /**
      * Enable or Disable the recommendation check for schemas containing properties and oneOf definitions.
-     *
+     * <p>
      * For more details, see {@link RuleConfiguration#isEnableOneOfWithPropertiesRecommendation()}
      *
      * @param enableOneOfWithPropertiesRecommendation <code>true</code> to enable, <code>false</code> to disable
@@ -90,7 +112,7 @@ public class RuleConfiguration {
 
     /**
      * Gets whether the recommendation to check for unused schemas is enabled.
-     *
+     * <p>
      * While the tooling may or may not support generation of models representing unused schemas, we take the stance that
      * a schema which is defined but not referenced in an operation or by some schema bound to an operation may be a good
      * indicator of a programming error. We surface this information to the user in case the orphaned schema(s) are not
@@ -104,7 +126,7 @@ public class RuleConfiguration {
 
     /**
      * Enable or Disable the recommendation check for unused schemas.
-     *
+     * <p>
      * For more details, see {@link RuleConfiguration#isEnableUnusedSchemasRecommendation()}
      *
      * @param enableUnusedSchemasRecommendation <code>true</code> to enable, <code>false</code> to disable

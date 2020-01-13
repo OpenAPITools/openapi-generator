@@ -12,7 +12,6 @@ import org.openapitools.codegen.validation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 /**
  * A validator which evaluates an OpenAPI 3.x specification document
@@ -43,6 +42,7 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
         OpenApiParameterValidations parameterValidations = new OpenApiParameterValidations(ruleConfiguration);
         OpenApiSecuritySchemeValidations securitySchemeValidations = new OpenApiSecuritySchemeValidations(ruleConfiguration);
         OpenApiSchemaValidations schemaValidations = new OpenApiSchemaValidations(ruleConfiguration);
+        OpenApiOperationValidations operationValidations = new OpenApiOperationValidations(ruleConfiguration);
 
         if (ruleConfiguration.isEnableUnusedSchemasRecommendation()) {
             ValidationRule unusedSchema = ValidationRule.create(Severity.WARNING, "Unused schema", "A schema was determined to be unused.", s -> ValidationRule.Pass.empty());
@@ -61,17 +61,16 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
                 List<Parameter> pathParameters = pathItem.getParameters();
                 if (pathParameters != null) parameters.addAll(pathItem.getParameters());
 
-                // parameters on each operation method
-                Stream.of(
-                        pathItem.getGet(),
-                        pathItem.getDelete(),
-                        pathItem.getHead(),
-                        pathItem.getOptions(),
-                        pathItem.getPatch(),
-                        pathItem.getPost(),
-                        pathItem.getPut(),
-                        pathItem.getTrace()).forEach(op -> {
-                    if (op != null && op.getParameters() != null) parameters.addAll(op.getParameters());
+                pathItem.readOperationsMap().forEach((httpMethod, op) -> {
+                    if (op != null) {
+                        // parameters on each operation method
+                        if (op.getParameters() != null) {
+                            parameters.addAll(op.getParameters());
+                        }
+
+                        OperationWrapper wrapper = new OperationWrapper(op, httpMethod);
+                        validationResult.consume(operationValidations.validate(wrapper));
+                    }
                 });
             });
         }

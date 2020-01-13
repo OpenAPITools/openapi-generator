@@ -30,7 +30,6 @@ class OpenApiParameterValidations extends GenericValidator<Parameter> {
      * Apache and Nginx default to legacy CGI behavior in which header with underscore are ignored. Raise this for awareness to the user.
      *
      * @param parameter Any spec doc parameter. The method will handle {@link HeaderParameter} evaluation.
-     *
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail} with details "[key] contains an underscore."
      */
     private static ValidationRule.Result apacheNginxHeaderCheck(Parameter parameter) {
