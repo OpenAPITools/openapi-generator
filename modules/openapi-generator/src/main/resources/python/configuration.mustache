@@ -353,6 +353,8 @@ class Configuration(object):
 
     def load_private_key(self):
         """Load the private key used to sign HTTP requests.
+           The private key is used to sign HTTP requests as defined in
+           https://datatracker.ietf.org/doc/draft-cavage-http-signatures/.
         """
         if self.private_key is not None:
             return

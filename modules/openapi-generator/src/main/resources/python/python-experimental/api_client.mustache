@@ -541,8 +541,10 @@ class ApiClient(object):
             if auth_setting:
 {{#hasHttpSignatureMethods}}
                 if auth_setting['type'] == 'http-signature':
-                    # The HTTP signature scheme requires multiple HTTP headers that are calculated dynamically.
-                    auth_headers = self.get_http_signature_headers(resource_path, method, headers, body, querys)
+                    # The HTTP signature scheme requires multiple HTTP headers
+                    # that are calculated dynamically.
+                    auth_headers = self.get_http_signature_headers(resource_path, method,
+                        headers, body, querys)
                     for key, value in auth_headers.items():
                         headers[key] = value
                     continue
@@ -633,7 +635,8 @@ class ApiClient(object):
             digest = SHA256.new()
             prefix = "SHA-256="
         else:
-            raise Exception("Unsupported signing algorithm: {0}".format(self.configuration.signing_scheme))
+            raise Exception(
+                "Unsupported signing algorithm: {0}".format(self.configuration.signing_scheme))
         digest.update(data)
         return digest, prefix
 
@@ -698,7 +701,8 @@ class ApiClient(object):
         auth_str = ""
         auth_str = auth_str + "Signature"
 
-        auth_str = auth_str + " " + "keyId=\"" + self.configuration.key_id + "\"," + "algorithm=\"" + self.configuration.signing_scheme + "\"," + "headers=\"(request-target)"
+        auth_str = auth_str + " " + "keyId=\"" + self.configuration.key_id + "\"," + "algorithm=\"" +
+            self.configuration.signing_scheme + "\"," + "headers=\"(request-target)"
 
         for key, _ in hdrs.items():
             auth_str = auth_str + " " + key.lower()
