@@ -1335,6 +1335,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return false;
     }
 
+    // hasHttpSignatureMethods returns true if the specified OAS model has
+    // HTTP signature methods.
+    // The HTTP signature scheme is defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
     private boolean hasHttpSignatureMethods(List<CodegenSecurity> authMethods) {
         for (CodegenSecurity cs : authMethods) {
             if (Boolean.TRUE.equals(cs.isHttpSignature)) {
