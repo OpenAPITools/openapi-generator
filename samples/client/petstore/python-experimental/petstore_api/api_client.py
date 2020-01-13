@@ -17,7 +17,7 @@ import os
 
 # python 2 and python 3 compatibility library
 import six
-from six.moves.urllib.parse import quote
+from six.moves.urllib.parse import quote, urlencode, urlparse
 
 from petstore_api import rest
 from petstore_api.configuration import Configuration
@@ -153,7 +153,7 @@ class ApiClient(object):
             post_params.extend(self.files_parameters(files))
 
         # auth setting
-        self.update_params_for_auth(header_params, query_params, auth_settings)
+        self.update_params_for_auth(header_params, query_params, auth_settings, resource_path, method, body)
 
         # body
         if body:
@@ -510,12 +510,15 @@ class ApiClient(object):
         else:
             return content_types[0]
 
-    def update_params_for_auth(self, headers, querys, auth_settings):
+    def update_params_for_auth(self, headers, querys, auth_settings, resource_path=None, method=None, body=None):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
         :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
+        :resource_path: The HTTP request resource path.
+        :method: The HTTP request method.
+        :body: The body of the HTTP request. 
         """
         if not auth_settings:
             return
@@ -535,3 +538,4 @@ class ApiClient(object):
                     raise ApiValueError(
                         'Authentication token must be in `query` or `header`'
                     )
+

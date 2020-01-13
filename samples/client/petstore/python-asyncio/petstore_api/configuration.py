@@ -31,11 +31,21 @@ class Configuration(object):
     :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
+    :param key_id: The identifier of the cryptographic key, when signing HTTP requests.
+    :param private_key_path: The path of the file containing a private key,
+        when signing HTTP requests.
+    :param signing_scheme: The signature scheme, when signing HTTP requests.
+        Supported value is hs2019.
+    :param signing_algorithm: The signature algorithm, when signing HTTP requests.
+        Supported values are PKCS1-v1_5, PSS; fips-186-3, deterministic-rfc6979.
+    :param signed_headers: A list of HTTP headers that must be added to the signed message,
+        when signing HTTP requests.
     """
 
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
-                 username="", password=""):
+                 username="", password="",
+                 key_id=None, private_key_path=None, signing_scheme=None, signing_algorithm=None, signed_headers=None):
         """Constructor
         """
         self.host = host
@@ -63,6 +73,23 @@ class Configuration(object):
         """
         self.password = password
         """Password for HTTP basic authentication
+        """
+        self.key_id = key_id
+        """The identifier of the key used to sign HTTP requests.
+        """
+        self.private_key_path = private_key_path
+        """The path of the file containing a private key, used to sign HTTP requests.
+        """
+        self.signing_scheme = signing_scheme
+        """The signature scheme when signing HTTP requests. Supported values are hs2019, rsa-sha256, rsa-sha512.
+        """
+        self.signing_algorithm = signing_algorithm
+        """The signature algorithm when signing HTTP requests.
+        For RSA keys, supported values are PKCS1-v1_5, PSS.
+        For ECDSA keys, supported values are fips-186-3, deterministic-rfc6979.
+        """
+        self.signed_headers = signed_headers
+        """A list of HTTP headers that must be signed, when signing HTTP requests.
         """
         self.access_token = ""
         """access token for OAuth/Bearer
