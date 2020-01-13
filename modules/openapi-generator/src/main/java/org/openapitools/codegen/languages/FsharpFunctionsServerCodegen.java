@@ -29,6 +29,7 @@ import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
 
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +52,29 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
 
     public FsharpFunctionsServerCodegen() {
         super();
+
+        // TODO: There's a README.mustache, but it doesn't seem to be referenced…
+        featureSet = getFeatureSet().modify()
+//                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.noneOf(
+                        SecurityFeature.class
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling,
+                        GlobalFeature.BasePath,
+                        GlobalFeature.Host
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .includeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .build();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
@@ -115,8 +139,6 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
         supportingFiles.add(new SupportingFile("host.json", "", "host.json"));
         supportingFiles.add(new SupportingFile("local.settings.json", "", "local.settings.json"));
         supportingFiles.add(new SupportingFile("Project.fsproj.mustache", projectFolder, packageName + ".fsproj"));
-
-
     }
 
     @Override

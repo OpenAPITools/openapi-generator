@@ -234,8 +234,8 @@ abstract class AbstractFakeApi
 
     /**
      * POST testEndpointParameters
-     * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
-     * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     * Summary: Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Notes: Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response

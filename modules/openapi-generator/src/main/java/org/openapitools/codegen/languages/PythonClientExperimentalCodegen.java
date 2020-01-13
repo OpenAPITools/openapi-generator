@@ -29,6 +29,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -50,8 +51,32 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public PythonClientExperimentalCodegen() {
         super();
 
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .build();
+
         // this may set datatype right for additional properties
         instantiationTypes.put("map", "dict");
+
         languageSpecificPrimitives.add("file_type");
         languageSpecificPrimitives.add("none_type");
 
@@ -643,6 +668,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             // fix ListContainers
             p.complexType = getPythonClassName(p.mostInnerItems.complexType);
         }
+        // if a model has a property that is of type self, remove the module name from the dataType
+        if (p.complexType != null && p.dataType.contains(model.classname)) {
+            String classNameNoModule = getPythonClassName(model.classname);
+            p.dataType = p.dataType.replace(model.classname, classNameNoModule);
+        }
     }
 
     @Override
@@ -752,6 +782,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 cp.hasValidation = false;
                 result.imports.add(modelName);
             }
+        }
+        // if a class has a property of type self, remove the self import from imports
+        if (result.imports.contains(result.classname)) {
+            result.imports.remove(result.classname);
         }
         return result;
     }

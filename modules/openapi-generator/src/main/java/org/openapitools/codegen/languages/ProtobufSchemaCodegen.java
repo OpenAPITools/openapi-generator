@@ -19,13 +19,15 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 
-import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 
@@ -65,6 +67,13 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
+                .build();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .includeWireFormatFeatures(WireFormatFeature.PROTOBUF)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.PROTOBUF))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .build();
 
         outputFolder = "generated-code/protobuf-schema";

@@ -136,7 +136,7 @@ Class | Method | HTTP request | Description
 *AbstractFakeApi* | **testBodyWithFileSchema** | **PUT** /fake/body-with-file-schema | 
 *AbstractFakeApi* | **testBodyWithQueryParams** | **PUT** /fake/body-with-query-params | 
 *AbstractFakeApi* | **testClientModel** | **PATCH** /fake | To test \"client\" model
-*AbstractFakeApi* | **testEndpointParameters** | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+*AbstractFakeApi* | **testEndpointParameters** | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 *AbstractFakeApi* | **testEnumParameters** | **GET** /fake | To test enum parameters
 *AbstractFakeApi* | **testGroupParameters** | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *AbstractFakeApi* | **testInlineAdditionalProperties** | **POST** /fake/inline-additionalProperties | test inline additionalProperties

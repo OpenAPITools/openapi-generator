@@ -47,8 +47,10 @@ import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
@@ -73,6 +75,54 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
+    public static FeatureSet DefaultFeatureSet;
+
+    static {
+        DefaultFeatureSet = FeatureSet.newBuilder()
+                .includeDataTypeFeatures(
+                        DataTypeFeature.Int32, DataTypeFeature.Int64, DataTypeFeature.Float, DataTypeFeature.Double,
+                        DataTypeFeature.Decimal, DataTypeFeature.String, DataTypeFeature.Byte, DataTypeFeature.Binary,
+                        DataTypeFeature.Boolean, DataTypeFeature.Date, DataTypeFeature.DateTime, DataTypeFeature.Password,
+                        DataTypeFeature.File, DataTypeFeature.Array, DataTypeFeature.Maps, DataTypeFeature.CollectionFormat,
+                        DataTypeFeature.CollectionFormatMulti, DataTypeFeature.Enum, DataTypeFeature.ArrayOfEnum, DataTypeFeature.ArrayOfModel,
+                        DataTypeFeature.ArrayOfCollectionOfPrimitives, DataTypeFeature.ArrayOfCollectionOfModel, DataTypeFeature.ArrayOfCollectionOfEnum,
+                        DataTypeFeature.MapOfEnum, DataTypeFeature.MapOfModel, DataTypeFeature.MapOfCollectionOfPrimitives,
+                        DataTypeFeature.MapOfCollectionOfModel, DataTypeFeature.MapOfCollectionOfEnum
+                        // Custom types are template specific
+                )
+                .includeDocumentationFeatures(
+                        DocumentationFeature.Api, DocumentationFeature.Model
+                        // README is template specific
+                )
+                .includeGlobalFeatures(
+                        GlobalFeature.Host, GlobalFeature.BasePath, GlobalFeature.Info, GlobalFeature.PartialSchemes,
+                        GlobalFeature.Consumes, GlobalFeature.Produces, GlobalFeature.ExternalDocumentation, GlobalFeature.Examples,
+                        GlobalFeature.Callbacks
+                        // TODO: xml structures, styles, link objects, parameterized servers, full schemes for OAS 2.0
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Simple, SchemaSupportFeature.Composite,
+                        SchemaSupportFeature.Polymorphism
+                        // Union (OneOf) not 100% yet.
+                )
+                .includeParameterFeatures(
+                        ParameterFeature.Path, ParameterFeature.Query, ParameterFeature.Header, ParameterFeature.Body,
+                        ParameterFeature.FormUnencoded, ParameterFeature.FormMultipart, ParameterFeature.Cookie
+                )
+                .includeSecurityFeatures(
+                        SecurityFeature.BasicAuth, SecurityFeature.ApiKey, SecurityFeature.BearerToken,
+                        SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
+                        SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
+                        // OpenIDConnect not yet supported
+                )
+                .includeWireFormatFeatures(
+                        WireFormatFeature.JSON, WireFormatFeature.XML
+                        // PROTOBUF and Custom are generator specific
+                )
+                .build();
+    }
+
+    protected FeatureSet featureSet;
     protected GeneratorMetadata generatorMetadata;
     protected String inputSpec;
     protected String outputFolder = "";
@@ -1112,6 +1162,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenType == null) {
             codegenType = CodegenType.OTHER;
         }
+
+        featureSet = DefaultFeatureSet;
+
         generatorMetadata = GeneratorMetadata.newBuilder()
                 .stability(Stability.STABLE)
                 .generationMessage(String.format(Locale.ROOT, "OpenAPI Generator: %s (%s)", getName(), codegenType.toValue()))
@@ -5397,5 +5450,15 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public void setStrictSpecBehavior(final boolean strictSpecBehavior) {
         this.strictSpecBehavior = strictSpecBehavior;
+    }
+
+    @Override
+    public FeatureSet getFeatureSet() {
+        return this.featureSet;
+    }
+
+    @Override
+    public void setFeatureSet(final FeatureSet featureSet) {
+        this.featureSet = featureSet == null ? DefaultFeatureSet : featureSet;
     }
 }

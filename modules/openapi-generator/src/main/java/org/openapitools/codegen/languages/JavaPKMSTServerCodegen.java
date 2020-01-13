@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.URLPathUtils;
 
 import java.io.File;
@@ -52,6 +53,10 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
     public JavaPKMSTServerCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         groupId = "com.prokarma";
         artifactId = "pkmst-microservice";
