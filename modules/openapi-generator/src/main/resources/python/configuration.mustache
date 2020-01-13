@@ -82,12 +82,12 @@ class Configuration(object):
         """
         self.signing_scheme = signing_scheme
         """The signature scheme when signing HTTP requests.
-        Supported values are hs2019, rsa-sha256, rsa-sha512.
+           Supported values are hs2019, rsa-sha256, rsa-sha512.
         """
         self.signing_algorithm = signing_algorithm
         """The signature algorithm when signing HTTP requests.
-        For RSA keys, supported values are PKCS1-v1_5, PSS.
-        For ECDSA keys, supported values are fips-186-3, deterministic-rfc6979.
+           For RSA keys, supported values are PKCS1-v1_5, PSS.
+           For ECDSA keys, supported values are fips-186-3, deterministic-rfc6979.
         """
         self.signed_headers = signed_headers
         """A list of HTTP headers that must be signed, when signing HTTP requests.
@@ -144,7 +144,8 @@ class Configuration(object):
         """
 {{#hasHttpSignatureMethods}}
         self.private_key = None
-        """The private key used to sign HTTP requests. Initialized when the PEM-encoded private key is loaded from a file.
+        """The private key used to sign HTTP requests.
+           Initialized when the PEM-encoded private key is loaded from a file.
         """
 {{/hasHttpSignatureMethods}}
 
