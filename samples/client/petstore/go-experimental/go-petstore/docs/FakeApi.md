@@ -338,10 +338,6 @@ No authorization required
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
-<<<<<<< HEAD
-Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-=======
->>>>>>> [go-experimental] Use builder pattern for requests
 
 
 ### Path Parameters
