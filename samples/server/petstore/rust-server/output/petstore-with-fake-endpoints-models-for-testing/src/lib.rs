@@ -339,7 +339,7 @@ pub trait Api<C> {
     /// To test \"client\" model
     fn test_client_model(&self, body: models::Client, context: &C) -> Box<dyn Future<Item=TestClientModelResponse, Error=ApiError>>;
 
-    /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
     fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>, context: &C) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError>>;
 
     /// To test enum parameters
@@ -440,7 +440,7 @@ pub trait ApiNoContext {
     /// To test \"client\" model
     fn test_client_model(&self, body: models::Client) -> Box<dyn Future<Item=TestClientModelResponse, Error=ApiError>>;
 
-    /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
     fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError>>;
 
     /// To test enum parameters
@@ -566,7 +566,7 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         self.api().test_client_model(body, &self.context())
     }
 
-    /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
     fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError>> {
         self.api().test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, date, date_time, password, callback, &self.context())
     }

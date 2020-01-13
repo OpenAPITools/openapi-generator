@@ -494,8 +494,8 @@ module Petstore
       return data, status_code, headers
     end
 
-    # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    # Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+    # Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
     # @param number [Float] None
     # @param double [Float] None
     # @param pattern_without_delimiter [String] None
@@ -517,8 +517,8 @@ module Petstore
       nil
     end
 
-    # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    # Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+    # Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
     # @param number [Float] None
     # @param double [Float] None
     # @param pattern_without_delimiter [String] None

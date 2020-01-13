@@ -16,6 +16,8 @@
  */
 namespace OpenAPIServer\Model;
 
+use OpenAPIServer\Interfaces\ModelInterface;
+
 /**
  * Model200Response
  *
@@ -23,12 +25,42 @@ namespace OpenAPIServer\Model;
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class Model200Response
+class Model200Response implements ModelInterface
 {
-    
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" : "integer",
+      "format" : "int32"
+    },
+    "class" : {
+      "type" : "string"
+    }
+  },
+  "description" : "Model for testing model name starting with number",
+  "xml" : {
+    "name" : "Name"
+  }
+}
+SCHEMA;
+
     /** @var int $name */
     private $name;
-    
+
     /** @var string $class */
     private $class;
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }

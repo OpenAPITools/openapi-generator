@@ -26,6 +26,7 @@
 namespace OpenAPIServer\Mock;
 
 use OpenAPIServer\Mock\OpenApiDataMockerInterface as IMocker;
+use OpenAPIServer\Utils\ModelUtilsTrait;
 use StdClass;
 use InvalidArgumentException;
 
@@ -38,6 +39,8 @@ use InvalidArgumentException;
  */
 final class OpenApiDataMocker implements IMocker
 {
+    use ModelUtilsTrait;
+
     /**
      * Mocks OpenApi Data.
      * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#data-types
@@ -66,7 +69,8 @@ final class OpenApiDataMocker implements IMocker
             case IMocker::DATA_TYPE_STRING:
                 $minLength = $options['minLength'] ?? 0;
                 $maxLength = $options['maxLength'] ?? null;
-                return $this->mockString($dataFormat, $minLength, $maxLength);
+                $enum = $options['enum'] ?? null;
+                return $this->mockString($dataFormat, $minLength, $maxLength, $enum);
             case IMocker::DATA_TYPE_BOOLEAN:
                 return $this->mockBoolean();
             case IMocker::DATA_TYPE_ARRAY:
@@ -268,11 +272,13 @@ final class OpenApiDataMocker implements IMocker
         $options = $this->extractSchemaProperties($items);
         $dataType = $options['type'];
         $dataFormat = $options['format'] ?? null;
+        $ref = $options['$ref'] ?? null;
 
-        // always genarate smallest possible array to avoid huge JSON responses
+        // always generate smallest possible array to avoid huge JSON responses
         $arrSize = ($maxSize < 1) ? $maxSize : max($minSize, 1);
         while (count($arr) < $arrSize) {
-            $arr[] = $this->mock($dataType, $dataFormat, $options);
+            $data = $this->mockFromRef($ref);
+            $arr[] = ($data) ? $data : $this->mock($dataType, $dataFormat, $options);
         }
         return $arr;
     }
@@ -352,10 +358,60 @@ final class OpenApiDataMocker implements IMocker
             $options = $this->extractSchemaProperties($propValue);
             $dataType = $options['type'];
             $dataFormat = $options['dataFormat'] ?? null;
-            $obj->$propName = $this->mock($dataType, $dataFormat, $options);
+            $ref = $options['$ref'] ?? null;
+            $data = $this->mockFromRef($ref);
+            $obj->$propName = ($data) ? $data : $this->mock($dataType, $dataFormat, $options);
         }
 
         return $obj;
+    }
+
+    /**
+     * Mocks OpenApi Data from schema.
+     *
+     * @param array|object $schema OpenAPI schema
+     *
+     * @throws \InvalidArgumentException when invalid arguments passed
+     *
+     * @return mixed
+     */
+    public function mockFromSchema($schema)
+    {
+        $props = $this->extractSchemaProperties($schema);
+        if (array_key_exists('$ref', $props) && !empty($props['$ref'])) {
+            return $this->mockFromRef($props['$ref']);
+        } elseif ($props['type'] === null) {
+            throw new InvalidArgumentException('"schema" must be object or assoc array with "type" property');
+        }
+        return $this->mock($props['type'], $props['format'], $props);
+    }
+
+    /**
+     * Mock data by referenced schema.
+     * TODO: this method will return model instance, not an StdClass
+     *
+     * @param string|null $ref Ref to model, eg. #/components/schemas/User
+     *
+     * @return mixed
+     */
+    public function mockFromRef($ref)
+    {
+        $data = null;
+        if (is_string($ref) && !empty($ref)) {
+            $refName = static::getSimpleRef($ref);
+            $modelName = static::toModelName($refName);
+            $modelClass = 'OpenAPIServer\Model\\' . $modelName;
+            if (!class_exists($modelClass) || !method_exists($modelClass, 'getOpenApiSchema')) {
+                throw new InvalidArgumentException(sprintf(
+                    'Model %s not found or method %s doesn\'t exist',
+                    $modelClass,
+                    $modelClass . '::getOpenApiSchema'
+                ));
+            }
+            $data = $this->mockFromSchema($modelClass::getOpenApiSchema(true));
+        }
+
+        return $data;
     }
 
     /**
@@ -394,6 +450,7 @@ final class OpenApiDataMocker implements IMocker
                 'additionalProperties',
                 'required',
                 'example',
+                '$ref',
             ] as $propName
         ) {
             if (is_array($val) && array_key_exists($propName, $val)) {

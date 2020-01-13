@@ -16,6 +16,8 @@
  */
 namespace OpenAPIServer\Model;
 
+use OpenAPIServer\Interfaces\ModelInterface;
+
 /**
  * BigCatAllOf
  *
@@ -23,9 +25,31 @@ namespace OpenAPIServer\Model;
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class BigCatAllOf
+class BigCatAllOf implements ModelInterface
 {
-    
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+  "properties" : {
+    "kind" : {
+      "type" : "string",
+      "enum" : [ "lions", "tigers", "leopards", "jaguars" ]
+    }
+  }
+}
+SCHEMA;
+
     /** @var string $kind */
     private $kind;
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }

@@ -247,7 +247,7 @@ labels:
     'Server: Java':
       - '\s*?\[java-.*?\]\s*?'
       - '\s*?-[gl] java-.*?\s*?'
-      - '\s*?-[gl] jaxrx-.*?\s*?'
+      - '\s*?-[gl] jaxrs-.*?\s*?'
     'Server: Kotlin':
       - '\s*?\[ktor]\s*?'
       - '\s*?\[kotlin-spring]\s*?'

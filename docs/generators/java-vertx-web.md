@@ -42,3 +42,120 @@ sidebar_label: java-vertx-web
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd><dl>|null|
+
+## IMPORT MAPPING
+
+| Type/Alias | Imports |
+| ---------- | ------- |
+|LocalDateTime|org.joda.time.*|
+|Set|java.util.*|
+|LocalTime|org.joda.time.*|
+|HashMap|java.util.HashMap|
+|ArrayList|java.util.ArrayList|
+|URI|java.net.URI|
+|Timestamp|java.sql.Timestamp|
+|LocalDate|org.joda.time.*|
+|BigDecimal|java.math.BigDecimal|
+|Date|java.util.Date|
+|DateTime|org.joda.time.*|
+|Array|java.util.List|
+|List|java.util.*|
+|UUID|java.util.UUID|
+|File|java.io.File|
+|Map|java.util.Map|
+
+
+## INSTANTIATION TYPES
+
+| Type/Alias | Instantiated By |
+| ---------- | --------------- |
+|array|ArrayList|
+|map|HashMap|
+
+
+## LANGUAGE PRIMITIVES
+
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Integer</li>
+<li>byte[]</li>
+<li>Float</li>
+<li>boolean</li>
+<li>Long</li>
+<li>Object</li>
+<li>String</li>
+<li>Boolean</li>
+<li>Double</li>
+</ul>
+
+## RESERVED WORDS
+
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>localvaraccepts</li>
+<li>synchronized</li>
+<li>do</li>
+<li>float</li>
+<li>while</li>
+<li>localvarpath</li>
+<li>protected</li>
+<li>continue</li>
+<li>else</li>
+<li>apiclient</li>
+<li>localvarqueryparams</li>
+<li>catch</li>
+<li>if</li>
+<li>case</li>
+<li>new</li>
+<li>package</li>
+<li>static</li>
+<li>void</li>
+<li>localvaraccept</li>
+<li>double</li>
+<li>byte</li>
+<li>finally</li>
+<li>this</li>
+<li>strictfp</li>
+<li>throws</li>
+<li>enum</li>
+<li>extends</li>
+<li>null</li>
+<li>transient</li>
+<li>apiexception</li>
+<li>final</li>
+<li>try</li>
+<li>object</li>
+<li>localvarcontenttypes</li>
+<li>implements</li>
+<li>private</li>
+<li>import</li>
+<li>const</li>
+<li>configuration</li>
+<li>for</li>
+<li>apiresponse</li>
+<li>interface</li>
+<li>long</li>
+<li>switch</li>
+<li>default</li>
+<li>goto</li>
+<li>public</li>
+<li>localvarheaderparams</li>
+<li>native</li>
+<li>localvarcontenttype</li>
+<li>assert</li>
+<li>stringutil</li>
+<li>class</li>
+<li>localvarcollectionqueryparams</li>
+<li>localvarcookieparams</li>
+<li>localreturntype</li>
+<li>localvarformparams</li>
+<li>break</li>
+<li>volatile</li>
+<li>localvarauthnames</li>
+<li>abstract</li>
+<li>int</li>
+<li>instanceof</li>
+<li>super</li>
+<li>boolean</li>
+<li>throw</li>
+<li>localvarpostbody</li>
+<li>char</li>
+<li>short</li>
+<li>return</li>
+</ul>

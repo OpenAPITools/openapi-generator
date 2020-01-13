@@ -24,3 +24,23 @@ sidebar_label: html2
 |groupId|groupId in generated pom.xml| |null|
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |null|
 |artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |null|
+
+## IMPORT MAPPING
+
+| Type/Alias | Imports |
+| ---------- | ------- |
+
+
+## INSTANTIATION TYPES
+
+| Type/Alias | Instantiated By |
+| ---------- | --------------- |
+
+
+## LANGUAGE PRIMITIVES
+
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"></ul>
+
+## RESERVED WORDS
+
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"></ul>

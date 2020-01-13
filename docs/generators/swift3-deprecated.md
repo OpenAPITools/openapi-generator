@@ -28,3 +28,121 @@ sidebar_label: swift3-deprecated
 |swiftUseApiNamespace|Flag to make all the API classes inner-class of {{projectName}}API| |null|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |lenientTypeCast|Accept and cast values for simple types (string-&gt;bool, string-&gt;int, int-&gt;string)| |false|
+
+## IMPORT MAPPING
+
+| Type/Alias | Imports |
+| ---------- | ------- |
+
+
+## INSTANTIATION TYPES
+
+| Type/Alias | Instantiated By |
+| ---------- | --------------- |
+
+
+## LANGUAGE PRIMITIVES
+
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Float</li>
+<li>AnyObject</li>
+<li>Character</li>
+<li>Int64</li>
+<li>Bool</li>
+<li>Int32</li>
+<li>String</li>
+<li>Void</li>
+<li>Double</li>
+<li>Any</li>
+<li>Int</li>
+</ul>
+
+## RESERVED WORDS
+
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>struct</li>
+<li>prefix</li>
+<li>COLUMN</li>
+<li>convenience</li>
+<li>String</li>
+<li>do</li>
+<li>none</li>
+<li>dynamicType</li>
+<li>while</li>
+<li>operator</li>
+<li>precedence</li>
+<li>required</li>
+<li>nil</li>
+<li>protocol</li>
+<li>Bool</li>
+<li>continue</li>
+<li>else</li>
+<li>dynamic</li>
+<li>let</li>
+<li>mutating</li>
+<li>Void</li>
+<li>associativity</li>
+<li>if</li>
+<li>case</li>
+<li>init</li>
+<li>static</li>
+<li>Character</li>
+<li>subscript</li>
+<li>in</li>
+<li>var</li>
+<li>is</li>
+<li>optional</li>
+<li>infix</li>
+<li>Double</li>
+<li>FUNCTION</li>
+<li>enum</li>
+<li>Float</li>
+<li>as</li>
+<li>left</li>
+<li>final</li>
+<li>true</li>
+<li>Class</li>
+<li>extension</li>
+<li>internal</li>
+<li>private</li>
+<li>import</li>
+<li>lazy</li>
+<li>for</li>
+<li>Self</li>
+<li>Any</li>
+<li>nonmutating</li>
+<li>Int</li>
+<li>URL</li>
+<li>switch</li>
+<li>weak</li>
+<li>default</li>
+<li>public</li>
+<li>Int32</li>
+<li>get</li>
+<li>LINE</li>
+<li>where</li>
+<li>override</li>
+<li>postfix</li>
+<li>typealias</li>
+<li>FILE</li>
+<li>Protocol</li>
+<li>class</li>
+<li>set</li>
+<li>break</li>
+<li>false</li>
+<li>Error</li>
+<li>Data</li>
+<li>right</li>
+<li>unowned</li>
+<li>ErrorResponse</li>
+<li>Response</li>
+<li>super</li>
+<li>AnyObject</li>
+<li>inout</li>
+<li>Type</li>
+<li>deinit</li>
+<li>func</li>
+<li>Int64</li>
+<li>didSet</li>
+<li>self</li>
+<li>fallthrough</li>
+<li>return</li>
+</ul>

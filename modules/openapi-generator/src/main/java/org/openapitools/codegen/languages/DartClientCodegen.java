@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,37 +36,6 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-// import static org.openapitools.codegen.utils.StringUtils.camelize;
-// import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-// import java.io.BufferedReader;
-// import java.io.File;
-// import java.io.FileInputStream;
-// import java.io.InputStreamReader;
-// import java.nio.charset.Charset;
-// import java.util.ArrayList;
-// import java.util.Arrays;
-// import java.util.HashMap;
-// import java.util.HashSet;
-// import java.util.List;
-// import java.util.Map;
-// import java.util.Set;
-
-// import javax.xml.validation.Schema;
-
-// import org.apache.commons.io.FilenameUtils;
-// import org.openapitools.codegen.CodegenConfig;
-// import org.openapitools.codegen.CodegenConstants;
-// import org.openapitools.codegen.CodegenModel;
-// import org.openapitools.codegen.CodegenProperty;
-// import org.openapitools.codegen.CodegenType;
-// import org.openapitools.codegen.DefaultCodegen;
-// import org.openapitools.codegen.utils.ModelUtils;
-// import org.openapitools.codegen.utils.StringUtils;
-// import org.slf4j.LoggerFactory;
-
-// import io.swagger.v3.oas.models.media.ArraySchema;
 
 public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
@@ -95,6 +65,30 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public DartClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .includeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath
+                )
+                .build();
 
         // clear import mapping (from default generator) as dart does not use it at the moment
         importMapping.clear();
