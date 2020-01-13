@@ -9,7 +9,7 @@
   "require": {
     "php": "^7.1",
     "slim/slim": "^4.0",
-    "dyorg/slim-token-authentication": "dev-slim4",
+    "ybelenko/slim-token-authentication": "slim4",
     "slim/psr7": "^0.4.0"
   },
   "require-dev": {
