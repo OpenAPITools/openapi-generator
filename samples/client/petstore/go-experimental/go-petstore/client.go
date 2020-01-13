@@ -12,6 +12,11 @@ package petstore
 import (
 	"bytes"
 	"context"
+	"crypto"
+	"crypto/rand"
+	"crypto/rsa"
+	"crypto/ecdsa"
+	"encoding/base64"
 	"encoding/json"
 	"encoding/xml"
 	"errors"
@@ -203,6 +208,97 @@ func (c *APIClient) GetConfig() *Configuration {
 	return c.cfg
 }
 
+// signRequest signs the request using HTTP signature.
+// See https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
+func (c *APIClient) signRequest(
+	ctx context.Context,
+	r *http.Request,
+	auth HttpSignatureAuth) error {
+
+	if auth.PrivateKey == nil {
+		return errors.New("Private key is not set")
+	}
+	date := time.Now().UTC().Format(http.TimeFormat)
+	var digest string
+	var h crypto.Hash
+	var err error
+	switch auth.Algorithm {
+	case "rsa-sha512", "hs2019":
+		h = crypto.SHA512
+		digest = "SHA-512="
+	case "rsa-sha256":
+		// This is deprecated and should not longer be used.
+		h = crypto.SHA256
+		digest = "SHA-256="
+	default:
+		return fmt.Errorf("Unsupported signature algorith: %v", auth.Algorithm)
+	}
+	if !h.Available() {
+		return fmt.Errorf("Hash '%v' is not available", h)
+	}
+	// Calculate body digest per RFC 3230 section 4.3.2
+	bodyHash := h.New()
+	if r.Body != nil {
+		if _, err = io.Copy(bodyHash, r.Body); err != nil {
+			return err
+		}
+	}
+	d := bodyHash.Sum(nil)
+	digest = digest + base64.StdEncoding.EncodeToString(d)
+
+	// Build the string to be signed.
+	var sb strings.Builder
+	fmt.Fprintf(&sb, "(request-target): %s %s", strings.ToLower(r.Method), r.URL.EscapedPath())
+	if r.URL.RawQuery != "" {
+		// The ":path" pseudo-header field includes the path and query parts
+		// of the target URI (the "path-absolute" production and optionally a
+		// '?' character followed by the "query" production (see Sections 3.3
+		// and 3.4 of [RFC3986]
+		fmt.Fprintf(&sb, "?%s", r.URL.RawQuery)
+	}
+	fmt.Fprintf(&sb, "\ndate: %s", date)
+	fmt.Fprintf(&sb, "\nhost: %s", r.Host)
+	fmt.Fprintf(&sb, "\ndigest: %s", digest)
+	for _, header := range auth.SignedHeaders {
+		fmt.Fprintf(&sb, "\n%s: %s", strings.ToLower(header), r.Header.Get(header))
+	}
+	msg := []byte(sb.String())
+	msgHash := h.New()
+	if _, err = msgHash.Write(msg); err != nil {
+		return err
+	}
+	d = msgHash.Sum(nil)
+
+	var signature []byte
+	switch key := auth.PrivateKey.(type) {
+	case *rsa.PrivateKey:
+		signature, err = rsa.SignPKCS1v15(rand.Reader, key, h, d)
+	case *ecdsa.PrivateKey:
+		signature, err = key.Sign(rand.Reader, d, h)
+	//case ed25519.PrivateKey: requires go 1.13
+	//  signature, err = key.Sign(rand.Reader, msg, crypto.Hash(0))
+	default:
+		return fmt.Errorf("Unsupported private key")
+	}
+	if err != nil {
+		return err
+	}
+
+	sb.Reset()
+	sb.WriteString("(request-target) date host digest")
+	for _, h := range auth.SignedHeaders {
+		sb.WriteRune(' ')
+		sb.WriteString(strings.ToLower(h))
+	}
+	r.Header.Set("Host", r.Host)
+	r.Header.Set("Date", date)
+	r.Header.Set("Digest", digest)
+	authStr := fmt.Sprintf(`Signature keyId="%s", algorithm="%s", headers="%s", signature="%s"`,
+		auth.KeyId, auth.Algorithm, sb.String(), base64.StdEncoding.EncodeToString(signature))
+	r.Header.Set("Authorization", authStr)
+	return nil
+}
+
 // prepareRequest build the request
 func (c *APIClient) prepareRequest(
 	ctx context.Context,
@@ -363,6 +459,16 @@ func (c *APIClient) prepareRequest(
 		localVarRequest.Header.Add(header, value)
 	}
 
+	if ctx != nil {
+		// HTTP Signature Authentication. All request headers must be set (including default headers)
+		// because the headers may be included in the signature.
+		if auth, ok := ctx.Value(ContextHttpSignatureAuth).(HttpSignatureAuth); ok {
+			err = c.signRequest(ctx, localVarRequest, auth)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
 	return localVarRequest, nil
 }
 
