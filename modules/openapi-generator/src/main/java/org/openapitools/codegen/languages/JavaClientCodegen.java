@@ -847,7 +847,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public void addOneOfNameExtension(Schema s, String name) {
         ComposedSchema cs = (ComposedSchema) s;
         if (cs.getOneOf() != null && cs.getOneOf().size() > 0) {
-            cs.addExtension("x-oneOfName", name);
+            cs.addExtension("x-oneOf-name", name);
         }
     }
 

@@ -1655,8 +1655,8 @@ public class DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("static-method")
     public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
         Map<String, Object> exts = composedSchema.getExtensions();
-        if (exts != null && exts.containsKey("x-oneOfName")) {
-            return (String) exts.get("x-oneOfName");
+        if (exts != null && exts.containsKey("x-oneOf-name")) {
+            return (String) exts.get("x-oneOf-name");
         }
         return "oneOf<" + String.join(",", names) + ">";
     }
