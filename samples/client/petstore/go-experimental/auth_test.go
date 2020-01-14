@@ -350,7 +350,7 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth) st
 	// GET /v2/pet/12992 HTTP/1.1
 	// Host: petstore.swagger.io:80
 	// Accept: application/json
-	// Authorization: Signature keyId="my-key-id", algorithm="hs2019", headers="(request-target) date host digest content-type", signature="RMJZjVVxzlH02wlxiQgUYDe4QxZaI5IJNIfB2BK8Dhbv3WQ2gw0xyqC+5HiKUmT/cfchhhkUNNsUtiVRnjZmFwtSfYxHfiQvH3KWXlLCMwKGNQC3YzD9lnoWdx0pA5Kxbr0/ygmr3+lTyuN2PJg4IS7Ji/AaKAqIZx7RsHS8Bxw="
+	// Authorization: Signature keyId="my-key-id",algorithm="hs2019",created=1579033245,headers="(request-target) date host digest content-type",signature="RMJZjVVxzlH02wlxiQgUYDe4QxZaI5IJNIfB2BK8Dhbv3WQ2gw0xyqC+5HiKUmT/cfchhhkUNNsUtiVRnjZmFwtSfYxHfiQvH3KWXlLCMwKGNQC3YzD9lnoWdx0pA5Kxbr0/ygmr3+lTyuN2PJg4IS7Ji/AaKAqIZx7RsHS8Bxw="
 	// Date: Tue, 14 Jan 2020 06:41:22 GMT
 	// Digest: SHA-512=z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==
 	// Testheader: testvalue
@@ -360,14 +360,25 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth) st
 	fmt.Printf("Request with HTTP signature. Scheme: '%s'. Algorithm: '%s'. Request:\n%v\n",
 		authConfig.SigningScheme, authConfig.SigningAlgorithm, reqt)
 	var sb bytes.Buffer
-	fmt.Fprintf(&sb, `Authorization: Signature keyId="%s", algorithm="%s", headers="`,
+	fmt.Fprintf(&sb, `Signature keyId="%s",algorithm="%s",`,
 		authConfig.KeyId, authConfig.SigningScheme)
+	if len(authConfig.SignedHeaders) == 0 {
+    fmt.Fprintf(&sb, `created=[0-9]+,`)
+  } else {
+    for _, header := range authConfig.SignedHeaders {
+      header = strings.ToLower(header)
+      if header == sw.HttpSignatureParameterCreated {
+        fmt.Fprintf(&sb, `created=[0-9]+,`)
+      }
+    }
+  }
+	fmt.Fprintf(&sb, `headers="`)
 	for i, header := range authConfig.SignedHeaders {
 		header = strings.ToLower(header)
 		if i > 0 {
 			fmt.Fprintf(&sb, " ")
 		}
-		fmt.Fprintf(&sb, header)
+		fmt.Fprintf(&sb, regexp.QuoteMeta(header))
 		switch header {
 		case "date":
 			if !strings.Contains(reqt, "Date: ") {
@@ -387,11 +398,13 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth) st
 		}
 	}
 	if len(authConfig.SignedHeaders) == 0 {
-		fmt.Fprintf(&sb, sw.HttpSignatureParameterCreated)
+		fmt.Fprintf(&sb, regexp.QuoteMeta(sw.HttpSignatureParameterCreated))
 	}
-	fmt.Fprintf(&sb, `", signature="`)
-	if !strings.Contains(reqt, sb.String()) {
-		t.Errorf("Authorization header is incorrect")
+	fmt.Fprintf(&sb, `",signature="[a-zA-Z0-9+/]+="`)
+	re := regexp.MustCompile(sb.String())
+  actual := r.Request.Header.Get("Authorization")
+	if !re.MatchString(actual) {
+		t.Errorf("Authorization header is incorrect. Expected regex\n'%s'\nbut got\n'%s'", sb.String(), actual)
 	}
 	return r.Request.Header.Get("Authorization")
 }
@@ -464,11 +477,11 @@ func TestHttpSignatureAuth(t *testing.T) {
 	authorizationHeaderValue := executeHttpSignatureAuth(t, &authConfig)
 	expectedSignature := "ED7P+ETthVNx45FZ6Z1lzNDuIE+QuR05GpNJCg7yVGJGDng98inMiPumgdUiljZZr3aEacHXH2Ln8epF4Op6GRGrNYAjXVwK2Nm/6zxt1EEr2JAfA/L5eNjJq9VfZzPjcdanjfqEKvrY6isPpQLsBwRlazhbITsW5E6hAsbVnGk="
 	expectedAuthorizationHeader := fmt.Sprintf(
-		`Signature keyId="my-key-id", `+
-			`algorithm="hs2019", headers="(request-target) host content-type digest", `+
+		`Signature keyId="my-key-id",`+
+			`algorithm="hs2019",headers="(request-target) host content-type digest",`+
 			`signature="%s"`, expectedSignature)
 	if authorizationHeaderValue != expectedAuthorizationHeader {
-		t.Errorf("Authorization header value is incorrect. Got '%s' but expected '%s'", authorizationHeaderValue, expectedAuthorizationHeader)
+		t.Errorf("Authorization header value is incorrect. Got\n'%s'\nbut expected\n'%s'", authorizationHeaderValue, expectedAuthorizationHeader)
 	}
 
 	// Test with PSS signature. The PSS signature creates a new signature every time it is invoked.
@@ -486,12 +499,12 @@ func TestHttpSignatureAuth(t *testing.T) {
 	authorizationHeaderValue = executeHttpSignatureAuth(t, &authConfig)
 	expectedSignature = `[a-zA-Z0-9+/]+=`
 	expectedAuthorizationHeader = fmt.Sprintf(
-		`Signature keyId="my-key-id", `+
-			`algorithm="hs2019", headers="\(request-target\) host content-type digest", `+
+		`Signature keyId="my-key-id",`+
+			`algorithm="hs2019",headers="\(request-target\) host content-type digest",`+
 			`signature="%s"`, expectedSignature)
 	re := regexp.MustCompile(expectedAuthorizationHeader)
 	if !re.MatchString(authorizationHeaderValue) {
-		t.Errorf("Authorization header value is incorrect. Got '%s' but expected '%s'", authorizationHeaderValue, expectedAuthorizationHeader)
+		t.Errorf("Authorization header value is incorrect. Got\n'%s'\nbut expected\n'%s'", authorizationHeaderValue, expectedAuthorizationHeader)
 	}
 }
 

@@ -262,6 +262,7 @@ func (c *APIClient) SignRequest(
 	if len(signedHeaders) == 0 {
 		signedHeaders = []string{HttpSignatureParameterCreated}
 	}
+	hasCreatedParameter := false
 	for i, header := range signedHeaders {
 		header = strings.ToLower(header)
 		var value string
@@ -270,6 +271,7 @@ func (c *APIClient) SignRequest(
 			value = requestTarget
 		case HttpSignatureParameterCreated:
 			value = fmt.Sprintf("%d", created)
+			hasCreatedParameter = true
 		case "date":
 			value = date
 			r.Header.Set("Date", date)
@@ -332,8 +334,14 @@ func (c *APIClient) SignRequest(
 		}
 		sb.WriteString(strings.ToLower(header))
 	}
-	authStr := fmt.Sprintf(`Signature keyId="%s", algorithm="%s", headers="%s", signature="%s"`,
-		auth.KeyId, auth.SigningScheme, sb.String(), base64.StdEncoding.EncodeToString(signature))
+	headers_list := sb.String()
+	sb.Reset()
+	fmt.Fprintf(&sb, `Signature keyId="%s",algorithm="%s",`, auth.KeyId, auth.SigningScheme)
+	if hasCreatedParameter {
+		fmt.Fprintf(&sb, "created=%d,", created)
+	}
+	fmt.Fprintf(&sb, `headers="%s",signature="%s"`, headers_list, base64.StdEncoding.EncodeToString(signature))
+	authStr := sb.String()
 	r.Header.Set("Authorization", authStr)
 	return nil
 }
