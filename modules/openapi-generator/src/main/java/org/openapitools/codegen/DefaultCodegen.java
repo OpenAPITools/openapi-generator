@@ -4829,9 +4829,9 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (Parameter.StyleEnum.SIMPLE.equals(parameter.getStyle())) {
             return "csv";
         } else if (Parameter.StyleEnum.PIPEDELIMITED.equals(parameter.getStyle())) {
-            return "pipe";
+            return "pipes";
         } else if (Parameter.StyleEnum.SPACEDELIMITED.equals(parameter.getStyle())) {
-            return "space";
+            return "ssv";
         } else {
             return null;
         }
