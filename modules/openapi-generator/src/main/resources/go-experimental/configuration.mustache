@@ -64,11 +64,46 @@ type APIKey struct {
 	Prefix string
 }
 
-// HttpSignatureAuth provides http message signature authentication to a request passed via context using ContextHttpSignatureAuth
+const (
+	// Constants for HTTP signature parameters.
+	// The '(request-target)' parameter concatenates the lowercased :method, an
+    // ASCII space, and the :path pseudo-headers.
+	HttpSignatureParameterRequestTarget string = "(request-target)"
+	// The '(created)' parameter expresses when the signature was
+    // created.  The value MUST be a Unix timestamp integer value.
+	HttpSignatureParameterCreated string = "(created)"
+	// The '(expires)' parameter expresses when the signature ceases to
+    // be valid.  The value MUST be a Unix timestamp integer value.
+	HttpSignatureParameterExpires string = "(expires)"
+
+	HttpSignatureAlgorithmHs2019 string = "hs2019"
+	HttpSignatureAlgorithmRsaSha512 string = "rsa-sha512" // deprecated
+	HttpSignatureAlgorithmRsaSha256 string = "rsa-sha256" // deprecated
+)
+
+// HttpSignatureAuth provides http message signature authentication to a request passed
+// via context using ContextHttpSignatureAuth.
+// SignedHeaders specifies the list of HTTP headers that are included when generating
+// the message signature.
+// The two special signature headers '(request-target)' and '(created)' SHOULD be
+// included in SignedHeaders.
+// The '(created)' header expresses when the signature was created.
+// The '(request-target)' header is a concatenation of the lowercased :method, an
+// ASCII space, and the :path pseudo-headers.
+//
+// For example, SignedHeaders can be set to:
+//   (request-target) (created) date host digest
+//
+// When SignedHeaders is not specified, the client defaults to a single value, '(created)',
+// in the list of HTTP headers.
+// When SignedHeaders contains the 'Digest' value, the client performs the following operations:
+// 1. Calculate a digest of request body, as specified in RFC3230, section 4.3.2.
+// 2. Set the 'Digest' header in the request body.
+// 3. Include the 'Digest' header and value in the HTTP signature.
 type HttpSignatureAuth struct {
 	KeyId         string            // A key identifier.
 	PrivateKey    crypto.PrivateKey // The private key used to sign HTTP requests.
-	Algorithm     string            // The signature algorithm. Supported values are rsa-sha256, rsa-sha512, hs2019.
+	Algorithm     string            // The signature algorithm. Supported value is 'hs2019'.
 	SignedHeaders []string          // A list of HTTP headers included when generating the signature for the message.
 }
 

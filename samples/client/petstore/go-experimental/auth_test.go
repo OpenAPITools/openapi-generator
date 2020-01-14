@@ -1,13 +1,13 @@
 package main
 
 import (
+	"bytes"
 	"context"
-	"crypto/ecdsa"
-	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
@@ -255,6 +255,9 @@ func writeRandomTestRsaPemKey(t *testing.T, fileName string) {
 	}
 }
 
+/*
+Commented out because OpenAPITools is configured to use golang 1.8 at build time
+x509.MarshalPKCS8PrivateKey is not present.
 func writeRandomTestEcdsaPemKey(t *testing.T, fileName string) {
 	key, err := ecdsa.GenerateKey(elliptic.P521(), rand.Reader)
 	if err != nil {
@@ -282,6 +285,7 @@ func writeRandomTestEcdsaPemKey(t *testing.T, fileName string) {
 		t.Fatalf("Error encoding ECDSA private key: %v", err)
 	}
 }
+*/
 
 func TestHttpSignaturePrivateKeys(t *testing.T) {
 	privateKeyPath := "privatekey.pem"
@@ -298,36 +302,34 @@ func TestHttpSignaturePrivateKeys(t *testing.T) {
 			t.Fatalf("Error loading private key: %v", err)
 		}
 	}
-	{
-		authConfig := sw.HttpSignatureAuth{
-			KeyId:         "my-key-id",
-			Algorithm:     "hs2019",
-			SignedHeaders: []string{"Content-Type"},
+	/*
+		{
+			authConfig := sw.HttpSignatureAuth{
+				KeyId:         "my-key-id",
+				Algorithm:     "hs2019",
+				SignedHeaders: []string{"Content-Type"},
+			}
+			// Generate test private key.
+			writeRandomTestEcdsaPemKey(t, privateKeyPath)
+			err := authConfig.LoadPrivateKey(privateKeyPath)
+			if err != nil {
+				t.Fatalf("Error loading private key: %v", err)
+			}
 		}
-		// Generate test private key.
-		writeRandomTestEcdsaPemKey(t, privateKeyPath)
-		err := authConfig.LoadPrivateKey(privateKeyPath)
-		if err != nil {
-			t.Fatalf("Error loading private key: %v", err)
-		}
-	}
+	*/
 }
-func TestHttpSignatureAuth(t *testing.T) {
+func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth) string {
 	privateKeyPath := "rsa.pem"
-	authConfig := sw.HttpSignatureAuth{
-		KeyId:         "my-key-id",
-		Algorithm:     "hs2019",
-		SignedHeaders: []string{"Content-Type"},
-	}
 	writeTestRsaPemKey(t, privateKeyPath)
 	err := authConfig.LoadPrivateKey(privateKeyPath)
 	if err != nil {
 		t.Fatalf("Error loading private key: %v", err)
 	}
-	auth := context.WithValue(context.Background(), sw.ContextHttpSignatureAuth, authConfig)
+	auth := context.WithValue(context.Background(), sw.ContextHttpSignatureAuth, *authConfig)
 	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
-		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
+		PhotoUrls: []string{"http://1.com", "http://2.com"},
+		Status:    sw.PtrString("pending"),
+		Tags:      &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err2 := client.PetApi.AddPet(nil, newPet)
 
@@ -342,10 +344,128 @@ func TestHttpSignatureAuth(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
-
+	// The request should look like this:
+	//
+	// GET /v2/pet/12992 HTTP/1.1
+	// Host: petstore.swagger.io:80
+	// Accept: application/json
+	// Authorization: Signature keyId="my-key-id", algorithm="hs2019", headers="(request-target) date host digest content-type", signature="RMJZjVVxzlH02wlxiQgUYDe4QxZaI5IJNIfB2BK8Dhbv3WQ2gw0xyqC+5HiKUmT/cfchhhkUNNsUtiVRnjZmFwtSfYxHfiQvH3KWXlLCMwKGNQC3YzD9lnoWdx0pA5Kxbr0/ygmr3+lTyuN2PJg4IS7Ji/AaKAqIZx7RsHS8Bxw="
+	// Date: Tue, 14 Jan 2020 06:41:22 GMT
+	// Digest: SHA-512=z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==
+	// Testheader: testvalue
+	// User-Agent: OpenAPI-Generator/1.0.0/go
 	reqb, _ := httputil.DumpRequest(r.Request, true)
-	if !strings.Contains((string)(reqb), "Api_key: Bearer TEST123") {
-		t.Errorf("APIKey Authentication is missing")
+	reqt := (string)(reqb)
+	fmt.Printf("Request with HTTP signature:\n%v\n", reqt)
+	var sb bytes.Buffer
+	fmt.Fprintf(&sb, `Authorization: Signature keyId="%s", algorithm="%s", headers="`,
+		authConfig.KeyId, authConfig.Algorithm)
+	for i, header := range authConfig.SignedHeaders {
+		header = strings.ToLower(header)
+		if i > 0 {
+			fmt.Fprintf(&sb, " ")
+		}
+		fmt.Fprintf(&sb, header)
+		switch header {
+		case "date":
+			if !strings.Contains(reqt, "Date: ") {
+				t.Errorf("Date header is incorrect")
+			}
+		case "digest":
+			var prefix string
+			switch authConfig.Algorithm {
+			case sw.HttpSignatureAlgorithmRsaSha256:
+				prefix = "SHA-256="
+			default:
+				prefix = "SHA-512="
+			}
+			if !strings.Contains(reqt, fmt.Sprintf("Digest: %s", prefix)) {
+				t.Errorf("Digest header is incorrect")
+			}
+		}
+	}
+	if len(authConfig.SignedHeaders) == 0 {
+		fmt.Fprintf(&sb, sw.HttpSignatureParameterCreated)
+	}
+	fmt.Fprintf(&sb, `", signature="`)
+	if !strings.Contains(reqt, sb.String()) {
+		t.Errorf("Authorization header is incorrect")
+	}
+	return r.Request.Header.Get("Authorization")
+}
+func TestHttpSignatureAuth(t *testing.T) {
+	authConfig := sw.HttpSignatureAuth{
+		KeyId:     "my-key-id",
+		Algorithm: sw.HttpSignatureAlgorithmHs2019,
+		SignedHeaders: []string{
+			sw.HttpSignatureParameterRequestTarget, // The special (request-target) parameter expresses the HTTP request target.
+			sw.HttpSignatureParameterCreated,       // Time when request was signed, formatted as a Unix timestamp integer value.
+			"Host",                                 // The Host request header specifies the domain name of the server, and optionally the TCP port number.
+			"Date",                                 // The date and time at which the message was originated.
+			"Content-Type",                         // The Media type of the body of the request.
+			"Digest",                               // A cryptographic digest of the request body.
+		},
+	}
+	executeHttpSignatureAuth(t, &authConfig)
+
+	// Test with empty signed headers. The client should automatically add the "(created)" parameter by default.
+	authConfig = sw.HttpSignatureAuth{
+		KeyId:         "my-key-id",
+		Algorithm:     sw.HttpSignatureAlgorithmHs2019,
+		SignedHeaders: []string{},
+	}
+	executeHttpSignatureAuth(t, &authConfig)
+
+	// Test with deprecated RSA-SHA512, some servers may still support it.
+	authConfig = sw.HttpSignatureAuth{
+		KeyId:     "my-key-id",
+		Algorithm: sw.HttpSignatureAlgorithmRsaSha512,
+		SignedHeaders: []string{
+			sw.HttpSignatureParameterRequestTarget, // The special (request-target) parameter expresses the HTTP request target.
+			sw.HttpSignatureParameterCreated,       // Time when request was signed, formatted as a Unix timestamp integer value.
+			"Host",                                 // The Host request header specifies the domain name of the server, and optionally the TCP port number.
+			"Date",                                 // The date and time at which the message was originated.
+			"Content-Type",                         // The Media type of the body of the request.
+			"Digest",                               // A cryptographic digest of the request body.
+		},
+	}
+	executeHttpSignatureAuth(t, &authConfig)
+
+	// Test with deprecated RSA-SHA256, some servers may still support it.
+	authConfig = sw.HttpSignatureAuth{
+		KeyId:     "my-key-id",
+		Algorithm: sw.HttpSignatureAlgorithmRsaSha256,
+		SignedHeaders: []string{
+			sw.HttpSignatureParameterRequestTarget, // The special (request-target) parameter expresses the HTTP request target.
+			sw.HttpSignatureParameterCreated,       // Time when request was signed, formatted as a Unix timestamp integer value.
+			"Host",                                 // The Host request header specifies the domain name of the server, and optionally the TCP port number.
+			"Date",                                 // The date and time at which the message was originated.
+			"Content-Type",                         // The Media type of the body of the request.
+			"Digest",                               // A cryptographic digest of the request body.
+		},
+	}
+	executeHttpSignatureAuth(t, &authConfig)
+
+	// Test with headers without date. This makes it possible to get a fixed signature, used for unit test purpose.
+	// This should not be used in production code as it could potentially allow replay attacks.
+	authConfig = sw.HttpSignatureAuth{
+		KeyId:     "my-key-id",
+		Algorithm: sw.HttpSignatureAlgorithmHs2019,
+		SignedHeaders: []string{
+			sw.HttpSignatureParameterRequestTarget,
+			"Host",         // The Host request header specifies the domain name of the server, and optionally the TCP port number.
+			"Content-Type", // The Media type of the body of the request.
+			"Digest",       // A cryptographic digest of the request body.
+		},
+	}
+	authorizationHeaderValue := executeHttpSignatureAuth(t, &authConfig)
+	expectedSignature := "ED7P+ETthVNx45FZ6Z1lzNDuIE+QuR05GpNJCg7yVGJGDng98inMiPumgdUiljZZr3aEacHXH2Ln8epF4Op6GRGrNYAjXVwK2Nm/6zxt1EEr2JAfA/L5eNjJq9VfZzPjcdanjfqEKvrY6isPpQLsBwRlazhbITsW5E6hAsbVnGk="
+	expectedAuthorizationHeader := fmt.Sprintf(
+		`Signature keyId="my-key-id", `+
+			`algorithm="hs2019", headers="(request-target) host content-type digest", `+
+			`signature="%s"`, expectedSignature)
+	if authorizationHeaderValue != expectedAuthorizationHeader {
+		t.Errorf("Authorization header value is incorrect. Got '%s' but expected '%s'", authorizationHeaderValue, expectedAuthorizationHeader)
 	}
 }
 
