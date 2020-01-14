@@ -592,34 +592,49 @@ class ApiClient(object):
             raw_query = urlencode(query_params).replace('+', '%20')
             request_target += "?" + raw_query
 
+        # Get current time and generate RFC 1123 (HTTP/1.1) date/time string.
         from email.utils import formatdate
-        cdate=formatdate(timeval=None, localtime=False, usegmt=True)
+        now = datetime.datetime.now()
+        stamp = mktime(now.timetuple())
+        cdate=formatdate(timeval=stamp, localtime=False, usegmt=True)
+        created=now.strftime("%s")
 
-        request_body = body.encode()
-        body_digest, digest_prefix = self.get_message_digest(request_body)
-        b64_body_digest = b64encode(body_digest.digest())
-
-        signed_headers = {
-            'Date': cdate,
-            'Host': target_host,
-            'Digest': digest_prefix + b64_body_digest.decode('ascii')
-        }
+        signed_headers = {}
+        signed_header_dict = {}
         for hdr_key in self.configuration.signed_headers:
-            signed_headers[hdr_key] = headers[hdr_key]
+            hdr_key = hdr_key.lower()
+            if hdr_key == '(request-target)':
+                value = request_target
+            elif hdr_key == '(created)':
+                value = created
+            elif hdr_key == 'date':
+                value = cdate
+                signed_header_dict['Date'] = '{0}'.format(cdate)
+            elif hdr_key == 'digest':
+                request_body = body.encode()
+                body_digest, digest_prefix = self.get_message_digest(request_body)
+                b64_body_digest = b64encode(body_digest.digest())
+                value = digest_prefix + b64_body_digest.decode('ascii')
+                signed_header_dict['Digest'] = '{0}{1}'.format(digest_prefix, b64_body_digest.decode('ascii'))
+            elif hdr_key == 'host':
+                value = target_host
+                signed_header_dict['Host'] = '{0}'.format(target_host)
+            else:
+                value = headers[hdr_key]
+            signed_headers[hdr_key] = value
 
-        string_to_sign = self.get_str_to_sign(request_target, signed_headers)
+        if len(self.configuration.signed_headers) == 0:
+            signed_headers['(created)'] = created
+
+        string_to_sign = self.get_str_to_sign(signed_headers)
 
         digest, digest_prefix = self.get_message_digest(string_to_sign.encode())
         b64_signed_msg = self.sign_digest(digest)
 
         auth_header = self.get_authorization_header(signed_headers, b64_signed_msg)
+        signed_header_dict['Authorization'] = '{0}'.format(auth_header)
 
-        return {
-            'Date': '{0}'.format(cdate),
-            'Host': '{0}'.format(target_host),
-            'Digest': '{0}{1}'.format(digest_prefix, b64_body_digest.decode('ascii')),
-            'Authorization': '{0}'.format(auth_header)
-        }
+        return signed_header_dict
 
     def get_message_digest(self, data):
         """
@@ -667,24 +682,19 @@ class ApiClient(object):
             raise Exception("Unsupported private key: {0}".format(type(privkey)))
         return b64encode(signature)
 
-    def get_str_to_sign(self, req_tgt, hdrs):
+    def get_str_to_sign(self, signed_headers):
         """
         Generate and return a string value representing the HTTP request to be signed.
 
-        :param req_tgt : Request Target as stored in http header.
-        :param hdrs: HTTP Headers to be signed.
+        :param signed_headers: The HTTP Headers to be signed.
         :return: instance of digest object 
         """
         ss = ""
-        ss = ss + "(request-target): " + req_tgt + "\n"
-
-        length = len(hdrs.items())
-
         i = 0
-        for key, value in hdrs.items():
-            ss = ss + key.lower() + ": " + value
-            if i < length-1:
+        for key, value in signed_headers.items():
+            if i > 0:
                 ss = ss + "\n"
+            ss = ss + key.lower() + ": " + value
             i += 1
 
         return ss

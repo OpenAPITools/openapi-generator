@@ -32,16 +32,54 @@ class Configuration(object):
     :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
-    :param key_id: The identifier of the key used to sign HTTP requests
-    :param private_key_path: The path of the file containing a private key, used to sign HTTP requests
-    :param signing_algorithm: The signature algorithm when signing HTTP requests. Supported values are hs2019, rsa-sha256, rsa-sha512
-    :param signed_headers: A list of HTTP headers that must be signed, when signing HTTP requests
+    :param key_id: The identifier of the cryptographic key, when signing HTTP requests.
+        An 'Authorization' header is calculated by creating a hash of select headers,
+        and optionally the body of the HTTP request, then signing the hash value using
+        a private key which is available to the client.
+    :param private_key_path: The path of the file containing a private key,
+        when signing HTTP requests.
+    :param signing_scheme: The signature scheme, when signing HTTP requests.
+        Supported value is hs2019.
+    :param signing_algorithm: The signature algorithm, when signing HTTP requests.
+        Supported values are PKCS1v15, PSS; fips-186-3, deterministic-rfc6979.
+    :param signed_headers: A list of HTTP headers that must be added to the signed message,
+        when signing HTTP requests.
+        The two special signature headers '(request-target)' and '(created)' SHOULD be
+        included in SignedHeaders.
+        The '(created)' header expresses when the signature was created.
+        The '(request-target)' header is a concatenation of the lowercased :method, an
+        ASCII space, and the :path pseudo-headers.
+        When signed_headers is not specified, the client defaults to a single value,
+        '(created)', in the list of HTTP headers.
+        When SignedHeaders contains the 'Digest' value, the client performs the
+        following operations:
+        1. Calculate a digest of request body, as specified in RFC3230, section 4.3.2.
+        2. Set the 'Digest' header in the request body.
+        3. Include the 'Digest' header and value in the HTTP signature.
+
+    :Example:
+
+    Configure API client with HTTP basic authentication:
+      conf = petstore_api.Configuration(
+          username='the-user',
+          password='the-password',
+      )
+
+    Configure API client with HTTP signature authentication:
+      conf = petstore_api.Configuration(
+        key_id='my-key-id',
+        private_key_path='rsa.pem',
+        signing_scheme='hs2019',
+        signing_algorithm='PSS',
+        signed_headers=['(request-target)', '(created)', 'host', 'date', 'Content-Type', 'Digest']
+      )
     """
 
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
                  username="", password="",
-                 key_id=None, private_key_path=None, signing_algorithm=None, signed_headers=None):
+                 key_id=None, private_key_path=None, signing_scheme=None,
+                 signing_algorithm=None, signed_headers=None):
         """Constructor
         """
         self.host = host
@@ -71,16 +109,22 @@ class Configuration(object):
         """Password for HTTP basic authentication
         """
         self.key_id = key_id
-        """The identifier of the key used to sign HTTP requests
+        """The identifier of the key used to sign HTTP requests.
         """
         self.private_key_path = private_key_path
-        """The path of the file containing a private key, used to sign HTTP requests
+        """The path of the file containing a private key, used to sign HTTP requests.
+        """
+        self.signing_scheme = signing_scheme
+        """The signature scheme when signing HTTP requests.
+           Supported values are hs2019, rsa-sha256, rsa-sha512.
         """
         self.signing_algorithm = signing_algorithm
-        """The signature algorithm when signing HTTP requests. Supported values are hs2019, rsa-sha256, rsa-sha512
+        """The signature algorithm when signing HTTP requests.
+           For RSA keys, supported values are PKCS1v15, PSS.
+           For ECDSA keys, supported values are fips-186-3, deterministic-rfc6979.
         """
         self.signed_headers = signed_headers
-        """A list of HTTP headers that must be signed, when signing HTTP requests
+        """A list of HTTP headers that must be signed, when signing HTTP requests.
         """
         self.access_token = ""
         """access token for OAuth/Bearer
@@ -122,10 +166,6 @@ class Configuration(object):
         """
         self.assert_hostname = None
         """Set this to True/False to enable/disable SSL hostname verification.
-        """
-
-        self.private_key = None
-        """The private key used to sign HTTP requests. Initialized when the PEM-encoded private key is loaded from a file.
         """
 
         self.connection_pool_maxsize = multiprocessing.cpu_count() * 5
@@ -296,13 +336,6 @@ class Configuration(object):
                     'key': 'Authorization',
                     'value': self.get_basic_auth_token()
                 },
-            'http_signature_test':
-                {
-                    'type': 'http-signature',
-                    'in': 'header',
-                    'key': 'Authorization',
-                    'value': None  # Signature headers are calculated for every HTTP request
-                },
             'petstore_auth':
                 {
                     'type': 'oauth2',
@@ -311,7 +344,6 @@ class Configuration(object):
                     'value': 'Bearer ' + self.access_token
                 },
         }
-
 
     def to_debug_report(self):
         """Gets the essential information for debugging.

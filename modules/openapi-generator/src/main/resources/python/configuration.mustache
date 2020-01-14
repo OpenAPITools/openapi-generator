@@ -57,7 +57,13 @@ class Configuration(object):
 
     :Example:
 
-    Configure HTTP signature:
+    Configure API client with HTTP basic authentication:
+      conf = {{{packageName}}}.Configuration(
+          username='the-user',
+          password='the-password',
+      )
+
+    Configure API client with HTTP signature authentication:
       conf = {{{packageName}}}.Configuration(
         key_id='my-key-id',
         private_key_path='rsa.pem',

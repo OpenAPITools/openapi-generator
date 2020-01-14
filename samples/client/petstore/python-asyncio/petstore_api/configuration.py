@@ -58,10 +58,16 @@ class Configuration(object):
 
     :Example:
 
-    Configure HTTP signature:
+    Configure API client with HTTP basic authentication:
+      conf = petstore_api.Configuration(
+          username='the-user',
+          password='the-password',
+      )
+
+    Configure API client with HTTP signature authentication:
       conf = petstore_api.Configuration(
         key_id='my-key-id',
-        private_key_path='rsa.key',
+        private_key_path='rsa.pem',
         signing_scheme='hs2019',
         signing_algorithm='PSS',
         signed_headers=['(request-target)', '(created)', 'host', 'date', 'Content-Type', 'Digest']
