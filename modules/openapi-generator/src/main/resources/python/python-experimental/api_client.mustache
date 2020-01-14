@@ -565,13 +565,13 @@ class ApiClient(object):
 {{#hasHttpSignatureMethods}}
     def get_http_signature_headers(self, resource_path, method, headers, body, query_params):
         """
-        Create a message signature for the HTTP request and add the signed headers.
+        Create a cryptographic message signature for the HTTP request and add the signed headers.
         
         :param resource_path : resource path which is the api being called upon.
         :param method: the HTTP request method.
         :param headers: the request headers.
         :param body: body passed in the http request.
-        :param query_params: query parameters used by the API 
+        :param query_params: query parameters used by the API.
         :return: instance of digest object 
         """
         if method is None:

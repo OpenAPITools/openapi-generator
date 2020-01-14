@@ -1169,6 +1169,9 @@ components:
       scheme: bearer
       bearerFormat: JWT
     http_signature_test:
+      # Test the 'HTTP signature' security scheme.
+      # Each HTTP request is cryptographically signed as specified
+      # in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
       type: http
       scheme: signature
   schemas:
