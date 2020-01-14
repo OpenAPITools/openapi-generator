@@ -32,6 +32,9 @@ class Configuration(object):
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
     :param key_id: The identifier of the cryptographic key, when signing HTTP requests.
+        An 'Authorization' header is calculated by creating a hash of select headers,
+        and optionally the body of the HTTP request, then signing the hash value using
+        a private key which is available to the client.
     :param private_key_path: The path of the file containing a private key,
         when signing HTTP requests.
     :param signing_scheme: The signature scheme, when signing HTTP requests.
@@ -40,6 +43,29 @@ class Configuration(object):
         Supported values are PKCS1v15, PSS; fips-186-3, deterministic-rfc6979.
     :param signed_headers: A list of HTTP headers that must be added to the signed message,
         when signing HTTP requests.
+        The two special signature headers '(request-target)' and '(created)' SHOULD be
+        included in SignedHeaders.
+        The '(created)' header expresses when the signature was created.
+        The '(request-target)' header is a concatenation of the lowercased :method, an
+        ASCII space, and the :path pseudo-headers.
+        When signed_headers is not specified, the client defaults to a single value,
+        '(created)', in the list of HTTP headers.
+        When SignedHeaders contains the 'Digest' value, the client performs the
+        following operations:
+        1. Calculate a digest of request body, as specified in RFC3230, section 4.3.2.
+        2. Set the 'Digest' header in the request body.
+        3. Include the 'Digest' header and value in the HTTP signature.
+
+    :Example:
+
+    Configure HTTP signature:
+      conf = petstore_api.Configuration(
+        key_id='my-key-id',
+        private_key_path='rsa.key',
+        signing_scheme='hs2019',
+        signing_algorithm='PSS',
+        signed_headers=['(request-target)', '(created)', 'host', 'date', 'Content-Type', 'Digest']
+      )
     """
 
     def __init__(self, host="http://petstore.swagger.io:80/v2",

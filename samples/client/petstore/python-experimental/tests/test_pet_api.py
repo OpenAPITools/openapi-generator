@@ -154,6 +154,36 @@ class PetApiTests(unittest.TestCase):
         pet_api2.api_client.configuration.host = 'someotherhost'
         self.assertNotEqual(pet_api.api_client.configuration.host, pet_api2.api_client.configuration.host)
 
+    def test_http_signature(self):
+        config = Configuration(
+            key_id="my-key-id",
+            private_key_path="rsa.pem",
+            signing_scheme="hs2019",
+            signing_algorithm='PKCS1v15',
+            signed_headers=['(request-target)', '(created)', 'host', 'date', 'Content-Type', 'Digest'])
+        config.host = HOST
+        self.api_client = petstore_api.ApiClient(config)
+        self.pet_api = petstore_api.PetApi(self.api_client)
+
+        mock_pool = MockPoolManager(self)
+        self.api_client.rest_client.pool_manager = mock_pool
+
+        mock_pool.expect_request('POST', 'http://localhost/v2/pet',
+                                 body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
+                                 headers={'Content-Type': 'application/json',
+                                          'Authorization': 'Bearer ',
+                                          'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
+                                 preload_content=True, timeout=TimeoutWithEqual(total=5))
+        mock_pool.expect_request('POST', 'http://localhost/v2/pet',
+                                 body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
+                                 headers={'Content-Type': 'application/json',
+                                          'Authorization': 'Bearer ',
+                                          'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
+                                 preload_content=True, timeout=TimeoutWithEqual(connect=1, read=2))
+
+        self.pet_api.add_pet(self.pet, _request_timeout=5)
+        self.pet_api.add_pet(self.pet, _request_timeout=(1, 2))
+
     def test_async_request(self):
         thread = self.pet_api.add_pet(self.pet, async_req=True)
         response = thread.get()
