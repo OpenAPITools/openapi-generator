@@ -35,6 +35,9 @@ from petstore_api.model_utils import (
 )
 
 
+ECDSA_KEY_SIGNING_ALGORITHMS = {'fips-186-3', 'deterministic-rfc6979'}
+
+
 class ApiClient(object):
     """Generic API client for OpenAPI client library builds.
 

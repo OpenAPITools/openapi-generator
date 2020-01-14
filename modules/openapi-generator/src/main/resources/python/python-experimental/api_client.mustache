@@ -15,6 +15,7 @@ from Crypto.PublicKey import RSA, ECC
 from Crypto.Signature import PKCS1_v1_5, pss, DSS
 from Crypto.Hash import SHA256, SHA512
 from base64 import b64encode
+from email.utils import formatdate
 {{/hasHttpSignatureMethods}}
 {{#tornado}}
 import tornado.gen
@@ -34,6 +35,9 @@ from {{packageName}}.model_utils import (
     str,
     validate_and_convert_types
 )
+
+
+ECDSA_KEY_SIGNING_ALGORITHMS = {'fips-186-3', 'deterministic-rfc6979'}
 
 
 class ApiClient(object):
@@ -568,11 +572,11 @@ class ApiClient(object):
         Create a cryptographic message signature for the HTTP request and add the signed headers.
         
         :param resource_path : resource path which is the api being called upon.
-        :param method: the HTTP request method.
-        :param headers: the request headers.
-        :param body: body passed in the http request.
-        :param query_params: query parameters used by the API.
-        :return: instance of digest object 
+        :param method: the HTTP request method, e.g. GET, POST.
+        :param headers: The HTTP request headers.
+        :param body: The string representation of the HTTP request body.
+        :param query_params: The HTTP request query parameters.
+        :return: A dictionary of HTTP headers that must be added to the outbound HTTP request.
         """
         if method is None:
             raise Exception("HTTP method must be set")
@@ -593,11 +597,10 @@ class ApiClient(object):
             request_target += "?" + raw_query
 
         # Get current time and generate RFC 1123 (HTTP/1.1) date/time string.
-        from email.utils import formatdate
         now = datetime.datetime.now()
         stamp = mktime(now.timetuple())
-        cdate=formatdate(timeval=stamp, localtime=False, usegmt=True)
-        created=now.strftime("%s")
+        cdate = formatdate(timeval=stamp, localtime=False, usegmt=True)
+        created = now.strftime("%s")
 
         signed_headers = {}
         signed_header_dict = {}
@@ -626,7 +629,11 @@ class ApiClient(object):
         if len(self.configuration.signed_headers) == 0:
             signed_headers['(created)'] = created
 
-        string_to_sign = self.get_str_to_sign(signed_headers)
+        string_to_sign = ""
+        for i, (key, value) in enumerate(signed_headers.items()):
+            string_to_sign += key.lower() + ": " + value
+            if i > 0:
+                string_to_sign += "\n"
 
         digest, digest_prefix = self.get_message_digest(string_to_sign.encode())
         b64_signed_msg = self.sign_digest(digest)
@@ -659,8 +666,8 @@ class ApiClient(object):
         """
         Signs a message digest with a private key specified in the configuration.
 
-        :param digest: digest of the HTTP message.
-        :return: the HTTP message signature encoded as a byte string.
+        :param digest: A byte string representing the cryptographic digest of the HTTP request.
+        :return: A base-64 string representing the cryptographic signature of the input digest.
         """
         self.configuration.load_private_key()
         privkey = self.configuration.private_key
@@ -674,7 +681,7 @@ class ApiClient(object):
             else:
                 raise Exception("Unsupported signature algorithm: {0}".format(self.configuration.signing_algorithm))
         elif isinstance(privkey, ECC.EccKey):
-            if self.configuration.signing_algorithm in ['fips-186-3', 'deterministic-rfc6979']:
+            if self.configuration.signing_algorithm in ECDSA_KEY_SIGNING_ALGORITHMS:
                 signature = DSS.new(privkey, self.configuration.signing_algorithm).sign(digest)
             else:
                 raise Exception("Unsupported signature algorithm: {0}".format(self.configuration.signing_algorithm))
@@ -682,59 +689,34 @@ class ApiClient(object):
             raise Exception("Unsupported private key: {0}".format(type(privkey)))
         return b64encode(signature)
 
-    def get_str_to_sign(self, signed_headers):
-        """
-        Generate and return a string value representing the HTTP request to be signed.
-
-        :param signed_headers: The HTTP Headers to be signed.
-        :return: instance of digest object 
-        """
-        ss = ""
-        i = 0
-        for key, value in signed_headers.items():
-            if i > 0:
-                ss = ss + "\n"
-            ss = ss + key.lower() + ": " + value
-            i += 1
-
-        return ss
-
     def get_authorization_header(self, signed_headers, signed_msg, created_ts):
         """
         Calculates and returns the value of the 'Authorization' header when signing HTTP requests.
         
-        :param signed_headers : The list of signed HTTP Headers.
+        :param signed_headers : A list of strings. Each value is the name of a HTTP header that
+           must be included in the HTTP signature calculation.
         :param signed_msg: Signed Digest.
-        :param created_ts: The time when the signature was created, as a UNIX timestamp.
-        :return: instance of digest object 
+        :param created_ts: The string representation of the time when the signature was created,
+           as a UNIX timestamp value.
+        :return: The string value of the 'Authorization' header, containing the HTTP request signature.
         """
 
-        i = 0
         headers_value = ""
         is_created_set = False
-        for key, _ in signed_headers.items():
+        for i, key in enumerate(signed_headers)
             key = key.lower()
+            headers_value += key
             if i > 0:
-                headers_value = headers_value + " "
-            headers_value = headers_value + key
+                headers_value += " "
             if key == '(created)':
                 is_created_set = True
-            i += 1
 
-        auth_str = ""
-        auth_str = auth_str + "Signature"
-
-        auth_str = auth_str + " " + "keyId=\"" + self.configuration.key_id + "\"," + "algorithm=\"" +
-            self.configuration.signing_scheme + "\","
+        auth_str = "Signature keyId=\"{0}\",algorithm=\"{1}\","
+            .format(self.configuration.key_id, self.configuration.signing_scheme)
         if is_created_set:
             auth_str = auth_str + "created={0},".format(created_ts)
-        auth_str = auth_str + "headers=\""
-        auth_str = auth_str + headers_value
-
-        auth_str = auth_str + "\""
-
-        auth_str = auth_str + "," + "signature=\"" + signed_msg.decode('ascii') + "\""
-
+        auth_str = auth_str + "headers=\"{0}\",signature=\"{1}\""
+            .format(headers_value, signed_msg.decode('ascii'))
         return auth_str
 
 {{/hasHttpSignatureMethods}}
