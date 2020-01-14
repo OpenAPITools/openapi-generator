@@ -631,7 +631,7 @@ class ApiClient(object):
         digest, digest_prefix = self.get_message_digest(string_to_sign.encode())
         b64_signed_msg = self.sign_digest(digest)
 
-        auth_header = self.get_authorization_header(signed_headers, b64_signed_msg)
+        auth_header = self.get_authorization_header(signed_headers, b64_signed_msg, created)
         signed_header_dict['Authorization'] = '{0}'.format(auth_header)
 
         return signed_header_dict
@@ -699,23 +699,38 @@ class ApiClient(object):
 
         return ss
 
-    def get_authorization_header(self, hdrs, signed_msg):
+    def get_authorization_header(self, signed_headers, signed_msg, created_ts):
         """
         Calculates and returns the value of the 'Authorization' header when signing HTTP requests.
         
-        :param hdrs : The list of signed HTTP Headers
-        :param signed_msg: Signed Digest
+        :param signed_headers : The list of signed HTTP Headers.
+        :param signed_msg: Signed Digest.
+        :param created_ts: The time when the signature was created, as a UNIX timestamp.
         :return: instance of digest object 
         """
+
+        i = 0
+        headers_value = ""
+        is_created_set = False
+        for key, _ in signed_headers.items():
+            key = key.lower()
+            if i > 0:
+                headers_value = headers_value + " "
+            headers_value = headers_value + key
+            if key == '(created)':
+                is_created_set = True
+            i += 1
 
         auth_str = ""
         auth_str = auth_str + "Signature"
 
         auth_str = auth_str + " " + "keyId=\"" + self.configuration.key_id + "\"," + "algorithm=\"" +
-            self.configuration.signing_scheme + "\"," + "headers=\"(request-target)"
+            self.configuration.signing_scheme + "\","
+        if is_created_set:
+            auth_str = auth_str + "created={0},".format(created_ts)
+        auth_str = auth_str + "headers=\""
+        auth_str = auth_str + headers_value
 
-        for key, _ in hdrs.items():
-            auth_str = auth_str + " " + key.lower()
         auth_str = auth_str + "\""
 
         auth_str = auth_str + "," + "signature=\"" + signed_msg.decode('ascii') + "\""
