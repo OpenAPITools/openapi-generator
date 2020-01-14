@@ -117,7 +117,8 @@ class PetApiTests(unittest.TestCase):
         resp.release_conn()
 
     def test_config(self):
-        config = Configuration(host=HOST, access_token='ACCESS_TOKEN')
+        config = Configuration(host=HOST)
+        config.access_token = 'ACCESS_TOKEN'
         self.assertIsNotNone(config.get_host_settings())
         self.assertEquals(config.get_basic_auth_token(),
                           urllib3.util.make_headers(basic_auth=":").get('authorization'))
