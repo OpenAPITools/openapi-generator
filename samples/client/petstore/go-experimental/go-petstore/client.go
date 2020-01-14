@@ -308,10 +308,8 @@ func (c *APIClient) SignRequest(
 	case *rsa.PrivateKey:
 		switch auth.SigningAlgorithm {
 		case HttpSigningAlgorithmRsaPKCS1v15:
-			fmt.Printf("PKCS1v15 signature\n")
 			signature, err = rsa.SignPKCS1v15(rand.Reader, key, h, d)
 		case "", HttpSigningAlgorithmRsaPSS:
-			fmt.Printf("PSS signature\n")
 			signature, err = rsa.SignPSS(rand.Reader, key, h, d, nil)
 		default:
 			return fmt.Errorf("Unsupported signing algorithm: '%s'", auth.SigningAlgorithm)
