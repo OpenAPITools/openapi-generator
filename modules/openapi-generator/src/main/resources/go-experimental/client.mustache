@@ -236,7 +236,7 @@ func (c *APIClient) signRequest(
 	digest = digest + base64.StdEncoding.EncodeToString(d)
 
 	// Build the string to be signed.
-	var sb strings.Builder
+	var sb bytes.Buffer
 	fmt.Fprintf(&sb, "(request-target): %s %s", strings.ToLower(r.Method), r.URL.EscapedPath())
 	if r.URL.RawQuery != "" {
 		// The ":path" pseudo-header field includes the path and query parts
