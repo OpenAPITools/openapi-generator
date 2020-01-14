@@ -11,8 +11,13 @@ package openapi
 
 import (
 	"context"
+	"crypto"
+	"crypto/x509"
+	"encoding/pem"
 	"fmt"
+	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -39,6 +44,9 @@ var (
 	// ContextAPIKeys takes a string apikey as authentication for the request
 	ContextAPIKeys = contextKey("apiKeys")
 
+	// ContextHttpSignatureAuth takes HttpSignatureAuth as authentication for the request.
+	ContextHttpSignatureAuth = contextKey("httpsignature")
+
 	// ContextServerIndex uses a server configuration from the index.
 	ContextServerIndex = contextKey("serverIndex")
 
@@ -62,6 +70,45 @@ type BasicAuth struct {
 type APIKey struct {
 	Key    string
 	Prefix string
+}
+
+// HttpSignatureAuth provides http message signature authentication to a request passed via context using ContextHttpSignatureAuth
+type HttpSignatureAuth struct {
+	KeyId         string            // A key identifier.
+	PrivateKey    crypto.PrivateKey // The private key used to sign HTTP requests.
+	Algorithm     string            // The signature algorithm. Supported values are rsa-sha256, rsa-sha512, hs2019.
+	SignedHeaders []string          // A list of HTTP headers included when generating the signature for the message.
+}
+
+// LoadPrivateKey reads the private key from the specified file.
+func (h *HttpSignatureAuth) LoadPrivateKey(filename string) (err error) {
+	var file *os.File
+	file, err = os.Open(filename)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		err = file.Close()
+	}()
+	var priv []byte
+	priv, err = ioutil.ReadAll(file)
+	if err != nil {
+		return err
+	}
+	privPem, _ := pem.Decode(priv)
+	switch privPem.Type {
+	case "RSA PRIVATE KEY":
+		if h.PrivateKey, err = x509.ParsePKCS1PrivateKey(privPem.Bytes); err != nil {
+			return err
+		}
+	case "ECDSA PRIVATE KEY":
+		if h.PrivateKey, err = x509.ParsePKCS8PrivateKey(privPem.Bytes); err != nil {
+			return err
+		}
+	default:
+		return fmt.Errorf("Key '%s' is not supported", privPem.Type)
+	}
+	return nil
 }
 
 // ServerVariable stores the information about a server variable
