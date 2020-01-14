@@ -41,8 +41,8 @@ class Configuration(object):
         Supported value is hs2019.
     :param signing_algorithm: The signature algorithm, when signing HTTP requests.
         Supported values are PKCS1v15, PSS; fips-186-3, deterministic-rfc6979.
-    :param signed_headers: A list of HTTP headers that must be added to the signed message,
-        when signing HTTP requests.
+    :param signed_headers: A list of strings. Each value is the name of a HTTP header
+        that must be included in the HTTP signature calculation.
         The two special signature headers '(request-target)' and '(created)' SHOULD be
         included in SignedHeaders.
         The '(created)' header expresses when the signature was created.
@@ -123,7 +123,8 @@ class Configuration(object):
            For ECDSA keys, supported values are fips-186-3, deterministic-rfc6979.
         """
         self.signed_headers = signed_headers
-        """A list of HTTP headers that must be signed, when signing HTTP requests.
+        """A list of strings. Each value is the name of HTTP header that must be included in the
+           HTTP signature calculation.
         """
         self.access_token = ""
         """access token for OAuth/Bearer

@@ -519,9 +519,9 @@ class ApiClient(object):
         :param headers: Header parameters dict to be updated.
         :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
-        :resource_path: The HTTP request resource path.
-        :method: The HTTP request method.
-        :body: The body of the HTTP request. 
+        :resource_path: A string representation of the HTTP request resource path.
+        :method: A string representation of the HTTP request method.
+        :body: A string representation of the body of the HTTP request. 
         """
         if not auth_settings:
             return

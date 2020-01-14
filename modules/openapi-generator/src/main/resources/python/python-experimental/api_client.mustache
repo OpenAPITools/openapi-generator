@@ -533,9 +533,9 @@ class ApiClient(object):
         :param headers: Header parameters dict to be updated.
         :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
-        :resource_path: The HTTP request resource path.
-        :method: The HTTP request method.
-        :body: The body of the HTTP request. 
+        :resource_path: A string representation of the HTTP request resource path.
+        :method: A string representation of the HTTP request method.
+        :body: A string representation of the body of the HTTP request. 
         """
         if not auth_settings:
             return
@@ -571,12 +571,12 @@ class ApiClient(object):
         """
         Create a cryptographic message signature for the HTTP request and add the signed headers.
         
-        :param resource_path : resource path which is the api being called upon.
-        :param method: the HTTP request method, e.g. GET, POST.
-        :param headers: The HTTP request headers.
+        :param resource_path : A string representation of the HTTP request resource path.
+        :param method: A string representation of the HTTP request method, e.g. GET, POST.
+        :param headers: A dict containing the HTTP request headers.
         :param body: The string representation of the HTTP request body.
-        :param query_params: The HTTP request query parameters.
-        :return: A dictionary of HTTP headers that must be added to the outbound HTTP request.
+        :param query_params: A string representing the HTTP request query parameters.
+        :return: A dict of HTTP headers that must be added to the outbound HTTP request.
         """
         if method is None:
             raise Exception("HTTP method must be set")
@@ -631,7 +631,7 @@ class ApiClient(object):
 
         string_to_sign = ""
         for i, (key, value) in enumerate(signed_headers.items()):
-            string_to_sign += key.lower() + ": " + value
+            string_to_sign += "{0}: {1}".format(key.lower(), value)
             if i > 0:
                 string_to_sign += "\n"
 
