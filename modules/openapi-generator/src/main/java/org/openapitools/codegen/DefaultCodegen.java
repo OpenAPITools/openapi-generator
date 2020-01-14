@@ -3631,6 +3631,8 @@ public class DefaultCodegen implements CodegenConfig {
                     // HTTP signature as defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
                     // The registry of security schemes is maintained by IANA.
                     // https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml
+                    // As of January 2020, the "signature" scheme has not been registered with IANA yet.
+                    // This scheme may have to be changed when it is officially registered with IANA.
                     cs.isHttpSignature = true;
                 } else {
                     throw new RuntimeException("Unsupported security scheme: " + securityScheme.getScheme());
