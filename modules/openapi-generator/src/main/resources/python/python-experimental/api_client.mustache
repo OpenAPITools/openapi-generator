@@ -698,7 +698,8 @@ class ApiClient(object):
         :param signed_msg: Signed Digest.
         :param created_ts: The string representation of the time when the signature was created,
            as a UNIX timestamp value.
-        :return: The string value of the 'Authorization' header, containing the HTTP request signature.
+        :return: The string value of the 'Authorization' header, representing the signature
+           of the HTTP request.
         """
 
         headers_value = ""
