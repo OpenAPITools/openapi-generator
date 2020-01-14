@@ -49,6 +49,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String jsonSchema;
     public String minimum;
     public String maximum;
+    public Number multipleOf;
     public boolean exclusiveMinimum;
     public boolean exclusiveMaximum;
     public boolean hasMore;
@@ -513,6 +514,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.maxProperties = maxProperties;
     }
 
+    public Number getMultipleOf() {
+        return multipleOf;
+    }
+
+    public void setMultipleOf(Number multipleOf) {
+        this.multipleOf = multipleOf;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenProperty{");
@@ -591,6 +600,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", maxProperties=").append(maxProperties);
         sb.append(", minProperties=").append(minProperties);
         sb.append(", uniqueItems=").append(uniqueItems);
+        sb.append(", multipleOf=").append(multipleOf);
         sb.append(", isXmlAttribute=").append(isXmlAttribute);
         sb.append(", xmlPrefix='").append(xmlPrefix).append('\'');
         sb.append(", xmlName='").append(xmlName).append('\'');
@@ -681,7 +691,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(minItems, that.minItems) &&
                 Objects.equals(xmlPrefix, that.xmlPrefix) &&
                 Objects.equals(xmlName, that.xmlName) &&
-                Objects.equals(xmlNamespace, that.xmlNamespace);
+                Objects.equals(xmlNamespace, that.xmlNamespace) &&
+                Objects.equals(multipleOf, that.multipleOf);
     }
 
     @Override
