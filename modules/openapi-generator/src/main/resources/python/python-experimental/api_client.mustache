@@ -649,7 +649,10 @@ class ApiClient(object):
         Calculates and returns a cryptographic digest of a specified HTTP request.
 
         :param data: The string representation of the date to be hashed with a cryptographic hash.
-        :return: The hashing object that contains the cryptographic digest of the HTTP request. 
+        :return: A tuple of (digest, prefix).
+          The digest is a hashing object that contains the cryptographic digest of the HTTP request.
+          The prefix is a string that identifies the cryptographc hash. It is used to generate the
+          'Digest' header as specified in RFC 3230.
         """
         if self.configuration.signing_scheme in ["rsa-sha512", "hs2019"]:
             digest = SHA512.new()
