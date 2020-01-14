@@ -38,7 +38,7 @@ class Configuration(object):
     :param signing_scheme: The signature scheme, when signing HTTP requests.
         Supported value is hs2019.
     :param signing_algorithm: The signature algorithm, when signing HTTP requests.
-        Supported values are PKCS1-v1_5, PSS; fips-186-3, deterministic-rfc6979.
+        Supported values are PKCS1v15, PSS; fips-186-3, deterministic-rfc6979.
     :param signed_headers: A list of HTTP headers that must be added to the signed message,
         when signing HTTP requests.
     """
@@ -88,7 +88,7 @@ class Configuration(object):
         """
         self.signing_algorithm = signing_algorithm
         """The signature algorithm when signing HTTP requests.
-           For RSA keys, supported values are PKCS1-v1_5, PSS.
+           For RSA keys, supported values are PKCS1v15, PSS.
            For ECDSA keys, supported values are fips-186-3, deterministic-rfc6979.
         """
         self.signed_headers = signed_headers

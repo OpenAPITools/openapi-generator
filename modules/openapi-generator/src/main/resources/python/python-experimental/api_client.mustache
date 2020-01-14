@@ -653,7 +653,7 @@ class ApiClient(object):
             if self.configuration.signing_algorithm == 'PSS':
                 # RSASSA-PSS in Section 8.1 of RFC8017.
                 signature = pss.new(privkey).sign(digest)
-            elif self.configuration.signing_algorithm == 'PKCS1-v1_5':
+            elif self.configuration.signing_algorithm == 'PKCS1v15':
                 # RSASSA-PKCS1-v1_5 in Section 8.2 of RFC8017.
                 signature = PKCS1_v1_5.new(privkey).sign(digest)
             else:
