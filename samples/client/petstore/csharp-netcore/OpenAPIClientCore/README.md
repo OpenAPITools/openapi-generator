@@ -73,8 +73,9 @@ namespace Example
         public static void Main()
         {
 
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new AnotherFakeApi(Configuration.Default);
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new AnotherFakeApi(config);
             var body = new ModelClient(); // ModelClient | client model
 
             try

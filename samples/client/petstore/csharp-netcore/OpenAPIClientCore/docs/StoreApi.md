@@ -32,8 +32,9 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new StoreApi(Configuration.Default);
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new StoreApi(config);
             var orderId = orderId_example;  // string | ID of the order that needs to be deleted
 
             try
@@ -101,13 +102,14 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
             // Configure API key authorization: api_key
-            Configuration.Default.AddApiKey("api_key", "YOUR_API_KEY");
+            config.AddApiKey("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.AddApiKeyPrefix("api_key", "Bearer");
+            // config.AddApiKeyPrefix("api_key", "Bearer");
 
-            var apiInstance = new StoreApi(Configuration.Default);
+            var apiInstance = new StoreApi(config);
 
             try
             {
@@ -171,8 +173,9 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new StoreApi(Configuration.Default);
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new StoreApi(config);
             var orderId = 789;  // long | ID of pet that needs to be fetched
 
             try
@@ -240,8 +243,9 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new StoreApi(Configuration.Default);
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new StoreApi(config);
             var body = new Order(); // Order | order placed for purchasing the pet
 
             try
