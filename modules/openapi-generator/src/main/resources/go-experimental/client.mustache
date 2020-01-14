@@ -218,16 +218,16 @@ func (c *APIClient) SignRequest(
 	var prefix string
 
 	// Determine the cryptographic hash to be used for the signature and the body digest.
-	switch auth.Algorithm {
-	case HttpSignatureAlgorithmRsaSha512, HttpSignatureAlgorithmHs2019:
+	switch auth.SigningScheme {
+	case HttpSigningSchemeRsaSha512, HttpSigningSchemeHs2019:
 		h = crypto.SHA512
 		prefix = "SHA-512="
-	case HttpSignatureAlgorithmRsaSha256:
+	case HttpSigningSchemeRsaSha256:
 		// This is deprecated and should no longer be used.
 		h = crypto.SHA256
 		prefix = "SHA-256="
 	default:
-		return fmt.Errorf("Unsupported signature algorith: %v", auth.Algorithm)
+		return fmt.Errorf("Unsupported signature scheme: %v", auth.SigningScheme)
 	}
 	if !h.Available() {
 		return fmt.Errorf("Hash '%v' is not available", h)
@@ -295,7 +295,14 @@ func (c *APIClient) SignRequest(
 	var signature []byte
 	switch key := auth.PrivateKey.(type) {
 	case *rsa.PrivateKey:
-		signature, err = rsa.SignPKCS1v15(rand.Reader, key, h, d)
+		switch auth.SigningAlgorithm {
+		case HttpSigningAlgorithmRsaPKCS1v15:
+			signature, err = rsa.SignPKCS1v15(rand.Reader, key, h, d)
+		case "", HttpSigningAlgorithmRsaPSS:
+			signature, err = rsa.SignPSS(rand.Reader, key, h, d, nil)
+		default:
+			return fmt.Errorf("Unsupported signing algorithm: '%s'", auth.SigningAlgorithm)
+		}
 	case *ecdsa.PrivateKey:
 		signature, err = key.Sign(rand.Reader, d, h)
 	//case ed25519.PrivateKey: requires go 1.13
@@ -315,7 +322,7 @@ func (c *APIClient) SignRequest(
 		sb.WriteString(strings.ToLower(header))
 	}
 	authStr := fmt.Sprintf(`Signature keyId="%s", algorithm="%s", headers="%s", signature="%s"`,
-		auth.KeyId, auth.Algorithm, sb.String(), base64.StdEncoding.EncodeToString(signature))
+		auth.KeyId, auth.SigningScheme, sb.String(), base64.StdEncoding.EncodeToString(signature))
 	r.Header.Set("Authorization", authStr)
 	return nil
 }

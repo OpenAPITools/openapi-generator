@@ -84,13 +84,20 @@ const (
     // be valid.  The value MUST be a Unix timestamp integer value.
 	HttpSignatureParameterExpires string = "(expires)"
 
-	HttpSignatureAlgorithmHs2019 string = "hs2019"
-	HttpSignatureAlgorithmRsaSha512 string = "rsa-sha512" // deprecated
-	HttpSignatureAlgorithmRsaSha256 string = "rsa-sha256" // deprecated
+	HttpSigningSchemeHs2019 string = "hs2019"
+	HttpSigningSchemeRsaSha512 string = "rsa-sha512" // deprecated
+	HttpSigningSchemeRsaSha256 string = "rsa-sha256" // deprecated
+
+	HttpSigningAlgorithmRsaPKCS1v15 string = "PKCS1v15"
+	HttpSigningAlgorithmRsaPSS string = "PSS"
 )
 
-// HttpSignatureAuth provides http message signature authentication to a request passed
+// HttpSignatureAuth provides HTTP signature authentication to a request passed
 // via context using ContextHttpSignatureAuth.
+// An 'Authorization' header is calculated by creating a hash of select headers,
+// and optionally the body of the HTTP request, then signing the hash value using
+// a private key which is available to the client.
+//
 // SignedHeaders specifies the list of HTTP headers that are included when generating
 // the message signature.
 // The two special signature headers '(request-target)' and '(created)' SHOULD be
@@ -109,10 +116,12 @@ const (
 // 2. Set the 'Digest' header in the request body.
 // 3. Include the 'Digest' header and value in the HTTP signature.
 type HttpSignatureAuth struct {
-	KeyId         string            // A key identifier.
-	PrivateKey    crypto.PrivateKey // The private key used to sign HTTP requests.
-	Algorithm     string            // The signature algorithm. Supported value is 'hs2019'.
-	SignedHeaders []string          // A list of HTTP headers included when generating the signature for the message.
+	KeyId             string            // A key identifier.
+	PrivateKey        crypto.PrivateKey // The private key used to sign HTTP requests.
+	SigningScheme     string            // The signature scheme, when signing HTTP requests. Supported value is 'hs2019'.
+	SigningAlgorithm  string            // The signature algorithm, when signing HTTP requests.
+										// Supported values are PKCS1v15, PSS.
+	SignedHeaders     []string          // A list of HTTP headers included when generating the signature for the message.
 }
 
 // LoadPrivateKey reads the private key from the specified file.

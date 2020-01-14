@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"os"
+	"regexp"
 	"strings"
 	"testing"
 	"time"
@@ -292,7 +293,7 @@ func TestHttpSignaturePrivateKeys(t *testing.T) {
 	{
 		authConfig := sw.HttpSignatureAuth{
 			KeyId:         "my-key-id",
-			Algorithm:     "hs2019",
+			SigningScheme: "hs2019",
 			SignedHeaders: []string{"Content-Type"},
 		}
 		// Generate test private key.
@@ -306,7 +307,7 @@ func TestHttpSignaturePrivateKeys(t *testing.T) {
 		{
 			authConfig := sw.HttpSignatureAuth{
 				KeyId:         "my-key-id",
-				Algorithm:     "hs2019",
+				SigningScheme:     "hs2019",
 				SignedHeaders: []string{"Content-Type"},
 			}
 			// Generate test private key.
@@ -356,10 +357,11 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth) st
 	// User-Agent: OpenAPI-Generator/1.0.0/go
 	reqb, _ := httputil.DumpRequest(r.Request, true)
 	reqt := (string)(reqb)
-	fmt.Printf("Request with HTTP signature:\n%v\n", reqt)
+	fmt.Printf("Request with HTTP signature. Scheme: '%s'. Algorithm: '%s'. Request:\n%v\n",
+		authConfig.SigningScheme, authConfig.SigningAlgorithm, reqt)
 	var sb bytes.Buffer
 	fmt.Fprintf(&sb, `Authorization: Signature keyId="%s", algorithm="%s", headers="`,
-		authConfig.KeyId, authConfig.Algorithm)
+		authConfig.KeyId, authConfig.SigningScheme)
 	for i, header := range authConfig.SignedHeaders {
 		header = strings.ToLower(header)
 		if i > 0 {
@@ -373,8 +375,8 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth) st
 			}
 		case "digest":
 			var prefix string
-			switch authConfig.Algorithm {
-			case sw.HttpSignatureAlgorithmRsaSha256:
+			switch authConfig.SigningScheme {
+			case sw.HttpSigningSchemeRsaSha256:
 				prefix = "SHA-256="
 			default:
 				prefix = "SHA-512="
@@ -395,8 +397,8 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth) st
 }
 func TestHttpSignatureAuth(t *testing.T) {
 	authConfig := sw.HttpSignatureAuth{
-		KeyId:     "my-key-id",
-		Algorithm: sw.HttpSignatureAlgorithmHs2019,
+		KeyId:         "my-key-id",
+		SigningScheme: sw.HttpSigningSchemeHs2019,
 		SignedHeaders: []string{
 			sw.HttpSignatureParameterRequestTarget, // The special (request-target) parameter expresses the HTTP request target.
 			sw.HttpSignatureParameterCreated,       // Time when request was signed, formatted as a Unix timestamp integer value.
@@ -411,15 +413,15 @@ func TestHttpSignatureAuth(t *testing.T) {
 	// Test with empty signed headers. The client should automatically add the "(created)" parameter by default.
 	authConfig = sw.HttpSignatureAuth{
 		KeyId:         "my-key-id",
-		Algorithm:     sw.HttpSignatureAlgorithmHs2019,
+		SigningScheme: sw.HttpSigningSchemeHs2019,
 		SignedHeaders: []string{},
 	}
 	executeHttpSignatureAuth(t, &authConfig)
 
 	// Test with deprecated RSA-SHA512, some servers may still support it.
 	authConfig = sw.HttpSignatureAuth{
-		KeyId:     "my-key-id",
-		Algorithm: sw.HttpSignatureAlgorithmRsaSha512,
+		KeyId:         "my-key-id",
+		SigningScheme: sw.HttpSigningSchemeRsaSha512,
 		SignedHeaders: []string{
 			sw.HttpSignatureParameterRequestTarget, // The special (request-target) parameter expresses the HTTP request target.
 			sw.HttpSignatureParameterCreated,       // Time when request was signed, formatted as a Unix timestamp integer value.
@@ -433,8 +435,8 @@ func TestHttpSignatureAuth(t *testing.T) {
 
 	// Test with deprecated RSA-SHA256, some servers may still support it.
 	authConfig = sw.HttpSignatureAuth{
-		KeyId:     "my-key-id",
-		Algorithm: sw.HttpSignatureAlgorithmRsaSha256,
+		KeyId:         "my-key-id",
+		SigningScheme: sw.HttpSigningSchemeRsaSha256,
 		SignedHeaders: []string{
 			sw.HttpSignatureParameterRequestTarget, // The special (request-target) parameter expresses the HTTP request target.
 			sw.HttpSignatureParameterCreated,       // Time when request was signed, formatted as a Unix timestamp integer value.
@@ -449,8 +451,9 @@ func TestHttpSignatureAuth(t *testing.T) {
 	// Test with headers without date. This makes it possible to get a fixed signature, used for unit test purpose.
 	// This should not be used in production code as it could potentially allow replay attacks.
 	authConfig = sw.HttpSignatureAuth{
-		KeyId:     "my-key-id",
-		Algorithm: sw.HttpSignatureAlgorithmHs2019,
+		KeyId:            "my-key-id",
+		SigningScheme:    sw.HttpSigningSchemeHs2019,
+		SigningAlgorithm: sw.HttpSigningAlgorithmRsaPKCS1v15,
 		SignedHeaders: []string{
 			sw.HttpSignatureParameterRequestTarget,
 			"Host",         // The Host request header specifies the domain name of the server, and optionally the TCP port number.
@@ -465,6 +468,29 @@ func TestHttpSignatureAuth(t *testing.T) {
 			`algorithm="hs2019", headers="(request-target) host content-type digest", `+
 			`signature="%s"`, expectedSignature)
 	if authorizationHeaderValue != expectedAuthorizationHeader {
+		t.Errorf("Authorization header value is incorrect. Got '%s' but expected '%s'", authorizationHeaderValue, expectedAuthorizationHeader)
+	}
+
+	// Test with PSS signature. The PSS signature creates a new signature every time it is invoked.
+	authConfig = sw.HttpSignatureAuth{
+		KeyId:            "my-key-id",
+		SigningScheme:    sw.HttpSigningSchemeHs2019,
+		SigningAlgorithm: sw.HttpSigningAlgorithmRsaPSS,
+		SignedHeaders: []string{
+			sw.HttpSignatureParameterRequestTarget,
+			"Host",         // The Host request header specifies the domain name of the server, and optionally the TCP port number.
+			"Content-Type", // The Media type of the body of the request.
+			"Digest",       // A cryptographic digest of the request body.
+		},
+	}
+	authorizationHeaderValue = executeHttpSignatureAuth(t, &authConfig)
+	expectedSignature = `[a-zA-Z0-9+/]+=`
+	expectedAuthorizationHeader = fmt.Sprintf(
+		`Signature keyId="my-key-id", `+
+			`algorithm="hs2019", headers="\(request-target\) host content-type digest", `+
+			`signature="%s"`, expectedSignature)
+	re := regexp.MustCompile(expectedAuthorizationHeader)
+	if !re.MatchString(authorizationHeaderValue) {
 		t.Errorf("Authorization header value is incorrect. Got '%s' but expected '%s'", authorizationHeaderValue, expectedAuthorizationHeader)
 	}
 }
