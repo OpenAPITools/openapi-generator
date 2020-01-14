@@ -30,7 +30,9 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
@@ -48,6 +50,9 @@ import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
+import org.openapitools.client.ServerConfiguration;
+import org.openapitools.client.ServerVariable;
+
 import org.openapitools.client.auth.OAuth;
 
 
@@ -55,6 +60,19 @@ public class ApiClient {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
   protected String basePath = "http://petstore.swagger.io:80/v2";
+  protected ServerConfiguration[] servers = {
+    new ServerConfiguration(
+      "http://petstore.swagger.io:80/v2",
+      "No description provided",
+      new HashMap<String, ServerVariable>()
+    )
+  };
+  protected Integer serverIndex = 0;
+  protected Map<String, String> serverVariables = null;
+  protected Map<String, List<ServerConfiguration>> operationServers = new HashMap<String, List<ServerConfiguration>>() {{
+  }};
+  protected Map<String, Integer> operationServerIndex = new HashMap<String, Integer>();
+  protected Map<String, Map<String, String>> operationServerVariables = new HashMap<String, Map<String, String>>();
   protected boolean debugging = false;
   protected int connectionTimeout = 0;
   private int readTimeout = 0;
@@ -109,6 +127,33 @@ public class ApiClient {
 
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
+    return this;
+  }
+
+  public ServerConfiguration[] getServers() {
+    return servers;
+  }
+
+  public ApiClient setServers(ServerConfiguration[] servers) {
+    this.servers = servers;
+    return this;
+  }
+
+  public Integer getServerIndex() {
+    return serverIndex;
+  }
+
+  public ApiClient setServerIndex(Integer serverIndex) {
+    this.serverIndex = serverIndex;
+    return this;
+  }
+
+  public Map<String, String> getServerVariables() {
+    return serverVariables;
+  }
+
+  public ApiClient setServerVariables(Map<String, String> serverVariables) {
+    this.serverVariables = serverVariables;
     return this;
   }
 
@@ -654,6 +699,7 @@ public class ApiClient {
    * Invoke API by sending HTTP request with the given options.
    *
    * @param <T> Type
+   * @param operation The qualified name of the operation
    * @param path The sub-path of the HTTP URL
    * @param method The request method, one of "GET", "POST", "PUT", "HEAD" and "DELETE"
    * @param queryParams The query parameters
@@ -668,12 +714,24 @@ public class ApiClient {
    * @return The response body in type of string
    * @throws ApiException API exception
    */
-  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+  public <T> ApiResponse<T> invokeAPI(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
     updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
-    // Not using `.target(this.basePath).path(path)` below,
+    // Not using `.target(targetURL).path(path)` below,
     // to support (constant) query string in `path`, e.g. "/posts?draft=1"
-    WebTarget target = httpClient.target(this.basePath + path);
+    String targetURL;
+    if (serverIndex != null) {
+      if (operationServers.containsKey(operation)) {
+        Integer index = operationServerIndex.getOrDefault(operation, serverIndex);
+        Map<String, String> variables = operationServerVariables.getOrDefault(operation, serverVariables);
+        targetURL = operationServers.get(operation)[index].URL(variables);
+      } else {
+        targetURL = servers[serverIndex].URL(serverVariables) + path;
+      }
+    } else {
+      targetURL = this.basePath + path;
+    }
+    WebTarget target = httpClient.target(targetURL);
 
     if (queryParams != null) {
       for (Pair queryParam : queryParams) {

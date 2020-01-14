@@ -288,7 +288,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 34);
+        Assert.assertEquals(generatedFiles.size(), 36);
         TestUtils.ensureContainsFile(generatedFiles, output, ".gitignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
@@ -361,7 +361,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 37);
+        Assert.assertEquals(generatedFiles.size(), 39);
         TestUtils.ensureContainsFile(generatedFiles, output, ".gitignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
@@ -431,7 +431,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 23);
+        Assert.assertEquals(generatedFiles.size(), 25);
         validateJavaSourceFiles(generatedFiles);
 
         String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/DefaultApi.java").getAbsolutePath().replace("\\", "/");
@@ -548,7 +548,7 @@ public class JavaClientCodegenTest {
     public void testBearerAuth() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/pingBearerAuth.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
-        
+
         List<CodegenSecurity> security = codegen.fromSecurity(openAPI.getComponents().getSecuritySchemes());
         Assert.assertEquals(security.size(), 1);
         Assert.assertEquals(security.get(0).isBasic, Boolean.TRUE);
