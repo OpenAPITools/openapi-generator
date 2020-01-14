@@ -647,8 +647,8 @@ class ApiClient(object):
         """
         Calculates and returns a cryptographic digest of a specified HTTP request.
 
-        :param data: The message to be hashed with a cryptographic hash.
-        :return: The message digest encoded as a byte string. 
+        :param data: The string representation of the date to be hashed with a cryptographic hash.
+        :return: The hashing object that contains the cryptographic digest of the HTTP request. 
         """
         if self.configuration.signing_scheme in ["rsa-sha512", "hs2019"]:
             digest = SHA512.new()
@@ -666,7 +666,7 @@ class ApiClient(object):
         """
         Signs a message digest with a private key specified in the configuration.
 
-        :param digest: A byte string representing the cryptographic digest of the HTTP request.
+        :param digest: A hashing object that contains the cryptographic digest of the HTTP request.
         :return: A base-64 string representing the cryptographic signature of the input digest.
         """
         self.configuration.load_private_key()
@@ -695,7 +695,7 @@ class ApiClient(object):
         
         :param signed_headers : A list of strings. Each value is the name of a HTTP header that
            must be included in the HTTP signature calculation.
-        :param signed_msg: Signed Digest.
+        :param signed_msg: A base-64 encoded string representation of the signature.
         :param created_ts: The string representation of the time when the signature was created,
            as a UNIX timestamp value.
         :return: The string value of the 'Authorization' header, representing the signature
