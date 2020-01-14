@@ -81,8 +81,12 @@ const (
 	HttpSignatureAlgorithmRsaSha256 string = "rsa-sha256" // deprecated
 )
 
-// HttpSignatureAuth provides http message signature authentication to a request passed
+// HttpSignatureAuth provides HTTP signature authentication to a request passed
 // via context using ContextHttpSignatureAuth.
+// An 'Authorization' header is calculated by creating a hash of select headers,
+// and optionally the body of the HTTP request, then signing the hash value using
+// a private key which is available to the client.
+//
 // SignedHeaders specifies the list of HTTP headers that are included when generating
 // the message signature.
 // The two special signature headers '(request-target)' and '(created)' SHOULD be
