@@ -9,7 +9,7 @@ paths:
   /dummy:
     get:
       responses:
-        200:
+        "200":
           content: {}
           description: Success
       summary: A dummy endpoint to make the spec valid.
@@ -29,7 +29,7 @@ paths:
               type: object
         required: true
       responses:
-        200:
+        "200":
           content: {}
           description: Success
       x-codegen-request-body-name: nested_response
@@ -42,7 +42,7 @@ paths:
               type: string
         required: true
       responses:
-        200:
+        "200":
           content:
             text/html:
               schema:
@@ -53,7 +53,7 @@ paths:
   /file_response:
     get:
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -64,7 +64,7 @@ paths:
   /raw_json:
     get:
       responses:
-        200:
+        "200":
           content:
             '*/*':
               schema:

@@ -1,0 +1,71 @@
+swagger: '2.0'
+info:
+  description: 'blah'
+  version: 1.0.0
+  title: sample spec
+host: fake.site.com
+tags: []
+schemes:
+  - https
+paths:
+  /numberdata:
+    post:
+      summary: Get back a NumberHolder
+      description: ''
+      operationId: getNumberHolder
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/NumberHolder'
+  /numericqueryparams:
+    get:
+      tags:
+        - user
+      summary: a test route for numeric query params
+      description: ''
+      operationId: numericQueryParams
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: int64
+          type: integer
+          format: int64
+          default: 9223372036854775807
+        - in: query
+          name: float
+          type: number
+          format: float
+          default: 3.14159
+        - in: query
+          name: double
+          type: number
+          format: double
+          default: 3.14159
+      responses:
+        default:
+          description: successful operation
+securityDefinitions: {}
+definitions:
+  NumberHolder:
+    description: A model to hold the three number types which should no longer have string suffixes
+    type: object
+    properties:
+      int64:
+        type: integer
+        format: int64
+        default: 9223372036854775807
+      float:
+        type: number
+        format: float
+        default: 3.14159
+      double:
+        type: number
+        format: double
+        default: 3.14159
