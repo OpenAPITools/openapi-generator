@@ -46,7 +46,8 @@ class Configuration(object):
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
                  username="", password="",
-                 key_id=None, private_key_path=None, signing_scheme=None, signing_algorithm=None, signed_headers=None):
+                 key_id=None, private_key_path=None, signing_scheme=None,
+                 signing_algorithm=None, signed_headers=None):
         """Constructor
         """
         self.host = host
@@ -82,12 +83,13 @@ class Configuration(object):
         """The path of the file containing a private key, used to sign HTTP requests.
         """
         self.signing_scheme = signing_scheme
-        """The signature scheme when signing HTTP requests. Supported values are hs2019, rsa-sha256, rsa-sha512.
+        """The signature scheme when signing HTTP requests.
+           Supported values are hs2019, rsa-sha256, rsa-sha512.
         """
         self.signing_algorithm = signing_algorithm
         """The signature algorithm when signing HTTP requests.
-        For RSA keys, supported values are PKCS1-v1_5, PSS.
-        For ECDSA keys, supported values are fips-186-3, deterministic-rfc6979.
+           For RSA keys, supported values are PKCS1-v1_5, PSS.
+           For ECDSA keys, supported values are fips-186-3, deterministic-rfc6979.
         """
         self.signed_headers = signed_headers
         """A list of HTTP headers that must be signed, when signing HTTP requests.
