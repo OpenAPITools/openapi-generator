@@ -259,6 +259,14 @@ func (c *APIClient) SignRequest(
 	if len(signedHeaders) == 0 {
 		signedHeaders = []string{HttpSignatureParameterCreated}
 	}
+	// Validate the list of signed headers has no duplicates.
+	m := make(map[string]bool)
+	for _, h := range signedHeaders {
+		m[h] = true
+	}
+	if len(m) != len(signedHeaders) {
+		return fmt.Errorf("List of signed headers must not have any duplicates")
+	}
 	hasCreatedParameter := false
 	hasExpiresParameter := false
 	for i, header := range signedHeaders {
