@@ -9,9 +9,9 @@ import os
 
 # python 2 and python 3 compatibility library
 import six
-from six.moves.urllib.parse import quote, urlparse
+from six.moves.urllib.parse import quote
 {{#hasHttpSignatureMethods}}
-from six.moves.urllib.parse import urlencode
+from six.moves.urllib.parse import urlencode, urlparse
 from Crypto.PublicKey import RSA, ECC
 from Crypto.Signature import PKCS1_v1_5, pss, DSS
 from Crypto.Hash import SHA256, SHA512
@@ -164,7 +164,7 @@ class ApiClient(object):
 
         # auth setting
         self.update_params_for_auth(header_params, query_params,
-            auth_settings, resource_path, method, body)
+                                    auth_settings, resource_path, method, body)
 
         # body
         if body:
@@ -569,8 +569,8 @@ class ApiClient(object):
                     raise ApiValueError(
                         'Authentication token must be in `query` or `header`'
                     )
-
 {{#hasHttpSignatureMethods}}
+
     def get_signed_header_info(self, resource_path, method, headers, body, query_params):
         """
         Build the HTTP headers (name, value) that need to be included in the HTTP signature scheme.

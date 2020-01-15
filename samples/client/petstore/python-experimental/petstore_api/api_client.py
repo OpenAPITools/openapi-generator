@@ -17,7 +17,7 @@ import os
 
 # python 2 and python 3 compatibility library
 import six
-from six.moves.urllib.parse import quote, urlparse
+from six.moves.urllib.parse import quote
 
 from petstore_api import rest
 from petstore_api.configuration import Configuration
@@ -158,7 +158,7 @@ class ApiClient(object):
 
         # auth setting
         self.update_params_for_auth(header_params, query_params,
-            auth_settings, resource_path, method, body)
+                                    auth_settings, resource_path, method, body)
 
         # body
         if body:
@@ -544,4 +544,3 @@ class ApiClient(object):
                     raise ApiValueError(
                         'Authentication token must be in `query` or `header`'
                     )
-
