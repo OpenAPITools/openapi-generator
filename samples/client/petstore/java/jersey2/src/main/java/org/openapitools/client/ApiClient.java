@@ -724,7 +724,7 @@ public class ApiClient {
       if (operationServers.containsKey(operation)) {
         Integer index = operationServerIndex.getOrDefault(operation, serverIndex);
         Map<String, String> variables = operationServerVariables.getOrDefault(operation, serverVariables);
-        targetURL = operationServers.get(operation)[index].URL(variables);
+        targetURL = operationServers.get(operation).get(index).URL(variables);
       } else {
         targetURL = servers[serverIndex].URL(serverVariables) + path;
       }
@@ -833,6 +833,14 @@ public class ApiClient {
         // it's not critical, since the response object is local in method invokeAPI; that's fine, just continue
       }
     }
+  }
+
+  /**
+   * @deprecated Add qualified name of the operation as a first parameter.
+   */
+  @Deprecated
+  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
   }
 
   /**
