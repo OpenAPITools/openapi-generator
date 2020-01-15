@@ -907,6 +907,14 @@ public class ApiClient {
   }
 
   /**
+   * @deprecated Add qualified name of the operation as a first parameter.
+   */
+  @Deprecated
+  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+  }
+
+  /**
    * Build the Client used to make HTTP requests.
    * @param debugging Debug setting
    * @return Client
