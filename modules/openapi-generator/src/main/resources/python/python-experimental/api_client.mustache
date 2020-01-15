@@ -13,6 +13,9 @@ from six.moves.urllib.parse import quote
 {{#tornado}}
 import tornado.gen
 {{/tornado}}
+{{#hasHttpSignatureMethods}}
+import signing
+{{/hasHttpSignatureMethods}}
 
 from {{packageName}} import rest
 from {{packageName}}.configuration import Configuration
@@ -540,8 +543,8 @@ class ApiClient(object):
                 if auth_setting['type'] == 'http-signature':
                     # The HTTP signature scheme requires multiple HTTP headers
                     # that are calculated dynamically.
-                    auth_headers = self.get_http_signature_headers(resource_path, method,
-                        headers, body, querys)
+                    auth_headers = signing.get_http_signature_headers(self.configuration,
+                        resource_path, method, headers, body, querys)
                     for key, value in auth_headers.items():
                         headers[key] = value
                     continue
