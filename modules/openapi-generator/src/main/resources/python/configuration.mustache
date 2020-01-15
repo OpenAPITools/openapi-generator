@@ -132,14 +132,16 @@ class Configuration(object):
         """The signature max validity, expressed as a datetime.timedelta value.
         It must be a positive value.
         """
-        if signed_headers is not None and '(expires)' in signed_headers:
-            if self.signature_max_validity is None:
-                raise Exception("Signature max validity must be set when '(expires)' signature parameter is specified")
+        if self.signature_max_validity is None and \
+                signed_headers is not None and '(expires)' in signed_headers:
+            raise Exception(
+                "Signature max validity must be set when " \
+                "'(expires)' signature parameter is specified")
         if len(signed_headers) != len(set(signed_headers)):
             raise Exception("Cannot have duplicates in the signed_headers parameter")
         self.signed_headers = signed_headers
-        """A list of strings. Each value is the name of HTTP header that must be included in the
-           HTTP signature calculation.
+        """A list of strings. Each value is the name of HTTP header that must be included
+           in the HTTP signature calculation.
         """
 {{#hasOAuthMethods}}
         self.access_token = ""
