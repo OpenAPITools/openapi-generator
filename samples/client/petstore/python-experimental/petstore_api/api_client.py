@@ -17,7 +17,7 @@ import os
 
 # python 2 and python 3 compatibility library
 import six
-from six.moves.urllib.parse import quote, urlencode, urlparse
+from six.moves.urllib.parse import quote, urlparse
 
 from petstore_api import rest
 from petstore_api.configuration import Configuration
@@ -33,9 +33,6 @@ from petstore_api.model_utils import (
     str,
     validate_and_convert_types
 )
-
-
-ECDSA_KEY_SIGNING_ALGORITHMS = {'fips-186-3', 'deterministic-rfc6979'}
 
 
 class ApiClient(object):
@@ -65,6 +62,10 @@ class ApiClient(object):
     PRIMITIVE_TYPES = (
         (float, bool, six.binary_type, six.text_type) + six.integer_types
     )
+    ECDSA_MODE_FIPS_186_3 = 'fips-186-3'
+    ECDSA_MODE_DETERMINISTIC_RFC6979 = 'deterministic-rfc6979'
+    ECDSA_KEY_SIGNING_ALGORITHMS = {ECDSA_MODE_FIPS_186_3, ECDSA_MODE_DETERMINISTIC_RFC6979}
+
     _pool = None
 
     def __init__(self, configuration=None, header_name=None, header_value=None,
@@ -156,7 +157,8 @@ class ApiClient(object):
             post_params.extend(self.files_parameters(files))
 
         # auth setting
-        self.update_params_for_auth(header_params, query_params, auth_settings, resource_path, method, body)
+        self.update_params_for_auth(header_params, query_params,
+            auth_settings, resource_path, method, body)
 
         # body
         if body:
@@ -513,7 +515,8 @@ class ApiClient(object):
         else:
             return content_types[0]
 
-    def update_params_for_auth(self, headers, querys, auth_settings, resource_path=None, method=None, body=None):
+    def update_params_for_auth(self, headers, querys, auth_settings,
+                               resource_path=None, method=None, body=None):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.

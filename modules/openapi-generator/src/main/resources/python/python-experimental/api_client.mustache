@@ -9,8 +9,9 @@ import os
 
 # python 2 and python 3 compatibility library
 import six
-from six.moves.urllib.parse import quote, urlencode, urlparse
+from six.moves.urllib.parse import quote, urlparse
 {{#hasHttpSignatureMethods}}
+from six.moves.urllib.parse import urlencode
 from Crypto.PublicKey import RSA, ECC
 from Crypto.Signature import PKCS1_v1_5, pss, DSS
 from Crypto.Hash import SHA256, SHA512
@@ -162,7 +163,8 @@ class ApiClient(object):
             post_params.extend(self.files_parameters(files))
 
         # auth setting
-        self.update_params_for_auth(header_params, query_params, auth_settings, resource_path, method, body)
+        self.update_params_for_auth(header_params, query_params,
+            auth_settings, resource_path, method, body)
 
         # body
         if body:
@@ -528,7 +530,8 @@ class ApiClient(object):
         else:
             return content_types[0]
 
-    def update_params_for_auth(self, headers, querys, auth_settings, resource_path=None, method=None, body=None):
+    def update_params_for_auth(self, headers, querys, auth_settings,
+                               resource_path=None, method=None, body=None):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
@@ -723,5 +726,4 @@ class ApiClient(object):
         auth_str = auth_str + "headers=\"{0}\",signature=\"{1}\""
             .format(headers_value, signed_msg.decode('ascii'))
         return auth_str
-
 {{/hasHttpSignatureMethods}}
