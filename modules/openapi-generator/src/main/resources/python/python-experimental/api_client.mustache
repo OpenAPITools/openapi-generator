@@ -663,7 +663,7 @@ class ApiClient(object):
         b64_signed_msg = self.sign_digest(digest)
 
         request_headers_dict['Authorization'] = self.get_authorization_header(
-            signed_headers_dict, b64_signed_msg, created)
+            signed_headers_dict, b64_signed_msg)
 
         return request_headers_dict
 
@@ -716,15 +716,13 @@ class ApiClient(object):
             raise Exception("Unsupported private key: {0}".format(type(privkey)))
         return b64encode(signature)
 
-    def get_authorization_header(self, signed_headers, signed_msg, created_ts):
+    def get_authorization_header(self, signed_headers, signed_msg):
         """
         Calculates and returns the value of the 'Authorization' header when signing HTTP requests.
         
         :param signed_headers : A list of strings. Each value is the name of a HTTP header that
            must be included in the HTTP signature calculation.
         :param signed_msg: A base-64 encoded string representation of the signature.
-        :param created_ts: The string representation of the time when the signature was created,
-           as a UNIX timestamp value.
         :return: The string value of the 'Authorization' header, representing the signature
            of the HTTP request.
         """
@@ -742,7 +740,7 @@ class ApiClient(object):
         auth_str = "Signature keyId=\"{0}\",algorithm=\"{1}\","
             .format(self.configuration.key_id, self.configuration.signing_scheme)
         if is_created_set:
-            auth_str = auth_str + "created={0},".format(created_ts)
+            auth_str = auth_str + "created={0},".format(signed_headers_dict['(created)'])
         auth_str = auth_str + "headers=\"{0}\",signature=\"{1}\""
             .format(headers_value, signed_msg.decode('ascii'))
         return auth_str
