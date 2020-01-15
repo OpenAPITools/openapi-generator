@@ -209,14 +209,22 @@ func (c *APIClient) SignRequest(
 	}
 	now := time.Now()
 	date := now.UTC().Format(http.TimeFormat)
-	// The `created` field expresses when the signature was created.
+	// The 'created' field expresses when the signature was created.
 	// The value MUST be a Unix timestamp integer value. See 'HTTP signature' section 2.1.4.
 	created := now.Unix()
 
 	var h crypto.Hash
 	var err error
 	var prefix string
+	var expiresUnix float64
 
+	if auth.SignatureMaxValidity < 0 {
+		return fmt.Errorf("Signature validity must be a positive value")
+	}
+	if auth.SignatureMaxValidity > 0 {
+		e := now.Add(auth.SignatureMaxValidity)
+		expiresUnix = float64(e.Unix()) + float64(e.Nanosecond()) / float64(time.Second)
+	}
 	// Determine the cryptographic hash to be used for the signature and the body digest.
 	switch auth.SigningScheme {
 	case HttpSigningSchemeRsaSha512, HttpSigningSchemeHs2019:
@@ -252,6 +260,7 @@ func (c *APIClient) SignRequest(
 		signedHeaders = []string{HttpSignatureParameterCreated}
 	}
 	hasCreatedParameter := false
+	hasExpiresParameter := false
 	for i, header := range signedHeaders {
 		header = strings.ToLower(header)
 		var value string
@@ -261,6 +270,12 @@ func (c *APIClient) SignRequest(
 		case HttpSignatureParameterCreated:
 			value = fmt.Sprintf("%d", created)
 			hasCreatedParameter = true
+		case HttpSignatureParameterExpires:
+			if auth.SignatureMaxValidity.Nanoseconds() == 0 {
+				return fmt.Errorf("Cannot set '(expires)' signature parameter. SignatureMaxValidity is not configured.")
+			}
+			value = fmt.Sprintf("%.3f", expiresUnix)
+			hasExpiresParameter = true
 		case "date":
 			value = date
 			r.Header.Set("Date", date)
@@ -286,6 +301,9 @@ func (c *APIClient) SignRequest(
 			fmt.Fprintf(&sb, "\n")
 		}
 		fmt.Fprintf(&sb, "%s: %s", header, value)
+	}
+	if expiresUnix != 0 && !hasExpiresParameter {
+		return fmt.Errorf("SignatureMaxValidity is specified, but '(expired)' parameter is not present")
 	}
 	msg := []byte(sb.String())
 	msgHash := h.New()
@@ -328,6 +346,9 @@ func (c *APIClient) SignRequest(
 	fmt.Fprintf(&sb, `Signature keyId="%s",algorithm="%s",`, auth.KeyId, auth.SigningScheme)
 	if hasCreatedParameter {
 		fmt.Fprintf(&sb, "created=%d,", created)
+	}
+	if hasExpiresParameter {
+		fmt.Fprintf(&sb, "expires=%.3f,", expiresUnix)
 	}
 	fmt.Fprintf(&sb, `headers="%s",signature="%s"`, headers_list, base64.StdEncoding.EncodeToString(signature))
 	authStr := sb.String()

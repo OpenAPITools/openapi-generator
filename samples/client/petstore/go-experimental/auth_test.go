@@ -319,7 +319,8 @@ func TestHttpSignaturePrivateKeys(t *testing.T) {
 		}
 	*/
 }
-func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth) string {
+
+func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth, expectSuccess bool) string {
 	privateKeyPath := "rsa.pem"
 	writeTestRsaPemKey(t, privateKeyPath)
 	err := authConfig.LoadPrivateKey(privateKeyPath)
@@ -341,9 +342,20 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth) st
 		t.Log(r)
 	}
 
+	fmt.Printf("Request with HTTP signature. Scheme: '%s'. Algorithm: '%s'. MaxValidity: %v. Headers: '%v'\n",
+		authConfig.SigningScheme, authConfig.SigningAlgorithm, authConfig.SignatureMaxValidity, authConfig.SignedHeaders)
+
 	_, r, err = client.PetApi.GetPetById(auth, 12992)
-	if err != nil {
+	if expectSuccess && err != nil {
 		t.Fatalf("Error while deleting pet by id: %v", err)
+	}
+	if !expectSuccess {
+		if err == nil {
+			t.Fatalf("Error was expected, but no error was generated")
+		} else {
+			// Do not continue. Error is expected.
+			return ""
+		}
 	}
 	// The request should look like this:
 	//
@@ -357,21 +369,23 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth) st
 	// User-Agent: OpenAPI-Generator/1.0.0/go
 	reqb, _ := httputil.DumpRequest(r.Request, true)
 	reqt := (string)(reqb)
-	fmt.Printf("Request with HTTP signature. Scheme: '%s'. Algorithm: '%s'. Request:\n%v\n",
-		authConfig.SigningScheme, authConfig.SigningAlgorithm, reqt)
+	fmt.Printf("Request:\n%v\n", reqt)
 	var sb bytes.Buffer
 	fmt.Fprintf(&sb, `Signature keyId="%s",algorithm="%s",`,
 		authConfig.KeyId, authConfig.SigningScheme)
 	if len(authConfig.SignedHeaders) == 0 {
-    fmt.Fprintf(&sb, `created=[0-9]+,`)
-  } else {
-    for _, header := range authConfig.SignedHeaders {
-      header = strings.ToLower(header)
-      if header == sw.HttpSignatureParameterCreated {
-        fmt.Fprintf(&sb, `created=[0-9]+,`)
-      }
-    }
-  }
+		fmt.Fprintf(&sb, `created=[0-9]+,`)
+	} else {
+		for _, header := range authConfig.SignedHeaders {
+			header = strings.ToLower(header)
+			if header == sw.HttpSignatureParameterCreated {
+				fmt.Fprintf(&sb, `created=[0-9]+,`)
+			}
+			if header == sw.HttpSignatureParameterExpires {
+				fmt.Fprintf(&sb, `expires=[0-9]+\.[0-9]{3},`)
+			}
+		}
+	}
 	fmt.Fprintf(&sb, `headers="`)
 	for i, header := range authConfig.SignedHeaders {
 		header = strings.ToLower(header)
@@ -402,13 +416,15 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth) st
 	}
 	fmt.Fprintf(&sb, `",signature="[a-zA-Z0-9+/]+="`)
 	re := regexp.MustCompile(sb.String())
-  actual := r.Request.Header.Get("Authorization")
+	actual := r.Request.Header.Get("Authorization")
 	if !re.MatchString(actual) {
 		t.Errorf("Authorization header is incorrect. Expected regex\n'%s'\nbut got\n'%s'", sb.String(), actual)
 	}
 	return r.Request.Header.Get("Authorization")
 }
+
 func TestHttpSignatureAuth(t *testing.T) {
+	// Test with 'hs2019' signature scheme, and default signature algorithm (RSA SSA PKCS1.5)
 	authConfig := sw.HttpSignatureAuth{
 		KeyId:         "my-key-id",
 		SigningScheme: sw.HttpSigningSchemeHs2019,
@@ -421,7 +437,48 @@ func TestHttpSignatureAuth(t *testing.T) {
 			"Digest",                               // A cryptographic digest of the request body.
 		},
 	}
-	executeHttpSignatureAuth(t, &authConfig)
+	executeHttpSignatureAuth(t, &authConfig, true)
+
+	// Specify signature max validity, but '(expires)' parameter is missing. This should cause an error.
+	authConfig = sw.HttpSignatureAuth{
+		KeyId:                "my-key-id",
+		SigningScheme:        sw.HttpSigningSchemeHs2019,
+		SignatureMaxValidity: 7 * time.Minute,
+	}
+	executeHttpSignatureAuth(t, &authConfig, false)
+
+	// Specify invalid signature max validity. This should cause an error.
+	authConfig = sw.HttpSignatureAuth{
+		KeyId:                "my-key-id",
+		SigningScheme:        sw.HttpSigningSchemeHs2019,
+		SignatureMaxValidity: -3 * time.Minute,
+	}
+	executeHttpSignatureAuth(t, &authConfig, false)
+
+	// Specify signature max validity and '(expires)' parameter.
+	authConfig = sw.HttpSignatureAuth{
+		KeyId:                "my-key-id",
+		SigningScheme:        sw.HttpSigningSchemeHs2019,
+		SignatureMaxValidity: time.Minute,
+		SignedHeaders: []string{
+			sw.HttpSignatureParameterRequestTarget, // The special (request-target) parameter expresses the HTTP request target.
+			sw.HttpSignatureParameterCreated,       // Time when request was signed, formatted as a Unix timestamp integer value.
+			sw.HttpSignatureParameterExpires,       // Time when signature expires.
+		},
+	}
+	executeHttpSignatureAuth(t, &authConfig, true)
+
+	// Specify '(expires)' parameter but no signature max validity.
+	authConfig = sw.HttpSignatureAuth{
+		KeyId:         "my-key-id",
+		SigningScheme: sw.HttpSigningSchemeHs2019,
+		SignedHeaders: []string{
+			sw.HttpSignatureParameterRequestTarget, // The special (request-target) parameter expresses the HTTP request target.
+			sw.HttpSignatureParameterCreated,       // Time when request was signed, formatted as a Unix timestamp integer value.
+			sw.HttpSignatureParameterExpires,       // Time when signature expires.
+		},
+	}
+	executeHttpSignatureAuth(t, &authConfig, false)
 
 	// Test with empty signed headers. The client should automatically add the "(created)" parameter by default.
 	authConfig = sw.HttpSignatureAuth{
@@ -429,7 +486,7 @@ func TestHttpSignatureAuth(t *testing.T) {
 		SigningScheme: sw.HttpSigningSchemeHs2019,
 		SignedHeaders: []string{},
 	}
-	executeHttpSignatureAuth(t, &authConfig)
+	executeHttpSignatureAuth(t, &authConfig, true)
 
 	// Test with deprecated RSA-SHA512, some servers may still support it.
 	authConfig = sw.HttpSignatureAuth{
@@ -444,7 +501,7 @@ func TestHttpSignatureAuth(t *testing.T) {
 			"Digest",                               // A cryptographic digest of the request body.
 		},
 	}
-	executeHttpSignatureAuth(t, &authConfig)
+	executeHttpSignatureAuth(t, &authConfig, true)
 
 	// Test with deprecated RSA-SHA256, some servers may still support it.
 	authConfig = sw.HttpSignatureAuth{
@@ -459,7 +516,7 @@ func TestHttpSignatureAuth(t *testing.T) {
 			"Digest",                               // A cryptographic digest of the request body.
 		},
 	}
-	executeHttpSignatureAuth(t, &authConfig)
+	executeHttpSignatureAuth(t, &authConfig, true)
 
 	// Test with headers without date. This makes it possible to get a fixed signature, used for unit test purpose.
 	// This should not be used in production code as it could potentially allow replay attacks.
@@ -474,7 +531,7 @@ func TestHttpSignatureAuth(t *testing.T) {
 			"Digest",       // A cryptographic digest of the request body.
 		},
 	}
-	authorizationHeaderValue := executeHttpSignatureAuth(t, &authConfig)
+	authorizationHeaderValue := executeHttpSignatureAuth(t, &authConfig, true)
 	expectedSignature := "ED7P+ETthVNx45FZ6Z1lzNDuIE+QuR05GpNJCg7yVGJGDng98inMiPumgdUiljZZr3aEacHXH2Ln8epF4Op6GRGrNYAjXVwK2Nm/6zxt1EEr2JAfA/L5eNjJq9VfZzPjcdanjfqEKvrY6isPpQLsBwRlazhbITsW5E6hAsbVnGk="
 	expectedAuthorizationHeader := fmt.Sprintf(
 		`Signature keyId="my-key-id",`+
@@ -496,7 +553,7 @@ func TestHttpSignatureAuth(t *testing.T) {
 			"Digest",       // A cryptographic digest of the request body.
 		},
 	}
-	authorizationHeaderValue = executeHttpSignatureAuth(t, &authConfig)
+	authorizationHeaderValue = executeHttpSignatureAuth(t, &authConfig, true)
 	expectedSignature = `[a-zA-Z0-9+/]+=`
 	expectedAuthorizationHeader = fmt.Sprintf(
 		`Signature keyId="my-key-id",`+

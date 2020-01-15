@@ -19,6 +19,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 // contextKeys are used to identify the type of value in the context.
@@ -84,11 +85,24 @@ const (
     // be valid.  The value MUST be a Unix timestamp integer value.
 	HttpSignatureParameterExpires string = "(expires)"
 
+	// Specifies the Digital Signature Algorithm is derived from metadata
+	// associated with 'keyId'. Supported DSA algorithms are RSASSA-PKCS1-v1_5,
+	// RSASSA-PSS, and ECDSA.
+	// The hash is SHA-512.
+	// This is the default value.
 	HttpSigningSchemeHs2019 string = "hs2019"
-	HttpSigningSchemeRsaSha512 string = "rsa-sha512" // deprecated
-	HttpSigningSchemeRsaSha256 string = "rsa-sha256" // deprecated
+	// Use RSASSA-PKCS1-v1_5 with SHA-512 hash. Deprecated.
+	HttpSigningSchemeRsaSha512 string = "rsa-sha512"
+	// Use RSASSA-PKCS1-v1_5 with SHA-256 hash. Deprecated.
+	HttpSigningSchemeRsaSha256 string = "rsa-sha256"
 
+	// RFC 8017 section 7.2
+	// Calculate the message signature using RSASSA-PKCS1-V1_5-SIGN from RSA PKCS#1 v1.5.
+	// PKCSV1_5 is deterministic. The same message and key will produce an identical
+	// signature value each time.
 	HttpSigningAlgorithmRsaPKCS1v15 string = "PKCS1v15"
+	// Calculate the message signature using probabilistic signature scheme RSASSA-PSS.
+	// PSS is randomized and will produce a different signature value each time.
 	HttpSigningAlgorithmRsaPSS string = "PSS"
 )
 
@@ -122,6 +136,11 @@ type HttpSignatureAuth struct {
 	SigningAlgorithm  string            // The signature algorithm, when signing HTTP requests.
 										// Supported values are PKCS1v15, PSS.
 	SignedHeaders     []string          // A list of HTTP headers included when generating the signature for the message.
+	// SignatureMaxValidity specifies the maximum duration of the signature validity.
+	// The value is used to set the '(expires)' signature parameter in the HTTP request.
+	// '(expires)' is set to '(created)' plus the value of the SignatureMaxValidity field.
+	// To specify the '(expires)' signature parameter, set 'SignatureMaxValidity' and add '(expires)' to 'SignedHeaders'.
+	SignatureMaxValidity time.Duration
 }
 
 // LoadPrivateKey reads the private key from the specified file.
