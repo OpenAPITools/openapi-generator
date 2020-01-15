@@ -219,4 +219,3 @@ def get_authorization_header(configuration, signed_headers, signed_msg):
     auth_str = auth_str + "headers=\"{0}\",signature=\"{1}\""
         .format(headers_value, signed_msg.decode('ascii'))
     return auth_str
-

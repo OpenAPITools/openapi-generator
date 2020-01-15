@@ -82,7 +82,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         apiTemplateFiles.remove("api.mustache");
         apiTemplateFiles.put("python-experimental/api.mustache", ".py");
-        if (hasHttpSignatureMethods(this.authMethods)) {
+        if (hasHttpSignatureMethods(this.fullAuthMethods)) {
             apiTemplateFiles.put("python-experimental/signing.mustache", ".py");
         }
 
