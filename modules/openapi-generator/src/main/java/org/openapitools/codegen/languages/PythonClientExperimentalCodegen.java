@@ -25,12 +25,14 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
@@ -82,7 +84,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         apiTemplateFiles.remove("api.mustache");
         apiTemplateFiles.put("python-experimental/api.mustache", ".py");
-        if (hasHttpSignatureMethods(this.fullAuthMethods)) {
+        Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
+           (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
+        List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
+        if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
             apiTemplateFiles.put("python-experimental/signing.mustache", ".py");
         }
 
