@@ -94,4 +94,22 @@ public class ProcessUtils {
         return false;
     }
 
+    /**
+     * Returns true if the specified OAS model has at least one operation with the HTTP signature
+     * security scheme.
+     * The HTTP signature scheme is defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
+     * 
+     * @param authMethods List of auth methods.
+     * @return True if at least one operation has HTTP signature security schema defined
+     */
+    public static boolean hasHttpSignatureMethods(List<CodegenSecurity> authMethods) {
+        if (authMethods != null && !authMethods.isEmpty()) {
+          for (CodegenSecurity cs : authMethods) {
+              if (Boolean.TRUE.equals(cs.isHttpSignature)) {
+                  return true;
+              }
+          }
+        }
+        return false;
+    }
 }
