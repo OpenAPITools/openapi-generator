@@ -585,6 +585,11 @@ class ApiClient(object):
             The second dict contains the HTTP headers that must be added to the outbound HTTP request.
         """
 
+        if body is None:
+            body = ''
+        else:
+            body = json.dumps(body)
+
         # Build the '(request-target)' HTTP signature parameter.
         target_host = urlparse(self.configuration.host).netloc
         target_path = urlparse(self.configuration.host).path
@@ -644,10 +649,6 @@ class ApiClient(object):
             raise Exception("HTTP method must be set")
         if resource_path is None:
             raise Exception("Resource path must be set")
-        if body is None:
-            body = ''
-        else:
-            body = json.dumps(body)
 
         signed_headers_dict, request_headers_dict = self.get_signed_header_info(self,
             resource_path, method, headers, body, query_params)
