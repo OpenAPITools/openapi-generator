@@ -31,8 +31,7 @@ from petstore_api.model_utils import (  # noqa: F401
 try:
     from petstore_api.models import string_boolean_map
 except ImportError:
-    string_boolean_map = sys.modules[
-        'petstore_api.models.string_boolean_map']
+    string_boolean_map = sys.modules['petstore_api.models.string_boolean_map']
 
 
 class MapTest(ModelNormal):
