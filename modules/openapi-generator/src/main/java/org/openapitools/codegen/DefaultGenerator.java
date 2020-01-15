@@ -42,6 +42,7 @@ import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.utils.ImplementationVersion;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -851,7 +852,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             if (hasBearerMethods(authMethods)) {
                 bundle.put("hasBearerMethods", true);
             }
-            if (hasHttpSignatureMethods(authMethods)) {
+            if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
                 bundle.put("hasHttpSignatureMethods", true);
             }
         }
@@ -1328,19 +1329,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private boolean hasBearerMethods(List<CodegenSecurity> authMethods) {
         for (CodegenSecurity cs : authMethods) {
             if (Boolean.TRUE.equals(cs.isBasicBearer)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    // hasHttpSignatureMethods returns true if the specified OAS model has
-    // HTTP signature methods.
-    // The HTTP signature scheme is defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
-    private boolean hasHttpSignatureMethods(List<CodegenSecurity> authMethods) {
-        for (CodegenSecurity cs : authMethods) {
-            if (Boolean.TRUE.equals(cs.isHttpSignature)) {
                 return true;
             }
         }
