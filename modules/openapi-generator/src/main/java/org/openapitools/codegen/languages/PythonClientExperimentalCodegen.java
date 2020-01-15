@@ -82,6 +82,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         apiTemplateFiles.remove("api.mustache");
         apiTemplateFiles.put("python-experimental/api.mustache", ".py");
+        if (hasHttpSignatureMethods(this.authMethods)) {
+            apiTemplateFiles.put("python-experimental/signing.mustache", ".py");
+        }
 
         apiDocTemplateFiles.remove("api_doc.mustache");
         apiDocTemplateFiles.put("python-experimental/api_doc.mustache", ".md");
@@ -106,9 +109,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         supportingFiles.remove(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
         supportingFiles.add(new SupportingFile("python-experimental/api_client.mustache", packagePath(), "api_client.py"));
-        if (hasHttpSignatureMethods(this.authMethods)) {
-            supportingFiles.add(new SupportingFile("python-experimental/signing.mustache", packagePath(), "signing.py"));
-        }
 
         supportingFiles.add(new SupportingFile("python-experimental/model_utils.mustache", packagePath(), "model_utils.py"));
 
