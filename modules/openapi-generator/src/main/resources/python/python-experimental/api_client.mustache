@@ -571,6 +571,64 @@ class ApiClient(object):
                     )
 
 {{#hasHttpSignatureMethods}}
+    def get_signed_header_info(self, resource_path, method, headers, body, query_params):
+        """
+        Build the HTTP headers (name, value) that need to be included in the HTTP signature scheme.
+
+        :param resource_path : A string representation of the HTTP request resource path.
+        :param method: A string representation of the HTTP request method, e.g. GET, POST.
+        :param headers: A dict containing the HTTP request headers.
+        :param body: The string representation of the HTTP request body.
+        :param query_params: A string representing the HTTP request query parameters.
+        :return: A tuple containing two dict objects:
+            The first dict contains the HTTP headers that are used to calculate the HTTP signature.
+            The second dict contains the HTTP headers that must be added to the outbound HTTP request.
+        """
+
+        # Build the '(request-target)' HTTP signature parameter.
+        target_host = urlparse(self.configuration.host).netloc
+        target_path = urlparse(self.configuration.host).path
+        request_target = method.lower() + " " + target_path + resource_path
+        if query_params:
+            raw_query = urlencode(query_params).replace('+', '%20')
+            request_target += "?" + raw_query
+
+        # Get current time and generate RFC 1123 (HTTP/1.1) date/time string.
+        now = datetime.datetime.now()
+        stamp = mktime(now.timetuple())
+        cdate = formatdate(timeval=stamp, localtime=False, usegmt=True)
+        created = now.strftime("%s")
+
+        signed_headers_dict = {}
+        request_headers_dict = {}
+        for hdr_key in self.configuration.signed_headers_dict:
+            hdr_key = hdr_key.lower()
+            if hdr_key == '(request-target)':
+                value = request_target
+            elif hdr_key == '(created)':
+                value = created
+            elif hdr_key == 'date':
+                value = cdate
+                request_headers_dict['Date'] = '{0}'.format(cdate)
+            elif hdr_key == 'digest':
+                request_body = body.encode()
+                body_digest, digest_prefix = self.get_message_digest(request_body)
+                b64_body_digest = b64encode(body_digest.digest())
+                value = digest_prefix + b64_body_digest.decode('ascii')
+                request_headers_dict['Digest'] = '{0}{1}'.format(digest_prefix, b64_body_digest.decode('ascii'))
+            elif hdr_key == 'host':
+                value = target_host
+                request_headers_dict['Host'] = '{0}'.format(target_host)
+            else:
+                value = headers[hdr_key]
+            signed_headers_dict[hdr_key] = value
+
+        # If the user has not provided any signed_headers, the default must be set to '(created)'.
+        if len(self.configuration.signed_headers_dict) == 0:
+            signed_headers_dict['(created)'] = created
+
+        return signed_header_dict, request_headers_dict
+
     def get_http_signature_headers(self, resource_path, method, headers, body, query_params):
         """
         Create a cryptographic message signature for the HTTP request and add the signed headers.
@@ -591,50 +649,11 @@ class ApiClient(object):
         else:
             body = json.dumps(body)
 
-        target_host = urlparse(self.configuration.host).netloc
-        target_path = urlparse(self.configuration.host).path
-
-        request_target = method.lower() + " " + target_path + resource_path
-
-        if query_params:
-            raw_query = urlencode(query_params).replace('+', '%20')
-            request_target += "?" + raw_query
-
-        # Get current time and generate RFC 1123 (HTTP/1.1) date/time string.
-        now = datetime.datetime.now()
-        stamp = mktime(now.timetuple())
-        cdate = formatdate(timeval=stamp, localtime=False, usegmt=True)
-        created = now.strftime("%s")
-
-        signed_headers = {}
-        signed_header_dict = {}
-        for hdr_key in self.configuration.signed_headers:
-            hdr_key = hdr_key.lower()
-            if hdr_key == '(request-target)':
-                value = request_target
-            elif hdr_key == '(created)':
-                value = created
-            elif hdr_key == 'date':
-                value = cdate
-                signed_header_dict['Date'] = '{0}'.format(cdate)
-            elif hdr_key == 'digest':
-                request_body = body.encode()
-                body_digest, digest_prefix = self.get_message_digest(request_body)
-                b64_body_digest = b64encode(body_digest.digest())
-                value = digest_prefix + b64_body_digest.decode('ascii')
-                signed_header_dict['Digest'] = '{0}{1}'.format(digest_prefix, b64_body_digest.decode('ascii'))
-            elif hdr_key == 'host':
-                value = target_host
-                signed_header_dict['Host'] = '{0}'.format(target_host)
-            else:
-                value = headers[hdr_key]
-            signed_headers[hdr_key] = value
-
-        if len(self.configuration.signed_headers) == 0:
-            signed_headers['(created)'] = created
+        signed_headers_dict, request_headers_dict = self.get_signed_header_info(self,
+            resource_path, method, headers, body, query_params)
 
         string_to_sign = ""
-        for i, (key, value) in enumerate(signed_headers.items()):
+        for i, (key, value) in enumerate(signed_headers_dict.items()):
             string_to_sign += "{0}: {1}".format(key.lower(), value)
             if i > 0:
                 string_to_sign += "\n"
@@ -642,10 +661,10 @@ class ApiClient(object):
         digest, digest_prefix = self.get_message_digest(string_to_sign.encode())
         b64_signed_msg = self.sign_digest(digest)
 
-        signed_header_dict['Authorization'] = self.get_authorization_header(
-            signed_headers, b64_signed_msg, created)
+        request_headers_dict['Authorization'] = self.get_authorization_header(
+            signed_headers_dict, b64_signed_msg, created)
 
-        return signed_header_dict
+        return request_headers_dict
 
     def get_message_digest(self, data):
         """
