@@ -603,6 +603,8 @@ class ApiClient(object):
         stamp = mktime(now.timetuple())
         cdate = formatdate(timeval=stamp, localtime=False, usegmt=True)
         created = now.strftime("%s")
+        if self.configuration.signature_max_validity is not None:
+            expires = (now + self.configuration.signature_max_validity).strftime("%s")
 
         signed_headers_dict = {}
         request_headers_dict = {}
@@ -612,6 +614,8 @@ class ApiClient(object):
                 value = request_target
             elif hdr_key == '(created)':
                 value = created
+            elif hdr_key == '(expires)':
+                value = expires
             elif hdr_key == 'date':
                 value = cdate
                 request_headers_dict['Date'] = '{0}'.format(cdate)
@@ -729,6 +733,7 @@ class ApiClient(object):
 
         headers_value = ""
         created_ts = signed_headers.get('(created)')
+        expires_ts = signed_headers.get('(expires)')
         for i, key in enumerate(signed_headers)
             key = key.lower()
             headers_value += key
@@ -739,6 +744,8 @@ class ApiClient(object):
             .format(self.configuration.key_id, self.configuration.signing_scheme)
         if created_ts is not None:
             auth_str = auth_str + "created={0},".format(created_ts)
+        if expires_ts is not None:
+            auth_str = auth_str + "expires={0},".format(expires_ts)
         auth_str = auth_str + "headers=\"{0}\",signature=\"{1}\""
             .format(headers_value, signed_msg.decode('ascii'))
         return auth_str
