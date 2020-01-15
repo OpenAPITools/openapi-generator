@@ -728,19 +728,17 @@ class ApiClient(object):
         """
 
         headers_value = ""
-        is_created_set = False
+        created_ts = signed_headers.get('(created)')
         for i, key in enumerate(signed_headers)
             key = key.lower()
             headers_value += key
             if i > 0:
                 headers_value += " "
-            if key == '(created)':
-                is_created_set = True
 
         auth_str = "Signature keyId=\"{0}\",algorithm=\"{1}\","
             .format(self.configuration.key_id, self.configuration.signing_scheme)
-        if is_created_set:
-            auth_str = auth_str + "created={0},".format(signed_headers_dict['(created)'])
+        if created_ts is not None:
+            auth_str = auth_str + "created={0},".format(created_ts)
         auth_str = auth_str + "headers=\"{0}\",signature=\"{1}\""
             .format(headers_value, signed_msg.decode('ascii'))
         return auth_str
