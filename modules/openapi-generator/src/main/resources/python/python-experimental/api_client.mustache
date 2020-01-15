@@ -642,8 +642,8 @@ class ApiClient(object):
         digest, digest_prefix = self.get_message_digest(string_to_sign.encode())
         b64_signed_msg = self.sign_digest(digest)
 
-        auth_header = self.get_authorization_header(signed_headers, b64_signed_msg, created)
-        signed_header_dict['Authorization'] = '{0}'.format(auth_header)
+        signed_header_dict['Authorization'] = self.get_authorization_header(
+            signed_headers, b64_signed_msg, created)
 
         return signed_header_dict
 
