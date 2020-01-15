@@ -657,11 +657,8 @@ class ApiClient(object):
         signed_headers_dict, request_headers_dict = self.get_signed_header_info(self,
             resource_path, method, headers, body, query_params)
 
-        string_to_sign = ""
-        for i, (key, value) in enumerate(signed_headers_dict.items()):
-            string_to_sign += "{0}: {1}".format(key.lower(), value)
-            if i > 0:
-                string_to_sign += "\n"
+        header_items = ["{0}: {1}".format(key.lower(), value) for key, value in signed_headers_dict.items()]
+        string_to_sign = "\n".join(header_items)
 
         digest, digest_prefix = self.get_message_digest(string_to_sign.encode())
         b64_signed_msg = self.sign_digest(digest)
@@ -734,11 +731,8 @@ class ApiClient(object):
         headers_value = ""
         created_ts = signed_headers.get('(created)')
         expires_ts = signed_headers.get('(expires)')
-        for i, key in enumerate(signed_headers)
-            key = key.lower()
-            headers_value += key
-            if i > 0:
-                headers_value += " "
+        lower_keys = [k.lower() for k in signed_headers]
+        headers_value = " ".join(lower_keys)
 
         auth_str = "Signature keyId=\"{0}\",algorithm=\"{1}\","
             .format(self.configuration.key_id, self.configuration.signing_scheme)
