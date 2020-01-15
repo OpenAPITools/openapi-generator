@@ -31,7 +31,8 @@ from petstore_api.model_utils import (  # noqa: F401
 try:
     from petstore_api.models import read_only_first
 except ImportError:
-    read_only_first = sys.modules['petstore_api.models.read_only_first']
+    read_only_first = sys.modules[
+        'petstore_api.models.read_only_first']
 
 
 class ArrayTest(ModelNormal):
