@@ -531,7 +531,8 @@ class ApiClient(object):
                 if auth_setting['in'] == 'cookie':
                     headers['Cookie'] = auth_setting['value']
                 elif auth_setting['in'] == 'header':
-                    headers[auth_setting['key']] = auth_setting['value']
+                    if auth_setting['type'] != 'http-signature':
+                        headers[auth_setting['key']] = auth_setting['value']
                 elif auth_setting['in'] == 'query':
                     querys.append((auth_setting['key'], auth_setting['value']))
                 else:

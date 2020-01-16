@@ -538,24 +538,22 @@ class ApiClient(object):
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
-{{#hasHttpSignatureMethods}}
-                if auth_setting['type'] == 'http-signature':
-                    # The HTTP signature scheme requires multiple HTTP headers
-                    # that are calculated dynamically.
-                    signing_info = self.configuration.signing_info
-                    if signing_info is None:
-                        raise Exception("HTTP signature configuration is missing")
-                    auth_headers = signing_info.get_http_signature_headers(
-                                        self.configuration.host, resource_path,
-                                        method, headers, body, querys)
-                    for key, value in auth_headers.items():
-                        headers[key] = value
-                    continue
-{{/hasHttpSignatureMethods}}
                 if auth_setting['in'] == 'cookie':
                     headers['Cookie'] = auth_setting['value']
                 elif auth_setting['in'] == 'header':
-                    headers[auth_setting['key']] = auth_setting['value']
+                    if auth_setting['type'] != 'http-signature':
+                        headers[auth_setting['key']] = auth_setting['value']
+{{#hasHttpSignatureMethods}}
+                    else:
+                        # The HTTP signature scheme requires multiple HTTP headers
+                        # that are calculated dynamically.
+                        signing_info = self.configuration.signing_info
+                        # NOTE: no need to raise an exception because this entry only exists
+                        # if signing_info is not None
+                        auth_headers = signing_info.get_http_signature_headers(
+                                            resource_path, method, headers, body, querys)
+                        headers.update(auth_headers)
+{{/hasHttpSignatureMethods}}
                 elif auth_setting['in'] == 'query':
                     querys.append((auth_setting['key'], auth_setting['value']))
                 else:
