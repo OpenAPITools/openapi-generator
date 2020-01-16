@@ -42,6 +42,7 @@ import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.utils.ImplementationVersion;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -850,6 +851,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
             if (hasBearerMethods(authMethods)) {
                 bundle.put("hasBearerMethods", true);
+            }
+            if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
+                bundle.put("hasHttpSignatureMethods", true);
             }
         }
 

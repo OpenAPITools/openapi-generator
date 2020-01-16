@@ -3608,6 +3608,7 @@ public class DefaultCodegen implements CodegenConfig {
             cs.name = key;
             cs.type = securityScheme.getType().toString();
             cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = false;
+            cs.isHttpSignature = false;
             cs.isBasicBasic = cs.isBasicBearer = false;
             cs.scheme = securityScheme.getScheme();
             if (securityScheme.getExtensions() != null) {
@@ -3629,6 +3630,15 @@ public class DefaultCodegen implements CodegenConfig {
                 } else if ("bearer".equals(securityScheme.getScheme())) {
                     cs.isBasicBearer = true;
                     cs.bearerFormat = securityScheme.getBearerFormat();
+                } else if ("signature".equals(securityScheme.getScheme())) {
+                    // HTTP signature as defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
+                    // The registry of security schemes is maintained by IANA.
+                    // https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml
+                    // As of January 2020, the "signature" scheme has not been registered with IANA yet.
+                    // This scheme may have to be changed when it is officially registered with IANA.
+                    cs.isHttpSignature = true;
+                } else {
+                    throw new RuntimeException("Unsupported security scheme: " + securityScheme.getScheme());
                 }
             } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
                 cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
