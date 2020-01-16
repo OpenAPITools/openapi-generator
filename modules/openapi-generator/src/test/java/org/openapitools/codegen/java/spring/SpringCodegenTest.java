@@ -19,13 +19,12 @@ package org.openapitools.codegen.java.spring;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.MockDefaultGenerator;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
@@ -440,7 +439,7 @@ public class SpringCodegenTest {
         checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java",
                 "@RequestBody(required = false");
     }
-    
+
     @Test
     public void useBeanValidationTruePerformBeanValidationTrueJava8FalseForFormatEmail() throws IOException {
         beanValidationForFormatEmail(true, true, false, "@org.hibernate.validator.constraints.Email", "@javax.validation.constraints.Email");
@@ -455,7 +454,7 @@ public class SpringCodegenTest {
     public void useBeanValidationTruePerformBeanValidationTrueJava8TrueForFormatEmail() throws IOException {
       beanValidationForFormatEmail(true, true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
-    
+
     private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, boolean java8, String contains, String notContains) throws IOException {
       File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
       output.deleteOnExit();
@@ -481,4 +480,43 @@ public class SpringCodegenTest {
       checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", notContains);
     }
 
+    @Test
+    public void testDefaultValuesFixed() {
+        // we had an issue where int64, float, and double values were having single character string suffixes
+        // included in their defaultValues
+        // This test verifies that those characters are no longer present
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/issue1226.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String int64Val = "9223372036854775807l";
+        String floatVal = "3.14159f";
+        String doubleVal = "3.14159d";
+
+        // make sure that the model properties include character suffixes
+        String modelName = "NumberHolder";
+        Schema nhSchema = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, nhSchema);
+        CodegenProperty int64Prop = cm.vars.get(0);
+        CodegenProperty floatProp = cm.vars.get(1);
+        CodegenProperty doubleProp = cm.vars.get(2);
+        Assert.assertEquals(int64Prop.defaultValue, int64Val);
+        Assert.assertEquals(floatProp.defaultValue, floatVal);
+        Assert.assertEquals(doubleProp.defaultValue, doubleVal);
+
+        int64Val = "9223372036854775807";
+        floatVal = "3.14159";
+        doubleVal = "3.14159";
+
+        // make sure that the operation parameters omit character suffixes
+        String route = "/numericqueryparams";
+        Operation op = openAPI.getPaths().get(route).getGet();
+        CodegenOperation co = codegen.fromOperation(route, "GET", op, null);
+        CodegenParameter int64Param = co.queryParams.get(0);
+        CodegenParameter floatParam = co.queryParams.get(1);
+        CodegenParameter doubleParam = co.queryParams.get(2);
+        Assert.assertEquals(int64Param.defaultValue, int64Val);
+        Assert.assertEquals(floatParam.defaultValue, floatVal);
+        Assert.assertEquals(doubleParam.defaultValue, doubleVal);
+    }
 }

@@ -36,6 +36,8 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         outputFolder = "generated-code/go-experimental";
         embeddedTemplateDir = templateDir = "go-experimental";
 
+        usesOptionals = false;
+
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
     }
 
