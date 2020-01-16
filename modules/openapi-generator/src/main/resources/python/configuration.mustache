@@ -21,14 +21,35 @@ class Configuration(object):
     Do not edit the class manually.
 
     :param host: Base url
-    :param api_key: Dict to store API key(s)
+    :param api_key: Dict to store API key(s).
+      Each entry in the dict specifies an API key.
+      The dict key is the name of the security scheme in the OAS specification.
+      The dict value is the API key secret.
     :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
+      The dict key is the name of the security scheme in the OAS specification.
+      The dict value is an API key prefix when generating the auth data.
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
     :param signing_info: Configuration parameters for HTTP signature.
         Must be an instance of {{{packageName}}}.signing.HttpSigningConfiguration
 
     :Example:
+
+    Given the following security scheme in the OpenAPI specification:
+      components:
+        securitySchemes:
+          cookieAuth:         # name for the security scheme
+            type: apiKey
+            in: cookie
+            name: JSESSIONID  # cookie name
+
+    You can programmatically set the cookie:
+      conf = {{{packageName}}}.Configuration(
+        api_key={'cookieAuth': 'abc123'}
+        api_key_prefix={'cookieAuth': 'JSESSIONID'}
+      )
+    The following cookie will be added to the HTTP request:
+       Cookie: JSESSIONID abc123
 
     Configure API client with HTTP basic authentication:
       conf = {{{packageName}}}.Configuration(
@@ -71,7 +92,7 @@ class Configuration(object):
 
     def __init__(self, host="{{{basePath}}}",
                  api_key=None, api_key_prefix=None,
-                 username="", password="",
+                 username=None, password=None,
                  signing_info=None):
         """Constructor
         """
@@ -292,8 +313,14 @@ class Configuration(object):
 
         :return: The token for basic HTTP authentication.
         """
+        username = ""
+        if self.username is not None:
+            username = self.username
+        password = ""
+        if self.password is not None:
+            password = self.password
         return urllib3.util.make_headers(
-            basic_auth=self.username + ':' + self.password
+            basic_auth=username + ':' + password
         ).get('authorization')
 
     def auth_settings(self):
@@ -301,38 +328,38 @@ class Configuration(object):
 
         :return: The Auth Settings information dict.
         """
-        return {
+        auth = {}
 {{#authMethods}}
 {{#isApiKey}}
-            '{{name}}':
-                {
-                    'type': 'api_key',
-                    'in': {{#isKeyInCookie}}'cookie'{{/isKeyInCookie}}{{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{#isKeyInQuery}}'query'{{/isKeyInQuery}},
-                    'key': '{{keyParamName}}',
-                    'value': self.get_api_key_with_prefix('{{keyParamName}}')
-                },
+        if '{{keyParamName}}' in self.api_key:
+            auth['{{name}}'] = {
+                'type': 'api_key',
+                'in': {{#isKeyInCookie}}'cookie'{{/isKeyInCookie}}{{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{#isKeyInQuery}}'query'{{/isKeyInQuery}},
+                'key': '{{keyParamName}}',
+                'value': self.get_api_key_with_prefix('{{keyParamName}}')
+            }
 {{/isApiKey}}
 {{#isBasic}}
   {{#isBasicBasic}}
-            '{{name}}':
-                {
-                    'type': 'basic',
-                    'in': 'header',
-                    'key': 'Authorization',
-                    'value': self.get_basic_auth_token()
-                },
+        if self.username is not None and self.password is not None:
+            auth['{{name}}'] = {
+                'type': 'basic',
+                'in': 'header',
+                'key': 'Authorization',
+                'value': self.get_basic_auth_token()
+            }
   {{/isBasicBasic}}
   {{#isBasicBearer}}
-            '{{name}}':
-                {
-                    'type': 'bearer',
-                    'in': 'header',
-                    {{#bearerFormat}}
-                    'format': '{{{.}}}',
-                    {{/bearerFormat}}
-                    'key': 'Authorization',
-                    'value': 'Bearer ' + self.access_token
-                },
+        if self.access_token is not None:
+            auth['{{name}}'] = {
+                'type': 'bearer',
+                'in': 'header',
+                {{#bearerFormat}}
+                'format': '{{{.}}}',
+                {{/bearerFormat}}
+                'key': 'Authorization',
+                'value': 'Bearer ' + self.access_token
+            }
   {{/isBasicBearer}}
   {{#isHttpSignature}}
             '{{name}}':
@@ -345,16 +372,16 @@ class Configuration(object):
   {{/isHttpSignature}}
 {{/isBasic}}
 {{#isOAuth}}
-            '{{name}}':
-                {
-                    'type': 'oauth2',
-                    'in': 'header',
-                    'key': 'Authorization',
-                    'value': 'Bearer ' + self.access_token
-                },
+        if self.access_token is not None:
+            auth['{{name}}'] = {
+                'type': 'oauth2',
+                'in': 'header',
+                'key': 'Authorization',
+                'value': 'Bearer ' + self.access_token
+            }
 {{/isOAuth}}
 {{/authMethods}}
-        }
+        return auth
 
     def to_debug_report(self):
         """Gets the essential information for debugging.
