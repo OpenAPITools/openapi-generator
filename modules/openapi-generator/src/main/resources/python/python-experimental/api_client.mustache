@@ -60,7 +60,6 @@ class ApiClient(object):
     PRIMITIVE_TYPES = (
         (float, bool, six.binary_type, six.text_type) + six.integer_types
     )
-
     _pool = None
 
     def __init__(self, configuration=None, header_name=None, header_value=None,

@@ -57,7 +57,7 @@ class Configuration(object):
                                       signing.HEADER_HOST,
                                       signing.HEADER_DATE,
                                       signing.HEADER_DIGEST,
-                                      'Content-Type']
+                                      'Content-Type'],
             signature_max_validity = datetime.timedelta(minutes=5)
         )
       )
