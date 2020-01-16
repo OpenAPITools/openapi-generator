@@ -42,6 +42,7 @@ public class CodegenOperation {
     public List<CodegenParameter> queryParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> headerParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
+    public List<CodegenParameter> relatedParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> optionalParams = new ArrayList<CodegenParameter>();
@@ -112,6 +113,15 @@ public class CodegenOperation {
      */
     public boolean getHasFormParams() {
         return nonempty(formParams);
+    }
+
+    /**
+     * Check if there's at least one multipart related parameter
+     *
+     * @return true if any multipart related parameter exists, false otherwise
+     */
+    public boolean getHasRelatedParams() {
+        return nonempty(relatedParams);
     }
 
     /**
@@ -367,6 +377,7 @@ public class CodegenOperation {
                 Objects.equals(queryParams, that.queryParams) &&
                 Objects.equals(headerParams, that.headerParams) &&
                 Objects.equals(formParams, that.formParams) &&
+                Objects.equals(relatedParams, that.relatedParams) &&
                 Objects.equals(cookieParams, that.cookieParams) &&
                 Objects.equals(requiredParams, that.requiredParams) &&
                 Objects.equals(optionalParams, that.optionalParams) &&
@@ -396,8 +407,8 @@ public class CodegenOperation {
                 isCallbackRequest, path, operationId, returnType, httpMethod, returnBaseType, returnContainer,
                 summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes, produces,
                 prioritizedContentTypes, servers, bodyParam, allParams, bodyParams, pathParams, queryParams,
-                headerParams, formParams, cookieParams, requiredParams, optionalParams, authMethods, tags,
-                responses, callbacks, imports, examples, requestBodyExamples, externalDocs, vendorExtensions,
+                headerParams, formParams, relatedParams, cookieParams, requiredParams, optionalParams, authMethods,
+                tags, responses, callbacks, imports, examples, requestBodyExamples, externalDocs, vendorExtensions,
                 nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase, operationIdSnakeCase);
     }
 }

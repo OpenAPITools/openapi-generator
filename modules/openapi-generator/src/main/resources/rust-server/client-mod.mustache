@@ -25,11 +25,16 @@ use swagger;
 use swagger::{ApiError, XSpanIdString, Has, AuthData};
 use swagger::client::Service;
 
-{{#apiUsesMultipart}}
+{{#apiUsesMultipartFormData}}
 use mime::Mime;
 use std::io::Cursor;
 use multipart::client::lazy::Multipart;
-{{/apiUsesMultipart}}
+{{/apiUsesMultipartFormData}}
+{{#apiUsesMultipartRelated}}
+use hyper_0_10::header::{Headers, ContentType};
+header! { (ContentId, "Content-ID") => [String] }
+use mime_multipart::{Node, Part, generate_boundary, write_multipart};
+{{/apiUsesMultipartRelated}}
 {{#apiUsesUuid}}
 use uuid;
 {{/apiUsesUuid}}
@@ -253,7 +258,7 @@ impl<C, F> Api<C> for Client<F> where
 
 {{#vendorExtensions}}
   {{#consumesMultipart}}
-        let mut multipart = Multipart::new(); 
+        let mut multipart = Multipart::new();
 
     {{#vendorExtensions}}
       {{#formParams}}
@@ -274,7 +279,7 @@ impl<C, F> Api<C> for Client<F> where
 
         let {{{paramName}}}_cursor = Cursor::new({{{paramName}}}_vec);
 
-        multipart.add_stream("{{{paramName}}}",  {{{paramName}}}_cursor,  None as Option<&str>, Some({{{paramName}}}_mime));  
+        multipart.add_stream("{{{paramName}}}",  {{{paramName}}}_cursor,  None as Option<&str>, Some({{{paramName}}}_mime));
           {{/jsonSchema}}
         {{/isByteArray}}
         {{#isByteArray}}
@@ -314,8 +319,6 @@ impl<C, F> Api<C> for Client<F> where
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", multipart_header, e))))
         });
   {{/consumesMultipart}}
-{{/vendorExtensions}}
-{{#vendorExtensions}}
   {{^consumesMultipart}}
     {{#vendorExtensions}}
       {{#formParams}}
@@ -335,6 +338,66 @@ impl<C, F> Api<C> for Client<F> where
         *request.body_mut() = Body::from(body.into_bytes());
         {{/-last}}
       {{/formParams}}
+      {{#relatedParams}}
+        {{#-first}}
+        // Construct the Body for a multipart/related request. The mime 0.2.6 library
+        // does not parse quoted-string parameters correctly. The boundary doesn't
+        // need to be a quoted string if it does not contain a '/', hence ensure
+        // no such boundary is used.
+        let mut boundary = generate_boundary();
+        for b in boundary.iter_mut() {
+            if b == &('/' as u8) {
+                *b = '=' as u8;
+            }
+        }
+
+        let mut body_parts = vec![];
+        {{/-first}}
+
+        {{^required}}
+        if let Some({{{paramName}}}) = param_{{{paramName}}} {
+        {{/required}}
+            let part = Node::Part(Part {
+                headers: {
+                    let mut h = Headers::new();
+                    h.set(ContentType("{{{contentType}}}".parse().unwrap()));
+                    h.set(ContentId("{{{baseName}}}".parse().unwrap()));
+                    h
+                },
+                {{#isBinary}}
+                body: {{#required}}param_{{/required}}{{{paramName}}}.0,
+                {{/isBinary}}
+                {{^isBinary}}
+                body: serde_json::to_string(&{{{paramName}}})
+                    .expect("Impossible to fail to serialize")
+                    .into_bytes(),
+                {{/isBinary}}
+            });
+            body_parts.push(part);
+        {{^required}}
+        }
+        {{/required}}
+        {{#-last}}
+
+        // Write the body into a vec.
+        let mut body: Vec<u8> = vec![];
+        write_multipart(&mut body, &boundary, &body_parts)
+            .expect("Failed to write multipart body");
+
+        // Add the message body to the request object.
+        *request.body_mut() = Body::from(body);
+
+        let header = &mimetypes::requests::{{#vendorExtensions}}{{{uppercase_operation_id}}}{{/vendorExtensions}};
+        request.headers_mut().insert(CONTENT_TYPE,
+        match HeaderValue::from_bytes(
+            &[header.as_bytes(), "; boundary=".as_bytes(), &boundary, "; type=\"application/json\"".as_bytes()].concat()
+        ) {
+            Ok(h) => h,
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
+        });
+
+        {{/-last}}
+      {{/relatedParams}}
     {{/vendorExtensions}}
     {{#bodyParam}}
       {{#-first}}

@@ -12,6 +12,11 @@ extern crate lazy_static;
 extern crate url;
 #[macro_use]
 extern crate log;
+{{#apiUsesMultipartRelated}}
+#[cfg(any(feature = "client", feature = "server"))]
+#[macro_use]
+extern crate hyper_0_10;
+{{/apiUsesMultipartRelated}}
 
 // Crates for conversion support
 #[cfg(feature = "conversion")]
@@ -35,6 +40,14 @@ extern crate hyper;
 extern crate hyper_tls;
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate openssl;
+{{#apiUsesMultipart}}
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate mime_0_2;
+{{/apiUsesMultipart}}
+{{#apiUsesMultipartRelated}}
+#[cfg(any(feature = "client", feature = "server"))]
+extern crate mime_multipart;
+{{/apiUsesMultipartRelated}}
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate native_tls;
 #[cfg(feature = "server")]
@@ -51,11 +64,10 @@ extern crate tokio;
 
 {{#usesXml}}extern crate serde_xml_rs;{{/usesXml}}
 
-{{#apiUsesMultipart}}
+{{#apiUsesMultipartFormData}}
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate multipart;
-extern crate mime_0_2;
-{{/apiUsesMultipart}}
+{{/apiUsesMultipartFormData}}
 
 #[cfg(any(feature = "client", feature = "server"))]
 {{#usesUrlEncodedForm}}extern crate serde_urlencoded;{{/usesUrlEncodedForm}}
