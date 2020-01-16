@@ -10,21 +10,29 @@ from Crypto.Hash import SHA256, SHA512
 from base64 import b64encode
 from email.utils import formatdate
 
+from {{packageName}}.configuration import Configuration
+
 HEADER_REQUEST_TARGET = '(request-target)'
 HEADER_CREATED = '(created)'
 HEADER_EXPIRES = '(expires)'
 HEADER_HOST = 'host'
 HEADER_DATE = 'date'
 HEADER_DIGEST = 'Digest'
+HEADER_AUTHORIZATION = 'Authorization'
 
 SCHEME_HS2019 = 'hs2019'
+SCHEME_RSA_SHA256 = 'rsa-sha256'
+SCHEME_RSA_SHA512 = 'rsa-sha512'
 
 ALGORITHM_RSASSA_PSS = 'PSS'
 ALGORITHM_RSASSA_PKCS1v15 = 'PKCS1v15'
 
 ALGORITHM_ECDSA_MODE_FIPS_186_3 = 'fips-186-3'
 ALGORITHM_ECDSA_MODE_DETERMINISTIC_RFC6979 = 'deterministic-rfc6979'
-ALGORITHM_ECDSA_KEY_SIGNING_ALGORITHMS = {ECDSA_MODE_FIPS_186_3, ECDSA_MODE_DETERMINISTIC_RFC6979}
+ALGORITHM_ECDSA_KEY_SIGNING_ALGORITHMS = {
+    ECDSA_MODE_FIPS_186_3,
+    ECDSA_MODE_DETERMINISTIC_RFC6979
+}
 
 def get_http_signature_headers(configuration, resource_path, method, headers, body, query_params):
     """
@@ -45,7 +53,8 @@ def get_http_signature_headers(configuration, resource_path, method, headers, bo
     signed_headers_dict, request_headers_dict = get_signed_header_info(configuration,
         resource_path, method, headers, body, query_params)
 
-    header_items = ["{0}: {1}".format(key.lower(), value) for key, value in signed_headers_dict.items()]
+    header_items = [
+        "{0}: {1}".format(key.lower(), value) for key, value in signed_headers_dict.items()]
     string_to_sign = "\n".join(header_items)
 
     digest, digest_prefix = get_message_digest(configuration, string_to_sign.encode())
@@ -61,9 +70,11 @@ def load_private_key(configuration):
         The private key is used to sign HTTP requests as defined in
         https://datatracker.ietf.org/doc/draft-cavage-http-signatures/.
     """
-    if configuration.private_key is not None:
+    if configuration.signing_info is None:
+        raise Exception("Configuration is missing signing info")
+    if configuration.signing_info.private_key is not None:
         return
-    with open(configuration.private_key_path, "rb") as f:
+    with open(configuration.signing_info.private_key_path, "rb") as f:
         # Decode PEM file and determine key type from PEM header.
         # Supported values are "RSA PRIVATE KEY" and "ECDSA PRIVATE KEY".
         keys = pem.parse(f.read())
@@ -71,9 +82,9 @@ def load_private_key(configuration):
             raise Exception("File must contain exactly one private key")
         key = keys[0].as_text()
         if key.startswith("-----BEGIN RSA PRIVATE KEY-----"):
-            configuration.private_key = RSA.importKey(key)
+            configuration.signing_info.private_key = RSA.importKey(key)
         elif key.startswith("-----BEGIN EC PRIVATE KEY-----"):
-            configuration.private_key = ECC.importKey(key)
+            configuration.signing_info.private_key = ECC.importKey(key)
         else:
             raise Exception("Unsupported key")
 
@@ -109,12 +120,12 @@ def get_signed_header_info(configuration, resource_path, method, headers, body, 
     stamp = mktime(now.timetuple())
     cdate = formatdate(timeval=stamp, localtime=False, usegmt=True)
     created = now.strftime("%s")
-    if configuration.signature_max_validity is not None:
-        expires = (now + configuration.signature_max_validity).strftime("%s")
+    if configuration.signing_info.signature_max_validity is not None:
+        expires = (now + configuration.signing_info.signature_max_validity).strftime("%s")
 
     signed_headers_dict = {}
     request_headers_dict = {}
-    for hdr_key in configuration.signed_headers_dict:
+    for hdr_key in configuration.signing_info.signed_headers_dict:
         hdr_key = hdr_key.lower()
         if hdr_key == HEADER_REQUEST_TARGET:
             value = request_target
@@ -130,7 +141,8 @@ def get_signed_header_info(configuration, resource_path, method, headers, body, 
             body_digest, digest_prefix = get_message_digest(configuration, request_body)
             b64_body_digest = b64encode(body_digest.digest())
             value = digest_prefix + b64_body_digest.decode('ascii')
-            request_headers_dict['Digest'] = '{0}{1}'.format(digest_prefix, b64_body_digest.decode('ascii'))
+            request_headers_dict['Digest'] = '{0}{1}'.format(
+                digest_prefix, b64_body_digest.decode('ascii'))
         elif hdr_key == HEADER_HOST:
             value = target_host
             request_headers_dict['Host'] = '{0}'.format(target_host)
@@ -139,7 +151,7 @@ def get_signed_header_info(configuration, resource_path, method, headers, body, 
         signed_headers_dict[hdr_key] = value
 
     # If the user has not provided any signed_headers, the default must be set to '(created)'.
-    if len(configuration.signed_headers_dict) == 0:
+    if len(configuration.signing_info.signed_headers_dict) == 0:
         signed_headers_dict[HEADER_CREATED] = created
 
     return signed_header_dict, request_headers_dict
@@ -154,15 +166,16 @@ def get_message_digest(configuration, data):
         The prefix is a string that identifies the cryptographc hash. It is used to generate the
         'Digest' header as specified in RFC 3230.
     """
-    if configuration.signing_scheme in ["rsa-sha512", "hs2019"]:
+    if configuration.signing_info.signing_scheme in [SCHEME_RSA_SHA512, SCHEME_HS2019]:
         digest = SHA512.new()
         prefix = "SHA-512="
-    elif configuration.signing_scheme in ["rsa-sha256"]:
+    elif configuration.signing_info.signing_scheme in [SCHEME_RSA_SHA256]:
         digest = SHA256.new()
         prefix = "SHA-256="
     else:
         raise Exception(
-            "Unsupported signing algorithm: {0}".format(configuration.signing_scheme))
+            "Unsupported signing algorithm: {0}".format(
+                configuration.signing_info.signing_scheme))
     digest.update(data)
     return digest, prefix
 
@@ -176,19 +189,21 @@ def sign_digest(configuration, digest):
     load_private_key(configuration)
     privkey = self.private_key
     if isinstance(privkey, RSA.RsaKey):
-        if configuration.signing_algorithm == ALGORITHM_RSASSA_PSS:
+        if configuration.signing_info.signing_algorithm == ALGORITHM_RSASSA_PSS:
             # RSASSA-PSS in Section 8.1 of RFC8017.
             signature = pss.new(privkey).sign(digest)
-        elif configuration.signing_algorithm == ALGORITHM_RSASSA_PKCS1v15:
+        elif configuration.signing_info.signing_algorithm == ALGORITHM_RSASSA_PKCS1v15:
             # RSASSA-PKCS1-v1_5 in Section 8.2 of RFC8017.
             signature = PKCS1_v1_5.new(privkey).sign(digest)
         else:
-            raise Exception("Unsupported signature algorithm: {0}".format(configuration.signing_algorithm))
+            raise Exception("Unsupported signature algorithm: {0}".format(
+                configuration.signing_info.signing_algorithm))
     elif isinstance(privkey, ECC.EccKey):
-        if configuration.signing_algorithm in ECDSA_KEY_SIGNING_ALGORITHMS:
-            signature = DSS.new(privkey, configuration.signing_algorithm).sign(digest)
+        if configuration.signing_info.signing_algorithm in ECDSA_KEY_SIGNING_ALGORITHMS:
+            signature = DSS.new(privkey, configuration.signing_info.signing_algorithm).sign(digest)
         else:
-            raise Exception("Unsupported signature algorithm: {0}".format(configuration.signing_algorithm))
+            raise Exception("Unsupported signature algorithm: {0}".format(
+                configuration.signing_info.signing_algorithm))
     else:
         raise Exception("Unsupported private key: {0}".format(type(privkey)))
     return b64encode(signature)
@@ -211,7 +226,7 @@ def get_authorization_header(configuration, signed_headers, signed_msg):
     headers_value = " ".join(lower_keys)
 
     auth_str = "Signature keyId=\"{0}\",algorithm=\"{1}\","
-        .format(configuration.key_id, configuration.signing_scheme)
+        .format(configuration.signing_info.key_id, configuration.signing_info.signing_scheme)
     if created_ts is not None:
         auth_str = auth_str + "created={0},".format(created_ts)
     if expires_ts is not None:
