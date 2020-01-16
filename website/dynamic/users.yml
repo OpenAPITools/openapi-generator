@@ -189,6 +189,11 @@
   infoLink: "https://www.kronsoft.ro/home/"
   pinned: false
 -
+  caption: "Kubernetes"
+  image: "img/companies/kubernetes.png"
+  infoLink: "https://kubernetes.io/"
+  pinned: false
+-
   caption: "Médiavision"
   image: "img/companies/mediavision.jpeg"
   infoLink: "https://www.mediavision.fr/"
