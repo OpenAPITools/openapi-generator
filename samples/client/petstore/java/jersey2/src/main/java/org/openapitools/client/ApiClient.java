@@ -61,13 +61,13 @@ public class ApiClient {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
   protected String basePath = "http://petstore.swagger.io:80/v2";
-  protected ServerConfiguration[] servers = {
+  protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
       "http://petstore.swagger.io:80/v2",
       "No description provided",
       new HashMap<String, ServerVariable>()
     )
-  };
+  ));
   protected Integer serverIndex = 0;
   protected Map<String, String> serverVariables = null;
   protected Map<String, List<ServerConfiguration>> operationServers = new HashMap<String, List<ServerConfiguration>>() {{
@@ -131,11 +131,11 @@ public class ApiClient {
     return this;
   }
 
-  public ServerConfiguration[] getServers() {
+  public List<ServerConfiguration> getServers() {
     return servers;
   }
 
-  public ApiClient setServers(ServerConfiguration[] servers) {
+  public ApiClient setServers(List<ServerConfiguration> servers) {
     this.servers = servers;
     return this;
   }
@@ -721,13 +721,25 @@ public class ApiClient {
     // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     String targetURL;
     if (serverIndex != null) {
+      Integer index;
+      List<ServerConfiguration> serverConfigurations;
+      Map<String, String> variables;
+
       if (operationServers.containsKey(operation)) {
-        Integer index = operationServerIndex.getOrDefault(operation, serverIndex);
-        Map<String, String> variables = operationServerVariables.getOrDefault(operation, serverVariables);
-        targetURL = operationServers.get(operation).get(index).URL(variables);
+        index = operationServerIndex.getOrDefault(operation, serverIndex);
+        variables = operationServerVariables.getOrDefault(operation, serverVariables);
+        serverConfigurations = operationServers.get(operation);
       } else {
-        targetURL = servers[serverIndex].URL(serverVariables) + path;
+        index = serverIndex;
+        variables = serverVariables;
+        serverConfigurations = servers;
       }
+      if (index < 0 || index >= serverConfigurations.size()) {
+        throw new ArrayIndexOutOfBoundsException(String.format(
+          "Invalid index %d when selecting the host settings. Must be less than %d", index, serverConfigurations.size()
+        ));
+      }
+      targetURL = serverConfigurations.get(index).URL(variables) + path;
     } else {
       targetURL = this.basePath + path;
     }

@@ -66,13 +66,13 @@ public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
   private String basePath = "http://petstore.swagger.io:80/v2";
-  protected ServerConfiguration[] servers = {
+  protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
       "http://petstore.swagger.io:80/v2",
       "No description provided",
       new HashMap<String, ServerVariable>()
     )
-  };
+  ));
   protected Integer serverIndex = 0;
   protected Map<String, String> serverVariables = null;
   private boolean debugging = false;
@@ -181,11 +181,11 @@ public class ApiClient {
     return this;
   }
 
-  public ServerConfiguration[] getServers() {
+  public List<ServerConfiguration> getServers() {
     return servers;
   }
 
-  public ApiClient setServers(ServerConfiguration[] servers) {
+  public ApiClient setServers(List<ServerConfiguration> servers) {
     this.servers = servers;
     return this;
   }
@@ -657,7 +657,12 @@ public class ApiClient {
   private String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams) {
     String baseURL;
     if (serverIndex != null) {
-      baseURL = servers[serverIndex].URL(serverVariables);
+      if (index < 0 || index >= servers.size()) {
+        throw new ArrayIndexOutOfBoundsException(String.format(
+          "Invalid index %d when selecting the host settings. Must be less than %d", index, servers.size()
+        ));
+      }
+      baseURL = servers.get(serverIndex).URL(serverVariables);
     } else {
       baseURL = basePath;
     }
