@@ -231,7 +231,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                     'type': 'oauth2',
                     'in': 'header',
                     'key': 'Authorization',
-                    'value': 'Bearer ' + self.access_token
+                    'value': 'Bearer ' + self.access_token if self.access_token else ''
                 },
 {{/isOAuth}}{{/authMethods}}
         }
