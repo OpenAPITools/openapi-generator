@@ -62,9 +62,6 @@ class ApiClient(object):
     PRIMITIVE_TYPES = (
         (float, bool, six.binary_type, six.text_type) + six.integer_types
     )
-    ECDSA_MODE_FIPS_186_3 = 'fips-186-3'
-    ECDSA_MODE_DETERMINISTIC_RFC6979 = 'deterministic-rfc6979'
-    ECDSA_KEY_SIGNING_ALGORITHMS = {ECDSA_MODE_FIPS_186_3, ECDSA_MODE_DETERMINISTIC_RFC6979}
 
     _pool = None
 

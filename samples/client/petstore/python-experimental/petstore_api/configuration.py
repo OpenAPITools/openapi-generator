@@ -32,32 +32,8 @@ class Configuration(object):
     :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
-    :param key_id: The identifier of the cryptographic key, when signing HTTP requests.
-        An 'Authorization' header is calculated by creating a hash of select headers,
-        and optionally the body of the HTTP request, then signing the hash value using
-        a private key which is available to the client.
-    :param private_key_path: The path of the file containing a private key,
-        when signing HTTP requests.
-    :param signing_scheme: The signature scheme, when signing HTTP requests.
-        Supported value is hs2019.
-    :param signing_algorithm: The signature algorithm, when signing HTTP requests.
-        Supported values are PKCS1v15, PSS; fips-186-3, deterministic-rfc6979.
-    :param signature_max_validity: The signature max validity,
-        expressed as a datetime.timedelta value.
-    :param signed_headers: A list of strings. Each value is the name of a HTTP header
-        that must be included in the HTTP signature calculation.
-        The two special signature headers '(request-target)' and '(created)' SHOULD be
-        included in SignedHeaders.
-        The '(created)' header expresses when the signature was created.
-        The '(request-target)' header is a concatenation of the lowercased :method, an
-        ASCII space, and the :path pseudo-headers.
-        When signed_headers is not specified, the client defaults to a single value,
-        '(created)', in the list of HTTP headers.
-        When SignedHeaders contains the 'Digest' value, the client performs the
-        following operations:
-        1. Calculate a digest of request body, as specified in RFC3230, section 4.3.2.
-        2. Set the 'Digest' header in the request body.
-        3. Include the 'Digest' header and value in the HTTP signature.
+    :param signing_info: Configuration parameters for HTTP signature.
+        Must be an instance of petstore_api.signing.HttpSigningConfiguration
 
     :Example:
 
@@ -71,20 +47,23 @@ class Configuration(object):
     sign the HTTP requests with the RSA-SSA-PSS signature algorithm, and set the expiration time
     of the signature to 5 minutes after the signature has been created.
       conf = petstore_api.Configuration(
-        key_id='my-key-id',
-        private_key_path='rsa.pem',
-        signing_scheme='hs2019',
-        signing_algorithm='PSS',
-        signed_headers=['(request-target)', '(created)', 'host', 'date', 'Content-Type', 'Digest']
-        signature_max_validity=timedelta(minutes=5),
+        signing_info = petstore_api.HttpSigningConfiguration(
+            key_id =                 'my-key-id',
+            private_key_path =       'rsa.pem',
+            signing_scheme =         signing.SCHEME_HS2019,
+            signing_algorithm =      signing.ALGORITHM_RSASSA_PSS,
+            signed_headers =         [signing.HEADER_REQUEST_TARGET, signing.HEADER_CREATED,
+                                        signing.HEADER_EXPIRES, signing.HEADER_HOST, signing.HEADER_DATE,
+                                        signing.HEADER_DIGEST, 'Content-Type']
+            signature_max_validity = timedelta(minutes=5)
+        )
       )
     """
 
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
                  username="", password="",
-                 key_id=None, private_key_path=None, signing_scheme=None,
-                 signing_algorithm=None, signature_max_validity=None, signed_headers=None):
+                 signing_info=None):
         """Constructor
         """
         self.host = host
@@ -113,37 +92,8 @@ class Configuration(object):
         self.password = password
         """Password for HTTP basic authentication
         """
-        self.key_id = key_id
-        """The identifier of the key used to sign HTTP requests.
-        """
-        self.private_key_path = private_key_path
-        """The path of the file containing a private key, used to sign HTTP requests.
-        """
-        self.signing_scheme = signing_scheme
-        """The signature scheme when signing HTTP requests.
-           Supported values are hs2019, rsa-sha256, rsa-sha512.
-        """
-        self.signing_algorithm = signing_algorithm
-        """The signature algorithm when signing HTTP requests.
-           For RSA keys, supported values are PKCS1v15, PSS.
-           For ECDSA keys, supported values are fips-186-3, deterministic-rfc6979.
-        """
-        if signature_max_validity is not None and signature_max_validity.total_seconds() < 0:
-            raise Exception("The signature max validity must be a positive value")
-        self.signature_max_validity = signature_max_validity
-        """The signature max validity, expressed as a datetime.timedelta value.
-        It must be a positive value.
-        """
-        if self.signature_max_validity is None and \
-                signed_headers is not None and '(expires)' in signed_headers:
-            raise Exception(
-                "Signature max validity must be set when " \
-                "'(expires)' signature parameter is specified")
-        if len(signed_headers) != len(set(signed_headers)):
-            raise Exception("Cannot have duplicates in the signed_headers parameter")
-        self.signed_headers = signed_headers
-        """A list of strings. Each value is the name of HTTP header that must be included
-           in the HTTP signature calculation.
+        self.signing_info = signing_info
+        """The HTTP signing configuration
         """
         self.access_token = ""
         """access token for OAuth/Bearer
@@ -185,6 +135,10 @@ class Configuration(object):
         """
         self.assert_hostname = None
         """Set this to True/False to enable/disable SSL hostname verification.
+        """
+        self.private_key = None
+        """The private key used to sign HTTP requests.
+            Initialized when the PEM-encoded private key is loaded from a file.
         """
 
         self.connection_pool_maxsize = multiprocessing.cpu_count() * 5
