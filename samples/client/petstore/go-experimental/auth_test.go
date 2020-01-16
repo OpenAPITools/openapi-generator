@@ -321,42 +321,49 @@ func TestHttpSignaturePrivateKeys(t *testing.T) {
 }
 
 func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth, expectSuccess bool) string {
+	cfg := sw.NewConfiguration()
+	cfg.AddDefaultHeader("testheader", "testvalue")
+	cfg.AddDefaultHeader("Content-Type", "application/json")
+	cfg.Host = testHost
+	cfg.Scheme = testScheme
+	apiClient := sw.NewAPIClient(cfg)
+
 	privateKeyPath := "rsa.pem"
 	writeTestRsaPemKey(t, privateKeyPath)
 	err := authConfig.LoadPrivateKey(privateKeyPath)
 	if err != nil {
 		t.Fatalf("Error loading private key: %v", err)
 	}
-	auth := context.WithValue(context.Background(), sw.ContextHttpSignatureAuth, *authConfig)
+	authCtx := context.WithValue(context.Background(), sw.ContextHttpSignatureAuth, *authConfig)
 	newPet := (sw.Pet{Id: sw.PtrInt64(12992), Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"},
 		Status:    sw.PtrString("pending"),
 		Tags:      &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err2 := client.PetApi.AddPet(nil, newPet)
-
-	if err2 != nil {
-		t.Fatalf("Error while adding pet: %v", err2)
-	}
-	if r.StatusCode != 200 {
-		t.Log(r)
-	}
-
 	fmt.Printf("Request with HTTP signature. Scheme: '%s'. Algorithm: '%s'. MaxValidity: %v. Headers: '%v'\n",
 		authConfig.SigningScheme, authConfig.SigningAlgorithm, authConfig.SignatureMaxValidity, authConfig.SignedHeaders)
 
-	_, r, err = client.PetApi.GetPetById(auth, 12992)
-	if expectSuccess && err != nil {
-		t.Fatalf("Error while deleting pet by id: %v", err)
+	r, err2 := apiClient.PetApi.AddPet(authCtx, newPet)
+	if expectSuccess && err2 != nil {
+		t.Fatalf("Error while adding pet: %v", err2)
 	}
 	if !expectSuccess {
-		if err == nil {
+		if err2 == nil {
 			t.Fatalf("Error was expected, but no error was generated")
 		} else {
 			// Do not continue. Error is expected.
 			return ""
 		}
 	}
+	if r.StatusCode != 200 {
+		t.Log(r)
+	}
+
+	_, r, err = apiClient.PetApi.GetPetById(authCtx, 12992)
+	if expectSuccess && err != nil {
+		t.Fatalf("Error while deleting pet by id: %v", err)
+	}
+
 	// The request should look like this:
 	//
 	// GET /v2/pet/12992 HTTP/1.1
@@ -369,7 +376,7 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth, ex
 	// User-Agent: OpenAPI-Generator/1.0.0/go
 	reqb, _ := httputil.DumpRequest(r.Request, true)
 	reqt := (string)(reqb)
-	fmt.Printf("Request:\n%v\n", reqt)
+	fmt.Printf("REQUEST:\n%v\n", reqt)
 	var sb bytes.Buffer
 	fmt.Fprintf(&sb, `Signature keyId="%s",algorithm="%s",`,
 		authConfig.KeyId, authConfig.SigningScheme)
@@ -438,6 +445,30 @@ func TestHttpSignatureAuth(t *testing.T) {
 		},
 	}
 	executeHttpSignatureAuth(t, &authConfig, true)
+
+	// Test with duplicate headers. This is invalid and should be rejected.
+	authConfig = sw.HttpSignatureAuth{
+		KeyId:         "my-key-id",
+		SigningScheme: sw.HttpSigningSchemeHs2019,
+		SignedHeaders: []string{"Host", "Date", "Host"},
+	}
+	executeHttpSignatureAuth(t, &authConfig, false)
+
+	// Test with non-existent header. This is invalid and should be rejected.
+	authConfig = sw.HttpSignatureAuth{
+		KeyId:         "my-key-id",
+		SigningScheme: sw.HttpSigningSchemeHs2019,
+		SignedHeaders: []string{"Host", "Date", "Garbage-HeaderDoesNotExist"},
+	}
+	executeHttpSignatureAuth(t, &authConfig, false)
+
+	// Test with 'Authorization' header in the signed headers. This is invalid and should be rejected.
+	authConfig = sw.HttpSignatureAuth{
+		KeyId:         "my-key-id",
+		SigningScheme: sw.HttpSigningSchemeHs2019,
+		SignedHeaders: []string{"Host", "Authorization"},
+	}
+	executeHttpSignatureAuth(t, &authConfig, false)
 
 	// Specify signature max validity, but '(expires)' parameter is missing. This should cause an error.
 	authConfig = sw.HttpSignatureAuth{
@@ -532,7 +563,7 @@ func TestHttpSignatureAuth(t *testing.T) {
 		},
 	}
 	authorizationHeaderValue := executeHttpSignatureAuth(t, &authConfig, true)
-	expectedSignature := "ED7P+ETthVNx45FZ6Z1lzNDuIE+QuR05GpNJCg7yVGJGDng98inMiPumgdUiljZZr3aEacHXH2Ln8epF4Op6GRGrNYAjXVwK2Nm/6zxt1EEr2JAfA/L5eNjJq9VfZzPjcdanjfqEKvrY6isPpQLsBwRlazhbITsW5E6hAsbVnGk="
+	expectedSignature := "sXE2MDeW8os6ywv1oUWaFEPFcSPCEb/msQ/NZGKNA9Emm/e42axaAPojzfkZ9Hacyw/iS/5nH4YIkczMgXu3z5fAwFjumxtf3OxbqvUcQ80wvw2/7B5aQmsF6ZwrCFHZ+L/cj9/bg7L1EGUGtdyDzoRKti4zf9QF/03OsP7QljI="
 	expectedAuthorizationHeader := fmt.Sprintf(
 		`Signature keyId="my-key-id",`+
 			`algorithm="hs2019",headers="(request-target) host content-type digest",`+

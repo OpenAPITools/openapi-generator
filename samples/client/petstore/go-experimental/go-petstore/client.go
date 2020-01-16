@@ -26,6 +26,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"net/http/httputil"
+	"net/textproto"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -210,6 +211,16 @@ func (c *APIClient) GetConfig() *Configuration {
 
 // SignRequest signs the request using HTTP signature.
 // See https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
+//
+// Do not add, remove or change headers that are included in the SignedHeaders
+// after SignRequest has been invoked; this is because the header values are
+// included in the signature. Any subsequent alteration will cause a signature
+// verification failure.
+// If there are multiple instances of the same header field, all
+// header field values associated with the header field MUST be
+// concatenated, separated by a ASCII comma and an ASCII space
+// ', ', and used in the order in which they will appear in the
+// transmitted HTTP message.
 func (c *APIClient) SignRequest(
 	ctx context.Context,
 	r *http.Request,
@@ -270,12 +281,22 @@ func (c *APIClient) SignRequest(
 	if len(signedHeaders) == 0 {
 		signedHeaders = []string{HttpSignatureParameterCreated}
 	}
+	// Validate the list of signed headers has no duplicates.
+	m := make(map[string]bool)
+	for _, h := range signedHeaders {
+		m[h] = true
+	}
+	if len(m) != len(signedHeaders) {
+		return fmt.Errorf("List of signed headers must not have any duplicates")
+	}
 	hasCreatedParameter := false
 	hasExpiresParameter := false
 	for i, header := range signedHeaders {
 		header = strings.ToLower(header)
 		var value string
 		switch header {
+		case HttpSignatureParameterAuthorization:
+			return fmt.Errorf("Cannot include the 'Authorization' header as a signed header.")
 		case HttpSignatureParameterRequestTarget:
 			value = requestTarget
 		case HttpSignatureParameterCreated:
@@ -295,7 +316,14 @@ func (c *APIClient) SignRequest(
 			// Calculate body digest per RFC 3230 section 4.3.2
 			bodyHash := h.New()
 			if r.Body != nil {
-				if _, err = io.Copy(bodyHash, r.Body); err != nil {
+				// Make a copy of the body io.Reader so that we can read the body to calculate the hash,
+				// then one more time when marshaling the request.
+				var body io.Reader
+				body, err = r.GetBody()
+				if err != nil {
+					return err
+				}
+				if _, err = io.Copy(bodyHash, body); err != nil {
 					return err
 				}
 			}
@@ -306,7 +334,20 @@ func (c *APIClient) SignRequest(
 			value = r.Host
 			r.Header.Set("Host", r.Host)
 		default:
-			value = r.Header.Get(header)
+			var ok bool
+			var v []string
+			canonicalHeader := textproto.CanonicalMIMEHeaderKey(header)
+			if v, ok = r.Header[canonicalHeader]; !ok {
+				// If a header specified in the headers parameter cannot be matched with
+				// a provided header in the message, the implementation MUST produce an error.
+				return fmt.Errorf("Header '%s' does not exist in the request", canonicalHeader)
+			}
+			// If there are multiple instances of the same header field, all
+			// header field values associated with the header field MUST be
+			// concatenated, separated by a ASCII comma and an ASCII space
+			// `, `, and used in the order in which they will appear in the
+			// transmitted HTTP message.
+			value = strings.Join(v, ", ")
 		}
 		if i > 0 {
 			fmt.Fprintf(&sb, "\n")

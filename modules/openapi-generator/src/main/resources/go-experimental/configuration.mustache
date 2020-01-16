@@ -68,14 +68,16 @@ type APIKey struct {
 const (
 	// Constants for HTTP signature parameters.
 	// The '(request-target)' parameter concatenates the lowercased :method, an
-    // ASCII space, and the :path pseudo-headers.
+	// ASCII space, and the :path pseudo-headers.
 	HttpSignatureParameterRequestTarget string = "(request-target)"
 	// The '(created)' parameter expresses when the signature was
-    // created.  The value MUST be a Unix timestamp integer value.
+	// created.  The value MUST be a Unix timestamp integer value.
 	HttpSignatureParameterCreated string = "(created)"
 	// The '(expires)' parameter expresses when the signature ceases to
-    // be valid.  The value MUST be a Unix timestamp integer value.
+	// be valid.  The value MUST be a Unix timestamp integer value.
 	HttpSignatureParameterExpires string = "(expires)"
+	// The HTTP Authorization header, as specified in RFC 7235, Section 4.2.
+	HttpSignatureParameterAuthorization string = "authorization"
 
 	// Specifies the Digital Signature Algorithm is derived from metadata
 	// associated with 'keyId'. Supported DSA algorithms are RSASSA-PKCS1-v1_5,
@@ -92,10 +94,10 @@ const (
 	// Calculate the message signature using RSASSA-PKCS1-V1_5-SIGN from RSA PKCS#1 v1.5.
 	// PKCSV1_5 is deterministic. The same message and key will produce an identical
 	// signature value each time.
-	HttpSigningAlgorithmRsaPKCS1v15 string = "PKCS1v15"
+	HttpSigningAlgorithmRsaPKCS1v15 string = "RSASSA-PKCS1-v1_5"
 	// Calculate the message signature using probabilistic signature scheme RSASSA-PSS.
 	// PSS is randomized and will produce a different signature value each time.
-	HttpSigningAlgorithmRsaPSS string = "PSS"
+	HttpSigningAlgorithmRsaPSS string = "RSASSA-PSS"
 )
 
 // HttpSignatureAuth provides HTTP signature authentication to a request passed
@@ -126,7 +128,7 @@ type HttpSignatureAuth struct {
 	PrivateKey        crypto.PrivateKey // The private key used to sign HTTP requests.
 	SigningScheme     string            // The signature scheme, when signing HTTP requests. Supported value is 'hs2019'.
 	SigningAlgorithm  string            // The signature algorithm, when signing HTTP requests.
-										// Supported values are PKCS1v15, PSS.
+                                      // Supported values are RSASSA-PKCS1-v1_5, RSASSA-PSS.
 	SignedHeaders     []string          // A list of HTTP headers included when generating the signature for the message.
 	// SignatureMaxValidity specifies the maximum duration of the signature validity.
 	// The value is used to set the '(expires)' signature parameter in the HTTP request.
