@@ -513,7 +513,7 @@ class ApiClient(object):
             return content_types[0]
 
     def update_params_for_auth(self, headers, querys, auth_settings,
-                               resource_path=None, method=None, body=None):
+                               resource_path, method, body):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.

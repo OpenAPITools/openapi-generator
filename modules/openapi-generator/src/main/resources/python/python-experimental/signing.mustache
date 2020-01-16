@@ -48,10 +48,6 @@ class HttpSigningConfiguration(object):
         when signing HTTP requests.
     :param signing_scheme: The signature scheme, when signing HTTP requests.
         Supported value is hs2019.
-    :param signing_algorithm: The signature algorithm, when signing HTTP requests.
-        Supported values are PKCS1v15, PSS; fips-186-3, deterministic-rfc6979.
-    :param signature_max_validity: The signature max validity,
-        expressed as a datetime.timedelta value.
     :param signed_headers: A list of strings. Each value is the name of a HTTP header
         that must be included in the HTTP signature calculation.
         The two special signature headers '(request-target)' and '(created)' SHOULD be
@@ -66,9 +62,16 @@ class HttpSigningConfiguration(object):
         1. Calculate a digest of request body, as specified in RFC3230, section 4.3.2.
         2. Set the 'Digest' header in the request body.
         3. Include the 'Digest' header and value in the HTTP signature.
+    :param signing_algorithm: The signature algorithm, when signing HTTP requests.
+        Supported values are PKCS1v15, PSS; fips-186-3, deterministic-rfc6979.
+    :param signature_max_validity: The signature max validity,
+        expressed as a datetime.timedelta value.
     """
-    def __init__(self, key_id=None, private_key_path=None, signing_scheme=None,
-                 signing_algorithm=None, signature_max_validity=None, signed_headers=None):
+    def __init__(self, key_id, private_key_path,
+                 signing_scheme=SCHEME_HS2019,
+                 signed_headers=[HEADER_CREATED],
+                 signing_algorithm=None,
+                 signature_max_validity=None):
         """Constructor
         """
         self.key_id = key_id
@@ -92,216 +95,210 @@ class HttpSigningConfiguration(object):
         """The signature max validity, expressed as a datetime.timedelta value.
         It must be a positive value.
         """
-        if self.signature_max_validity is None and \
-                signed_headers is not None and '(expires)' in signed_headers:
+        # If the user has not provided any signed_headers, the default must be set to '(created)'.
+        if signed_headers is None or len(signed_headers) == 0:
+            signed_headers = [HEADER_CREATED]
+        if self.signature_max_validity is None and HEADER_EXPIRES in signed_headers:
             raise Exception(
                 "Signature max validity must be set when " \
                 "'(expires)' signature parameter is specified")
         if len(signed_headers) != len(set(signed_headers)):
             raise Exception("Cannot have duplicates in the signed_headers parameter")
-        if 'Authorization' in signed_headers:
+        if HEADER_AUTHORIZATION in signed_headers:
             raise Exception("'Authorization' header cannot be included in signed headers")
         self.signed_headers = signed_headers
         """A list of strings. Each value is the name of HTTP header that must be included
            in the HTTP signature calculation.
         """
 
-def get_http_signature_headers(signing_info, host, resource_path, method, headers, body, query_params):
-    """
-    Create a cryptographic message signature for the HTTP request and add the signed headers.
-    
-    :param resource_path : A string representation of the HTTP request resource path.
-    :param method: A string representation of the HTTP request method, e.g. GET, POST.
-    :param headers: A dict containing the HTTP request headers.
-    :param body: The string representation of the HTTP request body.
-    :param query_params: A string representing the HTTP request query parameters.
-    :return: A dict of HTTP headers that must be added to the outbound HTTP request.
-    """
-    if method is None:
-        raise Exception("HTTP method must be set")
-    if resource_path is None:
-        raise Exception("Resource path must be set")
+    def get_http_signature_headers(self, host, resource_path, method, headers, body, query_params):
+        """
+        Create a cryptographic message signature for the HTTP request and add the signed headers.
+        
+        :param resource_path : A string representation of the HTTP request resource path.
+        :param method: A string representation of the HTTP request method, e.g. GET, POST.
+        :param headers: A dict containing the HTTP request headers.
+        :param body: The string representation of the HTTP request body.
+        :param query_params: A string representing the HTTP request query parameters.
+        :return: A dict of HTTP headers that must be added to the outbound HTTP request.
+        """
+        if method is None:
+            raise Exception("HTTP method must be set")
+        if resource_path is None:
+            raise Exception("Resource path must be set")
 
-    signed_headers_dict, request_headers_dict = get_signed_header_info(signing_info,
-        host, resource_path, method, headers, body, query_params)
+        signed_headers_dict, request_headers_dict = self.get_signed_header_info(
+            host, resource_path, method, headers, body, query_params)
 
-    header_items = [
-        "{0}: {1}".format(key.lower(), value) for key, value in signed_headers_dict.items()]
-    string_to_sign = "\n".join(header_items)
+        header_items = [
+            "{0}: {1}".format(key.lower(), value) for key, value in signed_headers_dict.items()]
+        string_to_sign = "\n".join(header_items)
 
-    digest, digest_prefix = get_message_digest(signing_info, string_to_sign.encode())
-    b64_signed_msg = sign_digest(signing_info, digest)
+        digest, digest_prefix = self.get_message_digest(string_to_sign.encode())
+        b64_signed_msg = self.sign_digest(digest)
 
-    request_headers_dict['Authorization'] = get_authorization_header(signing_info,
-        signed_headers_dict, b64_signed_msg)
+        request_headers_dict[HEADER_AUTHORIZATION] = self.get_authorization_header(
+            signed_headers_dict, b64_signed_msg)
 
-    return request_headers_dict
+        return request_headers_dict
 
-def load_private_key(signing_info):
-    """Load the private key used to sign HTTP requests.
-        The private key is used to sign HTTP requests as defined in
-        https://datatracker.ietf.org/doc/draft-cavage-http-signatures/.
-    """
-    if.signing_info is None:
-        raise Exception("Configuration is missing signing info")
-    if signing_info.private_key is not None:
-        return
-    with open(signing_info.private_key_path, 'rb') as f:
-        # Decode PEM file and determine key type from PEM header.
-        # Supported values are "RSA PRIVATE KEY" and "ECDSA PRIVATE KEY".
-        keys = pem.parse(f.read())
-        if len(keys) != 1:
-            raise Exception("File must contain exactly one private key")
-        key = keys[0].as_text()
-        if key.startswith('-----BEGIN RSA PRIVATE KEY-----'):
-            signing_info.private_key = RSA.importKey(key)
-        elif key.startswith('-----BEGIN EC PRIVATE KEY-----'):
-            signing_info.private_key = ECC.importKey(key)
+    def load_private_key(self):
+        """Load the private key used to sign HTTP requests.
+            The private key is used to sign HTTP requests as defined in
+            https://datatracker.ietf.org/doc/draft-cavage-http-signatures/.
+        """
+        if self.private_key is not None:
+            return
+        with open(self.private_key_path, 'rb') as f:
+            # Decode PEM file and determine key type from PEM header.
+            # Supported values are "RSA PRIVATE KEY" and "ECDSA PRIVATE KEY".
+            keys = pem.parse(f.read())
+            if len(keys) != 1:
+                raise Exception("File must contain exactly one private key")
+            key = keys[0].as_text()
+            if key.startswith('-----BEGIN RSA PRIVATE KEY-----'):
+                self.private_key = RSA.importKey(key)
+            elif key.startswith('-----BEGIN EC PRIVATE KEY-----'):
+                self.private_key = ECC.importKey(key)
+            else:
+                raise Exception("Unsupported key")
+
+    def get_signed_header_info(self, host, resource_path, method, headers, body, query_params):
+        """
+        Build the HTTP headers (name, value) that need to be included in the HTTP signature scheme.
+
+        :param resource_path : A string representation of the HTTP request resource path.
+        :param method: A string representation of the HTTP request method, e.g. GET, POST.
+        :param headers: A dict containing the HTTP request headers.
+        :param body: The string representation of the HTTP request body.
+        :param query_params: A string representing the HTTP request query parameters.
+        :return: A tuple containing two dict objects:
+            The first dict contains the HTTP headers that are used to calculate the HTTP signature.
+            The second dict contains the HTTP headers that must be added to the outbound HTTP request.
+        """
+
+        if body is None:
+            body = ''
         else:
-            raise Exception("Unsupported key")
+            body = json.dumps(body)
 
-def get_signed_header_info(signing_info, host, resource_path, method, headers, body, query_params):
-    """
-    Build the HTTP headers (name, value) that need to be included in the HTTP signature scheme.
+        # Build the '(request-target)' HTTP signature parameter.
+        target_host = urlparse(host).netloc
+        target_path = urlparse(host).path
+        request_target = method.lower() + " " + target_path + resource_path
+        if query_params:
+            raw_query = urlencode(query_params).replace('+', '%20')
+            request_target += "?" + raw_query
 
-    :param resource_path : A string representation of the HTTP request resource path.
-    :param method: A string representation of the HTTP request method, e.g. GET, POST.
-    :param headers: A dict containing the HTTP request headers.
-    :param body: The string representation of the HTTP request body.
-    :param query_params: A string representing the HTTP request query parameters.
-    :return: A tuple containing two dict objects:
-        The first dict contains the HTTP headers that are used to calculate the HTTP signature.
-        The second dict contains the HTTP headers that must be added to the outbound HTTP request.
-    """
+        # Get current time and generate RFC 1123 (HTTP/1.1) date/time string.
+        now = datetime.datetime.now()
+        stamp = mktime(now.timetuple())
+        cdate = formatdate(timeval=stamp, localtime=False, usegmt=True)
+        created = now.strftime("%s")
+        if self.signature_max_validity is not None:
+            expires = (now + self.signature_max_validity).strftime("%s")
 
-    if body is None:
-        body = ''
-    else:
-        body = json.dumps(body)
+        signed_headers_dict = {}
+        request_headers_dict = {}
+        for hdr_key in self.signed_headers:
+            hdr_key = hdr_key.lower()
+            if hdr_key == HEADER_REQUEST_TARGET:
+                value = request_target
+            elif hdr_key == HEADER_CREATED:
+                value = created
+            elif hdr_key == HEADER_EXPIRES:
+                value = expires
+            elif hdr_key == HEADER_DATE:
+                value = cdate
+                request_headers_dict['Date'] = '{0}'.format(cdate)
+            elif hdr_key == HEADER_DIGEST:
+                request_body = body.encode()
+                body_digest, digest_prefix = self.get_message_digest(request_body)
+                b64_body_digest = b64encode(body_digest.digest())
+                value = digest_prefix + b64_body_digest.decode('ascii')
+                request_headers_dict['Digest'] = '{0}{1}'.format(
+                    digest_prefix, b64_body_digest.decode('ascii'))
+            elif hdr_key == HEADER_HOST:
+                value = target_host
+                request_headers_dict['Host'] = '{0}'.format(target_host)
+            else:
+                value = headers[hdr_key]
+            signed_headers_dict[hdr_key] = value
 
-    # Build the '(request-target)' HTTP signature parameter.
-    target_host = urlparse(host).netloc
-    target_path = urlparse(host).path
-    request_target = method.lower() + " " + target_path + resource_path
-    if query_params:
-        raw_query = urlencode(query_params).replace('+', '%20')
-        request_target += "?" + raw_query
+        return signed_header_dict, request_headers_dict
 
-    # Get current time and generate RFC 1123 (HTTP/1.1) date/time string.
-    now = datetime.datetime.now()
-    stamp = mktime(now.timetuple())
-    cdate = formatdate(timeval=stamp, localtime=False, usegmt=True)
-    created = now.strftime("%s")
-    if signing_info.signature_max_validity is not None:
-        expires = (now + signing_info.signature_max_validity).strftime("%s")
+    def get_message_digest(self, data):
+        """
+        Calculates and returns a cryptographic digest of a specified HTTP request.
 
-    signed_headers_dict = {}
-    request_headers_dict = {}
-    for hdr_key in signing_info.signed_headers_dict:
-        hdr_key = hdr_key.lower()
-        if hdr_key == HEADER_REQUEST_TARGET:
-            value = request_target
-        elif hdr_key == HEADER_CREATED:
-            value = created
-        elif hdr_key == HEADER_EXPIRES:
-            value = expires
-        elif hdr_key == HEADER_DATE:
-            value = cdate
-            request_headers_dict['Date'] = '{0}'.format(cdate)
-        elif hdr_key == HEADER_DIGEST:
-            request_body = body.encode()
-            body_digest, digest_prefix = get_message_digest(signing_info, request_body)
-            b64_body_digest = b64encode(body_digest.digest())
-            value = digest_prefix + b64_body_digest.decode('ascii')
-            request_headers_dict['Digest'] = '{0}{1}'.format(
-                digest_prefix, b64_body_digest.decode('ascii'))
-        elif hdr_key == HEADER_HOST:
-            value = target_host
-            request_headers_dict['Host'] = '{0}'.format(target_host)
+        :param data: The string representation of the date to be hashed with a cryptographic hash.
+        :return: A tuple of (digest, prefix).
+            The digest is a hashing object that contains the cryptographic digest of the HTTP request.
+            The prefix is a string that identifies the cryptographc hash. It is used to generate the
+            'Digest' header as specified in RFC 3230.
+        """
+        if self.signing_scheme in [SCHEME_RSA_SHA512, SCHEME_HS2019]:
+            digest = SHA512.new()
+            prefix = 'SHA-512='
+        elif self.signing_scheme in [SCHEME_RSA_SHA256]:
+            digest = SHA256.new()
+            prefix = 'SHA-256='
         else:
-            value = headers[hdr_key]
-        signed_headers_dict[hdr_key] = value
+            raise Exception("Unsupported signing algorithm: {0}".format(self.signing_scheme))
+        digest.update(data)
+        return digest, prefix
 
-    # If the user has not provided any signed_headers, the default must be set to '(created)'.
-    if len(signing_info.signed_headers_dict) == 0:
-        signed_headers_dict[HEADER_CREATED] = created
+    def sign_digest(self, digest):
+        """
+        Signs a message digest with a private key specified in the signing_info.
 
-    return signed_header_dict, request_headers_dict
-
-def get_message_digest(signing_info, data):
-    """
-    Calculates and returns a cryptographic digest of a specified HTTP request.
-
-    :param data: The string representation of the date to be hashed with a cryptographic hash.
-    :return: A tuple of (digest, prefix).
-        The digest is a hashing object that contains the cryptographic digest of the HTTP request.
-        The prefix is a string that identifies the cryptographc hash. It is used to generate the
-        'Digest' header as specified in RFC 3230.
-    """
-    if signing_info.signing_scheme in [SCHEME_RSA_SHA512, SCHEME_HS2019]:
-        digest = SHA512.new()
-        prefix = 'SHA-512='
-    elif signing_info.signing_scheme in [SCHEME_RSA_SHA256]:
-        digest = SHA256.new()
-        prefix = 'SHA-256='
-    else:
-        raise Exception(
-            "Unsupported signing algorithm: {0}".format(
-                signing_info.signing_scheme))
-    digest.update(data)
-    return digest, prefix
-
-def sign_digest(signing_info, digest):
-    """
-    Signs a message digest with a private key specified in the signing_info.
-
-    :param digest: A hashing object that contains the cryptographic digest of the HTTP request.
-    :return: A base-64 string representing the cryptographic signature of the input digest.
-    """
-    load_private_key(signing_info)
-    if isinstance(signing_info.private_key, RSA.RsaKey):
-        if signing_info.signing_algorithm == ALGORITHM_RSASSA_PSS:
-            # RSASSA-PSS in Section 8.1 of RFC8017.
-            signature = pss.new(signing_info.private_key).sign(digest)
-        elif signing_info.signing_algorithm == ALGORITHM_RSASSA_PKCS1v15:
-            # RSASSA-PKCS1-v1_5 in Section 8.2 of RFC8017.
-            signature = PKCS1_v1_5.new(signing_info.private_key).sign(digest)
+        :param digest: A hashing object that contains the cryptographic digest of the HTTP request.
+        :return: A base-64 string representing the cryptographic signature of the input digest.
+        """
+        self.load_private_key()
+        sig_alg = self.signing_algorithm
+        if isinstance(self.private_key, RSA.RsaKey):
+            if sig_alg is None or sig_alg == ALGORITHM_RSASSA_PSS:
+                # RSASSA-PSS in Section 8.1 of RFC8017.
+                signature = pss.new(self.private_key).sign(digest)
+            elif sig_alg == ALGORITHM_RSASSA_PKCS1v15:
+                # RSASSA-PKCS1-v1_5 in Section 8.2 of RFC8017.
+                signature = PKCS1_v1_5.new(self.private_key).sign(digest)
+            else:
+                raise Exception("Unsupported signature algorithm: {0}".format(sig_alg))
+        elif isinstance(self.private_key, ECC.EccKey):
+            if sig_alg is None:
+                sig_alg = ALGORITHM_ECDSA_MODE_FIPS_186_3
+            if sig_alg in ECDSA_KEY_SIGNING_ALGORITHMS:
+                signature = DSS.new(self.private_key, sig_alg).sign(digest)
+            else:
+                raise Exception("Unsupported signature algorithm: {0}".format(sig_alg))
         else:
-            raise Exception("Unsupported signature algorithm: {0}".format(
-                signing_info.signing_algorithm))
-    elif isinstance(signing_info.private_key, ECC.EccKey):
-        if signing_info.signing_algorithm in ECDSA_KEY_SIGNING_ALGORITHMS:
-            signature = DSS.new(signing_info.private_key,
-                                signing_info.signing_algorithm).sign(digest)
-        else:
-            raise Exception("Unsupported signature algorithm: {0}".format(
-                signing_info.signing_algorithm))
-    else:
-        raise Exception("Unsupported private key: {0}".format(type(signing_info.private_key)))
-    return b64encode(signature)
+            raise Exception("Unsupported private key: {0}".format(type(self.private_key)))
+        return b64encode(signature)
 
-def get_authorization_header(signing_info, signed_headers, signed_msg):
-    """
-    Calculates and returns the value of the 'Authorization' header when signing HTTP requests.
-    
-    :param signed_headers : A list of strings. Each value is the name of a HTTP header that
-        must be included in the HTTP signature calculation.
-    :param signed_msg: A base-64 encoded string representation of the signature.
-    :return: The string value of the 'Authorization' header, representing the signature
-        of the HTTP request.
-    """
+    def get_authorization_header(self, signed_headers, signed_msg):
+        """
+        Calculates and returns the value of the 'Authorization' header when signing HTTP requests.
+        
+        :param signed_headers : A list of strings. Each value is the name of a HTTP header that
+            must be included in the HTTP signature calculation.
+        :param signed_msg: A base-64 encoded string representation of the signature.
+        :return: The string value of the 'Authorization' header, representing the signature
+            of the HTTP request.
+        """
 
-    created_ts = signed_headers.get(HEADER_CREATED)
-    expires_ts = signed_headers.get(HEADER_EXPIRES)
-    lower_keys = [k.lower() for k in signed_headers]
-    headers_value = " ".join(lower_keys)
+        created_ts = signed_headers.get(HEADER_CREATED)
+        expires_ts = signed_headers.get(HEADER_EXPIRES)
+        lower_keys = [k.lower() for k in signed_headers]
+        headers_value = " ".join(lower_keys)
 
-    auth_str = "Signature keyId=\"{0}\",algorithm=\"{1}\","
-        .format(signing_info.key_id, signing_info.signing_scheme)
-    if created_ts is not None:
-        auth_str = auth_str + "created={0},".format(created_ts)
-    if expires_ts is not None:
-        auth_str = auth_str + "expires={0},".format(expires_ts)
-    auth_str = auth_str + "headers=\"{0}\",signature=\"{1}\""
-        .format(headers_value, signed_msg.decode('ascii'))
-    return auth_str
+        auth_str = "Signature keyId=\"{0}\",algorithm=\"{1}\","
+            .format(self.key_id, self.signing_scheme)
+        if created_ts is not None:
+            auth_str = auth_str + "created={0},".format(created_ts)
+        if expires_ts is not None:
+            auth_str = auth_str + "expires={0},".format(expires_ts)
+        auth_str = auth_str + "headers=\"{0}\",signature=\"{1}\""
+            .format(headers_value, signed_msg.decode('ascii'))
+        return auth_str
