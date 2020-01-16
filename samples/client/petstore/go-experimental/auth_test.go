@@ -343,7 +343,7 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth, ex
 	fmt.Printf("Request with HTTP signature. Scheme: '%s'. Algorithm: '%s'. MaxValidity: %v. Headers: '%v'\n",
 		authConfig.SigningScheme, authConfig.SigningAlgorithm, authConfig.SignatureMaxValidity, authConfig.SignedHeaders)
 
-	r, err2 := apiClient.PetApi.AddPet(authCtx, newPet)
+	r, err2 := apiClient.PetApi.AddPet(authCtx).Body(newPet).Execute()
 	if expectSuccess && err2 != nil {
 		t.Fatalf("Error while adding pet: %v", err2)
 	}
@@ -359,7 +359,7 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth, ex
 		t.Log(r)
 	}
 
-	_, r, err = apiClient.PetApi.GetPetById(authCtx, 12992)
+	_, r, err = apiClient.PetApi.GetPetById(authCtx, 12992).Execute()
 	if expectSuccess && err != nil {
 		t.Fatalf("Error while deleting pet by id: %v", err)
 	}
