@@ -227,7 +227,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP10) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op10_get(
                                         &context
@@ -268,7 +267,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP11) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op11_get(
                                         &context
@@ -309,7 +307,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP12) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op12_get(
                                         &context
@@ -350,7 +347,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP13) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op13_get(
                                         &context
@@ -391,7 +387,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP14) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op14_get(
                                         &context
@@ -432,7 +427,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP15) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op15_get(
                                         &context
@@ -473,7 +467,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP16) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op16_get(
                                         &context
@@ -514,7 +507,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP17) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op17_get(
                                         &context
@@ -555,7 +547,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP18) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op18_get(
                                         &context
@@ -596,7 +587,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP19) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op19_get(
                                         &context
@@ -637,7 +627,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP1) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op1_get(
                                         &context
@@ -678,7 +667,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP20) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op20_get(
                                         &context
@@ -719,7 +707,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP21) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op21_get(
                                         &context
@@ -760,7 +747,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP22) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op22_get(
                                         &context
@@ -801,7 +787,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP23) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op23_get(
                                         &context
@@ -842,7 +827,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP24) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op24_get(
                                         &context
@@ -883,7 +867,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP25) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op25_get(
                                         &context
@@ -924,7 +907,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP26) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op26_get(
                                         &context
@@ -965,7 +947,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP27) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op27_get(
                                         &context
@@ -1006,7 +987,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP28) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op28_get(
                                         &context
@@ -1047,7 +1027,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP29) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op29_get(
                                         &context
@@ -1088,7 +1067,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP2) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op2_get(
                                         &context
@@ -1129,7 +1107,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP30) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op30_get(
                                         &context
@@ -1170,7 +1147,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP31) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op31_get(
                                         &context
@@ -1211,7 +1187,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP32) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op32_get(
                                         &context
@@ -1252,7 +1227,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP33) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op33_get(
                                         &context
@@ -1293,7 +1267,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP34) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op34_get(
                                         &context
@@ -1334,7 +1307,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP35) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op35_get(
                                         &context
@@ -1375,7 +1347,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP36) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op36_get(
                                         &context
@@ -1416,7 +1387,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP37) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op37_get(
                                         &context
@@ -1457,7 +1427,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP3) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op3_get(
                                         &context
@@ -1498,7 +1467,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP4) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op4_get(
                                         &context
@@ -1539,7 +1507,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP5) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op5_get(
                                         &context
@@ -1580,7 +1547,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP6) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op6_get(
                                         &context
@@ -1621,7 +1587,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP7) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op7_get(
                                         &context
@@ -1662,7 +1627,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP8) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op8_get(
                                         &context
@@ -1703,7 +1667,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_OP9) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.op9_get(
                                         &context

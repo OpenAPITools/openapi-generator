@@ -8,11 +8,13 @@ license = "Unlicense"
 [features]
 default = ["client", "server"]
 client = [
+    "mime_0_2",
     "multipart", "multipart/client", "swagger/multipart",
     "serde_urlencoded",
     "serde_json", "serde_ignored", "hyper", "hyper-tls", "native-tls", "openssl", "tokio", "url"
 ]
 server = [
+    "mime_0_2",
     "multipart", "multipart/server",
     "serde_json", "serde_ignored", "hyper", "native-tls", "openssl", "tokio", "tokio-tls", "regex", "percent-encoding", "url", "lazy_static"
 ]
@@ -33,7 +35,7 @@ serde_derive = "1.0"
 # TODO: this should be updated to point at the official crate once
 # https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
 serde-xml-rs = {git = "git://github.com/Metaswitch/serde-xml-rs.git" , branch = "master"}
-mime_0_2 = { package = "mime", version = "0.2.6" }
+mime_0_2 = { package = "mime", version = "0.2.6", optional = true }
 multipart = { version = "0.16", default-features = false, optional = true }
 uuid = {version = "0.7", features = ["serde", "v4"]}
 

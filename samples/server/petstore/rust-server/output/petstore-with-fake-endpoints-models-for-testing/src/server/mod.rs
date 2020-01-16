@@ -248,7 +248,6 @@ where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-
                                 Box::new(
                                     api_impl.test_special_tags(
                                             param_body,
@@ -330,7 +329,6 @@ where
                                 } else {
                                     None
                                 };
-
                                 Box::new(
                                     api_impl.fake_outer_boolean_serialize(
                                             param_body,
@@ -412,7 +410,6 @@ where
                                 } else {
                                     None
                                 };
-
                                 Box::new(
                                     api_impl.fake_outer_composite_serialize(
                                             param_body,
@@ -494,7 +491,6 @@ where
                                 } else {
                                     None
                                 };
-
                                 Box::new(
                                     api_impl.fake_outer_number_serialize(
                                             param_body,
@@ -576,7 +572,6 @@ where
                                 } else {
                                     None
                                 };
-
                                 Box::new(
                                     api_impl.fake_outer_string_serialize(
                                             param_body,
@@ -686,7 +681,6 @@ where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-
                                 Box::new(
                                     api_impl.test_body_with_query_params(
                                             param_query,
@@ -770,7 +764,6 @@ where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-
                                 Box::new(
                                     api_impl.test_client_model(
                                             param_body,
@@ -845,61 +838,60 @@ where
                 Box::new({
                         {{
                                 // Form parameters
-                                let param_integer = 
+                                let param_integer =
 Some(56);
 
 
-                                let param_int32 = 
+                                let param_int32 =
 Some(56);
 
 
-                                let param_int64 = 
+                                let param_int64 =
 Some(789);
 
 
-                                let param_number = 
+                                let param_number =
 8.14;
 
 
-                                let param_float = 
+                                let param_float =
 Some(3.4);
 
 
-                                let param_double = 
+                                let param_double =
 1.2;
 
 
-                                let param_string = 
+                                let param_string =
 Some("string_example".to_string());
 
 
-                                let param_pattern_without_delimiter = 
+                                let param_pattern_without_delimiter =
 "pattern_without_delimiter_example".to_string();
 
 
-                                let param_byte = 
+                                let param_byte =
 swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE"));
 
 
-                                let param_binary = 
+                                let param_binary =
 Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")));
 
 
-                                let param_date = 
+                                let param_date =
 None;
 
 
-                                let param_date_time = 
+                                let param_date_time =
 None;
 
 
-                                let param_password = 
+                                let param_password =
 Some("password_example".to_string());
 
 
-                                let param_callback = 
+                                let param_callback =
 Some("callback_example".to_string());
-
 
 
                                 Box::new(
@@ -999,9 +991,8 @@ Some("callback_example".to_string());
                 Box::new({
                         {{
                                 // Form parameters
-                                let param_enum_form_string = 
+                                let param_enum_form_string =
 Some("enum_form_string_example".to_string());
-
 
 
                                 Box::new(
@@ -1086,7 +1077,6 @@ Some("enum_form_string_example".to_string());
                                                         .body(Body::from("Missing required body parameter param"))
                                                         .expect("Unable to create Bad Request response for missing body parameter param"))),
                                 };
-
                                 Box::new(
                                     api_impl.test_inline_additional_properties(
                                             param_param,
@@ -1142,13 +1132,12 @@ Some("enum_form_string_example".to_string());
                 Box::new({
                         {{
                                 // Form parameters
-                                let param_param = 
+                                let param_param =
 "param_example".to_string();
 
 
-                                let param_param2 = 
+                                let param_param2 =
 "param2_example".to_string();
-
 
 
                                 Box::new(
@@ -1231,7 +1220,6 @@ Some("enum_form_string_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-
                                 Box::new(
                                     api_impl.test_classname(
                                             param_body,
@@ -1352,7 +1340,6 @@ Some("enum_form_string_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-
                                 Box::new(
                                     api_impl.add_pet(
                                             param_body,
@@ -1464,7 +1451,6 @@ Some("enum_form_string_example".to_string());
                 });
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.delete_pet(
                                             param_pet_id,
@@ -1542,7 +1528,6 @@ Some("enum_form_string_example".to_string());
                     .collect::<Vec<_>>();
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.find_pets_by_status(
                                             param_status.as_ref(),
@@ -1635,7 +1620,6 @@ Some("enum_form_string_example".to_string());
                     .collect::<Vec<_>>();
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.find_pets_by_tags(
                                             param_tags.as_ref(),
@@ -1724,7 +1708,6 @@ Some("enum_form_string_example".to_string());
                 };
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.get_pet_by_id(
                                             param_pet_id,
@@ -1846,7 +1829,6 @@ Some("enum_form_string_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-
                                 Box::new(
                                     api_impl.update_pet(
                                             param_body,
@@ -1966,13 +1948,12 @@ Some("enum_form_string_example".to_string());
                 Box::new({
                         {{
                                 // Form parameters
-                                let param_name = 
+                                let param_name =
 Some("name_example".to_string());
 
 
-                                let param_status = 
+                                let param_status =
 Some("status_example".to_string());
-
 
 
                                 Box::new(
@@ -2144,7 +2125,6 @@ Some("status_example".to_string());
                                             None
                                     }
                                 };
-
                                 Box::new(
                                     api_impl.upload_file(
                                             param_pet_id,
@@ -2225,7 +2205,6 @@ Some("status_example".to_string());
                 };
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.delete_order(
                                             param_order_id,
@@ -2284,7 +2263,6 @@ Some("status_example".to_string());
                 }
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.get_inventory(
                                         &context
@@ -2355,7 +2333,6 @@ Some("status_example".to_string());
                 };
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.get_order_by_id(
                                             param_order_id,
@@ -2448,7 +2425,6 @@ Some("status_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-
                                 Box::new(
                                     api_impl.place_order(
                                             param_body,
@@ -2547,7 +2523,6 @@ Some("status_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-
                                 Box::new(
                                     api_impl.create_user(
                                             param_body,
@@ -2630,7 +2605,6 @@ Some("status_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-
                                 Box::new(
                                     api_impl.create_users_with_array_input(
                                             param_body.as_ref(),
@@ -2713,7 +2687,6 @@ Some("status_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-
                                 Box::new(
                                     api_impl.create_users_with_list_input(
                                             param_body.as_ref(),
@@ -2789,7 +2762,6 @@ Some("status_example".to_string());
                 };
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.delete_user(
                                             param_username,
@@ -2859,7 +2831,6 @@ Some("status_example".to_string());
                 };
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.get_user_by_name(
                                             param_username,
@@ -2957,7 +2928,6 @@ Some("status_example".to_string());
                 };
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.login_user(
                                             param_username,
@@ -3029,7 +2999,6 @@ Some("status_example".to_string());
             &hyper::Method::GET if path.matched(paths::ID_USER_LOGOUT) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.logout_user(
                                         &context
@@ -3119,7 +3088,6 @@ Some("status_example".to_string());
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-
                                 Box::new(
                                     api_impl.update_user(
                                             param_username,

@@ -28,8 +28,12 @@ use swagger::client::Service;
 use mime::Mime;
 use std::io::Cursor;
 use multipart::client::lazy::Multipart;
+use hyper_0_10::header::{Headers, ContentType};
+header! { (ContentId, "Content-ID") => [String] }
+use mime_multipart::{Node, Part, generate_boundary, write_multipart};
 
 use {Api,
+     MultipartRelatedRequestPostResponse,
      MultipartRequestPostResponse
      };
 
@@ -196,6 +200,146 @@ impl<C, F> Api<C> for Client<F> where
     F: Future<Item=Response<Body>, Error=hyper::Error> + Send + 'static
 {
 
+    fn multipart_related_request_post(&self, param_required_binary_field: swagger::ByteArray, param_object_field: Option<models::MultipartRequestObjectField>, param_optional_binary_field: Option<swagger::ByteArray>, context: &C) -> Box<dyn Future<Item=MultipartRelatedRequestPostResponse, Error=ApiError> + Send> {
+        let mut uri = format!(
+            "{}/multipart_related_request",
+            self.base_path
+        );
+
+        // Query parameters
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(future::err(ApiError(format!("Unable to build URI: {}", err)))),
+        };
+
+        let mut request = match hyper::Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
+        };
+
+        // Construct the Body for a multipart/related request. The mime 0.2.6 library
+        // does not parse quoted-string parameters correctly. The boundary doesn't
+        // need to be a quoted string if it does not contain a '/', hence ensure
+        // no such boundary is used.
+        let mut boundary = generate_boundary();
+        for b in boundary.iter_mut() {
+            if b == &('/' as u8) {
+                *b = '=' as u8;
+            }
+        }
+
+        let mut body_parts = vec![];
+
+        if let Some(object_field) = param_object_field {
+            let part = Node::Part(Part {
+                headers: {
+                    let mut h = Headers::new();
+                    h.set(ContentType("application/json".parse().unwrap()));
+                    h.set(ContentId("object_field".parse().unwrap()));
+                    h
+                },
+                body: serde_json::to_string(&object_field)
+                    .expect("Impossible to fail to serialize")
+                    .into_bytes(),
+            });
+            body_parts.push(part);
+        }
+
+        if let Some(optional_binary_field) = param_optional_binary_field {
+            let part = Node::Part(Part {
+                headers: {
+                    let mut h = Headers::new();
+                    h.set(ContentType("application/zip".parse().unwrap()));
+                    h.set(ContentId("optional_binary_field".parse().unwrap()));
+                    h
+                },
+                body: optional_binary_field.0,
+            });
+            body_parts.push(part);
+        }
+
+            let part = Node::Part(Part {
+                headers: {
+                    let mut h = Headers::new();
+                    h.set(ContentType("image/png".parse().unwrap()));
+                    h.set(ContentId("required_binary_field".parse().unwrap()));
+                    h
+                },
+                body: param_required_binary_field.0,
+            });
+            body_parts.push(part);
+
+        // Write the body into a vec.
+        let mut body: Vec<u8> = vec![];
+        write_multipart(&mut body, &boundary, &body_parts)
+            .expect("Failed to write multipart body");
+
+        // Add the message body to the request object.
+        *request.body_mut() = Body::from(body);
+
+        let header = &mimetypes::requests::MULTIPART_RELATED_REQUEST_POST;
+        request.headers_mut().insert(CONTENT_TYPE,
+        match HeaderValue::from_bytes(
+            &[header.as_bytes(), "; boundary=".as_bytes(), &boundary, "; type=\"application/json\"".as_bytes()].concat()
+        ) {
+            Ok(h) => h,
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to create header: {} - {}", header, e))))
+        });
+
+
+        let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
+        });
+
+
+        Box::new(self.client_service.request(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                201 => {
+                    let body = response.into_body();
+                    Box::new(
+                        future::ok(
+                            MultipartRelatedRequestPostResponse::OK
+                        )
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.into_body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                }
+            }
+        }))
+
+    }
+
     fn multipart_request_post(&self, param_string_field: String, param_binary_field: swagger::ByteArray, param_optional_string_field: Option<String>, param_object_field: Option<models::MultipartRequestObjectField>, context: &C) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send> {
         let mut uri = format!(
             "{}/multipart_request",
@@ -223,7 +367,7 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-        let mut multipart = Multipart::new(); 
+        let mut multipart = Multipart::new();
 
         // For each parameter, encode as appropriate and add to the multipart body as a stream.
 
@@ -238,7 +382,7 @@ impl<C, F> Api<C> for Client<F> where
 
         let string_field_cursor = Cursor::new(string_field_vec);
 
-        multipart.add_stream("string_field",  string_field_cursor,  None as Option<&str>, Some(string_field_mime));  
+        multipart.add_stream("string_field",  string_field_cursor,  None as Option<&str>, Some(string_field_mime));
 
         let optional_string_field_str = match serde_json::to_string(&param_optional_string_field) {
             Ok(str) => str,
@@ -251,7 +395,7 @@ impl<C, F> Api<C> for Client<F> where
 
         let optional_string_field_cursor = Cursor::new(optional_string_field_vec);
 
-        multipart.add_stream("optional_string_field",  optional_string_field_cursor,  None as Option<&str>, Some(optional_string_field_mime));  
+        multipart.add_stream("optional_string_field",  optional_string_field_cursor,  None as Option<&str>, Some(optional_string_field_mime));
 
         let object_field_str = match serde_json::to_string(&param_object_field) {
             Ok(str) => str,
@@ -264,7 +408,7 @@ impl<C, F> Api<C> for Client<F> where
 
         let object_field_cursor = Cursor::new(object_field_vec);
 
-        multipart.add_stream("object_field",  object_field_cursor,  None as Option<&str>, Some(object_field_mime));  
+        multipart.add_stream("object_field",  object_field_cursor,  None as Option<&str>, Some(object_field_mime));
 
         let binary_field_vec = param_binary_field.to_vec();
 

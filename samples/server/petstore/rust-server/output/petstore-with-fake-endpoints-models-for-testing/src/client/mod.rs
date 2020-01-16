@@ -2122,7 +2122,7 @@ impl<C, F> Api<C> for Client<F> where
                 Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
         };
 
-        let mut multipart = Multipart::new(); 
+        let mut multipart = Multipart::new();
 
         // For each parameter, encode as appropriate and add to the multipart body as a stream.
 
@@ -2137,7 +2137,7 @@ impl<C, F> Api<C> for Client<F> where
 
         let additional_metadata_cursor = Cursor::new(additional_metadata_vec);
 
-        multipart.add_stream("additional_metadata",  additional_metadata_cursor,  None as Option<&str>, Some(additional_metadata_mime));  
+        multipart.add_stream("additional_metadata",  additional_metadata_cursor,  None as Option<&str>, Some(additional_metadata_mime));
 
         let file_str = match serde_json::to_string(&param_file) {
             Ok(str) => str,
@@ -2150,7 +2150,7 @@ impl<C, F> Api<C> for Client<F> where
 
         let file_cursor = Cursor::new(file_vec);
 
-        multipart.add_stream("file",  file_cursor,  None as Option<&str>, Some(file_mime));  
+        multipart.add_stream("file",  file_cursor,  None as Option<&str>, Some(file_mime));
 
         let mut fields = match multipart.prepare() {
             Ok(fields) => fields,

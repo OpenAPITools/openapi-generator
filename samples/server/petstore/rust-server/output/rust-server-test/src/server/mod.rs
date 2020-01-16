@@ -129,7 +129,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_DUMMY) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.dummy_get(
                                         &context
@@ -198,7 +197,6 @@ where
                                                         .body(Body::from("Missing required body parameter nested_response"))
                                                         .expect("Unable to create Bad Request response for missing body parameter nested_response"))),
                                 };
-
                                 Box::new(
                                     api_impl.dummy_put(
                                             param_nested_response,
@@ -253,7 +251,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_FILE_RESPONSE) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.file_response_get(
                                         &context
@@ -326,7 +323,6 @@ where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-
                                 Box::new(
                                     api_impl.html_post(
                                             param_body,
@@ -383,7 +379,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_RAW_JSON) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.raw_json_get(
                                         &context

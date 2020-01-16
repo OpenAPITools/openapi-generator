@@ -61,6 +61,7 @@ cargo run --example server
 To run a client, follow one of the following simple steps:
 
 ```
+cargo run --example client MultipartRelatedRequestPost
 cargo run --example client MultipartRequestPost
 ```
 
@@ -95,11 +96,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[****](docs/default_api.md#) | **POST** /multipart_related_request | 
 [****](docs/default_api.md#) | **POST** /multipart_request | 
 
 
 ## Documentation For Models
 
+ - [MultipartRelatedRequest](docs/MultipartRelatedRequest.md)
  - [MultipartRequest](docs/MultipartRequest.md)
  - [MultipartRequestObjectField](docs/MultipartRequestObjectField.md)
 
