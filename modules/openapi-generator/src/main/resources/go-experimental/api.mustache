@@ -128,12 +128,12 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 	{{#required}}
 	{{#isCollectionFormatMulti}}
 	{
-    t := *r.{{paramName}}
-    if reflect.TypeOf(t).Kind() == reflect.Slice {
-      s := reflect.ValueOf(t)
-      for i := 0; i < s.Len(); i++ {
-        localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
-      }
+		t := *r.{{paramName}}
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+			}
 		}
 	}
 	{{/isCollectionFormatMulti}}

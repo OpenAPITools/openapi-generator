@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **EnumStringRequired** | Pointer to **string** |  | 
 **EnumInteger** | Pointer to **int32** |  | [optional] 
 **EnumNumber** | Pointer to **float64** |  | [optional] 
-**OuterEnum** | Pointer to [**NullableOuterEnum**](OuterEnum.md) |  | [optional] 
+**OuterEnum** | Pointer to [**OuterEnum**](OuterEnum.md) |  | [optional] 
 **OuterEnumInteger** | Pointer to [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] 
 **OuterEnumDefaultValue** | Pointer to [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] 
 **OuterEnumIntegerDefaultValue** | Pointer to [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] 
@@ -117,13 +117,13 @@ SetEnumNumber gets a reference to the given float64 and assigns it to the EnumNu
 
 ### GetOuterEnum
 
-`func (o *EnumTest) GetOuterEnum() NullableOuterEnum`
+`func (o *EnumTest) GetOuterEnum() OuterEnum`
 
 GetOuterEnum returns the OuterEnum field if non-nil, zero value otherwise.
 
 ### GetOuterEnumOk
 
-`func (o *EnumTest) GetOuterEnumOk() (NullableOuterEnum, bool)`
+`func (o *EnumTest) GetOuterEnumOk() (OuterEnum, bool)`
 
 GetOuterEnumOk returns a tuple with the OuterEnum field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -136,9 +136,9 @@ HasOuterEnum returns a boolean if a field has been set.
 
 ### SetOuterEnum
 
-`func (o *EnumTest) SetOuterEnum(v NullableOuterEnum)`
+`func (o *EnumTest) SetOuterEnum(v OuterEnum)`
 
-SetOuterEnum gets a reference to the given NullableOuterEnum and assigns it to the OuterEnum field.
+SetOuterEnum gets a reference to the given OuterEnum and assigns it to the OuterEnum field.
 
 ### SetOuterEnumExplicitNull
 

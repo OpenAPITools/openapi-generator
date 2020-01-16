@@ -1757,13 +1757,13 @@ func (r apiTestQueryParameterCollectionFormatRequest) Execute() (*_nethttp.Respo
 	localVarQueryParams.Add("ioutil", parameterToString(*r.ioutil, "csv"))
 	localVarQueryParams.Add("http", parameterToString(*r.http, "space"))
 	localVarQueryParams.Add("url", parameterToString(*r.url, "csv"))
-  {
-    t := *r.context
-    if reflect.TypeOf(t).Kind() == reflect.Slice {
-      s := reflect.ValueOf(t)
-      for i := 0; i < s.Len(); i++ {
-        localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
-      }
+	{
+		t := *r.context
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
+			}
 		}
 	}
 	// to determine the Content-Type header

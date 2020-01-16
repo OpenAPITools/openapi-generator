@@ -1767,26 +1767,26 @@ func (r apiTestQueryParameterCollectionFormatRequest) Execute() (*_nethttp.Respo
 		return nil, reportError("context is required and must be specified")
 	}
 
-	t := *r.pipe
-	if reflect.TypeOf(t).Kind() == reflect.Slice {
-		s := reflect.ValueOf(t)
-		for i := 0; i < s.Len(); i++ {
-			localVarQueryParams.Add("pipe", parameterToString(s.Index(i), "multi"))
+	{
+		t := *r.pipe
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("pipe", parameterToString(s.Index(i), "multi"))
+			}
 		}
-	} else {
-		localVarQueryParams.Add("pipe", parameterToString(t, "multi"))
 	}
 	localVarQueryParams.Add("ioutil", parameterToString(*r.ioutil, "csv"))
 	localVarQueryParams.Add("http", parameterToString(*r.http, "space"))
 	localVarQueryParams.Add("url", parameterToString(*r.url, "csv"))
-	t := *r.context
-	if reflect.TypeOf(t).Kind() == reflect.Slice {
-		s := reflect.ValueOf(t)
-		for i := 0; i < s.Len(); i++ {
-			localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
+	{
+		t := *r.context
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
+			}
 		}
-	} else {
-		localVarQueryParams.Add("context", parameterToString(t, "multi"))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
