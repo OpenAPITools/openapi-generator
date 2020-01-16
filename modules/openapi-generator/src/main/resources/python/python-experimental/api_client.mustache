@@ -543,7 +543,8 @@ class ApiClient(object):
                 if auth_setting['type'] == 'http-signature':
                     # The HTTP signature scheme requires multiple HTTP headers
                     # that are calculated dynamically.
-                    auth_headers = signing.get_http_signature_headers(self.configuration,
+                    auth_headers = signing.get_http_signature_headers(
+                        self.configuration.signing_info, self.configuration.host,
                         resource_path, method, headers, body, querys)
                     for key, value in auth_headers.items():
                         headers[key] = value
