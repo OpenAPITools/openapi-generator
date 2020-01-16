@@ -732,19 +732,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            Schema<?> items = getSchemaItems((ArraySchema) p);
-            return getSchemaType(p) + "<" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items)) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+        Schema unaliasedSchema = ModelUtils.unaliasSchema(this.openAPI, p);
+        if (ModelUtils.isArraySchema(unaliasedSchema)) {
+            Schema<?> items = getSchemaItems((ArraySchema) unaliasedSchema);
+            return getSchemaType(unaliasedSchema) + "<" + getTypeDeclaration(items) + ">";
+        } else if (ModelUtils.isMapSchema(unaliasedSchema)) {
+            Schema inner = ModelUtils.getAdditionalProperties(unaliasedSchema);
             if (inner == null) {
                 LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
                 inner = new StringSchema().description("TODO default missing map inner type to string");
                 p.setAdditionalProperties(inner);
             }
-            return getSchemaType(p) + "<String, " + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + ">";
+            return getSchemaType(unaliasedSchema) + "<String, " + getTypeDeclaration(inner) + ">";
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(unaliasedSchema);
     }
 
     @Override
