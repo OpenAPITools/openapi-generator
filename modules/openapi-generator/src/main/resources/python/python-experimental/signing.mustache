@@ -168,6 +168,12 @@ class HttpSigningConfiguration(object):
             else:
                 raise Exception("Unsupported key")
 
+    def get_unix_time(self, ts):
+        """Converts and returns a datetime object to UNIX time, the number of seconds
+           elapsed since January 1, 1970 UTC.
+        """
+        return (ts - datetime.datetime(1970,1,1)).total_seconds())
+
     def get_signed_header_info(self, host, resource_path, method, headers, body, query_params):
         """
         Build the HTTP headers (name, value) that need to be included in the HTTP signature scheme.
@@ -199,9 +205,9 @@ class HttpSigningConfiguration(object):
         now = datetime.datetime.now()
         stamp = mktime(now.timetuple())
         cdate = formatdate(timeval=stamp, localtime=False, usegmt=True)
-        created = now.strftime("%s")
+        created = self.get_unix_time(now)
         if self.signature_max_validity is not None:
-            expires = (now + self.signature_max_validity).strftime("%s")
+            expires = self.get_unix_time(now + self.signature_max_validity)
 
         signed_headers_dict = {}
         request_headers_dict = {}
@@ -210,9 +216,9 @@ class HttpSigningConfiguration(object):
             if hdr_key == HEADER_REQUEST_TARGET:
                 value = request_target
             elif hdr_key == HEADER_CREATED:
-                value = created
+                value = '{0}'.format(created)
             elif hdr_key == HEADER_EXPIRES:
-                value = expires
+                value = '{0}'.format(expires)
             elif hdr_key == HEADER_DATE:
                 value = cdate
                 request_headers_dict['Date'] = '{0}'.format(cdate)
