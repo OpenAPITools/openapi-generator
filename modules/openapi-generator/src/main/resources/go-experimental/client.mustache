@@ -4,11 +4,6 @@ package {{packageName}}
 import (
 	"bytes"
 	"context"
-	"crypto"
-	"crypto/rand"
-	"crypto/rsa"
-	"crypto/ecdsa"
-	"encoding/base64"
 	"encoding/json"
 	"encoding/xml"
 	"errors"
@@ -18,7 +13,6 @@ import (
 	"mime/multipart"
 	"net/http"
 	"net/http/httputil"
-	"net/textproto"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -198,205 +192,6 @@ func (c *APIClient) GetConfig() *Configuration {
 	return c.cfg
 }
 
-// SignRequest signs the request using HTTP signature.
-// See https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
-//
-// Do not add, remove or change headers that are included in the SignedHeaders
-// after SignRequest has been invoked; this is because the header values are
-// included in the signature. Any subsequent alteration will cause a signature
-// verification failure.
-// If there are multiple instances of the same header field, all
-// header field values associated with the header field MUST be
-// concatenated, separated by a ASCII comma and an ASCII space
-// ', ', and used in the order in which they will appear in the
-// transmitted HTTP message.
-func (c *APIClient) SignRequest(
-	ctx context.Context,
-	r *http.Request,
-	auth HttpSignatureAuth) error {
-
-	if auth.PrivateKey == nil {
-		return errors.New("Private key is not set")
-	}
-	now := time.Now()
-	date := now.UTC().Format(http.TimeFormat)
-	// The 'created' field expresses when the signature was created.
-	// The value MUST be a Unix timestamp integer value. See 'HTTP signature' section 2.1.4.
-	created := now.Unix()
-
-	var h crypto.Hash
-	var err error
-	var prefix string
-	var expiresUnix float64
-
-	if auth.SignatureMaxValidity < 0 {
-		return fmt.Errorf("Signature validity must be a positive value")
-	}
-	if auth.SignatureMaxValidity > 0 {
-		e := now.Add(auth.SignatureMaxValidity)
-		expiresUnix = float64(e.Unix()) + float64(e.Nanosecond()) / float64(time.Second)
-	}
-	// Determine the cryptographic hash to be used for the signature and the body digest.
-	switch auth.SigningScheme {
-	case HttpSigningSchemeRsaSha512, HttpSigningSchemeHs2019:
-		h = crypto.SHA512
-		prefix = "SHA-512="
-	case HttpSigningSchemeRsaSha256:
-		// This is deprecated and should no longer be used.
-		h = crypto.SHA256
-		prefix = "SHA-256="
-	default:
-		return fmt.Errorf("Unsupported signature scheme: %v", auth.SigningScheme)
-	}
-	if !h.Available() {
-		return fmt.Errorf("Hash '%v' is not available", h)
-	}
-
-	// Build the "(request-target)" signature header.
-	var sb bytes.Buffer
-	fmt.Fprintf(&sb, "%s %s", strings.ToLower(r.Method), r.URL.EscapedPath())
-	if r.URL.RawQuery != "" {
-		// The ":path" pseudo-header field includes the path and query parts
-		// of the target URI (the "path-absolute" production and optionally a
-		// '?' character followed by the "query" production (see Sections 3.3
-		// and 3.4 of [RFC3986]
-		fmt.Fprintf(&sb, "?%s", r.URL.RawQuery)
-	}
-	requestTarget := sb.String()
-	sb.Reset()
-
-	// Build the string to be signed.
-	signedHeaders := auth.SignedHeaders
-	if len(signedHeaders) == 0 {
-		signedHeaders = []string{HttpSignatureParameterCreated}
-	}
-	// Validate the list of signed headers has no duplicates.
-	m := make(map[string]bool)
-	for _, h := range signedHeaders {
-		m[h] = true
-	}
-	if len(m) != len(signedHeaders) {
-		return fmt.Errorf("List of signed headers must not have any duplicates")
-	}
-	hasCreatedParameter := false
-	hasExpiresParameter := false
-	for i, header := range signedHeaders {
-		header = strings.ToLower(header)
-		var value string
-		switch header {
-		case HttpSignatureParameterAuthorization:
-			return fmt.Errorf("Cannot include the 'Authorization' header as a signed header.")
-		case HttpSignatureParameterRequestTarget:
-			value = requestTarget
-		case HttpSignatureParameterCreated:
-			value = fmt.Sprintf("%d", created)
-			hasCreatedParameter = true
-		case HttpSignatureParameterExpires:
-			if auth.SignatureMaxValidity.Nanoseconds() == 0 {
-				return fmt.Errorf("Cannot set '(expires)' signature parameter. SignatureMaxValidity is not configured.")
-			}
-			value = fmt.Sprintf("%.3f", expiresUnix)
-			hasExpiresParameter = true
-		case "date":
-			value = date
-			r.Header.Set("Date", date)
-		case "digest":
-			// Calculate the digest of the HTTP request body.
-			// Calculate body digest per RFC 3230 section 4.3.2
-			bodyHash := h.New()
-			if r.Body != nil {
-				// Make a copy of the body io.Reader so that we can read the body to calculate the hash,
-				// then one more time when marshaling the request.
-				var body io.Reader
-				body, err = r.GetBody()
-				if err != nil {
-					return err
-				}
-				if _, err = io.Copy(bodyHash, body); err != nil {
-					return err
-				}
-			}
-			d := bodyHash.Sum(nil)
-			value = prefix + base64.StdEncoding.EncodeToString(d)
-			r.Header.Set("Digest", value)
-		case "host":
-			value = r.Host
-			r.Header.Set("Host", r.Host)
-		default:
-			var ok bool
-			var v []string
-			canonicalHeader := textproto.CanonicalMIMEHeaderKey(header)
-			if v, ok = r.Header[canonicalHeader]; !ok {
-				// If a header specified in the headers parameter cannot be matched with
-				// a provided header in the message, the implementation MUST produce an error.
-				return fmt.Errorf("Header '%s' does not exist in the request", canonicalHeader)
-			}
-			// If there are multiple instances of the same header field, all
-			// header field values associated with the header field MUST be
-			// concatenated, separated by a ASCII comma and an ASCII space
-			// `, `, and used in the order in which they will appear in the
-			// transmitted HTTP message.
-			value = strings.Join(v, ", ")
-		}
-		if i > 0 {
-			fmt.Fprintf(&sb, "\n")
-		}
-		fmt.Fprintf(&sb, "%s: %s", header, value)
-	}
-	if expiresUnix != 0 && !hasExpiresParameter {
-		return fmt.Errorf("SignatureMaxValidity is specified, but '(expired)' parameter is not present")
-	}
-	msg := []byte(sb.String())
-	msgHash := h.New()
-	if _, err = msgHash.Write(msg); err != nil {
-		return err
-	}
-	d := msgHash.Sum(nil)
-
-	var signature []byte
-	switch key := auth.PrivateKey.(type) {
-	case *rsa.PrivateKey:
-		switch auth.SigningAlgorithm {
-		case HttpSigningAlgorithmRsaPKCS1v15:
-			signature, err = rsa.SignPKCS1v15(rand.Reader, key, h, d)
-		case "", HttpSigningAlgorithmRsaPSS:
-			signature, err = rsa.SignPSS(rand.Reader, key, h, d, nil)
-		default:
-			return fmt.Errorf("Unsupported signing algorithm: '%s'", auth.SigningAlgorithm)
-		}
-	case *ecdsa.PrivateKey:
-		signature, err = key.Sign(rand.Reader, d, h)
-	//case ed25519.PrivateKey: requires go 1.13
-	//  signature, err = key.Sign(rand.Reader, msg, crypto.Hash(0))
-	default:
-		return fmt.Errorf("Unsupported private key")
-	}
-	if err != nil {
-		return err
-	}
-
-	sb.Reset()
-	for i, header := range signedHeaders {
-		if i > 0 {
-			sb.WriteRune(' ')
-		}
-		sb.WriteString(strings.ToLower(header))
-	}
-	headers_list := sb.String()
-	sb.Reset()
-	fmt.Fprintf(&sb, `Signature keyId="%s",algorithm="%s",`, auth.KeyId, auth.SigningScheme)
-	if hasCreatedParameter {
-		fmt.Fprintf(&sb, "created=%d,", created)
-	}
-	if hasExpiresParameter {
-		fmt.Fprintf(&sb, "expires=%.3f,", expiresUnix)
-	}
-	fmt.Fprintf(&sb, `headers="%s",signature="%s"`, headers_list, base64.StdEncoding.EncodeToString(signature))
-	authStr := sb.String()
-	r.Header.Set("Authorization", authStr)
-	return nil
-}
-
 // prepareRequest build the request
 func (c *APIClient) prepareRequest(
 	ctx context.Context,
@@ -561,7 +356,7 @@ func (c *APIClient) prepareRequest(
 		// HTTP Signature Authentication. All request headers must be set (including default headers)
 		// because the headers may be included in the signature.
 		if auth, ok := ctx.Value(ContextHttpSignatureAuth).(HttpSignatureAuth); ok {
-			err = c.SignRequest(ctx, localVarRequest, auth)
+			err = SignRequest(ctx, localVarRequest, auth)
 			if err != nil {
 				return nil, err
 			}
