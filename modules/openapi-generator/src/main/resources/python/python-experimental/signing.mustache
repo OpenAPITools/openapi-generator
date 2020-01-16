@@ -110,6 +110,10 @@ class HttpSigningConfiguration(object):
         """A list of strings. Each value is the name of HTTP header that must be included
            in the HTTP signature calculation.
         """
+        self.private_key = None
+        """The private key used to sign HTTP requests.
+            Initialized when the PEM-encoded private key is loaded from a file.
+        """
 
     def get_http_signature_headers(self, host, resource_path, method, headers, body, query_params):
         """

@@ -136,10 +136,6 @@ class Configuration(object):
         self.assert_hostname = None
         """Set this to True/False to enable/disable SSL hostname verification.
         """
-        self.private_key = None
-        """The private key used to sign HTTP requests.
-            Initialized when the PEM-encoded private key is loaded from a file.
-        """
 
         self.connection_pool_maxsize = multiprocessing.cpu_count() * 5
         """urllib3 connection pool's maximum number of connections saved
