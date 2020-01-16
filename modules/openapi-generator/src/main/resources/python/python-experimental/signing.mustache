@@ -205,7 +205,9 @@ class HttpSigningConfiguration(object):
         now = datetime.datetime.now()
         stamp = mktime(now.timetuple())
         cdate = formatdate(timeval=stamp, localtime=False, usegmt=True)
-        created = self.get_unix_time(now)
+        # The '(created)' value MUST be a Unix timestamp integer value.
+        # Subsecond precision is not supported.
+        created = self.get_unix_time(int(now))
         if self.signature_max_validity is not None:
             expires = self.get_unix_time(now + self.signature_max_validity)
 
@@ -221,17 +223,17 @@ class HttpSigningConfiguration(object):
                 value = '{0}'.format(expires)
             elif hdr_key == HEADER_DATE:
                 value = cdate
-                request_headers_dict['Date'] = '{0}'.format(cdate)
+                request_headers_dict[HEADER_DATE] = '{0}'.format(cdate)
             elif hdr_key == HEADER_DIGEST:
                 request_body = body.encode()
                 body_digest, digest_prefix = self.get_message_digest(request_body)
                 b64_body_digest = b64encode(body_digest.digest())
                 value = digest_prefix + b64_body_digest.decode('ascii')
-                request_headers_dict['Digest'] = '{0}{1}'.format(
+                request_headers_dict[HEADER_DIGEST] = '{0}{1}'.format(
                     digest_prefix, b64_body_digest.decode('ascii'))
             elif hdr_key == HEADER_HOST:
                 value = target_host
-                request_headers_dict['Host'] = '{0}'.format(target_host)
+                request_headers_dict[HEADER_HOST] = '{0}'.format(target_host)
             else:
                 value = headers[hdr_key]
             signed_headers_dict[hdr_key] = value
