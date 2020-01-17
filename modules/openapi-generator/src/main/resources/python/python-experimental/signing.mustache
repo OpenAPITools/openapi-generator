@@ -2,20 +2,23 @@
 {{>partial_header}}
 from __future__ import absolute_import
 
-from datetime import timedelta
-from six.moves.urllib.parse import urlencode, urlparse
-import pem
+from base64 import b64encode
 from Crypto.PublicKey import RSA, ECC
 from Crypto.Signature import PKCS1_v1_5, pss, DSS
 from Crypto.Hash import SHA256, SHA512
-from base64 import b64encode
+from datetime import datetime, timedelta
 from email.utils import formatdate
+import json
+import os
+import pem
+from six.moves.urllib.parse import urlencode, urlparse
+from time import mktime
 
 HEADER_REQUEST_TARGET = '(request-target)'
 HEADER_CREATED = '(created)'
 HEADER_EXPIRES = '(expires)'
-HEADER_HOST = 'host'
-HEADER_DATE = 'date'
+HEADER_HOST = 'Host'
+HEADER_DATE = 'Date'
 HEADER_DIGEST = 'Digest'
 HEADER_AUTHORIZATION = 'Authorization'
 
@@ -86,7 +89,11 @@ class HttpSigningConfiguration(object):
                  signing_algorithm=None,
                  signature_max_validity=None):
         self.key_id = key_id
+        if not os.path.exists(private_key_path):
+            raise Exception("Private key file does not exist")
         self.private_key_path = private_key_path
+        if signing_scheme not in {SCHEME_HS2019, SCHEME_RSA_SHA256, SCHEME_RSA_SHA512}:
+            raise Exception("Unsupported security scheme: {0}".format(signing_scheme))
         self.signing_scheme = signing_scheme
         self.signing_algorithm = signing_algorithm
         if signature_max_validity is not None and signature_max_validity.total_seconds() < 0:
@@ -120,7 +127,7 @@ class HttpSigningConfiguration(object):
         :param resource_path : A string representation of the HTTP request resource path.
         :param method: A string representation of the HTTP request method, e.g. GET, POST.
         :param headers: A dict containing the HTTP request headers.
-        :param body: The string representation of the HTTP request body.
+        :param body: The object representing the HTTP request body.
         :param query_params: A string representing the HTTP request query parameters.
         :return: A dict of HTTP headers that must be added to the outbound HTTP request.
         """
@@ -161,7 +168,7 @@ class HttpSigningConfiguration(object):
             if key.startswith('-----BEGIN RSA PRIVATE KEY-----'):
                 self.private_key = RSA.importKey(key)
             elif key.startswith('-----BEGIN EC PRIVATE KEY-----'):
-                self.private_key = ECC.importKey(key)
+                self.private_key = ECC.import_key(key)
             else:
                 raise Exception("Unsupported key")
 
@@ -169,7 +176,7 @@ class HttpSigningConfiguration(object):
         """Converts and returns a datetime object to UNIX time, the number of seconds
            elapsed since January 1, 1970 UTC.
         """
-        return (ts - datetime.datetime(1970,1,1)).total_seconds()
+        return (ts - datetime(1970,1,1)).total_seconds()
 
     def _get_signed_header_info(self, resource_path, method, headers, body, query_params):
         """
@@ -178,7 +185,7 @@ class HttpSigningConfiguration(object):
         :param resource_path : A string representation of the HTTP request resource path.
         :param method: A string representation of the HTTP request method, e.g. GET, POST.
         :param headers: A dict containing the HTTP request headers.
-        :param body: The string representation of the HTTP request body.
+        :param body: The object (e.g. a dict) representing the HTTP request body.
         :param query_params: A string representing the HTTP request query parameters.
         :return: A tuple containing two dict objects:
             The first dict contains the HTTP headers that are used to calculate the HTTP signature.
@@ -199,12 +206,12 @@ class HttpSigningConfiguration(object):
             request_target += "?" + raw_query
 
         # Get current time and generate RFC 1123 (HTTP/1.1) date/time string.
-        now = datetime.datetime.now()
+        now = datetime.now()
         stamp = mktime(now.timetuple())
         cdate = formatdate(timeval=stamp, localtime=False, usegmt=True)
         # The '(created)' value MUST be a Unix timestamp integer value.
         # Subsecond precision is not supported.
-        created = self._get_unix_time(int(now))
+        created = int(self._get_unix_time(now))
         if self.signature_max_validity is not None:
             expires = self._get_unix_time(now + self.signature_max_validity)
 
@@ -218,24 +225,27 @@ class HttpSigningConfiguration(object):
                 value = '{0}'.format(created)
             elif hdr_key == HEADER_EXPIRES:
                 value = '{0}'.format(expires)
-            elif hdr_key == HEADER_DATE:
+            elif hdr_key == HEADER_DATE.lower():
                 value = cdate
                 request_headers_dict[HEADER_DATE] = '{0}'.format(cdate)
-            elif hdr_key == HEADER_DIGEST:
+            elif hdr_key == HEADER_DIGEST.lower():
                 request_body = body.encode()
                 body_digest, digest_prefix = self._get_message_digest(request_body)
                 b64_body_digest = b64encode(body_digest.digest())
                 value = digest_prefix + b64_body_digest.decode('ascii')
                 request_headers_dict[HEADER_DIGEST] = '{0}{1}'.format(
                     digest_prefix, b64_body_digest.decode('ascii'))
-            elif hdr_key == HEADER_HOST:
+            elif hdr_key == HEADER_HOST.lower():
                 value = target_host
                 request_headers_dict[HEADER_HOST] = '{0}'.format(target_host)
             else:
-                value = headers[hdr_key]
+                value = next((v for k, v in headers.items() if k.lower() == hdr_key), None)
+                if value is None:
+                    raise Exception("Cannot sign HTTP request. "
+                        "Request does not contain the '{0}' header".format(hdr_key))
             signed_headers_dict[hdr_key] = value
 
-        return signed_header_dict, request_headers_dict
+        return signed_headers_dict, request_headers_dict
 
     def _get_message_digest(self, data):
         """
@@ -278,7 +288,7 @@ class HttpSigningConfiguration(object):
         elif isinstance(self.private_key, ECC.EccKey):
             if sig_alg is None:
                 sig_alg = ALGORITHM_ECDSA_MODE_FIPS_186_3
-            if sig_alg in ECDSA_KEY_SIGNING_ALGORITHMS:
+            if sig_alg in ALGORITHM_ECDSA_KEY_SIGNING_ALGORITHMS:
                 signature = DSS.new(self.private_key, sig_alg).sign(digest)
             else:
                 raise Exception("Unsupported signature algorithm: {0}".format(sig_alg))

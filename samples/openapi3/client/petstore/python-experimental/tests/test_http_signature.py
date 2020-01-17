@@ -12,10 +12,14 @@ $ nosetests -v
 """
 
 from collections import namedtuple
+from datetime import datetime, timedelta
 import json
 import os
-import unittest
+import re
 import shutil
+import unittest
+from Crypto.PublicKey import RSA
+from Crypto.PublicKey import ECC
 
 import petstore_api
 from petstore_api import Configuration, signing
@@ -61,13 +65,13 @@ G6aFKaqQfOXKCyWoUiVknQJAXrlgySFci/2ueKlIE1QqIiLSZ8V8OlpFLRnb1pzI
 7U1yQXnTAEFYM560yJlzUpOb1V4cScGd365tiSMvxLOvTA==
 -----END RSA PRIVATE KEY-----"""
 
+
 class TimeoutWithEqual(urllib3.Timeout):
     def __init__(self, *arg, **kwargs):
         super(TimeoutWithEqual, self).__init__(*arg, **kwargs)
 
     def __eq__(self, other):
         return self._read == other._read and self._connect == other._connect and self.total == other.total
-
 
 class MockPoolManager(object):
     def __init__(self, tc):
@@ -81,8 +85,26 @@ class MockPoolManager(object):
         self._tc.assertTrue(len(self._reqs) > 0)
         r = self._reqs.pop(0)
         self._tc.maxDiff = None
+        # r[0] is the expected HTTP method, URL.
+        # args is the actual HTTP method, URL.
         self._tc.assertEqual(r[0], args)
-        self._tc.assertEqual(r[1], kwargs)
+        # r[1] is a dict that contains the expected body, headers
+        # kwargs is a dict that contains the actual body, headers
+        for k, expected in r[1].items():
+            self._tc.assertIn(k, kwargs)
+            actual = kwargs[k]
+            if k == 'body':
+                self._tc.assertEqual(expected, actual)
+            elif k == 'headers':
+                for expected_header_name, expected_header_value in expected.items():
+                    self._tc.assertIn(expected_header_name, actual)
+                    actual_header_value = actual[expected_header_name]
+                    pattern = re.compile(expected_header_value)
+                    m = pattern.match(actual_header_value)
+                    self._tc.assertTrue(m, msg="Expected:\n{0}\nActual:\n{1}".format(
+                                        expected_header_value,actual_header_value))
+            elif k == 'timeout':
+                self._tc.assertEqual(expected, actual)
         return urllib3.HTTPResponse(status=200, body=b'test')
 
 
@@ -92,9 +114,6 @@ class PetApiTests(unittest.TestCase):
         self.setUpModels()
         self.setUpFiles()
 
-    def tearDown(self):
-        if os.path.exists(self.rsa_key_path):
-            os.unlink(self.rsa_key_path)
 
     def setUpModels(self):
         self.category = petstore_api.Category()
@@ -114,12 +133,28 @@ class PetApiTests(unittest.TestCase):
         self.test_file_dir = os.path.realpath(self.test_file_dir)
         if not os.path.exists(self.test_file_dir):
             os.mkdir(self.test_file_dir)
+
         self.rsa_key_path = os.path.join(self.test_file_dir, 'rsa.pem')
+        self.rsa4096_key_path = os.path.join(self.test_file_dir, 'rsa4096.pem')
+        self.ec_p521_key_path = os.path.join(self.test_file_dir, 'ecP521.pem')
 
-    def test_http_signature(self):
-        with open(self.rsa_key_path, 'w') as f:
-          f.write(RSA_TEST_PRIVATE_KEY)
+        if not os.path.exists(self.rsa_key_path):
+            with open(self.rsa_key_path, 'w') as f:
+                f.write(RSA_TEST_PRIVATE_KEY)
 
+        if not os.path.exists(self.rsa4096_key_path):
+            key = RSA.generate(4096)
+            private_key = key.export_key()
+            with open(self.rsa4096_key_path, "wb") as f:
+                f.write(private_key)
+
+        if not os.path.exists(self.ec_p521_key_path):
+            key = ECC.generate(curve='P-521')
+            private_key = key.export_key(format='PEM')
+            with open(self.ec_p521_key_path, "wt") as f:
+                f.write(private_key)
+
+    def test_valid_http_signature(self):
         signing_cfg = signing.HttpSigningConfiguration(
             key_id="my-key-id",
             private_key_path=self.rsa_key_path,
@@ -145,20 +180,191 @@ class PetApiTests(unittest.TestCase):
         mock_pool = MockPoolManager(self)
         api_client.rest_client.pool_manager = mock_pool
 
-        mock_pool.expect_request('POST', 'http://localhost/v2/pet',
+        mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Bearer ',
+                                          'Authorization': 'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
+                                                'headers="\(request-target\) \(created\) host date digest content-type",'
+                                                'signature="[a-zA-Z0-9+/]+="',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
-                                 preload_content=True, timeout=TimeoutWithEqual(total=5))
-        mock_pool.expect_request('POST', 'http://localhost/v2/pet',
+                                 preload_content=True, timeout=None)
+
+        pet_api.add_pet(self.pet)
+
+    def test_valid_http_signature_with_defaults(self):
+        signing_cfg = signing.HttpSigningConfiguration(
+            key_id="my-key-id",
+            private_key_path=self.rsa4096_key_path,
+            signing_scheme=signing.SCHEME_HS2019,
+        )
+        config = Configuration(host=HOST, signing_info=signing_cfg)
+        # Set the OAuth2 acces_token to None. Here we are interested in testing
+        # the HTTP signature scheme.
+        config.access_token = None
+
+        api_client = petstore_api.ApiClient(config)
+        pet_api = petstore_api.PetApi(api_client)
+
+        mock_pool = MockPoolManager(self)
+        api_client.rest_client.pool_manager = mock_pool
+
+        mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Bearer ',
+                                          'Authorization': 'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
+                                                'headers="\(created\)",'
+                                                'signature="[a-zA-Z0-9+/]+="',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
-                                 preload_content=True, timeout=TimeoutWithEqual(connect=1, read=2))
+                                 preload_content=True, timeout=None)
 
-        pet_api.add_pet(self.pet, _request_timeout=5)
-        pet_api.add_pet(self.pet, _request_timeout=(1, 2))
+        pet_api.add_pet(self.pet)
 
+    def test_valid_http_signature_rsassa_pkcs1v15(self):
+        signing_cfg = signing.HttpSigningConfiguration(
+            key_id="my-key-id",
+            private_key_path=self.rsa4096_key_path,
+            signing_scheme=signing.SCHEME_HS2019,
+            signing_algorithm=signing.ALGORITHM_RSASSA_PKCS1v15,
+            signed_headers=[
+                signing.HEADER_REQUEST_TARGET,
+                signing.HEADER_CREATED,
+            ]
+        )
+        config = Configuration(host=HOST, signing_info=signing_cfg)
+        # Set the OAuth2 acces_token to None. Here we are interested in testing
+        # the HTTP signature scheme.
+        config.access_token = None
+
+        api_client = petstore_api.ApiClient(config)
+        pet_api = petstore_api.PetApi(api_client)
+
+        mock_pool = MockPoolManager(self)
+        api_client.rest_client.pool_manager = mock_pool
+
+        mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
+                                 body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
+                                 headers={'Content-Type': 'application/json',
+                                          'Authorization': 'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
+                                                'headers="\(request-target\) \(created\)",'
+                                                'signature="[a-zA-Z0-9+/]+="',
+                                          'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
+                                 preload_content=True, timeout=None)
+
+        pet_api.add_pet(self.pet)
+
+    def test_valid_http_signature_rsassa_pss(self):
+        signing_cfg = signing.HttpSigningConfiguration(
+            key_id="my-key-id",
+            private_key_path=self.rsa4096_key_path,
+            signing_scheme=signing.SCHEME_HS2019,
+            signing_algorithm=signing.ALGORITHM_RSASSA_PSS,
+            signed_headers=[
+                signing.HEADER_REQUEST_TARGET,
+                signing.HEADER_CREATED,
+            ]
+        )
+        config = Configuration(host=HOST, signing_info=signing_cfg)
+        # Set the OAuth2 acces_token to None. Here we are interested in testing
+        # the HTTP signature scheme.
+        config.access_token = None
+
+        api_client = petstore_api.ApiClient(config)
+        pet_api = petstore_api.PetApi(api_client)
+
+        mock_pool = MockPoolManager(self)
+        api_client.rest_client.pool_manager = mock_pool
+
+        mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
+                                 body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
+                                 headers={'Content-Type': 'application/json',
+                                          'Authorization': 'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
+                                                'headers="\(request-target\) \(created\)",'
+                                                'signature="[a-zA-Z0-9+/]+="',
+                                          'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
+                                 preload_content=True, timeout=None)
+
+        pet_api.add_pet(self.pet)
+
+    def test_valid_http_signature_ec_p521(self):
+        signing_cfg = signing.HttpSigningConfiguration(
+            key_id="my-key-id",
+            private_key_path=self.ec_p521_key_path,
+            signing_scheme=signing.SCHEME_HS2019,
+            signed_headers=[
+                signing.HEADER_REQUEST_TARGET,
+                signing.HEADER_CREATED,
+            ]
+        )
+        config = Configuration(host=HOST, signing_info=signing_cfg)
+        # Set the OAuth2 acces_token to None. Here we are interested in testing
+        # the HTTP signature scheme.
+        config.access_token = None
+
+        api_client = petstore_api.ApiClient(config)
+        pet_api = petstore_api.PetApi(api_client)
+
+        mock_pool = MockPoolManager(self)
+        api_client.rest_client.pool_manager = mock_pool
+
+        mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
+                                 body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
+                                 headers={'Content-Type': 'application/json',
+                                          'Authorization': 'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
+                                                'headers="\(request-target\) \(created\)",'
+                                                'signature="[a-zA-Z0-9+/]+"',
+                                          'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
+                                 preload_content=True, timeout=None)
+
+        pet_api.add_pet(self.pet)
+
+    def test_invalid_configuration(self):
+        # Signing scheme must be valid.
+        with self.assertRaises(Exception):
+            signing_cfg = signing.HttpSigningConfiguration(
+                key_id="my-key-id",
+                private_key_path=self.ec_p521_key_path,
+                signing_scheme='foo'
+            )
+
+        # Signing scheme must be specified.
+        with self.assertRaises(Exception):
+            signing_cfg = signing.HttpSigningConfiguration(
+                key_id="my-key-id",
+                private_key_path=self.ec_p521_key_path
+            )
+
+        # File containing private key must exist.
+        with self.assertRaises(Exception):
+            signing_cfg = signing.HttpSigningConfiguration(
+                key_id="my-key-id",
+                private_key_path='foobar',
+                signing_scheme=signing.SCHEME_HS2019
+            )
+
+        # The max validity must be a positive value.
+        with self.assertRaises(Exception):
+            signing_cfg = signing.HttpSigningConfiguration(
+                key_id="my-key-id",
+                private_key_path=self.ec_p521_key_path,
+                signing_scheme=signing.SCHEME_HS2019,
+                signature_max_validity=timedelta(hours=-1)
+            )
+
+        # Cannot include the 'Authorization' header.
+        with self.assertRaises(Exception):
+            signing_cfg = signing.HttpSigningConfiguration(
+                key_id="my-key-id",
+                private_key_path=self.ec_p521_key_path,
+                signing_scheme=signing.SCHEME_HS2019,
+                signed_headers=['Authorization']
+            )
+
+        # Cannot specify duplicate headers.
+        with self.assertRaises(Exception):
+            signing_cfg = signing.HttpSigningConfiguration(
+                key_id="my-key-id",
+                private_key_path=self.ec_p521_key_path,
+                signing_scheme=signing.SCHEME_HS2019,
+                signed_headers=['Host', 'Date', 'Host']
+            )
 
