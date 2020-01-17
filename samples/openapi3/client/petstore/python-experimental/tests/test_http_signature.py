@@ -15,9 +15,10 @@ from collections import namedtuple
 import json
 import os
 import unittest
+import shutil
 
 import petstore_api
-from petstore_api import Configuration
+from petstore_api import Configuration, signing
 from petstore_api.rest import (
     RESTClientObject,
     RESTResponse
@@ -42,6 +43,23 @@ else:
 
 HOST = 'http://localhost/v2'
 
+# Test RSA private key as published in Appendix C 'Test Values' of
+# https://www.ietf.org/id/draft-cavage-http-signatures-12.txt
+RSA_TEST_PRIVATE_KEY = """-----BEGIN RSA PRIVATE KEY-----
+MIICXgIBAAKBgQDCFENGw33yGihy92pDjZQhl0C36rPJj+CvfSC8+q28hxA161QF
+NUd13wuCTUcq0Qd2qsBe/2hFyc2DCJJg0h1L78+6Z4UMR7EOcpfdUE9Hf3m/hs+F
+UR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc+2xjJwoYi+1hqp1fIekaxsyQIDAQAB
+AoGBAJR8ZkCUvx5kzv+utdl7T5MnordT1TvoXXJGXK7ZZ+UuvMNUCdN2QPc4sBiA
+QWvLw1cSKt5DsKZ8UETpYPy8pPYnnDEz2dDYiaew9+xEpubyeW2oH4Zx71wqBtOK
+kqwrXa/pzdpiucRRjk6vE6YY7EBBs/g7uanVpGibOVAEsqH1AkEA7DkjVH28WDUg
+f1nqvfn2Kj6CT7nIcE3jGJsZZ7zlZmBmHFDONMLUrXR/Zm3pR5m0tCmBqa5RK95u
+412jt1dPIwJBANJT3v8pnkth48bQo/fKel6uEYyboRtA5/uHuHkZ6FQF7OUkGogc
+mSJluOdc5t6hI1VsLn0QZEjQZMEOWr+wKSMCQQCC4kXJEsHAve77oP6HtG/IiEn7
+kpyUXRNvFsDE0czpJJBvL/aRFUJxuRK91jhjC68sA7NsKMGg5OXb5I5Jj36xAkEA
+gIT7aFOYBFwGgQAQkWNKLvySgKbAZRTeLBacpHMuQdl1DfdntvAyqpAZ0lY0RKmW
+G6aFKaqQfOXKCyWoUiVknQJAXrlgySFci/2ueKlIE1QqIiLSZ8V8OlpFLRnb1pzI
+7U1yQXnTAEFYM560yJlzUpOb1V4cScGd365tiSMvxLOvTA==
+-----END RSA PRIVATE KEY-----"""
 
 class TimeoutWithEqual(urllib3.Timeout):
     def __init__(self, *arg, **kwargs):
@@ -71,13 +89,12 @@ class MockPoolManager(object):
 class PetApiTests(unittest.TestCase):
 
     def setUp(self):
-        config = Configuration()
-        config.host = HOST
-        config.access_token = 'ACCESS_TOKEN'
-        self.api_client = petstore_api.ApiClient(config)
-        self.pet_api = petstore_api.PetApi(self.api_client)
         self.setUpModels()
         self.setUpFiles()
+
+    def tearDown(self):
+        if os.path.exists(self.rsa_key_path):
+            os.unlink(self.rsa_key_path)
 
     def setUpModels(self):
         self.category = petstore_api.Category()
@@ -95,11 +112,17 @@ class PetApiTests(unittest.TestCase):
     def setUpFiles(self):
         self.test_file_dir = os.path.join(os.path.dirname(__file__), "..", "testfiles")
         self.test_file_dir = os.path.realpath(self.test_file_dir)
+        if not os.path.exists(self.test_file_dir):
+            os.mkdir(self.test_file_dir)
+        self.rsa_key_path = os.path.join(self.test_file_dir, 'rsa.pem')
 
     def test_http_signature(self):
-        config = HttpSigningConfiguration(
+        with open(self.rsa_key_path, 'w') as f:
+          f.write(RSA_TEST_PRIVATE_KEY)
+
+        signing_cfg = signing.HttpSigningConfiguration(
             key_id="my-key-id",
-            private_key_path="rsa.pem",
+            private_key_path=self.rsa_key_path,
             signing_scheme=signing.SCHEME_HS2019,
             signing_algorithm=signing.ALGORITHM_RSASSA_PKCS1v15,
             signed_headers=[
@@ -111,27 +134,28 @@ class PetApiTests(unittest.TestCase):
                 'Content-Type'
             ]
         )
-        config.host = HOST
-        self.api_client = petstore_api.ApiClient(config)
-        self.pet_api = petstore_api.PetApi(self.api_client)
+        config = Configuration(host=HOST, signing_info=signing_cfg)
+
+        api_client = petstore_api.ApiClient(config)
+        pet_api = petstore_api.PetApi(api_client)
 
         mock_pool = MockPoolManager(self)
-        self.api_client.rest_client.pool_manager = mock_pool
+        api_client.rest_client.pool_manager = mock_pool
 
         mock_pool.expect_request('POST', 'http://localhost/v2/pet',
-                                 body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
+                                 body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(total=5))
         mock_pool.expect_request('POST', 'http://localhost/v2/pet',
-                                 body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
+                                 body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(connect=1, read=2))
 
-        self.pet_api.add_pet(self.pet, _request_timeout=5)
-        self.pet_api.add_pet(self.pet, _request_timeout=(1, 2))
+        pet_api.add_pet(pet, _request_timeout=5)
+        pet_api.add_pet(pet, _request_timeout=(1, 2))
 
 
