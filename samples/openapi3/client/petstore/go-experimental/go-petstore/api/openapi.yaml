@@ -2057,6 +2057,3 @@ components:
       bearerFormat: JWT
       scheme: bearer
       type: http
-    http_signature_test:
-      scheme: signature
-      type: http
