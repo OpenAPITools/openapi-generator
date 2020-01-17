@@ -302,12 +302,12 @@ class HttpSigningConfiguration(object):
         lower_keys = [k.lower() for k in signed_headers]
         headers_value = " ".join(lower_keys)
 
-        auth_str = "Signature keyId=\"{0}\",algorithm=\"{1}\","
-            .format(self.key_id, self.signing_scheme)
+        auth_str = "Signature keyId=\"{0}\",algorithm=\"{1}\",".format(
+                                                self.key_id, self.signing_scheme)
         if created_ts is not None:
             auth_str = auth_str + "created={0},".format(created_ts)
         if expires_ts is not None:
             auth_str = auth_str + "expires={0},".format(expires_ts)
-        auth_str = auth_str + "headers=\"{0}\",signature=\"{1}\""
-            .format(headers_value, signed_msg.decode('ascii'))
+        auth_str = auth_str + "headers=\"{0}\",signature=\"{1}\"".format(
+                                                headers_value, signed_msg.decode('ascii'))
         return auth_str
