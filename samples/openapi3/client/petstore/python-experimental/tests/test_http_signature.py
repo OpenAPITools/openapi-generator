@@ -135,6 +135,9 @@ class PetApiTests(unittest.TestCase):
             ]
         )
         config = Configuration(host=HOST, signing_info=signing_cfg)
+        # Set the OAuth2 acces_token to None. Here we are interested in testing
+        # the HTTP signature scheme.
+        config.access_token = None
 
         api_client = petstore_api.ApiClient(config)
         pet_api = petstore_api.PetApi(api_client)
@@ -155,7 +158,7 @@ class PetApiTests(unittest.TestCase):
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(connect=1, read=2))
 
-        pet_api.add_pet(pet, _request_timeout=5)
-        pet_api.add_pet(pet, _request_timeout=(1, 2))
+        pet_api.add_pet(self.pet, _request_timeout=5)
+        pet_api.add_pet(self.pet, _request_timeout=(1, 2))
 
 
