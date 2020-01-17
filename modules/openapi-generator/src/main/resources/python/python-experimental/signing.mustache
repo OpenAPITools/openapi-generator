@@ -156,6 +156,16 @@ class HttpSigningConfiguration(object):
 
         return request_headers_dict
 
+    def get_public_key(self):
+        """Returns the public key object associated with the private key.
+        """
+        pubkey = None
+        if isinstance(self.private_key, RSA.RsaKey):
+            pubkey = self.private_key.publickey()
+        elif isinstance(self.private_key, ECC.EccKey):
+            pubkey = self.private_key.public_key()
+        return pubkey
+
     def _load_private_key(self):
         """Load the private key used to sign HTTP requests.
             The private key is used to sign HTTP requests as defined in
