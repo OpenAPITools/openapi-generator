@@ -107,15 +107,15 @@ class HttpSigningConfiguration(object):
         self.signed_headers = signed_headers
         self.private_key = None
         """The private key used to sign HTTP requests.
-            Initialized when the PEM-encoded private key is loaded from a file.
+           Initialized when the PEM-encoded private key is loaded from a file.
         """
         self.host = None
         """The host name, optionally followed by a colon and TCP port number.
+        """
         self._load_private_key()
 
     def get_http_signature_headers(self, resource_path, method, headers, body, query_params):
-        """
-        Create a cryptographic message signature for the HTTP request and add the signed headers.
+        """Create a cryptographic message signature for the HTTP request and add the signed headers.
         
         :param resource_path : A string representation of the HTTP request resource path.
         :param method: A string representation of the HTTP request method, e.g. GET, POST.
@@ -169,7 +169,7 @@ class HttpSigningConfiguration(object):
         """Converts and returns a datetime object to UNIX time, the number of seconds
            elapsed since January 1, 1970 UTC.
         """
-        return (ts - datetime.datetime(1970,1,1)).total_seconds())
+        return (ts - datetime.datetime(1970,1,1)).total_seconds()
 
     def _get_signed_header_info(self, resource_path, method, headers, body, query_params):
         """
