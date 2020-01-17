@@ -544,13 +544,23 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private boolean isMimetypePlain(String mimetype) {
-      return isMimetypePlainText(mimetype) || isMimetypeHtmlText(mimetype) || isMimetypeOctetStream(mimetype);
+        return isMimetypePlainText(mimetype) || isMimetypeHtmlText(mimetype) || isMimetypeOctetStream(mimetype);
     }
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         Map<String, Schema> definitions = ModelUtils.getSchemas(this.openAPI);
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+
+        String pathFormatString = op.path;
+        for (CodegenParameter param : op.pathParams) {
+            // Replace {baseName} with {paramName} for format string
+            String paramSearch = "{" + param.baseName + "}";
+            String paramReplace = "{" + param.paramName + "}";
+
+            pathFormatString = pathFormatString.replace(paramSearch, paramReplace);
+        }
+        op.vendorExtensions.put("x-path-format-string", pathFormatString);
 
         // The Rust code will need to contain a series of regular expressions.
         // For performance, we'll construct these at start-of-day and re-use
@@ -584,10 +594,18 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
             // Don't prefix with '^' so that the templates can put the
             // basePath on the front.
-            pathSetEntry.put("pathRegEx", op.path.replace("{", "(?P<").replace("}", ">[^/?#]*)") + "$");
+            String pathRegEx = op.path;
+            for (CodegenParameter param : op.pathParams) {
+                // Replace {baseName} with (?P<paramName>[^/?#]*) for regex
+                String paramSearch = "{" + param.baseName + "}";
+                String paramReplace = "(?P<" + param.paramName + ">[^/?#]*)";
+
+                pathRegEx = pathRegEx.replace(paramSearch, paramReplace);
+            }
+
+            pathSetEntry.put("pathRegEx", pathRegEx + "$");
             pathSetMap.put(pathId, pathSetEntry);
         }
-
         op.vendorExtensions.put("operation_id", underscore(op.operationId));
         op.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase(Locale.ROOT));
         op.vendorExtensions.put("path", op.path.replace("{", ":").replace("}", ""));
@@ -1001,7 +1019,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     am.getItems() != null &&
                     !StringUtils.isEmpty(am.getItems().get$ref())) {
                 Schema inner_schema = allDefinitions.get(
-                    ModelUtils.getSimpleRef(am.getItems().get$ref()));
+                        ModelUtils.getSimpleRef(am.getItems().get$ref()));
 
                 if (inner_schema.getXml() != null &&
                         inner_schema.getXml().getName() != null) {
@@ -1253,9 +1271,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     // the user than the alternative.
                     LOGGER.warn("Ignoring additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318) alongside defined properties");
                     cm.dataType = null;
-                }
-                else
-                {
+                } else {
                     String type;
 
                     if (typeMapping.containsKey(cm.additionalPropertiesType)) {
