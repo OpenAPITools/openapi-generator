@@ -16,6 +16,7 @@ use petstore_with_fake_endpoints_models_for_testing::{Api, ApiError,
                       FakeOuterCompositeSerializeResponse,
                       FakeOuterNumberSerializeResponse,
                       FakeOuterStringSerializeResponse,
+                      HyphenParamResponse,
                       TestBodyWithQueryParamsResponse,
                       TestClientModelResponse,
                       TestEndpointParametersResponse,
@@ -91,6 +92,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn fake_outer_string_serialize(&self, body: Option<models::OuterString>, context: &C) -> Box<dyn Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>> {
         let context = context.clone();
         println!("fake_outer_string_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
+
+    fn hyphen_param(&self, hyphen_param: String, context: &C) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError>> {
+        let context = context.clone();
+        println!("hyphen_param(\"{}\") - X-Span-ID: {:?}", hyphen_param, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
