@@ -23,7 +23,7 @@ class {{classname}} {
         /// {{notes}}
         Future<Response{{#returnType}}<{{{returnType}}}>{{/returnType}}>{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "{{{path}}}"{{#pathParams}}.replaceAll("{" r'{{baseName}}' "}", {{{paramName}}}.toString()){{/pathParams}};
+        String _path = "{{{path}}}"{{#pathParams}}.replaceAll("{" r'{{baseName}}' "}", {{{paramName}}}.toString()){{/pathParams}};
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -72,7 +72,7 @@ class {{classname}} {
         {{/bodyParam}}
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(

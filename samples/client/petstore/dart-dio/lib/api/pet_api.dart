@@ -21,7 +21,7 @@ class PetApi {
         /// 
         Future<Response>addPet(Pet body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/pet";
+        String _path = "/pet";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -38,7 +38,7 @@ class PetApi {
             bodyData = jsonbody;
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
@@ -54,7 +54,7 @@ class PetApi {
         /// 
         Future<Response>deletePet(int petId,{ String apiKey,CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/pet/{petId}".replaceAll("{" r'petId' "}", petId.toString());
+        String _path = "/pet/{petId}".replaceAll("{" r'petId' "}", petId.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -69,7 +69,7 @@ class PetApi {
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
@@ -85,7 +85,7 @@ class PetApi {
         /// Multiple status values can be provided with comma separated strings
         Future<Response<List<Pet>>>findPetsByStatus(List<String> status,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/pet/findByStatus";
+        String _path = "/pet/findByStatus";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -100,7 +100,7 @@ class PetApi {
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
@@ -131,7 +131,7 @@ class PetApi {
         /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
         Future<Response<List<Pet>>>findPetsByTags(List<String> tags,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/pet/findByTags";
+        String _path = "/pet/findByTags";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -146,7 +146,7 @@ class PetApi {
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
@@ -177,7 +177,7 @@ class PetApi {
         /// Returns a single pet
         Future<Response<Pet>>getPetById(int petId,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/pet/{petId}".replaceAll("{" r'petId' "}", petId.toString());
+        String _path = "/pet/{petId}".replaceAll("{" r'petId' "}", petId.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -191,7 +191,7 @@ class PetApi {
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
@@ -221,7 +221,7 @@ class PetApi {
         /// 
         Future<Response>updatePet(Pet body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/pet";
+        String _path = "/pet";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -238,7 +238,7 @@ class PetApi {
             bodyData = jsonbody;
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
@@ -254,7 +254,7 @@ class PetApi {
         /// 
         Future<Response>updatePetWithForm(int petId,{ String name,String status,CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/pet/{petId}".replaceAll("{" r'petId' "}", petId.toString());
+        String _path = "/pet/{petId}".replaceAll("{" r'petId' "}", petId.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -270,7 +270,7 @@ class PetApi {
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
@@ -286,7 +286,7 @@ class PetApi {
         /// 
         Future<Response<ApiResponse>>uploadFile(int petId,{ String additionalMetadata,Uint8List file,CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/pet/{petId}/uploadImage".replaceAll("{" r'petId' "}", petId.toString());
+        String _path = "/pet/{petId}/uploadImage".replaceAll("{" r'petId' "}", petId.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -308,7 +308,7 @@ class PetApi {
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
