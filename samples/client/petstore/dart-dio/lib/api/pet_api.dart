@@ -54,13 +54,13 @@ class PetApi {
         /// 
         Future<Response>deletePet(int petId,{ String apiKey,CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
+        String path = "/pet/{petId}".replaceAll("{" r'petId' "}", petId.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
-                headerParams["api_key"] = apiKey;
+                headerParams[r'api_key'] = apiKey;
         queryParams.removeWhere((key, value) => value == null);
         headerParams.removeWhere((key, value) => value == null);
 
@@ -91,7 +91,7 @@ class PetApi {
         Map<String, String> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
-                queryParams["status"] = status;
+                queryParams[r'status'] = status;
         queryParams.removeWhere((key, value) => value == null);
         headerParams.removeWhere((key, value) => value == null);
 
@@ -137,7 +137,7 @@ class PetApi {
         Map<String, String> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
-                queryParams["tags"] = tags;
+                queryParams[r'tags'] = tags;
         queryParams.removeWhere((key, value) => value == null);
         headerParams.removeWhere((key, value) => value == null);
 
@@ -177,7 +177,7 @@ class PetApi {
         /// Returns a single pet
         Future<Response<Pet>>getPetById(int petId,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
+        String path = "/pet/{petId}".replaceAll("{" r'petId' "}", petId.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -254,7 +254,7 @@ class PetApi {
         /// 
         Future<Response>updatePetWithForm(int petId,{ String name,String status,CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
+        String path = "/pet/{petId}".replaceAll("{" r'petId' "}", petId.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -286,7 +286,7 @@ class PetApi {
         /// 
         Future<Response<ApiResponse>>uploadFile(int petId,{ String additionalMetadata,Uint8List file,CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/pet/{petId}/uploadImage".replaceAll("{" + "petId" + "}", petId.toString());
+        String path = "/pet/{petId}/uploadImage".replaceAll("{" r'petId' "}", petId.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -299,10 +299,10 @@ class PetApi {
 
         Map<String, dynamic> formData = {};
                 if (additionalMetadata != null) {
-                    formData['additionalMetadata'] = parameterToString(_serializers, additionalMetadata);
+                    formData[r'additionalMetadata'] = parameterToString(_serializers, additionalMetadata);
                 }
                 if (file != null) {
-                    formData['file'] = MultipartFile.fromBytes(file, filename: "file");
+                    formData[r'file'] = MultipartFile.fromBytes(file, filename: r'file');
                 }
         bodyData = FormData.fromMap(formData);
 

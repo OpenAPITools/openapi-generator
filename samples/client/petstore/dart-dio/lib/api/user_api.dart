@@ -119,7 +119,7 @@ class UserApi {
         /// This can only be done by the logged in user.
         Future<Response>deleteUser(String username,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
+        String path = "/user/{username}".replaceAll("{" r'username' "}", username.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -149,7 +149,7 @@ class UserApi {
         /// 
         Future<Response<User>>getUserByName(String username,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
+        String path = "/user/{username}".replaceAll("{" r'username' "}", username.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -199,8 +199,8 @@ class UserApi {
         Map<String, String> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
-                queryParams["username"] = username;
-                queryParams["password"] = password;
+                queryParams[r'username'] = username;
+                queryParams[r'password'] = password;
         queryParams.removeWhere((key, value) => value == null);
         headerParams.removeWhere((key, value) => value == null);
 
@@ -269,7 +269,7 @@ class UserApi {
         /// This can only be done by the logged in user.
         Future<Response>updateUser(String username,User body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
+        String path = "/user/{username}".replaceAll("{" r'username' "}", username.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});

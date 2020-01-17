@@ -18,7 +18,7 @@ class StoreApi {
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         Future<Response>deleteOrder(String orderId,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/store/order/{orderId}".replaceAll("{" + "orderId" + "}", orderId.toString());
+        String path = "/store/order/{orderId}".replaceAll("{" r'orderId' "}", orderId.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -92,7 +92,7 @@ class StoreApi {
         /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
         Future<Response<Order>>getOrderById(int orderId,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-        String path = "/store/order/{orderId}".replaceAll("{" + "orderId" + "}", orderId.toString());
+        String path = "/store/order/{orderId}".replaceAll("{" r'orderId' "}", orderId.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});

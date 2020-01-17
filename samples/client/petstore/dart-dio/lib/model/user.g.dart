@@ -17,32 +17,55 @@ class _$UserSerializer implements StructuredSerializer<User> {
   @override
   Iterable<Object> serialize(Serializers serializers, User object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'username',
-      serializers.serialize(object.username,
-          specifiedType: const FullType(String)),
-      'firstName',
-      serializers.serialize(object.firstName,
-          specifiedType: const FullType(String)),
-      'lastName',
-      serializers.serialize(object.lastName,
-          specifiedType: const FullType(String)),
-      'email',
-      serializers.serialize(object.email,
-          specifiedType: const FullType(String)),
-      'password',
-      serializers.serialize(object.password,
-          specifiedType: const FullType(String)),
-      'phone',
-      serializers.serialize(object.phone,
-          specifiedType: const FullType(String)),
-      'userStatus',
-      serializers.serialize(object.userStatus,
-          specifiedType: const FullType(int)),
-    ];
-
+    final result = <Object>[];
+    if (object.id != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(object.id,
+            specifiedType: const FullType(int)));
+    }
+    if (object.username != null) {
+      result
+        ..add('username')
+        ..add(serializers.serialize(object.username,
+            specifiedType: const FullType(String)));
+    }
+    if (object.firstName != null) {
+      result
+        ..add('firstName')
+        ..add(serializers.serialize(object.firstName,
+            specifiedType: const FullType(String)));
+    }
+    if (object.lastName != null) {
+      result
+        ..add('lastName')
+        ..add(serializers.serialize(object.lastName,
+            specifiedType: const FullType(String)));
+    }
+    if (object.email != null) {
+      result
+        ..add('email')
+        ..add(serializers.serialize(object.email,
+            specifiedType: const FullType(String)));
+    }
+    if (object.password != null) {
+      result
+        ..add('password')
+        ..add(serializers.serialize(object.password,
+            specifiedType: const FullType(String)));
+    }
+    if (object.phone != null) {
+      result
+        ..add('phone')
+        ..add(serializers.serialize(object.phone,
+            specifiedType: const FullType(String)));
+    }
+    if (object.userStatus != null) {
+      result
+        ..add('userStatus')
+        ..add(serializers.serialize(object.userStatus,
+            specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -126,32 +149,7 @@ class _$User extends User {
       this.password,
       this.phone,
       this.userStatus})
-      : super._() {
-    if (id == null) {
-      throw new BuiltValueNullFieldError('User', 'id');
-    }
-    if (username == null) {
-      throw new BuiltValueNullFieldError('User', 'username');
-    }
-    if (firstName == null) {
-      throw new BuiltValueNullFieldError('User', 'firstName');
-    }
-    if (lastName == null) {
-      throw new BuiltValueNullFieldError('User', 'lastName');
-    }
-    if (email == null) {
-      throw new BuiltValueNullFieldError('User', 'email');
-    }
-    if (password == null) {
-      throw new BuiltValueNullFieldError('User', 'password');
-    }
-    if (phone == null) {
-      throw new BuiltValueNullFieldError('User', 'phone');
-    }
-    if (userStatus == null) {
-      throw new BuiltValueNullFieldError('User', 'userStatus');
-    }
-  }
+      : super._();
 
   @override
   User rebuild(void Function(UserBuilder) updates) =>
