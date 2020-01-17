@@ -3,14 +3,15 @@
 from __future__ import absolute_import
 
 from base64 import b64encode
+from Crypto.IO import PEM, PKCS8
+from Crypto.Hash import SHA256, SHA512
 from Crypto.PublicKey import RSA, ECC
 from Crypto.Signature import PKCS1_v1_5, pss, DSS
-from Crypto.Hash import SHA256, SHA512
 from datetime import datetime, timedelta
 from email.utils import formatdate
 import json
 import os
-import pem
+import re
 from six.moves.urllib.parse import urlencode, urlparse
 from time import mktime
 
@@ -51,14 +52,16 @@ class HttpSigningConfiguration(object):
 
     :param key_id: A string value specifying the identifier of the cryptographic key,
         when signing HTTP requests.
-    :param private_key_path: A string value specifying the path of the file containing
-        a private key. The private key is used to sign HTTP requests.
     :param signing_scheme: A string value specifying the signature scheme, when
         signing HTTP requests.
         Supported value are hs2019, rsa-sha256, rsa-sha512.
         Avoid using rsa-sha256, rsa-sha512 as they are deprecated. These values are
         available for server-side applications that only support the older
         HTTP signature algorithms.
+    :param private_key_path: A string value specifying the path of the file containing
+        a private key. The private key is used to sign HTTP requests.
+    :param private_key_passphrase: A string value specifying the passphrase to decrypt
+        the private key.
     :param signed_headers: A list of strings. Each value is the name of a HTTP header
         that must be included in the HTTP signature calculation.
         The two special signature headers '(request-target)' and '(created)' SHOULD be
@@ -84,17 +87,19 @@ class HttpSigningConfiguration(object):
     :param signature_max_validity: The signature max validity, expressed as
         a datetime.timedelta value. It must be a positive value.
     """
-    def __init__(self, key_id, private_key_path, signing_scheme,
+    def __init__(self, key_id, signing_scheme, private_key_path,
+                 private_key_passphrase=None,
                  signed_headers=None,
                  signing_algorithm=None,
                  signature_max_validity=None):
         self.key_id = key_id
-        if not os.path.exists(private_key_path):
-            raise Exception("Private key file does not exist")
-        self.private_key_path = private_key_path
         if signing_scheme not in {SCHEME_HS2019, SCHEME_RSA_SHA256, SCHEME_RSA_SHA512}:
             raise Exception("Unsupported security scheme: {0}".format(signing_scheme))
         self.signing_scheme = signing_scheme
+        if not os.path.exists(private_key_path):
+            raise Exception("Private key file does not exist")
+        self.private_key_path = private_key_path
+        self.private_key_passphrase = private_key_passphrase
         self.signing_algorithm = signing_algorithm
         if signature_max_validity is not None and signature_max_validity.total_seconds() < 0:
             raise Exception("The signature max validity must be a positive value")
@@ -158,19 +163,41 @@ class HttpSigningConfiguration(object):
         """
         if self.private_key is not None:
             return
-        with open(self.private_key_path, 'rb') as f:
-            # Decode PEM file and determine key type from PEM header.
-            # Supported values are "RSA PRIVATE KEY" and "ECDSA PRIVATE KEY".
-            keys = pem.parse(f.read())
-            if len(keys) != 1:
-                raise Exception("File must contain exactly one private key")
-            key = keys[0].as_text()
-            if key.startswith('-----BEGIN RSA PRIVATE KEY-----'):
-                self.private_key = RSA.importKey(key)
-            elif key.startswith('-----BEGIN EC PRIVATE KEY-----'):
-                self.private_key = ECC.import_key(key)
+        with open(self.private_key_path, 'r') as f:
+            pem_data = f.read()
+            # Verify PEM Pre-Encapsulation Boundary
+            r = re.compile(r"\s*-----BEGIN (.*)-----\s+")
+            m = r.match(pem_data)
+            if not m:
+                raise ValueError("Not a valid PEM pre boundary")
+            pem_header = m.group(1)
+            if pem_header == 'RSA PRIVATE KEY':
+                self.private_key = RSA.importKey(pem_data, self.private_key_passphrase)
+            elif pem_header == 'EC PRIVATE KEY':
+                self.private_key = ECC.import_key(pem_data, self.private_key_passphrase)
+            elif pem_header in {'PRIVATE KEY', 'ENCRYPTED PRIVATE KEY'}:
+                # Key is in PKCS8 format, which is capable of holding many different
+                # types of private keys, not just EC keys.
+                (key_binary, pem_header, is_encrypted) = PEM.decode(pem_data,
+                                                            self.private_key_passphrase)
+                (oid, privkey, params) = PKCS8.unwrap(key_binary,
+                                            passphrase=self.private_key_passphrase)
+                if oid == '1.2.840.10045.2.1':
+                    self.private_key = ECC.import_key(pem_data, self.private_key_passphrase)
+                else:
+                    raise Exception("Unsupported key: {0}. OID: {1}".format(pem_header, oid))
             else:
-                raise Exception("Unsupported key")
+                raise Exception("Unsupported key: {0}".format(pem_header))
+            # Validate the specified signature algorithm is compatible with the private key.
+            if self.signing_algorithm is not None:
+                supported_algs = None
+                if isinstance(self.private_key, RSA.RsaKey):
+                    supported_algs = {ALGORITHM_RSASSA_PSS, ALGORITHM_RSASSA_PKCS1v15}
+                elif isinstance(self.private_key, ECC.EccKey):
+                    supported_algs = ALGORITHM_ECDSA_KEY_SIGNING_ALGORITHMS
+                if supported_algs is not None and self.signing_algorithm not in supported_algs:
+                    raise Exception("Signing algorithm {0} is "
+                        "not compatible with private key".format(self.signing_algorithm))
 
     def _get_unix_time(self, ts):
         """Converts and returns a datetime object to UNIX time, the number of seconds

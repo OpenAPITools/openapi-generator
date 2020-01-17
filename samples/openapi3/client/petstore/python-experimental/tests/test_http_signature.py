@@ -47,7 +47,7 @@ else:
 
 HOST = 'http://localhost/v2'
 
-# Test RSA private key as published in Appendix C 'Test Values' of
+# This test RSA private key below is published in Appendix C 'Test Values' of
 # https://www.ietf.org/id/draft-cavage-http-signatures-12.txt
 RSA_TEST_PRIVATE_KEY = """-----BEGIN RSA PRIVATE KEY-----
 MIICXgIBAAKBgQDCFENGw33yGihy92pDjZQhl0C36rPJj+CvfSC8+q28hxA161QF
@@ -97,12 +97,14 @@ class MockPoolManager(object):
                 self._tc.assertEqual(expected, actual)
             elif k == 'headers':
                 for expected_header_name, expected_header_value in expected.items():
+                    # Validate the generated request contains the expected header.
                     self._tc.assertIn(expected_header_name, actual)
                     actual_header_value = actual[expected_header_name]
+                    # Compare the actual value of the header against the expected value.
                     pattern = re.compile(expected_header_value)
                     m = pattern.match(actual_header_value)
                     self._tc.assertTrue(m, msg="Expected:\n{0}\nActual:\n{1}".format(
-                                        expected_header_value,actual_header_value))
+                                expected_header_value,actual_header_value))
             elif k == 'timeout':
                 self._tc.assertEqual(expected, actual)
         return urllib3.HTTPResponse(status=200, body=b'test')
@@ -134,6 +136,7 @@ class PetApiTests(unittest.TestCase):
         if not os.path.exists(self.test_file_dir):
             os.mkdir(self.test_file_dir)
 
+        self.private_key_passphrase = 'test-passphrase'
         self.rsa_key_path = os.path.join(self.test_file_dir, 'rsa.pem')
         self.rsa4096_key_path = os.path.join(self.test_file_dir, 'rsa4096.pem')
         self.ec_p521_key_path = os.path.join(self.test_file_dir, 'ecP521.pem')
@@ -144,21 +147,30 @@ class PetApiTests(unittest.TestCase):
 
         if not os.path.exists(self.rsa4096_key_path):
             key = RSA.generate(4096)
-            private_key = key.export_key()
+            private_key = key.export_key(
+                passphrase=self.private_key_passphrase,
+                protection='PEM'
+            )
             with open(self.rsa4096_key_path, "wb") as f:
                 f.write(private_key)
 
         if not os.path.exists(self.ec_p521_key_path):
             key = ECC.generate(curve='P-521')
-            private_key = key.export_key(format='PEM')
+            private_key = key.export_key(
+                format='PEM',
+                passphrase=self.private_key_passphrase,
+                use_pkcs8=True,
+                protection='PBKDF2WithHMAC-SHA1AndAES128-CBC'
+            )
             with open(self.ec_p521_key_path, "wt") as f:
                 f.write(private_key)
 
     def test_valid_http_signature(self):
         signing_cfg = signing.HttpSigningConfiguration(
             key_id="my-key-id",
-            private_key_path=self.rsa_key_path,
             signing_scheme=signing.SCHEME_HS2019,
+            private_key_path=self.rsa_key_path,
+            private_key_passphrase=self.private_key_passphrase,
             signing_algorithm=signing.ALGORITHM_RSASSA_PKCS1v15,
             signed_headers=[
                 signing.HEADER_REQUEST_TARGET,
@@ -194,8 +206,9 @@ class PetApiTests(unittest.TestCase):
     def test_valid_http_signature_with_defaults(self):
         signing_cfg = signing.HttpSigningConfiguration(
             key_id="my-key-id",
-            private_key_path=self.rsa4096_key_path,
             signing_scheme=signing.SCHEME_HS2019,
+            private_key_path=self.rsa4096_key_path,
+            private_key_passphrase=self.private_key_passphrase,
         )
         config = Configuration(host=HOST, signing_info=signing_cfg)
         # Set the OAuth2 acces_token to None. Here we are interested in testing
@@ -222,8 +235,9 @@ class PetApiTests(unittest.TestCase):
     def test_valid_http_signature_rsassa_pkcs1v15(self):
         signing_cfg = signing.HttpSigningConfiguration(
             key_id="my-key-id",
-            private_key_path=self.rsa4096_key_path,
             signing_scheme=signing.SCHEME_HS2019,
+            private_key_path=self.rsa4096_key_path,
+            private_key_passphrase=self.private_key_passphrase,
             signing_algorithm=signing.ALGORITHM_RSASSA_PKCS1v15,
             signed_headers=[
                 signing.HEADER_REQUEST_TARGET,
@@ -255,8 +269,9 @@ class PetApiTests(unittest.TestCase):
     def test_valid_http_signature_rsassa_pss(self):
         signing_cfg = signing.HttpSigningConfiguration(
             key_id="my-key-id",
-            private_key_path=self.rsa4096_key_path,
             signing_scheme=signing.SCHEME_HS2019,
+            private_key_path=self.rsa4096_key_path,
+            private_key_passphrase=self.private_key_passphrase,
             signing_algorithm=signing.ALGORITHM_RSASSA_PSS,
             signed_headers=[
                 signing.HEADER_REQUEST_TARGET,
@@ -288,8 +303,9 @@ class PetApiTests(unittest.TestCase):
     def test_valid_http_signature_ec_p521(self):
         signing_cfg = signing.HttpSigningConfiguration(
             key_id="my-key-id",
-            private_key_path=self.ec_p521_key_path,
             signing_scheme=signing.SCHEME_HS2019,
+            private_key_path=self.ec_p521_key_path,
+            private_key_passphrase=self.private_key_passphrase,
             signed_headers=[
                 signing.HEADER_REQUEST_TARGET,
                 signing.HEADER_CREATED,
@@ -319,52 +335,61 @@ class PetApiTests(unittest.TestCase):
 
     def test_invalid_configuration(self):
         # Signing scheme must be valid.
-        with self.assertRaises(Exception):
+        with self.assertRaisesRegex(Exception, 'Unsupported security scheme'):
             signing_cfg = signing.HttpSigningConfiguration(
                 key_id="my-key-id",
-                private_key_path=self.ec_p521_key_path,
-                signing_scheme='foo'
-            )
-
-        # Signing scheme must be specified.
-        with self.assertRaises(Exception):
-            signing_cfg = signing.HttpSigningConfiguration(
-                key_id="my-key-id",
+                signing_scheme='foo',
                 private_key_path=self.ec_p521_key_path
             )
 
-        # File containing private key must exist.
-        with self.assertRaises(Exception):
-            signing_cfg = signing.HttpSigningConfiguration(
-                key_id="my-key-id",
-                private_key_path='foobar',
-                signing_scheme=signing.SCHEME_HS2019
-            )
-
-        # The max validity must be a positive value.
-        with self.assertRaises(Exception):
+        # Signing scheme must be specified.
+        with self.assertRaisesRegex(Exception, 'Unsupported security scheme'):
             signing_cfg = signing.HttpSigningConfiguration(
                 key_id="my-key-id",
                 private_key_path=self.ec_p521_key_path,
+                signing_scheme=None
+            )
+
+        # Private key passphrase is missing but key is encrypted.
+        with self.assertRaisesRegex(Exception, 'Not a valid clear PKCS#8 structure'):
+            signing_cfg = signing.HttpSigningConfiguration(
+                key_id="my-key-id",
                 signing_scheme=signing.SCHEME_HS2019,
+                private_key_path=self.ec_p521_key_path,
+            )
+
+        # File containing private key must exist.
+        with self.assertRaisesRegex(Exception, 'Private key file does not exist'):
+            signing_cfg = signing.HttpSigningConfiguration(
+                key_id="my-key-id",
+                signing_scheme=signing.SCHEME_HS2019,
+                private_key_path='foobar',
+            )
+
+        # The max validity must be a positive value.
+        with self.assertRaisesRegex(Exception, 'The signature max validity must be a positive value'):
+            signing_cfg = signing.HttpSigningConfiguration(
+                key_id="my-key-id",
+                signing_scheme=signing.SCHEME_HS2019,
+                private_key_path=self.ec_p521_key_path,
                 signature_max_validity=timedelta(hours=-1)
             )
 
         # Cannot include the 'Authorization' header.
-        with self.assertRaises(Exception):
+        with self.assertRaisesRegex(Exception, "'Authorization' header cannot be included"):
             signing_cfg = signing.HttpSigningConfiguration(
                 key_id="my-key-id",
-                private_key_path=self.ec_p521_key_path,
                 signing_scheme=signing.SCHEME_HS2019,
+                private_key_path=self.ec_p521_key_path,
                 signed_headers=['Authorization']
             )
 
         # Cannot specify duplicate headers.
-        with self.assertRaises(Exception):
+        with self.assertRaisesRegex(Exception, 'duplicate'):
             signing_cfg = signing.HttpSigningConfiguration(
                 key_id="my-key-id",
-                private_key_path=self.ec_p521_key_path,
                 signing_scheme=signing.SCHEME_HS2019,
+                private_key_path=self.ec_p521_key_path,
                 signed_headers=['Host', 'Date', 'Host']
             )
 
