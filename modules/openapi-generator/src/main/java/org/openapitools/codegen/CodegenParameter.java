@@ -456,5 +456,15 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         this.maxProperties = maxProperties;
     }
 
+    @Override
+    public Number getMultipleOf() {
+        return multipleOf;
+    }
+
+    @Override
+    public void setMultipleOf(Number multipleOf) {
+        this.multipleOf = multipleOf;
+    }
+
 }
 

@@ -708,6 +708,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isWriteOnly, isNullable, isSelfReference, isCircularReference, _enum, allowableValues, items,
                 mostInnerItems, vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName, xmlNamespace,
-                isXmlWrapped);
+                isXmlWrapped, multipleOf);
     }
 }
