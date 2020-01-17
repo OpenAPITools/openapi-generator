@@ -43,7 +43,6 @@ paths:
         '405':
           description: Invalid input
       security:
-        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -63,7 +62,6 @@ paths:
         '405':
           description: Validation exception
       security:
-        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -109,7 +107,6 @@ paths:
         '400':
           description: Invalid status value
       security:
-        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -150,7 +147,6 @@ paths:
         '400':
           description: Invalid tag value
       security:
-        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
