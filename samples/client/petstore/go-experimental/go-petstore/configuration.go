@@ -11,15 +11,9 @@ package petstore
 
 import (
 	"context"
-	"crypto"
-	"crypto/x509"
-	"encoding/pem"
 	"fmt"
-	"io/ioutil"
 	"net/http"
-	"os"
 	"strings"
-	"time"
 )
 
 // contextKeys are used to identify the type of value in the context.
@@ -71,110 +65,6 @@ type BasicAuth struct {
 type APIKey struct {
 	Key    string
 	Prefix string
-}
-
-const (
-	// Constants for HTTP signature parameters.
-	// The '(request-target)' parameter concatenates the lowercased :method, an
-	// ASCII space, and the :path pseudo-headers.
-	HttpSignatureParameterRequestTarget string = "(request-target)"
-	// The '(created)' parameter expresses when the signature was
-	// created.  The value MUST be a Unix timestamp integer value.
-	HttpSignatureParameterCreated string = "(created)"
-	// The '(expires)' parameter expresses when the signature ceases to
-	// be valid.  The value MUST be a Unix timestamp integer value.
-	HttpSignatureParameterExpires string = "(expires)"
-	// The HTTP Authorization header, as specified in RFC 7235, Section 4.2.
-	HttpSignatureParameterAuthorization string = "authorization"
-
-	// Specifies the Digital Signature Algorithm is derived from metadata
-	// associated with 'keyId'. Supported DSA algorithms are RSASSA-PKCS1-v1_5,
-	// RSASSA-PSS, and ECDSA.
-	// The hash is SHA-512.
-	// This is the default value.
-	HttpSigningSchemeHs2019 string = "hs2019"
-	// Use RSASSA-PKCS1-v1_5 with SHA-512 hash. Deprecated.
-	HttpSigningSchemeRsaSha512 string = "rsa-sha512"
-	// Use RSASSA-PKCS1-v1_5 with SHA-256 hash. Deprecated.
-	HttpSigningSchemeRsaSha256 string = "rsa-sha256"
-
-	// RFC 8017 section 7.2
-	// Calculate the message signature using RSASSA-PKCS1-V1_5-SIGN from RSA PKCS#1 v1.5.
-	// PKCSV1_5 is deterministic. The same message and key will produce an identical
-	// signature value each time.
-	HttpSigningAlgorithmRsaPKCS1v15 string = "RSASSA-PKCS1-v1_5"
-	// Calculate the message signature using probabilistic signature scheme RSASSA-PSS.
-	// PSS is randomized and will produce a different signature value each time.
-	HttpSigningAlgorithmRsaPSS string = "RSASSA-PSS"
-)
-
-// HttpSignatureAuth provides HTTP signature authentication to a request passed
-// via context using ContextHttpSignatureAuth.
-// An 'Authorization' header is calculated by creating a hash of select headers,
-// and optionally the body of the HTTP request, then signing the hash value using
-// a private key which is available to the client.
-//
-// SignedHeaders specifies the list of HTTP headers that are included when generating
-// the message signature.
-// The two special signature headers '(request-target)' and '(created)' SHOULD be
-// included in SignedHeaders.
-// The '(created)' header expresses when the signature was created.
-// The '(request-target)' header is a concatenation of the lowercased :method, an
-// ASCII space, and the :path pseudo-headers.
-//
-// For example, SignedHeaders can be set to:
-//   (request-target) (created) date host digest
-//
-// When SignedHeaders is not specified, the client defaults to a single value, '(created)',
-// in the list of HTTP headers.
-// When SignedHeaders contains the 'Digest' value, the client performs the following operations:
-// 1. Calculate a digest of request body, as specified in RFC3230, section 4.3.2.
-// 2. Set the 'Digest' header in the request body.
-// 3. Include the 'Digest' header and value in the HTTP signature.
-type HttpSignatureAuth struct {
-	KeyId             string            // A key identifier.
-	PrivateKey        crypto.PrivateKey // The private key used to sign HTTP requests.
-	SigningScheme     string            // The signature scheme, when signing HTTP requests. Supported value is 'hs2019'.
-	SigningAlgorithm  string            // The signature algorithm, when signing HTTP requests.
-                                      // Supported values are RSASSA-PKCS1-v1_5, RSASSA-PSS.
-	SignedHeaders     []string          // A list of HTTP headers included when generating the signature for the message.
-	// SignatureMaxValidity specifies the maximum duration of the signature validity.
-	// The value is used to set the '(expires)' signature parameter in the HTTP request.
-	// '(expires)' is set to '(created)' plus the value of the SignatureMaxValidity field.
-	// To specify the '(expires)' signature parameter, set 'SignatureMaxValidity' and add '(expires)' to 'SignedHeaders'.
-	SignatureMaxValidity time.Duration
-}
-
-// LoadPrivateKey reads the private key from the specified file.
-func (h *HttpSignatureAuth) LoadPrivateKey(filename string) (err error) {
-	var file *os.File
-	file, err = os.Open(filename)
-	if err != nil {
-		return err
-	}
-	defer func() {
-		err = file.Close()
-	}()
-	var priv []byte
-	priv, err = ioutil.ReadAll(file)
-	if err != nil {
-		return err
-	}
-	privPem, _ := pem.Decode(priv)
-	switch privPem.Type {
-	case "RSA PRIVATE KEY":
-		if h.PrivateKey, err = x509.ParsePKCS1PrivateKey(privPem.Bytes); err != nil {
-			return err
-		}
-	case "EC PRIVATE KEY":
-		// https://tools.ietf.org/html/rfc5915 section 4.
-		if h.PrivateKey, err = x509.ParsePKCS8PrivateKey(privPem.Bytes); err != nil {
-			return err
-		}
-	default:
-		return fmt.Errorf("Key '%s' is not supported", privPem.Type)
-	}
-	return nil
 }
 
 // ServerVariable stores the information about a server variable
