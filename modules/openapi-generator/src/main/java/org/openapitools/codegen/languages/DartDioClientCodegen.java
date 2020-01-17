@@ -247,10 +247,10 @@ public class DartDioClientCodegen extends DartClientCodegen {
             additionalProperties.put("timeMachine", "true");
             typeMapping.put("date", "LocalDate");
             typeMapping.put("Date", "LocalDate");
-            typeMapping.put("DateTime", "OffsetDateTime");
-            typeMapping.put("datetime", "OffsetDateTime");
+            typeMapping.put("DateTime", "LocalDateTime");
+            typeMapping.put("datetime", "LocalDateTime");
             importMapping.put("LocalDate", "package:time_machine/time_machine.dart");
-            importMapping.put("OffsetDateTime", "package:time_machine/time_machine.dart");
+            importMapping.put("LocalDateTime", "package:time_machine/time_machine.dart");
             supportingFiles.add(new SupportingFile("local_date_serializer.mustache", libFolder, "local_date_serializer.dart"));
 
         }
