@@ -134,12 +134,4 @@ class PetApiTests(unittest.TestCase):
         self.pet_api.add_pet(self.pet, _request_timeout=5)
         self.pet_api.add_pet(self.pet, _request_timeout=(1, 2))
 
-    def test_async_request(self):
-        thread = self.pet_api.add_pet(self.pet, async_req=True)
-        response = thread.get()
-        self.assertIsNone(response)
-
-        thread = self.pet_api.get_pet_by_id(self.pet.id, async_req=True)
-        result = thread.get()
-        self.assertIsInstance(result, petstore_api.Pet)
 
