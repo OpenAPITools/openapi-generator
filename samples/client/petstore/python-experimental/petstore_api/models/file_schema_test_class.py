@@ -31,7 +31,8 @@ from petstore_api.model_utils import (  # noqa: F401
 try:
     from petstore_api.models import file
 except ImportError:
-    file = sys.modules['petstore_api.models.file']
+    file = sys.modules[
+        'petstore_api.models.file']
 
 
 class FileSchemaTestClass(ModelNormal):

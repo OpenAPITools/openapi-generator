@@ -31,7 +31,8 @@ from petstore_api.model_utils import (  # noqa: F401
 try:
     from petstore_api.models import animal
 except ImportError:
-    animal = sys.modules['petstore_api.models.animal']
+    animal = sys.modules[
+        'petstore_api.models.animal']
 
 
 class MixedPropertiesAndAdditionalPropertiesClass(ModelNormal):
