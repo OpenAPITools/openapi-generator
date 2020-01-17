@@ -262,7 +262,7 @@ impl<F, C> Api<C> for Client<F> where
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
     fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(&self{{#allParams}}, param_{{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}, context: &C) -> Box<dyn Future<Item={{{operationId}}}Response, Error=ApiError>> {
         let mut uri = format!(
-            "{}{{{basePathWithoutHost}}}{{#vendorExtensions}}{{pathFormatString}}{{/vendorExtensions}}",
+            "{}{{{basePathWithoutHost}}}{{{vendorExtensions.x-path-format-string}}}",
             self.base_path{{#pathParams}}, {{{paramName}}}=utf8_percent_encode(&param_{{{paramName}}}.to_string(), ID_ENCODE_SET){{/pathParams}}
         );
 

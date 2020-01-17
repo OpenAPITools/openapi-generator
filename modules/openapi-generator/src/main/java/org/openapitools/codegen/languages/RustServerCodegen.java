@@ -544,7 +544,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private boolean isMimetypePlain(String mimetype) {
-      return isMimetypePlainText(mimetype) || isMimetypeHtmlText(mimetype) || isMimetypeOctetStream(mimetype);
+        return isMimetypePlainText(mimetype) || isMimetypeHtmlText(mimetype) || isMimetypeOctetStream(mimetype);
     }
 
     @Override
@@ -560,7 +560,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
             pathFormatString = pathFormatString.replace(paramSearch, paramReplace);
         }
-        op.vendorExtensions.put("pathFormatString", pathFormatString);
+        op.vendorExtensions.put("x-path-format-string", pathFormatString);
 
         // The Rust code will need to contain a series of regular expressions.
         // For performance, we'll construct these at start-of-day and re-use
@@ -1019,7 +1019,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     am.getItems() != null &&
                     !StringUtils.isEmpty(am.getItems().get$ref())) {
                 Schema inner_schema = allDefinitions.get(
-                    ModelUtils.getSimpleRef(am.getItems().get$ref()));
+                        ModelUtils.getSimpleRef(am.getItems().get$ref()));
 
                 if (inner_schema.getXml() != null &&
                         inner_schema.getXml().getName() != null) {
@@ -1271,9 +1271,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     // the user than the alternative.
                     LOGGER.warn("Ignoring additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318) alongside defined properties");
                     cm.dataType = null;
-                }
-                else
-                {
+                } else {
                     String type;
 
                     if (typeMapping.containsKey(cm.additionalPropertiesType)) {

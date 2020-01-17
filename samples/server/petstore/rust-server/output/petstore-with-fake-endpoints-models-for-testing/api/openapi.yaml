@@ -996,7 +996,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           content: {}
           description: Success
       tags:
