@@ -11,8 +11,6 @@ from Crypto.Hash import SHA256, SHA512
 from base64 import b64encode
 from email.utils import formatdate
 
-from {{packageName}}.configuration import HttpSigningConfiguration
-
 HEADER_REQUEST_TARGET = '(request-target)'
 HEADER_CREATED = '(created)'
 HEADER_EXPIRES = '(expires)'
@@ -83,7 +81,7 @@ class HttpSigningConfiguration(object):
     :param signature_max_validity: The signature max validity, expressed as
         a datetime.timedelta value. It must be a positive value.
     """
-    def __init__(self, key_id, private_key_path, signing_scheme, /,
+    def __init__(self, key_id, private_key_path, signing_scheme,
                  signed_headers=None,
                  signing_algorithm=None,
                  signature_max_validity=None):
