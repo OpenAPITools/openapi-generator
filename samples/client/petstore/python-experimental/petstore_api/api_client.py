@@ -152,13 +152,13 @@ class ApiClient(object):
                                                     collection_formats)
             post_params.extend(self.files_parameters(files))
 
-        # auth setting
-        self.update_params_for_auth(header_params, query_params,
-                                    auth_settings, resource_path, method, body)
-
         # body
         if body:
             body = self.sanitize_for_serialization(body)
+
+        # auth setting
+        self.update_params_for_auth(header_params, query_params,
+                                    auth_settings, resource_path, method, body)
 
         # request url
         if _host is None:
@@ -520,7 +520,8 @@ class ApiClient(object):
         :param auth_settings: Authentication setting identifiers list.
         :resource_path: A string representation of the HTTP request resource path.
         :method: A string representation of the HTTP request method.
-        :body: A string representation of the body of the HTTP request.
+        :body: A object representing the body of the HTTP request.
+            The object type is the return value of sanitize_for_serialization().
         """
         if not auth_settings:
             return

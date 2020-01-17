@@ -31,8 +31,7 @@ from petstore_api.model_utils import (  # noqa: F401
 try:
     from petstore_api.models import outer_enum
 except ImportError:
-    outer_enum = sys.modules[
-        'petstore_api.models.outer_enum']
+    outer_enum = sys.modules['petstore_api.models.outer_enum']
 
 
 class EnumTest(ModelNormal):
