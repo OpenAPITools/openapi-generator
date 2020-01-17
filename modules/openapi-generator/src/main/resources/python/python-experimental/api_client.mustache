@@ -549,8 +549,6 @@ class ApiClient(object):
                         # The HTTP signature scheme requires multiple HTTP headers
                         # that are calculated dynamically.
                         signing_info = self.configuration.signing_info
-                        # NOTE: no need to raise an exception because this entry only exists
-                        # if signing_info is not None
                         auth_headers = signing_info.get_http_signature_headers(
                                             resource_path, method, headers, body, querys)
                         headers.update(auth_headers)
