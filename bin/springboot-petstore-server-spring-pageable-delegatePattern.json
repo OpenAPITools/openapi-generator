@@ -1,0 +1,5 @@
+{
+    "artifactId": "springboot-spring-pageable-delegatePattern",
+    "library": "spring-boot",
+    "delegatePattern": true
+}

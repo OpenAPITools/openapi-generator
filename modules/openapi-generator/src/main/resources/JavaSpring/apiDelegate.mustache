@@ -19,6 +19,8 @@ import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
 {{/reactive}}
 
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import java.util.Map;
 {{#jdk8}}
@@ -70,7 +72,7 @@ public interface {{classname}}Delegate {
      */
     {{#jdk8-default-interface}}default {{/jdk8-default-interface}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{^isFile}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{{dataType}}}{{/reactive}}{{#reactive}}{{^isListContainer}}Mono{{/isListContainer}}{{#isListContainer}}Flux{{/isListContainer}}<{{{baseType}}}>{{/reactive}}{{/isBodyParam}}{{/isFile}}{{#isFile}}{{#isListContainer}}List<{{/isListContainer}}{{#reactive}}Flux<Part>{{/reactive}}{{^reactive}}MultipartFile{{/reactive}}{{#isListContainer}}>{{/isListContainer}}{{/isFile}} {{paramName}}{{#hasMore}},
         {{/hasMore}}{{/allParams}}{{#reactive}}{{#hasParams}},
-        {{/hasParams}}ServerWebExchange exchange{{/reactive}}){{#unhandledException}} throws Exception{{/unhandledException}}{{^jdk8-default-interface}};{{/jdk8-default-interface}}{{#jdk8-default-interface}} {
+        {{/hasParams}}ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}, final Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{#unhandledException}} throws Exception{{/unhandledException}}{{^jdk8-default-interface}};{{/jdk8-default-interface}}{{#jdk8-default-interface}} {
         {{>methodBody}}
     }{{/jdk8-default-interface}}
 
