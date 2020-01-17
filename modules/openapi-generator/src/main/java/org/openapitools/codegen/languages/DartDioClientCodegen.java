@@ -243,8 +243,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
             additionalProperties.put("core", "true");
             typeMapping.put("Date", "DateTime");
             typeMapping.put("date", "DateTime");
-            importMapping.put("DateTime", "DateTime");
-            importMapping.put("OffsetDateTime", "DateTime");
         } else if ("timemachine".equals(dateLibrary)) {
             additionalProperties.put("timeMachine", "true");
             typeMapping.put("date", "LocalDate");

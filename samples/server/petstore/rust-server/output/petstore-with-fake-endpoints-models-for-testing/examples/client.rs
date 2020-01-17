@@ -24,6 +24,7 @@ use petstore_with_fake_endpoints_models_for_testing::{ApiNoContext, ContextWrapp
                       FakeOuterCompositeSerializeResponse,
                       FakeOuterNumberSerializeResponse,
                       FakeOuterStringSerializeResponse,
+                      HyphenParamResponse,
                       TestBodyWithQueryParamsResponse,
                       TestClientModelResponse,
                       TestEndpointParametersResponse,
@@ -63,6 +64,7 @@ fn main() {
     "FakeOuterCompositeSerialize",
     "FakeOuterNumberSerialize",
     "FakeOuterStringSerialize",
+    "HyphenParam",
     "TestEndpointParameters",
     "TestEnumParameters",
     "TestJsonFormData",
@@ -144,6 +146,11 @@ fn main() {
 
         Some("FakeOuterStringSerialize") => {
             let result = core.run(client.fake_outer_string_serialize(None));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+         },
+
+        Some("HyphenParam") => {
+            let result = core.run(client.hyphen_param("hyphen_param_example".to_string()));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
