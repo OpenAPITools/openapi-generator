@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -240,12 +239,16 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         }
 
         // test files should not be overwritten
-        writeOptional(outputFolder, new SupportingFile("rspec.mustache", "", ".rspec"));
-        writeOptional(outputFolder, new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.rb"));
-        writeOptional(outputFolder, new SupportingFile("configuration_spec.mustache", specFolder, "configuration_spec.rb"));
-        writeOptional(outputFolder, new SupportingFile("api_client_spec.mustache", specFolder, "api_client_spec.rb"));
+        supportingFiles.add(new SupportingFile("rspec.mustache", "", ".rspec")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.rb")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("configuration_spec.mustache", specFolder, "configuration_spec.rb")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("api_client_spec.mustache", specFolder, "api_client_spec.rb")
+                .doNotOverwrite());
         // not including base object test as the moment as not all API has model
-        //writeOptional(outputFolder, new SupportingFile("base_object_spec.mustache", specFolder, "base_object_spec.rb"));
+        //supportingFiles.add(new SupportingFile("base_object_spec.mustache", specFolder, "base_object_spec.rb").doNotOverwrite());
     }
 
     @Override

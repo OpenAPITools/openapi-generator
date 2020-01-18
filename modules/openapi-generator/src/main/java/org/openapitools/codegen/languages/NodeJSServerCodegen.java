@@ -343,12 +343,16 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                 "openapi.yaml")
         );
         if (getGoogleCloudFunctions()) {
-            writeOptional(outputFolder, new SupportingFile("index-gcf.mustache", "", "index.js"));
+            supportingFiles.add(new SupportingFile("index-gcf.mustache", "", "index.js")
+                    .doNotOverwrite());
         } else {
-            writeOptional(outputFolder, new SupportingFile("index.mustache", "", "index.js"));
+            supportingFiles.add(new SupportingFile("index.mustache", "", "index.js")
+                    .doNotOverwrite());
         }
-        writeOptional(outputFolder, new SupportingFile("package.mustache", "", "package.json"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("package.mustache", "", "package.json")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
+                .doNotOverwrite());
         if (GlobalSettings.getProperty("noservice") == null) {
             apiTemplateFiles.put(
                     "service.mustache",   // the template to use

@@ -152,13 +152,16 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         super.processOpts();
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
+            .doNotOverwrite());
         if (generatePom) {
-            writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
+            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
+                .doNotOverwrite());
         }
         if (!interfaceOnly) {
-            writeOptional(outputFolder, new SupportingFile("RestApplication.mustache",
-                    (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
+            supportingFiles.add(new SupportingFile("RestApplication.mustache",
+                    (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
+                .doNotOverwrite());
         }
 
         if(StringUtils.isNotEmpty(openApiSpecFileLocation)) {
@@ -176,23 +179,32 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
 
         if(QUARKUS_LIBRARY.equals(library)) {
-            writeOptional(outputFolder, new SupportingFile("application.properties.mustache", "src/main/resources", "application.properties"));
-
-            writeOptional(outputFolder, new SupportingFile("Dockerfile.jvm.mustache", "src/main/docker", "Dockerfile.jvm"));
-            writeOptional(outputFolder, new SupportingFile("Dockerfile.native.mustache", "src/main/docker", "Dockerfile.native"));
-            writeOptional(outputFolder, new SupportingFile("dockerignore.mustache", "", ".dockerignore"));
+            supportingFiles.add(new SupportingFile("application.properties.mustache", "src/main/resources", "application.properties")
+                    .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("Dockerfile.jvm.mustache", "src/main/docker", "Dockerfile.jvm")
+                    .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("Dockerfile.native.mustache", "src/main/docker", "Dockerfile.native")
+                    .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("dockerignore.mustache", "", ".dockerignore")
+                    .doNotOverwrite());
         } else if(OPEN_LIBERTY_LIBRARY.equals(library)) {
-            writeOptional(outputFolder, new SupportingFile("server.xml.mustache", "src/main/liberty/config", "server.xml"));
-
-            writeOptional(outputFolder, new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml"));
-            writeOptional(outputFolder, new SupportingFile("MANIFEST.MF.mustache", "src/main/webapp/META-INF", "MANIFEST.MF"));
-            writeOptional(outputFolder, new SupportingFile("microprofile-config.properties.mustache", "src/main/webapp/META-INF", "microprofile-config.properties"));
-
-            writeOptional(outputFolder, new SupportingFile("ibm-web-ext.xml.mustache", "src/main/webapp/WEB-INF", "ibm-web-ext.xml"));
+            supportingFiles.add(new SupportingFile("server.xml.mustache", "src/main/liberty/config", "server.xml")
+                    .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml")
+                    .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("MANIFEST.MF.mustache", "src/main/webapp/META-INF", "MANIFEST.MF")
+                    .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("microprofile-config.properties.mustache", "src/main/webapp/META-INF", "microprofile-config.properties")
+                    .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("ibm-web-ext.xml.mustache", "src/main/webapp/WEB-INF", "ibm-web-ext.xml")
+                    .doNotOverwrite());
         } else if(HELIDON_LIBRARY.equals(library)) {
-            writeOptional(outputFolder, new SupportingFile("logging.properties.mustache", "src/main/resources", "logging.properties"));
-            writeOptional(outputFolder, new SupportingFile("microprofile-config.properties.mustache", "src/main/resources/META-INF", "microprofile-config.properties"));
-            writeOptional(outputFolder, new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml"));
+            supportingFiles.add(new SupportingFile("logging.properties.mustache", "src/main/resources", "logging.properties")
+                    .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("microprofile-config.properties.mustache", "src/main/resources/META-INF", "microprofile-config.properties")
+                    .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml")
+                    .doNotOverwrite());
         } 
     }
 
