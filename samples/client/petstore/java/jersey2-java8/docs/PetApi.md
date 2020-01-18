@@ -20,7 +20,6 @@ Method | HTTP request | Description
 
 > addPet(body)
 
-
 Add a new pet to the store
 
 ### Example
@@ -45,10 +44,8 @@ public class Example {
 
         PetApi apiInstance = new PetApi(defaultClient);
         Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
-        try { 
+        try {
             apiInstance.addPet(body);
-            
-            
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
             System.err.println("Status code: " + e.getCode());
@@ -91,7 +88,6 @@ null (empty response body)
 
 > deletePet(petId, apiKey)
 
-
 Deletes a pet
 
 ### Example
@@ -117,10 +113,8 @@ public class Example {
         PetApi apiInstance = new PetApi(defaultClient);
         Long petId = 56L; // Long | Pet id to delete
         String apiKey = "apiKey_example"; // String | 
-        try { 
+        try {
             apiInstance.deletePet(petId, apiKey);
-            
-            
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#deletePet");
             System.err.println("Status code: " + e.getCode());
@@ -164,7 +158,6 @@ null (empty response body)
 
 > List&lt;Pet&gt; findPetsByStatus(status)
 
-
 Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
@@ -191,9 +184,8 @@ public class Example {
 
         PetApi apiInstance = new PetApi(defaultClient);
         List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
-        try { 
+        try {
             List<Pet> result = apiInstance.findPetsByStatus(status);
-            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#findPetsByStatus");
@@ -237,7 +229,6 @@ Name | Type | Description  | Notes
 
 > List&lt;Pet&gt; findPetsByTags(tags)
 
-
 Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -264,9 +255,8 @@ public class Example {
 
         PetApi apiInstance = new PetApi(defaultClient);
         List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
-        try { 
+        try {
             List<Pet> result = apiInstance.findPetsByTags(tags);
-            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#findPetsByTags");
@@ -310,7 +300,6 @@ Name | Type | Description  | Notes
 
 > Pet getPetById(petId)
 
-
 Find pet by ID
 
 Returns a single pet
@@ -339,9 +328,8 @@ public class Example {
 
         PetApi apiInstance = new PetApi(defaultClient);
         Long petId = 56L; // Long | ID of pet to return
-        try { 
+        try {
             Pet result = apiInstance.getPetById(petId);
-            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#getPetById");
@@ -386,7 +374,6 @@ Name | Type | Description  | Notes
 
 > updatePet(body)
 
-
 Update an existing pet
 
 ### Example
@@ -411,10 +398,8 @@ public class Example {
 
         PetApi apiInstance = new PetApi(defaultClient);
         Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
-        try { 
+        try {
             apiInstance.updatePet(body);
-            
-            
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePet");
             System.err.println("Status code: " + e.getCode());
@@ -459,7 +444,6 @@ null (empty response body)
 
 > updatePetWithForm(petId, name, status)
 
-
 Updates a pet in the store with form data
 
 ### Example
@@ -486,10 +470,8 @@ public class Example {
         Long petId = 56L; // Long | ID of pet that needs to be updated
         String name = "name_example"; // String | Updated name of the pet
         String status = "status_example"; // String | Updated status of the pet
-        try { 
+        try {
             apiInstance.updatePetWithForm(petId, name, status);
-            
-            
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePetWithForm");
             System.err.println("Status code: " + e.getCode());
@@ -533,7 +515,6 @@ null (empty response body)
 
 > ModelApiResponse uploadFile(petId, additionalMetadata, file)
 
-
 uploads an image
 
 ### Example
@@ -560,9 +541,8 @@ public class Example {
         Long petId = 56L; // Long | ID of pet to update
         String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
         File file = new File("/path/to/file"); // File | file to upload
-        try { 
+        try {
             ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
-            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#uploadFile");
@@ -607,7 +587,6 @@ Name | Type | Description  | Notes
 
 > ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 
-
 uploads an image (required)
 
 ### Example
@@ -634,9 +613,8 @@ public class Example {
         Long petId = 56L; // Long | ID of pet to update
         File requiredFile = new File("/path/to/file"); // File | file to upload
         String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
-        try { 
+        try {
             ModelApiResponse result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
-            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#uploadFileWithRequiredFile");

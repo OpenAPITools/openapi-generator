@@ -12,7 +12,6 @@ Method | HTTP request | Description
 
 > Client testClassname(body)
 
-
 To test class name in snake case
 
 To test class name in snake case
@@ -41,9 +40,8 @@ public class Example {
 
         FakeClassnameTags123Api apiInstance = new FakeClassnameTags123Api(defaultClient);
         Client body = new Client(); // Client | client model
-        try { 
+        try {
             Client result = apiInstance.testClassname(body);
-            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeClassnameTags123Api#testClassname");

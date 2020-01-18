@@ -14,8 +14,12 @@ Method | HTTP request | Description
 
 ## {{operationId}}
 
-{{^vendorExtensions.x-group-parameters}}> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{/vendorExtensions.x-group-parameters}}
-{{#vendorExtensions.x-group-parameters}}> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}){{#allParams}}{{^isPathParam}}.{{paramName}}({{paramName}}){{/isPathParam}}{{/allParams}}.execute();{{/vendorExtensions.x-group-parameters}}
+{{^vendorExtensions.x-group-parameters}}
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+{{/vendorExtensions.x-group-parameters}}
+{{#vendorExtensions.x-group-parameters}}
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}){{#allParams}}{{^isPathParam}}.{{paramName}}({{paramName}}){{/isPathParam}}{{/allParams}}.execute();
+{{/vendorExtensions.x-group-parameters}}
 
 {{summary}}{{#notes}}
 
@@ -60,12 +64,18 @@ public class Example {
         {{#allParams}}
         {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
         {{/allParams}}
-        try { {{^vendorExtensions.x-group-parameters}}
-            {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/vendorExtensions.x-group-parameters}}
-            {{#vendorExtensions.x-group-parameters}}{{#returnType}}{{{returnType}}} result = {{/returnType}}api.{{operationId}}({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}){{#allParams}}{{^isPathParam}}
+        try {
+            {{^vendorExtensions.x-group-parameters}}
+            {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+            {{/vendorExtensions.x-group-parameters}}
+            {{#vendorExtensions.x-group-parameters}}
+            {{#returnType}}{{{returnType}}} result = {{/returnType}}api.{{operationId}}({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}){{#allParams}}{{^isPathParam}}
                 .{{paramName}}({{paramName}}){{/isPathParam}}{{/allParams}}
-                .execute();{{/vendorExtensions.x-group-parameters}}
-            {{#returnType}}System.out.println(result);{{/returnType}}
+                .execute();
+            {{/vendorExtensions.x-group-parameters}}
+            {{#returnType}}
+            System.out.println(result);
+            {{/returnType}}
         } catch (ApiException e) {
             System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");
             System.err.println("Status code: " + e.getCode());
