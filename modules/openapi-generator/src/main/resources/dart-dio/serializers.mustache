@@ -26,6 +26,6 @@ const FullType(BuiltList, const [const FullType({{classname}})]),
 
 Serializers standardSerializers =
 (serializers.toBuilder()
-{{#timeMachine}}..add(LocalDateSerializer())
-..add(LocalDateTimeSerializer())
+{{#timeMachine}}..add(OffsetDateSerializer())
+..add(OffsetDateTimeSerializer())
 {{/timeMachine}}..addPlugin(StandardJsonPlugin())).build();
