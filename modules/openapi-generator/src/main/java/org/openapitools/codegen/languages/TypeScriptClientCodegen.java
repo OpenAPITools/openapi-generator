@@ -88,7 +88,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
         importMapping.clear();
-        outputFolder = "generated-code/typescript";
+        outputFolder = "generated-code" + File.separator + "typescript";
         embeddedTemplateDir = templateDir = "typescript";
 
         supportsInheritance = true;
@@ -194,31 +194,31 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         
         // Util
         supportingFiles.add(new SupportingFile("util.mustache", "", "util.ts"));
-        supportingFiles.add(new SupportingFile("api/exception.mustache", "apis", "exception.ts"));
+        supportingFiles.add(new SupportingFile("api" + File.separator + "exception.mustache", "apis", "exception.ts"));
         // http
         supportingFiles.add(new SupportingFile("http" + File.separator + "http.mustache", "http", "http.ts"));
-        supportingFiles.add(new SupportingFile("http/servers.mustache", "servers.ts"));
+        supportingFiles.add(new SupportingFile("http" + File.separator + "servers.mustache", "servers.ts"));
 
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
         supportingFiles.add(new SupportingFile("auth" + File.separator + "auth.mustache", "auth", "auth.ts"));
         
-        supportingFiles.add(new SupportingFile("model/models_all.mustache", "models", "all.ts"));
+        supportingFiles.add(new SupportingFile("model" + File.separator + "models_all.mustache", "models", "all.ts"));
 
         // TODO: add supporting files depending on cli parameter e.g. fetch vs angular
-        supportingFiles.add(new SupportingFile("types/PromiseAPI.mustache", "types", "PromiseAPI.ts"));
-        supportingFiles.add(new SupportingFile("types/ObservableAPI.mustache", "types", "ObservableAPI.ts"));
+        supportingFiles.add(new SupportingFile("types" + File.separator + "PromiseAPI.mustache", "types", "PromiseAPI.ts"));
+        supportingFiles.add(new SupportingFile("types" + File.separator + "ObservableAPI.mustache", "types", "ObservableAPI.ts"));
 
         // models
         // TODO: properly set model and api packages
         this.setModelPackage("");
-        supportingFiles.add(new SupportingFile("model/ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
-        modelTemplateFiles.put("model/model.mustache", ".ts");
+        supportingFiles.add(new SupportingFile("model" + File.separator + "ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
+        modelTemplateFiles.put("model" + File.separator + "model.mustache", ".ts");
 
         // api
         this.setApiPackage("");
-        supportingFiles.add(new SupportingFile("api/middleware.mustache", "", "middleware.ts"));
-        this.supportingFiles.add(new SupportingFile("api/baseapi.mustache", "apis", "baseapi.ts"));
-        this.apiTemplateFiles.put("api/api.mustache", ".ts");
+        supportingFiles.add(new SupportingFile("api" + File.separator + "middleware.mustache", "", "middleware.ts"));
+        this.supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", "apis", "baseapi.ts"));
+        this.apiTemplateFiles.put("api" + File.separator + "api.mustache", ".ts");
     }
 
     public String getNpmName() {
@@ -297,7 +297,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         // Add additional filename information for model imports in the apis
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
-            im.put("filename", ((String) im.get("import")).replace('.', '/'));
+            im.put("filename", ((String) im.get("import")).replace(".", File.separator));
             im.put("classname", getModelnameFromModelFilename(im.get("import").toString()));
         }
         
@@ -814,7 +814,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         final boolean useRxJS = convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH);
         if (!useRxJS) {
-          supportingFiles.add(new SupportingFile("rxjsStub.mustache", "", "rxjsStub.ts"));
+          supportingFiles.add(new SupportingFile("rxjsStub.mustache", "rxjsStub.ts"));
         }
 
         // NPM Settings
