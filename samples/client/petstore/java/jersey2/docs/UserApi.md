@@ -19,6 +19,7 @@ Method | HTTP request | Description
 
 > createUser(body)
 
+
 Create user
 
 This can only be done by the logged in user.
@@ -40,8 +41,10 @@ public class Example {
 
         UserApi apiInstance = new UserApi(defaultClient);
         User body = new User(); // User | Created user object
-        try {
+        try { 
             apiInstance.createUser(body);
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUser");
             System.err.println("Status code: " + e.getCode());
@@ -83,6 +86,7 @@ No authorization required
 
 > createUsersWithArrayInput(body)
 
+
 Creates list of users with given input array
 
 ### Example
@@ -102,8 +106,10 @@ public class Example {
 
         UserApi apiInstance = new UserApi(defaultClient);
         List<User> body = Arrays.asList(); // List<User> | List of user object
-        try {
+        try { 
             apiInstance.createUsersWithArrayInput(body);
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
             System.err.println("Status code: " + e.getCode());
@@ -145,6 +151,7 @@ No authorization required
 
 > createUsersWithListInput(body)
 
+
 Creates list of users with given input array
 
 ### Example
@@ -164,8 +171,10 @@ public class Example {
 
         UserApi apiInstance = new UserApi(defaultClient);
         List<User> body = Arrays.asList(); // List<User> | List of user object
-        try {
+        try { 
             apiInstance.createUsersWithListInput(body);
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUsersWithListInput");
             System.err.println("Status code: " + e.getCode());
@@ -207,6 +216,7 @@ No authorization required
 
 > deleteUser(username)
 
+
 Delete user
 
 This can only be done by the logged in user.
@@ -228,8 +238,10 @@ public class Example {
 
         UserApi apiInstance = new UserApi(defaultClient);
         String username = "username_example"; // String | The name that needs to be deleted
-        try {
+        try { 
             apiInstance.deleteUser(username);
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#deleteUser");
             System.err.println("Status code: " + e.getCode());
@@ -272,6 +284,7 @@ No authorization required
 
 > User getUserByName(username)
 
+
 Get user by user name
 
 ### Example
@@ -291,8 +304,9 @@ public class Example {
 
         UserApi apiInstance = new UserApi(defaultClient);
         String username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing.
-        try {
+        try { 
             User result = apiInstance.getUserByName(username);
+            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#getUserByName");
@@ -337,6 +351,7 @@ No authorization required
 
 > String loginUser(username, password)
 
+
 Logs user into the system
 
 ### Example
@@ -357,8 +372,9 @@ public class Example {
         UserApi apiInstance = new UserApi(defaultClient);
         String username = "username_example"; // String | The user name for login
         String password = "password_example"; // String | The password for login in clear text
-        try {
+        try { 
             String result = apiInstance.loginUser(username, password);
+            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#loginUser");
@@ -403,6 +419,7 @@ No authorization required
 
 > logoutUser()
 
+
 Logs out current logged in user session
 
 ### Example
@@ -421,8 +438,10 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        try {
+        try { 
             apiInstance.logoutUser();
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#logoutUser");
             System.err.println("Status code: " + e.getCode());
@@ -461,6 +480,7 @@ No authorization required
 
 > updateUser(username, body)
 
+
 Updated user
 
 This can only be done by the logged in user.
@@ -483,8 +503,10 @@ public class Example {
         UserApi apiInstance = new UserApi(defaultClient);
         String username = "username_example"; // String | name that need to be deleted
         User body = new User(); // User | Updated user object
-        try {
+        try { 
             apiInstance.updateUser(username, body);
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#updateUser");
             System.err.println("Status code: " + e.getCode());

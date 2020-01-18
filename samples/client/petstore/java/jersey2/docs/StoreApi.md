@@ -15,9 +15,10 @@ Method | HTTP request | Description
 
 > deleteOrder(orderId)
 
+
 Delete purchase order by ID
 
-For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
 ### Example
 
@@ -36,8 +37,10 @@ public class Example {
 
         StoreApi apiInstance = new StoreApi(defaultClient);
         String orderId = "orderId_example"; // String | ID of the order that needs to be deleted
-        try {
+        try { 
             apiInstance.deleteOrder(orderId);
+            
+            
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#deleteOrder");
             System.err.println("Status code: " + e.getCode());
@@ -80,6 +83,7 @@ No authorization required
 
 > Map&lt;String, Integer&gt; getInventory()
 
+
 Returns pet inventories by status
 
 Returns a map of status codes to quantities
@@ -107,8 +111,9 @@ public class Example {
         //api_key.setApiKeyPrefix("Token");
 
         StoreApi apiInstance = new StoreApi(defaultClient);
-        try {
+        try { 
             Map<String, Integer> result = apiInstance.getInventory();
+            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#getInventory");
@@ -148,9 +153,10 @@ This endpoint does not need any parameter.
 
 > Order getOrderById(orderId)
 
+
 Find purchase order by ID
 
-For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
 ### Example
 
@@ -169,8 +175,9 @@ public class Example {
 
         StoreApi apiInstance = new StoreApi(defaultClient);
         Long orderId = 56L; // Long | ID of pet that needs to be fetched
-        try {
+        try { 
             Order result = apiInstance.getOrderById(orderId);
+            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#getOrderById");
@@ -215,6 +222,7 @@ No authorization required
 
 > Order placeOrder(body)
 
+
 Place an order for a pet
 
 ### Example
@@ -234,8 +242,9 @@ public class Example {
 
         StoreApi apiInstance = new StoreApi(defaultClient);
         Order body = new Order(); // Order | order placed for purchasing the pet
-        try {
+        try { 
             Order result = apiInstance.placeOrder(body);
+            
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#placeOrder");
