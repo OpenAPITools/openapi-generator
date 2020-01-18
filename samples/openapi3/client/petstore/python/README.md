@@ -193,11 +193,6 @@ Class | Method | HTTP request | Description
 - **Type**: HTTP basic authentication
 
 
-## http_signature_test
-
-- **Type**: HTTP basic authentication
-
-
 ## petstore_auth
 
 - **Type**: OAuth
