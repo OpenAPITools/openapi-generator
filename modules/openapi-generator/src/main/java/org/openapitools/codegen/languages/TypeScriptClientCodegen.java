@@ -205,8 +205,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("model/models_all.mustache", "models", "all.ts"));
 
         // TODO: add supporting files depending on cli parameter e.g. fetch vs angular
-        supportingFiles.add(new SupportingFile("generators/types/PromiseAPI.mustache", "types", "PromiseAPI.ts"));
-        supportingFiles.add(new SupportingFile("generators/types/ObservableAPI.mustache", "types", "ObservableAPI.ts"));
+        supportingFiles.add(new SupportingFile("types/PromiseAPI.mustache", "types", "PromiseAPI.ts"));
+        supportingFiles.add(new SupportingFile("types/ObservableAPI.mustache", "types", "ObservableAPI.ts"));
 
         // models
         // TODO: properly set model and api packages
@@ -790,10 +790,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         testPackage = this.testPackage + ".tests";
 
         additionalProperties.putIfAbsent(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
-        supportingFiles.add(new SupportingFile(
-              "generators" + File.separator + additionalProperties.get(FRAMEWORK_SWITCH) + ".mustache",
-              "index.ts"
-        ));
+        supportingFiles.add(new SupportingFile("index.mustache", "index.ts"));
 
         String httpLibName = this.getHttpLibForFramework(additionalProperties.get(FRAMEWORK_SWITCH).toString());
         supportingFiles.add(new SupportingFile(
