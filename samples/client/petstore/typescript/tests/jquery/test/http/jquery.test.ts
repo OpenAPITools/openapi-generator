@@ -2,8 +2,6 @@ declare var QUnit: any;
 
 import * as petstore from "ts-petstore-client";
 
-import * as FormData from "form-data";
-
 let libs: { [key: string]: petstore.http.HttpLibrary } = {
     "jquery": new petstore.http.JQueryHttpLibrary()
 }
