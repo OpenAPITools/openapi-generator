@@ -3,8 +3,6 @@ import * as e6p from 'es6-promise'
 import { from, Observable } from '../rxjsStub';
 e6p.polyfill();
 import * as $ from 'jquery';
-import * as FormData from "form-data";
-import { resolve } from 'dns';
 
 export class JQueryHttpLibrary implements HttpLibrary {
 
