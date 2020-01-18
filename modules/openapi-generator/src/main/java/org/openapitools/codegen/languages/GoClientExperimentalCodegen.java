@@ -77,6 +77,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
         if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
             supportingFiles.add(new SupportingFile("signing.mustache", "", "signing.go"));
+            supportingFiles.add(new SupportingFile("http_signature_test.mustache", "", "http_signature_test.go"));
         }
     }
 
