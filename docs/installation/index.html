@@ -80,9 +80,12 @@ Installing OpenAPI Generator's CLI tool allows users to generate all available g
 <pre><code class="hljs css language-bash">npm install @openapitools/openapi-generator-cli -g
 </code></pre>
 <p>To install a specific version of the tool, pass the version during installation:</p>
-<pre><code class="hljs css language-bash">npm install @openapitools/openapi-generator-cli@cli-3.3.4 -g
-</code></pre>
-<p>To install the tool as a dev dependency in your current project:</p>
+<!-- RELEASE_VERSION -->
+```bash
+npm install @openapitools/openapi-generator-cli@cli-4.2.2 -g
+```
+<!-- /RELEASE_VERSION -->
+To install the tool as a dev dependency in your current project:
 <pre><code class="hljs css language-bash">npm install @openapitools/openapi-generator-cli -D
 </code></pre>
 <p>Then, <strong>generate</strong> a ruby client from a valid <a href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml">petstore.yaml</a> doc:</p>
@@ -119,14 +122,16 @@ You'll then need to output the generated code to this mapped volume. Everything 
 <blockquote>
 <p><strong>Platform(s)</strong>: Linux, macOS, Windows</p>
 </blockquote>
-<p>If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):</p>
-<p>JAR location: <code>https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/3.3.4/openapi-generator-cli-3.3.4.jar</code></p>
+<!-- RELEASE_VERSION -->
+If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
+<p>JAR location: <code>https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.2.2/openapi-generator-cli-4.2.2.jar</code></p>
 <p>For <strong>Mac/Linux</strong> users:</p>
-<pre><code class="hljs css language-bash">wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/3.3.4/openapi-generator-cli-3.3.4.jar -O openapi-generator-cli.jar
+<pre><code class="hljs css language-bash">wget https//repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.2.2/openapi-generator-cli-4.2.2.jar -O openapi-generator-cli.jar
 </code></pre>
 <p>For <strong>Windows</strong> users, you will need to install <a href="http://gnuwin32.sourceforge.net/packages/wget.htm">wget</a> or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.</p>
-<pre><code class="hljs">Invoke-WebRequest -OutFile openapi-generator-<span class="hljs-keyword">cli</span>.jar https://repo1.maven<span class="hljs-meta">.org</span>/maven2/org/openapitools/openapi-generator-<span class="hljs-keyword">cli</span>/<span class="hljs-number">3.3</span><span class="hljs-number">.4</span>/openapi-generator-<span class="hljs-keyword">cli</span><span class="hljs-number">-3.3</span><span class="hljs-number">.4</span>.jar
+<pre><code class="hljs">Invoke-WebRequest -OutFile openapi-generator-<span class="hljs-keyword">cli</span>.jar https://repo1.maven<span class="hljs-meta">.org</span>/maven2/org/openapitools/openapi-generator-<span class="hljs-keyword">cli</span>/<span class="hljs-number">4.2</span><span class="hljs-number">.2</span>/openapi-generator-<span class="hljs-keyword">cli</span><span class="hljs-number">-4.2</span><span class="hljs-number">.2</span>.jar
 </code></pre>
+<!-- /RELEASE_VERSION -->
 <p>After downloading the JAR, run <code>java -jar openapi-generator-cli.jar help</code> to show the usage.</p>
 <p>For Mac users, please make sure Java 8 is installed (Tips: run <code>java -version</code> to check the version), and export <code>JAVA_HOME</code> in order to use the supported Java version:</p>
 <pre><code class="hljs css language-bash"><span class="hljs-built_in">export</span> JAVA_HOME=`/usr/libexec/java_home -v 1.8`
@@ -167,4 +172,4 @@ openapi-generator-cli version <span class="hljs-comment"># is also 3.0.2</span>
 <span class="hljs-built_in">source</span> ~/.bashrc
 openapi-generator-cli version <span class="hljs-comment"># is always 3.0.2, unless any of the above overrides are done ad hoc</span>
 </code></pre>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 1/18/2020</em></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/plugins"><span>Plugins</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#npm">NPM</a></li><li><a href="#homebrew">Homebrew</a></li><li><a href="#docker">Docker</a></li><li><a href="#jar">JAR</a></li><li><a href="#bash-launcher-script">Bash Launcher Script</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2020 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 1/19/2020</em></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/plugins"><span>Plugins</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#npm">NPM</a></li><li><a href="#homebrew">Homebrew</a></li><li><a href="#docker">Docker</a></li><li><a href="#jar">JAR</a></li><li><a href="#bash-launcher-script">Bash Launcher Script</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2020 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
