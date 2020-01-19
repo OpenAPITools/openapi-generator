@@ -65,6 +65,31 @@
         </pluginManagement>
 
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <configLocation>${project.basedir}/../../google_checkstyle.xml</configLocation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <configuration>
+                    <excludeFilterFile>${project.basedir}/../../spotbugs-exclude.xml</excludeFilterFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>se.bjurr.violations</groupId>
+                <artifactId>violations-maven-plugin</artifactId>
+                <configuration>
+                    <maxViolations>0</maxViolations>
+                </configuration>
+            </plugin>
             <!-- 2) run gradle -->
             <plugin>
                 <groupId>org.fortasoft</groupId>

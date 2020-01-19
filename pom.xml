@@ -101,6 +101,66 @@
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <consoleOutput>false</consoleOutput>
+                    <failsOnError>false</failsOnError>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>checkstyle-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>3.1.12.2</version>
+                <configuration>
+                    <failOnError>false</failOnError>
+                    <effort>max</effort>
+                    <excludes>
+                        <exclude>**/generated/*.java</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>spotbugs-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.12.0</version>
+                <configuration>
+                    <failOnViolation>false</failOnViolation>
+                    <printFailingErrors>false</printFailingErrors>
+                    <rulesets>
+                        <ruleset>category/java/errorprone.xml</ruleset>
+                    </rulesets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>pmd-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>net.revelc.code</groupId>
                 <artifactId>formatter-maven-plugin</artifactId>
                 <!-- Uncomment this to format before checkstyle -->
@@ -360,6 +420,43 @@
         </plugins>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>se.bjurr.violations</groupId>
+                    <artifactId>violations-maven-plugin</artifactId>
+                    <version>1.33</version>
+                    <configuration>
+                        <maxViolations>0</maxViolations>
+                        <detailLevel>VERBOSE</detailLevel>
+                        <violations>
+                            <violation>
+                                <parser>FINDBUGS</parser>
+                                <reporter>Spotbugs</reporter>
+                                <folder>${project.basedir}</folder>
+                                <pattern>.*/spotbugsXml\.xml$</pattern>
+                            </violation>
+                            <violation>
+                                <parser>PMD</parser>
+                                <reporter>PMD</reporter>
+                                <folder>${project.basedir}</folder>
+                                <pattern>.*/pmd\.xml$</pattern>
+                            </violation>
+                            <violation>
+                                <parser>CHECKSTYLE</parser>
+                                <reporter>Checkstyle</reporter>
+                                <folder>${project.basedir}</folder>
+                                <pattern>.*/checkstyle-result\.xml$</pattern>
+                            </violation>
+                        </violations>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>violations</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
                 <plugin>
                     <groupId>net.revelc.code</groupId>
                     <artifactId>formatter-maven-plugin</artifactId>

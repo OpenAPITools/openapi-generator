@@ -16,6 +16,38 @@
   <name>openapi-generator-core</name>
   <url>https://github.com/openapitools/openapi-generator</url>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>${project.basedir}/../../google_checkstyle.xml</configLocation>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <configuration>
+          <excludeFilterFile>${project.basedir}/../../spotbugs-exclude.xml</excludeFilterFile>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>se.bjurr.violations</groupId>
+        <artifactId>violations-maven-plugin</artifactId>
+        <configuration>
+          <!-- Should be decreased continuousle as issues are fixed, and will eventually
+            reach 0. -->
+          <maxViolations>571</maxViolations>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
