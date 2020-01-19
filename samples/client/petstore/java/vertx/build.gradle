@@ -5,7 +5,7 @@ group = 'org.openapitools'
 version = '1.0.0'
 
 repositories {
-    mavenCentral()
+    maven { url = "https://repo1.maven.org/maven2" }
     jcenter()
 }
 

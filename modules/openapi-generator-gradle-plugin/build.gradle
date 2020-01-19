@@ -2,7 +2,7 @@ buildscript {
     ext.kotlin_version = '1.3.20'
     repositories {
         mavenLocal()
-        mavenCentral()
+        maven { url = "https://repo1.maven.org/maven2" }
         maven {
             url "https://plugins.gradle.org/m2/"
         }
@@ -46,7 +46,7 @@ targetCompatibility = 1.8
 
 repositories {
     jcenter()
-    mavenCentral()
+    maven { url = "https://repo1.maven.org/maven2" }
     mavenLocal()
     maven {
         url "https://oss.sonatype.org/content/repositories/releases/"
@@ -119,7 +119,7 @@ publishing {
                 licenses {
                     license {
                         name = "The Apache Software License, Version 2.0"
-                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                        url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
                         distribution = "repo"
                     }
                 }
