@@ -242,6 +242,12 @@ components:
       xml:
         name: snake_another_xml_object
         namespace: http://foo.bar
+    MyIDList:
+      items:
+        $ref: '#/components/schemas/MyID'
+      type: array
+    MyID:
+      type: integer
     inline_response_201:
       properties:
         foo:
