@@ -179,17 +179,18 @@ class Index extends React.Component {
    const tryNpmContents = stripMargin`
       | The [NPM package wrapper](https://github.com/openapitools/openapi-generator-cli) is cross-platform wrapper around the .jar artifact.
       | **Install** globally, exposing the CLI on the command line:
-      | 
+      | <!-- RELEASE_VERSION -->
       | \`\`\`bash
       | # install the latest version of "openapi-generator-cli"
       | npm install @openapitools/openapi-generator-cli -g
       | 
       | # install a specific version of "openapi-generator-cli"
-      | npm install @openapitools/openapi-generator-cli@cli-3.0.0 -g
+      | npm install @openapitools/openapi-generator-cli@cli-4.2.2 -g
       |
       | # Or install it as dev-dependency in your node.js projects
       | npm install @openapitools/openapi-generator-cli -D
       | \`\`\`
+      |<!-- /RELEASE_VERSION -->
       |
       | Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml) doc:
       | \`\`\`bash
