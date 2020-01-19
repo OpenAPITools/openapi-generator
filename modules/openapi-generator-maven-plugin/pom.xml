@@ -93,14 +93,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <configuration>
-                    <configLocation>${project.basedir}/../../google_checkstyle.xml</configLocation>
+                    <configLocation>${project.parent.basedir}${file.separator}google_checkstyle.xml</configLocation>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <configuration>
-                    <excludeFilterFile>${project.basedir}/../../spotbugs-exclude.xml</excludeFilterFile>
+                    <excludeFilterFile>${project.parent.basedir}${file.separator}spotbugs-exclude.xml</excludeFilterFile>
                 </configuration>
             </plugin>
             <plugin>
@@ -110,11 +110,6 @@
             <plugin>
                 <groupId>se.bjurr.violations</groupId>
                 <artifactId>violations-maven-plugin</artifactId>
-                <configuration>
-                    <!-- Should be decreased continuousle as issues are fixed, and will eventually 
-                        reach 0. -->
-                    <maxViolations>329</maxViolations>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>net.revelc.code</groupId>
