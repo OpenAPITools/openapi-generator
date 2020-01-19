@@ -10,7 +10,7 @@ buildscript {
     ext.kotlin_version = '1.3.61'
 
     repositories {
-        maven { url = uri("https://repo1.maven.org/maven2") }
+        maven { url "https://repo1.maven.org/maven2" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -21,7 +21,7 @@ apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
 
 repositories {
-    maven { url = uri("https://repo1.maven.org/maven2") }
+    maven { url "https://repo1.maven.org/maven2" }
 }
 
 test {
