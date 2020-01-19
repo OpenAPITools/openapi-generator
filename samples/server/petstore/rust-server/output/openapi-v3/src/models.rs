@@ -243,6 +243,78 @@ impl InlineResponse201 {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct ObjectWithArrayOfObjects {
+    #[serde(rename = "objectArray")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub object_array: Option<Vec<models::StringObject>>,
+
+}
+
+impl ObjectWithArrayOfObjects {
+    pub fn new() -> ObjectWithArrayOfObjects {
+        ObjectWithArrayOfObjects {
+            object_array: None,
+        }
+    }
+}
+
+impl ObjectWithArrayOfObjects {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct StringObject(String);
+
+impl ::std::convert::From<String> for StringObject {
+    fn from(x: String) -> Self {
+        StringObject(x)
+    }
+}
+
+impl std::str::FromStr for StringObject {
+    type Err = ParseError;
+    fn from_str(x: &str) -> Result<Self, Self::Err> {
+        Ok(StringObject(x.to_string()))
+    }
+}
+
+impl ::std::convert::From<StringObject> for String {
+    fn from(x: StringObject) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for StringObject {
+    type Target = String;
+    fn deref(&self) -> &String {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for StringObject {
+    fn deref_mut(&mut self) -> &mut String {
+        &mut self.0
+    }
+}
+
+
+impl StringObject {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 /// Test a model containing a UUID
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]

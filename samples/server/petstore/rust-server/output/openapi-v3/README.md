@@ -125,6 +125,8 @@ Method | HTTP request | Description
  - [AnotherXmlObject](docs/AnotherXmlObject.md)
  - [DuplicateXmlObject](docs/DuplicateXmlObject.md)
  - [InlineResponse201](docs/InlineResponse201.md)
+ - [ObjectWithArrayOfObjects](docs/ObjectWithArrayOfObjects.md)
+ - [StringObject](docs/StringObject.md)
  - [UuidObject](docs/UuidObject.md)
  - [XmlArray](docs/XmlArray.md)
  - [XmlInner](docs/XmlInner.md)

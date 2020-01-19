@@ -242,6 +242,15 @@ components:
       xml:
         name: snake_another_xml_object
         namespace: http://foo.bar
+    ObjectWithArrayOfObjects:
+      properties:
+        objectArray:
+          items:
+            $ref: '#/components/schemas/StringObject'
+          type: array
+      type: object
+    StringObject:
+      type: string
     inline_response_201:
       properties:
         foo:
