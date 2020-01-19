@@ -170,7 +170,7 @@ public class ConfigHelp implements Runnable {
         Map<String, CliOption> langCliOptions = config.cliOptions()
                 .stream()
                 .collect(Collectors.toMap(CliOption::getOpt, Function.identity(), (a, b) -> {
-                    throw new IllegalStateException();
+                    throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a.getOpt(), b.getOpt()));
                 }, TreeMap::new));
 
         langCliOptions.forEach((key, langCliOption) -> {
@@ -320,7 +320,7 @@ public class ConfigHelp implements Runnable {
         Map<String, CliOption> langCliOptions = config.cliOptions()
                 .stream()
                 .collect(Collectors.toMap(CliOption::getOpt, Function.identity(), (a, b) -> {
-                    throw new IllegalStateException();
+                    throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a.getOpt(), b.getOpt()));
                 }, TreeMap::new));
 
         langCliOptions.forEach((key, langCliOption) -> {
@@ -341,7 +341,7 @@ public class ConfigHelp implements Runnable {
                     .entrySet()
                     .stream()
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
-                        throw new IllegalStateException();
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
                     }, TreeMap::new));
             writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Type/Alias", "Imports");
             sb.append(newline);
@@ -356,7 +356,7 @@ public class ConfigHelp implements Runnable {
                     .entrySet()
                     .stream()
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
-                        throw new IllegalStateException();
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
                     }, TreeMap::new));
             writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Type/Alias", "Instantiated By");
             sb.append(newline);
