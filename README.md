@@ -395,10 +395,10 @@ openapi-generator version
 ```
 
 <!-- RELEASE_VERSION -->
-Or install a particular OpenAPI Generator version (e.g. v4.1.2):
+Or install a particular OpenAPI Generator version (e.g. v4.2.2):
 
 ```sh
-npm install @openapitools/openapi-generator-cli@cli-4.1.2 -g
+npm install @openapitools/openapi-generator-cli@cli-4.2.2 -g
 ```
 
 Or install it as dev-dependency:
