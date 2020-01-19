@@ -66,6 +66,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private String minimum;
     private String maximum;
     public String pattern;
+    public Number multipleOf;
 
     @Override
     public int hashCode() {
@@ -127,7 +128,9 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 Objects.equals(exclusiveMaximum, that.exclusiveMaximum) &&
                 Objects.equals(getMinimum(), that.getMinimum()) &&
                 Objects.equals(getMaximum(), that.getMaximum()) &&
-                Objects.equals(getPattern(), that.getPattern());
+                Objects.equals(getPattern(), that.getPattern()) &&
+                Objects.equals(getMultipleOf(), that.getMultipleOf());
+
     }
 
     @Override
@@ -251,6 +254,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public Number getMultipleOf() {
+        return multipleOf;
+    }
+
+    @Override
+    public void setMultipleOf(Number multipleOf) {
+        this.multipleOf = multipleOf;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenResponse{");
         sb.append("headers=").append(headers);
@@ -299,6 +312,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", minimum='").append(minimum).append('\'');
         sb.append(", maximum='").append(maximum).append('\'');
         sb.append(", pattern='").append(pattern).append('\'');
+        sb.append(", multipleOf='").append(multipleOf).append('\'');
         sb.append('}');
         return sb.toString();
     }
