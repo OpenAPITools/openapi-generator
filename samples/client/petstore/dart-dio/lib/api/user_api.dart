@@ -18,7 +18,7 @@ class UserApi {
         /// This can only be done by the logged in user.
         Future<Response>createUser(User body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user";
+        String path = "/user";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -51,7 +51,7 @@ class UserApi {
         /// 
         Future<Response>createUsersWithArrayInput(List<User> body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user/createWithArray";
+        String path = "/user/createWithArray";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -85,7 +85,7 @@ class UserApi {
         /// 
         Future<Response>createUsersWithListInput(List<User> body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user/createWithList";
+        String path = "/user/createWithList";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -119,7 +119,7 @@ class UserApi {
         /// This can only be done by the logged in user.
         Future<Response>deleteUser(String username,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
+        String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -149,7 +149,7 @@ class UserApi {
         /// 
         Future<Response<User>>getUserByName(String username,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
+        String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -193,7 +193,7 @@ class UserApi {
         /// 
         Future<Response<String>>loginUser(String username,String password,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user/login";
+        String path = "/user/login";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -239,7 +239,7 @@ class UserApi {
         /// 
         Future<Response>logoutUser({ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user/logout";
+        String path = "/user/logout";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -269,7 +269,7 @@ class UserApi {
         /// This can only be done by the logged in user.
         Future<Response>updateUser(String username,User body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
+        String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});

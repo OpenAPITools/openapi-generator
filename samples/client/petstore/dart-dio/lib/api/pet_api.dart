@@ -21,7 +21,7 @@ class PetApi {
         /// 
         Future<Response>addPet(Pet body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/pet";
+        String path = "/pet";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -54,7 +54,7 @@ class PetApi {
         /// 
         Future<Response>deletePet(int petId,{ String apiKey,CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
+        String path = "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -85,7 +85,7 @@ class PetApi {
         /// Multiple status values can be provided with comma separated strings
         Future<Response<List<Pet>>>findPetsByStatus(List<String> status,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/pet/findByStatus";
+        String path = "/pet/findByStatus";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -131,7 +131,7 @@ class PetApi {
         /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
         Future<Response<List<Pet>>>findPetsByTags(List<String> tags,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/pet/findByTags";
+        String path = "/pet/findByTags";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -177,7 +177,7 @@ class PetApi {
         /// Returns a single pet
         Future<Response<Pet>>getPetById(int petId,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
+        String path = "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -221,7 +221,7 @@ class PetApi {
         /// 
         Future<Response>updatePet(Pet body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/pet";
+        String path = "/pet";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -254,7 +254,7 @@ class PetApi {
         /// 
         Future<Response>updatePetWithForm(int petId,{ String name,String status,CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
+        String path = "/pet/{petId}".replaceAll("{" + "petId" + "}", petId.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -286,7 +286,7 @@ class PetApi {
         /// 
         Future<Response<ApiResponse>>uploadFile(int petId,{ String additionalMetadata,Uint8List file,CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/pet/{petId}/uploadImage".replaceAll("{" + "petId" + "}", petId.toString());
+        String path = "/pet/{petId}/uploadImage".replaceAll("{" + "petId" + "}", petId.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -299,7 +299,7 @@ class PetApi {
 
         Map<String, dynamic> formData = {};
                 if (additionalMetadata != null) {
-                    formData['additionalMetadata'] = parameterToString(additionalMetadata);
+                    formData['additionalMetadata'] = parameterToString(_serializers, additionalMetadata);
                 }
                 if (file != null) {
                     formData['file'] = MultipartFile.fromBytes(file, filename: "file");

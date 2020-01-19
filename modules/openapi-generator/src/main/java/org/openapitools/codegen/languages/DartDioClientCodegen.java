@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -243,8 +243,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
             additionalProperties.put("core", "true");
             typeMapping.put("Date", "DateTime");
             typeMapping.put("date", "DateTime");
-            importMapping.put("DateTime", "DateTime");
-            importMapping.put("OffsetDateTime", "DateTime");
         } else if ("timemachine".equals(dateLibrary)) {
             additionalProperties.put("timeMachine", "true");
             typeMapping.put("date", "LocalDate");

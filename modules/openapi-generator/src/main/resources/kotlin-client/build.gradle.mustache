@@ -13,7 +13,7 @@ buildscript {
     {{/jvm-retrofit2}}
 
     repositories {
-        mavenCentral()
+        maven { url = "https://repo1.maven.org/maven2" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -26,7 +26,7 @@ apply plugin: 'kotlin-kapt'
 {{/moshiCodeGen}}
 
 repositories {
-    mavenCentral()
+    maven { url = "https://repo1.maven.org/maven2" }
 }
 
 test {
