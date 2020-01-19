@@ -217,6 +217,54 @@ impl DuplicateXmlObject {
     }
 }
 
+/// Test a model containing a special character in the enum
+/// Enumeration of values.
+/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// which helps with FFI.
+#[allow(non_camel_case_types)]
+#[repr(C)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGenericEnum))]
+pub enum EnumWithStarObject { 
+    #[serde(rename = "FOO")]
+    FOO,
+    #[serde(rename = "BAR")]
+    BAR,
+    #[serde(rename = "*")]
+    STAR,
+}
+
+impl ::std::fmt::Display for EnumWithStarObject {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        match *self { 
+            EnumWithStarObject::FOO => write!(f, "{}", "FOO"),
+            EnumWithStarObject::BAR => write!(f, "{}", "BAR"),
+            EnumWithStarObject::STAR => write!(f, "{}", "*"),
+        }
+    }
+}
+
+impl ::std::str::FromStr for EnumWithStarObject {
+    type Err = ();
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "FOO" => Ok(EnumWithStarObject::FOO),
+            "BAR" => Ok(EnumWithStarObject::BAR),
+            "*" => Ok(EnumWithStarObject::STAR),
+            _ => Err(()),
+        }
+    }
+}
+
+impl EnumWithStarObject {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct InlineResponse201 {
