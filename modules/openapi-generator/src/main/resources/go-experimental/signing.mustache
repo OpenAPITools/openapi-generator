@@ -76,9 +76,11 @@ const (
 type HttpSignatureAuth struct {
 	KeyId             string            // A key identifier.
 	PrivateKey        crypto.PrivateKey // The private key used to sign HTTP requests.
+	Passphrase        string            // The passphrase to decrypt the private key.
 	SigningScheme     string            // The signature scheme, when signing HTTP requests. Supported value is 'hs2019'.
-	SigningAlgorithm  string            // The signature algorithm, when signing HTTP requests.
-                                      // Supported values are RSASSA-PKCS1-v1_5, RSASSA-PSS.
+	// The signature algorithm, when signing HTTP requests.
+	// Supported values are RSASSA-PKCS1-v1_5, RSASSA-PSS.
+	SigningAlgorithm  string            
 	SignedHeaders     []string          // A list of HTTP headers included when generating the signature for the message.
 	// SignatureMaxValidity specifies the maximum duration of the signature validity.
 	// The value is used to set the '(expires)' signature parameter in the HTTP request.
@@ -102,19 +104,35 @@ func (h *HttpSignatureAuth) LoadPrivateKey(filename string) (err error) {
 	if err != nil {
 		return err
 	}
-	privPem, _ := pem.Decode(priv)
-	switch privPem.Type {
-	case "RSA PRIVATE KEY":
-		if h.PrivateKey, err = x509.ParsePKCS1PrivateKey(privPem.Bytes); err != nil {
+	pemBlock, _ := pem.Decode(priv)
+	if pemBlock == nil {
+		// No PEM data has been found.
+		return fmt.Errorf("File '%s' does not contain PEM data", filename)
+	}
+	var privKey []byte
+	if x509.IsEncryptedPEMBlock(pemBlock) {
+		// The PEM data is encrypted.
+		privKey, err = x509.DecryptPEMBlock(pemBlock, h.Passphrase)
+		if err != nil {
+			// Failed to decrypt PEM block. Because of deficiencies in the encrypted-PEM format,
+			// it's not always possibleto detect an incorrect password.
 			return err
 		}
-	case "EC PRIVATE KEY":
+	} else {
+		privKey = pemBlock.Bytes
+	}
+	switch pemBlock.Type {
+	case "RSA PRIVATE KEY":
+		if h.PrivateKey, err = x509.ParsePKCS1PrivateKey(privKey); err != nil {
+			return err
+		}
+	case "EC PRIVATE KEY", "PRIVATE KEY":
 		// https://tools.ietf.org/html/rfc5915 section 4.
-		if h.PrivateKey, err = x509.ParsePKCS8PrivateKey(privPem.Bytes); err != nil {
+		if h.PrivateKey, err = x509.ParsePKCS8PrivateKey(privKey); err != nil {
 			return err
 		}
 	default:
-		return fmt.Errorf("Key '%s' is not supported", privPem.Type)
+		return fmt.Errorf("Key '%s' is not supported", pemBlock.Type)
 	}
 	return nil
 }
