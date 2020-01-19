@@ -162,7 +162,7 @@ class Order(Model):
         :param status: The status of this Order.
         :type status: str
         """
-        allowed_values = ["placed", "approved", "delivered"]
+        allowed_values = ["placed", "approved", "delivered"]  # noqa: E501
         if status not in allowed_values:
             raise ValueError(
                 "Invalid value for `status` ({0}), must be one of {1}"
