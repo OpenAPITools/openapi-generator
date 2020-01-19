@@ -90,22 +90,21 @@ class MockPoolManager(object):
         self.pubkey = self.signing_cfg.get_public_key()
         self._tc.assertIsNotNone(self.pubkey)
 
-    def request(self, *args, **kwargs):
+    def request(self, *actual_request_target, **actual_request_headers_and_body):
         self._tc.assertTrue(len(self._reqs) > 0)
-        r = self._reqs.pop(0)
+        expected_results = self._reqs.pop(0)
         self._tc.maxDiff = None
-        # r[0] is the expected HTTP method, URL.
-        # args is the actual HTTP method, URL.
-        self._tc.assertEqual(r[0], args)
-        # r[1] is a dict that contains the expected body, headers
-        # kwargs is a dict that contains the actual body, headers
-        for k, expected in r[1].items():
-            self._tc.assertIn(k, kwargs)
+        expected_request_target = expected_results[0] # The expected HTTP method and URL path.
+        expected_request_headers_and_body = expected_results[1] # dict that contains the expected body, headers
+        self._tc.assertEqual(expected_request_target, actual_request_target)
+        # actual_request_headers_and_body is a dict that contains the actual body, headers
+        for k, expected in expected_request_headers_and_body.items():
+            self._tc.assertIn(k, actual_request_headers_and_body)
             if k == 'body':
-                actual_body = kwargs[k]
+                actual_body = actual_request_headers_and_body[k]
                 self._tc.assertEqual(expected, actual_body)
             elif k == 'headers':
-                actual_headers = kwargs[k]
+                actual_headers = actual_request_headers_and_body[k]
                 for expected_header_name, expected_header_value in expected.items():
                     # Validate the generated request contains the expected header.
                     self._tc.assertIn(expected_header_name, actual_headers)
@@ -117,9 +116,9 @@ class MockPoolManager(object):
                                 expected_header_value,actual_header_value))
                     if expected_header_name == 'Authorization':
                         self._validate_authorization_header(
-                            r[0], actual_headers, actual_header_value)
+                            expected_request_target, actual_headers, actual_header_value)
             elif k == 'timeout':
-                self._tc.assertEqual(expected, kwargs[k])
+                self._tc.assertEqual(expected, actual_request_headers_and_body[k])
         return urllib3.HTTPResponse(status=200, body=b'test')
 
     def _validate_authorization_header(self, request_target, actual_headers, authorization_header):
