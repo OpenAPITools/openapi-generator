@@ -119,6 +119,22 @@ final class OpenApiDataMocker implements IMocker
         $exclusiveMinimum = false,
         $exclusiveMaximum = false
     ) {
+        $dataFormat = is_string($dataFormat) ? strtolower($dataFormat) : $dataFormat;
+        switch ($dataFormat) {
+            case IMocker::DATA_FORMAT_INT32:
+                // -2147483647..2147483647
+                $minimum = is_numeric($minimum) ? max($minimum, -2147483647) : -2147483647;
+                $maximum = is_numeric($maximum) ? min($maximum, 2147483647) : 2147483647;
+                break;
+            case IMocker::DATA_FORMAT_INT64:
+                // -9223372036854775807..9223372036854775807
+                $minimum = is_numeric($minimum) ? max($minimum, -9223372036854775807) : -9223372036854775807;
+                $maximum = is_numeric($maximum) ? min($maximum, 9223372036854775807) : 9223372036854775807;
+                break;
+            default:
+                // do nothing, unsupported format
+        }
+
         return $this->getRandomNumber($minimum, $maximum, $exclusiveMinimum, $exclusiveMaximum, 0);
     }
 
@@ -357,7 +373,7 @@ final class OpenApiDataMocker implements IMocker
         foreach ($properties as $propName => $propValue) {
             $options = $this->extractSchemaProperties($propValue);
             $dataType = $options['type'];
-            $dataFormat = $options['dataFormat'] ?? null;
+            $dataFormat = $options['format'] ?? null;
             $ref = $options['$ref'] ?? null;
             $data = $this->mockFromRef($ref);
             $obj->$propName = ($data) ? $data : $this->mock($dataType, $dataFormat, $options);
@@ -517,6 +533,6 @@ final class OpenApiDataMocker implements IMocker
         if ($maxDecimals > 0) {
             return round($min + mt_rand() / mt_getrandmax() * ($max - $min), $maxDecimals);
         }
-        return mt_rand($min, $max);
+        return mt_rand((int) $min, (int) $max);
     }
 }
