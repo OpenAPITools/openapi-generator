@@ -998,7 +998,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 modelXmlNames.put("models::" + mdl.classname, xmlName);
             }
 
-            mdl.arrayModelType = toModelName(mdl.arrayModelType);
+            if (typeMapping.containsKey(mdl.arrayModelType)) {
+                mdl.arrayModelType = typeMapping.get(mdl.arrayModelType);
+            } else {
+                mdl.arrayModelType = toModelName(mdl.arrayModelType);
+            }
         }
 
         if (mdl.xmlNamespace != null) {
