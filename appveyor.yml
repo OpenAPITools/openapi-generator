@@ -1,5 +1,5 @@
 # for CI with appveyor.yml
-# Ref: http://www.yegor256.com/2015/01/10/windows-appveyor-maven.html
+# Ref: https://www.yegor256.com/2015/01/10/windows-appveyor-maven.html
 version: '{branch}-{build}'
 image: Visual Studio 2017
 hosts:
