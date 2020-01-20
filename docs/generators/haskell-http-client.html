@@ -17,32 +17,32 @@
 <tr><th>Option</th><th>Description</th><th>Values</th><th>Default</th></tr>
 </thead>
 <tbody>
-<tr><td>sortParamsByRequiredFlag</td><td>Sort method arguments to place required parameters before optional parameters.</td><td></td><td>true</td></tr>
-<tr><td>sortModelPropertiesByRequiredFlag</td><td>Sort model properties to place required parameters before optional parameters.</td><td></td><td>true</td></tr>
-<tr><td>ensureUniqueParams</td><td>Whether to ensure parameter names are unique in an operation (rename parameters that are not).</td><td></td><td>true</td></tr>
+<tr><td>allowFromJsonNulls</td><td>allow JSON Null during model decoding from JSON</td><td></td><td>true</td></tr>
+<tr><td>allowNonUniqueOperationIds</td><td>allow different API modules to contain the same operationId. Each API must be imported qualified</td><td></td><td>false</td></tr>
+<tr><td>allowToJsonNulls</td><td>allow emitting JSON Null during model encoding to JSON</td><td></td><td>false</td></tr>
 <tr><td>allowUnicodeIdentifiers</td><td>boolean, toggles whether unicode identifiers are allowed in names or not, default is false</td><td></td><td>false</td></tr>
-<tr><td>prependFormOrBodyParameters</td><td>Add form or body parameters to the beginning of the parameter list.</td><td></td><td>false</td></tr>
+<tr><td>baseModule</td><td>Set the base module namespace</td><td></td><td>null</td></tr>
 <tr><td>cabalPackage</td><td>Set the cabal package name, which consists of one or more alphanumeric words separated by hyphens</td><td></td><td>null</td></tr>
 <tr><td>cabalVersion</td><td>Set the cabal version number, consisting of a sequence of one or more integers separated by dots</td><td></td><td>null</td></tr>
-<tr><td>baseModule</td><td>Set the base module namespace</td><td></td><td>null</td></tr>
-<tr><td>requestType</td><td>Set the name of the type used to generate requests</td><td></td><td>null</td></tr>
 <tr><td>configType</td><td>Set the name of the type used for configuration</td><td></td><td>null</td></tr>
-<tr><td>allowFromJsonNulls</td><td>allow JSON Null during model decoding from JSON</td><td></td><td>true</td></tr>
-<tr><td>allowToJsonNulls</td><td>allow emitting JSON Null during model encoding to JSON</td><td></td><td>false</td></tr>
-<tr><td>allowNonUniqueOperationIds</td><td>allow different API modules to contain the same operationId. Each API must be imported qualified</td><td></td><td>false</td></tr>
-<tr><td>generateLenses</td><td>Generate Lens optics for Models</td><td></td><td>true</td></tr>
-<tr><td>generateModelConstructors</td><td>Generate smart constructors (only supply required fields) for models</td><td></td><td>true</td></tr>
-<tr><td>generateEnums</td><td>Generate specific datatypes for OpenAPI enums</td><td></td><td>true</td></tr>
-<tr><td>generateFormUrlEncodedInstances</td><td>Generate FromForm/ToForm instances for models that are used by operations that produce or consume application/x-www-form-urlencoded</td><td></td><td>true</td></tr>
-<tr><td>inlineMimeTypes</td><td>Inline (hardcode) the content-type and accept parameters on operations, when there is only 1 option</td><td></td><td>true</td></tr>
-<tr><td>modelDeriving</td><td>Additional classes to include in the deriving() clause of Models</td><td></td><td>null</td></tr>
-<tr><td>strictFields</td><td>Add strictness annotations to all model fields</td><td></td><td>true</td></tr>
-<tr><td>useKatip</td><td>Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger</td><td></td><td>true</td></tr>
+<tr><td>customTestInstanceModule</td><td>test module used to provide typeclass instances for types not known by the generator</td><td></td><td>null</td></tr>
+<tr><td>dateFormat</td><td>format string used to parse/render a date</td><td></td><td>%Y-%m-%d</td></tr>
 <tr><td>dateTimeFormat</td><td>format string used to parse/render a datetime</td><td></td><td>null</td></tr>
 <tr><td>dateTimeParseFormat</td><td>overrides the format string used to parse a datetime</td><td></td><td>null</td></tr>
-<tr><td>dateFormat</td><td>format string used to parse/render a date</td><td></td><td>%Y-%m-%d</td></tr>
-<tr><td>customTestInstanceModule</td><td>test module used to provide typeclass instances for types not known by the generator</td><td></td><td>null</td></tr>
+<tr><td>ensureUniqueParams</td><td>Whether to ensure parameter names are unique in an operation (rename parameters that are not).</td><td></td><td>true</td></tr>
+<tr><td>generateEnums</td><td>Generate specific datatypes for OpenAPI enums</td><td></td><td>true</td></tr>
+<tr><td>generateFormUrlEncodedInstances</td><td>Generate FromForm/ToForm instances for models that are used by operations that produce or consume application/x-www-form-urlencoded</td><td></td><td>true</td></tr>
+<tr><td>generateLenses</td><td>Generate Lens optics for Models</td><td></td><td>true</td></tr>
+<tr><td>generateModelConstructors</td><td>Generate smart constructors (only supply required fields) for models</td><td></td><td>true</td></tr>
 <tr><td>hideGenerationTimestamp</td><td>Hides the generation timestamp when files are generated.</td><td></td><td>true</td></tr>
+<tr><td>inlineMimeTypes</td><td>Inline (hardcode) the content-type and accept parameters on operations, when there is only 1 option</td><td></td><td>true</td></tr>
+<tr><td>modelDeriving</td><td>Additional classes to include in the deriving() clause of Models</td><td></td><td>null</td></tr>
+<tr><td>prependFormOrBodyParameters</td><td>Add form or body parameters to the beginning of the parameter list.</td><td></td><td>false</td></tr>
+<tr><td>requestType</td><td>Set the name of the type used to generate requests</td><td></td><td>null</td></tr>
+<tr><td>sortModelPropertiesByRequiredFlag</td><td>Sort model properties to place required parameters before optional parameters.</td><td></td><td>true</td></tr>
+<tr><td>sortParamsByRequiredFlag</td><td>Sort method arguments to place required parameters before optional parameters.</td><td></td><td>true</td></tr>
+<tr><td>strictFields</td><td>Add strictness annotations to all model fields</td><td></td><td>true</td></tr>
+<tr><td>useKatip</td><td>Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger</td><td></td><td>true</td></tr>
 </tbody>
 </table>
 <h2><a class="anchor" aria-hidden="true" id="import-mapping"></a><a href="#import-mapping" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>IMPORT MAPPING</h2>
@@ -62,51 +62,51 @@
 </tbody>
 </table>
 <h2><a class="anchor" aria-hidden="true" id="language-primitives"></a><a href="#language-primitives" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>LANGUAGE PRIMITIVES</h2>
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Integer</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Bool</li>
+<li>Char</li>
+<li>Double</li>
 <li>FilePath</li>
 <li>Float</li>
-<li>Bool</li>
-<li>Char</li>
-<li>List</li>
-<li>Text</li>
-<li>String</li>
-<li>Double</li>
 <li>Int</li>
+<li>Integer</li>
+<li>List</li>
+<li>String</li>
+<li>Text</li>
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="reserved-words"></a><a href="#reserved-words" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RESERVED WORDS</h2>
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>qualified</li>
-<li>instance</li>
-<li>data</li>
-<li>import</li>
-<li>infixr</li>
-<li>do</li>
-<li>type</li>
-<li>pure</li>
-<li>foreign</li>
-<li>newtype</li>
-<li>hiding</li>
-<li>rec</li>
-<li>default</li>
-<li>else</li>
-<li>of</li>
-<li>let</li>
-<li>where</li>
-<li>class</li>
-<li>if</li>
-<li>case</li>
-<li>proc</li>
-<li>in</li>
-<li>forall</li>
-<li>module</li>
-<li>then</li>
-<li>infix</li>
-<li>accept</li>
-<li>contenttype</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>accept</li>
 <li>as</li>
+<li>case</li>
+<li>class</li>
+<li>contenttype</li>
+<li>data</li>
+<li>default</li>
 <li>deriving</li>
-<li>infixl</li>
-<li>mdo</li>
+<li>do</li>
+<li>else</li>
 <li>family</li>
+<li>forall</li>
+<li>foreign</li>
+<li>hiding</li>
+<li>if</li>
+<li>import</li>
+<li>in</li>
+<li>infix</li>
+<li>infixl</li>
+<li>infixr</li>
+<li>instance</li>
+<li>let</li>
+<li>mdo</li>
+<li>module</li>
+<li>newtype</li>
+<li>of</li>
+<li>proc</li>
+<li>pure</li>
+<li>qualified</li>
+<li>rec</li>
 <li>return</li>
+<li>then</li>
+<li>type</li>
+<li>where</li>
 </ul>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 1/9/2020</em></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#import-mapping">IMPORT MAPPING</a></li><li><a href="#instantiation-types">INSTANTIATION TYPES</a></li><li><a href="#language-primitives">LANGUAGE PRIMITIVES</a></li><li><a href="#reserved-words">RESERVED WORDS</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2020 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 1/20/2020</em></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#import-mapping">IMPORT MAPPING</a></li><li><a href="#instantiation-types">INSTANTIATION TYPES</a></li><li><a href="#language-primitives">LANGUAGE PRIMITIVES</a></li><li><a href="#reserved-words">RESERVED WORDS</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2020 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>

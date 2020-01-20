@@ -17,27 +17,27 @@
 <tr><th>Option</th><th>Description</th><th>Values</th><th>Default</th></tr>
 </thead>
 <tbody>
-<tr><td>packageName</td><td>C# package name (convention: Title.Case).</td><td></td><td>Org.OpenAPITools</td></tr>
-<tr><td>packageVersion</td><td>C# package version.</td><td></td><td>1.0.0</td></tr>
-<tr><td>sourceFolder</td><td>source folder for generated code</td><td></td><td>src</td></tr>
-<tr><td>packageGuid</td><td>The GUID that will be associated with the C# project</td><td></td><td>null</td></tr>
-<tr><td>interfacePrefix</td><td>Prefix interfaces with a community standard or widely accepted prefix.</td><td></td><td>I</td></tr>
-<tr><td>targetFramework</td><td>The target .NET framework version.</td><td><dl><dt><strong>netstandard1.3</strong></dt><dd>.NET Standard 1.3 compatible</dd><dt><strong>netstandard1.4</strong></dt><dd>.NET Standard 1.4 compatible</dd><dt><strong>netstandard1.5</strong></dt><dd>.NET Standard 1.5 compatible</dd><dt><strong>netstandard1.6</strong></dt><dd>.NET Standard 1.6 compatible</dd><dt><strong>netstandard2.0</strong></dt><dd>.NET Standard 2.0 compatible</dd><dt><strong>netcoreapp2.0</strong></dt><dd>.NET Core 2.0 compatible</dd><dl></td><td>netstandard2.0</td></tr>
-<tr><td>modelPropertyNaming</td><td>Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name</td><td></td><td>PascalCase</td></tr>
+<tr><td>allowUnicodeIdentifiers</td><td>boolean, toggles whether unicode identifiers are allowed in names or not, default is false</td><td></td><td>false</td></tr>
+<tr><td>caseInsensitiveResponseHeaders</td><td>Make API response's headers case-insensitive</td><td></td><td>false</td></tr>
 <tr><td>hideGenerationTimestamp</td><td>Hides the generation timestamp when files are generated.</td><td></td><td>true</td></tr>
-<tr><td>sortParamsByRequiredFlag</td><td>Sort method arguments to place required parameters before optional parameters.</td><td></td><td>true</td></tr>
-<tr><td>useDateTimeOffset</td><td>Use DateTimeOffset to model date-time properties</td><td></td><td>false</td></tr>
-<tr><td>useCollection</td><td>Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.</td><td></td><td>false</td></tr>
-<tr><td>returnICollection</td><td>Return ICollection&lt;T&gt; instead of the concrete type.</td><td></td><td>false</td></tr>
-<tr><td>optionalMethodArgument</td><td>C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).</td><td></td><td>true</td></tr>
+<tr><td>interfacePrefix</td><td>Prefix interfaces with a community standard or widely accepted prefix.</td><td></td><td>I</td></tr>
+<tr><td>modelPropertyNaming</td><td>Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name</td><td></td><td>PascalCase</td></tr>
+<tr><td>netCoreProjectFile</td><td>Use the new format (.NET Core) for .NET project files (.csproj).</td><td></td><td>false</td></tr>
+<tr><td>nonPublicApi</td><td>Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.</td><td></td><td>false</td></tr>
 <tr><td>optionalAssemblyInfo</td><td>Generate AssemblyInfo.cs.</td><td></td><td>true</td></tr>
 <tr><td>optionalEmitDefaultValues</td><td>Set DataMember's EmitDefaultValue.</td><td></td><td>false</td></tr>
+<tr><td>optionalMethodArgument</td><td>C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).</td><td></td><td>true</td></tr>
 <tr><td>optionalProjectFile</td><td>Generate {PackageName}.csproj.</td><td></td><td>true</td></tr>
-<tr><td>nonPublicApi</td><td>Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.</td><td></td><td>false</td></tr>
-<tr><td>allowUnicodeIdentifiers</td><td>boolean, toggles whether unicode identifiers are allowed in names or not, default is false</td><td></td><td>false</td></tr>
-<tr><td>netCoreProjectFile</td><td>Use the new format (.NET Core) for .NET project files (.csproj).</td><td></td><td>false</td></tr>
+<tr><td>packageGuid</td><td>The GUID that will be associated with the C# project</td><td></td><td>null</td></tr>
+<tr><td>packageName</td><td>C# package name (convention: Title.Case).</td><td></td><td>Org.OpenAPITools</td></tr>
+<tr><td>packageVersion</td><td>C# package version.</td><td></td><td>1.0.0</td></tr>
+<tr><td>returnICollection</td><td>Return ICollection&lt;T&gt; instead of the concrete type.</td><td></td><td>false</td></tr>
+<tr><td>sortParamsByRequiredFlag</td><td>Sort method arguments to place required parameters before optional parameters.</td><td></td><td>true</td></tr>
+<tr><td>sourceFolder</td><td>source folder for generated code</td><td></td><td>src</td></tr>
+<tr><td>targetFramework</td><td>The target .NET framework version.</td><td><dl><dt><strong>netstandard1.3</strong></dt><dd>.NET Standard 1.3 compatible</dd><dt><strong>netstandard1.4</strong></dt><dd>.NET Standard 1.4 compatible</dd><dt><strong>netstandard1.5</strong></dt><dd>.NET Standard 1.5 compatible</dd><dt><strong>netstandard1.6</strong></dt><dd>.NET Standard 1.6 compatible</dd><dt><strong>netstandard2.0</strong></dt><dd>.NET Standard 2.0 compatible</dd><dt><strong>netcoreapp2.0</strong></dt><dd>.NET Core 2.0 compatible</dd><dl></td><td>netstandard2.0</td></tr>
+<tr><td>useCollection</td><td>Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.</td><td></td><td>false</td></tr>
+<tr><td>useDateTimeOffset</td><td>Use DateTimeOffset to model date-time properties</td><td></td><td>false</td></tr>
 <tr><td>validatable</td><td>Generates self-validatable models.</td><td></td><td>true</td></tr>
-<tr><td>caseInsensitiveResponseHeaders</td><td>Make API response's headers case-insensitive</td><td></td><td>false</td></tr>
 </tbody>
 </table>
 <h2><a class="anchor" aria-hidden="true" id="import-mapping"></a><a href="#import-mapping" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>IMPORT MAPPING</h2>
@@ -60,132 +60,132 @@
 </tbody>
 </table>
 <h2><a class="anchor" aria-hidden="true" id="language-primitives"></a><a href="#language-primitives" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>LANGUAGE PRIMITIVES</h2>
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>int?</li>
-<li>Dictionary</li>
-<li>string</li>
-<li>bool</li>
-<li>DateTimeOffset?</li>
-<li>String</li>
-<li>Guid</li>
-<li>System.IO.Stream</li>
-<li>bool?</li>
-<li>float</li>
-<li>long</li>
-<li>DateTime</li>
-<li>Int32</li>
-<li>float?</li>
-<li>DateTime?</li>
-<li>List</li>
-<li>Boolean</li>
-<li>long?</li>
-<li>double</li>
-<li>Guid?</li>
-<li>DateTimeOffset</li>
-<li>Double</li>
-<li>int</li>
-<li>byte[]</li>
-<li>Float</li>
-<li>Int64</li>
-<li>double?</li>
-<li>ICollection</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Boolean</li>
 <li>Collection</li>
+<li>DateTime</li>
+<li>DateTime?</li>
+<li>DateTimeOffset</li>
+<li>DateTimeOffset?</li>
+<li>Dictionary</li>
+<li>Double</li>
+<li>Float</li>
+<li>Guid</li>
+<li>Guid?</li>
+<li>ICollection</li>
+<li>Int32</li>
+<li>Int64</li>
+<li>List</li>
 <li>Object</li>
-<li>decimal?</li>
+<li>String</li>
+<li>System.IO.Stream</li>
+<li>bool</li>
+<li>bool?</li>
+<li>byte[]</li>
 <li>decimal</li>
+<li>decimal?</li>
+<li>double</li>
+<li>double?</li>
+<li>float</li>
+<li>float?</li>
+<li>int</li>
+<li>int?</li>
+<li>long</li>
+<li>long?</li>
+<li>string</li>
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="reserved-words"></a><a href="#reserved-words" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RESERVED WORDS</h2>
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>struct</li>
-<li>extern</li>
-<li>do</li>
-<li>ushort</li>
-<li>float</li>
-<li>while</li>
-<li>operator</li>
-<li>localVarQueryParams</li>
-<li>ref</li>
-<li>protected</li>
-<li>readonly</li>
-<li>continue</li>
-<li>else</li>
-<li>checked</li>
-<li>lock</li>
-<li>localVarPathParams</li>
-<li>catch</li>
-<li>Client</li>
-<li>if</li>
-<li>case</li>
-<li>localVarHttpHeaderAccepts</li>
-<li>new</li>
-<li>using</li>
-<li>static</li>
-<li>void</li>
-<li>localVarPostBody</li>
-<li>in</li>
-<li>sizeof</li>
-<li>localVarResponse</li>
-<li>byte</li>
-<li>double</li>
-<li>sealed</li>
-<li>finally</li>
-<li>this</li>
-<li>unchecked</li>
-<li>is</li>
-<li>params</li>
-<li>enum</li>
-<li>explicit</li>
-<li>as</li>
-<li>null</li>
-<li>localVarPath</li>
-<li>true</li>
-<li>fixed</li>
-<li>try</li>
-<li>decimal</li>
-<li>object</li>
-<li>implicit</li>
-<li>internal</li>
-<li>private</li>
-<li>virtual</li>
-<li>bool</li>
-<li>const</li>
-<li>string</li>
-<li>for</li>
-<li>localVarHttpHeaderAccept</li>
-<li>interface</li>
-<li>unsafe</li>
-<li>long</li>
-<li>out</li>
-<li>switch</li>
-<li>delegate</li>
-<li>foreach</li>
-<li>default</li>
-<li>ulong</li>
-<li>goto</li>
-<li>localVarHttpContentTypes</li>
-<li>localVarHttpContentType</li>
-<li>public</li>
-<li>localVarStatusCode</li>
-<li>stackalloc</li>
-<li>parameter</li>
-<li>client</li>
-<li>override</li>
-<li>event</li>
-<li>class</li>
-<li>typeof</li>
-<li>localVarFormParams</li>
-<li>break</li>
-<li>false</li>
-<li>volatile</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Client</li>
 <li>abstract</li>
-<li>uint</li>
-<li>int</li>
-<li>localVarHeaderParams</li>
-<li>throw</li>
-<li>char</li>
-<li>namespace</li>
-<li>sbyte</li>
-<li>short</li>
-<li>localVarFileParams</li>
-<li>return</li>
+<li>as</li>
 <li>base</li>
+<li>bool</li>
+<li>break</li>
+<li>byte</li>
+<li>case</li>
+<li>catch</li>
+<li>char</li>
+<li>checked</li>
+<li>class</li>
+<li>client</li>
+<li>const</li>
+<li>continue</li>
+<li>decimal</li>
+<li>default</li>
+<li>delegate</li>
+<li>do</li>
+<li>double</li>
+<li>else</li>
+<li>enum</li>
+<li>event</li>
+<li>explicit</li>
+<li>extern</li>
+<li>false</li>
+<li>finally</li>
+<li>fixed</li>
+<li>float</li>
+<li>for</li>
+<li>foreach</li>
+<li>goto</li>
+<li>if</li>
+<li>implicit</li>
+<li>in</li>
+<li>int</li>
+<li>interface</li>
+<li>internal</li>
+<li>is</li>
+<li>localVarFileParams</li>
+<li>localVarFormParams</li>
+<li>localVarHeaderParams</li>
+<li>localVarHttpContentType</li>
+<li>localVarHttpContentTypes</li>
+<li>localVarHttpHeaderAccept</li>
+<li>localVarHttpHeaderAccepts</li>
+<li>localVarPath</li>
+<li>localVarPathParams</li>
+<li>localVarPostBody</li>
+<li>localVarQueryParams</li>
+<li>localVarResponse</li>
+<li>localVarStatusCode</li>
+<li>lock</li>
+<li>long</li>
+<li>namespace</li>
+<li>new</li>
+<li>null</li>
+<li>object</li>
+<li>operator</li>
+<li>out</li>
+<li>override</li>
+<li>parameter</li>
+<li>params</li>
+<li>private</li>
+<li>protected</li>
+<li>public</li>
+<li>readonly</li>
+<li>ref</li>
+<li>return</li>
+<li>sbyte</li>
+<li>sealed</li>
+<li>short</li>
+<li>sizeof</li>
+<li>stackalloc</li>
+<li>static</li>
+<li>string</li>
+<li>struct</li>
+<li>switch</li>
+<li>this</li>
+<li>throw</li>
+<li>true</li>
+<li>try</li>
+<li>typeof</li>
+<li>uint</li>
+<li>ulong</li>
+<li>unchecked</li>
+<li>unsafe</li>
+<li>ushort</li>
+<li>using</li>
+<li>virtual</li>
+<li>void</li>
+<li>volatile</li>
+<li>while</li>
 </ul>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 1/9/2020</em></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#import-mapping">IMPORT MAPPING</a></li><li><a href="#instantiation-types">INSTANTIATION TYPES</a></li><li><a href="#language-primitives">LANGUAGE PRIMITIVES</a></li><li><a href="#reserved-words">RESERVED WORDS</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2020 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 1/20/2020</em></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#import-mapping">IMPORT MAPPING</a></li><li><a href="#instantiation-types">INSTANTIATION TYPES</a></li><li><a href="#language-primitives">LANGUAGE PRIMITIVES</a></li><li><a href="#reserved-words">RESERVED WORDS</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2020 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>

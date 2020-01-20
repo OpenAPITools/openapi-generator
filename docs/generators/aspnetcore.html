@@ -17,37 +17,37 @@
 <tr><th>Option</th><th>Description</th><th>Values</th><th>Default</th></tr>
 </thead>
 <tbody>
-<tr><td>licenseUrl</td><td>The URL of the license</td><td></td><td><a href="http://localhost">http://localhost</a></td></tr>
-<tr><td>licenseName</td><td>The name of the license</td><td></td><td>NoLicense</td></tr>
-<tr><td>packageCopyright</td><td>Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.</td><td></td><td>No Copyright</td></tr>
-<tr><td>packageAuthors</td><td>Specifies Authors property in the .NET Core project file.</td><td></td><td>OpenAPI</td></tr>
-<tr><td>packageTitle</td><td>Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.</td><td></td><td>OpenAPI Library</td></tr>
-<tr><td>packageName</td><td>C# package name (convention: Title.Case).</td><td></td><td>Org.OpenAPITools</td></tr>
-<tr><td>packageVersion</td><td>C# package version.</td><td></td><td>1.0.0</td></tr>
-<tr><td>packageGuid</td><td>The GUID that will be associated with the C# project</td><td></td><td>null</td></tr>
-<tr><td>sourceFolder</td><td>source folder for generated code</td><td></td><td>src</td></tr>
-<tr><td>compatibilityVersion</td><td>ASP.Net Core CompatibilityVersion</td><td></td><td>Version_2_2</td></tr>
 <tr><td>aspnetCoreVersion</td><td>ASP.NET Core version: 3.0 (preview4 only), 2.2, 2.1, 2.0 (deprecated)</td><td></td><td>2.2</td></tr>
-<tr><td>swashbuckleVersion</td><td>Swashbucke version: 3.0.0, 4.0.0</td><td></td><td>3.0.0</td></tr>
-<tr><td>sortParamsByRequiredFlag</td><td>Sort method arguments to place required parameters before optional parameters.</td><td></td><td>true</td></tr>
-<tr><td>useDateTimeOffset</td><td>Use DateTimeOffset to model date-time properties</td><td></td><td>false</td></tr>
-<tr><td>useCollection</td><td>Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.</td><td></td><td>false</td></tr>
-<tr><td>returnICollection</td><td>Return ICollection&lt;T&gt; instead of the concrete type.</td><td></td><td>false</td></tr>
-<tr><td>useSwashbuckle</td><td>Uses the Swashbuckle.AspNetCore NuGet package for documentation.</td><td></td><td>true</td></tr>
-<tr><td>isLibrary</td><td>Is the build a library</td><td></td><td>false</td></tr>
-<tr><td>useFrameworkReference</td><td>Use frameworkReference for ASP.NET Core 3.0+ and  PackageReference  ASP.NET Core 2.2 or earlier.</td><td></td><td>false</td></tr>
-<tr><td>useNewtonsoft</td><td>Uses the Newtonsoft JSON library.</td><td></td><td>true</td></tr>
-<tr><td>newtonsoftVersion</td><td>Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+</td><td></td><td>3.0.0-preview5-19227-01</td></tr>
-<tr><td>useDefaultRouting</td><td>Use default routing for the  ASP.NET Core version. For 3.0 turn off default because it is not yet supported.</td><td></td><td>true</td></tr>
+<tr><td>buildTarget</td><td>Target to build an application or library</td><td></td><td>program</td></tr>
+<tr><td>classModifier</td><td>Class Modifier can be empty, abstract</td><td></td><td></td></tr>
+<tr><td>compatibilityVersion</td><td>ASP.Net Core CompatibilityVersion</td><td></td><td>Version_2_2</td></tr>
 <tr><td>enumNameSuffix</td><td>Suffix that will be appended to all enum names.</td><td></td><td>Enum</td></tr>
 <tr><td>enumValueSuffix</td><td>Suffix that will be appended to all enum values.</td><td></td><td>Enum</td></tr>
-<tr><td>classModifier</td><td>Class Modifier can be empty, abstract</td><td></td><td></td></tr>
-<tr><td>operationModifier</td><td>Operation Modifier can be virtual, abstract or partial</td><td></td><td>virtual</td></tr>
-<tr><td>buildTarget</td><td>Target to build an application or library</td><td></td><td>program</td></tr>
 <tr><td>generateBody</td><td>Generates method body.</td><td></td><td>true</td></tr>
-<tr><td>operationIsAsync</td><td>Set methods to async or sync (default).</td><td></td><td>false</td></tr>
-<tr><td>operationResultTask</td><td>Set methods result to Task&lt;&gt;.</td><td></td><td>false</td></tr>
+<tr><td>isLibrary</td><td>Is the build a library</td><td></td><td>false</td></tr>
+<tr><td>licenseName</td><td>The name of the license</td><td></td><td>NoLicense</td></tr>
+<tr><td>licenseUrl</td><td>The URL of the license</td><td></td><td><a href="http://localhost">http://localhost</a></td></tr>
 <tr><td>modelClassModifier</td><td>Model Class Modifier can be nothing or partial</td><td></td><td>partial</td></tr>
+<tr><td>newtonsoftVersion</td><td>Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+</td><td></td><td>3.0.0-preview5-19227-01</td></tr>
+<tr><td>operationIsAsync</td><td>Set methods to async or sync (default).</td><td></td><td>false</td></tr>
+<tr><td>operationModifier</td><td>Operation Modifier can be virtual, abstract or partial</td><td></td><td>virtual</td></tr>
+<tr><td>operationResultTask</td><td>Set methods result to Task&lt;&gt;.</td><td></td><td>false</td></tr>
+<tr><td>packageAuthors</td><td>Specifies Authors property in the .NET Core project file.</td><td></td><td>OpenAPI</td></tr>
+<tr><td>packageCopyright</td><td>Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.</td><td></td><td>No Copyright</td></tr>
+<tr><td>packageGuid</td><td>The GUID that will be associated with the C# project</td><td></td><td>null</td></tr>
+<tr><td>packageName</td><td>C# package name (convention: Title.Case).</td><td></td><td>Org.OpenAPITools</td></tr>
+<tr><td>packageTitle</td><td>Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.</td><td></td><td>OpenAPI Library</td></tr>
+<tr><td>packageVersion</td><td>C# package version.</td><td></td><td>1.0.0</td></tr>
+<tr><td>returnICollection</td><td>Return ICollection&lt;T&gt; instead of the concrete type.</td><td></td><td>false</td></tr>
+<tr><td>sortParamsByRequiredFlag</td><td>Sort method arguments to place required parameters before optional parameters.</td><td></td><td>true</td></tr>
+<tr><td>sourceFolder</td><td>source folder for generated code</td><td></td><td>src</td></tr>
+<tr><td>swashbuckleVersion</td><td>Swashbucke version: 3.0.0, 4.0.0</td><td></td><td>3.0.0</td></tr>
+<tr><td>useCollection</td><td>Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.</td><td></td><td>false</td></tr>
+<tr><td>useDateTimeOffset</td><td>Use DateTimeOffset to model date-time properties</td><td></td><td>false</td></tr>
+<tr><td>useDefaultRouting</td><td>Use default routing for the  ASP.NET Core version. For 3.0 turn off default because it is not yet supported.</td><td></td><td>true</td></tr>
+<tr><td>useFrameworkReference</td><td>Use frameworkReference for ASP.NET Core 3.0+ and  PackageReference  ASP.NET Core 2.2 or earlier.</td><td></td><td>false</td></tr>
+<tr><td>useNewtonsoft</td><td>Uses the Newtonsoft JSON library.</td><td></td><td>true</td></tr>
+<tr><td>useSwashbuckle</td><td>Uses the Swashbuckle.AspNetCore NuGet package for documentation.</td><td></td><td>true</td></tr>
 </tbody>
 </table>
 <h2><a class="anchor" aria-hidden="true" id="import-mapping"></a><a href="#import-mapping" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>IMPORT MAPPING</h2>
@@ -70,137 +70,137 @@
 </tbody>
 </table>
 <h2><a class="anchor" aria-hidden="true" id="language-primitives"></a><a href="#language-primitives" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>LANGUAGE PRIMITIVES</h2>
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>int?</li>
-<li>Dictionary</li>
-<li>string</li>
-<li>bool</li>
-<li>DateTimeOffset?</li>
-<li>String</li>
-<li>Guid</li>
-<li>System.IO.Stream</li>
-<li>bool?</li>
-<li>float</li>
-<li>long</li>
-<li>DateTime</li>
-<li>Int32</li>
-<li>float?</li>
-<li>DateTime?</li>
-<li>List</li>
-<li>Boolean</li>
-<li>long?</li>
-<li>double</li>
-<li>Guid?</li>
-<li>DateTimeOffset</li>
-<li>Double</li>
-<li>int</li>
-<li>byte[]</li>
-<li>Float</li>
-<li>Int64</li>
-<li>double?</li>
-<li>ICollection</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Boolean</li>
 <li>Collection</li>
+<li>DateTime</li>
+<li>DateTime?</li>
+<li>DateTimeOffset</li>
+<li>DateTimeOffset?</li>
+<li>Dictionary</li>
+<li>Double</li>
+<li>Float</li>
+<li>Guid</li>
+<li>Guid?</li>
+<li>ICollection</li>
+<li>Int32</li>
+<li>Int64</li>
+<li>List</li>
 <li>Object</li>
-<li>decimal?</li>
+<li>String</li>
+<li>System.IO.Stream</li>
+<li>bool</li>
+<li>bool?</li>
+<li>byte[]</li>
 <li>decimal</li>
+<li>decimal?</li>
+<li>double</li>
+<li>double?</li>
+<li>float</li>
+<li>float?</li>
+<li>int</li>
+<li>int?</li>
+<li>long</li>
+<li>long?</li>
+<li>string</li>
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="reserved-words"></a><a href="#reserved-words" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RESERVED WORDS</h2>
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>struct</li>
-<li>ushort</li>
-<li>localVarQueryParams</li>
-<li>protected</li>
-<li>readonly</li>
-<li>else</li>
-<li>lock</li>
-<li>localVarPathParams</li>
-<li>catch</li>
-<li>if</li>
-<li>case</li>
-<li>localVarHttpHeaderAccepts</li>
-<li>using</li>
-<li>localVarPostBody</li>
-<li>in</li>
-<li>byte</li>
-<li>double</li>
-<li>var</li>
-<li>is</li>
-<li>params</li>
-<li>enum</li>
-<li>explicit</li>
-<li>as</li>
-<li>object</li>
-<li>implicit</li>
-<li>internal</li>
-<li>localVarHttpHeaderAccept</li>
-<li>unsafe</li>
-<li>long</li>
-<li>out</li>
-<li>delegate</li>
-<li>default</li>
-<li>goto</li>
-<li>localVarHttpContentTypes</li>
-<li>localVarHttpContentType</li>
-<li>yield</li>
-<li>override</li>
-<li>event</li>
-<li>typeof</li>
-<li>break</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Client</li>
 <li>abstract</li>
-<li>uint</li>
-<li>throw</li>
-<li>char</li>
-<li>sbyte</li>
-<li>localVarFileParams</li>
-<li>return</li>
-<li>extern</li>
-<li>do</li>
-<li>float</li>
-<li>while</li>
-<li>operator</li>
-<li>ref</li>
-<li>continue</li>
-<li>checked</li>
-<li>dynamic</li>
-<li>Client</li>
-<li>new</li>
-<li>static</li>
-<li>void</li>
-<li>sizeof</li>
-<li>localVarResponse</li>
-<li>sealed</li>
-<li>finally</li>
-<li>this</li>
-<li>unchecked</li>
-<li>null</li>
-<li>localVarPath</li>
-<li>true</li>
-<li>fixed</li>
-<li>try</li>
-<li>decimal</li>
-<li>private</li>
-<li>virtual</li>
-<li>bool</li>
-<li>const</li>
-<li>string</li>
-<li>for</li>
-<li>interface</li>
-<li>switch</li>
-<li>foreach</li>
-<li>ulong</li>
-<li>public</li>
-<li>localVarStatusCode</li>
-<li>stackalloc</li>
-<li>parameter</li>
-<li>await</li>
-<li>client</li>
-<li>class</li>
-<li>localVarFormParams</li>
-<li>false</li>
-<li>volatile</li>
-<li>int</li>
+<li>as</li>
 <li>async</li>
-<li>localVarHeaderParams</li>
-<li>namespace</li>
-<li>short</li>
+<li>await</li>
 <li>base</li>
+<li>bool</li>
+<li>break</li>
+<li>byte</li>
+<li>case</li>
+<li>catch</li>
+<li>char</li>
+<li>checked</li>
+<li>class</li>
+<li>client</li>
+<li>const</li>
+<li>continue</li>
+<li>decimal</li>
+<li>default</li>
+<li>delegate</li>
+<li>do</li>
+<li>double</li>
+<li>dynamic</li>
+<li>else</li>
+<li>enum</li>
+<li>event</li>
+<li>explicit</li>
+<li>extern</li>
+<li>false</li>
+<li>finally</li>
+<li>fixed</li>
+<li>float</li>
+<li>for</li>
+<li>foreach</li>
+<li>goto</li>
+<li>if</li>
+<li>implicit</li>
+<li>in</li>
+<li>int</li>
+<li>interface</li>
+<li>internal</li>
+<li>is</li>
+<li>localVarFileParams</li>
+<li>localVarFormParams</li>
+<li>localVarHeaderParams</li>
+<li>localVarHttpContentType</li>
+<li>localVarHttpContentTypes</li>
+<li>localVarHttpHeaderAccept</li>
+<li>localVarHttpHeaderAccepts</li>
+<li>localVarPath</li>
+<li>localVarPathParams</li>
+<li>localVarPostBody</li>
+<li>localVarQueryParams</li>
+<li>localVarResponse</li>
+<li>localVarStatusCode</li>
+<li>lock</li>
+<li>long</li>
+<li>namespace</li>
+<li>new</li>
+<li>null</li>
+<li>object</li>
+<li>operator</li>
+<li>out</li>
+<li>override</li>
+<li>parameter</li>
+<li>params</li>
+<li>private</li>
+<li>protected</li>
+<li>public</li>
+<li>readonly</li>
+<li>ref</li>
+<li>return</li>
+<li>sbyte</li>
+<li>sealed</li>
+<li>short</li>
+<li>sizeof</li>
+<li>stackalloc</li>
+<li>static</li>
+<li>string</li>
+<li>struct</li>
+<li>switch</li>
+<li>this</li>
+<li>throw</li>
+<li>true</li>
+<li>try</li>
+<li>typeof</li>
+<li>uint</li>
+<li>ulong</li>
+<li>unchecked</li>
+<li>unsafe</li>
+<li>ushort</li>
+<li>using</li>
+<li>var</li>
+<li>virtual</li>
+<li>void</li>
+<li>volatile</li>
+<li>while</li>
+<li>yield</li>
 </ul>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 1/9/2020</em></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#import-mapping">IMPORT MAPPING</a></li><li><a href="#instantiation-types">INSTANTIATION TYPES</a></li><li><a href="#language-primitives">LANGUAGE PRIMITIVES</a></li><li><a href="#reserved-words">RESERVED WORDS</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2020 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 1/20/2020</em></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#import-mapping">IMPORT MAPPING</a></li><li><a href="#instantiation-types">INSTANTIATION TYPES</a></li><li><a href="#language-primitives">LANGUAGE PRIMITIVES</a></li><li><a href="#reserved-words">RESERVED WORDS</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2020 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
