@@ -27,10 +27,10 @@
     <TargetFramework>{{targetFramework}}</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>{{#licenseId}}
-    <PackageLicenseExpression>{{licenseId}}</PackageLicenseExpression>{{/licenseId}}{{#repositoryUrl}}
-    <RepositoryUrl>{{repositoryUrl}}</RepositoryUrl>{{/repositoryUrl}}{{#repositoryType}}
-    <RepositoryType>{{repositoryType}}</RepositoryType>{{/repositoryType}}{{#projectUrl}}
-    <PackageProjectUrl>{{projectUrl}}</PackageProjectUrl>{{/{{projectUrl}}}}{{#releaseNotes}}
+    <PackageLicenseExpression>{{licenseId}}</PackageLicenseExpression>{{/licenseId}}
+    <RepositoryUrl>https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}</PackageProjectUrl>{{#releaseNotes}}
     <PackageReleaseNotes>{{releaseNotes}}</PackageReleaseNotes>{{/releaseNotes}}{{#packageTags}}
     <PackageTags>{{{packageTags}}}}</PackageTags>{{/packageTags}}
   </PropertyGroup>
