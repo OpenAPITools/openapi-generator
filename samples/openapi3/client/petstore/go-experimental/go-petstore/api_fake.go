@@ -1774,6 +1774,8 @@ func (r apiTestQueryParameterCollectionFormatRequest) Execute() (*_nethttp.Respo
 			for i := 0; i < s.Len(); i++ {
 				localVarQueryParams.Add("pipe", parameterToString(s.Index(i), "multi"))
 			}
+		} else {  
+			localVarQueryParams.Add("pipe", parameterToString(t, "multi")) 
 		}
 	}
 	localVarQueryParams.Add("ioutil", parameterToString(*r.ioutil, "csv"))
@@ -1786,6 +1788,8 @@ func (r apiTestQueryParameterCollectionFormatRequest) Execute() (*_nethttp.Respo
 			for i := 0; i < s.Len(); i++ {
 				localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
 			}
+		} else {  
+			localVarQueryParams.Add("context", parameterToString(t, "multi")) 
 		}
 	}
 	// to determine the Content-Type header
