@@ -5,12 +5,12 @@ sidebar_label: javascript-closure-angular
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
-|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
-|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
+|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |useEs6|use ES6 templates| |false|
 
 ## IMPORT MAPPING
@@ -28,58 +28,58 @@ sidebar_label: javascript-closure-angular
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>number</li>
-<li>Blob</li>
-<li>boolean</li>
-<li>string</li>
-<li>Object</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Blob</li>
 <li>Date</li>
+<li>Object</li>
+<li>boolean</li>
+<li>number</li>
+<li>string</li>
 </ul>
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>implements</li>
-<li>synchronized</li>
-<li>private</li>
-<li>import</li>
-<li>const</li>
-<li>for</li>
-<li>do</li>
-<li>interface</li>
-<li>while</li>
-<li>switch</li>
-<li>default</li>
-<li>goto</li>
-<li>protected</li>
-<li>public</li>
-<li>continue</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
 <li>assert</li>
-<li>else</li>
-<li>catch</li>
-<li>if</li>
-<li>class</li>
+<li>break</li>
+<li>byte</li>
 <li>case</li>
+<li>catch</li>
+<li>char</li>
+<li>class</li>
+<li>const</li>
+<li>continue</li>
+<li>default</li>
+<li>do</li>
+<li>double</li>
+<li>else</li>
+<li>enum</li>
+<li>extends</li>
+<li>final</li>
+<li>finally</li>
+<li>for</li>
+<li>goto</li>
+<li>if</li>
+<li>implements</li>
+<li>import</li>
+<li>instanceof</li>
+<li>int</li>
+<li>interface</li>
 <li>new</li>
 <li>package</li>
-<li>static</li>
-<li>void</li>
-<li>break</li>
-<li>double</li>
-<li>byte</li>
-<li>finally</li>
-<li>this</li>
-<li>abstract</li>
-<li>throws</li>
-<li>enum</li>
-<li>int</li>
-<li>instanceof</li>
-<li>super</li>
-<li>extends</li>
-<li>throw</li>
-<li>transient</li>
-<li>char</li>
-<li>final</li>
-<li>short</li>
-<li>try</li>
+<li>private</li>
+<li>protected</li>
+<li>public</li>
 <li>return</li>
+<li>short</li>
+<li>static</li>
+<li>super</li>
+<li>switch</li>
+<li>synchronized</li>
+<li>this</li>
+<li>throw</li>
+<li>throws</li>
+<li>transient</li>
+<li>try</li>
+<li>void</li>
+<li>while</li>
 </ul>
