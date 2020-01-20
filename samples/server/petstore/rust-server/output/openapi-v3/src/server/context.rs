@@ -6,6 +6,7 @@ use hyper::{Request, Response, Error, StatusCode};
 use server::url::form_urlencoded;
 use swagger::auth::{Authorization, AuthData, Scopes};
 use swagger::{Has, Pop, Push, XSpanIdString};
+use swagger::headers::SafeHeaders;
 use Api;
 
 pub struct NewAddContext<T, A>
@@ -86,7 +87,7 @@ impl<T, A, B, C, D> hyper::server::Service for AddContext<T, A>
         {
             use hyper::header::{Authorization as HyperAuth, Basic, Bearer};
             use std::ops::Deref;
-            if let Some(bearer) = req.headers().get::<HyperAuth<Bearer>>().cloned() {
+            if let Some(bearer) = req.headers().safe_get::<HyperAuth<Bearer>>() {
                 let auth_data = AuthData::Bearer(bearer.deref().clone());
                 let context = context.push(Some(auth_data));
                 let context = context.push(None::<Authorization>);

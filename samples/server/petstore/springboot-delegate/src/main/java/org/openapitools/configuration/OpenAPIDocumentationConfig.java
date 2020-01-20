@@ -27,7 +27,7 @@ public class OpenAPIDocumentationConfig {
             .title("OpenAPI Petstore")
             .description("This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\")
             .license("Apache-2.0")
-            .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
+            .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0.html")
             .termsOfServiceUrl("")
             .version("1.0.0")
             .contact(new Contact("","", ""))

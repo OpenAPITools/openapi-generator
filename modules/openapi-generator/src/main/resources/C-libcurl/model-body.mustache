@@ -282,18 +282,18 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{^isContainer}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    if(cJSON_AddNumberToObject(item, "{{{name}}}", {{{classname}}}->{{{name}}}) == NULL) {
+    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //Numeric
     }
     {{/isNumeric}}
     {{#isBoolean}}
-    if(cJSON_AddBoolToObject(item, "{{{name}}}", {{{classname}}}->{{{name}}}) == NULL) {
+    if(cJSON_AddBoolToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //Bool
     }
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    if(cJSON_AddStringToObject(item, "{{{name}}}", {{{name}}}{{classname}}_ToString({{{classname}}}->{{{name}}})) == NULL)
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{name}}}{{classname}}_ToString({{{classname}}}->{{{name}}})) == NULL)
     {
     goto fail; //Enum
     }
@@ -301,30 +301,30 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
-    if(cJSON_AddStringToObject(item, "{{{name}}}", {{{classname}}}->{{{name}}}) == NULL) {
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //String
     }
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    if(cJSON_AddNumberToObject(item, "{{{name}}}", {{{classname}}}->{{{name}}}) == NULL) {
+    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //Byte
     }
     {{/isByteArray}}
     {{#isBinary}}
     char* encoded_str_{{{name}}} = base64encode({{{classname}}}->{{{name}}}->data,{{{classname}}}->{{{name}}}->len);
-    if(cJSON_AddStringToObject(item, "{{{name}}}", encoded_str_{{{name}}}) == NULL) {
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", encoded_str_{{{name}}}) == NULL) {
     goto fail; //Binary
     }
     free (encoded_str_{{{name}}});
     {{/isBinary}}
     {{#isDate}}
-    if(cJSON_AddStringToObject(item, "{{{name}}}", {{{classname}}}->{{{name}}}) == NULL) {
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //Date
     }
     {{/isDate}}
     {{#isDateTime}}
-    if(cJSON_AddStringToObject(item, "{{{name}}}", {{{classname}}}->{{{name}}}) == NULL) {
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //Date-Time
     }
     {{/isDateTime}}
@@ -336,7 +336,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     if({{{name}}}_enum_local_JSON == NULL) {
     goto fail; // enum
     }
-    cJSON_AddItemToObject(item, "{{{name}}}", {{{name}}}_enum_local_JSON);
+    cJSON_AddItemToObject(item, "{{{baseName}}}", {{{name}}}_enum_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
@@ -346,19 +346,19 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     if({{{name}}}_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "{{{name}}}", {{{name}}}_local_JSON);
+    cJSON_AddItemToObject(item, "{{{baseName}}}", {{{name}}}_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
     {{/isEnum}}
     {{/isModel}}
     {{#isUuid}}
-    if(cJSON_AddStringToObject(item, "{{{name}}}", {{{classname}}}->{{{name}}}) == NULL) {
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //uuid
     }
     {{/isUuid}}
     {{#isEmail}}
-    if(cJSON_AddStringToObject(item, "{{{name}}}", {{{classname}}}->{{{name}}}) == NULL) {
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //Email
     }
     {{/isEmail}}
@@ -367,7 +367,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     if({{{name}}}_object == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "{{{name}}}", {{{name}}}_object);
+    cJSON_AddItemToObject(item, "{{{baseName}}}", {{{name}}}_object);
     if(item->child == NULL) {
     goto fail;
     }
@@ -377,7 +377,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{#isContainer}}
     {{#isListContainer}}
     {{#isPrimitiveType}}
-    cJSON *{{{name}}} = cJSON_AddArrayToObject(item, "{{{name}}}");
+    cJSON *{{{name}}} = cJSON_AddArrayToObject(item, "{{{baseName}}}");
     if({{{name}}} == NULL) {
         goto fail; //primitive container
     }
@@ -401,7 +401,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     }
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    cJSON *{{{name}}} = cJSON_AddArrayToObject(item, "{{{name}}}");
+    cJSON *{{{name}}} = cJSON_AddArrayToObject(item, "{{{baseName}}}");
     if({{{name}}} == NULL) {
     goto fail; //nonprimitive container
     }
@@ -419,7 +419,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isPrimitiveType}}
     {{/isListContainer}}
     {{#isMapContainer}}
-    cJSON *{{{name}}} = cJSON_AddObjectToObject(item, "{{{name}}}");
+    cJSON *{{{name}}} = cJSON_AddObjectToObject(item, "{{{baseName}}}");
     if({{{name}}} == NULL) {
         goto fail; //primitive map container
     }
@@ -466,7 +466,7 @@ fail:
 
     {{#vars}}
     // {{{classname}}}->{{{name}}}
-    cJSON *{{{name}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{name}}}");
+    cJSON *{{{name}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
     {{#required}}
     if (!{{{name}}}) {
         goto end;

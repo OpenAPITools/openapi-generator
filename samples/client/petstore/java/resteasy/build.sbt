@@ -13,14 +13,14 @@ lazy val root = (project in file(".")).
       "org.jboss.resteasy" % "resteasy-client" % "3.1.3.Final" % "compile",
       "org.jboss.resteasy" % "resteasy-multipart-provider" % "3.1.3.Final" % "compile",
       "org.jboss.resteasy" % "resteasy-jackson2-provider" % "3.1.3.Final" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-core" % "2.9.10" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.9.10" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.9.10.1" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-core" % "2.10.1" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.1" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.1" % "compile",
       "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.9.10" % "compile",
       "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.9.10" % "compile",
       "joda-time" % "joda-time" % "2.9.9" % "compile",
       "com.brsanthu" % "migbase64" % "2.2" % "compile",
-      "junit" % "junit" % "4.12" % "test",
+      "junit" % "junit" % "4.13" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )
   )

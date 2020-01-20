@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,10 +18,9 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfig {
@@ -45,6 +44,19 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
 
     public Apache2ConfigCodegen() {
         super();
+
+        // TODO: Apache2 maintainer review.
+        featureSet = getFeatureSet().modify()
+                .parameterFeatures(EnumSet.of(ParameterFeature.Path))
+                .securityFeatures(EnumSet.of(SecurityFeature.BasicAuth))
+                .dataTypeFeatures(EnumSet.noneOf(DataTypeFeature.class))
+                .wireFormatFeatures(EnumSet.noneOf(WireFormatFeature.class))
+                .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
+                .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
+                .schemaSupportFeatures(EnumSet.noneOf(SchemaSupportFeature.class))
+                .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
+                .build();
+
         apiTemplateFiles.put("apache-config.mustache", ".conf");
 
         embeddedTemplateDir = templateDir = "apache2";

@@ -123,8 +123,8 @@ describe 'FakeApi' do
   end
 
   # unit tests for test_endpoint_parameters
-  # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-  # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+  # Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+  # Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
   # @param number None
   # @param double None
   # @param pattern_without_delimiter None

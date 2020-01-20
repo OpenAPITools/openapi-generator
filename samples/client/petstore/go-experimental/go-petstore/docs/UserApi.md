@@ -17,19 +17,24 @@ Method | HTTP request | Description
 
 ## CreateUser
 
-> CreateUser(ctx, body)
+> CreateUser(ctx).Body(body).Execute()
 
 Create user
 
-This can only be done by the logged in user.
 
-### Required Parameters
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateUserRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md) | Created user object | 
 
 ### Return type
 
@@ -51,17 +56,22 @@ No authorization required
 
 ## CreateUsersWithArrayInput
 
-> CreateUsersWithArrayInput(ctx, body)
+> CreateUsersWithArrayInput(ctx).Body(body).Execute()
 
 Creates list of users with given input array
 
-### Required Parameters
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateUsersWithArrayInputRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**[]User**](User.md)| List of user object | 
+ **body** | [**[]User**](User.md) | List of user object | 
 
 ### Return type
 
@@ -83,17 +93,22 @@ No authorization required
 
 ## CreateUsersWithListInput
 
-> CreateUsersWithListInput(ctx, body)
+> CreateUsersWithListInput(ctx).Body(body).Execute()
 
 Creates list of users with given input array
 
-### Required Parameters
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateUsersWithListInputRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**[]User**](User.md)| List of user object | 
+ **body** | [**[]User**](User.md) | List of user object | 
 
 ### Return type
 
@@ -115,19 +130,28 @@ No authorization required
 
 ## DeleteUser
 
-> DeleteUser(ctx, username)
+> DeleteUser(ctx, username).Execute()
 
 Delete user
 
-This can only be done by the logged in user.
 
-### Required Parameters
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**username** | **string**| The name that needs to be deleted | 
+**username** | **string** | The name that needs to be deleted | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteUserRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -149,17 +173,26 @@ No authorization required
 
 ## GetUserByName
 
-> User GetUserByName(ctx, username)
+> User GetUserByName(ctx, username).Execute()
 
 Get user by user name
 
-### Required Parameters
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**username** | **string**| The name that needs to be fetched. Use user1 for testing. | 
+**username** | **string** | The name that needs to be fetched. Use user1 for testing. | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetUserByNameRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -181,18 +214,23 @@ No authorization required
 
 ## LoginUser
 
-> string LoginUser(ctx, username, password)
+> string LoginUser(ctx).Username(username).Password(password).Execute()
 
 Logs user into the system
 
-### Required Parameters
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiLoginUserRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**username** | **string**| The user name for login | 
-**password** | **string**| The password for login in clear text | 
+ **username** | **string** | The user name for login | 
+ **password** | **string** | The password for login in clear text | 
 
 ### Return type
 
@@ -214,13 +252,18 @@ No authorization required
 
 ## LogoutUser
 
-> LogoutUser(ctx, )
+> LogoutUser(ctx).Execute()
 
 Logs out current logged in user session
 
-### Required Parameters
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiLogoutUserRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -242,20 +285,29 @@ No authorization required
 
 ## UpdateUser
 
-> UpdateUser(ctx, username, body)
+> UpdateUser(ctx, username).Body(body).Execute()
 
 Updated user
 
-This can only be done by the logged in user.
 
-### Required Parameters
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**username** | **string**| name that need to be deleted | 
-**body** | [**User**](User.md)| Updated user object | 
+**username** | **string** | name that need to be deleted | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateUserRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **body** | [**User**](User.md) | Updated user object | 
 
 ### Return type
 

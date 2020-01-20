@@ -12,6 +12,11 @@
   "browser": {
     "fs": false
   },
+{{#npmRepository}}
+  "publishConfig":{
+    "registry":"{{npmRepository}}"
+  },
+{{/npmRepository}}
   "dependencies": {
     "@babel/cli": "^7.0.0",
     "superagent": "3.7.0"
