@@ -91,6 +91,8 @@ type alias Absent =
 type alias Array =
     { array : List (String)
     , arrayOfArray : List (List (String))
+    , arrayOfPrimitve : Maybe (List (Primitive))
+    , arrayOfEnum : Maybe (List (Enum))
     }
 
 
@@ -293,6 +295,8 @@ encodeArrayPairs model =
         pairs =
             [ encode "array" (Json.Encode.list Json.Encode.string) model.array
             , encode "arrayOfArray" (Json.Encode.list (Json.Encode.list Json.Encode.string)) model.arrayOfArray
+            , maybeEncode "arrayOfPrimitve" (Json.Encode.list encodePrimitive) model.arrayOfPrimitve
+            , maybeEncode "arrayOfEnum" (Json.Encode.list encodeEnum) model.arrayOfEnum
             ]
     in
     pairs
@@ -640,6 +644,8 @@ arrayDecoder =
     Json.Decode.succeed Array
         |> decode "array" (Json.Decode.list Json.Decode.string) 
         |> decode "arrayOfArray" (Json.Decode.list (Json.Decode.list Json.Decode.string)) 
+        |> maybeDecode "arrayOfPrimitve" (Json.Decode.list primitiveDecoder) Nothing
+        |> maybeDecode "arrayOfEnum" (Json.Decode.list enumDecoder) Nothing
 
 
 composedDecoder : Json.Decode.Decoder Composed

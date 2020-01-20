@@ -131,6 +131,14 @@ components:
             type: array
             items:
               type: string
+        arrayOfPrimitve:
+          type: array
+          items:
+            $ref: "#/components/schemas/Primitive"
+        arrayOfEnum:
+          type: array
+          items:
+            $ref: "#/components/schemas/Enum"
     Composed:
       description: Composed model
       allOf:
@@ -254,4 +262,3 @@ components:
           type: string
         in_the_middle:
           type: string
-
