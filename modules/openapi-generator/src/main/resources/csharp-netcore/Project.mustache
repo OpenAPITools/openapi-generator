@@ -29,7 +29,8 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>{{#licenseId}}
     <PackageLicenseExpression>{{licenseId}}</PackageLicenseExpression>{{/licenseId}}{{#repositoryUrl}}
     <RepositoryUrl>{{repositoryUrl}}</RepositoryUrl>{{/repositoryUrl}}{{#repositoryType}}
-    <RepositoryType>{{repositoryType}}</RepositoryType>{{/repositoryType}}{{#releaseNotes}}
+    <RepositoryType>{{repositoryType}}</RepositoryType>{{/repositoryType}}{{#projectUrl}}
+    <PackageProjectUrl>{{projectUrl}}</PackageProjectUrl>{{/{{projectUrl}}}}{{#releaseNotes}}
     <PackageReleaseNotes>{{releaseNotes}}</PackageReleaseNotes>{{/releaseNotes}}{{#packageTags}}
     <PackageTags>{{{packageTags}}}}</PackageTags>{{/packageTags}}
   </PropertyGroup>
