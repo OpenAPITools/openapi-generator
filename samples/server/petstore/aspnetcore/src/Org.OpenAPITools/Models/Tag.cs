@@ -25,7 +25,7 @@ namespace Org.OpenAPITools.Models
     /// </summary>
     [DataContract]
     public partial class Tag : IEquatable<Tag>
-    { 
+    {
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
