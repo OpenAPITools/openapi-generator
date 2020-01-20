@@ -76,7 +76,7 @@ const (
 type HttpSignatureAuth struct {
 	KeyId             string            // A key identifier.
 	PrivateKey        crypto.PrivateKey // The private key used to sign HTTP requests.
-	Passphrase        string            // The passphrase to decrypt the private key.
+	Passphrase        string            // The passphrase to decrypt the private key, if the key is encrypted.
 	SigningScheme     string            // The signature scheme, when signing HTTP requests. Supported value is 'hs2019'.
 	// The signature algorithm, when signing HTTP requests.
 	// Supported values are RSASSA-PKCS1-v1_5, RSASSA-PSS.
@@ -103,6 +103,9 @@ func (h *HttpSignatureAuth) LoadPrivateKey(filename string) (err error) {
 	priv, err = ioutil.ReadAll(file)
 	if err != nil {
 		return err
+	}
+	if !strings.HasSuffix(filename, ".pem") {
+		return fmt.Errorf("Private key must be in PEM format.")
 	}
 	pemBlock, _ := pem.Decode(priv)
 	if pemBlock == nil {

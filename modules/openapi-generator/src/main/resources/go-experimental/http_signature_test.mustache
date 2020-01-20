@@ -43,8 +43,16 @@ func writeTestRsaPemKey(t *testing.T, fileName string) {
 	}
 }
 
-func writeRandomTestRsaPemKey(t *testing.T, fileName string) {
-	key, err := rsa.GenerateKey(rand.Reader, 2048)
+type keyFormat int // The serialization format of the private key.
+
+const (
+	keyFormatPem keyFormat = iota // Private key is serialized in PEM format.
+	keyFormatPkcs8Pem             // Private key is serialized as PKCS#8 encoded in PEM format.
+	keyFormatPkcs8Der             // Private key is serialized as PKCS#8 encoded in DER format.
+)
+
+func writeRandomTestRsaPemKey(t *testing.T, fileName string, bits int, format keyFormat, passphrase string, alg *x509.PEMCipher) {
+	key, err := rsa.GenerateKey(rand.Reader, bits)
 	if err != nil {
 		t.Fatalf("Error generating RSA private key file: %v", err)
 	}
@@ -54,13 +62,41 @@ func writeRandomTestRsaPemKey(t *testing.T, fileName string) {
 		t.Fatalf("Error creating RSA private key file: %v", err)
 	}
 	defer outFile.Close()
-
-	var privateKey = &pem.Block{
-		Type:  "PRIVATE KEY",
-		Bytes: x509.MarshalPKCS1PrivateKey(key),
+	var privKeyBytes []byte
+	switch format {
+	case keyFormatPem:
+		if passphrase != "" {
+			f.Fatalf("Encrypting PKCS#1-encoded private key with passphrase is not supported")
+		}
+		privKeyBytes = x509.MarshalPKCS1PrivateKey(key)
+	case keyFormatPkcs8Pem:
+		privKeyBytes = x509.MarshalPKCS8PrivateKey(key)
+	case keyFormatPkcs8Der:
+		if passphrase != "" {
+			f.Fatalf("Encrypting DER-encoded private key with passphrase is not supported")
+		}
+		_, err = outFile.Write(x509.MarshalPKCS8PrivateKey(key))
+		if err != nil {
+			t.Fatalf("Error writing RSA private key: %v", err)
+		}
+		return
+	default:
+		t.Fatalf("Unsupported key format: %v", format)
 	}
 
-	err = pem.Encode(outFile, privateKey)
+	var pemBlock *pem.Block
+	if passphrase == "" {
+		pemBlock = &pem.Block{
+			Type:  "RSA PRIVATE KEY",
+			Bytes: privKeyBytes,
+		}
+	} else {
+		pemBlock, err = x509.EncryptPEMBlock(rand.Reader, "ENCRYPTED PRIVATE KEY", privKeyBytes, passphrase, *alg)
+		if err != nil {
+			t.Fatalf("Error encoding RSA private key: %v", err)
+		}
+	}
+	err = pem.Encode(outFile, pemBlock)
 	if err != nil {
 		t.Fatalf("Error encoding RSA private key: %v", err)
 	}
@@ -98,23 +134,57 @@ func writeRandomTestEcdsaPemKey(t *testing.T, fileName string) {
 }
 */
 
+// TestHttpSignaturePrivateKeys creates private keys of various sizes, serialization format,
+// clear-text and password encrypted.
+// Test unmarshaling of the private key.
 func TestHttpSignaturePrivateKeys(t *testing.T) {
-	privateKeyPath := "privatekey.pem"
-	{
+	pemCiphers := []x509.PEMCipher{
+		x509.PEMCipherDES,
+		x509.PEMCipher3DES,
+		x509.PEMCipherAES128,
+		x509.PEMCipherAES192,
+		x509.PEMCipherAES256,
+	}
+	// Test RSA private keys with various key lengths.
+	for _, bits := range []int{1024, 2048, 3072, 4096} {
+
+		// Generate keys in PEM format.
 		authConfig := sw.HttpSignatureAuth{
 			KeyId:         "my-key-id",
 			SigningScheme: "hs2019",
 			SignedHeaders: []string{"Content-Type"},
 		}
-		// Generate test private key.
-		writeRandomTestRsaPemKey(t, privateKeyPath)
-		err := authConfig.LoadPrivateKey(privateKeyPath)
-		if err != nil {
-			t.Fatalf("Error loading private key: %v", err)
+
+		for _, format := range []keyFormat{keyFormatPem, keyFormatPkcs8Pem, keyFormatPkcs8Der} {
+			// Generate test private key.
+			var privateKeyPath string
+			switch format {
+			case keyFormatPem, keyFormatPkcs8Pem:
+				privateKeyPath = "privatekey.pem"
+			case keyFormatPkcs8Der:
+				privateKeyPath = "privatekey.der"
+			}
+			writeRandomTestRsaPemKey(t, privateKeyPath, bits, format, "", nil)
+			err := authConfig.LoadPrivateKey(privateKeyPath)
+			if err != nil {
+				t.Fatalf("Error loading private key: %v", err)
+			}
+			
+			for _, alg := range pemCiphers {
+				writeRandomTestRsaPemKey(t, privateKeyPath, bits, format, passphrase, alg)
+				err := authConfig.LoadPrivateKey(privateKeyPath)
+				if err != nil {
+					t.Fatalf("Error loading private key: %v", err)
+				}
+			}
 		}
 	}
+
 	/*
+		Unfortunately, currently the build environment for OpenAPITools is using an old version
+		of golang that does not support ECDSA keys.
 		{
+			privateKeyPath := "privatekey.pem"
 			authConfig := sw.HttpSignatureAuth{
 				KeyId:         "my-key-id",
 				SigningScheme:     "hs2019",
