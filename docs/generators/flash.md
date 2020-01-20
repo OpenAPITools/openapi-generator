@@ -5,9 +5,9 @@ sidebar_label: flash
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|invokerPackage|root package for generated code| |null|
 |packageName|flash package name (convention: package.name)| |org.openapitools|
 |packageVersion|flash package version| |1.0.0|
-|invokerPackage|root package for generated code| |null|
 |sourceFolder|source folder for generated code. e.g. flash| |null|
 
 ## IMPORT MAPPING
@@ -26,44 +26,44 @@ sidebar_label: flash
 ## LANGUAGE PRIMITIVES
 
 <ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Array</li>
+<li>Boolean</li>
+<li>Date</li>
 <li>Dictionary</li>
 <li>Number</li>
 <li>String</li>
-<li>Boolean</li>
-<li>Date</li>
 </ul>
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>for</li>
-<li>lt</li>
-<li>onclipevent</li>
-<li>do</li>
-<li>while</li>
-<li>delete</li>
-<li>not</li>
+<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>add</li>
 <li>and</li>
-<li>continue</li>
-<li>else</li>
-<li>function</li>
-<li>if</li>
-<li>ge</li>
-<li>typeof</li>
-<li>on</li>
-<li>add</li>
-<li>new</li>
-<li>void</li>
-<li>or</li>
-<li>ifframeloaded</li>
 <li>break</li>
+<li>continue</li>
+<li>delete</li>
+<li>do</li>
+<li>else</li>
+<li>eq</li>
+<li>for</li>
+<li>function</li>
+<li>ge</li>
+<li>gt</li>
+<li>if</li>
+<li>ifframeloaded</li>
 <li>in</li>
-<li>var</li>
+<li>le</li>
+<li>lt</li>
+<li>ne</li>
+<li>new</li>
+<li>not</li>
+<li>on</li>
+<li>onclipevent</li>
+<li>or</li>
+<li>return</li>
 <li>telltarget</li>
 <li>this</li>
-<li>eq</li>
-<li>gt</li>
+<li>typeof</li>
+<li>var</li>
+<li>void</li>
+<li>while</li>
 <li>with</li>
-<li>ne</li>
-<li>le</li>
-<li>return</li>
 </ul>

@@ -32,6 +32,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -164,12 +167,18 @@ public class ConfigHelp implements Runnable {
         sb.append("| Option | Description | Values | Default |").append(newline);
         sb.append("| ------ | ----------- | ------ | ------- |").append(newline);
 
-        for (CliOption langCliOption : config.cliOptions()) {
+        Map<String, CliOption> langCliOptions = config.cliOptions()
+                .stream()
+                .collect(Collectors.toMap(CliOption::getOpt, Function.identity(), (a, b) -> {
+                    throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a.getOpt(), b.getOpt()));
+                }, TreeMap::new));
+
+        langCliOptions.forEach((key, langCliOption) -> {
             // start
             sb.append("|");
 
             // option
-            sb.append(escapeHtml4(langCliOption.getOpt())).append("|");
+            sb.append(escapeHtml4(key)).append("|");
             // description
             sb.append(escapeHtml4(langCliOption.getDescription())).append("|");
 
@@ -193,7 +202,7 @@ public class ConfigHelp implements Runnable {
             sb.append(escapeHtml4(langCliOption.getDefault())).append("|");
 
             sb.append(newline);
-        }
+        });
 
 
         if (Boolean.TRUE.equals(importMappings)) {
@@ -205,10 +214,14 @@ public class ConfigHelp implements Runnable {
             sb.append("| Type/Alias | Imports |").append(newline);
             sb.append("| ---------- | ------- |").append(newline);
 
-            config.importMapping().forEach((key, value)-> {
-                sb.append("|").append(escapeHtml4(key)).append("|").append(escapeHtml4(value)).append("|");
-                sb.append(newline);
-            });
+            config.importMapping()
+                    .entrySet()
+                    .stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .forEachOrdered(kvp -> {
+                        sb.append("|").append(escapeHtml4(kvp.getKey())).append("|").append(escapeHtml4(kvp.getValue())).append("|");
+                        sb.append(newline);
+                    });
 
             sb.append(newline);
         }
@@ -222,10 +235,14 @@ public class ConfigHelp implements Runnable {
             sb.append("| Type/Alias | Instantiated By |").append(newline);
             sb.append("| ---------- | --------------- |").append(newline);
 
-            config.instantiationTypes().forEach((key, value)-> {
-                sb.append("|").append(escapeHtml4(key)).append("|").append(escapeHtml4(value)).append("|");
-                sb.append(newline);
-            });
+            config.instantiationTypes()
+                    .entrySet()
+                    .stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .forEachOrdered(kvp -> {
+                        sb.append("|").append(escapeHtml4(kvp.getKey())).append("|").append(escapeHtml4(kvp.getValue())).append("|");
+                        sb.append(newline);
+                    });
 
             sb.append(newline);
         }
@@ -236,7 +253,10 @@ public class ConfigHelp implements Runnable {
             sb.append(newline);
             sb.append(newline);
             sb.append("<ul data-columns=\"2\" style=\"list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto\">");
-            config.languageSpecificPrimitives().forEach(s -> sb.append("<li>").append(escapeHtml4(s)).append("</li>").append(newline));
+            config.languageSpecificPrimitives()
+                    .stream()
+                    .sorted(String::compareTo)
+                    .forEach(s -> sb.append("<li>").append(escapeHtml4(s)).append("</li>").append(newline));
             sb.append("</ul>");
             sb.append(newline);
         }
@@ -247,7 +267,10 @@ public class ConfigHelp implements Runnable {
             sb.append(newline);
             sb.append(newline);
             sb.append("<ul data-columns=\"2\" style=\"list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto\">");
-            config.reservedWords().forEach(s -> sb.append("<li>").append(escapeHtml4(s)).append("</li>").append(newline));
+            config.reservedWords()
+                    .stream()
+                    .sorted(String::compareTo)
+                    .forEach(s -> sb.append("<li>").append(escapeHtml4(s)).append("</li>").append(newline));
             sb.append("</ul>");
             sb.append(newline);
         }
@@ -294,21 +317,32 @@ public class ConfigHelp implements Runnable {
         String optIndent = "\t";
         String optNestedIndent = "\t    ";
 
-        for (CliOption langCliOption : config.cliOptions()) {
-            sb.append(optIndent).append(langCliOption.getOpt());
+        Map<String, CliOption> langCliOptions = config.cliOptions()
+                .stream()
+                .collect(Collectors.toMap(CliOption::getOpt, Function.identity(), (a, b) -> {
+                    throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a.getOpt(), b.getOpt()));
+                }, TreeMap::new));
+
+        langCliOptions.forEach((key, langCliOption) -> {
+            sb.append(optIndent).append(key);
             sb.append(newline);
             sb.append(optNestedIndent).append(langCliOption.getOptionHelp()
                     .replaceAll("\n", System.lineSeparator() + optNestedIndent));
             sb.append(newline);
             sb.append(newline);
-        }
+        });
 
         if (Boolean.TRUE.equals(importMappings)) {
             sb.append(newline);
             sb.append("IMPORT MAPPING");
             sb.append(newline);
             sb.append(newline);
-            Map<String, String> map = config.importMapping();
+            Map<String, String> map = config.importMapping()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
             writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Type/Alias", "Imports");
             sb.append(newline);
         }
@@ -318,7 +352,12 @@ public class ConfigHelp implements Runnable {
             sb.append("INSTANTIATION TYPES");
             sb.append(newline);
             sb.append(newline);
-            Map<String, String> map = config.instantiationTypes();
+            Map<String, String> map = config.instantiationTypes()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
             writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Type/Alias", "Instantiated By");
             sb.append(newline);
         }
@@ -389,7 +428,7 @@ public class ConfigHelp implements Runnable {
             for (int i = 0; i < arr.length; i++) {
                 String current = arr[i];
                 sb.append(optIndent).append(String.format(Locale.ROOT, format, current));
-                if (i % columns == 0) {
+                if ((i + 1) % columns == 0) {
                     sb.append(newline);
                 }
             }
