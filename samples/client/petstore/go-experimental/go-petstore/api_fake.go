@@ -1764,6 +1764,8 @@ func (r apiTestQueryParameterCollectionFormatRequest) Execute() (*_nethttp.Respo
 			for i := 0; i < s.Len(); i++ {
 				localVarQueryParams.Add("context", parameterToString(s.Index(i), "multi"))
 			}
+		} else {  
+			localVarQueryParams.Add("context", parameterToString(t, "multi")) 
 		}
 	}
 	// to determine the Content-Type header

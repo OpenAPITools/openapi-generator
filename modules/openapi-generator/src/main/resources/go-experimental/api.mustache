@@ -134,6 +134,8 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 			for i := 0; i < s.Len(); i++ {
 				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
 			}
+		} else {  
+			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")) 
 		}
 	}
 	{{/isCollectionFormatMulti}}
