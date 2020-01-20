@@ -12,9 +12,9 @@ buildscript {
     ext.shadow_version = '2.0.3'
 
     repositories {
-        maven { url = "https://repo1.maven.org/maven2" }
+        maven { url "https://repo1.maven.org/maven2" }
         maven {
-            url "https://plugins.gradle.org/m2/"
+            url = "https://plugins.gradle.org/m2/"
         }
     }
     dependencies {
@@ -50,8 +50,8 @@ shadowJar {
 }
 
 repositories {
-    maven { url = "https://repo1.maven.org/maven2" }
-    maven { url  "https://dl.bintray.com/kotlin/ktor" }
+    maven { url "https://repo1.maven.org/maven2" }
+    maven { url "https://dl.bintray.com/kotlin/ktor" }
     maven { url "https://dl.bintray.com/kotlin/kotlinx" }
 }
 

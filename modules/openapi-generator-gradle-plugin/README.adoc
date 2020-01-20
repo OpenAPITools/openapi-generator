@@ -56,7 +56,7 @@ Using https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_appl
 buildscript {
   repositories {
     mavenLocal()
-    maven { url = "https://repo1.maven.org/maven2" }
+    maven { url "https://repo1.maven.org/maven2" }
     // or, via Gradle Plugin Portal:
     // url "https://plugins.gradle.org/m2/"
   }

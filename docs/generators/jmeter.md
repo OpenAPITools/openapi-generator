@@ -5,32 +5,32 @@ sidebar_label: jmeter
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
-|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
+|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
+|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 
 ## IMPORT MAPPING
 
 | Type/Alias | Imports |
 | ---------- | ------- |
-|LocalDateTime|org.joda.time.*|
-|Set|java.util.*|
-|LocalTime|org.joda.time.*|
-|HashMap|java.util.HashMap|
+|Array|java.util.List|
 |ArrayList|java.util.ArrayList|
-|URI|java.net.URI|
-|Timestamp|java.sql.Timestamp|
-|LocalDate|org.joda.time.*|
 |BigDecimal|java.math.BigDecimal|
 |Date|java.util.Date|
 |DateTime|org.joda.time.*|
-|Array|java.util.List|
-|List|java.util.*|
-|UUID|java.util.UUID|
 |File|java.io.File|
+|HashMap|java.util.HashMap|
+|List|java.util.*|
+|LocalDate|org.joda.time.*|
+|LocalDateTime|org.joda.time.*|
+|LocalTime|org.joda.time.*|
 |Map|java.util.Map|
+|Set|java.util.*|
+|Timestamp|java.sql.Timestamp|
+|URI|java.net.URI|
+|UUID|java.util.UUID|
 
 
 ## INSTANTIATION TYPES
