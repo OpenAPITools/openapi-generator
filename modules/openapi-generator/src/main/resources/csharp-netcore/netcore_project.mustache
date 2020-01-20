@@ -17,7 +17,11 @@
     <RootNamespace>{{packageName}}</RootNamespace>
     <Version>{{packageVersion}}</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>{{#licenseId}}
-    <PackageLicenseExpression>{{licenseId}}</PackageLicenseExpression>{{/licenseId}}
+    <PackageLicenseExpression>{{licenseId}}</PackageLicenseExpression>{{/licenseId}}{{#repositoryUrl}}
+    <RepositoryUrl>{{repositoryUrl}}</RepositoryUrl>{{/repositoryUrl}}{{#repositoryType}}
+    <RepositoryType>{{repositoryType}}</RepositoryType>{{/repositoryType}}{{#releaseNotes}}
+    <PackageReleaseNotes>{{releaseNotes}}</PackageReleaseNotes>{{/releaseNotes}}{{#packageTags}}
+    <PackageTags>{{{packageTags}}}}</PackageTags>{{/packageTags}}
   </PropertyGroup>
 
   <ItemGroup>
