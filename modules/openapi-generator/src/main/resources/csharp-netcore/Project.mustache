@@ -26,6 +26,7 @@
     <TargetFramework>{{targetFramework}}</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>
+	{{#licenseId}}<PackageLicenseExpression>{{licenseId}}</PackageLicenseExpression>{{/licenseId}}
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
