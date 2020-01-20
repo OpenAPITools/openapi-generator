@@ -16,6 +16,8 @@
  */
 namespace OpenAPIServer\Model;
 
+use OpenAPIServer\Interfaces\ModelInterface;
+
 /**
  * ClassModel
  *
@@ -23,9 +25,32 @@ namespace OpenAPIServer\Model;
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class ClassModel
+class ClassModel implements ModelInterface
 {
-    
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+  "type" : "object",
+  "properties" : {
+    "_class" : {
+      "type" : "string"
+    }
+  },
+  "description" : "Model for testing model with \"_class\" property"
+}
+SCHEMA;
+
     /** @var string $class */
     private $class;
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }

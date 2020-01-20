@@ -6,8 +6,9 @@
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
 
-        if name in self.openapi_types:
-            required_types_mixed = self.openapi_types[name]
+        openapi_types = self.openapi_types()
+        if name in openapi_types:
+            required_types_mixed = openapi_types[name]
         elif self.additional_properties_type is None:
             raise ApiKeyError(
                 "{0} has no key '{1}'".format(type(self).__name__, name),

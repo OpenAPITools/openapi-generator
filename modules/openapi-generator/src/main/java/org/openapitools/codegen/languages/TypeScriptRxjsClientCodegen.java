@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,15 +21,13 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.TreeSet;
-import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Map;
 
 public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -41,6 +39,10 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     public TypeScriptRxjsClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         outputFolder = "generated-code/typescript-rxjs";
         embeddedTemplateDir = templateDir = "typescript-rxjs";

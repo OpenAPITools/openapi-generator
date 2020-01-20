@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -162,11 +162,11 @@ public class DartDioModelTest {
 
         final CodegenProperty property4 = cm.vars.get(3);
         Assert.assertEquals(property4.baseName, "birthDate");
-        Assert.assertEquals(property4.complexType, "LocalDate");
-        Assert.assertEquals(property4.dataType, "LocalDate");
+        Assert.assertEquals(property4.complexType, "OffsetDate");
+        Assert.assertEquals(property4.dataType, "OffsetDate");
         Assert.assertEquals(property4.name, "birthDate");
         Assert.assertEquals(property4.defaultValue, "null");
-        Assert.assertEquals(property4.baseType, "LocalDate");
+        Assert.assertEquals(property4.baseType, "OffsetDate");
         Assert.assertFalse(property4.hasMore);
         Assert.assertFalse(property4.required);
         Assert.assertFalse(property4.isContainer);

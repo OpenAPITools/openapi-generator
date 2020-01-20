@@ -16,7 +16,7 @@ class StoreAPITests: XCTestCase {
     let isoDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
 
     let testTimeout = 10.0
-    
+
     func test1PlaceOrder() {
         let order = Order()
         let shipDate = NSDate()
@@ -38,12 +38,12 @@ class StoreAPITests: XCTestCase {
                 expectation.fulfill()
             }.always {
                 // Noop for now
-            }.error { errorType -> Void in
+            }.error { _ -> Void in
                 XCTFail("error placing order")
         }
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
-    
+
     func test2GetOrder() {
         let expectation = self.expectationWithDescription("testGetOrder")
         StoreAPI.getOrderById(orderId: "1000").then { order -> Void in
@@ -53,12 +53,12 @@ class StoreAPITests: XCTestCase {
             expectation.fulfill()
             }.always {
                 // Noop for now
-            }.error { errorType -> Void in
+            }.error { _ -> Void in
                 XCTFail("error placing order")
         }
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
-    
+
     func test3DeleteOrder() {
         let expectation = self.expectationWithDescription("testDeleteOrder")
         StoreAPI.deleteOrder(orderId: "1000").then {

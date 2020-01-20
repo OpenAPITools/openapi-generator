@@ -1,0 +1,8 @@
+{
+  "podSummary": "PetstoreClient",
+  "podHomepage": "https://github.com/openapitools/openapi-generator",
+  "podAuthors": "",
+  "projectName": "PetstoreClient",
+  "nonPublicApi": true,
+  "sortParamsByRequiredFlag": false
+}

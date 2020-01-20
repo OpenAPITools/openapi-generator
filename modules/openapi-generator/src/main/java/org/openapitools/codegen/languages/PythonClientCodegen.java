@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +58,29 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public PythonClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .build();
 
         // clear import mapping (from default generator) as python does not use it
         // at the moment
@@ -252,7 +276,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // If the package name consists of dots(openapi.client), then we need to create the directory structure like openapi/client with __init__ files.
         String[] packageNameSplits = packageName.split("\\.");
         String currentPackagePath = "";
-        for (int i = 0; i < packageNameSplits.length-1; i++) {
+        for (int i = 0; i < packageNameSplits.length - 1; i++) {
             if (i > 0) {
                 currentPackagePath = currentPackagePath + File.separatorChar;
             }
@@ -542,7 +566,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         name = name.replaceAll("-", "_");
 
         // e.g. PhoneNumberApi.py => phone_number_api.py
-        return underscore(name+ "_" + apiNameSuffix);
+        return underscore(name + "_" + apiNameSuffix);
     }
 
     @Override
@@ -560,7 +584,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (name.length() == 0) {
             return "default_api";
         }
-        return underscore(name+ "_" + apiNameSuffix);
+        return underscore(name + "_" + apiNameSuffix);
     }
 
     @Override
@@ -625,6 +649,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     /**
      * Return the default value of the property
+     *
      * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
@@ -654,7 +679,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
-                    return "'" + ((String) p.getDefault()).replaceAll("'","\'") + "'";
+                    return "'" + ((String) p.getDefault()).replaceAll("'", "\'") + "'";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
