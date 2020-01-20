@@ -16,8 +16,8 @@
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <RootNamespace>{{packageName}}</RootNamespace>
     <Version>{{packageVersion}}</Version>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>
-    {{#licenseId}}<PackageLicenseExpression>{{licenseId}}</PackageLicenseExpression>{{/licenseId}}
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>{{#licenseId}}
+    <PackageLicenseExpression>{{licenseId}}</PackageLicenseExpression>{{/licenseId}}
   </PropertyGroup>
 
   <ItemGroup>
