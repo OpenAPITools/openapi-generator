@@ -34,5 +34,5 @@ SOURCES += \
 # Others
     $${PWD}/PFXHelpers.cpp \
     $${PWD}/PFXHttpRequest.cpp \
-    $${PWD}/PFXHttpFileElement.cpp    
+    $${PWD}/PFXHttpFileElement.cpp
 
