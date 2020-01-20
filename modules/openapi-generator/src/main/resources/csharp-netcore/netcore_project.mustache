@@ -19,8 +19,8 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>{{#licenseId}}
     <PackageLicenseExpression>{{licenseId}}</PackageLicenseExpression>{{/licenseId}}
     <RepositoryUrl>https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}.git</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>{{#releaseNotes}}
-    <PackageReleaseNotes>{{releaseNotes}}</PackageReleaseNotes>{{/releaseNotes}}{{#packageTags}}
+    <RepositoryType>git</RepositoryType>{{#releaseNote}}
+    <PackageReleaseNotes>{{releaseNote}}</PackageReleaseNotes>{{/releaseNote}}{{#packageTags}}
     <PackageTags>{{{packageTags}}}}</PackageTags>{{/packageTags}}
   </PropertyGroup>
 

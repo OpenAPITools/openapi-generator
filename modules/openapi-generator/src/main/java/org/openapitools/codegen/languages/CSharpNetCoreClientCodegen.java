@@ -80,7 +80,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected boolean nonPublicApi = Boolean.FALSE;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
+    protected String releaseNote = "Minor update";
     protected String licenseId;
+    protected String packageTags;
 
     public CSharpNetCoreClientCodegen() {
         super();
@@ -166,7 +168,15 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         addOption(CodegenConstants.LICENSE_ID,
                 CodegenConstants.LICENSE_ID_DESC,
-                this.licenseId);				
+                this.licenseId);
+
+        addOption(CodegenConstants.RELEASE_NOTE,
+                CodegenConstants.RELEASE_NOTE_DESC,
+                this.releaseNote);
+
+        addOption(CodegenConstants.PACKAGE_TAGS,
+                CodegenConstants.PACKAGE_TAGS_DESC,
+                this.packageTags);
 
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
@@ -708,6 +718,14 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.licenseId = licenseId;
     }
 
+    public void setReleaseNote(String releaseNote) {
+        this.releaseNote = releaseNote;
+    }
+
+    public void setPackageTags(String packageTags) {
+        this.packageTags = packageTags;
+    }
+	
     @Override
     public String toEnumVarName(String value, String datatype) {
         if (value.length() == 0) {

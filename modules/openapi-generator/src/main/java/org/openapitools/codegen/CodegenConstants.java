@@ -339,4 +339,7 @@ public class CodegenConstants {
 
     public static final String ENUM_CLASS_PREFIX = "enumClassPrefix";
     public static final String ENUM_CLASS_PREFIX_DESC = "Prefix enum with class name";
+
+    public static final String PACKAGE_TAGS = "packageTags";
+    public static final String PACKAGE_TAGS_DESC = "Tags to identify the package";
 }
