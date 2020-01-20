@@ -80,6 +80,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected boolean nonPublicApi = Boolean.FALSE;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
+    protected String licenseId;
 
     public CSharpNetCoreClientCodegen() {
         super();
