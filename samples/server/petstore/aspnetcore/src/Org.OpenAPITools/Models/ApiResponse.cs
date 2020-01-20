@@ -25,7 +25,7 @@ namespace Org.OpenAPITools.Models
     /// </summary>
     [DataContract]
     public partial class ApiResponse : IEquatable<ApiResponse>
-    { 
+    {
         /// <summary>
         /// Gets or Sets Code
         /// </summary>
