@@ -27,10 +27,7 @@
     <FileAlignment>512</FileAlignment>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="project.json" />
-  </ItemGroup>
+
   <ItemGroup>
       <PackageReference Include="CompareNETObjects" Version="4.57.0" />
       <PackageReference Include="JsonSubTypes" Version="1.5.2" />
