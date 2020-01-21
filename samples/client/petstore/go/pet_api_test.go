@@ -104,7 +104,7 @@ func TestFindPetsByTag(t *testing.T) {
 			assert := assert.New(t)
 			for i := 0; i < len(resp); i++ {
 				if resp[i].Id == 12830 {
-					assert.Equal(resp[i].Status, "available", "Pet status should be `pending`")
+					assert.Equal(string(resp[i].Status), "available", "Pet status should be `available`")
 					found = true
 				}
 			}
@@ -286,7 +286,7 @@ func isPetCorrect(t *testing.T, id int64, name string, status string) {
 	} else {
 		assert.Equal(resp.Id, int64(id), "Pet id should be equal")
 		assert.Equal(resp.Name, name, fmt.Sprintf("Pet name should be %s", name))
-		assert.Equal(resp.Status, status, fmt.Sprintf("Pet status should be %s", status))
+		assert.Equal(string(resp.Status), status, fmt.Sprintf("Pet status should be %s", status))
 
 		//t.Log(resp)
 	}
