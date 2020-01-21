@@ -386,9 +386,12 @@ void {{prefix}}HttpRequestWorker::process_response(QNetworkReply *reply) {
             // TODO : Handle Multipart responses
         } else {
             if(headers.contains("Content-Encoding")){
-                auto encoding = headers.value("Content-Encoding").split(',');
-                if(encoding.contains("gzip", Qt::CaseInsensitive) || encoding.contains("deflate", Qt::CaseInsensitive)){
-                    response = decompress(reply->readAll());
+                auto encoding = headers.value("Content-Encoding").split(QString(";"), QString::SkipEmptyParts);
+                if(encoding.count() > 0){
+                    auto compressionTypes = encoding.first().split(',', QString::SkipEmptyParts);
+                    if(compressionTypes.contains("gzip", Qt::CaseInsensitive) || compressionTypes.contains("deflate", Qt::CaseInsensitive)){
+                        response = decompress(reply->readAll());
+                    }
                 }
             }
             else {
