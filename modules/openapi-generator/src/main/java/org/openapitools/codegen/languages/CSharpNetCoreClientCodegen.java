@@ -725,7 +725,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     public void setPackageTags(String packageTags) {
         this.packageTags = packageTags;
     }
-	
+
     @Override
     public String toEnumVarName(String value, String datatype) {
         if (value.length() == 0) {
