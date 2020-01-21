@@ -18,15 +18,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * SpecialModelName
  */
+@JsonPropertyOrder({
+  SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
+})
 
 public class SpecialModelName   {
-  @JsonProperty("$special[property.name]")
+  public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
+  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
   private Long $specialPropertyName;
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {

@@ -44,65 +44,65 @@ import kotlin.collections.Map
 class StoreApiController(@Autowired(required = true) val service: StoreApiService) {
 
     @ApiOperation(
-            value = "Delete purchase order by ID",
-            nickname = "deleteOrder",
-            notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors")
+        value = "Delete purchase order by ID",
+        nickname = "deleteOrder",
+        notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors")
     @ApiResponses(
-            value = [ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
+        value = [ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
     @RequestMapping(
-            value = ["/store/order/{orderId}"],
-            method = [RequestMethod.DELETE])
-    suspend fun deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required=true) @PathVariable("orderId") orderId: String
+        value = ["/store/order/{orderId}"],
+        method = [RequestMethod.DELETE])
+    suspend fun deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required=true) @PathVariable("orderId") orderId: kotlin.String
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.deleteOrder(orderId), HttpStatus.OK)
+        return ResponseEntity(service.deleteOrder(orderId), HttpStatus.valueOf(400))
     }
 
     @ApiOperation(
-            value = "Returns pet inventories by status",
-            nickname = "getInventory",
-            notes = "Returns a map of status codes to quantities",
-            response = Int::class,
-            responseContainer = "Map",
-            authorizations = [Authorization(value = "api_key")])
+        value = "Returns pet inventories by status",
+        nickname = "getInventory",
+        notes = "Returns a map of status codes to quantities",
+        response = kotlin.Int::class,
+        responseContainer = "Map",
+        authorizations = [Authorization(value = "api_key")])
     @ApiResponses(
-            value = [ApiResponse(code = 200, message = "successful operation", response = Map::class, responseContainer = "Map")])
+        value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.collections.Map::class, responseContainer = "Map")])
     @RequestMapping(
-            value = ["/store/inventory"],
-            produces = ["application/json"], 
-            method = [RequestMethod.GET])
-    suspend fun getInventory(): ResponseEntity<Map<String, Int>> {
-        return ResponseEntity(service.getInventory(), HttpStatus.OK)
+        value = ["/store/inventory"],
+        produces = ["application/json"], 
+        method = [RequestMethod.GET])
+    suspend fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
+        return ResponseEntity(service.getInventory(), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(
-            value = "Find purchase order by ID",
-            nickname = "getOrderById",
-            notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
-            response = Order::class)
+        value = "Find purchase order by ID",
+        nickname = "getOrderById",
+        notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+        response = Order::class)
     @ApiResponses(
-            value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
+        value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
     @RequestMapping(
-            value = ["/store/order/{orderId}"],
-            produces = ["application/xml", "application/json"], 
-            method = [RequestMethod.GET])
-    suspend fun getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required=true) @PathVariable("orderId") orderId: Long
+        value = ["/store/order/{orderId}"],
+        produces = ["application/xml", "application/json"], 
+        method = [RequestMethod.GET])
+    suspend fun getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required=true) @PathVariable("orderId") orderId: kotlin.Long
 ): ResponseEntity<Order> {
-        return ResponseEntity(service.getOrderById(orderId), HttpStatus.OK)
+        return ResponseEntity(service.getOrderById(orderId), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(
-            value = "Place an order for a pet",
-            nickname = "placeOrder",
-            notes = "",
-            response = Order::class)
+        value = "Place an order for a pet",
+        nickname = "placeOrder",
+        notes = "",
+        response = Order::class)
     @ApiResponses(
-            value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid Order")])
+        value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid Order")])
     @RequestMapping(
-            value = ["/store/order"],
-            produces = ["application/xml", "application/json"], 
-            method = [RequestMethod.POST])
+        value = ["/store/order"],
+        produces = ["application/xml", "application/json"], 
+        method = [RequestMethod.POST])
     suspend fun placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @Valid @RequestBody body: Order
 ): ResponseEntity<Order> {
-        return ResponseEntity(service.placeOrder(body), HttpStatus.OK)
+        return ResponseEntity(service.placeOrder(body), HttpStatus.valueOf(200))
     }
 }

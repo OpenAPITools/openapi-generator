@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,8 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache;
+import com.google.common.collect.ImmutableMap.Builder;
+import com.samskivert.mustache.Mustache.Lambda;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
@@ -151,7 +151,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toApiName(String type) {
-        return sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api");
+        return sanitizeName(modelNamePrefix + super.toApiName(type));
     }
 
     @Override
@@ -260,22 +260,12 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             LOGGER.info("Environment variable CPP_POST_PROCESS_FILE not defined so the C++ code may not be properly formatted. To define it, try 'export CPP_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
-
-        addMustacheLambdas(additionalProperties);
     }
 
-    private void addMustacheLambdas(Map<String, Object> objs) {
-
-        Map<String, Mustache.Lambda> lambdas = new ImmutableMap.Builder<String, Mustache.Lambda>()
-                .put("multiline_comment_4", new IndentedLambda(4, " ", "///"))
-                .build();
-
-        if (objs.containsKey("lambda")) {
-            LOGGER.warn("A property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'.");
-            objs.put("_lambda", lambdas);
-        } else {
-            objs.put("lambda", lambdas);
-        }
+    @Override
+    protected Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                .put("multiline_comment_4", new IndentedLambda(4, " ", "///"));
     }
 
     @Override
@@ -304,17 +294,27 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             }
         }
     }
-    
+
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        URL url = URLPathUtils.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         String port = URLPathUtils.getPort(url, "");
         String host = url.getHost();
+        String scheme = url.getProtocol();
+
         if(!port.isEmpty()) {
-            this.additionalProperties.put("serverPort", port);          
+            this.additionalProperties.put("serverPort", port);
         }
         if(!host.isEmpty()) {
-            this.additionalProperties.put("serverHost", host);          
-        }        
+            this.additionalProperties.put("serverHost", host);
+        }
+        if(!scheme.isEmpty()) {
+            this.additionalProperties.put("scheme", scheme);
+        }
+    }
+    
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        return postProcessModelsEnum(objs);
     }
 }

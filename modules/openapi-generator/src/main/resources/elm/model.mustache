@@ -1,6 +1,6 @@
 {{>licenseInfo}}
 
-module Data.{{classname}} exposing ({{#models}}{{#model}}{{classname}}{{#hasChildren}}(..){{/hasChildren}}{{#isEnum}}(..){{/isEnum}}{{^isEnum}}{{#vars}}{{#isEnum}}, {{vendorExtensions.elmCustomType}}(..){{/isEnum}}{{/vars}}{{/isEnum}}, decoder, encode{{/model}}{{/models}})
+module Data.{{classname}} exposing ({{#models}}{{#model}}{{classname}}{{#hasChildren}}(..){{/hasChildren}}{{#isEnum}}(..){{/isEnum}}{{^isEnum}}{{#vars}}{{#isEnum}}, {{vendorExtensions.elmCustomType}}(..){{/isEnum}}{{/vars}}{{/isEnum}}, decoder, encode{{^isEnum}}{{^discriminator}}{{^oneOf}}, encodeWithTag{{/oneOf}}{{/discriminator}}{{/isEnum}}, toString{{/model}}{{/models}})
 
 {{>imports}}import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
@@ -14,6 +14,7 @@ import Json.Encode as Encode
 {-| {{{description}}}
 -}
 {{/description}}
-{{#isEnum}}{{>modelTypeCustom}}{{/isEnum}}{{^isEnum}}{{#discriminator}}{{>modelTypeDiscriminator}}{{/discriminator}}{{^discriminator}}{{#isAlias}}{{>modelTypePrimitive}}{{/isAlias}}{{^isAlias}}{{#isArrayModel}}{{>modelTypeArray}}{{/isArrayModel}}{{^isArrayModel}}{{>modelTypeRecord}}{{/isArrayModel}}{{/isAlias}}{{/discriminator}}{{/isEnum}}
+{{#isEnum}}{{>modelTypeCustom}}{{/isEnum}}{{^isEnum}}{{#discriminator}}{{>modelTypeDiscriminator}}{{/discriminator}}{{^discriminator}}{{#oneOf}}{{#-first}}{{>modelTypeDiscriminator}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#isAlias}}{{>modelTypePrimitive}}{{/isAlias}}{{^isAlias}}{{#isArrayModel}}{{>modelTypeArray}}{{/isArrayModel}}{{^isArrayModel}}{{>modelTypeRecord}}{{/isArrayModel}}{{/isAlias}}{{/oneOf}}{{/discriminator}}{{/isEnum}}
+
 {{/model}}
 {{/models}}

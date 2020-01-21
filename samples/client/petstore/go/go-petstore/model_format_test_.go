@@ -12,7 +12,7 @@ import (
 	"os"
 	"time"
 )
-
+// FormatTest struct for FormatTest
 type FormatTest struct {
 	Integer int32 `json:"integer,omitempty"`
 	Int32 int32 `json:"int32,omitempty"`
@@ -27,4 +27,5 @@ type FormatTest struct {
 	DateTime time.Time `json:"dateTime,omitempty"`
 	Uuid string `json:"uuid,omitempty"`
 	Password string `json:"password"`
+	BigDecimal float64 `json:"BigDecimal,omitempty"`
 }

@@ -24,13 +24,14 @@ class TypeHolderExample {
      * @alias module:model/TypeHolderExample
      * @param stringItem {String} 
      * @param numberItem {Number} 
+     * @param floatItem {Number} 
      * @param integerItem {Number} 
      * @param boolItem {Boolean} 
      * @param arrayItem {Array.<Number>} 
      */
-    constructor(stringItem, numberItem, integerItem, boolItem, arrayItem) { 
+    constructor(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem) { 
         
-        TypeHolderExample.initialize(this, stringItem, numberItem, integerItem, boolItem, arrayItem);
+        TypeHolderExample.initialize(this, stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
     }
 
     /**
@@ -38,9 +39,10 @@ class TypeHolderExample {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, stringItem, numberItem, integerItem, boolItem, arrayItem) { 
+    static initialize(obj, stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem) { 
         obj['string_item'] = stringItem;
         obj['number_item'] = numberItem;
+        obj['float_item'] = floatItem;
         obj['integer_item'] = integerItem;
         obj['bool_item'] = boolItem;
         obj['array_item'] = arrayItem;
@@ -62,6 +64,9 @@ class TypeHolderExample {
             }
             if (data.hasOwnProperty('number_item')) {
                 obj['number_item'] = ApiClient.convertToType(data['number_item'], 'Number');
+            }
+            if (data.hasOwnProperty('float_item')) {
+                obj['float_item'] = ApiClient.convertToType(data['float_item'], 'Number');
             }
             if (data.hasOwnProperty('integer_item')) {
                 obj['integer_item'] = ApiClient.convertToType(data['integer_item'], 'Number');
@@ -88,6 +93,11 @@ TypeHolderExample.prototype['string_item'] = undefined;
  * @member {Number} number_item
  */
 TypeHolderExample.prototype['number_item'] = undefined;
+
+/**
+ * @member {Number} float_item
+ */
+TypeHolderExample.prototype['float_item'] = undefined;
 
 /**
  * @member {Number} integer_item

@@ -1,7 +1,7 @@
 buildscript {
     repositories {
         mavenLocal()
-        mavenCentral()
+        maven { url "https://repo1.maven.org/maven2" }
         maven {
             url "https://plugins.gradle.org/m2/"
         }
@@ -62,6 +62,20 @@ task buildGoSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTas
     outputDir = "$buildDir/go".toString()
     configOptions = [
             dateLibrary: "threetenp"
+    ]
+}
+
+task buildDotnetSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+    generatorName = "csharp-netcore"
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+    additionalProperties = [
+            packageGuid: "{321C8C3F-0156-40C1-AE42-D59761FB9B6C}",
+            useCompareNetObjects: "true"
+    ]
+    outputDir = "$buildDir/csharp-netcore".toString()
+    systemProperties = [
+            models: "",
+            apis  : "",
     ]
 }
 

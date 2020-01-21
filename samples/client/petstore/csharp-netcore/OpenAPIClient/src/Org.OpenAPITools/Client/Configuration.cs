@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Client
         #endregion Constants
 
         #region Static Members
-        
+
         /// <summary>
         /// Default creation of exceptions for a given method name and response object
         /// </summary>
@@ -52,8 +52,8 @@ namespace Org.OpenAPITools.Client
             if (status >= 400)
             {
                 return new ApiException(status,
-                    string.Format("Error calling {0}: {1}", methodName, response.Content),
-                    response.Content);
+                    string.Format("Error calling {0}: {1}", methodName, response.RawContent),
+                    response.RawContent);
             }
             
             return null;
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Client
         /// Example: http://localhost:3000/v1/
         /// </summary>
         private String _basePath;
-        
+
         /// <summary>
         /// Gets or sets the API key based on the authentication name.
         /// This is the key and value comprising the "secret" for acessing an API.
@@ -97,7 +97,7 @@ namespace Org.OpenAPITools.Client
         {
             UserAgent = "OpenAPI-Generator/1.0.0/csharp";
             BasePath = "http://petstore.swagger.io:80/v2";
-            DefaultHeader = new ConcurrentDictionary<string, string>();
+            DefaultHeaders = new ConcurrentDictionary<string, string>();
             ApiKey = new ConcurrentDictionary<string, string>();
             ApiKeyPrefix = new ConcurrentDictionary<string, string>();
 
@@ -110,15 +110,15 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
         public Configuration(
-            IDictionary<string, string> defaultHeader,
+            IDictionary<string, string> defaultHeaders,
             IDictionary<string, string> apiKey,
             IDictionary<string, string> apiKeyPrefix,
             string basePath = "http://petstore.swagger.io:80/v2") : this()
         {
             if (string.IsNullOrWhiteSpace(basePath))
                 throw new ArgumentException("The provided basePath is invalid.", "basePath");
-            if (defaultHeader == null)
-                throw new ArgumentNullException("defaultHeader");
+            if (defaultHeaders == null)
+                throw new ArgumentNullException("defaultHeaders");
             if (apiKey == null)
                 throw new ArgumentNullException("apiKey");
             if (apiKeyPrefix == null)
@@ -126,9 +126,9 @@ namespace Org.OpenAPITools.Client
 
             BasePath = basePath;
 
-            foreach (var keyValuePair in defaultHeader)
+            foreach (var keyValuePair in defaultHeaders)
             {
-                DefaultHeader.Add(keyValuePair);
+                DefaultHeaders.Add(keyValuePair);
             }
 
             foreach (var keyValuePair in apiKey)
@@ -159,7 +159,23 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Gets or sets the default header.
         /// </summary>
-        public virtual IDictionary<string, string> DefaultHeader { get; set; }
+        [Obsolete("Use DefaultHeaders instead.")]
+        public virtual IDictionary<string, string> DefaultHeader
+        {
+            get
+            {
+                return DefaultHeaders;
+            }
+            set
+            {
+                DefaultHeaders = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the default headers.
+        /// </summary>
+        public virtual IDictionary<string, string> DefaultHeaders { get; set; }
 
         /// <summary>
         /// Gets or sets the HTTP timeout (milliseconds) of ApiClient. Default to 100000 milliseconds.
@@ -369,17 +385,17 @@ namespace Org.OpenAPITools.Client
             
             Dictionary<string, string> apiKey = first.ApiKey.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             Dictionary<string, string> apiKeyPrefix = first.ApiKeyPrefix.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            Dictionary<string, string> defaultHeader = first.DefaultHeader.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            Dictionary<string, string> defaultHeaders = first.DefaultHeaders.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             
             foreach (var kvp in second.ApiKey) apiKey[kvp.Key] = kvp.Value;
             foreach (var kvp in second.ApiKeyPrefix) apiKeyPrefix[kvp.Key] = kvp.Value;
-            foreach (var kvp in second.DefaultHeader) defaultHeader[kvp.Key] = kvp.Value;
+            foreach (var kvp in second.DefaultHeaders) defaultHeaders[kvp.Key] = kvp.Value;
 
             var config = new Configuration
             {
                 ApiKey = apiKey,
                 ApiKeyPrefix = apiKeyPrefix,
-                DefaultHeader = defaultHeader,
+                DefaultHeaders = defaultHeaders,
                 BasePath = second.BasePath ?? first.BasePath,
                 Timeout = second.Timeout,
                 UserAgent = second.UserAgent ?? first.UserAgent,

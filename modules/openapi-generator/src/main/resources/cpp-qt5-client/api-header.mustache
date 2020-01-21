@@ -13,40 +13,45 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-class {{classname}}: public QObject {
+class {{classname}} : public QObject {
     Q_OBJECT
 
 public:
-    {{classname}}();
-    {{classname}}(const QString& host, const QString& basePath, const int toutMs = 0);
+    {{classname}}(const QString &scheme = "{{scheme}}", const QString &host = "{{serverHost}}", int port = {{#serverPort}}{{serverPort}}{{/serverPort}}{{^serverPort}}0{{/serverPort}}, const QString &basePath = "{{basePathWithoutHost}}", const int timeOut = 0);
     ~{{classname}}();
 
-    void setBasePath(const QString& basePath);
-    void setHost(const QString& host);
-    void setApiTimeOutMs(const int tout);
-    void addHeaders(const QString& key, const QString& value);
-    
-    {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}const {{{dataType}}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-    {{/operation}}{{/operations}}
+    void setScheme(const QString &scheme);
+    void setHost(const QString &host);
+    void setPort(int port);
+    void setBasePath(const QString &basePath);
+    void setTimeOut(const int timeOut);
+    void setWorkingDirectory(const QString &path);
+    void addHeaders(const QString &key, const QString &value);
+{{#operations}}{{#operation}}
+    void {{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/operation}}{{/operations}}
+
 private:
-    QString basePath;
-    QString host;
-    int timeout;
+    QString _scheme, _host;
+    int _port;
+    QString _basePath;
+    int _timeOut;
+    QString _workingDirectory;
     QMap<QString, QString> defaultHeaders;
-    {{#operations}}{{#operation}}void {{nickname}}Callback ({{prefix}}HttpRequestWorker * worker);
-    {{/operation}}{{/operations}}
+{{#operations}}{{#operation}}
+    void {{nickname}}Callback({{prefix}}HttpRequestWorker *worker);{{/operation}}{{/operations}}
+
 signals:
-    {{#operations}}{{#operation}}void {{nickname}}Signal({{#returnType}}{{{returnType}}} summary{{/returnType}});
-    {{/operation}}{{/operations}}
-    {{#operations}}{{#operation}}void {{nickname}}SignalFull({{prefix}}HttpRequestWorker* worker{{#returnType}}, {{{returnType}}} summary{{/returnType}});
-    {{/operation}}{{/operations}}
-    {{#operations}}{{#operation}}void {{nickname}}SignalE({{#returnType}}{{{returnType}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);
-    {{/operation}}{{/operations}}
-    {{#operations}}{{#operation}}void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString error_str);
-    {{/operation}}{{/operations}}
+{{#operations}}{{#operation}}
+    void {{nickname}}Signal({{#returnType}}{{{returnType}}} summary{{/returnType}});{{/operation}}{{/operations}}
+{{#operations}}{{#operation}}
+    void {{nickname}}SignalFull({{prefix}}HttpRequestWorker *worker{{#returnType}}, {{{returnType}}} summary{{/returnType}});{{/operation}}{{/operations}}
+{{#operations}}{{#operation}}
+    void {{nickname}}SignalE({{#returnType}}{{{returnType}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
+{{#operations}}{{#operation}}
+    void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
 };
 
 {{#cppNamespaceDeclarations}}
-}
+} // namespace {{this}}
 {{/cppNamespaceDeclarations}}
 #endif

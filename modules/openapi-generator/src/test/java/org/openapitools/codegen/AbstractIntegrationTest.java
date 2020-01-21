@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -58,12 +58,11 @@ public abstract class AbstractIntegrationTest {
         CodegenConfig codegenConfig = getCodegenConfig();
         codegenConfig.setOutputDir(integrationTestPathsConfig.getOutputPath().toString());
         codegenConfig.setIgnoreFilePathOverride(integrationTestPathsConfig.getIgnoreFilePath().toFile().toString());
-        ClientOpts clientOpts = new ClientOpts();
-        clientOpts.setProperties(configProperties());
         ClientOptInput opts = new ClientOptInput()
                 .config(codegenConfig)
-                .opts(clientOpts)
                 .openAPI(openAPI);
+
+        codegenConfig.additionalProperties().putAll(configProperties());
 
         codeGen.opts(opts).generate();
 

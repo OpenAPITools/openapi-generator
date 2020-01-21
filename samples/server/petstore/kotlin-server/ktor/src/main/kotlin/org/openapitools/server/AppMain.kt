@@ -21,9 +21,9 @@ import io.ktor.locations.Locations
 import io.ktor.metrics.Metrics
 import io.ktor.routing.Routing
 import java.util.concurrent.TimeUnit
+import io.ktor.util.KtorExperimentalAPI
 import io.ktor.auth.Authentication
 import io.ktor.auth.oauth
-import io.ktor.util.KtorExperimentalAPI
 import org.openapitools.server.infrastructure.ApiKeyCredential
 import org.openapitools.server.infrastructure.ApiPrincipal
 import org.openapitools.server.infrastructure.apiKeyAuth

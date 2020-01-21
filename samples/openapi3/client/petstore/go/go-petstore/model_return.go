@@ -8,8 +8,7 @@
  */
 
 package petstore
-
-// Model for testing reserved words
+// Return Model for testing reserved words
 type Return struct {
 	Return int32 `json:"return,omitempty"`
 }

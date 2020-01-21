@@ -16,7 +16,7 @@ void main() {
       ..complete = false;
   }
 
-  group('Store API ', () {
+  group('Store API with live client', () {
     test('places an order and gets it by id', () async {
       var id = newId();
 
@@ -38,5 +38,5 @@ void main() {
       Map<String, int> inventory = await storeApi.getInventory();
       expect(inventory.length, isNot(equals(0)));
     });
-  });
+  }); // , skip: 'e2e tests for CI'
 }

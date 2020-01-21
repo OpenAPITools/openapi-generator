@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -477,7 +477,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         // Because the child models extend the parents, the enums will be available via the parent.
 
         // Only bother with reconciliation if the parent model has enums.
-        if (!parentCodegenModel.hasEnums) {
+        if (parentCodegenModel == null || !parentCodegenModel.hasEnums) {
             return codegenModel;
         }
 

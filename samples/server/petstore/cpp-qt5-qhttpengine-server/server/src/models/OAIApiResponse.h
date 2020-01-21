@@ -27,6 +27,7 @@
 #include "OAIObject.h"
 #include "OAIEnum.h"
 
+
 namespace OpenAPI {
 
 class OAIApiResponse: public OAIObject {
@@ -53,7 +54,7 @@ public:
     void setMessage(const QString &message);
 
     
-    
+
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 

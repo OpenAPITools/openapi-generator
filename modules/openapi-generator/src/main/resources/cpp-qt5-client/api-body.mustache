@@ -9,155 +9,150 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-{{classname}}::{{classname}}() : basePath("{{{basePathWithoutHost}}}"),
-    host("{{#serverHost}}{{#scheme}}{{scheme}}://{{/scheme}}{{serverHost}}{{#serverPort}}:{{serverPort}}{{/serverPort}}{{/serverHost}}"),
-    timeout(0){
-
-}
+{{classname}}::{{classname}}(const QString &scheme, const QString &host, int port, const QString &basePath, const int timeOut)
+    : _scheme(scheme),
+      _host(host),
+      _port(port),
+      _basePath(basePath),
+      _timeOut(timeOut) {}
 
 {{classname}}::~{{classname}}() {
-
 }
 
-{{classname}}::{{classname}}(const QString& host, const QString& basePath, const int tout) {
-    this->host = host;
-    this->basePath = basePath;
-    this->timeout = tout;
+void {{classname}}::setScheme(const QString &scheme) {
+    _scheme = scheme;
 }
 
-void {{classname}}::setBasePath(const QString& basePath){
-    this->basePath = basePath;
+void {{classname}}::setHost(const QString &host) {
+    _host = host;
 }
 
-void {{classname}}::setHost(const QString& host){
-    this->host = host;
+void {{classname}}::setPort(int port) {
+    _port = port;
 }
 
-void {{classname}}::setApiTimeOutMs(const int tout){
-    timeout = tout;
+void {{classname}}::setBasePath(const QString &basePath) {
+    _basePath = basePath;
 }
 
-void {{classname}}::addHeaders(const QString& key, const QString& value){
+void {{classname}}::setTimeOut(const int timeOut) {
+    _timeOut = timeOut;
+}
+
+void {{classname}}::setWorkingDirectory(const QString &path) {
+    _workingDirectory = path;
+}
+
+void {{classname}}::addHeaders(const QString &key, const QString &value) {
     defaultHeaders.insert(key, value);
 }
 
-
 {{#operations}}
 {{#operation}}
-void
-{{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
-    QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("{{{path}}}");
+void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    QString fullPath = QString("%1://%2%3%4%5")
+                           .arg(_scheme)
+                           .arg(_host)
+                           .arg(_port ? ":" + QString::number(_port) : "")
+                           .arg(_basePath)
+                           .arg("{{{path}}}");
     {{#pathParams}}
-    QString {{paramName}}PathParam("{"); 
+    QString {{paramName}}PathParam("{");
     {{paramName}}PathParam.append("{{baseName}}").append("}");
     fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
-    {{/pathParams}}
-    {{#queryParams}}{{^collectionFormat}}
+{{/pathParams}}
+{{#queryParams}}{{^collectionFormat}}
     if (fullPath.indexOf("?") > 0)
-      fullPath.append("&");
+        fullPath.append("&");
     else
-      fullPath.append("?");
-    fullPath.append(QUrl::toPercentEncoding("{{baseName}}"))
-        .append("=")
-        .append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
-    {{/collectionFormat}}{{#collectionFormat}}
+        fullPath.append("?");
+    fullPath.append(QUrl::toPercentEncoding("{{baseName}}")).append("=").append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
+{{/collectionFormat}}{{#collectionFormat}}
     if ({{{paramName}}}.size() > 0) {
-      if (QString("{{collectionFormat}}").indexOf("multi") == 0) {
-        foreach({{{baseType}}} t, {{paramName}}) {
-          if (fullPath.indexOf("?") > 0)
-            fullPath.append("&");
-          else
-            fullPath.append("?");
-          fullPath.append("{{{baseName}}}=").append(::{{cppNamespace}}::toStringValue(t));
+        if (QString("{{collectionFormat}}").indexOf("multi") == 0) {
+            foreach ({{{baseType}}} t, {{paramName}}) {
+                if (fullPath.indexOf("?") > 0)
+                    fullPath.append("&");
+                else
+                    fullPath.append("?");
+                fullPath.append("{{{baseName}}}=").append(::{{cppNamespace}}::toStringValue(t));
+            }
+        } else if (QString("{{collectionFormat}}").indexOf("ssv") == 0) {
+            if (fullPath.indexOf("?") > 0)
+                fullPath.append("&");
+            else
+                fullPath.append("?");
+            fullPath.append("{{baseName}}=");
+            qint32 count = 0;
+            foreach ({{{baseType}}} t, {{paramName}}) {
+                if (count > 0) {
+                    fullPath.append(" ");
+                }
+                fullPath.append(::{{cppNamespace}}::toStringValue(t));
+            }
+        } else if (QString("{{collectionFormat}}").indexOf("tsv") == 0) {
+            if (fullPath.indexOf("?") > 0)
+                fullPath.append("&");
+            else
+                fullPath.append("?");
+            fullPath.append("{{baseName}}=");
+            qint32 count = 0;
+            foreach ({{{baseType}}} t, {{paramName}}) {
+                if (count > 0) {
+                    fullPath.append("\t");
+                }
+                fullPath.append(::{{cppNamespace}}::toStringValue(t));
+            }
         }
-      }
-      else if (QString("{{collectionFormat}}").indexOf("ssv") == 0) {
-        if (fullPath.indexOf("?") > 0)
-          fullPath.append("&");
-        else
-          fullPath.append("?");
-        fullPath.append("{{baseName}}=");
-        qint32 count = 0;
-        foreach({{{baseType}}} t, {{paramName}}) {
-          if (count > 0) {
-            fullPath.append(" ");
-          }
-          fullPath.append(::{{cppNamespace}}::toStringValue(t));
-        }
-      }
-      else if (QString("{{collectionFormat}}").indexOf("tsv") == 0) {
-        if (fullPath.indexOf("?") > 0)
-          fullPath.append("&");
-        else
-          fullPath.append("?");
-        fullPath.append("{{baseName}}=");
-        qint32 count = 0;
-        foreach({{{baseType}}} t, {{paramName}}) {
-          if (count > 0) {
-            fullPath.append("\t");
-          }
-          fullPath.append(::{{cppNamespace}}::toStringValue(t));
-        }
-      }
     }
-    {{/collectionFormat}}{{/queryParams}}
-    {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker();
-    worker->setTimeOut(timeout);    
+{{/collectionFormat}}{{/queryParams}}
+    {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker(this);
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
-    {{#formParams}}
-    if ({{paramName}} != nullptr) {
-        {{^isFile}}input.add_var("{{baseName}}", {{paramName}});{{/isFile}}{{#isFile}}input.add_file("{{baseName}}", (*{{paramName}}).local_filename, (*{{paramName}}).request_filename, (*{{paramName}}).mime_type);{{/isFile}}
-    }
-    {{/formParams}}{{#bodyParams}}
-    {{#isContainer}}{{#isListContainer}}
+{{#formParams}}{{^isFile}}
+    input.add_var("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));{{/isFile}}{{#isFile}}
+    input.add_file("{{baseName}}", {{paramName}}.local_filename, {{paramName}}.request_filename, {{paramName}}.mime_type);{{/isFile}}{{/formParams}}{{#bodyParams}}{{#isContainer}}{{#isListContainer}}
     QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toArray());{{/isListContainer}}{{#isMapContainer}}
     QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toObject());{{/isMapContainer}}
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
-    {{/isContainer}}{{^isContainer}}{{#isString}}
-    QString output({{paramName}});{{/isString}}{{#isByteArray}}QString output({{paramName}});{{/isByteArray}}{{^isString}}{{^isByteArray}}
-    QString output = {{paramName}}.asJson();{{/isByteArray}}{{/isString}}
+{{/isContainer}}{{^isContainer}}{{#isString}}
+    QString output({{paramName}});{{/isString}}{{#isByteArray}}QString output({{paramName}});{{/isByteArray}}{{^isString}}{{^isByteArray}}{{^isFile}}
+    QString output = {{paramName}}.asJson();{{/isFile}}{{/isByteArray}}{{/isString}}{{#isFile}}{{#hasConsumes}}input.headers.insert("Content-Type", {{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}});{{/hasConsumes}}
+    QByteArray output = {{paramName}}.asByteArray();{{/isFile}}
     input.request_body.append(output);
-    {{/isContainer}}{{/bodyParams}}
-    {{#headerParams}}
+{{/isContainer}}{{/bodyParams}}{{#headerParams}}
     if ({{paramName}} != nullptr) {
         input.headers.insert("{{baseName}}", {{paramName}});
     }
-    {{/headerParams}}
+{{/headerParams}}
 
-    foreach(QString key, this->defaultHeaders.keys()) {
-        input.headers.insert(key, this->defaultHeaders.value(key));
-    }
+    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
-    connect(worker,
-            &{{prefix}}HttpRequestWorker::on_execution_finished,
-            this,
-            &{{classname}}::{{nickname}}Callback);
+    connect(worker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
 
     worker->execute(&input);
 }
 
-void
-{{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker * worker) {
+void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
     if (worker->error_type == QNetworkReply::NoError) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
-    }
-    else {
+    } else {
         msg = "Error: " + worker->error_str;
     }
     {{#returnType}}
     {{#isListContainer}}
     {{{returnType}}} output;
     QString json(worker->response);
-    QByteArray array (json.toStdString().c_str());
+    QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
-    foreach(QJsonValue obj, jsonArray) {
+    foreach (QJsonValue obj, jsonArray) {
         {{{returnBaseType}}} val;
         ::{{cppNamespace}}::fromJsonValue(val, obj);
         output.append(val);
@@ -166,17 +161,17 @@ void
     {{^isListContainer}}
     {{^isMapContainer}}
     {{#returnTypeIsPrimitive}}
-    {{{returnType}}} output;  
+    {{{returnType}}} output;
     ::{{cppNamespace}}::fromStringValue(QString(worker->response), output);
     {{/returnTypeIsPrimitive}}
     {{/isMapContainer}}
     {{#isMapContainer}}
     {{{returnType}}} output;
     QString json(worker->response);
-    QByteArray array (json.toStdString().c_str());
+    QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject obj = doc.object();
-    foreach(QString key, obj.keys()) {
+    foreach (QString key, obj.keys()) {
         {{returnBaseType}} val;
         ::{{cppNamespace}}::fromJsonValue(val, obj[key]);
         output.insert(key, val);
@@ -184,7 +179,7 @@ void
     {{/isMapContainer}}
     {{^isMapContainer}}
     {{^returnTypeIsPrimitive}}
-    {{{returnType}}} output(QString(worker->response));
+    {{{returnType}}} output{{^isResponseFile}}(QString(worker->response)){{/isResponseFile}}{{#isResponseFile}} = worker->getHttpFileElement(){{/isResponseFile}};
     {{/returnTypeIsPrimitive}}
     {{/isMapContainer}}
     {{/isListContainer}}
@@ -202,7 +197,6 @@ void
 
 {{/operation}}
 {{/operations}}
-
 {{#cppNamespaceDeclarations}}
-}
+} // namespace {{this}}
 {{/cppNamespaceDeclarations}}

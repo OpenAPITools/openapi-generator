@@ -1,6 +1,5 @@
 #![allow(unused_imports, unused_qualifications, unused_extern_crates)]
 extern crate chrono;
-extern crate uuid;
 
 {{#usesXml}}
 use serde_xml_rs;
@@ -16,7 +15,9 @@ use std::collections::HashMap;
 use models;
 use swagger;
 use std::string::ParseError;
-
+{{#apiUsesUuid}}
+use uuid;
+{{/apiUsesUuid}}
 
 {{#models}}{{#model}}
 {{#description}}/// {{{description}}}
@@ -25,7 +26,8 @@ use std::string::ParseError;
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Eq, Ord)]{{#xmlName}}
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGenericEnum))]{{#xmlName}}
 #[serde(rename = "{{{xmlName}}}")]{{/xmlName}}
 pub enum {{{classname}}} { {{#allowableValues}}{{#enumVars}}
     #[serde(rename = {{{value}}})]
@@ -49,8 +51,19 @@ impl ::std::str::FromStr for {{{classname}}} {
         }
     }
 }
-{{/isEnum}}{{^isEnum}}{{#dataType}}{{! newtype}}#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
-{{#xmlName}}#[serde(rename = "{{{xmlName}}}")]{{/xmlName}}
+{{/isEnum}}
+{{^isEnum}}
+{{#dataType}}
+{{#isMapModel}}
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+{{/isMapModel}}
+{{^isMapModel}}
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+{{/isMapModel}}
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+{{#xmlName}}
+#[serde(rename = "{{{xmlName}}}")]
+{{/xmlName}}
 pub struct {{{classname}}}({{{dataType}}});
 
 impl ::std::convert::From<{{{dataType}}}> for {{{classname}}} {
@@ -97,6 +110,7 @@ where
 }
 
 {{/itemXmlName}}{{/vendorExtensions}}{{! vec}}#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct {{{classname}}}({{#vendorExtensions}}{{#itemXmlName}}#[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]{{/itemXmlName}}{{/vendorExtensions}}Vec<{{{arrayModelType}}}>);
 
 impl ::std::convert::From<Vec<{{{arrayModelType}}}>> for {{{classname}}} {
@@ -157,7 +171,8 @@ impl ::std::ops::DerefMut for {{{classname}}} {
     }
 }
 
-{{/arrayModelType}}{{^arrayModelType}}{{! general struct}}#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]{{#xmlName}}
+{{/arrayModelType}}{{^arrayModelType}}{{! general struct}}#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]{{#xmlName}}
 #[serde(rename = "{{{xmlName}}}")]{{/xmlName}}
 pub struct {{{classname}}} {
 {{#vars}}{{#description}}    /// {{{description}}}

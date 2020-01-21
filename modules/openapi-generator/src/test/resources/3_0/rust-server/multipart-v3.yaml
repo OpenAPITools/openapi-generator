@@ -1,0 +1,51 @@
+# Test the multipart function of the OpenAPI specification
+#
+# Specifically, these tests include
+#   - multipart/form data including
+#      - binary data
+#      - string data
+#      - objects
+
+openapi: 3.0.1
+info:
+  title: Multipart OpenAPI V3 Rust Server Test
+  description: API under test
+  version: 1.0.7
+paths:
+  /multipart_request:
+    post:
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/multipart_request'
+      responses:
+        '201':
+          description: 'OK'
+components:
+  schemas:
+    multipart_request:
+      type: object
+      required:
+        - string_field
+        - binary_field
+      properties:
+        string_field:
+          type: string
+        optional_string_field:
+          type: string
+        object_field:
+          type: object
+          required:
+            - field_a
+          properties:
+            field_a:
+              type: string
+            field_b:
+              type: array
+              items:
+                type: string
+        binary_field:
+          type: string
+          format: byte

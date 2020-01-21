@@ -22,46 +22,71 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * AdditionalPropertiesClass
  */
+@JsonPropertyOrder({
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_STRING,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_NUMBER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_INTEGER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_BOOLEAN,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_ARRAY_INTEGER,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_ARRAY_ANYTYPE,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_MAP_STRING,
+  AdditionalPropertiesClass.JSON_PROPERTY_MAP_MAP_ANYTYPE,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE1,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
+  AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
+})
 
 public class AdditionalPropertiesClass   {
-  @JsonProperty("map_string")
+  public static final String JSON_PROPERTY_MAP_STRING = "map_string";
+  @JsonProperty(JSON_PROPERTY_MAP_STRING)
   private Map<String, String> mapString = null;
 
-  @JsonProperty("map_number")
+  public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
+  @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
   private Map<String, BigDecimal> mapNumber = null;
 
-  @JsonProperty("map_integer")
+  public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
+  @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
   private Map<String, Integer> mapInteger = null;
 
-  @JsonProperty("map_boolean")
+  public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
+  @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
   private Map<String, Boolean> mapBoolean = null;
 
-  @JsonProperty("map_array_integer")
+  public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
+  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
   private Map<String, List<Integer>> mapArrayInteger = null;
 
-  @JsonProperty("map_array_anytype")
+  public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
+  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
   private Map<String, List<Object>> mapArrayAnytype = null;
 
-  @JsonProperty("map_map_string")
+  public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
   private Map<String, Map<String, String>> mapMapString = null;
 
-  @JsonProperty("map_map_anytype")
+  public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
   private Map<String, Map<String, Object>> mapMapAnytype = null;
 
-  @JsonProperty("anytype_1")
-  private Object anytype1 = null;
+  public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
+  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
+  private Object anytype1;
 
-  @JsonProperty("anytype_2")
-  private Object anytype2 = null;
+  public static final String JSON_PROPERTY_ANYTYPE2 = "anytype_2";
+  @JsonProperty(JSON_PROPERTY_ANYTYPE2)
+  private Object anytype2;
 
-  @JsonProperty("anytype_3")
-  private Object anytype3 = null;
+  public static final String JSON_PROPERTY_ANYTYPE3 = "anytype_3";
+  @JsonProperty(JSON_PROPERTY_ANYTYPE3)
+  private Object anytype3;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;

@@ -31,8 +31,8 @@ out_folder=samples/server/petstore/$generator
 resources=modules/openapi-generator/src/main/resources/$generator
 
 # if you've executed sbt assembly previously it will use that instead.
-export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t $resources -i $input -g $generator -o $out_folder -Dservice $@"
+export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties -Dservice"
+ags="generate -t $resources -i $input -g $generator -o $out_folder $@"
 
 rm -rf $out_folder/.openapi*
 rm -rf $out_folder/openapi_server

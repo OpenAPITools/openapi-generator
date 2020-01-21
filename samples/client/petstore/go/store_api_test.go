@@ -28,9 +28,8 @@ func TestPlaceOrder(t *testing.T) {
 			MatchString(err.Error()) {
 			t.Log("Skipping error for parsing time with `+0000` UTC offset as Petstore Test Server does not return valid RFC 3339 datetime")
 		} else {
-			t.Errorf("Error while placing order")
+			t.Fatalf("Error while placing order: %v", err)
 		}
-		t.Log(err)
 	}
 	if r.StatusCode != 200 {
 		t.Log(r)

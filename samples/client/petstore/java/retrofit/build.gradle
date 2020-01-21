@@ -6,7 +6,7 @@ version = '1.0.0'
 
 buildscript {
     repositories {
-        mavenCentral()
+        maven { url "https://repo1.maven.org/maven2" }
         jcenter()
     }
     dependencies {
@@ -99,12 +99,13 @@ ext {
     oltu_version = "1.0.1"
     retrofit_version = "1.9.0"
     swagger_annotations_version = "1.5.21"
-    junit_version = "4.12"
+    junit_version = "4.13"
     jodatime_version = "2.9.3"
 }
 
 dependencies {
     compile "com.squareup.okhttp:okhttp:$okhttp_version"
+    compile "com.google.code.findbugs:jsr305:3.0.2"
     compile "com.squareup.retrofit:retrofit:$retrofit_version"
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"

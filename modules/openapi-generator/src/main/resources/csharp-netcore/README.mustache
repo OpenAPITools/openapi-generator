@@ -80,7 +80,7 @@ Then, publish to a [local feed](https://docs.microsoft.com/en-us/nuget/hosting-p
 ## Getting Started
 
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using {{packageName}}.{{apiPackage}};
 using {{packageName}}.Client;
@@ -90,30 +90,32 @@ namespace Example
 {
     public class {{operationId}}Example
     {
-        public void main()
+        public static void Main()
         {
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
+            Configuration config = new Configuration();
+            config.BasePath = "{{{basePath}}}";
             {{#hasAuthMethods}}
             {{#authMethods}}
             {{#isBasic}}
             // Configure HTTP basic authorization: {{{name}}}
-            Configuration.Default.Username = "YOUR_USERNAME";
-            Configuration.Default.Password = "YOUR_PASSWORD";
+            config.Username = "YOUR_USERNAME";
+            config.Password = "YOUR_PASSWORD";
             {{/isBasic}}
             {{#isApiKey}}
             // Configure API key authorization: {{{name}}}
-            Configuration.Default.ApiKey.Add("{{{keyParamName}}}", "YOUR_API_KEY");
+            config.ApiKey.Add("{{{keyParamName}}}", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("{{{keyParamName}}}", "Bearer");
+            // config.ApiKeyPrefix.Add("{{{keyParamName}}}", "Bearer");
             {{/isApiKey}}
             {{#isOAuth}}
             // Configure OAuth2 access token for authorization: {{{name}}}
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+            config.AccessToken = "YOUR_ACCESS_TOKEN";
             {{/isOAuth}}
             {{/authMethods}}
 
             {{/hasAuthMethods}}
-            var apiInstance = new {{classname}}();
+            var apiInstance = new {{classname}}(config);
             {{#allParams}}
             {{#isPrimitiveType}}
             var {{paramName}} = {{{example}}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
@@ -128,12 +130,14 @@ namespace Example
                 {{#summary}}
                 // {{{.}}}
                 {{/summary}}
-                {{#returnType}}{{{.}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+                {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
                 Debug.WriteLine(result);{{/returnType}}
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
 {{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
         }

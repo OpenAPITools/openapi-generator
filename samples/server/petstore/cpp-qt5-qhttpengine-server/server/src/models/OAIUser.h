@@ -27,6 +27,7 @@
 #include "OAIObject.h"
 #include "OAIEnum.h"
 
+
 namespace OpenAPI {
 
 class OAIUser: public OAIObject {
@@ -73,7 +74,7 @@ public:
     void setUserStatus(const qint32 &user_status);
 
     
-    
+
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 

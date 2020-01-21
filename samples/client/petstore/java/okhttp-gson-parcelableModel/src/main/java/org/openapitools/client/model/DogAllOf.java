@@ -37,7 +37,9 @@ public class DogAllOf implements Parcelable {
 
   public DogAllOf() {
   }
+
   public DogAllOf breed(String breed) {
+    
     this.breed = breed;
     return this;
   }
@@ -46,10 +48,13 @@ public class DogAllOf implements Parcelable {
    * Get breed
    * @return breed
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getBreed() {
     return breed;
   }
+
 
   public void setBreed(String breed) {
     this.breed = breed;

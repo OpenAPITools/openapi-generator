@@ -1,0 +1,12 @@
+{
+  "artifactId": "springboot-delegate",
+  "generatorName": "spring",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/server/petstore/springboot-delegate",
+  "templateDir": "modules/openapi-generator/src/main/resources/JavaSpring",
+  "additionalProperties": {
+    "delegatePattern": true,
+    "hideGenerationTimestamp": true,
+    "java8": false
+  }
+}

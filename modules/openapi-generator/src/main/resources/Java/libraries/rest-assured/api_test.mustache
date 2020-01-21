@@ -20,7 +20,7 @@ import java.util.Map;
 {{/fullJavaUtil}}
 import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
 import static io.restassured.config.RestAssuredConfig.config;
-import static {{invokerPackage}}.GsonObjectMapper.gson;
+import static {{invokerPackage}}.{{#gson}}GsonObjectMapper.gson{{/gson}}{{#jackson}}JacksonObjectMapper.jackson{{/jackson}};
 
 /**
  * API tests for {{classname}}
@@ -33,7 +33,8 @@ public class {{classname}}Test {
     @Before
     public void createApi() {
         api = ApiClient.api(ApiClient.Config.apiConfig().reqSpecSupplier(
-                () -> new RequestSpecBuilder().setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())))
+                () -> new RequestSpecBuilder()
+                        .setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper({{#gson}}gson(){{/gson}}{{#jackson}}jackson(){{/jackson}})))
                         .addFilter(new ErrorLoggingFilter())
                         .setBaseUri("{{{basePath}}}"))).{{classVarName}}();
     }

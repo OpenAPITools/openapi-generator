@@ -13,7 +13,8 @@ wrapper {
 
 buildscript {
     repositories {
-        maven { url 'https://repo.jfrog.org/artifactory/gradle-plugins' }
+        maven { url "https://repo1.maven.org/maven2" }
+        maven { url = 'https://repo.jfrog.org/artifactory/gradle-plugins' }
     }
     dependencies {
         classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '2.0.16')
@@ -21,13 +22,14 @@ buildscript {
 }
 
 repositories {
-    mavenCentral()
+    maven { url "https://repo1.maven.org/maven2" }
     mavenLocal()
 }
 
 ext {
     swagger_annotations_version = "1.5.22"
-    jackson_version = "2.9.9"
+    jackson_version = "2.9.10"
+    jackson_databind_version = "2.9.10.1"
 }
 
 dependencies {
@@ -35,9 +37,9 @@ dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     compile 'io.github.http-builder-ng:http-builder-ng-core:1.0.3'
-    testCompile "junit:junit:4.11"
+    testCompile "junit:junit:4.13"
 }

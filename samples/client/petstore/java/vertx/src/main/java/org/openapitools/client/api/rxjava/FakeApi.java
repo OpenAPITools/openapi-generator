@@ -200,8 +200,8 @@ public class FakeApi {
         }));
     }
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      * @param number None (required)
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
@@ -223,8 +223,8 @@ public class FakeApi {
     }
 
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      * @param number None (required)
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
@@ -354,6 +354,35 @@ public class FakeApi {
     public Single<Void> rxTestJsonFormData(String param, String param2) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
             delegate.testJsonFormData(param, param2, fut);
+        }));
+    }
+    /**
+     * 
+     * To test the collection format in query parameters
+     * @param pipe  (required)
+     * @param ioutil  (required)
+     * @param http  (required)
+     * @param url  (required)
+     * @param context  (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, resultHandler);
+    }
+
+    /**
+     * 
+     * To test the collection format in query parameters
+     * @param pipe  (required)
+     * @param ioutil  (required)
+     * @param http  (required)
+     * @param url  (required)
+     * @param context  (required)
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<Void> rxTestQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, fut);
         }));
     }
 

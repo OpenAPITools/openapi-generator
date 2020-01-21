@@ -87,7 +87,7 @@ interface StoreApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Order[]
+     * @return OpenAPI\Server\Model\Order
      *
      */
     public function getOrderById($orderId, &$responseCode, array &$responseHeaders);
@@ -101,7 +101,7 @@ interface StoreApiInterface
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
-     * @return OpenAPI\Server\Model\Order[]
+     * @return OpenAPI\Server\Model\Order
      *
      */
     public function placeOrder(Order $body, &$responseCode, array &$responseHeaders);

@@ -173,7 +173,7 @@ void OAIPetApiRequest::uploadFileRequest(const QString& pet_idstr){
     fromStringValue(pet_idstr, pet_id);
     
     QString additional_metadata;
-    QIODevice* file;
+    OAIHttpFileElement file;
 
     emit uploadFile(pet_id, additional_metadata, file);
 }

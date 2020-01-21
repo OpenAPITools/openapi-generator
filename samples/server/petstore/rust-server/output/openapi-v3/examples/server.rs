@@ -20,7 +20,7 @@ extern crate futures;
 extern crate chrono;
 #[macro_use]
 extern crate error_chain;
-
+extern crate uuid;
 
 use openssl::x509::X509_FILETYPE_PEM;
 use openssl::ssl::{SslAcceptorBuilder, SslMethod};

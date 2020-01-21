@@ -21,13 +21,17 @@ import scalaz.concurrent.Task
 
 import HelperCodecs._
 
+import org.openapitools.client.api.ApiResponse
+import java.io.File
+import org.openapitools.client.api.Pet
+
 object PetApi {
 
   val client = PooledHttp1Client()
 
   def escape(value: String): String = URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20")
 
-  def addPet(host: String, pet: Pet): Task[Unit] = {
+  def addPet(host: String, body: Pet): Task[Unit] = {
     val path = "/pet"
     
     val httpMethod = Method.POST
@@ -40,7 +44,7 @@ object PetApi {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(host + path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(pet)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
 
     } yield resp
@@ -65,7 +69,7 @@ object PetApi {
     } yield resp
   }
   
-  def findPetsByStatus(host: String, status: List[String])(implicit statusQuery: QueryParam[List[String]]): Task[List[Pet]] = {
+  def findPetsByStatus(host: String, status: List[String] = List.empty[String] )(implicit statusQuery: QueryParam[List[String]]): Task[List[Pet]] = {
     implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
 
     val path = "/pet/findByStatus"
@@ -86,7 +90,7 @@ object PetApi {
     } yield resp
   }
   
-  def findPetsByTags(host: String, tags: List[String])(implicit tagsQuery: QueryParam[List[String]]): Task[List[Pet]] = {
+  def findPetsByTags(host: String, tags: List[String] = List.empty[String] )(implicit tagsQuery: QueryParam[List[String]]): Task[List[Pet]] = {
     implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
 
     val path = "/pet/findByTags"
@@ -128,7 +132,7 @@ object PetApi {
     } yield resp
   }
   
-  def updatePet(host: String, pet: Pet): Task[Unit] = {
+  def updatePet(host: String, body: Pet): Task[Unit] = {
     val path = "/pet"
     
     val httpMethod = Method.PUT
@@ -141,7 +145,7 @@ object PetApi {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(host + path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(pet)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
 
     } yield resp
@@ -194,7 +198,7 @@ class HttpServicePetApi(service: HttpService) {
 
   def escape(value: String): String = URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20")
 
-  def addPet(pet: Pet): Task[Unit] = {
+  def addPet(body: Pet): Task[Unit] = {
     val path = "/pet"
     
     val httpMethod = Method.POST
@@ -207,7 +211,7 @@ class HttpServicePetApi(service: HttpService) {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(pet)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
 
     } yield resp
@@ -232,7 +236,7 @@ class HttpServicePetApi(service: HttpService) {
     } yield resp
   }
   
-  def findPetsByStatus(status: List[String])(implicit statusQuery: QueryParam[List[String]]): Task[List[Pet]] = {
+  def findPetsByStatus(status: List[String] = List.empty[String] )(implicit statusQuery: QueryParam[List[String]]): Task[List[Pet]] = {
     implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
 
     val path = "/pet/findByStatus"
@@ -253,7 +257,7 @@ class HttpServicePetApi(service: HttpService) {
     } yield resp
   }
   
-  def findPetsByTags(tags: List[String])(implicit tagsQuery: QueryParam[List[String]]): Task[List[Pet]] = {
+  def findPetsByTags(tags: List[String] = List.empty[String] )(implicit tagsQuery: QueryParam[List[String]]): Task[List[Pet]] = {
     implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
 
     val path = "/pet/findByTags"
@@ -295,7 +299,7 @@ class HttpServicePetApi(service: HttpService) {
     } yield resp
   }
   
-  def updatePet(pet: Pet): Task[Unit] = {
+  def updatePet(body: Pet): Task[Unit] = {
     val path = "/pet"
     
     val httpMethod = Method.PUT
@@ -308,7 +312,7 @@ class HttpServicePetApi(service: HttpService) {
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(path))
       uriWithParams =  uri.copy(query = queryParams)
-      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(pet)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType)).withBody(body)
       resp          <- client.fetch[Unit](req)(_ => Task.now(()))
 
     } yield resp

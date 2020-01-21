@@ -39,17 +39,17 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result addPet() throws Exception {
-        JsonNode nodepet = request().body().asJson();
-        Pet pet;
-        if (nodepet != null) {
-            pet = mapper.readValue(nodepet.toString(), Pet.class);
+        JsonNode nodebody = request().body().asJson();
+        Pet body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), Pet.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(pet);
+                OpenAPIUtils.validate(body);
             }
         } else {
-            throw new IllegalArgumentException("'Pet' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.addPet(pet);
+        imp.addPet(body);
         return ok();
     }
 
@@ -126,17 +126,17 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result updatePet() throws Exception {
-        JsonNode nodepet = request().body().asJson();
-        Pet pet;
-        if (nodepet != null) {
-            pet = mapper.readValue(nodepet.toString(), Pet.class);
+        JsonNode nodebody = request().body().asJson();
+        Pet body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), Pet.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(pet);
+                OpenAPIUtils.validate(body);
             }
         } else {
-            throw new IllegalArgumentException("'Pet' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.updatePet(pet);
+        imp.updatePet(body);
         return ok();
     }
 
@@ -147,14 +147,14 @@ public class PetApiController extends Controller {
         if (valuename != null) {
             name = valuename;
         } else {
-            name = "null";
+            name = null;
         }
         String valuestatus = (request().body().asMultipartFormData().asFormUrlEncoded().get("status"))[0];
         String status;
         if (valuestatus != null) {
             status = valuestatus;
         } else {
-            status = "null";
+            status = null;
         }
         imp.updatePetWithForm(petId, name, status);
         return ok();
@@ -167,7 +167,7 @@ public class PetApiController extends Controller {
         if (valueadditionalMetadata != null) {
             additionalMetadata = valueadditionalMetadata;
         } else {
-            additionalMetadata = "null";
+            additionalMetadata = null;
         }
         Http.MultipartFormData.FilePart file = request().body().asMultipartFormData().getFile("file");
         ModelApiResponse obj = imp.uploadFile(petId, additionalMetadata, file);
@@ -185,13 +185,13 @@ public class PetApiController extends Controller {
         if (valueadditionalMetadata != null) {
             additionalMetadata = valueadditionalMetadata;
         } else {
-            additionalMetadata = "null";
+            additionalMetadata = null;
         }
-        Http.MultipartFormData.FilePart file = request().body().asMultipartFormData().getFile("file");
-        if ((file == null || ((File) file.getFile()).length() == 0)) {
-            throw new IllegalArgumentException("'file' file cannot be empty");
+        Http.MultipartFormData.FilePart requiredFile = request().body().asMultipartFormData().getFile("requiredFile");
+        if ((requiredFile == null || ((File) requiredFile.getFile()).length() == 0)) {
+            throw new IllegalArgumentException("'requiredFile' file cannot be empty");
         }
-        ModelApiResponse obj = imp.uploadFileWithRequiredFile(petId, file, additionalMetadata);
+        ModelApiResponse obj = imp.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }

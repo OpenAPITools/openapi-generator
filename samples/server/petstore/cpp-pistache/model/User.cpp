@@ -71,42 +71,42 @@ void to_json(nlohmann::json& j, const User& o)
 
 void from_json(const nlohmann::json& j, User& o)
 {
-    if(j.contains("id"))
+    if(j.find("id") != j.end())
     {
         j.at("id").get_to(o.m_Id);
         o.m_IdIsSet = true;
     } 
-    if(j.contains("username"))
+    if(j.find("username") != j.end())
     {
         j.at("username").get_to(o.m_Username);
         o.m_UsernameIsSet = true;
     } 
-    if(j.contains("firstName"))
+    if(j.find("firstName") != j.end())
     {
         j.at("firstName").get_to(o.m_FirstName);
         o.m_FirstNameIsSet = true;
     } 
-    if(j.contains("lastName"))
+    if(j.find("lastName") != j.end())
     {
         j.at("lastName").get_to(o.m_LastName);
         o.m_LastNameIsSet = true;
     } 
-    if(j.contains("email"))
+    if(j.find("email") != j.end())
     {
         j.at("email").get_to(o.m_Email);
         o.m_EmailIsSet = true;
     } 
-    if(j.contains("password"))
+    if(j.find("password") != j.end())
     {
         j.at("password").get_to(o.m_Password);
         o.m_PasswordIsSet = true;
     } 
-    if(j.contains("phone"))
+    if(j.find("phone") != j.end())
     {
         j.at("phone").get_to(o.m_Phone);
         o.m_PhoneIsSet = true;
     } 
-    if(j.contains("userStatus"))
+    if(j.find("userStatus") != j.end())
     {
         j.at("userStatus").get_to(o.m_UserStatus);
         o.m_UserStatusIsSet = true;

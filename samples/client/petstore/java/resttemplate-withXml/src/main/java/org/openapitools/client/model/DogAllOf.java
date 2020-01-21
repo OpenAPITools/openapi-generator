@@ -15,28 +15,34 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * DogAllOf
  */
+@JsonPropertyOrder({
+  DogAllOf.JSON_PROPERTY_BREED
+})
 
 @XmlRootElement(name = "DogAllOf")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "DogAllOf")
 public class DogAllOf {
-  @JsonProperty("breed")
-  @JacksonXmlProperty(localName = "breed")
+  public static final String JSON_PROPERTY_BREED = "breed";
   @XmlElement(name = "breed")
   private String breed;
 
+
   public DogAllOf breed(String breed) {
+    
     this.breed = breed;
     return this;
   }
@@ -45,10 +51,16 @@ public class DogAllOf {
    * Get breed
    * @return breed
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "breed")
+
   public String getBreed() {
     return breed;
   }
+
 
   public void setBreed(String breed) {
     this.breed = breed;

@@ -23,12 +23,10 @@
       "swagger-codegen-migration",
       "fork-qna"
     ],
-
     "Releases": [
       "release-summary",
       "release-3-0-0"
     ],
-
     "API": [
       "generators"
     ]

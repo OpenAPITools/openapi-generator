@@ -40,7 +40,8 @@ end
 def check_openapi_generator_online_docker
   print "Checking openapi-generator-online docker ... "
 
-  url = "https://hub.docker.com/r/openapitools/openapi-generator-online/tags/"
+  url = "https://hub.docker.com/v2/repositories/openapitools/openapi-generator-online/tags/?page_size=25&page=1"
+
   docker_tag = "v#{$version}"
   open(url) do |f|
     content = f.read
@@ -56,7 +57,7 @@ end
 def check_openapi_generator_cli_docker
   print "Checking openapi-generator-cli docker ... "
 
-  url = "https://hub.docker.com/r/openapitools/openapi-generator-cli/tags/"
+  url = "https://hub.docker.com/v2/repositories/openapitools/openapi-generator-cli/tags/?page_size=25&page=1"
   docker_tag = "v#{$version}"
   open(url) do |f|
     content = f.read
@@ -74,9 +75,9 @@ def check_readme
 
   url = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/README.md"
   matches = ["[#{$version}](https://github.com/OpenAPITools/openapi-generator/releases/tag/v#{$version})",
-           "JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/#{$version}/openapi-generator-cli-#{$version}.jar`",
-           "wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/#{$version}/openapi-generator-cli-#{$version}.jar -O openapi-generator-cli.jar",
-           "Invoke-WebRequest -OutFile openapi-generator-cli.jar http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/#{$version}/openapi-generator-cli-#{$version}.jar"]
+           "JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/#{$version}/openapi-generator-cli-#{$version}.jar`",
+           "wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/#{$version}/openapi-generator-cli-#{$version}.jar -O openapi-generator-cli.jar",
+           "Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/#{$version}/openapi-generator-cli-#{$version}.jar"]
   open(url) do |f|
     content = f.read
     has_outdated = false
@@ -103,7 +104,7 @@ end
 
 def check_openapi_generator_jar
   print "Checking openapi-generator JAR ... "
-  url = "http://central.maven.org/maven2/org/openapitools/openapi-generator/#{$version}/openapi-generator-#{$version}.jar"
+  url = "https://repo1.maven.org/maven2/org/openapitools/openapi-generator/#{$version}/openapi-generator-#{$version}.jar"
 
   if check_url(url)
     puts "[OK]"
@@ -117,7 +118,7 @@ end
 
 def check_openapi_generator_cli_jar
   print "Checking openapi-generator-cli JAR ... "
-  url = "http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/#{$version}/openapi-generator-cli-#{$version}.jar"
+  url = "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/#{$version}/openapi-generator-cli-#{$version}.jar"
 
   if check_url(url)
     puts "[OK]"
@@ -129,7 +130,7 @@ end
 
 def check_openapi_generator_maven_plugin_jar
   print "Checking openapi-generator-maven-plugin JAR ... "
-  url = "http://central.maven.org/maven2/org/openapitools/openapi-generator-maven-plugin/#{$version}/openapi-generator-maven-plugin-#{$version}.jar"
+  url = "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-maven-plugin/#{$version}/openapi-generator-maven-plugin-#{$version}.jar"
 
   if check_url(url)
     puts "[OK]"
@@ -141,7 +142,7 @@ end
 
 def check_openapi_generator_gradle_plugin_jar
   print "Checking openapi-generator-gradle-plugin JAR ... "
-  url = "http://central.maven.org/maven2/org/openapitools/openapi-generator-gradle-plugin/#{$version}/openapi-generator-gradle-plugin-#{$version}.jar"
+  url = "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-gradle-plugin/#{$version}/openapi-generator-gradle-plugin-#{$version}.jar"
 
   if check_url(url)
     puts "[OK]"
@@ -153,7 +154,7 @@ end
 
 def check_openapi_generator_online_jar
   print "Checking openapi-generator-online JAR ... "
-  url = "http://central.maven.org/maven2/org/openapitools/openapi-generator-online/#{$version}/openapi-generator-online-#{$version}.jar"
+  url = "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-online/#{$version}/openapi-generator-online-#{$version}.jar"
 
   if check_url(url)
     puts "[OK]"
@@ -165,7 +166,7 @@ end
 
 def check_openapi_generator_project_pom
   print "Checking openapi-generator-project pom.xml ... "
-  url = "http://central.maven.org/maven2/org/openapitools/openapi-generator-project/#{$version}/openapi-generator-project-#{$version}.pom"
+  url = "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-project/#{$version}/openapi-generator-project-#{$version}.pom"
 
   if check_url(url)
     puts "[OK]"
@@ -202,6 +203,8 @@ $version = ARGV[0]
 
 puts "Running checkout on OpenAPI Generator release #{$version}"
 
+check_openapi_generator_online_docker
+check_openapi_generator_cli_docker
 check_npmjs
 check_homebrew
 check_openapi_generator_jar
@@ -211,5 +214,3 @@ check_openapi_generator_gradle_plugin_jar
 check_openapi_generator_online_jar
 check_openapi_generator_project_pom
 check_readme
-check_openapi_generator_online_docker
-check_openapi_generator_cli_docker

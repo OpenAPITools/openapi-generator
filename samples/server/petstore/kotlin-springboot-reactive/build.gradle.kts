@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 buildscript {
     repositories {
         jcenter()
-        mavenCentral()
+        maven { url = uri("https://repo1.maven.org/maven2") }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.0.M3")
@@ -15,7 +15,7 @@ version = "1.0.0"
 
 repositories {
     jcenter()
-    mavenCentral()
+    maven { url = uri("https://repo1.maven.org/maven2") }
 }
 
 tasks.withType<KotlinCompile> {
@@ -43,13 +43,15 @@ dependencies {
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+    testCompile("org.jetbrains.kotlin:kotlin-test-junit5")
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
     }
+	testCompile("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion")
 }
 
 repositories {
-	mavenCentral()
+	maven { url = uri("https://repo1.maven.org/maven2") }
 	maven { url = uri("https://repo.spring.io/snapshot") }
 	maven { url = uri("https://repo.spring.io/milestone") }
 }

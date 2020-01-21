@@ -8,8 +8,6 @@
 import Alamofire
 import RxSwift
 
-
-
 public class StoreAPI: APIBase {
     /**
      Delete purchase order by ID
@@ -18,8 +16,8 @@ public class StoreAPI: APIBase {
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func deleteOrder(orderId orderId: String, completion: ((error: ErrorType?) -> Void)) {
-        deleteOrderWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
-            completion(error: error);
+        deleteOrderWithRequestBuilder(orderId: orderId).execute { (_, error) -> Void in
+            completion(error: error)
         }
     }
 
@@ -55,12 +53,12 @@ public class StoreAPI: APIBase {
         path = path.stringByReplacingOccurrencesOfString("{orderId}", withString: "\(orderId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
 
-        let nillableParameters: [String:AnyObject?] = [:]
- 
+        let nillableParameters: [String: AnyObject?] = [:]
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -71,9 +69,9 @@ public class StoreAPI: APIBase {
      
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func getInventory(completion: ((data: [String:Int32]?, error: ErrorType?) -> Void)) {
+    public class func getInventory(completion: ((data: [String: Int32]?, error: ErrorType?) -> Void)) {
         getInventoryWithRequestBuilder().execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(data: response?.body, error: error)
         }
     }
 
@@ -82,9 +80,9 @@ public class StoreAPI: APIBase {
      
      - returns: Observable<[String:Int32]>
      */
-    public class func getInventory() -> Observable<[String:Int32]> {
+    public class func getInventory() -> Observable<[String: Int32]> {
         return Observable.create { observer -> Disposable in
-            getInventory() { data, error in
+            getInventory { data, error in
                 if let error = error {
                     observer.on(.Error(error as ErrorType))
                 } else {
@@ -105,17 +103,17 @@ public class StoreAPI: APIBase {
 
      - returns: RequestBuilder<[String:Int32]> 
      */
-    public class func getInventoryWithRequestBuilder() -> RequestBuilder<[String:Int32]> {
+    public class func getInventoryWithRequestBuilder() -> RequestBuilder<[String: Int32]> {
         let path = "/store/inventory"
         let URLString = PetstoreClientAPI.basePath + path
 
-        let nillableParameters: [String:AnyObject?] = [:]
- 
+        let nillableParameters: [String: AnyObject?] = [:]
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<[String:Int32]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+        let requestBuilder: RequestBuilder<[String: Int32]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
@@ -128,7 +126,7 @@ public class StoreAPI: APIBase {
      */
     public class func getOrderById(orderId orderId: String, completion: ((data: Order?, error: ErrorType?) -> Void)) {
         getOrderByIdWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(data: response?.body, error: error)
         }
     }
 
@@ -194,12 +192,12 @@ public class StoreAPI: APIBase {
         path = path.stringByReplacingOccurrencesOfString("{orderId}", withString: "\(orderId)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
 
-        let nillableParameters: [String:AnyObject?] = [:]
- 
+        let nillableParameters: [String: AnyObject?] = [:]
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -213,7 +211,7 @@ public class StoreAPI: APIBase {
      */
     public class func placeOrder(order order: Order? = nil, completion: ((data: Order?, error: ErrorType?) -> Void)) {
         placeOrderWithRequestBuilder(order: order).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(data: response?.body, error: error)
         }
     }
 
@@ -276,10 +274,10 @@ public class StoreAPI: APIBase {
     public class func placeOrderWithRequestBuilder(order order: Order? = nil) -> RequestBuilder<Order> {
         let path = "/store/order"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = order?.encodeToJSON() as? [String:AnyObject]
- 
+        let parameters = order?.encodeToJSON() as? [String: AnyObject]
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)

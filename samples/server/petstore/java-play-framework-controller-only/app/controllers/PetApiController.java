@@ -37,15 +37,15 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result addPet() throws Exception {
-        JsonNode nodepet = request().body().asJson();
-        Pet pet;
-        if (nodepet != null) {
-            pet = mapper.readValue(nodepet.toString(), Pet.class);
+        JsonNode nodebody = request().body().asJson();
+        Pet body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), Pet.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(pet);
+                OpenAPIUtils.validate(body);
             }
         } else {
-            throw new IllegalArgumentException("'Pet' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
         return ok();
     }
@@ -103,15 +103,15 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result updatePet() throws Exception {
-        JsonNode nodepet = request().body().asJson();
-        Pet pet;
-        if (nodepet != null) {
-            pet = mapper.readValue(nodepet.toString(), Pet.class);
+        JsonNode nodebody = request().body().asJson();
+        Pet body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), Pet.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(pet);
+                OpenAPIUtils.validate(body);
             }
         } else {
-            throw new IllegalArgumentException("'Pet' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
         return ok();
     }
@@ -123,14 +123,14 @@ public class PetApiController extends Controller {
         if (valuename != null) {
             name = valuename;
         } else {
-            name = "null";
+            name = null;
         }
         String valuestatus = (request().body().asMultipartFormData().asFormUrlEncoded().get("status"))[0];
         String status;
         if (valuestatus != null) {
             status = valuestatus;
         } else {
-            status = "null";
+            status = null;
         }
         return ok();
     }
@@ -142,7 +142,7 @@ public class PetApiController extends Controller {
         if (valueadditionalMetadata != null) {
             additionalMetadata = valueadditionalMetadata;
         } else {
-            additionalMetadata = "null";
+            additionalMetadata = null;
         }
         Http.MultipartFormData.FilePart file = request().body().asMultipartFormData().getFile("file");
         return ok();

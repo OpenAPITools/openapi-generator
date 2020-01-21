@@ -29,6 +29,7 @@
         <sourceDirectory>src/main/java</sourceDirectory>
     </build>
 
+{{^parentOverridden}}
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -41,11 +42,20 @@
         </dependencies>
     </dependencyManagement>
 
+{{/parentOverridden}}
     <dependencies>
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
+{{^parentOverridden}}
             <version>${swagger-core-version}</version>
+{{/parentOverridden}}
+        </dependency>
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -78,13 +88,17 @@
         <dependency>
             <groupId>com.github.joschi.jackson</groupId>
             <artifactId>jackson-datatype-threetenbp</artifactId>
-            <version>2.6.4</version>
+        {{^parentOverridden}}
+            <version>2.9.10</version>
+        {{/parentOverridden}}
         </dependency>
         {{/threetenbp}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
+{{^parentOverridden}}
             <version>0.1.0</version>
+{{/parentOverridden}}
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -98,5 +112,14 @@
             <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
 {{/hateoas}}
+{{#useBeanValidation}}
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        {{^parentOverridden}}
+            <version>6.0.16.Final</version>
+        {{/parentOverridden}}
+        </dependency>
+{{/useBeanValidation}}
     </dependencies>
 </project>

@@ -2,12 +2,12 @@
 {{#models}}{{#model}}
 #include "{{classname}}.h"
 
-#include "{{prefix}}Helpers.h"
-
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
+
+#include "{{prefix}}Helpers.h"
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -43,7 +43,7 @@ void
     {{^isEnum}}QByteArray array (jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
-    this->fromJsonObject(jsonObject);{{/isEnum}}{{#isEnum}}{{#allowableValues}}{{#enumVars}} 
+    this->fromJsonObject(jsonObject);{{/isEnum}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}
     {{#-first}}if{{/-first}}{{^-first}}else if{{/-first}} ( jsonString.compare({{#isString}}"{{value}}"{{/isString}}{{^isString}}QString::number({{value}}){{/isString}}, Qt::CaseInsensitive) == 0) {
         m_value = e{{classname}}::{{name}};
         m_value_isValid = true;
@@ -70,7 +70,7 @@ void
         if(varmap.count() > 0){
             for(auto val : varmap.keys()){
                 {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isListContainer}}QList<{{items.items.baseType}}>{{/items.isListContainer}}{{#items.isMapContainer}}QMap<QString, {{items.items.baseType}}>{{/items.isMapContainer}} item;
-    		    auto jval = QJsonValue::fromVariant(varmap.value(val));
+                auto jval = QJsonValue::fromVariant(varmap.value(val));
                 m_{{name}}_isValid &= ::{{cppNamespace}}::fromJsonValue(item, jval);
                 {{name}}.insert({{name}}.end(), val, item);
             }
@@ -92,7 +92,7 @@ QString
         {{#enumVars}}
         case e{{classname}}::{{name}}:
             val = {{#isString}}"{{value}}"{{/isString}}{{^isString}}QString::number({{value}}){{/isString}};
-            break;{{#-last}} 
+            break;{{#-last}}
         default:
             break;{{/-last}}
         {{/enumVars}}
@@ -103,7 +103,7 @@ QString
 QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}
 {{classname}}::asJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}() const {
     {{^isEnum}}QJsonObject obj;{{#vars}}
-	{{^isContainer}}{{#complexType}}if({{name}}.isSet()){{/complexType}}{{^complexType}}if(m_{{name}}_isSet){{/complexType}}{
+    {{^isContainer}}{{#complexType}}if({{name}}.isSet()){{/complexType}}{{^complexType}}if(m_{{name}}_isSet){{/complexType}}{
         obj.insert(QString("{{baseName}}"), ::{{cppNamespace}}::toJsonValue({{name}}));
     }{{/isContainer}}{{#isContainer}}
     if({{name}}.size() > 0){

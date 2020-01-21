@@ -64,10 +64,22 @@ toStringValue(const double &value){
     return QString::number(value);
 }
 
+QString 
+toStringValue(const OAIObject &value){
+    return value.asJson();
+}
+
+
 QString
 toStringValue(const OAIEnum &value){
     return value.asJson();
 }
+
+QString
+toStringValue(const OAIHttpFileElement &value){
+    return value.asJson();
+}
+
 
 QJsonValue
 toJsonValue(const QString &value){
@@ -123,6 +135,12 @@ QJsonValue
 toJsonValue(const OAIEnum &value){
     return value.asJsonValue();
 }
+
+QJsonValue
+toJsonValue(const OAIHttpFileElement &value){
+    return value.asJsonValue();
+}
+
 
 bool
 fromStringValue(const QString &inStr, QString &value){
@@ -219,6 +237,11 @@ fromStringValue(const QString &inStr, OAIEnum &value){
 }
 
 bool
+fromStringValue(const QString &inStr, OAIHttpFileElement &value){
+    return value.fromStringValue(inStr);
+}
+
+bool
 fromJsonValue(QString &value, const QJsonValue &jval){
     bool ok = true;
     if(!jval.isUndefined() && !jval.isNull()){
@@ -229,7 +252,7 @@ fromJsonValue(QString &value, const QJsonValue &jval){
         } else if(jval.isDouble()){
             value = QString::number(jval.toDouble());
         } else {
-            ok = false;    
+            ok = false;
         }
     } else {
         ok = false;
@@ -239,7 +262,7 @@ fromJsonValue(QString &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(QDateTime &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(!jval.isUndefined() && !jval.isNull() && jval.isString()){
         value = QDateTime::fromString(jval.toString(), Qt::ISODate);
         ok = value.isValid();
@@ -263,7 +286,7 @@ fromJsonValue(QByteArray &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(QDate &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(!jval.isUndefined() && !jval.isNull() && jval.isString()){
         value = QDate::fromString(jval.toString(), Qt::ISODate);
         ok = value.isValid();
@@ -275,7 +298,7 @@ fromJsonValue(QDate &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(qint32 &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(!jval.isUndefined() && !jval.isNull() && !jval.isObject() && !jval.isArray()){
         value = jval.toInt();
     } else {
@@ -286,7 +309,7 @@ fromJsonValue(qint32 &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(qint64 &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(!jval.isUndefined() && !jval.isNull() && !jval.isObject() && !jval.isArray()){
         value = jval.toVariant().toLongLong();
     } else {
@@ -297,7 +320,7 @@ fromJsonValue(qint64 &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(bool &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(jval.isBool()){
         value = jval.toBool();
     } else {
@@ -308,7 +331,7 @@ fromJsonValue(bool &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(float &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(jval.isDouble()){
         value = static_cast<float>(jval.toDouble());
     } else {
@@ -319,7 +342,7 @@ fromJsonValue(float &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(double &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(jval.isDouble()){
         value = jval.toDouble();
     } else {
@@ -330,7 +353,7 @@ fromJsonValue(double &value, const QJsonValue &jval){
 
 bool
 fromJsonValue(OAIObject  &value, const QJsonValue &jval){
-    bool ok = true;    
+    bool ok = true;
     if(jval.isObject()){
         value.fromJsonObject(jval.toObject());
         ok = value.isValid();
@@ -344,6 +367,11 @@ bool
 fromJsonValue(OAIEnum &value, const QJsonValue &jval){
     value.fromJsonValue(jval);
     return true;
+}
+
+bool
+fromJsonValue(OAIHttpFileElement &value, const QJsonValue &jval){
+    return value.fromJsonValue(jval);
 }
 
 }

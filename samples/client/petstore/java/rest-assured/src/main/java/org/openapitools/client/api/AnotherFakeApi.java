@@ -33,22 +33,35 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.openapitools.client.JSON;
-
 import static io.restassured.http.Method.*;
 
 @Api(value = "AnotherFake")
 public class AnotherFakeApi {
 
-    private RequestSpecBuilder reqSpec;
+    private Supplier<RequestSpecBuilder> reqSpecSupplier;
+    private Consumer<RequestSpecBuilder> reqSpecCustomizer;
 
-    private AnotherFakeApi(RequestSpecBuilder reqSpec) {
-        this.reqSpec = reqSpec;
+    private AnotherFakeApi(Supplier<RequestSpecBuilder> reqSpecSupplier) {
+        this.reqSpecSupplier = reqSpecSupplier;
     }
 
-    public static AnotherFakeApi anotherFake(RequestSpecBuilder reqSpec) {
-        return new AnotherFakeApi(reqSpec);
+    public static AnotherFakeApi anotherFake(Supplier<RequestSpecBuilder> reqSpecSupplier) {
+        return new AnotherFakeApi(reqSpecSupplier);
     }
 
+    private RequestSpecBuilder createReqSpec() {
+        RequestSpecBuilder reqSpec = reqSpecSupplier.get();
+        if(reqSpecCustomizer != null) {
+            reqSpecCustomizer.accept(reqSpec);
+        }
+        return reqSpec;
+    }
+
+    public List<Oper> getAllOperations() {
+        return Arrays.asList(
+                call123testSpecialTags()
+        );
+    }
 
     @ApiOperation(value = "To test special tags",
             notes = "To test special tags and operation ID starting with number",
@@ -57,16 +70,16 @@ public class AnotherFakeApi {
     @ApiResponses(value = { 
             @ApiResponse(code = 200, message = "successful operation")  })
     public Call123testSpecialTagsOper call123testSpecialTags() {
-        return new Call123testSpecialTagsOper(reqSpec);
+        return new Call123testSpecialTagsOper(createReqSpec());
     }
 
     /**
-     * Customise request specification
-     * @param consumer consumer
+     * Customize request specification
+     * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
      * @return api
      */
-    public AnotherFakeApi reqSpec(Consumer<RequestSpecBuilder> consumer) {
-        consumer.accept(reqSpec);
+    public AnotherFakeApi reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+        this.reqSpecCustomizer = reqSpecCustomizer;
         return this;
     }
 
@@ -77,7 +90,7 @@ public class AnotherFakeApi {
      * @see #body client model (required)
      * return Client
      */
-    public static class Call123testSpecialTagsOper {
+    public static class Call123testSpecialTagsOper implements Oper {
 
         public static final Method REQ_METHOD = PATCH;
         public static final String REQ_URI = "/another-fake/dummy";
@@ -98,6 +111,7 @@ public class AnotherFakeApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -122,22 +136,22 @@ public class AnotherFakeApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public Call123testSpecialTagsOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public Call123testSpecialTagsOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public Call123testSpecialTagsOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public Call123testSpecialTagsOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }

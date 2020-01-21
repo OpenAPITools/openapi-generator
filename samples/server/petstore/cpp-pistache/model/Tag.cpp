@@ -47,12 +47,12 @@ void to_json(nlohmann::json& j, const Tag& o)
 
 void from_json(const nlohmann::json& j, Tag& o)
 {
-    if(j.contains("id"))
+    if(j.find("id") != j.end())
     {
         j.at("id").get_to(o.m_Id);
         o.m_IdIsSet = true;
     } 
-    if(j.contains("name"))
+    if(j.find("name") != j.end())
     {
         j.at("name").get_to(o.m_Name);
         o.m_NameIsSet = true;

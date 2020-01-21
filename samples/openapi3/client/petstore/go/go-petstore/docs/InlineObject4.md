@@ -1,6 +1,7 @@
 # InlineObject4
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Param** | **string** | field1 | 

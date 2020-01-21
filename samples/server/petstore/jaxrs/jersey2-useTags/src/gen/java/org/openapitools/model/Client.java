@@ -18,15 +18,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * Client
  */
+@JsonPropertyOrder({
+  Client.JSON_PROPERTY_CLIENT
+})
 
 public class Client   {
-  @JsonProperty("client")
+  public static final String JSON_PROPERTY_CLIENT = "client";
+  @JsonProperty(JSON_PROPERTY_CLIENT)
   private String client;
 
   public Client client(String client) {

@@ -15,26 +15,34 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * Category
  */
+@JsonPropertyOrder({
+  Category.JSON_PROPERTY_ID,
+  Category.JSON_PROPERTY_NAME
+})
 
 public class Category {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
   private Long id;
 
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
   private String name = "default-name";
 
+
   public Category id(Long id) {
+    
     this.id = id;
     return this;
   }
@@ -43,16 +51,23 @@ public class Category {
    * Get id
    * @return id
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Long getId() {
     return id;
   }
+
 
   public void setId(Long id) {
     this.id = id;
   }
 
+
   public Category name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -63,9 +78,13 @@ public class Category {
   **/
   @NotNull
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public String getName() {
     return name;
   }
+
 
   public void setName(String name) {
     this.name = name;

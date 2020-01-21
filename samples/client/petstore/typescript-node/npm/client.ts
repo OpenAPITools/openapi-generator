@@ -155,5 +155,16 @@ petApi.addPet(pet)
     })
     .then((res) => {
         console.log('Deleted pet');
-        process.exit(exitCode);
+        // process.exit(exitCode);
+        petApi.deletePet(petId).then((res) => {
+            throw new Error('Unexpected success');
+        }).catch((e) => {
+            if (e instanceof Error && e.name === 'HttpError' && e.message === 'HTTP request failed') {
+                console.log('Throws Http Errors correctly');
+                process.exit(exitCode);
+            } else {
+                throw new Error(`Throws unexpected error:\n ${e}`);
+            }
+        });
+        // process.exit(exitCode);
     });

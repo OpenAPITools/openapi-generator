@@ -73,11 +73,14 @@ set(HDRS "")
 ## This section shows how to use the above compiled libary to compile the source files
 ## set source files
 #set(SRCS
-#    unit-tests/manual-PetAPI.c
-#    unit-tests/manual-StoreAPI.c
-#    unit-tests/manual-UserAPI.c
-#    unit-tests/manual-order.c
-#    unit-tests/manual-user.c)
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+#    unit-tests/manual-{{classname}}.c
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+#)
 
 ##set header files
 #set(HDRS

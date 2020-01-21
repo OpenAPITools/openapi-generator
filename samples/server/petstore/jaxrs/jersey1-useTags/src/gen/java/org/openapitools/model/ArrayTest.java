@@ -21,21 +21,30 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * ArrayTest
  */
+@JsonPropertyOrder({
+  ArrayTest.JSON_PROPERTY_ARRAY_OF_STRING,
+  ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
+  ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
+})
 
 public class ArrayTest   {
-  @JsonProperty("array_of_string")
+  public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
+  @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
   private List<String> arrayOfString = null;
 
-  @JsonProperty("array_array_of_integer")
+  public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   private List<List<Long>> arrayArrayOfInteger = null;
 
-  @JsonProperty("array_array_of_model")
+  public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {

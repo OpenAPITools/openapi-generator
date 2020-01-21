@@ -1,0 +1,9 @@
+{
+  "generatorName": "typescript-angular",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/client/petstore/typescript-angular-v2/with-interfaces",
+  "additionalProperties": {
+    "ngVersion": "2",
+    "withInterfaces": true
+  }
+}

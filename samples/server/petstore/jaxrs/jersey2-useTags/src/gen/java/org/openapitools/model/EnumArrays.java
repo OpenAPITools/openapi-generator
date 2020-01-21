@@ -21,12 +21,17 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * EnumArrays
  */
+@JsonPropertyOrder({
+  EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
+  EnumArrays.JSON_PROPERTY_ARRAY_ENUM
+})
 
 public class EnumArrays   {
   /**
@@ -60,7 +65,8 @@ public class EnumArrays   {
     }
   }
 
-  @JsonProperty("just_symbol")
+  public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
+  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
   private JustSymbolEnum justSymbol;
 
   /**
@@ -94,7 +100,8 @@ public class EnumArrays   {
     }
   }
 
-  @JsonProperty("array_enum")
+  public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   private List<ArrayEnumEnum> arrayEnum = null;
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {

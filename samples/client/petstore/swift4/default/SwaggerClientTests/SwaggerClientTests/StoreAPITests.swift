@@ -13,7 +13,7 @@ import XCTest
 class StoreAPITests: XCTestCase {
 
     let isoDateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-    
+
     let testTimeout = 10.0
 
     func test1PlaceOrder() {
@@ -27,45 +27,45 @@ class StoreAPITests: XCTestCase {
                 XCTFail("error placing order: \(error.debugDescription)")
                 return
             }
-            
+
             if let order = order {
                 XCTAssert(order.id == 1000, "invalid id")
                 XCTAssert(order.quantity == 10, "invalid quantity")
                 XCTAssert(order.status == .placed, "invalid status")
                 XCTAssert(order.shipDate!.isEqual(shipDate, format: self.isoDateFormat),
                           "Date should be idempotent")
-                
+
                 expectation.fulfill()
             }
         }
-        
+
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test2GetOrder() {
         let expectation = self.expectation(description: "testGetOrder")
-        
+
         StoreAPI.getOrderById(orderId: 1000) { (order, error) in
             guard error == nil else {
                 XCTFail("error retrieving order: \(error.debugDescription)")
                 return
             }
-            
+
             if let order = order {
                 XCTAssert(order.id == 1000, "invalid id")
                 XCTAssert(order.quantity == 10, "invalid quantity")
                 XCTAssert(order.status == .placed, "invalid status")
-                
+
                 expectation.fulfill()
             }
         }
-        
+
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
+
     func test3DeleteOrder() {
         let expectation = self.expectation(description: "testDeleteOrder")
-        
+
         StoreAPI.deleteOrder(orderId: "1000") { (response, error) in
             guard error == nil else {
                 XCTFail("error deleting order")
@@ -79,7 +79,7 @@ class StoreAPITests: XCTestCase {
 
             expectation.fulfill()
         }
-        
+
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
@@ -92,7 +92,7 @@ class StoreAPITests: XCTestCase {
             progressExpectation.fulfill()
         }
 
-        requestBuilder.execute { (response, error) in
+        requestBuilder.execute { (_, _) in
             responseExpectation.fulfill()
         }
 

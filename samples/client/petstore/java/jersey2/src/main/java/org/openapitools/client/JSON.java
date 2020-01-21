@@ -3,6 +3,7 @@ package org.openapitools.client;
 import org.threeten.bp.*;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 
 import java.text.DateFormat;
@@ -27,6 +28,8 @@ public class JSON implements ContextResolver<ObjectMapper> {
     module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
     module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
     mapper.registerModule(module);
+    JsonNullableModule jnm = new JsonNullableModule();
+    mapper.registerModule(jnm);
   }
 
   /**

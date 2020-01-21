@@ -43,4 +43,6 @@ public interface FakeApi {
 
     void testJsonFormData(String param, String param2, Handler<AsyncResult<Void>> handler);
 
+    void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, Handler<AsyncResult<Void>> handler);
+
 }

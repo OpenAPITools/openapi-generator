@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 public struct Dog: Codable {
 
     public var className: String
@@ -21,6 +19,4 @@ public struct Dog: Codable {
         self.breed = breed
     }
 
-
 }
-

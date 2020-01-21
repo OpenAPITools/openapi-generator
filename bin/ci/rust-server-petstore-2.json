@@ -1,0 +1,11 @@
+{
+  "generateAliasAsModel": true,
+  "generatorName": "rust-server",
+  "inputSpec": "modules/openapi-generator/src/test/resources/3_0/rust-server/multipart-v3.yaml",
+  "outputDir": "samples/server/petstore/rust-server/output/multipart-v3",
+  "templateDir": "modules/openapi-generator/src/main/resources/rust-server",
+  "additionalProperties": {
+    "packageName": "multipart-v3",
+    "hideGenerationTimestamp": true
+  }
+}

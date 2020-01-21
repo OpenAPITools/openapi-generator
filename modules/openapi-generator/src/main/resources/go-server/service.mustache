@@ -1,0 +1,25 @@
+{{>partial_header}}
+package {{packageName}}
+
+import (
+	"errors"{{#imports}}
+	"{{import}}"{{/imports}}
+)
+
+// {{classname}}Service is a service that implents the logic for the {{classname}}Servicer
+// This service should implement the business logic for every endpoint for the {{classname}} API. 
+// Include any external packages or services that will be required by this service.
+type {{classname}}Service struct {
+}
+
+// New{{classname}}Service creates a default api service
+func New{{classname}}Service() {{classname}}Servicer {
+	return &{{classname}}Service{}
+}{{#operations}}{{#operation}}
+
+// {{nickname}} - {{summary}}
+func (s *{{classname}}Service) {{nickname}}({{#allParams}}{{paramName}} {{dataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) (interface{}, error) {
+	// TODO - update {{nickname}} with the required logic for this service method.
+	// Add {{classFilename}}_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+	return nil, errors.New("service method '{{nickname}}' not implemented")
+}{{/operation}}{{/operations}}

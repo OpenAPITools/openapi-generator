@@ -168,7 +168,7 @@ public class RetryingOAuth extends OAuth implements Interceptor {
 
     // Applying authorization to parameters is performed in the retryingIntercept method
     @Override
-    public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
+    public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
         // No implementation necessary
     }
 }

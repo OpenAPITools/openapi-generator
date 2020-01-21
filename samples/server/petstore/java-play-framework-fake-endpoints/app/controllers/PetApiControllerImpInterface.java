@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
 public interface PetApiControllerImpInterface {
-    void addPet(Pet pet) throws Exception;
+    void addPet(Pet body) throws Exception;
 
     void deletePet(Long petId, String apiKey) throws Exception;
 
@@ -23,12 +23,12 @@ public interface PetApiControllerImpInterface {
 
     Pet getPetById(Long petId) throws Exception;
 
-    void updatePet(Pet pet) throws Exception;
+    void updatePet(Pet body) throws Exception;
 
     void updatePetWithForm(Long petId, String name, String status) throws Exception;
 
     ModelApiResponse uploadFile(Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception;
 
-    ModelApiResponse uploadFileWithRequiredFile(Long petId, Http.MultipartFormData.FilePart file, String additionalMetadata) throws Exception;
+    ModelApiResponse uploadFileWithRequiredFile(Long petId, Http.MultipartFormData.FilePart requiredFile, String additionalMetadata) throws Exception;
 
 }

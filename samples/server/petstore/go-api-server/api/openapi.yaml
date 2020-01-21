@@ -4,7 +4,7 @@ info:
     the api key `special-key` to test the authorization filters.
   license:
     name: Apache-2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: OpenAPI Petstore
   version: 1.0.0
 servers:
@@ -31,7 +31,7 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
-        405:
+        "405":
           content: {}
           description: Invalid input
       security:
@@ -55,13 +55,13 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Pet not found
-        405:
+        "405":
           content: {}
           description: Validation exception
       security:
@@ -84,11 +84,16 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/components/schemas/statusItems'
+            default: available
+            enum:
+            - available
+            - pending
+            - sold
+            type: string
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -101,7 +106,7 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid status value
       security:
@@ -129,7 +134,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -142,7 +147,7 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid tag value
       security:
@@ -168,7 +173,7 @@ paths:
           format: int64
           type: integer
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid pet value
       security:
@@ -190,7 +195,7 @@ paths:
           format: int64
           type: integer
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -199,10 +204,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Pet not found
       security:
@@ -224,9 +229,15 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/updatePetWithFormBody'
+              properties:
+                name:
+                  description: Updated name of the pet
+                  type: string
+                status:
+                  description: Updated status of the pet
+                  type: string
       responses:
-        405:
+        "405":
           content: {}
           description: Invalid input
       security:
@@ -251,9 +262,16 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFileBody'
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: string
+                file:
+                  description: file to upload
+                  format: binary
+                  type: string
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -271,7 +289,7 @@ paths:
       description: Returns a map of status codes to quantities
       operationId: getInventory
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -296,7 +314,7 @@ paths:
         description: order placed for purchasing the pet
         required: true
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -305,7 +323,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid Order
       summary: Place an order for a pet
@@ -325,10 +343,10 @@ paths:
         schema:
           type: string
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Order not found
       summary: Delete purchase order by ID
@@ -349,7 +367,7 @@ paths:
           minimum: 1
           type: integer
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -358,10 +376,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid ID supplied
-        404:
+        "404":
           content: {}
           description: Order not found
       summary: Find purchase order by ID
@@ -443,7 +461,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -463,7 +481,7 @@ paths:
               schema:
                 format: date-time
                 type: string
-        400:
+        "400":
           content: {}
           description: Invalid username/password supplied
       summary: Logs user into the system
@@ -491,10 +509,10 @@ paths:
         schema:
           type: string
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid username supplied
-        404:
+        "404":
           content: {}
           description: User not found
       summary: Delete user
@@ -510,7 +528,7 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -519,10 +537,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: successful operation
-        400:
+        "400":
           content: {}
           description: Invalid username supplied
-        404:
+        "404":
           content: {}
           description: User not found
       summary: Get user by user name
@@ -546,10 +564,10 @@ paths:
         description: Updated user object
         required: true
       responses:
-        400:
+        "400":
           content: {}
           description: Invalid user supplied
-        404:
+        "404":
           content: {}
           description: User not found
       summary: Updated user
@@ -566,6 +584,7 @@ components:
         id: 0
         shipDate: 2000-01-23T04:56:07.000+00:00
         complete: false
+        status: placed
       properties:
         id:
           format: int64
@@ -580,7 +599,12 @@ components:
           format: date-time
           type: string
         status:
-          $ref: '#/components/schemas/OrderStatus'
+          description: Order Status
+          enum:
+          - placed
+          - approved
+          - delivered
+          type: string
         complete:
           default: false
           type: boolean
@@ -669,6 +693,7 @@ components:
           id: 1
         - name: name
           id: 1
+        status: available
       properties:
         id:
           format: int64
@@ -693,7 +718,12 @@ components:
             name: tag
             wrapped: true
         status:
-          $ref: '#/components/schemas/PetStatus'
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
       required:
       - name
       - photoUrls
@@ -717,44 +747,6 @@ components:
           type: string
       title: An uploaded response
       type: object
-    statusItems:
-      default: available
-      enum:
-      - available
-      - pending
-      - sold
-      type: string
-    updatePetWithFormBody:
-      properties:
-        name:
-          description: Updated name of the pet
-          type: string
-        status:
-          description: Updated status of the pet
-          type: string
-    uploadFileBody:
-      properties:
-        additionalMetadata:
-          description: Additional data to pass to server
-          type: string
-        file:
-          description: file to upload
-          format: binary
-          type: string
-    OrderStatus:
-      description: Order Status
-      enum:
-      - placed
-      - approved
-      - delivered
-      type: string
-    PetStatus:
-      description: pet status in the store
-      enum:
-      - available
-      - pending
-      - sold
-      type: string
   securitySchemes:
     petstore_auth:
       flows:

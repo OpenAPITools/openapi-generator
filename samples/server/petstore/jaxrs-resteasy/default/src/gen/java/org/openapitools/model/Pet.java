@@ -18,7 +18,7 @@ import io.swagger.annotations.*;
 public class Pet   {
   
   private Long id;
-  private Category category = null;
+  private Category category;
   private String name;
   private List<String> photoUrls = new ArrayList<String>();
   private List<Tag> tags = new ArrayList<Tag>();

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -25,9 +26,13 @@ import javax.validation.Valid;
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
 @ApiModel(description = "Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
+@JsonPropertyOrder({
+  HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
+})
 
 public class HealthCheckResult   {
-  @JsonProperty("NullableMessage")
+  public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
+  @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
   private String nullableMessage;
 
   public HealthCheckResult nullableMessage(String nullableMessage) {

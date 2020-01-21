@@ -36,7 +36,7 @@ import android.os.Parcel;
 public class MapTest implements Parcelable {
   public static final String SERIALIZED_NAME_MAP_MAP_OF_STRING = "map_map_of_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_OF_STRING)
-  private Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
+  private Map<String, Map<String, String>> mapMapOfString = null;
 
   /**
    * Gets or Sets inner
@@ -79,7 +79,7 @@ public class MapTest implements Parcelable {
 
       @Override
       public InnerEnum read(final JsonReader jsonReader) throws IOException {
-        String value = jsonReader.nextString();
+        String value =  jsonReader.nextString();
         return InnerEnum.fromValue(value);
       }
     }
@@ -87,19 +87,21 @@ public class MapTest implements Parcelable {
 
   public static final String SERIALIZED_NAME_MAP_OF_ENUM_STRING = "map_of_enum_string";
   @SerializedName(SERIALIZED_NAME_MAP_OF_ENUM_STRING)
-  private Map<String, InnerEnum> mapOfEnumString = new HashMap<String, InnerEnum>();
+  private Map<String, InnerEnum> mapOfEnumString = null;
 
   public static final String SERIALIZED_NAME_DIRECT_MAP = "direct_map";
   @SerializedName(SERIALIZED_NAME_DIRECT_MAP)
-  private Map<String, Boolean> directMap = new HashMap<String, Boolean>();
+  private Map<String, Boolean> directMap = null;
 
   public static final String SERIALIZED_NAME_INDIRECT_MAP = "indirect_map";
   @SerializedName(SERIALIZED_NAME_INDIRECT_MAP)
-  private Map<String, Boolean> indirectMap = new HashMap<String, Boolean>();
+  private Map<String, Boolean> indirectMap = null;
 
   public MapTest() {
   }
+
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+    
     this.mapMapOfString = mapMapOfString;
     return this;
   }
@@ -116,16 +118,21 @@ public class MapTest implements Parcelable {
    * Get mapMapOfString
    * @return mapMapOfString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
+
 
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
+
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+    
     this.mapOfEnumString = mapOfEnumString;
     return this;
   }
@@ -142,16 +149,21 @@ public class MapTest implements Parcelable {
    * Get mapOfEnumString
    * @return mapOfEnumString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
+
 
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
+
   public MapTest directMap(Map<String, Boolean> directMap) {
+    
     this.directMap = directMap;
     return this;
   }
@@ -168,16 +180,21 @@ public class MapTest implements Parcelable {
    * Get directMap
    * @return directMap
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
+
 
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
 
+
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
+    
     this.indirectMap = indirectMap;
     return this;
   }
@@ -194,10 +211,13 @@ public class MapTest implements Parcelable {
    * Get indirectMap
    * @return indirectMap
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
+
 
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;

@@ -34,7 +34,9 @@ public class ClassModel {
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
   private String propertyClass;
 
+
   public ClassModel propertyClass(String propertyClass) {
+    
     this.propertyClass = propertyClass;
     return this;
   }
@@ -43,10 +45,13 @@ public class ClassModel {
    * Get propertyClass
    * @return propertyClass
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getPropertyClass() {
     return propertyClass;
   }
+
 
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;

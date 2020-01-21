@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,6 +51,12 @@ public class DartClientOptionsTest extends AbstractOptionsTest {
             clientCodegen.setPubVersion(DartClientOptionsProvider.PUB_VERSION_VALUE);
             times = 1;
             clientCodegen.setPubDescription(DartClientOptionsProvider.PUB_DESCRIPTION_VALUE);
+            times = 1;
+            clientCodegen.setPubAuthor(DartClientOptionsProvider.PUB_AUTHOR_VALUE);
+            times = 1;
+            clientCodegen.setPubAuthorEmail(DartClientOptionsProvider.PUB_AUTHOR_EMAIL_VALUE);
+            times = 1;
+            clientCodegen.setPubHomepage(DartClientOptionsProvider.PUB_HOMEPAGE_VALUE);
             times = 1;
             clientCodegen.setSourceFolder(DartClientOptionsProvider.SOURCE_FOLDER_VALUE);
             times = 1;

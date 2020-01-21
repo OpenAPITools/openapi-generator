@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /** Model for testing model name starting with number */
 
 public struct Model200Response: Codable {
@@ -20,11 +19,9 @@ public struct Model200Response: Codable {
         self._class = _class
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case name
         case _class = "class"
     }
 
-
 }
-

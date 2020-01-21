@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// EnumArrays struct for EnumArrays
 type EnumArrays struct {
 	JustSymbol EnumArraysJustSymbol `json:"just_symbol,omitempty"`
 	ArrayEnum []EnumArraysArrayEnumItems `json:"array_enum,omitempty"`

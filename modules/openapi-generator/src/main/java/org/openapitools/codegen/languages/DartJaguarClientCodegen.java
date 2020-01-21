@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,15 +16,13 @@
 
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.io.FilenameUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 
 import java.io.File;
@@ -37,6 +35,8 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     private static final String SERIALIZATION_FORMAT = "serialization";
     private static final String IS_FORMAT_JSON = "jsonFormat";
     private static final String IS_FORMAT_PROTO = "protoFormat";
+    private static final String CLIENT_NAME = "clientName";
+
     private static Set<String> modelToIgnore = new HashSet<>();
     private HashMap<String, String> protoTypeMapping = new HashMap<>();
 
@@ -46,7 +46,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         modelToIgnore.add("object");
         modelToIgnore.add("list");
         modelToIgnore.add("file");
-        modelToIgnore.add("uint8list");
+        modelToIgnore.add("list<int>");
     }
 
     private static final String SERIALIZATION_JSON = "json";
@@ -57,6 +57,31 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
     public DartJaguarClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .includeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath
+                )
+                .build();
+
         browserClient = false;
         outputFolder = "generated-code/dart-jaguar";
         embeddedTemplateDir = templateDir = "dart-jaguar";
@@ -64,8 +89,8 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
         cliOptions.add(new CliOption(SERIALIZATION_FORMAT, "Choose serialization format JSON or PROTO is supported"));
 
-        typeMapping.put("file", "Uint8List");
-        typeMapping.put("binary", "Uint8List");
+        typeMapping.put("file", "List<int>");
+        typeMapping.put("binary", "List<int>");
 
         protoTypeMapping.put("Array", "repeated");
         protoTypeMapping.put("array", "repeated");
@@ -114,6 +139,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
     @Override
     public void processOpts() {
+        defaultProcessOpts();
         if (additionalProperties.containsKey(NULLABLE_FIELDS)) {
             nullableFields = convertPropertyToBooleanAndWriteBack(NULLABLE_FIELDS);
         } else {
@@ -141,6 +167,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             //not set, use to be passed to template
             additionalProperties.put(PUB_NAME, pubName);
         }
+        additionalProperties.put(CLIENT_NAME, org.openapitools.codegen.utils.StringUtils.camelize(pubName));
 
         if (additionalProperties.containsKey(PUB_VERSION)) {
             this.setPubVersion((String) additionalProperties.get(PUB_VERSION));
@@ -247,19 +274,19 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             }
 
             for (CodegenParameter param : op.allParams) {
-                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
+                if (param.baseType != null && param.baseType.equalsIgnoreCase("List<int>") && isMultipart) {
                     param.baseType = "MultipartFile";
                     param.dataType = "MultipartFile";
                 }
             }
             for (CodegenParameter param : op.formParams) {
-                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
+                if (param.baseType != null && param.baseType.equalsIgnoreCase("List<int>") && isMultipart) {
                     param.baseType = "MultipartFile";
                     param.dataType = "MultipartFile";
                 }
             }
             for (CodegenParameter param : op.bodyParams) {
-                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
+                if (param.baseType != null && param.baseType.equalsIgnoreCase("List<int>") && isMultipart) {
                     param.baseType = "MultipartFile";
                     param.dataType = "MultipartFile";
                 }
@@ -274,8 +301,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             for (String item : op.imports) {
                 if (!modelToIgnore.contains(item.toLowerCase(Locale.ROOT))) {
                     imports.add(underscore(item));
-                } else if (item.equalsIgnoreCase("Uint8List")) {
-                    fullImports.add("dart:typed_data");
                 }
             }
             modelImports.addAll(imports);

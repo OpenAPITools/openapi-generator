@@ -40,7 +40,9 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> implements 
   public AdditionalPropertiesObject() {
     super();
   }
+
   public AdditionalPropertiesObject name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -49,10 +51,13 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> implements 
    * Get name
    * @return name
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getName() {
     return name;
   }
+
 
   public void setName(String name) {
     this.name = name;

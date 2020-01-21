@@ -29,10 +29,10 @@ Pod::Spec.new do |s|
   {{/podDocumentationURL}}
   s.source_files = '{{projectName}}/Classes/**/*.swift'
   {{#usePromiseKit}}
-  s.dependency 'PromiseKit/CorePromise', '~> 4.4.0'
+  s.dependency 'PromiseKit/CorePromise', '~> 6.11.0'
   {{/usePromiseKit}}
   {{#useRxSwift}}
-  s.dependency 'RxSwift', '~> 4.0'
+  s.dependency 'RxSwift', '~> 4.5.0'
   {{/useRxSwift}}
-  s.dependency 'Alamofire', '~> 4.7.0'
+  s.dependency 'Alamofire', '~> 4.9.0'
 end

@@ -16,8 +16,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using Org.OpenAPITools.Attributes;
-using Org.OpenAPITools.Models;
 using Microsoft.AspNetCore.Authorization;
+using Org.OpenAPITools.Models;
 
 namespace Org.OpenAPITools.Controllers
 { 
@@ -39,9 +39,9 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerOperation("CreateUser")]
         public virtual IActionResult CreateUser([FromBody]User body)
         { 
+
             //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(0);
-
 
             throw new NotImplementedException();
         }
@@ -57,9 +57,9 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerOperation("CreateUsersWithArrayInput")]
         public virtual IActionResult CreateUsersWithArrayInput([FromBody]List<User> body)
         { 
+
             //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(0);
-
 
             throw new NotImplementedException();
         }
@@ -75,9 +75,9 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerOperation("CreateUsersWithListInput")]
         public virtual IActionResult CreateUsersWithListInput([FromBody]List<User> body)
         { 
+
             //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(0);
-
 
             throw new NotImplementedException();
         }
@@ -95,12 +95,11 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerOperation("DeleteUser")]
         public virtual IActionResult DeleteUser([FromRoute][Required]string username)
         { 
+
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
-
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
-
 
             throw new NotImplementedException();
         }
@@ -119,15 +118,13 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(User), description: "successful operation")]
         public virtual IActionResult GetUserByName([FromRoute][Required]string username)
         { 
+
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(User));
-
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
-
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
-
             string exampleJson = null;
             exampleJson = "{\n  \"firstName\" : \"firstName\",\n  \"lastName\" : \"lastName\",\n  \"password\" : \"password\",\n  \"userStatus\" : 6,\n  \"phone\" : \"phone\",\n  \"id\" : 0,\n  \"email\" : \"email\",\n  \"username\" : \"username\"\n}";
             exampleJson = "<User>\n  <id>123456789</id>\n  <username>aeiou</username>\n  <firstName>aeiou</firstName>\n  <lastName>aeiou</lastName>\n  <email>aeiou</email>\n  <password>aeiou</password>\n  <phone>aeiou</phone>\n  <userStatus>123</userStatus>\n</User>";
@@ -153,12 +150,11 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(string), description: "successful operation")]
         public virtual IActionResult LoginUser([FromQuery][Required()]string username, [FromQuery][Required()]string password)
         { 
+
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(string));
-
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
-
             string exampleJson = null;
             
             var example = exampleJson != null
@@ -178,9 +174,9 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerOperation("LogoutUser")]
         public virtual IActionResult LogoutUser()
         { 
+
             //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(0);
-
 
             throw new NotImplementedException();
         }
@@ -199,12 +195,11 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerOperation("UpdateUser")]
         public virtual IActionResult UpdateUser([FromRoute][Required]string username, [FromBody]User body)
         { 
+
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
-
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
-
 
             throw new NotImplementedException();
         }

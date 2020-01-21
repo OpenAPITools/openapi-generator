@@ -8,6 +8,7 @@
  */
 
 package petstore
+// OuterEnumDefaultValue the model 'OuterEnumDefaultValue'
 type OuterEnumDefaultValue string
 
 // List of OuterEnumDefaultValue

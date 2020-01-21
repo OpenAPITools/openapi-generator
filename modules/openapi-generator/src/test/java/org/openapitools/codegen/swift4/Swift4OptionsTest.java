@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,6 +47,8 @@ public class Swift4OptionsTest extends AbstractOptionsTest {
             clientCodegen.setProjectName(Swift4OptionsProvider.PROJECT_NAME_VALUE);
             times = 1;
             clientCodegen.setResponseAs(Swift4OptionsProvider.RESPONSE_AS_VALUE.split(","));
+            times = 1;
+            clientCodegen.setNonPublicApi(Boolean.valueOf(Swift4OptionsProvider.NON_PUBLIC_API_REQUIRED_VALUE));
             times = 1;
             clientCodegen.setUnwrapRequired(Boolean.valueOf(Swift4OptionsProvider.UNWRAP_REQUIRED_VALUE));
             times = 1;

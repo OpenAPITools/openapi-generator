@@ -1,5 +1,7 @@
 {
   "gemName": "petstore",
+  "library": "typhoeus",
   "moduleName": "Petstore",
-  "gemVersion": "1.0.0"
+  "gemVersion": "1.0.0",
+  "strictSpecBehavior": false
 }

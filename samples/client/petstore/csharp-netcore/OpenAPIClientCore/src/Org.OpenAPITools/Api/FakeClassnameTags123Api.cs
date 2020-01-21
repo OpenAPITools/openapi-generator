@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PetApi"/> class
+        /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class
         /// using a Configuration object and client instance.
         /// </summary>
         /// <param name="client">The client interface for synchronous API access.</param>
@@ -222,48 +222,47 @@ namespace Org.OpenAPITools.Api
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling FakeClassnameTags123Api->TestClassname");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/json"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
             // authentication (api_key_query) required
             if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key_query")))
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "api_key_query", this.Configuration.GetApiKeyWithPrefix("api_key_query")))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "api_key_query", this.Configuration.GetApiKeyWithPrefix("api_key_query")))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
 
             // make the HTTP request
-
-            var response = this.Client.Patch< ModelClient >("/fake_classname_test", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Patch< ModelClient >("/fake_classname_test", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestClassname", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestClassname", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -292,48 +291,48 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling FakeClassnameTags123Api->TestClassname");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
                 "application/json"
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/json"
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
             // authentication (api_key_query) required
             if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key_query")))
             {
-                foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "api_key_query", this.Configuration.GetApiKeyWithPrefix("api_key_query")))
+                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "api_key_query", this.Configuration.GetApiKeyWithPrefix("api_key_query")))
                 {
-                    foreach (var value in kvp.Value)
+                    foreach (var _kvpValue in _kvp.Value)
                     {
-                        requestOptions.QueryParameters.Add(kvp.Key, value);
+                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                     }
                 }
             }
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PatchAsync<ModelClient>("/fake_classname_test", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<ModelClient>("/fake_classname_test", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("TestClassname", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("TestClassname", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
     }

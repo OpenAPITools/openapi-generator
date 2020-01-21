@@ -27,12 +27,12 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 input=modules/openapi-generator/src/test/resources/3_0/petstore.yaml
-out_folder=samples/server/openapi3/petstore/python-flask
+out_folder=samples/openapi3/server/petstore/python-flask
 resources=modules/openapi-generator/src/main/resources/python-flask
 
 # if you've executed sbt assembly previously it will use that instead.
-export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t $resources -i $input -g python-flask -o $out_folder -Dservice $@"
+export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties -Dservice"
+ags="generate -t $resources -i $input -g python-flask -o $out_folder $@"
 
 rm -rf $out_folder/.openapi*
 rm -rf $out_folder/openapi_server

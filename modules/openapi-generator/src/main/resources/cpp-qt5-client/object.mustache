@@ -2,8 +2,8 @@
 #ifndef {{prefix}}_OBJECT_H
 #define {{prefix}}_OBJECT_H
 
-#include <QJsonObject>
 #include <QJsonDocument>
+#include <QJsonObject>
 #include <QMetaType>
 
 {{#cppNamespaceDeclarations}}
@@ -11,18 +11,14 @@ namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
 class {{prefix}}Object {
-  public:
-    {{prefix}}Object() {
+public:
+    {{prefix}}Object() {}
 
-    }
-    
     {{prefix}}Object(QString jsonString) {
         fromJson(jsonString);
     }
 
-    virtual ~{{prefix}}Object(){
-
-    }
+    virtual ~{{prefix}}Object() {}
 
     virtual QJsonObject asJsonObject() const {
         return jObj;
@@ -49,12 +45,13 @@ class {{prefix}}Object {
     virtual bool isValid() const {
         return true;
     }
-private :
+
+private:
     QJsonObject jObj;
 };
 
 {{#cppNamespaceDeclarations}}
-}
+} // namespace {{this}}
 {{/cppNamespaceDeclarations}}
 
 Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{prefix}}Object)

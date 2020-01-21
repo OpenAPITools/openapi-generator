@@ -453,13 +453,13 @@ To test enum parameters
 import PetstoreClient
 
 let enumHeaderStringArray = ["enumHeaderStringArray_example"] // [String] | Header parameter enum test (string array) (optional)
-let enumHeaderString = "enumHeaderString_example" // String | Header parameter enum test (string) (optional) (default to .-efg)
+let enumHeaderString = "enumHeaderString_example" // String | Header parameter enum test (string) (optional) (default to .efg)
 let enumQueryStringArray = ["enumQueryStringArray_example"] // [String] | Query parameter enum test (string array) (optional)
-let enumQueryString = "enumQueryString_example" // String | Query parameter enum test (string) (optional) (default to .-efg)
+let enumQueryString = "enumQueryString_example" // String | Query parameter enum test (string) (optional) (default to .efg)
 let enumQueryInteger = 987 // Int | Query parameter enum test (double) (optional)
 let enumQueryDouble = 987 // Double | Query parameter enum test (double) (optional)
-let enumFormStringArray = ["inner_example"] // [String] | Form parameter enum test (string array) (optional) (default to .$)
-let enumFormString = "enumFormString_example" // String | Form parameter enum test (string) (optional) (default to .-efg)
+let enumFormStringArray = ["inner_example"] // [String] | Form parameter enum test (string array) (optional) (default to .dollar)
+let enumFormString = "enumFormString_example" // String | Form parameter enum test (string) (optional) (default to .efg)
 
 // To test enum parameters
 FakeAPI.testEnumParameters(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString) { (response, error) in
@@ -479,13 +479,13 @@ FakeAPI.testEnumParameters(enumHeaderStringArray: enumHeaderStringArray, enumHea
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enumHeaderStringArray** | [**[String]**](String.md) | Header parameter enum test (string array) | [optional] 
- **enumHeaderString** | **String** | Header parameter enum test (string) | [optional] [default to .-efg]
+ **enumHeaderString** | **String** | Header parameter enum test (string) | [optional] [default to .efg]
  **enumQueryStringArray** | [**[String]**](String.md) | Query parameter enum test (string array) | [optional] 
- **enumQueryString** | **String** | Query parameter enum test (string) | [optional] [default to .-efg]
+ **enumQueryString** | **String** | Query parameter enum test (string) | [optional] [default to .efg]
  **enumQueryInteger** | **Int** | Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **Double** | Query parameter enum test (double) | [optional] 
- **enumFormStringArray** | [**[String]**](String.md) | Form parameter enum test (string array) | [optional] [default to .$]
- **enumFormString** | **String** | Form parameter enum test (string) | [optional] [default to .-efg]
+ **enumFormStringArray** | [**[String]**](String.md) | Form parameter enum test (string array) | [optional] [default to .dollar]
+ **enumFormString** | **String** | Form parameter enum test (string) | [optional] [default to .efg]
 
 ### Return type
 

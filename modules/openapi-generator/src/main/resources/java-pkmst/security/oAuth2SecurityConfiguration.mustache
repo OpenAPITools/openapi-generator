@@ -18,7 +18,7 @@ import org.springframework.security.oauth2.provider.request.DefaultOAuth2Request
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 /**
- * Provides a convenient base class for creating a {@link WebSecurityConfigurer}
+ * Provides a convenient base class for creating a WebSecurityConfigurer
  * instance. The implementation allows customization by overriding methods.
  *
  * @see EnableWebSecurity

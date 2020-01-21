@@ -1,4 +1,3 @@
-@Entity()
 class {{classname}} {
   /// The underlying value of this enum member.
   final {{dataType}} value;
@@ -13,16 +12,18 @@ class {{classname}} {
   static const {{classname}} {{{name}}} = const {{classname}}._internal({{{value}}});
     {{/enumVars}}
   {{/allowableValues}}
+
+  static {{classname}} fromJson(String value) {
+    return new {{classname}}TypeTransformer().decode(value);
+  }
 }
 
-class {{classname}}TypeTransformer extends TypeTransformer<{{classname}}> {
+class {{classname}}TypeTransformer {
 
-  @override
   dynamic encode({{classname}} data) {
     return data.value;
   }
 
-  @override
   {{classname}} decode(dynamic data) {
     switch (data) {
       {{#allowableValues}}

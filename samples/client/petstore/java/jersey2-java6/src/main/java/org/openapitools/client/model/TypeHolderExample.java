@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -22,28 +23,42 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * TypeHolderExample
  */
+@JsonPropertyOrder({
+  TypeHolderExample.JSON_PROPERTY_STRING_ITEM,
+  TypeHolderExample.JSON_PROPERTY_NUMBER_ITEM,
+  TypeHolderExample.JSON_PROPERTY_FLOAT_ITEM,
+  TypeHolderExample.JSON_PROPERTY_INTEGER_ITEM,
+  TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
+  TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
+})
 
 public class TypeHolderExample {
-  @JsonProperty("string_item")
+  public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   private String stringItem;
 
-  @JsonProperty("number_item")
+  public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
   private BigDecimal numberItem;
 
-  @JsonProperty("integer_item")
+  public static final String JSON_PROPERTY_FLOAT_ITEM = "float_item";
+  private Float floatItem;
+
+  public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
   private Integer integerItem;
 
-  @JsonProperty("bool_item")
+  public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
   private Boolean boolItem;
 
-  @JsonProperty("array_item")
+  public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
+
   public TypeHolderExample stringItem(String stringItem) {
+    
     this.stringItem = stringItem;
     return this;
   }
@@ -53,15 +68,21 @@ public class TypeHolderExample {
    * @return stringItem
   **/
   @ApiModelProperty(example = "what", required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public String getStringItem() {
     return stringItem;
   }
+
 
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
 
+
   public TypeHolderExample numberItem(BigDecimal numberItem) {
+    
     this.numberItem = numberItem;
     return this;
   }
@@ -71,15 +92,45 @@ public class TypeHolderExample {
    * @return numberItem
   **/
   @ApiModelProperty(example = "1.234", required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public BigDecimal getNumberItem() {
     return numberItem;
   }
+
 
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
+
+  public TypeHolderExample floatItem(Float floatItem) {
+    
+    this.floatItem = floatItem;
+    return this;
+  }
+
+   /**
+   * Get floatItem
+   * @return floatItem
+  **/
+  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public Float getFloatItem() {
+    return floatItem;
+  }
+
+
+  public void setFloatItem(Float floatItem) {
+    this.floatItem = floatItem;
+  }
+
+
   public TypeHolderExample integerItem(Integer integerItem) {
+    
     this.integerItem = integerItem;
     return this;
   }
@@ -89,15 +140,21 @@ public class TypeHolderExample {
    * @return integerItem
   **/
   @ApiModelProperty(example = "-2", required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public Integer getIntegerItem() {
     return integerItem;
   }
+
 
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
 
+
   public TypeHolderExample boolItem(Boolean boolItem) {
+    
     this.boolItem = boolItem;
     return this;
   }
@@ -107,15 +164,21 @@ public class TypeHolderExample {
    * @return boolItem
   **/
   @ApiModelProperty(example = "true", required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public Boolean isBoolItem() {
     return boolItem;
   }
+
 
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
+
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
+    
     this.arrayItem = arrayItem;
     return this;
   }
@@ -130,9 +193,13 @@ public class TypeHolderExample {
    * @return arrayItem
   **/
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
+
 
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
@@ -150,6 +217,7 @@ public class TypeHolderExample {
     TypeHolderExample typeHolderExample = (TypeHolderExample) o;
     return ObjectUtils.equals(this.stringItem, typeHolderExample.stringItem) &&
     ObjectUtils.equals(this.numberItem, typeHolderExample.numberItem) &&
+    ObjectUtils.equals(this.floatItem, typeHolderExample.floatItem) &&
     ObjectUtils.equals(this.integerItem, typeHolderExample.integerItem) &&
     ObjectUtils.equals(this.boolItem, typeHolderExample.boolItem) &&
     ObjectUtils.equals(this.arrayItem, typeHolderExample.arrayItem);
@@ -157,7 +225,7 @@ public class TypeHolderExample {
 
   @Override
   public int hashCode() {
-    return ObjectUtils.hashCodeMulti(stringItem, numberItem, integerItem, boolItem, arrayItem);
+    return ObjectUtils.hashCodeMulti(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
   }
 
 
@@ -167,6 +235,7 @@ public class TypeHolderExample {
     sb.append("class TypeHolderExample {\n");
     sb.append("    stringItem: ").append(toIndentedString(stringItem)).append("\n");
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
+    sb.append("    floatItem: ").append(toIndentedString(floatItem)).append("\n");
     sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
     sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
     sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");

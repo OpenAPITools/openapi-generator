@@ -8,6 +8,8 @@ import java.util.*;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 
 import play.libs.Json;
 import play.libs.ws.WSClient;
@@ -59,20 +61,25 @@ public class ApiClient {
         }
 
         Map<String, String> extraHeaders = new HashMap<>();
+        Map<String, String> extraCookies = new HashMap<>();
         List<Pair> extraQueryParams = new ArrayList<>();
 
         for (String authName : authentications.keySet()) {
             Authentication auth = authentications.get(authName);
             if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
 
-            auth.applyToParams(extraQueryParams, extraHeaders);
+            auth.applyToParams(extraQueryParams, extraHeaders, extraCookies);
         }
+
+        ObjectMapper mapper = Json.mapper();
+        JsonNullableModule jnm = new JsonNullableModule();
+        mapper.registerModule(jnm);
 
         return new Retrofit.Builder()
                        .baseUrl(basePath)
                        .addConverterFactory(ScalarsConverterFactory.create())
-                       .addConverterFactory(JacksonConverterFactory.create(Json.mapper()))
-                       .callFactory(new Play25CallFactory(wsClient, extraHeaders, extraQueryParams))
+                       .addConverterFactory(JacksonConverterFactory.create(mapper))
+                       .callFactory(new Play25CallFactory(wsClient, extraHeaders, extraCookies, extraQueryParams))
                        .addCallAdapterFactory(new Play25CallAdapterFactory())
                        .build()
                        .create(serviceClass);
@@ -133,5 +140,3 @@ public class ApiClient {
 
 
 }
-
-

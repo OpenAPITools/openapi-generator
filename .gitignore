@@ -174,6 +174,7 @@ samples/client/petstore/python-tornado/.venv/
 samples/client/petstore/typescript-angular2/npm/npm-debug.log
 samples/client/petstore/typescript-node/npm/npm-debug.log
 samples/client/petstore/typescript-angular/tsd-debug.log
+samples/client/petstore/typescript-fetch/tests/**/dist/
 
 # aspnetcore
 samples/server/petstore/aspnetcore/.vs/
@@ -186,6 +187,8 @@ samples/client/petstore/kotlin-string/build
 samples/openapi3/client/petstore/kotlin/build
 samples/server/petstore/kotlin-server/ktor/build
 samples/server/petstore/kotlin-springboot/build
+samples/client/petstore/kotlin-multiplatform/build/
+samples/client/petstore/kotlin-okhttp3/build/
 \?
 
 # haskell
@@ -232,3 +235,7 @@ samples/client/petstore/elm/index.html
 # C
 samples/client/petstore/c/build
 samples/client/petstore/c/*.so
+
+# Ruby
+samples/openapi3/client/petstore/ruby/Gemfile.lock
+samples/openapi3/client/petstore/ruby-faraday/Gemfile.lock

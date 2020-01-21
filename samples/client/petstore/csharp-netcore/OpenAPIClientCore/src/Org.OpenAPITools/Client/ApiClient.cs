@@ -274,6 +274,14 @@ namespace Org.OpenAPITools.Client
                 }
             }
 
+            if (configuration.DefaultHeaders != null)
+            {
+                foreach (var headerParam in configuration.DefaultHeaders)
+                {
+                    request.AddHeader(headerParam.Key, headerParam.Value);
+                }
+            }
+
             if (options.HeaderParameters != null)
             {
                 foreach (var headerParam in options.HeaderParameters)
@@ -313,7 +321,7 @@ namespace Org.OpenAPITools.Client
                     request.RequestFormat = DataFormat.Json;
                 }
 
-                request.AddBody(options.Data);
+                request.AddJsonBody(options.Data);
             }
 
             if (options.FileParameters != null)
@@ -323,9 +331,9 @@ namespace Org.OpenAPITools.Client
                     var bytes = ClientUtils.ReadAsBytes(fileParam.Value);
                     var fileStream = fileParam.Value as FileStream;
                     if (fileStream != null)
-                        FileParameter.Create(fileParam.Key, bytes, System.IO.Path.GetFileName(fileStream.Name));
+                        request.Files.Add(FileParameter.Create(fileParam.Key, bytes, System.IO.Path.GetFileName(fileStream.Name)));
                     else
-                        FileParameter.Create(fileParam.Key, bytes, "no_file_name_provided");
+                        request.Files.Add(FileParameter.Create(fileParam.Key, bytes, "no_file_name_provided"));
                 }
             }
 
@@ -343,7 +351,9 @@ namespace Org.OpenAPITools.Client
         private ApiResponse<T> toApiResponse<T>(IRestResponse<T> response)
         {
             T result = response.Data;
-            var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>(), result)
+            string rawContent = response.Content;
+
+            var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>(), result, rawContent)
             {
                 ErrorText = response.ErrorMessage,
                 Cookies = new List<Cookie>()

@@ -96,7 +96,7 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     UserApi apiInstance = new UserApi(defaultClient);
-    List<User> body = Arrays.asList(null); // List<User> | List of user object
+    List<User> body = Arrays.asList(); // List<User> | List of user object
     try {
       apiInstance.createUsersWithArrayInput(body);
     } catch (ApiException e) {
@@ -155,7 +155,7 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     UserApi apiInstance = new UserApi(defaultClient);
-    List<User> body = Arrays.asList(null); // List<User> | List of user object
+    List<User> body = Arrays.asList(); // List<User> | List of user object
     try {
       apiInstance.createUsersWithListInput(body);
     } catch (ApiException e) {

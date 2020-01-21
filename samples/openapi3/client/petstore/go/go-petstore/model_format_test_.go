@@ -12,7 +12,7 @@ import (
 	"os"
 	"time"
 )
-
+// FormatTest struct for FormatTest
 type FormatTest struct {
 	Integer int32 `json:"integer,omitempty"`
 	Int32 int32 `json:"int32,omitempty"`

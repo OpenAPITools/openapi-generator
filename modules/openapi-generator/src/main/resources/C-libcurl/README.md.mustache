@@ -14,7 +14,7 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 {{/infoUrl}}
 
 ## Installation
-You'll need the `curl 7.58.0` package in order to build the API. To have code formatted nicely you also need to have uncrustify version 0.67.
+You'll need the `curl 7.58.0` package in order to build the API. To have code formatted nicely, you also need to have uncrustify version 0.67 or later.
 
 # Prerequisites
 
@@ -40,11 +40,11 @@ sudo make install
 ```
 
 ## Compile the sample:
-This will compile the generated code and create a library in build folder which has to be linked to the codes where API will be used.
+This will compile the generated code and create a library in the build folder which has to be linked to the codes where API will be used.
 ```bash
 mkdir build
 cd build
-// To install library to specific location use following command
+// To install library to specific location, use following commands
 cmake -DCMAKE_INSTALL_PREFIX=/pathtolocaiton ..
 // for normal install use following command
 cmake ..
@@ -58,11 +58,11 @@ To compile main.c(considering the file is present in build folder) use following
 -L - locaiton of the library(not required if cmake with normal installation is performed)
 -l library name
 ```bash
-gcc main.c -L. -lpetstore -o main
+gcc main.c -L. -l{{projectName}} -o main
 ```
-once compile, you can run it with ``` ./main ```
+Once compiled, you can run it with ``` ./main ```
 
-Note: You dont need to specify includes for models and include folder seperately as they are path linked. You just have to import the api.h file in your code, the include linking will work.
+Note: You don't need to specify includes for models and include folder seperately as they are path linked. You just have to import the api.h file in your code, the include linking will work.
 
 ## Author
 

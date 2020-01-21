@@ -405,8 +405,8 @@ export default class FakeApi {
 
 
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      * @param {Number} _number None
      * @param {Number} _double None
      * @param {String} patternWithoutDelimiter None
@@ -479,8 +479,8 @@ export default class FakeApi {
     }
 
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      * @param {Number} _number None
      * @param {Number} _double None
      * @param {String} patternWithoutDelimiter None
@@ -740,6 +740,80 @@ export default class FakeApi {
      */
     testJsonFormData(param, param2) {
       return this.testJsonFormDataWithHttpInfo(param, param2)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * To test the collection format in query parameters
+     * @param {Array.<String>} pipe 
+     * @param {Array.<String>} ioutil 
+     * @param {Array.<String>} http 
+     * @param {Array.<String>} url 
+     * @param {Array.<String>} context 
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context) {
+      let postBody = null;
+      // verify the required parameter 'pipe' is set
+      if (pipe === undefined || pipe === null) {
+        throw new Error("Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat");
+      }
+      // verify the required parameter 'ioutil' is set
+      if (ioutil === undefined || ioutil === null) {
+        throw new Error("Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat");
+      }
+      // verify the required parameter 'http' is set
+      if (http === undefined || http === null) {
+        throw new Error("Missing the required parameter 'http' when calling testQueryParameterCollectionFormat");
+      }
+      // verify the required parameter 'url' is set
+      if (url === undefined || url === null) {
+        throw new Error("Missing the required parameter 'url' when calling testQueryParameterCollectionFormat");
+      }
+      // verify the required parameter 'context' is set
+      if (context === undefined || context === null) {
+        throw new Error("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+        'pipe': this.apiClient.buildCollectionParam(pipe, 'csv'),
+        'ioutil': this.apiClient.buildCollectionParam(ioutil, 'csv'),
+        'http': this.apiClient.buildCollectionParam(http, 'space'),
+        'url': this.apiClient.buildCollectionParam(url, 'csv'),
+        'context': this.apiClient.buildCollectionParam(context, 'multi')
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = [];
+      let returnType = null;
+      return this.apiClient.callApi(
+        '/fake/test-query-paramters', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * To test the collection format in query parameters
+     * @param {Array.<String>} pipe 
+     * @param {Array.<String>} ioutil 
+     * @param {Array.<String>} http 
+     * @param {Array.<String>} url 
+     * @param {Array.<String>} context 
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    testQueryParameterCollectionFormat(pipe, ioutil, http, url, context) {
+      return this.testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

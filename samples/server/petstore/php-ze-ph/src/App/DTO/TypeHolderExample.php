@@ -22,6 +22,12 @@ class TypeHolderExample
      */
     public $number_item;
     /**
+     * @DTA\Data(field="float_item")
+     * @DTA\Validator(name="Type", options={"type":"float"})
+     * @var float
+     */
+    public $float_item;
+    /**
      * @DTA\Data(field="integer_item")
      * @DTA\Validator(name="Type", options={"type":"int"})
      * @var int

@@ -10,11 +10,48 @@
 package petstoreserver
 
 import (
+	"encoding/json"
 	"net/http"
+	"strings"
+
+	"github.com/gorilla/mux"
 )
 
+// A AnotherFakeApiController binds http requests to an api service and writes the service results to the http response
+type AnotherFakeApiController struct {
+	service AnotherFakeApiServicer
+}
+
+// NewAnotherFakeApiController creates a default api controller
+func NewAnotherFakeApiController(s AnotherFakeApiServicer) Router {
+	return &AnotherFakeApiController{ service: s }
+}
+
+// Routes returns all of the api route for the AnotherFakeApiController
+func (c *AnotherFakeApiController) Routes() Routes {
+	return Routes{ 
+		{
+			"Call123TestSpecialTags",
+			strings.ToUpper("Patch"),
+			"/v2/another-fake/dummy",
+			c.Call123TestSpecialTags,
+		},
+	}
+}
+
 // Call123TestSpecialTags - To test special tags
-func Call123TestSpecialTags(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+func (c *AnotherFakeApiController) Call123TestSpecialTags(w http.ResponseWriter, r *http.Request) { 
+	client := &Client{}
+	if err := json.NewDecoder(r.Body).Decode(&client); err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	result, err := c.service.Call123TestSpecialTags(*client)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	EncodeJSONResponse(result, nil, w)
 }

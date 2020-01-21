@@ -23,9 +23,7 @@
     <RootNamespace>{{packageName}}</RootNamespace>
     <AssemblyName>{{packageName}}</AssemblyName>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <!--<TargetFrameworkVersion>{{targetFramework}}</TargetFrameworkVersion>-->
-    <TargetFrameworkVersion>{{targetFrameworkVersion}}</TargetFrameworkVersion>
-    <TargetFrameworkIdentifier>{{targetFrameworkIdentifier}}</TargetFrameworkIdentifier>
+    <TargetFramework>{{targetFramework}}</TargetFramework>
     <FileAlignment>512</FileAlignment>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>
   </PropertyGroup>
@@ -40,6 +38,4 @@
       <PackageReference Include="RestSharp" Version="106.6.7" />
       <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
   </ItemGroup>
-  <Import Project="..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
 </Project>
-

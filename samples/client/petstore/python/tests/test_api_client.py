@@ -27,7 +27,6 @@ class ApiClientTests(unittest.TestCase):
 
     def test_configuration(self):
         config = petstore_api.Configuration()
-        config.host = 'http://localhost/'
 
         config.api_key['api_key'] = '123456'
         config.api_key_prefix['api_key'] = 'PREFIX'

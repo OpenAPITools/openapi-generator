@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,6 +27,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +64,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public static final String PROP_CABAL_VERSION = "cabalVersion";
     public static final String PROP_CONFIG_TYPE = "configType";
     public static final String PROP_DATETIME_FORMAT = "dateTimeFormat";
+    public static final String PROP_DATETIME_PARSE_FORMAT = "dateTimeParseFormat";
     public static final String PROP_CUSTOM_TEST_INSTANCE_MODULE = "customTestInstanceModule";
     public static final String PROP_DATE_FORMAT = "dateFormat";
     public static final String PROP_GENERATE_ENUMS = "generateEnums";
@@ -144,6 +146,32 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public HaskellHttpClientCodegen() {
         super();
 
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath,
+                        ClientModificationFeature.UserAgent
+                )
+                .build();
+
         this.prependFormOrBodyParameters = true;
 
         // override the mapping to keep the original mapping in Haskell
@@ -222,6 +250,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Double");
         typeMapping.put("number", "Double");
+        typeMapping.put("BigDecimal", "Double");
         typeMapping.put("integer", "Int");
         typeMapping.put("file", "FilePath");
         // lib
@@ -270,6 +299,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         cliOptions.add(CliOption.newBoolean(PROP_USE_KATIP, "Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger").defaultValue((Boolean.TRUE.toString())));
 
         cliOptions.add(CliOption.newString(PROP_DATETIME_FORMAT, "format string used to parse/render a datetime"));
+        cliOptions.add(CliOption.newString(PROP_DATETIME_PARSE_FORMAT, "overrides the format string used to parse a datetime"));
         cliOptions.add(CliOption.newString(PROP_DATE_FORMAT, "format string used to parse/render a date").defaultValue(defaultDateFormat));
 
         cliOptions.add(CliOption.newString(PROP_CUSTOM_TEST_INSTANCE_MODULE, "test module used to provide typeclass instances for types not known by the generator"));
@@ -320,9 +350,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
     }
 
-    public void setDateTimeFormat(String value) {
-        setStringProp(PROP_DATETIME_FORMAT, value);
-    }
+    public void setDateTimeFormat(String value) { setStringProp(PROP_DATETIME_FORMAT, value); }
+
+    public void setDateTimeParseFormat(String value) { setStringProp(PROP_DATETIME_PARSE_FORMAT, value); }
 
     public void setDateFormat(String value) { setStringProp(PROP_DATE_FORMAT, value); }
 
@@ -435,6 +465,12 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             setDateTimeFormat(additionalProperties.get(PROP_DATETIME_FORMAT).toString());
         } else {
             setDateTimeFormat(null); // default should be null
+        }
+
+        if (additionalProperties.containsKey(PROP_DATETIME_PARSE_FORMAT)) {
+            setDateTimeParseFormat(additionalProperties.get(PROP_DATETIME_PARSE_FORMAT).toString());
+        } else {
+            setDateTimeParseFormat(null); // default should be null
         }
 
         if (additionalProperties.containsKey(PROP_DATE_FORMAT)) {
@@ -1065,13 +1101,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             case "tsv":
                 return "TabSeparated";
             case "ssv":
+            case "space":
                 return "SpaceSeparated";
             case "pipes":
                 return "PipeSeparated";
             case "multi":
                 return "MultiParamArray";
             default:
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException(collectionFormat + " (collection format) not supported");
         }
     }
 

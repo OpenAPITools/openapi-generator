@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// EnumTest struct for EnumTest
 type EnumTest struct {
 	EnumString EnumTestEnumString `json:"enum_string,omitempty"`
 	EnumStringRequired EnumTestEnumString `json:"enum_string_required"`

@@ -3,9 +3,10 @@ id: customization
 title: Customization
 ---
 
-## Creating a new template
+<a id="creating-a-new-template"></a><!-- maintain old link ref name.-->
+## Custom Generator (and Template)
 
-If none of the templates suit your needs, you can create a brand new template. OpenAPI Generator can help with this, using the `meta` command:
+If none of the built-in generators suit your needs and you need to do more than just modify the mustache templates to tweak generated code, you can create a brand new generator and its associated templates. OpenAPI Generator can help with this, using the `meta` command:
 
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar meta \
@@ -248,7 +249,7 @@ CONFIG OPTIONS
 	    retrofit - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)
         retrofit2 - HTTP client: OkHttp 2.5.0. JSON processing: Gson 2.4 (Retrofit 2.0.0-beta2)
         google-api-client - HTTP client: google-api-client 1.23.0. JSON processing: Jackson 2.8.9
-        rest-assured - HTTP client: rest-assured : 3.3.0. JSON processing: Gson 2.8.5. Only for Java8
+        rest-assured - HTTP client: rest-assured : 4.0.0. JSON processing: Gson 2.8.5. Only for Java8
 ```
 
 Your config file for Java can look like

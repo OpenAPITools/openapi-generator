@@ -62,21 +62,21 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
 
     {{#swaggerAnnotations}}
     @ApiOperation(
-            value = "{{{summary}}}",
-            nickname = "{{{operationId}}}",
-            notes = "{{{notes}}}"{{#returnBaseType}},
-            response = {{{returnBaseType}}}::class{{/returnBaseType}}{{#returnContainer}},
-            responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}},
-            authorizations = [{{#authMethods}}Authorization(value = "{{name}}"{{#isOAuth}}, scopes = [{{#scopes}}AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}}, {{/hasMore}}{{/scopes}}]{{/isOAuth}}){{#hasMore}}, {{/hasMore}}{{/authMethods}}]{{/hasAuthMethods}})
+        value = "{{{summary}}}",
+        nickname = "{{{operationId}}}",
+        notes = "{{{notes}}}"{{#returnBaseType}},
+        response = {{{returnBaseType}}}::class{{/returnBaseType}}{{#returnContainer}},
+        responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}},
+        authorizations = [{{#authMethods}}Authorization(value = "{{name}}"{{#isOAuth}}, scopes = [{{#scopes}}AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}}, {{/hasMore}}{{/scopes}}]{{/isOAuth}}){{#hasMore}}, {{/hasMore}}{{/authMethods}}]{{/hasAuthMethods}})
     @ApiResponses(
-            value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{baseType}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}}]){{/swaggerAnnotations}}
+        value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{baseType}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}}]){{/swaggerAnnotations}}
     @RequestMapping(
-            value = ["{{#lambda.escapeDoubleQuote}}{{path}}{{/lambda.escapeDoubleQuote}}"],{{#singleContentTypes}}{{#hasProduces}}
-            produces = "{{{vendorExtensions.x-accepts}}}",{{/hasProduces}}{{#hasConsumes}}
-            consumes = "{{{vendorExtensions.x-contentType}}}",{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
-            produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}], {{/hasProduces}}{{#hasConsumes}}
-            consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}],{{/hasConsumes}}{{/singleContentTypes}}
-            method = [RequestMethod.{{httpMethod}}])
+        value = ["{{#lambda.escapeDoubleQuote}}{{path}}{{/lambda.escapeDoubleQuote}}"],{{#singleContentTypes}}{{#hasProduces}}
+        produces = "{{{vendorExtensions.x-accepts}}}",{{/hasProduces}}{{#hasConsumes}}
+        consumes = "{{{vendorExtensions.x-contentType}}}",{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
+        produces = [{{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}], {{/hasProduces}}{{#hasConsumes}}
+        consumes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}],{{/hasConsumes}}{{/singleContentTypes}}
+        method = [RequestMethod.{{httpMethod}}])
     {{#reactive}}{{^isListContainer}}suspend {{/isListContainer}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}): ResponseEntity<{{>returnTypes}}> {
         return {{>returnValue}}
     }

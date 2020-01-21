@@ -30,7 +30,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 user = petstore_api.User() # User | Created user object
 
@@ -81,7 +81,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 user = [petstore_api.User()] # list[User] | List of user object
 
@@ -132,7 +132,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 user = [petstore_api.User()] # list[User] | List of user object
 
@@ -185,7 +185,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 username = 'username_example' # str | The name that needs to be deleted
 
@@ -237,7 +237,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 username = 'username_example' # str | The name that needs to be fetched. Use user1 for testing.
 
@@ -291,7 +291,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 username = 'username_example' # str | The user name for login
 password = 'password_example' # str | The password for login in clear text
@@ -346,7 +346,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 
 try:
@@ -395,7 +395,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = petstore_api.UserApi()
 username = 'username_example' # str | name that need to be deleted
 user = petstore_api.User() # User | Updated user object

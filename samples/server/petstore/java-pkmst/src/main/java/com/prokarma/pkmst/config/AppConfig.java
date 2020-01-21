@@ -20,7 +20,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	 * .exposedHeaders("header1", "header2")
 	 * .allowCredentials(false).maxAge(3600);
 	 * 
-	 * @return
+	 * @return a new WebMvcConfigurer instance
 	 */
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {

@@ -21,15 +21,20 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * ArrayOfNumberOnly
  */
+@JsonPropertyOrder({
+  ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
+})
 
 public class ArrayOfNumberOnly   {
-  @JsonProperty("ArrayNumber")
+  public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
+  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   private List<BigDecimal> arrayNumber = null;
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {

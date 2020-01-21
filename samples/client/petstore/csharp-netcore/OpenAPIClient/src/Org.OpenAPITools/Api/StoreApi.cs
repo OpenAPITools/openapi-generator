@@ -261,7 +261,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PetApi"/> class
+        /// Initializes a new instance of the <see cref="StoreApi"/> class
         /// using a Configuration object and client instance.
         /// </summary>
         /// <param name="client">The client interface for synchronous API access.</param>
@@ -343,36 +343,35 @@ namespace Org.OpenAPITools.Api
             if (orderId == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->DeleteOrder");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             if (orderId != null)
-                requestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
+                localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
 
 
             // make the HTTP request
-
-            var response = this.Client.Delete<Object>("/store/order/{order_id}", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Delete<Object>("/store/order/{order_id}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("DeleteOrder", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("DeleteOrder", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -400,36 +399,36 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->DeleteOrder");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             if (orderId != null)
-                requestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
+                localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.DeleteAsync<Object>("/store/order/{order_id}", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/store/order/{order_id}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("DeleteOrder", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("DeleteOrder", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -450,40 +449,39 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Dictionary&lt;string, int&gt;</returns>
         public Org.OpenAPITools.Client.ApiResponse< Dictionary<string, int> > GetInventoryWithHttpInfo ()
         {
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/json"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
 
             // authentication (api_key) required
             if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
-                requestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
+                localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
             }
 
             // make the HTTP request
-
-            var response = this.Client.Get< Dictionary<string, int> >("/store/inventory", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get< Dictionary<string, int> >("/store/inventory", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("GetInventory", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("GetInventory", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -506,40 +504,40 @@ namespace Org.OpenAPITools.Api
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>>> GetInventoryAsyncWithHttpInfo ()
         {
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/json"
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
 
             // authentication (api_key) required
             if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
-                requestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
+                localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
             }
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.GetAsync<Dictionary<string, int>>("/store/inventory", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Dictionary<string, int>>("/store/inventory", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("GetInventory", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("GetInventory", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -566,38 +564,37 @@ namespace Org.OpenAPITools.Api
             if (orderId == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->GetOrderById");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/xml",
                 "application/json"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             if (orderId != null)
-                requestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
+                localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
 
 
             // make the HTTP request
-
-            var response = this.Client.Get< Order >("/store/order/{order_id}", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get< Order >("/store/order/{order_id}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("GetOrderById", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("GetOrderById", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -626,38 +623,38 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->GetOrderById");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/xml",
                 "application/json"
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             if (orderId != null)
-                requestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
+                localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.GetAsync<Order>("/store/order/{order_id}", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Order>("/store/order/{order_id}", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("GetOrderById", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("GetOrderById", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -684,37 +681,36 @@ namespace Org.OpenAPITools.Api
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling StoreApi->PlaceOrder");
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/xml",
                 "application/json"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
-            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
-
-            var response = this.Client.Post< Order >("/store/order", requestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post< Order >("/store/order", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("PlaceOrder", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("PlaceOrder", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
         /// <summary>
@@ -743,37 +739,37 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling StoreApi->PlaceOrder");
 
 
-            Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            String[] @contentTypes = new String[] {
+            String[] _contentTypes = new String[] {
             };
 
             // to determine the Accept header
-            String[] @accepts = new String[] {
+            String[] _accepts = new String[] {
                 "application/xml",
                 "application/json"
             };
             
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
+            foreach (var _contentType in _contentTypes)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", _contentType);
             
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
+            foreach (var _accept in _accepts)
+                localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            requestOptions.Data = body;
+            localVarRequestOptions.Data = body;
 
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PostAsync<Order>("/store/order", requestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Order>("/store/order", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
-                Exception exception = this.ExceptionFactory("PlaceOrder", response);
-                if (exception != null) throw exception;
+                Exception _exception = this.ExceptionFactory("PlaceOrder", localVarResponse);
+                if (_exception != null) throw _exception;
             }
 
-            return response;
+            return localVarResponse;
         }
 
     }

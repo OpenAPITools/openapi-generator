@@ -15,6 +15,7 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -22,18 +23,24 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.DogAllOf;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * Dog
  */
+@JsonPropertyOrder({
+  Dog.JSON_PROPERTY_BREED
+})
 
 public class Dog extends Animal {
-  @JsonProperty("breed")
+  public static final String JSON_PROPERTY_BREED = "breed";
   private String breed;
 
+
   public Dog breed(String breed) {
+    
     this.breed = breed;
     return this;
   }
@@ -42,10 +49,15 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public String getBreed() {
     return breed;
   }
+
 
   public void setBreed(String breed) {
     this.breed = breed;

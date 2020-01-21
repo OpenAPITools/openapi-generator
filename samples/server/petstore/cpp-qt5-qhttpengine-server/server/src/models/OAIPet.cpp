@@ -13,12 +13,12 @@
 
 #include "OAIPet.h"
 
-#include "OAIHelpers.h"
-
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
+
+#include "OAIHelpers.h"
 
 namespace OpenAPI {
 
@@ -99,24 +99,24 @@ OAIPet::asJson () const {
 QJsonObject
 OAIPet::asJsonObject() const {
     QJsonObject obj;
-	if(m_id_isSet){
+    if(m_id_isSet){
         obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
     }
-	if(category.isSet()){
+    if(category.isSet()){
         obj.insert(QString("category"), ::OpenAPI::toJsonValue(category));
     }
-	if(m_name_isSet){
+    if(m_name_isSet){
         obj.insert(QString("name"), ::OpenAPI::toJsonValue(name));
     }
-	
+    
     if(photo_urls.size() > 0){
         obj.insert(QString("photoUrls"), ::OpenAPI::toJsonValue(photo_urls));
     } 
-	
+    
     if(tags.size() > 0){
         obj.insert(QString("tags"), ::OpenAPI::toJsonValue(tags));
     } 
-	if(m_status_isSet){
+    if(m_status_isSet){
         obj.insert(QString("status"), ::OpenAPI::toJsonValue(status));
     }
     return obj;

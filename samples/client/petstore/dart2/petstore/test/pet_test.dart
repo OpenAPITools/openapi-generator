@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 import 'random_id.dart';
 
 void main() {
-  var petApi = new PetApi();
+  var petApi = PetApi();
 
   Pet makePet({
     int id = 1234,
@@ -34,7 +34,7 @@ void main() {
       ..photoUrls = ['https://petstore.com/sample/photo1.jpg'];
   }
 
-  group('Pet API ', () {
+  group('Pet API with live client', () {
     test('adds a new pet and gets it by id', () async {
       var id = newId();
       await petApi.addPet(makePet(id: id));
@@ -99,5 +99,5 @@ void main() {
       var file = new MultipartFile.fromBytes('file', [104, 101, 108, 108, 111]);
       await petApi.uploadFile(id, additionalMetadata: '', file: file);
     });
-  });
+  }, skip: 'e2e tests for CI');
 }

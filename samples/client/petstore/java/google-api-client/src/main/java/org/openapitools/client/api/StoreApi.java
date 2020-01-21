@@ -5,6 +5,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.model.Order;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.api.client.http.EmptyContent;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.InputStreamContent;
@@ -75,8 +76,8 @@ public class StoreApi {
         uriVariables.put("order_id", orderId);
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/order/{order_id}");
 
-        String url = uriBuilder.buildFromMap(uriVariables).toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
@@ -110,8 +111,8 @@ public class StoreApi {
             }
         }
 
-        String url = uriBuilder.buildFromMap(uriVariables).toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
@@ -127,7 +128,7 @@ public class StoreApi {
     **/
     public Map<String, Integer> getInventory() throws IOException {
         HttpResponse response = getInventoryForHttpResponse();
-        TypeReference typeRef = new TypeReference<Map<String, Integer>>() {};
+        TypeReference<Map<String, Integer>> typeRef = new TypeReference<Map<String, Integer>>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -141,7 +142,7 @@ public class StoreApi {
     **/
     public Map<String, Integer> getInventory(Map<String, Object> params) throws IOException {
         HttpResponse response = getInventoryForHttpResponse(params);
-        TypeReference typeRef = new TypeReference<Map<String, Integer>>() {};
+        TypeReference<Map<String, Integer>> typeRef = new TypeReference<Map<String, Integer>>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -149,8 +150,8 @@ public class StoreApi {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/inventory");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
@@ -178,8 +179,8 @@ public class StoreApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
@@ -198,7 +199,7 @@ public class StoreApi {
     **/
     public Order getOrderById(Long orderId) throws IOException {
         HttpResponse response = getOrderByIdForHttpResponse(orderId);
-        TypeReference typeRef = new TypeReference<Order>() {};
+        TypeReference<Order> typeRef = new TypeReference<Order>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -215,7 +216,7 @@ public class StoreApi {
     **/
     public Order getOrderById(Long orderId, Map<String, Object> params) throws IOException {
         HttpResponse response = getOrderByIdForHttpResponse(orderId, params);
-        TypeReference typeRef = new TypeReference<Order>() {};
+        TypeReference<Order> typeRef = new TypeReference<Order>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -229,8 +230,8 @@ public class StoreApi {
         uriVariables.put("order_id", orderId);
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/order/{order_id}");
 
-        String url = uriBuilder.buildFromMap(uriVariables).toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
@@ -264,8 +265,8 @@ public class StoreApi {
             }
         }
 
-        String url = uriBuilder.buildFromMap(uriVariables).toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
@@ -282,7 +283,7 @@ public class StoreApi {
     **/
     public Order placeOrder(Order body) throws IOException {
         HttpResponse response = placeOrderForHttpResponse(body);
-        TypeReference typeRef = new TypeReference<Order>() {};
+        TypeReference<Order> typeRef = new TypeReference<Order>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -297,7 +298,7 @@ public class StoreApi {
     **/
     public Order placeOrder(Order body, Map<String, Object> params) throws IOException {
         HttpResponse response = placeOrderForHttpResponse(body, params);
-        TypeReference typeRef = new TypeReference<Order>() {};
+        TypeReference<Order> typeRef = new TypeReference<Order>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
@@ -308,8 +309,8 @@ public class StoreApi {
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/order");
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
@@ -322,8 +323,8 @@ public class StoreApi {
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/order");
 
-              String url = uriBuilder.build().toString();
-              GenericUrl genericUrl = new GenericUrl(url);
+              String localVarUrl = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
@@ -356,8 +357,8 @@ public class StoreApi {
             }
         }
 
-        String url = uriBuilder.build().toString();
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();

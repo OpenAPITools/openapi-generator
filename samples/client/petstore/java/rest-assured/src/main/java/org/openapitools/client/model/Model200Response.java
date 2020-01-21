@@ -38,7 +38,9 @@ public class Model200Response {
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
   private String propertyClass;
 
+
   public Model200Response name(Integer name) {
+    
     this.name = name;
     return this;
   }
@@ -47,16 +49,21 @@ public class Model200Response {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Integer getName() {
     return name;
   }
+
 
   public void setName(Integer name) {
     this.name = name;
   }
 
+
   public Model200Response propertyClass(String propertyClass) {
+    
     this.propertyClass = propertyClass;
     return this;
   }
@@ -65,10 +72,13 @@ public class Model200Response {
    * Get propertyClass
    * @return propertyClass
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getPropertyClass() {
     return propertyClass;
   }
+
 
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;

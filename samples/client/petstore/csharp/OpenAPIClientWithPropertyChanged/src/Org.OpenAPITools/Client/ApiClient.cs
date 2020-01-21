@@ -202,6 +202,7 @@ namespace Org.OpenAPITools.Client
             var request = PrepareRequest(
                 path, method, queryParams, postBody, headerParams, formParams, fileParams,
                 pathParams, contentType);
+            RestClient.UserAgent = Configuration.UserAgent;
             InterceptRequest(request);
             var response = await RestClient.ExecuteTaskAsync(request);
             InterceptResponse(request, response);

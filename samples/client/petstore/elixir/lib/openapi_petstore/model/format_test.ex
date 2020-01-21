@@ -21,7 +21,8 @@ defmodule OpenapiPetstore.Model.FormatTest do
     :"date",
     :"dateTime",
     :"uuid",
-    :"password"
+    :"password",
+    :"BigDecimal"
   ]
 
   @type t :: %__MODULE__{
@@ -37,7 +38,8 @@ defmodule OpenapiPetstore.Model.FormatTest do
     :"date" => Date.t,
     :"dateTime" => DateTime.t | nil,
     :"uuid" => String.t | nil,
-    :"password" => String.t
+    :"password" => String.t,
+    :"BigDecimal" => String.t | nil
   }
 end
 
@@ -46,6 +48,7 @@ defimpl Poison.Decoder, for: OpenapiPetstore.Model.FormatTest do
   def decode(value, options) do
     value
     |> deserialize(:"date", :date, nil, options)
+    |> deserialize(:"BigDecimal", :struct, OpenapiPetstore.Model.String.t, options)
   end
 end
 

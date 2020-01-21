@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -64,9 +64,11 @@ public class GenerateTest {
 
     @Test
     public void testRequiredArgs_ShortArgs() throws Exception {
-        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", false, null);
+        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", false, null, "-p", "foo=bar");
         new FullVerifications() {
             {
+                configurator.addAdditionalProperty("foo", "bar");
+                times = 1;
             }
         };
     }
@@ -137,85 +139,6 @@ public class GenerateTest {
             }
         };
     }
-
-    @Test
-    public void testSystemProperties() throws Exception {
-
-        setupAndRunGenericTest("-D", "hello=world,foo=bar");
-
-        new FullVerifications() {
-            {
-                configurator.addSystemProperty("hello", "world");
-                times = 1;
-                configurator.addSystemProperty("foo", "bar");
-                times = 1;
-            }
-        };
-
-        setupAndRunGenericTest("-Dhello=world,foo=bar");
-
-        new FullVerifications() {
-            {
-                configurator.addSystemProperty("hello", "world");
-                times = 1;
-                configurator.addSystemProperty("foo", "bar");
-                times = 1;
-            }
-        };
-
-        setupAndRunGenericTest("-D", "hello=world,key=,foo=bar");
-
-        new FullVerifications() {
-            {
-                configurator.addSystemProperty("hello", "world");
-                times = 1;
-                configurator.addSystemProperty("foo", "bar");
-                times = 1;
-                configurator.addSystemProperty("key", "");
-                times = 1;
-            }
-        };
-
-        setupAndRunGenericTest("-D", "hello=world,key,foo=bar");
-
-        new FullVerifications() {
-            {
-                configurator.addSystemProperty("hello", "world");
-                times = 1;
-                configurator.addSystemProperty("foo", "bar");
-                times = 1;
-                configurator.addSystemProperty("key", "");
-                times = 1;
-            }
-        };
-
-        setupAndRunGenericTest("-D", "hello=world", "-D", "key", "-D", "foo=bar");
-
-        new FullVerifications() {
-            {
-                configurator.addSystemProperty("hello", "world");
-                times = 1;
-                configurator.addSystemProperty("foo", "bar");
-                times = 1;
-                configurator.addSystemProperty("key", "");
-                times = 1;
-            }
-        };
-
-        setupAndRunGenericTest("-Dhello=world", "-Dkey", "-Dfoo=bar");
-
-        new FullVerifications() {
-            {
-                configurator.addSystemProperty("hello", "world");
-                times = 1;
-                configurator.addSystemProperty("foo", "bar");
-                times = 1;
-                configurator.addSystemProperty("key", "");
-                times = 1;
-            }
-        };
-    }
-
 
     @Test
     public void testConfigJson() throws Exception {

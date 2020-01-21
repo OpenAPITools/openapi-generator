@@ -24,13 +24,19 @@ public interface AnotherFakeApiDelegate {
     }
 
     /**
+     * PATCH /another-fake/dummy : To test special tags
+     * To test special tags and operation ID starting with number
+     *
+     * @param body client model (required)
+     * @return successful operation (status code 200)
      * @see AnotherFakeApi#call123testSpecialTags
      */
     default ResponseEntity<Client> call123testSpecialTags(Client body) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
+                    String exampleString = "{ \"client\" : \"client\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
             }

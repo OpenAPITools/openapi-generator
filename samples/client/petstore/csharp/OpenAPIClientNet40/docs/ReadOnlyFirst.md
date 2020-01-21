@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Bar** | **string** |  | [optional] 
+**Bar** | **string** |  | [optional] [readonly] 
 **Baz** | **string** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models)

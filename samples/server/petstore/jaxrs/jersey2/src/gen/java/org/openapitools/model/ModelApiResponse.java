@@ -18,21 +18,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * ModelApiResponse
  */
+@JsonPropertyOrder({
+  ModelApiResponse.JSON_PROPERTY_CODE,
+  ModelApiResponse.JSON_PROPERTY_TYPE,
+  ModelApiResponse.JSON_PROPERTY_MESSAGE
+})
 
 public class ModelApiResponse   {
-  @JsonProperty("code")
+  public static final String JSON_PROPERTY_CODE = "code";
+  @JsonProperty(JSON_PROPERTY_CODE)
   private Integer code;
 
-  @JsonProperty("type")
+  public static final String JSON_PROPERTY_TYPE = "type";
+  @JsonProperty(JSON_PROPERTY_TYPE)
   private String type;
 
-  @JsonProperty("message")
+  public static final String JSON_PROPERTY_MESSAGE = "message";
+  @JsonProperty(JSON_PROPERTY_MESSAGE)
   private String message;
 
   public ModelApiResponse code(Integer code) {

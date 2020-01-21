@@ -217,9 +217,9 @@ public interface FakeApi {
     @retrofit.http.Body Client body, Callback<Client> cb
   );
   /**
-   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
    * Sync method
-   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
    * @param number None (required)
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
@@ -244,7 +244,7 @@ public interface FakeApi {
   );
 
   /**
-   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
    * Async method
    * @param number None (required)
    * @param _double None (required)
@@ -393,5 +393,37 @@ public interface FakeApi {
   @GET("/fake/jsonFormData")
   void testJsonFormData(
     @retrofit.http.Field("param") String param, @retrofit.http.Field("param2") String param2, Callback<Void> cb
+  );
+  /**
+   * 
+   * Sync method
+   * To test the collection format in query parameters
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   * @return Void
+   */
+  
+  @PUT("/fake/test-query-paramters")
+  Void testQueryParameterCollectionFormat(
+    @retrofit.http.Query("pipe") CSVParams pipe, @retrofit.http.Query("ioutil") CSVParams ioutil, @retrofit.http.Query("http") SPACEParams http, @retrofit.http.Query("url") CSVParams url, @retrofit.http.Query("context") List<String> context
+  );
+
+  /**
+   * 
+   * Async method
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   * @param cb callback method
+   */
+  
+  @PUT("/fake/test-query-paramters")
+  void testQueryParameterCollectionFormat(
+    @retrofit.http.Query("pipe") CSVParams pipe, @retrofit.http.Query("ioutil") CSVParams ioutil, @retrofit.http.Query("http") SPACEParams http, @retrofit.http.Query("url") CSVParams url, @retrofit.http.Query("context") List<String> context, Callback<Void> cb
   );
 }

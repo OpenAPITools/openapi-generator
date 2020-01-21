@@ -2,6 +2,7 @@
 
 # Generate clients:
 ./bin/spring-cloud-feign-petstore.sh
+./bin/spring-cloud-feign-async-petstore.sh
 ./bin/spring-stubs.sh
 
 # Generate spring-mvc servers:

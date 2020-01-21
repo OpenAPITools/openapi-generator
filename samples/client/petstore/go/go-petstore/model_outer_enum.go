@@ -8,11 +8,12 @@
  */
 
 package petstore
+// OuterEnum the model 'OuterEnum'
 type OuterEnum string
 
 // List of OuterEnum
 const (
-	OUTER_ENUM_PLACED OuterEnum = "placed"
-	OUTER_ENUM_APPROVED OuterEnum = "approved"
-	OUTER_ENUM_DELIVERED OuterEnum = "delivered"
+	PLACED OuterEnum = "placed"
+	APPROVED OuterEnum = "approved"
+	DELIVERED OuterEnum = "delivered"
 )

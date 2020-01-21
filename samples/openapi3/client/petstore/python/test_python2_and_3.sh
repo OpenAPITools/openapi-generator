@@ -18,7 +18,6 @@ fi
 
 ### install dependencies
 pip install -r $REQUIREMENTS_FILE | tee -a $REQUIREMENTS_OUT
-python setup.py develop
 
 ### run tests
 tox || exit 1

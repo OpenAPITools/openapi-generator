@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,6 +81,21 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     public PhpSymfonyServerCodegen() {
         super();
 
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .build();
+        
         // clear import mapping (from default generator) as php does not use it
         // at the moment
         importMapping.clear();
@@ -200,7 +216,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         if (alias != null && !alias.isEmpty()) {
             this.bundleAlias = alias.toLowerCase(Locale.ROOT);
         } else {
-            this.bundleAlias = snakeCase(bundleName).replaceAll("([A-Z]+)", "\\_$1").toLowerCase(Locale.ROOT);
+            this.bundleAlias = lowerCamelCase(bundleName).replaceAll("([A-Z]+)", "\\_$1").toLowerCase(Locale.ROOT);
         }
     }
 
@@ -370,7 +386,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         operations.put("controllerName", toControllerName((String) operations.get("pathPrefix")));
         operations.put("symfonyService", toSymfonyService((String) operations.get("pathPrefix")));
 
-        HashSet<CodegenSecurity> authMethods = new HashSet<>();
+        List<CodegenSecurity> authMethods = new ArrayList<CodegenSecurity>();
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
         for (CodegenOperation op : operationList) {
@@ -406,7 +422,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
             // Create a variable to display the correct return type in comments for interfaces
             if (op.returnType != null) {
                 op.vendorExtensions.put("x-commentType", op.returnType);
-                if (!op.returnTypeIsPrimitive) {
+                if (op.returnContainer != null && op.returnContainer.equals("array")) {
                     op.vendorExtensions.put("x-commentType", op.returnType + "[]");
                 }
             } else {
@@ -415,7 +431,11 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
             // Add operation's authentication methods to whole interface
             if (op.authMethods != null) {
-                authMethods.addAll(op.authMethods);
+                for (CodegenSecurity am : op.authMethods) {
+                    if (!authMethods.contains(am)) {
+                        authMethods.add(am);
+                    }
+                }
             }
         }
 

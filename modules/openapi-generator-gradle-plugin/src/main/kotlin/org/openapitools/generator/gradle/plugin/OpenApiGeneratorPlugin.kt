@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@ package org.openapitools.generator.gradle.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorGenerateExtension
+import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorGeneratorsExtension
 import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorMetaExtension
 import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorValidateExtension
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
@@ -53,12 +54,20 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     project
             )
 
+            val generators = extensions.create(
+                "openApiGenerators",
+                OpenApiGeneratorGeneratorsExtension::class.java,
+                project
+            )
+
             generate.outputDir.set("$buildDir/generate-resources/main")
 
             tasks.apply {
                 create("openApiGenerators", GeneratorsTask::class.java) {
                     group = pluginGroup
                     description = "Lists generators available via Open API Generators."
+
+                    include.set(generators.include)
                 }
 
                 create("openApiMeta", MetaTask::class.java) {
@@ -99,6 +108,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     instantiationTypes.set(generate.instantiationTypes)
                     typeMappings.set(generate.typeMappings)
                     additionalProperties.set(generate.additionalProperties)
+                    serverVariables.set(generate.serverVariables)
                     languageSpecificPrimitives.set(generate.languageSpecificPrimitives)
                     importMappings.set(generate.importMappings)
                     invokerPackage.set(generate.invokerPackage)
@@ -106,6 +116,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     id.set(generate.id)
                     version.set(generate.version)
                     library.set(generate.library)
+                    gitHost.set(generate.gitHost)
                     gitUserId.set(generate.gitUserId)
                     gitRepoId.set(generate.gitRepoId)
                     releaseNote.set(generate.releaseNote)

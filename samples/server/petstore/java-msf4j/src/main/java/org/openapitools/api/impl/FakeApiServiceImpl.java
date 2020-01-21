@@ -133,6 +133,16 @@ public class FakeApiServiceImpl extends FakeApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
+    public Response testQueryParameterCollectionFormat(List<String> pipe
+, List<String> ioutil
+, List<String> http
+, List<String> url
+, List<String> context
+ ) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
     public Response uploadFileWithRequiredFile(Long petId
 , InputStream requiredFileInputStream, FileInfo requiredFileDetail
 , String additionalMetadata

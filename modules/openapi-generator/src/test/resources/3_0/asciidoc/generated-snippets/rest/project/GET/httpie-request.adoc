@@ -1,0 +1,4 @@
+[source,bash]
+----
+$ http GET 'http://samplehost.timeatwork.manathome.org:8080/rest/project/'
+----

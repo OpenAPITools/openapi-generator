@@ -1,6 +1,7 @@
 {
   "private": true,
   "dependencies": {
+    "@openapitools/typescript-fetch-petstore": "file:../../builds/with-npm-version",
     "@swagger/typescript-fetch-petstore": "file:../../builds/with-npm-version",
     "chai": "^4.1.0",
     "ts-node": "^3.3.0"

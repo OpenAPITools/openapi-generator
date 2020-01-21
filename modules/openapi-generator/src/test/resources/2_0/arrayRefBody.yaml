@@ -1,0 +1,52 @@
+swagger: '2.0'
+info:
+  version: ''
+  title: arrayRefBody
+  contact: {}
+host: www.example.com
+basePath: /
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /examples:
+    post:
+      description: Create an array of inputs
+      summary: ''
+      tags:
+        - Examples
+      operationId: createExamples
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          description: inputs description
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Input'
+      responses:
+        200:
+          description: successful operation
+          headers: {}
+definitions:
+  Input:
+    title: Input
+    type: object
+    properties:
+      id:
+        type: string
+      age:
+        type: integer
+        format: int32
+      dt:
+        type: string
+        format: date-time
+tags:
+  - name: Examples
+    description: 'Example inputs'

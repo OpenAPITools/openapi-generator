@@ -1,0 +1,13 @@
+{{#isPathParam}}
+{{^isListContainer}}
+{{#isModel}}
+            {{{dataType}}} {{paramName}} = ParameterCast.toObject(routingContext.pathParams().get("{{baseName}}"), {{dataType}}.class);
+{{/isModel}}
+{{^isModel}}
+            {{{dataType}}} {{paramName}} = ParameterCast.to{{dataType}}(routingContext.pathParams().get("{{baseName}}"));
+{{/isModel}}
+{{/isListContainer}}
+{{#isListContainer}}
+            {{{dataType}}} {{paramName}} = routingContext.request().params().getAll("{{baseName}}");
+{{/isListContainer}}
+{{/isPathParam}}

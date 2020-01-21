@@ -140,7 +140,7 @@ public class FakeApi  {
     
     @Consumes({ "application/x-www-form-urlencoded" })
     
-    @io.swagger.annotations.ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", response = Void.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", notes = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", response = Void.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "http_basic_test")
     }, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
@@ -229,6 +229,22 @@ public class FakeApi  {
 )
     throws NotFoundException {
         return delegate.testJsonFormData(param,param2);
+    }
+    @PUT
+    @Path("/test-query-paramters")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
+    public Response testQueryParameterCollectionFormat(@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("pipe") List<String> pipe
+,@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("ioutil") List<String> ioutil
+,@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("http") List<String> http
+,@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("url") List<String> url
+,@ApiParam(value = "",required=true, defaultValue="new ArrayList<String>()") @DefaultValue("new ArrayList<String>()") @QueryParam("context") List<String> context
+)
+    throws NotFoundException {
+        return delegate.testQueryParameterCollectionFormat(pipe,ioutil,http,url,context);
     }
     @POST
     @Path("/{petId}/uploadImageWithRequiredFile")

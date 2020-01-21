@@ -5,6 +5,7 @@ import org.threeten.bp.*;
 {{/threetenbp}}
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 {{#java8}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 {{/java8}}
@@ -45,6 +46,8 @@ public class JSON implements ContextResolver<ObjectMapper> {
     module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
     mapper.registerModule(module);
     {{/threetenbp}}
+    JsonNullableModule jnm = new JsonNullableModule();
+    mapper.registerModule(jnm);
   }
 
   /**

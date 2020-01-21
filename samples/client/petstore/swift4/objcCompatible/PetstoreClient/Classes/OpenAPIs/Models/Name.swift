@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /** Model for testing model name same as property name */
 
 public struct Name: Codable {
@@ -24,13 +23,11 @@ public struct Name: Codable {
         self._123number = _123number
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case name
         case snakeCase = "snake_case"
         case property
         case _123number = "123Number"
     }
 
-
 }
-

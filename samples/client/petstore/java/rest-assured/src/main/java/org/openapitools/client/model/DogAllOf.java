@@ -33,7 +33,9 @@ public class DogAllOf {
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
+
   public DogAllOf breed(String breed) {
+    
     this.breed = breed;
     return this;
   }
@@ -42,10 +44,13 @@ public class DogAllOf {
    * Get breed
    * @return breed
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getBreed() {
     return breed;
   }
+
 
   public void setBreed(String breed) {
     this.breed = breed;

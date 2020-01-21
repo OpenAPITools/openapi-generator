@@ -44,343 +44,511 @@
         "title": "Generators List"
       },
       "generators/ada-server": {
-        "title": "generators/ada-server"
+        "title": "Config Options for ada-server",
+        "sidebar_label": "ada-server"
       },
       "generators/ada": {
-        "title": "generators/ada"
+        "title": "Config Options for ada",
+        "sidebar_label": "ada"
       },
       "generators/android": {
-        "title": "generators/android"
+        "title": "Config Options for android",
+        "sidebar_label": "android"
       },
       "generators/apache2": {
-        "title": "generators/apache2"
+        "title": "Config Options for apache2",
+        "sidebar_label": "apache2"
       },
       "generators/apex": {
-        "title": "generators/apex"
+        "title": "Config Options for apex",
+        "sidebar_label": "apex"
+      },
+      "generators/asciidoc": {
+        "title": "Config Options for asciidoc",
+        "sidebar_label": "asciidoc"
       },
       "generators/aspnetcore": {
-        "title": "generators/aspnetcore"
+        "title": "Config Options for aspnetcore",
+        "sidebar_label": "aspnetcore"
+      },
+      "generators/avro-schema": {
+        "title": "Config Options for avro-schema",
+        "sidebar_label": "avro-schema"
       },
       "generators/bash": {
-        "title": "generators/bash"
+        "title": "Config Options for bash",
+        "sidebar_label": "bash"
       },
       "generators/c": {
-        "title": "generators/c"
+        "title": "Config Options for c",
+        "sidebar_label": "c"
       },
       "generators/clojure": {
-        "title": "generators/clojure"
+        "title": "Config Options for clojure",
+        "sidebar_label": "clojure"
       },
       "generators/cpp-pistache-server": {
-        "title": "generators/cpp-pistache-server"
+        "title": "Config Options for cpp-pistache-server",
+        "sidebar_label": "cpp-pistache-server"
       },
       "generators/cpp-qt5-client": {
-        "title": "generators/cpp-qt5-client"
+        "title": "Config Options for cpp-qt5-client",
+        "sidebar_label": "cpp-qt5-client"
       },
       "generators/cpp-qt5-qhttpengine-server": {
-        "title": "generators/cpp-qt5-qhttpengine-server"
+        "title": "Config Options for cpp-qt5-qhttpengine-server",
+        "sidebar_label": "cpp-qt5-qhttpengine-server"
       },
       "generators/cpp-restbed-server": {
-        "title": "generators/cpp-restbed-server"
+        "title": "Config Options for cpp-restbed-server",
+        "sidebar_label": "cpp-restbed-server"
       },
       "generators/cpp-restsdk": {
-        "title": "generators/cpp-restsdk"
+        "title": "Config Options for cpp-restsdk",
+        "sidebar_label": "cpp-restsdk"
       },
       "generators/cpp-tizen": {
-        "title": "generators/cpp-tizen"
+        "title": "Config Options for cpp-tizen",
+        "sidebar_label": "cpp-tizen"
       },
       "generators/csharp-dotnet2": {
-        "title": "generators/csharp-dotnet2"
+        "title": "Config Options for csharp-dotnet2",
+        "sidebar_label": "csharp-dotnet2"
       },
       "generators/csharp-nancyfx": {
-        "title": "generators/csharp-nancyfx"
+        "title": "Config Options for csharp-nancyfx",
+        "sidebar_label": "csharp-nancyfx"
       },
       "generators/csharp-netcore": {
-        "title": "generators/csharp-netcore"
+        "title": "Config Options for csharp-netcore",
+        "sidebar_label": "csharp-netcore"
       },
       "generators/csharp-refactor": {
         "title": "generators/csharp-refactor"
       },
       "generators/csharp": {
-        "title": "generators/csharp"
+        "title": "Config Options for csharp",
+        "sidebar_label": "csharp"
       },
       "generators/cwiki": {
-        "title": "generators/cwiki"
+        "title": "Config Options for cwiki",
+        "sidebar_label": "cwiki"
+      },
+      "generators/dart-dio": {
+        "title": "Config Options for dart-dio",
+        "sidebar_label": "dart-dio"
       },
       "generators/dart-jaguar": {
-        "title": "generators/dart-jaguar"
+        "title": "Config Options for dart-jaguar",
+        "sidebar_label": "dart-jaguar"
       },
       "generators/dart": {
-        "title": "generators/dart"
+        "title": "Config Options for dart",
+        "sidebar_label": "dart"
       },
       "generators/dynamic-html": {
-        "title": "generators/dynamic-html"
+        "title": "Config Options for dynamic-html",
+        "sidebar_label": "dynamic-html"
       },
       "generators/eiffel": {
-        "title": "generators/eiffel"
+        "title": "Config Options for eiffel",
+        "sidebar_label": "eiffel"
       },
       "generators/elixir": {
-        "title": "generators/elixir"
+        "title": "Config Options for elixir",
+        "sidebar_label": "elixir"
       },
       "generators/elm": {
-        "title": "generators/elm"
+        "title": "Config Options for elm",
+        "sidebar_label": "elm"
       },
       "generators/erlang-client": {
-        "title": "generators/erlang-client"
+        "title": "Config Options for erlang-client",
+        "sidebar_label": "erlang-client"
       },
       "generators/erlang-proper": {
-        "title": "generators/erlang-proper"
+        "title": "Config Options for erlang-proper",
+        "sidebar_label": "erlang-proper"
       },
       "generators/erlang-server": {
-        "title": "generators/erlang-server"
+        "title": "Config Options for erlang-server",
+        "sidebar_label": "erlang-server"
       },
       "generators/flash": {
-        "title": "generators/flash"
+        "title": "Config Options for flash",
+        "sidebar_label": "flash"
+      },
+      "generators/fsharp-functions": {
+        "title": "Config Options for fsharp-functions",
+        "sidebar_label": "fsharp-functions"
+      },
+      "generators/fsharp-giraffe-server": {
+        "title": "Config Options for fsharp-giraffe-server",
+        "sidebar_label": "fsharp-giraffe-server"
+      },
+      "generators/fsharp-giraffe": {
+        "title": "generators/fsharp-giraffe"
+      },
+      "generators/go-experimental": {
+        "title": "Config Options for go-experimental",
+        "sidebar_label": "go-experimental"
       },
       "generators/go-gin-server": {
-        "title": "generators/go-gin-server"
+        "title": "Config Options for go-gin-server",
+        "sidebar_label": "go-gin-server"
       },
       "generators/go-server": {
-        "title": "generators/go-server"
+        "title": "Config Options for go-server",
+        "sidebar_label": "go-server"
       },
       "generators/go": {
-        "title": "generators/go"
+        "title": "Config Options for go",
+        "sidebar_label": "go"
       },
       "generators/graphql-nodejs-express-server": {
-        "title": "generators/graphql-nodejs-express-server"
+        "title": "Config Options for graphql-nodejs-express-server",
+        "sidebar_label": "graphql-nodejs-express-server"
       },
       "generators/graphql-schema": {
-        "title": "generators/graphql-schema"
+        "title": "Config Options for graphql-schema",
+        "sidebar_label": "graphql-schema"
       },
       "generators/graphql-server": {
         "title": "generators/graphql-server"
       },
       "generators/groovy": {
-        "title": "generators/groovy"
+        "title": "Config Options for groovy",
+        "sidebar_label": "groovy"
+      },
+      "generators/grpc-schema": {
+        "title": "generators/grpc-schema"
       },
       "generators/haskell-http-client": {
-        "title": "generators/haskell-http-client"
+        "title": "Config Options for haskell-http-client",
+        "sidebar_label": "haskell-http-client"
       },
       "generators/haskell": {
-        "title": "generators/haskell"
+        "title": "Config Options for haskell",
+        "sidebar_label": "haskell"
       },
       "generators/html": {
-        "title": "generators/html"
+        "title": "Config Options for html",
+        "sidebar_label": "html"
       },
       "generators/html2": {
-        "title": "generators/html2"
+        "title": "Config Options for html2",
+        "sidebar_label": "html2"
       },
       "generators/java-inflector": {
-        "title": "generators/java-inflector"
+        "title": "Config Options for java-inflector",
+        "sidebar_label": "java-inflector"
       },
       "generators/java-msf4j": {
-        "title": "generators/java-msf4j"
+        "title": "Config Options for java-msf4j",
+        "sidebar_label": "java-msf4j"
       },
       "generators/java-pkmst": {
-        "title": "generators/java-pkmst"
+        "title": "Config Options for java-pkmst",
+        "sidebar_label": "java-pkmst"
       },
       "generators/java-play-framework": {
-        "title": "generators/java-play-framework"
+        "title": "Config Options for java-play-framework",
+        "sidebar_label": "java-play-framework"
       },
       "generators/java-undertow-server": {
-        "title": "generators/java-undertow-server"
+        "title": "Config Options for java-undertow-server",
+        "sidebar_label": "java-undertow-server"
       },
       "generators/java-vertx": {
-        "title": "generators/java-vertx"
+        "title": "Config Options for java-vertx",
+        "sidebar_label": "java-vertx"
       },
       "generators/java": {
-        "title": "generators/java"
+        "title": "Config Options for java",
+        "sidebar_label": "java"
       },
       "generators/javascript-closure-angular": {
-        "title": "generators/javascript-closure-angular"
+        "title": "Config Options for javascript-closure-angular",
+        "sidebar_label": "javascript-closure-angular"
       },
       "generators/javascript-flowtyped": {
-        "title": "generators/javascript-flowtyped"
+        "title": "Config Options for javascript-flowtyped",
+        "sidebar_label": "javascript-flowtyped"
       },
       "generators/javascript": {
-        "title": "generators/javascript"
+        "title": "Config Options for javascript",
+        "sidebar_label": "javascript"
       },
       "generators/jaxrs-cxf-cdi": {
-        "title": "generators/jaxrs-cxf-cdi"
+        "title": "Config Options for jaxrs-cxf-cdi",
+        "sidebar_label": "jaxrs-cxf-cdi"
       },
       "generators/jaxrs-cxf-client": {
-        "title": "generators/jaxrs-cxf-client"
+        "title": "Config Options for jaxrs-cxf-client",
+        "sidebar_label": "jaxrs-cxf-client"
       },
       "generators/jaxrs-cxf-extended": {
-        "title": "generators/jaxrs-cxf-extended"
+        "title": "Config Options for jaxrs-cxf-extended",
+        "sidebar_label": "jaxrs-cxf-extended"
       },
       "generators/jaxrs-cxf": {
-        "title": "generators/jaxrs-cxf"
+        "title": "Config Options for jaxrs-cxf",
+        "sidebar_label": "jaxrs-cxf"
       },
       "generators/jaxrs-jersey": {
-        "title": "generators/jaxrs-jersey"
+        "title": "Config Options for jaxrs-jersey",
+        "sidebar_label": "jaxrs-jersey"
       },
       "generators/jaxrs-resteasy-eap": {
-        "title": "generators/jaxrs-resteasy-eap"
+        "title": "Config Options for jaxrs-resteasy-eap",
+        "sidebar_label": "jaxrs-resteasy-eap"
       },
       "generators/jaxrs-resteasy": {
-        "title": "generators/jaxrs-resteasy"
+        "title": "Config Options for jaxrs-resteasy",
+        "sidebar_label": "jaxrs-resteasy"
       },
       "generators/jaxrs-spec": {
-        "title": "generators/jaxrs-spec"
+        "title": "Config Options for jaxrs-spec",
+        "sidebar_label": "jaxrs-spec"
       },
       "generators/jmeter": {
-        "title": "generators/jmeter"
+        "title": "Config Options for jmeter",
+        "sidebar_label": "jmeter"
       },
       "generators/kotlin-server": {
-        "title": "generators/kotlin-server"
+        "title": "Config Options for kotlin-server",
+        "sidebar_label": "kotlin-server"
       },
       "generators/kotlin-spring": {
-        "title": "generators/kotlin-spring"
+        "title": "Config Options for kotlin-spring",
+        "sidebar_label": "kotlin-spring"
+      },
+      "generators/kotlin-vertx": {
+        "title": "Config Options for kotlin-vertx",
+        "sidebar_label": "kotlin-vertx"
       },
       "generators/kotlin": {
-        "title": "generators/kotlin"
+        "title": "Config Options for kotlin",
+        "sidebar_label": "kotlin"
       },
       "generators/lua": {
-        "title": "generators/lua"
+        "title": "Config Options for lua",
+        "sidebar_label": "lua"
       },
       "generators/mysql-schema": {
-        "title": "generators/mysql-schema"
+        "title": "Config Options for mysql-schema",
+        "sidebar_label": "mysql-schema"
+      },
+      "generators/nim": {
+        "title": "Config Options for nim",
+        "sidebar_label": "nim"
+      },
+      "generators/nodejs-express-server": {
+        "title": "Config Options for nodejs-express-server",
+        "sidebar_label": "nodejs-express-server"
+      },
+      "generators/nodejs-server-deprecated": {
+        "title": "Config Options for nodejs-server-deprecated",
+        "sidebar_label": "nodejs-server-deprecated"
       },
       "generators/nodejs-server": {
         "title": "generators/nodejs-server"
       },
       "generators/objc": {
-        "title": "generators/objc"
+        "title": "Config Options for objc",
+        "sidebar_label": "objc"
+      },
+      "generators/ocaml-client": {
+        "title": "generators/ocaml-client"
+      },
+      "generators/ocaml": {
+        "title": "Config Options for ocaml",
+        "sidebar_label": "ocaml"
       },
       "generators/openapi-yaml": {
-        "title": "generators/openapi-yaml"
+        "title": "Config Options for openapi-yaml",
+        "sidebar_label": "openapi-yaml"
       },
       "generators/openapi": {
-        "title": "generators/openapi"
+        "title": "Config Options for openapi",
+        "sidebar_label": "openapi"
       },
       "generators/perl": {
-        "title": "generators/perl"
+        "title": "Config Options for perl",
+        "sidebar_label": "perl"
       },
       "generators/php-laravel": {
-        "title": "generators/php-laravel"
+        "title": "Config Options for php-laravel",
+        "sidebar_label": "php-laravel"
       },
       "generators/php-lumen": {
-        "title": "generators/php-lumen"
+        "title": "Config Options for php-lumen",
+        "sidebar_label": "php-lumen"
       },
       "generators/php-silex": {
-        "title": "generators/php-silex"
+        "title": "Config Options for php-silex",
+        "sidebar_label": "php-silex"
       },
       "generators/php-slim": {
-        "title": "generators/php-slim"
+        "title": "Config Options for php-slim",
+        "sidebar_label": "php-slim"
       },
       "generators/php-symfony": {
-        "title": "generators/php-symfony"
+        "title": "Config Options for php-symfony",
+        "sidebar_label": "php-symfony"
       },
       "generators/php-ze-ph": {
-        "title": "generators/php-ze-ph"
+        "title": "Config Options for php-ze-ph",
+        "sidebar_label": "php-ze-ph"
       },
       "generators/php": {
-        "title": "generators/php"
+        "title": "Config Options for php",
+        "sidebar_label": "php"
       },
       "generators/powershell": {
-        "title": "generators/powershell"
+        "title": "Config Options for powershell",
+        "sidebar_label": "powershell"
+      },
+      "generators/protobuf-schema": {
+        "title": "Config Options for protobuf-schema",
+        "sidebar_label": "protobuf-schema"
       },
       "generators/python-aiohttp": {
-        "title": "generators/python-aiohttp"
+        "title": "Config Options for python-aiohttp",
+        "sidebar_label": "python-aiohttp"
       },
       "generators/python-blueplanet": {
-        "title": "generators/python-blueplanet"
+        "title": "Config Options for python-blueplanet",
+        "sidebar_label": "python-blueplanet"
+      },
+      "generators/python-experimental": {
+        "title": "Config Options for python-experimental",
+        "sidebar_label": "python-experimental"
       },
       "generators/python-flask": {
-        "title": "generators/python-flask"
+        "title": "Config Options for python-flask",
+        "sidebar_label": "python-flask"
       },
       "generators/python": {
-        "title": "generators/python"
+        "title": "Config Options for python",
+        "sidebar_label": "python"
       },
       "generators/r": {
-        "title": "generators/r"
+        "title": "Config Options for r",
+        "sidebar_label": "r"
       },
       "generators/README": {
         "title": "generators/README"
       },
       "generators/ruby-on-rails": {
-        "title": "generators/ruby-on-rails"
+        "title": "Config Options for ruby-on-rails",
+        "sidebar_label": "ruby-on-rails"
       },
       "generators/ruby-sinatra": {
-        "title": "generators/ruby-sinatra"
+        "title": "Config Options for ruby-sinatra",
+        "sidebar_label": "ruby-sinatra"
       },
       "generators/ruby": {
-        "title": "generators/ruby"
+        "title": "Config Options for ruby",
+        "sidebar_label": "ruby"
       },
       "generators/rust-server": {
-        "title": "generators/rust-server"
+        "title": "Config Options for rust-server",
+        "sidebar_label": "rust-server"
       },
       "generators/rust": {
-        "title": "generators/rust"
+        "title": "Config Options for rust",
+        "sidebar_label": "rust"
       },
       "generators/scala-akka": {
-        "title": "generators/scala-akka"
+        "title": "Config Options for scala-akka",
+        "sidebar_label": "scala-akka"
       },
       "generators/scala-finch": {
-        "title": "generators/scala-finch"
+        "title": "Config Options for scala-finch",
+        "sidebar_label": "scala-finch"
       },
       "generators/scala-gatling": {
-        "title": "generators/scala-gatling"
+        "title": "Config Options for scala-gatling",
+        "sidebar_label": "scala-gatling"
       },
       "generators/scala-httpclient-deprecated": {
-        "title": "generators/scala-httpclient-deprecated"
+        "title": "Config Options for scala-httpclient-deprecated",
+        "sidebar_label": "scala-httpclient-deprecated"
       },
       "generators/scala-httpclient": {
         "title": "generators/scala-httpclient"
       },
       "generators/scala-lagom-server": {
-        "title": "generators/scala-lagom-server"
+        "title": "Config Options for scala-lagom-server",
+        "sidebar_label": "scala-lagom-server"
       },
       "generators/scala-play-framework": {
         "title": "generators/scala-play-framework"
       },
       "generators/scala-play-server": {
-        "title": "generators/scala-play-server"
+        "title": "Config Options for scala-play-server",
+        "sidebar_label": "scala-play-server"
       },
       "generators/scalatra": {
-        "title": "generators/scalatra"
+        "title": "Config Options for scalatra",
+        "sidebar_label": "scalatra"
       },
       "generators/scalaz": {
-        "title": "generators/scalaz"
+        "title": "Config Options for scalaz",
+        "sidebar_label": "scalaz"
       },
       "generators/spring": {
-        "title": "generators/spring"
+        "title": "Config Options for spring",
+        "sidebar_label": "spring"
       },
       "generators/swift2-deprecated": {
-        "title": "generators/swift2-deprecated"
+        "title": "Config Options for swift2-deprecated",
+        "sidebar_label": "swift2-deprecated"
       },
       "generators/swift3-deprecated": {
-        "title": "generators/swift3-deprecated"
+        "title": "Config Options for swift3-deprecated",
+        "sidebar_label": "swift3-deprecated"
       },
       "generators/swift4": {
-        "title": "generators/swift4"
+        "title": "Config Options for swift4",
+        "sidebar_label": "swift4"
       },
       "generators/typescript-angular": {
-        "title": "generators/typescript-angular"
+        "title": "Config Options for typescript-angular",
+        "sidebar_label": "typescript-angular"
       },
       "generators/typescript-angularjs": {
-        "title": "generators/typescript-angularjs"
+        "title": "Config Options for typescript-angularjs",
+        "sidebar_label": "typescript-angularjs"
       },
       "generators/typescript-aurelia": {
-        "title": "generators/typescript-aurelia"
+        "title": "Config Options for typescript-aurelia",
+        "sidebar_label": "typescript-aurelia"
       },
       "generators/typescript-axios": {
-        "title": "generators/typescript-axios"
+        "title": "Config Options for typescript-axios",
+        "sidebar_label": "typescript-axios"
       },
       "generators/typescript-fetch": {
-        "title": "generators/typescript-fetch"
+        "title": "Config Options for typescript-fetch",
+        "sidebar_label": "typescript-fetch"
       },
       "generators/typescript-inversify": {
-        "title": "generators/typescript-inversify"
+        "title": "Config Options for typescript-inversify",
+        "sidebar_label": "typescript-inversify"
       },
       "generators/typescript-jquery": {
-        "title": "generators/typescript-jquery"
+        "title": "Config Options for typescript-jquery",
+        "sidebar_label": "typescript-jquery"
       },
       "generators/typescript-node": {
-        "title": "generators/typescript-node"
+        "title": "Config Options for typescript-node",
+        "sidebar_label": "typescript-node"
       },
       "generators/typescript-rxjs": {
-        "title": "generators/typescript-rxjs"
+        "title": "Config Options for typescript-rxjs",
+        "sidebar_label": "typescript-rxjs"
       },
       "installation": {
         "title": "CLI Installation"
