@@ -25,7 +25,7 @@ namespace Org.OpenAPITools.Models
     /// </summary>
     [DataContract]
     public partial class Order : IEquatable<Order>
-    { 
+    {
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
@@ -49,6 +49,7 @@ namespace Org.OpenAPITools.Models
         /// </summary>
         [DataMember(Name="shipDate", EmitDefaultValue=false)]
         public DateTime ShipDate { get; set; }
+
 
         /// <summary>
         /// Order Status

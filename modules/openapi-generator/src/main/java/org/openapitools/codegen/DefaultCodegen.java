@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -136,6 +136,10 @@ public class DefaultCodegen implements CodegenConfig {
     protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String apiNameSuffix = "Api";
     protected String testPackage = "";
+    /*
+    apiTemplateFiles are for API outputs only (controllers/handlers).
+    API templates may be written multiple times; APIs are grouped by tag and the file is written once per tag group.
+    */
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> apiTestTemplateFiles = new HashMap<String, String>();
@@ -149,6 +153,11 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
     protected Map<String, String> serverVariables = new HashMap<String, String>();
     protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
+    /*
+    Supporting files are those which aren't models, APIs, or docs.
+    These get a different map of data bound to the templates. Supporting files are written once.
+    See also 'apiTemplateFiles'.
+    */
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
@@ -2357,6 +2366,9 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (p.getExclusiveMaximum() != null) {
                 property.exclusiveMaximum = p.getExclusiveMaximum();
+            }
+            if (p.getMultipleOf() != null) {
+                property.multipleOf = p.getMultipleOf();
             }
 
             // check if any validation rule defined

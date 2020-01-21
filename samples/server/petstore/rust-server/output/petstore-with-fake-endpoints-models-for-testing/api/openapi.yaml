@@ -5,7 +5,7 @@ info:
     " \'
   license:
     name: Apache-2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: OpenAPI Petstore
   version: 1.0.0
 servers:
@@ -984,6 +984,23 @@ paths:
       tags:
       - $another-fake?
       x-codegen-request-body-name: body
+  /fake/hyphenParam/{hyphen-param}:
+    get:
+      description: To test hyphen in path parameter name
+      operationId: hyphenParam
+      parameters:
+      - description: Parameter with hyphen in name
+        in: path
+        name: hyphen-param
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: Success
+      tags:
+      - fake
 components:
   schemas:
     Order:

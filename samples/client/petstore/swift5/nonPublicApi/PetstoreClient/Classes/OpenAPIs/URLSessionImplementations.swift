@@ -32,6 +32,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
       observation?.invalidate()
     }
 
+    // swiftlint:disable:next weak_delegate
     fileprivate let sessionDelegate = SessionDelegate()
 
     /**
@@ -371,7 +372,7 @@ internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionReques
             case let .success(decodableObj):
                 completion(.success(Response(response: httpResponse, body: decodableObj)))
             case let .failure(error):
-                completion(.failure(error))
+                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
             }
         }
     }
