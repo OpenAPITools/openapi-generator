@@ -196,11 +196,6 @@ public class DefaultCodegen implements CodegenConfig {
                     .get(CodegenConstants.ENABLE_POST_PROCESS_FILE).toString()));
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.RESOLVE_INLINE_ENUMS)) {
-            this.setResolveInlineEnums(Boolean.valueOf(additionalProperties
-                    .get(CodegenConstants.RESOLVE_INLINE_ENUMS).toString()));
-        }
-
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_ALIAS_AS_MODEL)) {
             ModelUtils.setGenerateAliasAsModel(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.GENERATE_ALIAS_AS_MODEL).toString()));

@@ -68,7 +68,6 @@ public class CodegenConfigurator implements Serializable {
     private boolean validateSpec;
     private boolean enablePostProcessFile;
     private boolean enableMinimalUpdate;
-    private boolean resolveInlineEnums;
     private boolean strictSpecBehavior;
     private String templateDir;
     private String templatingEngineName;
@@ -212,11 +211,6 @@ public class CodegenConfigurator implements Serializable {
 
     public boolean isGenerateAliasAsModel() {
         return ModelUtils.isGenerateAliasAsModel();
-    }
-
-    public CodegenConfigurator setResolveInlineEnums(boolean resolveInlineEnums) {
-        this.resolveInlineEnums = resolveInlineEnums;
-        return this;
     }
 
     public CodegenConfigurator setGenerateAliasAsModel(boolean generateAliasAsModel) {
