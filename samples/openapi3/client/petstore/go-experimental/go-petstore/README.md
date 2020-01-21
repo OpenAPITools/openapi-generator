@@ -190,18 +190,6 @@ Note, each API key must be added to a map of `map[string]APIKey` where the key i
 
 ### bearer_test
 
-- **Type**: HTTP basic authentication
-
-Example
-
-```golang
-auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
-    UserName: "username",
-    Password: "password",
-})
-r, err := client.Service.Operation(auth, args)
-```
-
 
 ### http_basic_test
 
@@ -220,18 +208,35 @@ r, err := client.Service.Operation(auth, args)
 
 ### http_signature_test
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP signature authentication
 
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
-    UserName: "username",
-    Password: "password",
-})
-r, err := client.Service.Operation(auth, args)
-```
+	authConfig := sw.HttpSignatureAuth{
+		KeyId:                "my-key-id",
+		PrivateKeyPath:       "rsa.pem",
+		Passphrase:           "my-passphrase",
+		SigningScheme:        sw.HttpSigningSchemeHs2019,
+		SignedHeaders:        []string{
+			sw.HttpSignatureParameterRequestTarget, // The special (request-target) parameter expresses the HTTP request target.
+			sw.HttpSignatureParameterCreated,       // Time when request was signed, formatted as a Unix timestamp integer value.
+			"Host",                                 // The Host request header specifies the domain name of the server, and optionally the TCP port number.
+			"Date",                                 // The date and time at which the message was originated.
+			"Content-Type",                         // The Media type of the body of the request.
+			"Digest",                               // A cryptographic digest of the request body.
+		},
+		SigningAlgorithm:     sw.HttpSigningAlgorithmRsaPSS,
+		SignatureMaxValidity: 5 * time.Minute,
+	}
+	var authCtx context.Context
+	var err error
+	if authCtx, err = authConfig.ContextWithValue(context.Background()); err != nil {
+		// Process error
+	}
+	r, err = client.Service.Operation(auth, args)
 
+```
 
 ### petstore_auth
 

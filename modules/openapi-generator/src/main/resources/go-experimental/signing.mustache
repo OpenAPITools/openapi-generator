@@ -26,9 +26,21 @@ const (
 	// The '(expires)' parameter expresses when the signature ceases to
 	// be valid.  The value MUST be a Unix timestamp integer value.
 	HttpSignatureParameterExpires string = "(expires)"
-	// The HTTP Authorization header, as specified in RFC 7235, Section 4.2.
-	HttpSignatureParameterAuthorization string = "authorization"
+)
 
+const (
+	// Constants for HTTP headers.
+	// The 'Host' header, as defined in RFC 2616, section 14.23.
+	HttpHeaderHost string = "Host"
+	// The 'Date' header.
+	HttpHeaderDate string = "Date" 
+	// The digest header, as defined in RFC 3230, section 4.3.2.
+	HttpHeaderDigest string = "Digest"
+	// The HTTP Authorization header, as defined in RFC 7235, section 4.2.
+	HttpHeaderAuthorization string = "Authorization"
+)
+
+const (
 	// Specifies the Digital Signature Algorithm is derived from metadata
 	// associated with 'keyId'. Supported DSA algorithms are RSASSA-PKCS1-v1_5,
 	// RSASSA-PSS, and ECDSA.
@@ -75,7 +87,7 @@ const (
 // 3. Include the 'Digest' header and value in the HTTP signature.
 type HttpSignatureAuth struct {
 	KeyId             string            // A key identifier.
-	PrivateKey        crypto.PrivateKey // The private key used to sign HTTP requests.
+	PrivateKeyPath    string            // The path to the private key.
 	Passphrase        string            // The passphrase to decrypt the private key, if the key is encrypted.
 	SigningScheme     string            // The signature scheme, when signing HTTP requests. Supported value is 'hs2019'.
 	// The signature algorithm, when signing HTTP requests.
@@ -87,12 +99,23 @@ type HttpSignatureAuth struct {
 	// '(expires)' is set to '(created)' plus the value of the SignatureMaxValidity field.
 	// To specify the '(expires)' signature parameter, set 'SignatureMaxValidity' and add '(expires)' to 'SignedHeaders'.
 	SignatureMaxValidity time.Duration
+	privateKey        crypto.PrivateKey // The private key used to sign HTTP requests.
 }
 
-// LoadPrivateKey reads the private key from the specified file.
-func (h *HttpSignatureAuth) LoadPrivateKey(filename string) (err error) {
+// ContextWithValue validates the HttpSignatureAuth configuration parameters and returns a context
+// suitable for HTTP signature. An error is returned if the HttpSignatureAuth configuration parameters
+// are invalid.
+func (h *HttpSignatureAuth) ContextWithValue(ctx context.Context) (context.Context, error) {
+	if err := h.loadPrivateKey(); err != nil {
+		return err
+	}
+	return context.WithValue(ctx, ContextHttpSignatureAuth, *h), nil
+}
+
+// loadPrivateKey reads the private key from the file specified in the HttpSignatureAuth.
+func (h *HttpSignatureAuth) loadPrivateKey() (err error) {
 	var file *os.File
-	file, err = os.Open(filename)
+	file, err = os.Open(h.PrivateKeyPath)
 	if err != nil {
 		return err
 	}
@@ -104,13 +127,13 @@ func (h *HttpSignatureAuth) LoadPrivateKey(filename string) (err error) {
 	if err != nil {
 		return err
 	}
-	if !strings.HasSuffix(filename, ".pem") {
+	if !strings.HasSuffix(h.PrivateKeyPath, ".pem") {
 		return fmt.Errorf("Private key must be in PEM format.")
 	}
 	pemBlock, _ := pem.Decode(priv)
 	if pemBlock == nil {
 		// No PEM data has been found.
-		return fmt.Errorf("File '%s' does not contain PEM data", filename)
+		return fmt.Errorf("File '%s' does not contain PEM data", h.PrivateKeyPath)
 	}
 	var privKey []byte
 	if x509.IsEncryptedPEMBlock(pemBlock) {
@@ -126,12 +149,12 @@ func (h *HttpSignatureAuth) LoadPrivateKey(filename string) (err error) {
 	}
 	switch pemBlock.Type {
 	case "RSA PRIVATE KEY":
-		if h.PrivateKey, err = x509.ParsePKCS1PrivateKey(privKey); err != nil {
+		if h.privateKey, err = x509.ParsePKCS1PrivateKey(privKey); err != nil {
 			return err
 		}
 	case "EC PRIVATE KEY", "PRIVATE KEY":
 		// https://tools.ietf.org/html/rfc5915 section 4.
-		if h.PrivateKey, err = x509.ParsePKCS8PrivateKey(privKey); err != nil {
+		if h.privateKey, err = x509.ParsePKCS8PrivateKey(privKey); err != nil {
 			return err
 		}
 	default:
@@ -157,7 +180,7 @@ func SignRequest(
 	r *http.Request,
 	auth HttpSignatureAuth) error {
 
-	if auth.PrivateKey == nil {
+	if auth.privateKey == nil {
 		return errors.New("Private key is not set")
 	}
 	now := time.Now()
@@ -226,7 +249,7 @@ func SignRequest(
 		header = strings.ToLower(header)
 		var value string
 		switch header {
-		case HttpSignatureParameterAuthorization:
+		case strings.ToLower(HttpHeaderAuthorization):
 			return fmt.Errorf("Cannot include the 'Authorization' header as a signed header.")
 		case HttpSignatureParameterRequestTarget:
 			value = requestTarget
@@ -241,7 +264,7 @@ func SignRequest(
 			hasExpiresParameter = true
 		case "date":
 			value = date
-			r.Header.Set("Date", date)
+			r.Header.Set(HttpHeaderDate, date)
 		case "digest":
 			// Calculate the digest of the HTTP request body.
 			// Calculate body digest per RFC 3230 section 4.3.2
@@ -260,10 +283,10 @@ func SignRequest(
 			}
 			d := bodyHash.Sum(nil)
 			value = prefix + base64.StdEncoding.EncodeToString(d)
-			r.Header.Set("Digest", value)
+			r.Header.Set(HttpHeaderDigest, value)
 		case "host":
 			value = r.Host
-			r.Header.Set("Host", r.Host)
+			r.Header.Set(HttpHeaderHost, r.Host)
 		default:
 			var ok bool
 			var v []string
@@ -296,7 +319,7 @@ func SignRequest(
 	d := msgHash.Sum(nil)
 
 	var signature []byte
-	switch key := auth.PrivateKey.(type) {
+	switch key := auth.privateKey.(type) {
 	case *rsa.PrivateKey:
 		switch auth.SigningAlgorithm {
 		case HttpSigningAlgorithmRsaPKCS1v15:
@@ -335,6 +358,6 @@ func SignRequest(
 	}
 	fmt.Fprintf(&sb, `headers="%s",signature="%s"`, headers_list, base64.StdEncoding.EncodeToString(signature))
 	authStr := sb.String()
-	r.Header.Set("Authorization", authStr)
+	r.Header.Set(HttpHeaderAuthorization, authStr)
 	return nil
 }
