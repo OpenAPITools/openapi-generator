@@ -21,10 +21,13 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
     protected String apiVersion = "1.0.0";
     protected static final String CPP_NAMESPACE = "cppNamespace";
     protected static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
+    protected static final String CONTENT_COMPRESSION_ENABLED = "contentCompression";
+    protected static final String CONTENT_COMPRESSION_ENABLED_DESC = "Enable Compressed Content Encoding for requests and responses";
     protected Set<String> foundationClasses = new HashSet<String>();
     protected String cppNamespace = "OpenAPI";
     protected Map<String, String> namespaces = new HashMap<String, String>();
     protected Set<String> systemIncludes = new HashSet<String>();
+    protected boolean isContentCompressionEnabled = false;
 
     protected Set<String> nonFrameworkPrimitives = new HashSet<String>();
 
@@ -56,6 +59,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         // CLI options
         addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
         addOption(CodegenConstants.MODEL_NAME_PREFIX, CodegenConstants.MODEL_NAME_PREFIX_DESC, this.modelNamePrefix);
+        addSwitch(CONTENT_COMPRESSION_ENABLED, CONTENT_COMPRESSION_ENABLED_DESC, this.isContentCompressionEnabled);
 
         /*
          * Additional Properties.  These values can be passed to the templates and
@@ -136,6 +140,11 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
             modelNamePrefix = (String) additionalProperties.get("modelNamePrefix");
             typeMapping.put("object", modelNamePrefix + "Object");
             additionalProperties().put("prefix", modelNamePrefix);
+        }
+        if (additionalProperties.containsKey(CONTENT_COMPRESSION_ENABLED)) {
+            setContentCompressionEnabled(convertPropertyToBooleanAndWriteBack(CONTENT_COMPRESSION_ENABLED));
+        } else {
+            additionalProperties.put(CONTENT_COMPRESSION_ENABLED, isContentCompressionEnabled);
         }
     }
 
@@ -378,5 +387,9 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
             }
         }
         return included;
+    }
+    
+    public void setContentCompressionEnabled(boolean flag) {
+        this.isContentCompressionEnabled = flag;
     }
 }
