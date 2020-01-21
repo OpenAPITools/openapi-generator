@@ -52,7 +52,7 @@ paths:
               properties:
                 name:
                   type: string
-      operationId: resolveInlineRequestBodyWithRequired
+      operationId: resolveInlineRequestBodyWithTitle
       responses:
         '200':
           description: OK
@@ -289,7 +289,7 @@ paths:
                   properties:
                     nullable_request_body_property_name:
                       type: string
-      operationId: arbitraryObjectRequestBodyProperty
+      operationId: nullableProperties
       responses:
         '200':
           description: OK

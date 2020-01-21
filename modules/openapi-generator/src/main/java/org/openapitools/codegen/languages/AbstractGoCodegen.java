@@ -44,6 +44,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public AbstractGoCodegen() {
         super();
 
+        // Set resolveInlineEnums to true such that inline enums are promoted to their own models
+        super.setResolveInlineEnums(true);
+
         hideGenerationTimestamp = Boolean.FALSE;
 
         defaultIncludes = new HashSet<String>(

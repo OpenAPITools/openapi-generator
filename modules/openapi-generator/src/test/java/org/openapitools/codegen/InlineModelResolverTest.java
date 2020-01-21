@@ -820,15 +820,15 @@ public class InlineModelResolverTest {
                 .getSchema();
 
         assertNotNull(nullableRequestBodyReference);
-        assertEquals("#/components/schemas/arbitraryObjectRequestBodyPropertyBody_1", nullableRequestBodyReference.get$ref());
-        Schema ref = openAPI.getComponents().getSchemas().get("arbitraryObjectRequestBodyPropertyBody_1");
+        assertEquals("#/components/schemas/nullablePropertiesBody", nullableRequestBodyReference.get$ref());
+        Schema ref = openAPI.getComponents().getSchemas().get("nullablePropertiesBody");
         assertTrue(ref instanceof ObjectSchema);
 
         ObjectSchema nullableRequestBody = (ObjectSchema) ref;
         Schema bodyProp = nullableRequestBody.getProperties().get("nullable_request_body_property");
         assertNotNull(bodyProp);
-        assertEquals("#/components/schemas/arbitraryObjectRequestBodyPropertyBody_1NullableRequestBodyProperty", bodyProp.get$ref());
-        Schema ref2 = openAPI.getComponents().getSchemas().get("arbitraryObjectRequestBodyPropertyBody_1NullableRequestBodyProperty");
+        assertEquals("#/components/schemas/nullablePropertiesBodyNullableRequestBodyProperty", bodyProp.get$ref());
+        Schema ref2 = openAPI.getComponents().getSchemas().get("nullablePropertiesBodyNullableRequestBodyProperty");
         assertTrue(ref2 instanceof ObjectSchema);
 
         ObjectSchema nullableRequestBodyProperty = (ObjectSchema) ref2;
@@ -839,9 +839,139 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void complexModelWithInlineModels() {
+    public void complexModelWithInlineModelsDefault() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
-        new InlineModelResolver().flatten(openAPI);
+        // Test default behavior where inline enums are not promoted to their own models
+        InlineModelResolver resolver = new InlineModelResolver();
+        resolver.flatten(openAPI);
+
+        assertTrue(openAPI.getComponents().getSchemas().get("Cat") instanceof ObjectSchema);
+        ObjectSchema cat = (ObjectSchema) openAPI.getComponents().getSchemas().get("Cat");
+
+        // assert properties should be pulled into their own schemas
+        assertEquals("#/components/schemas/CatMyFood", cat.getProperties().get("myFood").get$ref());
+        assertEquals("#/components/schemas/CatMyHabitat", cat.getProperties().get("myHabitat").get$ref());
+        assertEquals("#/components/schemas/CatMyTaxonomy", cat.getProperties().get("myTaxonomy").get$ref());
+        // Not CatCuteness since it is an inline enum and resolveInlineEnums is false by default
+        assertEquals("#/components/schemas/CatPreferences", cat.getProperties().get("preferences").get$ref());
+
+        // kittens should be an array, but its items should be their own schema
+        assertTrue(cat.getProperties().get("kittens") instanceof ArraySchema);
+        ArraySchema kittens = (ArraySchema) cat.getProperties().get("kittens");
+        assertEquals("#/components/schemas/CatKittensItems", kittens.getItems().get$ref());
+
+        // assert that schemas pulled out contain expected details
+        // myFood is a oneOf
+        Schema foodSchema = ModelUtils.getReferencedSchema(openAPI, cat.getProperties().get("myFood"));
+        assertTrue(foodSchema instanceof ComposedSchema);
+        ComposedSchema food = (ComposedSchema) foodSchema;
+        assertEquals(2, food.getOneOf().size());
+        assertEquals("#/components/schemas/CatMyFoodOneOf", food.getOneOf().get(0).get$ref());
+        assertEquals("#/components/schemas/CatMyFoodOneOf_1", food.getOneOf().get(1).get$ref());
+
+        // myHabitat is an allOf
+        Schema habSchema = ModelUtils.getReferencedSchema(openAPI, cat.getProperties().get("myHabitat"));
+        assertTrue(habSchema instanceof ComposedSchema);
+        ComposedSchema hab = (ComposedSchema) habSchema;
+        assertEquals(2, hab.getAllOf().size());
+        assertEquals("#/components/schemas/CatMyHabitatGeography", hab.getAllOf().get(0).get$ref());
+        assertEquals("#/components/schemas/CatMyHabitatAllOf", hab.getAllOf().get(1).get$ref());
+
+        // geography properties
+        Schema geoSchema = ModelUtils.getReferencedSchema(openAPI, hab.getAllOf().get(0));
+        assertTrue(geoSchema instanceof ObjectSchema);
+        ObjectSchema geo = (ObjectSchema) geoSchema;
+        assertNotNull(geo.getProperties().get("lat"));
+        assertEquals("number", geo.getProperties().get("lat").getType());
+        assertEquals("float", geo.getProperties().get("lat").getFormat());
+        assertNotNull(geo.getProperties().get("long"));
+        assertEquals("number", geo.getProperties().get("long").getType());
+        assertEquals("float", geo.getProperties().get("lat").getFormat());
+        // Geography.continent is an enum
+        Schema contSchema = geo.getProperties().get("continent");
+        assertNotNull(contSchema);
+        assertNotNull(contSchema.getEnum());
+        assertEquals(7, contSchema.getEnum().size());
+        assertEquals("Africa", contSchema.getEnum().get(0));
+        assertEquals("Antarctica", contSchema.getEnum().get(1));
+        assertEquals("Asia", contSchema.getEnum().get(2));
+        assertEquals("Europe", contSchema.getEnum().get(3));
+        assertEquals("North America", contSchema.getEnum().get(4));
+        assertEquals("Oceania", contSchema.getEnum().get(5));
+        assertEquals("South America", contSchema.getEnum().get(6));
+        // weather properties
+        Schema weatherSchema = ModelUtils.getReferencedSchema(openAPI, hab.getAllOf().get(1));
+        assertTrue(weatherSchema instanceof ObjectSchema);
+        ObjectSchema weather = (ObjectSchema) weatherSchema;
+        assertNotNull(weather.getProperties().get("rainfallInches"));
+        assertEquals("number", weather.getProperties().get("rainfallInches").getType());
+        assertNotNull(weather.getProperties().get("averageTemperatureCelsius"));
+        assertEquals("number", weather.getProperties().get("averageTemperatureCelsius").getType());
+
+        // myTaxonomy is an anyOf
+        Schema taxSchema = ModelUtils.getReferencedSchema(openAPI, cat.getProperties().get("myTaxonomy"));
+        assertTrue(taxSchema instanceof ComposedSchema);
+        ComposedSchema tax = (ComposedSchema) taxSchema;
+        assertEquals(2, tax.getAnyOf().size());
+        assertEquals("#/components/schemas/CatMyTaxonomySpecies", tax.getAnyOf().get(0).get$ref());
+        assertEquals("#/components/schemas/CatMyTaxonomyOrder", tax.getAnyOf().get(1).get$ref());
+        // species properties
+        Schema speciesSchema = ModelUtils.getReferencedSchema(openAPI, tax.getAnyOf().get(0));
+        assertTrue(speciesSchema instanceof ObjectSchema);
+        ObjectSchema species = (ObjectSchema) speciesSchema;
+        assertNotNull(species.getProperties().get("name"));
+        assertEquals("string", species.getProperties().get("name").getType());
+        assertNotNull(species.getProperties().get("genus"));
+        assertEquals("string", species.getProperties().get("genus").getType());
+        assertNotNull(species.getProperties().get("karyotype"));
+        assertEquals("string", species.getProperties().get("karyotype").getType());
+        // order properties
+        Schema orderSchema = ModelUtils.getReferencedSchema(openAPI, tax.getAnyOf().get(1));
+        assertTrue(orderSchema instanceof ObjectSchema);
+        ObjectSchema ordr = (ObjectSchema) orderSchema;
+        assertNotNull(ordr.getProperties().get("name"));
+        assertEquals("string", ordr.getProperties().get("name").getType());
+        assertNotNull(ordr.getProperties().get("class"));
+        assertEquals("string", ordr.getProperties().get("class").getType());
+
+        // cuteness is a string enum
+        Schema cute = cat.getProperties().get("cuteness");
+        assertEquals("integer", cute.getType());
+        assertNotNull(cute.getEnum());
+        assertEquals(3, cute.getEnum().size());
+        assertEquals(1, cute.getEnum().get(0));
+        assertEquals(3, cute.getEnum().get(1));
+        assertEquals(5, cute.getEnum().get(2));
+
+        // preferences is an object with additional props that are its own enum model
+        Schema prefs = ModelUtils.getReferencedSchema(openAPI, cat.getProperties().get("preferences"));
+        assertEquals("object", prefs.getType());
+        // has a favoriteToy property
+        assertEquals(1, prefs.getProperties().size());
+        assertNotNull(prefs.getProperties().get("favoriteToy"));
+        Schema toy = (Schema) prefs.getProperties().get("favoriteToy");
+        assertEquals("string", toy.getType());
+        // has additionalProperties with its own Metadata schema name from its title
+        assertTrue(prefs.getAdditionalProperties() instanceof Schema);
+        Schema meta = (Schema) prefs.getAdditionalProperties();
+        // Metadata should be string enum with hidden,createdOn,createdBy,modifiedOn,modifiedBy
+        assertEquals("string", meta.getType());
+        assertNotNull(meta.getEnum());
+        assertEquals(5, meta.getEnum().size());
+        assertEquals("hidden", meta.getEnum().get(0));
+        assertEquals("createdOn", meta.getEnum().get(1));
+        assertEquals("createdBy", meta.getEnum().get(2));
+        assertEquals("modifiedOn", meta.getEnum().get(3));
+        assertEquals("modifiedBy", meta.getEnum().get(4));
+    }
+
+    @Test
+    public void complexModelWithInlineModelsResolved() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        InlineModelResolver resolver = new InlineModelResolver();
+        // Test resolveInlineEnums=true where inline enums are promoted to their own models
+        resolver.resolveInlineEnums = true;
+        resolver.flatten(openAPI);
 
         assertTrue(openAPI.getComponents().getSchemas().get("Cat") instanceof ObjectSchema);
         ObjectSchema cat = (ObjectSchema) openAPI.getComponents().getSchemas().get("Cat");

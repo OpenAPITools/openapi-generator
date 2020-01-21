@@ -254,6 +254,12 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean generateAliasAsModel;
 
     /**
+     * To generate inline enums as separate models
+     */
+    @Parameter(name = "resolveInlineEnums", property = "openapi.generator.maven.plugin.resolveInlineEnums", required = false)
+    private Boolean resolveInlineEnums;
+
+    /**
      * A map of language-specific parameters as passed with the -c option to the command line
      */
     @Parameter(name = "configOptions")
@@ -485,6 +491,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (generateAliasAsModel  != null) {
                 configurator.setGenerateAliasAsModel(generateAliasAsModel);
+            }
+
+            if (resolveInlineEnums != null) {
+                configurator.setResolveInlineEnums(resolveInlineEnums);
             }
 
             // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.

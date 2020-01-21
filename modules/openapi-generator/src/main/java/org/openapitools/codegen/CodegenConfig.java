@@ -274,6 +274,10 @@ public interface CodegenConfig {
 
     public void setEnableMinimalUpdate(boolean isEnableMinimalUpdate);
 
+    public boolean isResolveInlineEnums();
+
+    public void setResolveInlineEnums(boolean resolveInlineEnums);
+
     boolean isStrictSpecBehavior();
 
     void setStrictSpecBehavior(boolean strictSpecBehavior);

@@ -35,6 +35,7 @@ public class InlineModelResolver {
     private OpenAPI openapi;
     private Map<String, Schema> addedModels = new HashMap<String, Schema>();
     private Map<String, String> generatedSignature = new HashMap<String, String>();
+    public boolean resolveInlineEnums = false;
     static Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
     void flatten(OpenAPI openapi) {
@@ -87,7 +88,7 @@ public class InlineModelResolver {
      * @param schema target schema
      */
     private boolean isModelNeeded(Schema schema) {
-        if (schema.getEnum() != null && schema.getEnum().size() > 0) {
+        if (resolveInlineEnums && schema.getEnum() != null && schema.getEnum().size() > 0) {
             return true;
         }
         if (schema.getType() == null || "object".equals(schema.getType())) {
@@ -458,6 +459,9 @@ public class InlineModelResolver {
         if (existing != null) {
             refSchema = new Schema().$ref(existing);
         } else {
+            if (resolveInlineEnums && schema.getEnum() != null && schema.getEnum().size() > 0) {
+                LOGGER.warn("Model " + name + " promoted to its own schema due to resolveInlineEnums=true");
+            }
             refSchema = new Schema().$ref(name);
             addGenerated(name, schema);
             openapi.getComponents().addSchemas(name, schema);

@@ -124,6 +124,9 @@ public class DefaultCodegen implements CodegenConfig {
     // acts strictly upon a spec, potentially modifying it to have consistent behavior across generators.
     protected boolean strictSpecBehavior = true;
 
+    // set to true to promote inline enums to their own separate models
+    protected boolean resolveInlineEnums = false;
+
     // make openapi available to all methods
     protected OpenAPI openAPI;
 
@@ -191,6 +194,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.ENABLE_POST_PROCESS_FILE)) {
             this.setEnablePostProcessFile(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.ENABLE_POST_PROCESS_FILE).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.RESOLVE_INLINE_ENUMS)) {
+            this.setResolveInlineEnums(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.RESOLVE_INLINE_ENUMS).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_ALIAS_AS_MODEL)) {
@@ -5012,6 +5020,26 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public void setEnableMinimalUpdate(boolean enableMinimalUpdate) {
         this.enableMinimalUpdate = enableMinimalUpdate;
+    }
+
+    /**
+     * Indicates whether the codegen configuration should promote inline enums to their own separate models.
+     *
+     * @return true promote inline enums to their own separate models
+     */
+    @Override
+    public boolean isResolveInlineEnums() {
+        return this.resolveInlineEnums;
+    }
+
+    /**
+     * Sets the boolean valid indicating whether generation will promote inline enums to their own separate models
+     *
+     * @param resolveInlineEnums true to promote inline enums to their own separate models
+     */
+    @Override
+    public void setResolveInlineEnums(final boolean resolveInlineEnums) {
+        this.resolveInlineEnums = resolveInlineEnums;
     }
 
     /**
