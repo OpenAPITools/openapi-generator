@@ -327,13 +327,11 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.${lang_classname};
 import org.openapitools.codegen.options.${lang_classname}OptionsProvider;
 
-import mockit.Expectations;
-import mockit.Tested;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class ${lang_classname}OptionsTest extends AbstractOptionsTest {
-
-    @Tested
-    private ${lang_classname} codegen;
+    private ${lang_classname} codegen = mock(${lang_classname}.class, mockSettings);
 
     public ${lang_classname}OptionsTest() {
         super(new ${lang_classname}OptionsProvider());
@@ -347,10 +345,8 @@ public class ${lang_classname}OptionsTest extends AbstractOptionsTest {
     @SuppressWarnings("unused")
     @Override
     protected void setExpectations() {
-        // TODO: Complete options
-        new Expectations(codegen) {{
-
-        }};
+        // TODO: Complete options using Mockito
+        // verify(codegen).someMethod(arguments)
     }
 }
 
