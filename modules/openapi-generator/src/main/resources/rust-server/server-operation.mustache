@@ -499,7 +499,7 @@
 {{#vendorExtensions}}
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_str(mimetypes::responses::{{{uppercase_operation_id}}}_{{x-uppercaseResponseId}})
+                                                        HeaderValue::from_str("{{{mimeType}}}")
                                                             .expect("Unable to create Content-Type header for {{{uppercase_operation_id}}}_{{x-uppercaseResponseId}}"));
 {{/vendorExtensions}}
 {{/dataType}}
