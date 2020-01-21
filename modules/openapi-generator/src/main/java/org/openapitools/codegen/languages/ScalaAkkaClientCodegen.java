@@ -62,7 +62,8 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BearerToken
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
