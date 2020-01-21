@@ -8,6 +8,7 @@
  */
 
 package petstore
+// EnumArraysArrayEnumItems the model 'EnumArraysArrayEnumItems'
 type EnumArraysArrayEnumItems string
 
 // List of EnumArraysArrayEnumItems

@@ -8,6 +8,7 @@
  */
 
 package petstore
+// StatusItems the model 'StatusItems'
 type StatusItems string
 
 // List of statusItems

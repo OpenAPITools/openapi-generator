@@ -8,6 +8,7 @@
  */
 
 package petstore
+// EnumHeaderString the model 'EnumHeaderString'
 type EnumHeaderString string
 
 // List of enum_header_string

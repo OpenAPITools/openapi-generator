@@ -8,10 +8,11 @@
  */
 
 package petstore
+// EnumTestEnumInteger the model 'EnumTestEnumInteger'
 type EnumTestEnumInteger int32
 
 // List of Enum_TestEnumInteger
 const (
-	ENUM_TEST_ENUM_INTEGER_1 EnumTestEnumInteger = 1
-	ENUM_TEST_ENUM_INTEGER_MINUS_1 EnumTestEnumInteger = -1
+	ENUM_TEST_ENUM_INTEGER__1 EnumTestEnumInteger = 1
+	ENUM_TEST_ENUM_INTEGER__MINUS_1 EnumTestEnumInteger = -1
 )

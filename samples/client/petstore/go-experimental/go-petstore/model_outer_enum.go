@@ -19,9 +19,9 @@ type OuterEnum string
 
 // List of OuterEnum
 const (
-	PLACED OuterEnum = "placed"
-	APPROVED OuterEnum = "approved"
-	DELIVERED OuterEnum = "delivered"
+	OUTER_ENUM_PLACED OuterEnum = "placed"
+	OUTER_ENUM_APPROVED OuterEnum = "approved"
+	OUTER_ENUM_DELIVERED OuterEnum = "delivered"
 )
 
 type NullableOuterEnum struct {

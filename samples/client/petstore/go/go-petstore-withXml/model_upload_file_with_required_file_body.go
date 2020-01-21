@@ -12,7 +12,7 @@ package petstore
 import (
 	"os"
 )
-
+// UploadFileWithRequiredFileBody struct for UploadFileWithRequiredFileBody
 type UploadFileWithRequiredFileBody struct {
 	// Additional data to pass to server
 	AdditionalMetadata string `json:"additionalMetadata,omitempty" xml:"additionalMetadata"`

@@ -13,5 +13,5 @@ type BigCat struct {
 	ClassName string `json:"className"`
 	Color string `json:"color,omitempty"`
 	Declawed bool `json:"declawed,omitempty"`
-	Kind string `json:"kind,omitempty"`
+	Kind BigCatAllOfKind `json:"kind,omitempty"`
 }

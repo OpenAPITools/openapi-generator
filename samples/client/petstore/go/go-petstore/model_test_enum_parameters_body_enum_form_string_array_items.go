@@ -8,6 +8,7 @@
  */
 
 package petstore
+// TestEnumParametersBodyEnumFormStringArrayItems the model 'TestEnumParametersBodyEnumFormStringArrayItems'
 type TestEnumParametersBodyEnumFormStringArrayItems string
 
 // List of testEnumParametersBodyEnumFormStringArrayItems

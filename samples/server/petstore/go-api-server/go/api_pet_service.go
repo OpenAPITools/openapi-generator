@@ -40,7 +40,7 @@ func (s *PetApiService) DeletePet(petId int64, apiKey string) (interface{}, erro
 }
 
 // FindPetsByStatus - Finds Pets by status
-func (s *PetApiService) FindPetsByStatus(status []string) (interface{}, error) {
+func (s *PetApiService) FindPetsByStatus(status []StatusItems) (interface{}, error) {
 	// TODO - update FindPetsByStatus with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'FindPetsByStatus' not implemented")

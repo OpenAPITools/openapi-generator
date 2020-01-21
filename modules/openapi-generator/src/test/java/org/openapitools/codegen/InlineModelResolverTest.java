@@ -94,7 +94,7 @@ public class InlineModelResolverTest {
         assertNotNull(user);
         assertTrue(user.getProperties().get("address") instanceof Schema);
 
-        Schema address = openapi.getComponents().getSchemas().get("UserAddressTitle");
+        Schema address = openapi.getComponents().getSchemas().get("AddressTitle");
         assertNotNull(address);
         assertNotNull(address.getProperties().get("city"));
         assertNotNull(address.getProperties().get("street"));
@@ -165,7 +165,7 @@ public class InlineModelResolverTest {
         assertNotNull(user);
         assertNotNull(user.getProperties().get("address"));
 
-        Schema address = openapi.getComponents().getSchemas().get("UserAddressTitle");
+        Schema address = openapi.getComponents().getSchemas().get("AddressTitle");
         assertNotNull(address);
         assertNotNull(address.getProperties().get("city"));
         assertNotNull(address.getProperties().get("street"));
@@ -210,11 +210,11 @@ public class InlineModelResolverTest {
         assertNotNull(user);
         assertTrue(user.getProperties().get("address") instanceof Schema);
 
-        Schema address = openapi.getComponents().getSchemas().get("UserAddressTitle");
+        Schema address = openapi.getComponents().getSchemas().get("AddressTitle");
         assertNotNull(address);
         assertNotNull(address.getProperties().get("city"));
         assertNotNull(address.getProperties().get("street"));
-        Schema anotherAddress = openapi.getComponents().getSchemas().get("AnotherUserAddressTitle");
+        Schema anotherAddress = openapi.getComponents().getSchemas().get("AddressTitle_1");
         assertNotNull(anotherAddress);
         assertNotNull(anotherAddress.getProperties().get("city"));
         assertNotNull(anotherAddress.getProperties().get("street"));
@@ -324,9 +324,9 @@ public class InlineModelResolverTest {
         ArraySchema users = (ArraySchema) openAPI.getComponents().getSchemas().get("Users");
         Schema ref = users.getItems();
         assertNotNull(ref);
-        assertEquals("#/components/schemas/UsersUser", ref.get$ref());
+        assertEquals("#/components/schemas/User", ref.get$ref());
 
-        Schema userRef = openAPI.getComponents().getSchemas().get("UsersUser");
+        Schema userRef = openAPI.getComponents().getSchemas().get("User");
         assertTrue(userRef instanceof ObjectSchema);
 
         ObjectSchema user = (ObjectSchema) userRef;
@@ -440,7 +440,7 @@ public class InlineModelResolverTest {
                 .getSchema();
 
         assertNotNull(requestBodySchema.getItems().get$ref());
-        assertEquals("#/components/schemas/resolveInlineArrayRequestBodyOperationIdBodyInlineArrayItemsTitle", requestBodySchema.getItems().get$ref());
+        assertEquals("#/components/schemas/InlineArrayItemsTitle", requestBodySchema.getItems().get$ref());
     }
 
     @Test
@@ -481,7 +481,7 @@ public class InlineModelResolverTest {
                 .get("application/json");
 
         ArraySchema responseSchema = (ArraySchema) mediaType.getSchema();
-        assertEquals("#/components/schemas/resolveInlineArrayResponseWithTitleOperationResponseInlineArrayItemsTitle", responseSchema.getItems().get$ref());
+        assertEquals("#/components/schemas/InlineArrayItemsTitle_1", responseSchema.getItems().get$ref());
     }
 
     @Test
@@ -793,8 +793,8 @@ public class InlineModelResolverTest {
 
         Schema itemsRef = schema.getItems();
         assertNotNull(itemsRef);
-        assertEquals("#/components/schemas/ArbitraryObjectModelWithArrayInlineWithTitleArbitraryObjectModelWithArrayInlineWithTitleInner", itemsRef.get$ref());
-        Schema ref = openAPI.getComponents().getSchemas().get("ArbitraryObjectModelWithArrayInlineWithTitleArbitraryObjectModelWithArrayInlineWithTitleInner");
+        assertEquals("#/components/schemas/ArbitraryObjectModelWithArrayInlineWithTitleInner", itemsRef.get$ref());
+        Schema ref = openAPI.getComponents().getSchemas().get("ArbitraryObjectModelWithArrayInlineWithTitleInner");
         assertNotNull(ref);
 
         assertTrue(ref instanceof ObjectSchema);
@@ -903,7 +903,7 @@ public class InlineModelResolverTest {
         assertTrue(habSchema instanceof ComposedSchema);
         ComposedSchema hab = (ComposedSchema) habSchema;
         assertEquals(2, hab.getAllOf().size());
-        assertEquals("#/components/schemas/CatMyHabitatGeography", hab.getAllOf().get(0).get$ref());
+        assertEquals("#/components/schemas/Geography", hab.getAllOf().get(0).get$ref());
         assertEquals("#/components/schemas/CatMyHabitatAllOf", hab.getAllOf().get(1).get$ref());
 
         // geography properties
@@ -942,8 +942,8 @@ public class InlineModelResolverTest {
         assertTrue(taxSchema instanceof ComposedSchema);
         ComposedSchema tax = (ComposedSchema) taxSchema;
         assertEquals(2, tax.getAnyOf().size());
-        assertEquals("#/components/schemas/CatMyTaxonomySpecies", tax.getAnyOf().get(0).get$ref());
-        assertEquals("#/components/schemas/CatMyTaxonomyOrder", tax.getAnyOf().get(1).get$ref());
+        assertEquals("#/components/schemas/Species", tax.getAnyOf().get(0).get$ref());
+        assertEquals("#/components/schemas/Order", tax.getAnyOf().get(1).get$ref());
         // species properties
         Schema speciesSchema = ModelUtils.getReferencedSchema(openAPI, tax.getAnyOf().get(0));
         assertTrue(speciesSchema instanceof ObjectSchema);
@@ -1031,7 +1031,7 @@ public class InlineModelResolverTest {
         assertTrue(habSchema instanceof ComposedSchema);
         ComposedSchema hab = (ComposedSchema) habSchema;
         assertEquals(2, hab.getAllOf().size());
-        assertEquals("#/components/schemas/CatMyHabitatGeography", hab.getAllOf().get(0).get$ref());
+        assertEquals("#/components/schemas/Geography", hab.getAllOf().get(0).get$ref());
         assertEquals("#/components/schemas/CatMyHabitatAllOf", hab.getAllOf().get(1).get$ref());
 
         // geography properties
@@ -1071,8 +1071,8 @@ public class InlineModelResolverTest {
         assertTrue(taxSchema instanceof ComposedSchema);
         ComposedSchema tax = (ComposedSchema) taxSchema;
         assertEquals(2, tax.getAnyOf().size());
-        assertEquals("#/components/schemas/CatMyTaxonomySpecies", tax.getAnyOf().get(0).get$ref());
-        assertEquals("#/components/schemas/CatMyTaxonomyOrder", tax.getAnyOf().get(1).get$ref());
+        assertEquals("#/components/schemas/Species", tax.getAnyOf().get(0).get$ref());
+        assertEquals("#/components/schemas/Order", tax.getAnyOf().get(1).get$ref());
         // species properties
         Schema speciesSchema = ModelUtils.getReferencedSchema(openAPI, tax.getAnyOf().get(0));
         assertTrue(speciesSchema instanceof ObjectSchema);
@@ -1112,7 +1112,7 @@ public class InlineModelResolverTest {
         // has additionalProperties with its own Metadata schema name from its title
         assertTrue(prefs.getAdditionalProperties() instanceof Schema);
         Schema addlProps = (Schema) prefs.getAdditionalProperties();
-        assertEquals("#/components/schemas/CatPreferencesMetadata", addlProps.get$ref());
+        assertEquals("#/components/schemas/Metadata", addlProps.get$ref());
 
         // Metadata should be string enum with hidden,createdOn,createdBy,modifiedOn,modifiedBy
         Schema meta = ModelUtils.getReferencedSchema(openAPI, addlProps);
@@ -1131,7 +1131,7 @@ public class InlineModelResolverTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
-        RequestBody callbackRequestBodyReference = openAPI
+        RequestBody callbackRequestBody = openAPI
                 .getPaths()
                 .get("/callback")
                 .getPost()
@@ -1140,14 +1140,9 @@ public class InlineModelResolverTest {
                 .get("{$request.body#/callbackUri}")
                 .getPost()
                 .getRequestBody();
-        assertNotNull(callbackRequestBodyReference.get$ref());
+        assertNotNull(callbackRequestBody);
 
-        RequestBody resolvedCallbackRequestBody = openAPI
-                .getComponents()
-                .getRequestBodies()
-                .get(ModelUtils.getSimpleRef(callbackRequestBodyReference.get$ref()));
-
-        Schema callbackRequestSchemaReference = resolvedCallbackRequestBody
+        Schema callbackRequestSchemaReference = callbackRequestBody
                 .getContent()
                 .get("application/json")
                 .getSchema();

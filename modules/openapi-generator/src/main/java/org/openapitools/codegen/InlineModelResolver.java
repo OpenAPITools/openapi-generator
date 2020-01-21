@@ -138,7 +138,7 @@ public class InlineModelResolver {
                 schema.getProperties() != null || schema.getAdditionalProperties() != null ||
                 schema instanceof ComposedSchema) {
                 LOGGER.error("Illegal schema found with $ref combined with other properties," +
-                    " no properties should be defined alonside a $ref:\n " + schema.toString());
+                    " no properties should be defined alongside a $ref:\n " + schema.toString());
             }
             return;
         }
@@ -381,22 +381,6 @@ public class InlineModelResolver {
     }
 
     /**
-     * This function fix models that are string (mostly enum). Before this fix, the
-     * example would look something like that in the doc: "\"example from def\""
-     *
-     * @param m Schema implementation
-     */
-    // TODO: @fantavlik verify this can be removed
-    // private void fixStringModel(Schema m) {
-    //     if (m.getType() != null && m.getType().equals("string") && m.getExample() != null) {
-    //         String example = m.getExample().toString();
-    //         if (example.substring(0, 1).equals("\"") && example.substring(example.length() - 1).equals("\"")) {
-    //             m.setExample(example.substring(1, example.length() - 1));
-    //         }
-    //     }
-    // }
-
-    /**
      * Generates a unique model name. Non-alphanumeric characters will be replaced
      * with underscores
      *
@@ -460,17 +444,19 @@ public class InlineModelResolver {
 
     /**
      * Resolve namespace conflicts using:
-     * prefix + title (if title exists) or
+     * title (if title exists) or
      * prefix + suffix (if title not specified)
-     * @param prefix used to form name
+     * @param prefix used to form name if no title found in schema
      * @param suffix used to form name if no title found in schema
      * @param schema title property used to form name if exists and schema definition used
      *   to create new schema if doesn't exist
      * @return a new schema or $ref to an existing one if it was already created
      */
     private Schema makeSchemaResolve(String prefix, String suffix, Schema schema) {
-        String suffixOrTitle = schema.getTitle() == null ? suffix : schema.getTitle();
-        return makeSchema(uniqueName(prefix + suffixOrTitle), schema);
+        if (schema.getTitle() == null) {
+            return makeSchema(uniqueName(sanitizeName(prefix + suffix)), schema);
+        }
+        return makeSchema(uniqueName(sanitizeName(schema.getTitle())), schema);
     }
 
     /**

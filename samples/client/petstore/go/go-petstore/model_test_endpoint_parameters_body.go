@@ -12,7 +12,7 @@ import (
 	"os"
 	"time"
 )
-
+// TestEndpointParametersBody struct for TestEndpointParametersBody
 type TestEndpointParametersBody struct {
 	// None
 	Integer int32 `json:"integer,omitempty"`

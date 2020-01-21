@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// TestJsonFormDataBody struct for TestJsonFormDataBody
 type TestJsonFormDataBody struct {
 	// field1
 	Param string `json:"param"`

@@ -8,6 +8,7 @@
  */
 
 package petstore
+// MapTestMapOfEnumStringAddlProps the model 'MapTestMapOfEnumStringAddlProps'
 type MapTestMapOfEnumStringAddlProps string
 
 // List of MapTestMapOfEnumStringAddlProps

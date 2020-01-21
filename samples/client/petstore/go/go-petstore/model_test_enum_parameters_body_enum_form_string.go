@@ -8,7 +8,7 @@
  */
 
 package petstore
-// TestEnumParametersBodyEnumFormString : Form parameter enum test (string)
+// TestEnumParametersBodyEnumFormString Form parameter enum test (string)
 type TestEnumParametersBodyEnumFormString string
 
 // List of testEnumParametersBodyEnumFormString

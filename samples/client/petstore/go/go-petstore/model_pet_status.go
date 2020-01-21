@@ -8,7 +8,7 @@
  */
 
 package petstore
-// PetStatus : pet status in the store
+// PetStatus pet status in the store
 type PetStatus string
 
 // List of PetStatus

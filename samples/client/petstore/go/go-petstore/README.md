@@ -88,6 +88,7 @@ Class | Method | HTTP request | Description
  - [ArrayTest](docs/ArrayTest.md)
  - [BigCat](docs/BigCat.md)
  - [BigCatAllOf](docs/BigCatAllOf.md)
+ - [BigCatAllOfKind](docs/BigCatAllOfKind.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)

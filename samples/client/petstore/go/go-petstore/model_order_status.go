@@ -8,7 +8,7 @@
  */
 
 package petstore
-// OrderStatus : Order Status
+// OrderStatus Order Status
 type OrderStatus string
 
 // List of OrderStatus

@@ -11,5 +11,5 @@
 package petstore
 // BigCatAllOf struct for BigCatAllOf
 type BigCatAllOf struct {
-	Kind string `json:"kind,omitempty" xml:"kind"`
+	Kind BigCatAllOfKind `json:"kind,omitempty" xml:"kind"`
 }

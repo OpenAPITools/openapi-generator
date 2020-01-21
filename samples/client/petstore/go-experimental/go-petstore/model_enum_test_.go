@@ -16,17 +16,17 @@ import (
 
 // EnumTest struct for EnumTest
 type EnumTest struct {
-	EnumString *string `json:"enum_string,omitempty"`
-	EnumStringRequired string `json:"enum_string_required"`
-	EnumInteger *int32 `json:"enum_integer,omitempty"`
-	EnumNumber *float64 `json:"enum_number,omitempty"`
+	EnumString *EnumTestEnumString `json:"enum_string,omitempty"`
+	EnumStringRequired EnumTestEnumString `json:"enum_string_required"`
+	EnumInteger *EnumTestEnumInteger `json:"enum_integer,omitempty"`
+	EnumNumber *EnumQueryDouble `json:"enum_number,omitempty"`
 	OuterEnum *OuterEnum `json:"outerEnum,omitempty"`
 }
 
 // GetEnumString returns the EnumString field value if set, zero value otherwise.
-func (o *EnumTest) GetEnumString() string {
+func (o *EnumTest) GetEnumString() EnumTestEnumString {
 	if o == nil || o.EnumString == nil {
-		var ret string
+		var ret EnumTestEnumString
 		return ret
 	}
 	return *o.EnumString
@@ -34,9 +34,9 @@ func (o *EnumTest) GetEnumString() string {
 
 // GetEnumStringOk returns a tuple with the EnumString field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetEnumStringOk() (string, bool) {
+func (o *EnumTest) GetEnumStringOk() (EnumTestEnumString, bool) {
 	if o == nil || o.EnumString == nil {
-		var ret string
+		var ret EnumTestEnumString
 		return ret, false
 	}
 	return *o.EnumString, true
@@ -51,15 +51,15 @@ func (o *EnumTest) HasEnumString() bool {
 	return false
 }
 
-// SetEnumString gets a reference to the given string and assigns it to the EnumString field.
-func (o *EnumTest) SetEnumString(v string) {
+// SetEnumString gets a reference to the given EnumTestEnumString and assigns it to the EnumString field.
+func (o *EnumTest) SetEnumString(v EnumTestEnumString) {
 	o.EnumString = &v
 }
 
 // GetEnumStringRequired returns the EnumStringRequired field value
-func (o *EnumTest) GetEnumStringRequired() string {
+func (o *EnumTest) GetEnumStringRequired() EnumTestEnumString {
 	if o == nil {
-		var ret string
+		var ret EnumTestEnumString
 		return ret
 	}
 
@@ -67,14 +67,14 @@ func (o *EnumTest) GetEnumStringRequired() string {
 }
 
 // SetEnumStringRequired sets field value
-func (o *EnumTest) SetEnumStringRequired(v string) {
+func (o *EnumTest) SetEnumStringRequired(v EnumTestEnumString) {
 	o.EnumStringRequired = v
 }
 
 // GetEnumInteger returns the EnumInteger field value if set, zero value otherwise.
-func (o *EnumTest) GetEnumInteger() int32 {
+func (o *EnumTest) GetEnumInteger() EnumTestEnumInteger {
 	if o == nil || o.EnumInteger == nil {
-		var ret int32
+		var ret EnumTestEnumInteger
 		return ret
 	}
 	return *o.EnumInteger
@@ -82,9 +82,9 @@ func (o *EnumTest) GetEnumInteger() int32 {
 
 // GetEnumIntegerOk returns a tuple with the EnumInteger field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetEnumIntegerOk() (int32, bool) {
+func (o *EnumTest) GetEnumIntegerOk() (EnumTestEnumInteger, bool) {
 	if o == nil || o.EnumInteger == nil {
-		var ret int32
+		var ret EnumTestEnumInteger
 		return ret, false
 	}
 	return *o.EnumInteger, true
@@ -99,15 +99,15 @@ func (o *EnumTest) HasEnumInteger() bool {
 	return false
 }
 
-// SetEnumInteger gets a reference to the given int32 and assigns it to the EnumInteger field.
-func (o *EnumTest) SetEnumInteger(v int32) {
+// SetEnumInteger gets a reference to the given EnumTestEnumInteger and assigns it to the EnumInteger field.
+func (o *EnumTest) SetEnumInteger(v EnumTestEnumInteger) {
 	o.EnumInteger = &v
 }
 
 // GetEnumNumber returns the EnumNumber field value if set, zero value otherwise.
-func (o *EnumTest) GetEnumNumber() float64 {
+func (o *EnumTest) GetEnumNumber() EnumQueryDouble {
 	if o == nil || o.EnumNumber == nil {
-		var ret float64
+		var ret EnumQueryDouble
 		return ret
 	}
 	return *o.EnumNumber
@@ -115,9 +115,9 @@ func (o *EnumTest) GetEnumNumber() float64 {
 
 // GetEnumNumberOk returns a tuple with the EnumNumber field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetEnumNumberOk() (float64, bool) {
+func (o *EnumTest) GetEnumNumberOk() (EnumQueryDouble, bool) {
 	if o == nil || o.EnumNumber == nil {
-		var ret float64
+		var ret EnumQueryDouble
 		return ret, false
 	}
 	return *o.EnumNumber, true
@@ -132,8 +132,8 @@ func (o *EnumTest) HasEnumNumber() bool {
 	return false
 }
 
-// SetEnumNumber gets a reference to the given float64 and assigns it to the EnumNumber field.
-func (o *EnumTest) SetEnumNumber(v float64) {
+// SetEnumNumber gets a reference to the given EnumQueryDouble and assigns it to the EnumNumber field.
+func (o *EnumTest) SetEnumNumber(v EnumQueryDouble) {
 	o.EnumNumber = &v
 }
 

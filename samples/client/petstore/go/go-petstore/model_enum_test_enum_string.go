@@ -8,6 +8,7 @@
  */
 
 package petstore
+// EnumTestEnumString the model 'EnumTestEnumString'
 type EnumTestEnumString string
 
 // List of Enum_TestEnumString

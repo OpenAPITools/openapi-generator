@@ -114,7 +114,7 @@ Other parameters are passed through a pointer to a apiFindPetsByStatusRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**[]string**](string.md) | Status values that need to be considered for filter | 
+ **status** | [**[]StatusItems**](StatusItems.md) | Status values that need to be considered for filter | 
 
 ### Return type
 

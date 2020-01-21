@@ -8,6 +8,7 @@
  */
 
 package petstore
+// EnumArraysJustSymbol the model 'EnumArraysJustSymbol'
 type EnumArraysJustSymbol string
 
 // List of EnumArraysJustSymbol

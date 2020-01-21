@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **PetId** | Pointer to **int64** |  | [optional] 
 **Quantity** | Pointer to **int32** |  | [optional] 
 **ShipDate** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
-**Status** | Pointer to **string** | Order Status | [optional] 
+**Status** | Pointer to [**OrderStatus**](OrderStatus.md) |  | [optional] 
 **Complete** | Pointer to **bool** |  | [optional] [default to false]
 
 ## Methods
@@ -115,13 +115,13 @@ SetShipDate gets a reference to the given time.Time and assigns it to the ShipDa
 
 ### GetStatus
 
-`func (o *Order) GetStatus() string`
+`func (o *Order) GetStatus() OrderStatus`
 
 GetStatus returns the Status field if non-nil, zero value otherwise.
 
 ### GetStatusOk
 
-`func (o *Order) GetStatusOk() (string, bool)`
+`func (o *Order) GetStatusOk() (OrderStatus, bool)`
 
 GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -134,9 +134,9 @@ HasStatus returns a boolean if a field has been set.
 
 ### SetStatus
 
-`func (o *Order) SetStatus(v string)`
+`func (o *Order) SetStatus(v OrderStatus)`
 
-SetStatus gets a reference to the given string and assigns it to the Status field.
+SetStatus gets a reference to the given OrderStatus and assigns it to the Status field.
 
 ### GetComplete
 

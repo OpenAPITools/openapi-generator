@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// TestEnumParametersBody struct for TestEnumParametersBody
 type TestEnumParametersBody struct {
 	// Form parameter enum test (string array)
 	EnumFormStringArray []TestEnumParametersBodyEnumFormStringArrayItems `json:"enum_form_string_array,omitempty"`

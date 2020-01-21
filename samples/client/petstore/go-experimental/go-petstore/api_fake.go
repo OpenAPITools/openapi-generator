@@ -1150,53 +1150,53 @@ func (r apiTestEndpointParametersRequest) Execute() (*_nethttp.Response, error) 
 type apiTestEnumParametersRequest struct {
 	ctx _context.Context
 	apiService *FakeApiService
-	enumHeaderStringArray *[]string
-	enumHeaderString *string
-	enumQueryStringArray *[]string
-	enumQueryString *string
-	enumQueryInteger *int32
-	enumQueryDouble *float64
-	enumFormStringArray *[]string
-	enumFormString *string
+	enumHeaderStringArray *[]TestEnumParametersBodyEnumFormStringArrayItems
+	enumHeaderString *EnumHeaderString
+	enumQueryStringArray *[]TestEnumParametersBodyEnumFormStringArrayItems
+	enumQueryString *EnumHeaderString
+	enumQueryInteger *EnumQueryInteger
+	enumQueryDouble *EnumQueryDouble
+	enumFormStringArray *[]TestEnumParametersBodyEnumFormStringArrayItems
+	enumFormString *TestEnumParametersBodyEnumFormString
 }
 
 
-func (r apiTestEnumParametersRequest) EnumHeaderStringArray(enumHeaderStringArray []string) apiTestEnumParametersRequest {
+func (r apiTestEnumParametersRequest) EnumHeaderStringArray(enumHeaderStringArray []TestEnumParametersBodyEnumFormStringArrayItems) apiTestEnumParametersRequest {
 	r.enumHeaderStringArray = &enumHeaderStringArray
 	return r
 }
 
-func (r apiTestEnumParametersRequest) EnumHeaderString(enumHeaderString string) apiTestEnumParametersRequest {
+func (r apiTestEnumParametersRequest) EnumHeaderString(enumHeaderString EnumHeaderString) apiTestEnumParametersRequest {
 	r.enumHeaderString = &enumHeaderString
 	return r
 }
 
-func (r apiTestEnumParametersRequest) EnumQueryStringArray(enumQueryStringArray []string) apiTestEnumParametersRequest {
+func (r apiTestEnumParametersRequest) EnumQueryStringArray(enumQueryStringArray []TestEnumParametersBodyEnumFormStringArrayItems) apiTestEnumParametersRequest {
 	r.enumQueryStringArray = &enumQueryStringArray
 	return r
 }
 
-func (r apiTestEnumParametersRequest) EnumQueryString(enumQueryString string) apiTestEnumParametersRequest {
+func (r apiTestEnumParametersRequest) EnumQueryString(enumQueryString EnumHeaderString) apiTestEnumParametersRequest {
 	r.enumQueryString = &enumQueryString
 	return r
 }
 
-func (r apiTestEnumParametersRequest) EnumQueryInteger(enumQueryInteger int32) apiTestEnumParametersRequest {
+func (r apiTestEnumParametersRequest) EnumQueryInteger(enumQueryInteger EnumQueryInteger) apiTestEnumParametersRequest {
 	r.enumQueryInteger = &enumQueryInteger
 	return r
 }
 
-func (r apiTestEnumParametersRequest) EnumQueryDouble(enumQueryDouble float64) apiTestEnumParametersRequest {
+func (r apiTestEnumParametersRequest) EnumQueryDouble(enumQueryDouble EnumQueryDouble) apiTestEnumParametersRequest {
 	r.enumQueryDouble = &enumQueryDouble
 	return r
 }
 
-func (r apiTestEnumParametersRequest) EnumFormStringArray(enumFormStringArray []string) apiTestEnumParametersRequest {
+func (r apiTestEnumParametersRequest) EnumFormStringArray(enumFormStringArray []TestEnumParametersBodyEnumFormStringArrayItems) apiTestEnumParametersRequest {
 	r.enumFormStringArray = &enumFormStringArray
 	return r
 }
 
-func (r apiTestEnumParametersRequest) EnumFormString(enumFormString string) apiTestEnumParametersRequest {
+func (r apiTestEnumParametersRequest) EnumFormString(enumFormString TestEnumParametersBodyEnumFormString) apiTestEnumParametersRequest {
 	r.enumFormString = &enumFormString
 	return r
 }

@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// UpdatePetWithFormBody struct for UpdatePetWithFormBody
 type UpdatePetWithFormBody struct {
 	// Updated name of the pet
 	Name string `json:"name,omitempty"`
