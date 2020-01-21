@@ -36,6 +36,7 @@ public:
     void setTimeOut(const int timeOut);
     void setWorkingDirectory(const QString &path);
     void addHeaders(const QString &key, const QString &value);
+    void enableContentCompression();
 
     void createUser(const PFXUser &body);
     void createUsersWithArrayInput(const QList<PFXUser> &body);
@@ -53,6 +54,7 @@ private:
     int _timeOut;
     QString _workingDirectory;
     QMap<QString, QString> defaultHeaders;
+    bool _compress;
 
     void createUserCallback(PFXHttpRequestWorker *worker);
     void createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker);

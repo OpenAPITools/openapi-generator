@@ -6,6 +6,7 @@ sidebar_label: cpp-qt5-client
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
+|contentCompression|Enable Compressed Content Encoding for requests and responses| |false|
 |cppNamespace|C++ namespace (convention: name::space::for::api).| |OpenAPI|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |modelNamePrefix|Prefix that will be prepended to all model names.| |OAI|
