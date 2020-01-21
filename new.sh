@@ -344,7 +344,7 @@ public class ${lang_classname}OptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
+    protected void verifyOptions() {
         // TODO: Complete options using Mockito
         // verify(codegen).someMethod(arguments)
     }
