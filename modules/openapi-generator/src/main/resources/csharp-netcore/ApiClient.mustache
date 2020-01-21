@@ -403,7 +403,7 @@ namespace {{packageName}}.Client
 
             InterceptRequest(req);
 
-            var response = client.Execute(req);
+            var response = client.Execute<T>(req);
 
             InterceptResponse(req, response);
 
