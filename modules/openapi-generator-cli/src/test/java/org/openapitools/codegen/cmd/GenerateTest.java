@@ -17,446 +17,413 @@
 
 package org.openapitools.codegen.cmd;
 
-import org.mockito.MockSettings;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.OpenAPIGenerator;
-import org.openapitools.codegen.config.CodegenConfigurator;
+import io.airlift.airline.Cli;
 import org.apache.commons.lang3.ArrayUtils;
+import org.mockito.MockSettings;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.Generator;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 
 import static org.mockito.Answers.CALLS_REAL_METHODS;
 import static org.mockito.Mockito.*;
+import static org.testng.Assert.fail;
 
 @SuppressWarnings("unused")
 public class GenerateTest {
 
     protected MockSettings mockSettings = withSettings().useConstructor().defaultAnswer(CALLS_REAL_METHODS);
-
-    private DefaultGenerator generator;
+    private Generator generator;
     private CodegenConfigurator configurator;
-    File outputDirectory;
+    private Path outputDirectory;
 
-    // ???
-    ClientOptInput clientOptInput;
+    @AfterMethod
+    public void afterEachTest() {
+        outputDirectory.toFile().deleteOnExit();
+    }
 
     @BeforeMethod
     public void beforeEachTest() throws IOException {
-        generator = mock(DefaultGenerator.class, mockSettings);
+        outputDirectory = Files.createTempDirectory("GenerateTest");
+        generator = mock(DefaultGenerator.class);
+        when(generator.generate()).thenReturn(new ArrayList<>());
+
         configurator = mock(CodegenConfigurator.class, mockSettings);
-        outputDirectory = Files.createTempDirectory("GenerateTest").toFile();
     }
-//
-//    @Test
-//    public void testVerboseShort() throws Exception {
-//        setupAndRunGenericTest("-v");
-//        verify(configurator).setVerbose(true);
-//    }
-//
-//    @Test
-//    public void testVerboseLong() throws Exception {
-//        setupAndRunGenericTest("--verbose");
-//        verify(configurator).setVerbose(true);
-//    }
-//
-//    @Test
-//    public void testRequiredArgs_ShortArgs() throws Exception {
-//        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", false, null, "-p", "foo=bar");
-//        verify(configurator).addAdditionalProperty("foo", "bar");
-//    }
-//
-//    @Test
-//    public void testRequiredArgs_LongArgs() throws Exception {
-//        setupAndRunTest("--input-spec", "src/test/resources/swagger.yaml", "--generator-name", "java", "--output",
-//                "src/main/java", false, null);
-//
-//        // TODO: I added these
-//        verify(configurator).addAdditionalProperty("generatorName", "java");
-//        verify(configurator).addAdditionalProperty("inputSpec", "src/test/resources/swagger.yaml");
-//    }
-//
-//    @Test
-//    public void testTemplateDirShort() throws Exception {
-//        final String templateDir = "src/main/resources/customTemplates";
-//        setupAndRunGenericTest("-t", templateDir);
-//        verify(configurator).setTemplateDir(templateDir);
-//    }
-//
-//    @Test
-//    public void testTemplateDirLong() throws Exception {
-//        final String templateDir = "src/main/resources/customTemplates";
-//        setupAndRunGenericTest("--template-dir", templateDir);
-//        verify(configurator).setTemplateDir(templateDir);
-//    }
-//
-//    @Test
-//    public void testAuthLong() throws Exception {
-//        final String auth = "hello:world";
-//        setupAndRunGenericTest("--auth", auth);
-//        verify(configurator).setAuth(auth);
-//    }
-//
-//    @Test
-//    public void testAuthShort() throws Exception {
-//        final String auth = "hello:world";
-//        setupAndRunGenericTest("-a", auth);
-//        verify(configurator).setAuth(auth);
-//    }
-//
-//    @Test
-//    public void testAuthUnspecified() throws Exception {
-//        setupAndRunGenericTest();
-//        verify(configurator, never()).setAuth(anyString());
-//    }
-//
-//    @Test
-//    public void testConfigJsonShort() throws Exception {
-//        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
-//                "config.json", "-c", "config.json");
-//        // TODO: Verifications
-//    }
-//
-//    @Test
-//    public void testConfigJsonLong() throws Exception {
-//        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
-//                "config.json", "--config", "config.json");
-//        // TODO: Verifications
-//    }
-//
-//    @Test
-//    public void testConfigYamlShort() throws Exception {
-//        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
-//                "config.yaml", "-c", "config.yaml");
-//
-//        // TODO: Verifications
-//    }
-//
-//    @Test
-//    public void testConfigYamlLong() throws Exception {
-//
-//        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
-//                "config.yaml", "--config", "config.yaml");
-//
-//        // TODO: Verifications
-//    }
-//
-//    @Test
-//    public void testSkipOverwriteShort() throws Exception {
-//        setupAndRunGenericTest("-s");
-//        verify(configurator).setSkipOverwrite(true);
-//    }
-//
-//    @Test
-//    public void testSkipOverwriteLong() throws Exception {
-//        setupAndRunGenericTest("--skip-overwrite");
-//        verify(configurator).setSkipOverwrite(true);
-//    }
-//
-//    @Test
-//    public void testStrictSpec() throws Exception {
-//
-//        setupAndRunGenericTest("--strict-spec", "true");
-//        new FullVerifications() {
-//            {
-//                configurator.setStrictSpecBehavior(true);
-//                times = 1;
-//            }
-//        };
-//
-//        setupAndRunGenericTest("--strict-spec", "false");
-//        new FullVerifications() {
-//            {
-//                configurator.setStrictSpecBehavior(false);
-//                times = 1;
-//            }
-//        };
-//    }
-//
-//    @Test
-//    public void testPackageName() throws Exception {
-//        final String value = "io.foo.bar.baz";
-//        setupAndRunGenericTest("--package-name", value);
-//
-//        new FullVerifications() {
-//            {
-//                configurator.setPackageName(value);
-//                times = 1;
-//            }
-//        };
-//    }
-//
-//    @Test
-//    public void testApiPackage() throws Exception {
-//        final String value = "io.foo.bar.api";
-//        setupAndRunGenericTest("--api-package", value);
-//
-//        new FullVerifications() {
-//            {
-//                configurator.setApiPackage(value);
-//                times = 1;
-//            }
-//        };
-//    }
-//
-//    @Test
-//    public void testModelPackage() throws Exception {
-//        final String value = "io.foo.bar.api";
-//        setupAndRunGenericTest("--model-package", value);
-//
-//        new FullVerifications() {
-//            {
-//                configurator.setModelPackage(value);
-//                times = 1;
-//            }
-//        };
-//    }
-//
-//    @Test
-//    public void testInstantiationTypes() throws Exception {
-//
-//        setupAndRunGenericTest("--instantiation-types", "hello=world,key=,foo=bar,key2");
-//
-//        new FullVerifications() {
-//            {
-//                configurator.addInstantiationType("hello", "world");
-//                times = 1;
-//                configurator.addInstantiationType("foo", "bar");
-//                times = 1;
-//                configurator.addInstantiationType("key", "");
-//                times = 1;
-//                configurator.addInstantiationType("key2", "");
-//                times = 1;
-//            }
-//        };
-//
-//        setupAndRunGenericTest("--instantiation-types", "hello=world", "--instantiation-types",
-//                "key=", "--instantiation-types", "foo=bar", "--instantiation-types", "key2");
-//
-//        new FullVerifications() {
-//            {
-//                configurator.addInstantiationType("hello", "world");
-//                times = 1;
-//                configurator.addInstantiationType("foo", "bar");
-//                times = 1;
-//                configurator.addInstantiationType("key", "");
-//                times = 1;
-//                configurator.addInstantiationType("key2", "");
-//                times = 1;
-//            }
-//        };
-//    }
-//
-//    @Test
-//    public void testTypeMappings() throws Exception {
-//        setupAndRunGenericTest("--type-mappings", "hello=world,key=,foo=bar,key2");
-//
-//        new FullVerifications() {
-//            {
-//                configurator.addTypeMapping("hello", "world");
-//                times = 1;
-//                configurator.addTypeMapping("foo", "bar");
-//                times = 1;
-//                configurator.addTypeMapping("key", "");
-//                times = 1;
-//                configurator.addTypeMapping("key2", "");
-//                times = 1;
-//            }
-//        };
-//
-//        setupAndRunGenericTest("--type-mappings", "hello=world", "--type-mappings", "key=",
-//                "--type-mappings", "foo=bar", "--type-mappings", "key2");
-//
-//        new FullVerifications() {
-//            {
-//                configurator.addTypeMapping("hello", "world");
-//                times = 1;
-//                configurator.addTypeMapping("foo", "bar");
-//                times = 1;
-//                configurator.addTypeMapping("key", "");
-//                times = 1;
-//                configurator.addTypeMapping("key2", "");
-//                times = 1;
-//            }
-//        };
-//    }
-//
-//    @Test
-//    public void testAdditionalProperties() throws Exception {
-//        setupAndRunGenericTest("--additional-properties", "hello=world,key=,foo=bar,key2");
-//
-//        new FullVerifications() {
-//            {
-//                configurator.addAdditionalProperty("hello", "world");
-//                times = 1;
-//                configurator.addAdditionalProperty("foo", "bar");
-//                times = 1;
-//                configurator.addAdditionalProperty("key", "");
-//                times = 1;
-//                configurator.addAdditionalProperty("key2", "");
-//                times = 1;
-//            }
-//        };
-//
-//        setupAndRunGenericTest("--additional-properties", "hello=world", "--additional-properties",
-//                "key=", "--additional-properties", "foo=bar", "--additional-properties", "key2");
-//
-//        new FullVerifications() {
-//            {
-//                configurator.addAdditionalProperty("hello", "world");
-//                times = 1;
-//                configurator.addAdditionalProperty("foo", "bar");
-//                times = 1;
-//                configurator.addAdditionalProperty("key", "");
-//                times = 1;
-//                configurator.addAdditionalProperty("key2", "");
-//                times = 1;
-//            }
-//        };
-//    }
-//
-//    @Test
-//    public void testLanguageSpecificPrimitives() throws Exception {
-//        setupAndRunGenericTest("--language-specific-primitives", "foo,,bar",
-//                "--language-specific-primitives", "hello,world");
-//
-//        new FullVerifications() {
-//            {
-//                configurator.addLanguageSpecificPrimitive("foo");
-//                times = 1;
-//                configurator.addLanguageSpecificPrimitive("bar");
-//                times = 1;
-//                configurator.addLanguageSpecificPrimitive("hello");
-//                times = 1;
-//                configurator.addLanguageSpecificPrimitive("world");
-//                times = 1;
-//            }
-//        };
-//    }
-//
-//    @Test
-//    public void testImportMappings() throws Exception {
-//        setupAndRunGenericTest("--import-mappings", "hello=world,key=,foo=bar,key2");
-//
-//        new FullVerifications() {
-//            {
-//                configurator.addImportMapping("hello", "world");
-//                times = 1;
-//                configurator.addImportMapping("foo", "bar");
-//                times = 1;
-//                configurator.addImportMapping("key", "");
-//                times = 1;
-//                configurator.addImportMapping("key2", "");
-//                times = 1;
-//            }
-//        };
-//
-//        setupAndRunGenericTest("--import-mappings", "hello=world", "--import-mappings", "key=",
-//                "--import-mappings", "foo=bar", "--import-mappings", "key2");
-//
-//        new FullVerifications() {
-//            {
-//                configurator.addImportMapping("hello", "world");
-//                times = 1;
-//                configurator.addImportMapping("foo", "bar");
-//                times = 1;
-//                configurator.addImportMapping("key", "");
-//                times = 1;
-//                configurator.addImportMapping("key2", "");
-//                times = 1;
-//            }
-//        };
-//    }
-//
-//    @Test
-//    public void testInvokerPackage() throws Exception {
-//        final String value = "io.foo.bar.api";
-//        setupAndRunGenericTest("--invoker-package", value);
-//
-//        new FullVerifications() {
-//            {
-//                configurator.setInvokerPackage(value);
-//                times = 1;
-//            }
-//        };
-//    }
-//
-//    @Test
-//    public void testGroupId() throws Exception {
-//        final String value = "io.foo.bar.api";
-//        setupAndRunGenericTest("--group-id", value);
-//
-//        new FullVerifications() {
-//            {
-//                configurator.setGroupId(value);
-//                times = 1;
-//            }
-//        };
-//    }
-//
-//    @Test
-//    public void testArtifactId() throws Exception {
-//        final String value = "awesome-api";
-//        setupAndRunGenericTest("--artifact-id", value);
-//
-//        new FullVerifications() {
-//            {
-//                configurator.setArtifactId(value);
-//                times = 1;
-//            }
-//        };
-//    }
-//
-//    @Test
-//    public void testArtifactVersion() throws Exception {
-//        final String value = "1.2.3";
-//        setupAndRunGenericTest("--artifact-version", value);
-//
-//        new FullVerifications() {
-//            {
-//                configurator.setArtifactVersion(value);
-//                times = 1;
-//            }
-//        };
-//    }
-//
-//    @Test
-//    public void testLibrary() throws Exception {
-//        final String value = "library1";
-//        setupAndRunGenericTest("--library", value);
-//
-//        new FullVerifications() {
-//            {
-//                configurator.setLibrary(value);
-//                times = 1;
-//            }
-//        };
-//    }
 
-    private void setupAndRunTest(String specFlag, final String spec, String langFlag,
-            final String lang, String outputDirFlag, final String outputDir,
-            boolean configuratorFromFile, final String configFile, String... additionalParameters) {
-        File actualOutputDir = new File(outputDirectory, outputDir);
-        final String[] commonArgs =
-                {"generate", langFlag, lang, outputDirFlag, actualOutputDir.getAbsolutePath(), specFlag, spec};
+    @Test
+    public void testAdditionalPropertiesLong() {
+        setupAndRunGenericTest("--additional-properties", "hello=world,key=,foo=bar,key2");
+        verify(configurator).addAdditionalProperty("hello", "world");
+        verify(configurator).addAdditionalProperty("foo", "bar");
+        verify(configurator).addAdditionalProperty("key", "");
+        verify(configurator).addAdditionalProperty("key2", "");
+    }
 
-        String[] argsToUse = ArrayUtils.addAll(commonArgs, additionalParameters);
+    @Test
+    public void testAdditionalPropertiesLongMultiple() {
+        setupAndRunGenericTest("--additional-properties", "hello=world", "--additional-properties",
+                "key=", "--additional-properties", "foo=bar", "--additional-properties", "key2");
+        verify(configurator).addAdditionalProperty("hello", "world");
+        verify(configurator).addAdditionalProperty("foo", "bar");
+        verify(configurator).addAdditionalProperty("key", "");
+        verify(configurator).addAdditionalProperty("key2", "");
+    }
 
+    @Test
+    public void testApiPackage() {
+        final String value = "io.foo.bar.api";
+        setupAndRunGenericTest("--api-package", value);
+        verify(configurator).setApiPackage(value);
+    }
 
-        OpenAPIGenerator.main(argsToUse);
+    @Test
+    public void testArtifactId() {
+        final String value = "awesome-api";
+        setupAndRunGenericTest("--artifact-id", value);
 
-//        verify(configurator).toClientOptInput();
-        verify(configurator).setGeneratorName(lang);
-        verify(configurator).setInputSpec(spec);
-        verify(configurator).setOutputDir(outputDir);
+        verify(configurator).setArtifactId(value);
     }
 
     private void setupAndRunGenericTest(String... additionalParameters) {
         setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", false, null,
                 additionalParameters);
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private void setupAndRunTest(String specFlag, final String spec, String langFlag,
+                                 final String lang, String outputDirFlag, final String outputDir,
+                                 boolean configuratorFromFile, final String configFile, String... additionalParameters) {
+        final String[] commonArgs =
+                {"generate", langFlag, lang, outputDirFlag, outputDir, specFlag, spec};
+
+        String[] argsToUse = ArrayUtils.addAll(commonArgs, additionalParameters);
+
+        Cli.CliBuilder<Runnable> builder =
+                Cli.<Runnable>builder("openapi-generator-cli")
+                        .withCommands(Generate.class);
+
+        Generate generate = (Generate) builder.build().parse(argsToUse);
+
+        generate.configurator = configurator;
+        generate.generator = generator;
+
+        try {
+            generate.run();
+        } finally {
+            verify(configurator).setInputSpec(spec);
+            verify(configurator).setGeneratorName(lang);
+            verify(configurator).setOutputDir(outputDir);
+        }
+    }
+
+    @Test
+    public void testArtifactVersion() {
+        final String value = "1.2.3";
+        setupAndRunGenericTest("--artifact-version", value);
+
+        verify(configurator).setArtifactVersion(value);
+    }
+
+    @Test
+    public void testAuthLong() {
+        final String auth = "hello:world";
+        setupAndRunGenericTest("--auth", auth);
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+        verify(configurator).setAuth(auth);
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testAuthShort() {
+        final String auth = "hello:world";
+        setupAndRunGenericTest("-a", auth);
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+        verify(configurator).setAuth(auth);
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testAuthUnspecified() {
+        setupAndRunGenericTest();
+
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+
+        verify(configurator, never()).setAuth(anyString());
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testConfigJsonLong() {
+        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
+                "config.json", "--config", "config.json");
+
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testConfigJsonShort() {
+        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
+                "config.json", "-c", "config.json");
+
+        // on top of those in setupAndRunTest
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testConfigYamlLong() {
+        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
+                "config.yaml", "--config", "config.yaml");
+
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testConfigYamlShort() {
+        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
+                "config.yaml", "-c", "config.yaml");
+
+        // on top of those in setupAndRunTest
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testGroupId() {
+        final String value = "io.foo.bar.api";
+        setupAndRunGenericTest("--group-id", value);
+        verify(configurator).setGroupId(value);
+    }
+
+    @Test
+    public void testImportMappingsLong() {
+        setupAndRunGenericTest("--import-mappings", "hello=world,key=,foo=bar,key2");
+
+        verify(configurator).addImportMapping("hello", "world");
+        verify(configurator).addImportMapping("foo", "bar");
+        verify(configurator).addImportMapping("key", "");
+        verify(configurator).addImportMapping("key2", "");
+    }
+
+    @Test
+    public void testImportMappingsLongMultiple() {
+        setupAndRunGenericTest("--import-mappings", "hello=world", "--import-mappings", "key=",
+                "--import-mappings", "foo=bar", "--import-mappings", "key2");
+
+        verify(configurator).addImportMapping("hello", "world");
+        verify(configurator).addImportMapping("foo", "bar");
+        verify(configurator).addImportMapping("key", "");
+        verify(configurator).addImportMapping("key2", "");
+    }
+
+    @Test
+    public void testInstantiationTypesLong() {
+        setupAndRunGenericTest("--instantiation-types", "hello=world,key=,foo=bar,key2");
+        verify(configurator).addInstantiationType("hello", "world");
+        verify(configurator).addInstantiationType("foo", "bar");
+        verify(configurator).addInstantiationType("key", "");
+        verify(configurator).addInstantiationType("key2", "");
+    }
+
+    @Test
+    public void testInstantiationTypesLongMultiple() {
+        setupAndRunGenericTest("--instantiation-types", "hello=world", "--instantiation-types",
+                "key=", "--instantiation-types", "foo=bar", "--instantiation-types", "key2");
+        verify(configurator).addInstantiationType("hello", "world");
+        verify(configurator).addInstantiationType("foo", "bar");
+        verify(configurator).addInstantiationType("key", "");
+        verify(configurator).addInstantiationType("key2", "");
+    }
+
+    @Test
+    public void testInvokerPackage() {
+        final String value = "io.foo.bar.api";
+        setupAndRunGenericTest("--invoker-package", value);
+        verify(configurator).setInvokerPackage(value);
+    }
+
+    @Test
+    public void testLanguageSpecificPrimitives() {
+        setupAndRunGenericTest("--language-specific-primitives", "foo,,bar",
+                "--language-specific-primitives", "hello,world");
+
+        verify(configurator).addLanguageSpecificPrimitive("foo");
+        verify(configurator).addLanguageSpecificPrimitive("bar");
+        verify(configurator).addLanguageSpecificPrimitive("hello");
+        verify(configurator).addLanguageSpecificPrimitive("world");
+    }
+
+    @Test
+    public void testLibrary() {
+        final String value = "feign";
+        setupAndRunGenericTest("--library", value);
+        verify(configurator).setLibrary(value);
+    }
+
+    @Test
+    public void testModelPackage() {
+        final String value = "io.foo.bar.api";
+        setupAndRunGenericTest("--model-package", value);
+        verify(configurator).setModelPackage(value);
+    }
+
+    @Test
+    public void testPackageName() {
+        final String value = "io.foo.bar.baz";
+        setupAndRunGenericTest("--package-name", value);
+        verify(configurator).setPackageName(value);
+    }
+
+    @Test
+    public void testRequiredArgs_LongArgs() {
+        setupAndRunTest("--input-spec", "src/test/resources/swagger.yaml", "--generator-name", "java", "--output",
+                "src/main/java", false, null);
+
+        // on top of those in setupAndRunTest:
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testRequiredArgs_ShortArgs() {
+        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", false, null, "-p", "foo=bar");
+
+        verify(configurator).addAdditionalProperty("foo", "bar");
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testSkipOverwriteLong() {
+        setupAndRunGenericTest("--skip-overwrite");
+        verify(configurator).setSkipOverwrite(true);
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testSkipOverwriteShort() {
+        setupAndRunGenericTest("-s");
+        verify(configurator).setSkipOverwrite(true);
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testStrictSpecFalse() {
+        setupAndRunGenericTest("--strict-spec", "false");
+        verify(configurator).setStrictSpecBehavior(false);
+    }
+
+    @Test
+    public void testStrictSpecTrue() {
+        setupAndRunGenericTest("--strict-spec", "true");
+        verify(configurator).setStrictSpecBehavior(true);
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @Test
+    public void testTemplateDirLong() {
+        final String templateDir = "src/main/resources/customTemplates";
+        File f = outputDirectory.resolve(templateDir).toFile();
+        try {
+            f.mkdirs();
+            setupAndRunGenericTest("--template-dir", f.getAbsolutePath());
+            verify(configurator).setTemplateDir(f.getAbsolutePath());
+            verify(configurator).toClientOptInput();
+            verify(configurator).toContext();
+            verifyNoMoreInteractions(configurator);
+        } finally {
+            f.delete();
+        }
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Template directory src/main/resources/customTemplates does not exist.")
+    public void testTemplateDirMustExist() {
+        final String templateDir = "src/main/resources/customTemplates";
+        setupAndRunGenericTest("-t", templateDir);
+        fail("Expected exception was not thrown.");
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @Test
+    public void testTemplateDirShort() {
+        final String templateDir = "src/main/resources/customTemplates";
+        File f = outputDirectory.resolve(templateDir).toFile();
+        try {
+            f.mkdirs();
+            setupAndRunGenericTest("-t", f.getAbsolutePath());
+        } finally {
+            verify(configurator).setTemplateDir(f.getAbsolutePath());
+            verify(configurator).toClientOptInput();
+            verify(configurator).toContext();
+            verifyNoMoreInteractions(configurator);
+            f.delete();
+        }
+    }
+
+    @Test
+    public void testTypeMappingsLong() {
+        setupAndRunGenericTest("--type-mappings", "hello=world,key=,foo=bar,key2");
+        verify(configurator).addTypeMapping("hello", "world");
+        verify(configurator).addTypeMapping("foo", "bar");
+        verify(configurator).addTypeMapping("key", "");
+        verify(configurator).addTypeMapping("key2", "");
+    }
+
+    @Test
+    public void testTypeMappingsLongMultiple() {
+        setupAndRunGenericTest("--type-mappings", "hello=world", "--type-mappings", "key=",
+                "--type-mappings", "foo=bar", "--type-mappings", "key2");
+        verify(configurator).addTypeMapping("hello", "world");
+        verify(configurator).addTypeMapping("foo", "bar");
+        verify(configurator).addTypeMapping("key", "");
+        verify(configurator).addTypeMapping("key2", "");
+    }
+
+    @Test
+    public void testVerboseLong() {
+        setupAndRunGenericTest("--verbose");
+        verify(configurator).setVerbose(true);
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+        verifyNoMoreInteractions(configurator);
+    }
+
+    @Test
+    public void testVerboseShort() {
+        setupAndRunGenericTest("-v");
+        verify(configurator).setVerbose(true);
+        verify(configurator).toClientOptInput();
+        verify(configurator).toContext();
+        verifyNoMoreInteractions(configurator);
     }
 }
