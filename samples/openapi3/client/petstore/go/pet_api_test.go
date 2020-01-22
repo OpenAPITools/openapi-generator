@@ -142,7 +142,7 @@ func TestFindPetsByStatus(t *testing.T) {
 }
 
 func TestUploadFile(t *testing.T) {
-	file, err1 := os.Open("../python/testfiles/foo.png")
+	file, err1 := os.Open("testfiles/foo.png")
 	if err1 != nil {
 		t.Fatalf("Error opening file: %v", err1)
 	}
@@ -163,7 +163,7 @@ func TestUploadFile(t *testing.T) {
 
 func TestUploadFileRequired(t *testing.T) {
 	return // remove when server supports this endpoint
-	file, err1 := os.Open("../python/testfiles/foo.png")
+	file, err1 := os.Open("testfiles/foo.png")
 	if err1 != nil {
 		t.Fatalf("Error opening file: %v", err1)
 	}
