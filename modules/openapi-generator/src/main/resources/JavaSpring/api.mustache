@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 {{#useBeanValidation}}
 import org.springframework.validation.annotation.Validated;
 {{/useBeanValidation}}
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 {{#jdk8-no-delegate}}
     {{^reactive}}
@@ -33,8 +34,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
 {{/reactive}}
-
-import org.springframework.data.domain.Pageable;
 import springfox.documentation.annotations.ApiIgnore;
 
 {{#useBeanValidation}}
