@@ -362,7 +362,9 @@ public class GenerateTest {
             verify(configurator).toContext();
             verifyNoMoreInteractions(configurator);
         } finally {
-            f.delete();
+            if(!f.delete()) {
+                System.out.println("Directory didn't delete. You can ignore this.");
+            }
         }
     }
 
@@ -386,7 +388,9 @@ public class GenerateTest {
             verify(configurator).toClientOptInput();
             verify(configurator).toContext();
             verifyNoMoreInteractions(configurator);
-            f.delete();
+            if(!f.delete()) {
+                System.out.println("Directory didn't delete. You can ignore this.");
+            }
         }
     }
 
