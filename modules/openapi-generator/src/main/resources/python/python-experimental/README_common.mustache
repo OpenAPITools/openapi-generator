@@ -50,12 +50,15 @@ Class | Method | HTTP request | Description
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
 {{#isBasic}}
-{{^isBasicBearer}}
+{{#isBasicBasic}}
 - **Type**: HTTP basic authentication
-{{/isBasicBearer}}
+{{/isBasicBasic}}
 {{#isBasicBearer}}
 - **Type**: Bearer authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
 {{/isBasicBearer}}
+{{#isHttpSignature}}
+- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{/isBasic}}
 {{#isOAuth}}
 - **Type**: OAuth

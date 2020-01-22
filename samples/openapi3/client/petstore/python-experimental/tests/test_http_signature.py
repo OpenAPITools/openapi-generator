@@ -276,11 +276,11 @@ class PetApiTests(unittest.TestCase):
         mock_pool.set_signing_config(signing_cfg)
         mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
-                                 headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
+                                 headers={'Content-Type': r'application/json',
+                                          'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 'headers="\(request-target\) \(created\) host date digest content-type",'
                                                 'signature="[a-zA-Z0-9+/]+="',
-                                          'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
+                                          'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
         pet_api.add_pet(self.pet)
@@ -307,11 +307,11 @@ class PetApiTests(unittest.TestCase):
         mock_pool.set_signing_config(signing_cfg)
         mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
-                                 headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
+                                 headers={'Content-Type': r'application/json',
+                                          'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 'headers="\(created\)",'
                                                 'signature="[a-zA-Z0-9+/]+="',
-                                          'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
+                                          'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
         pet_api.add_pet(self.pet)
@@ -343,11 +343,11 @@ class PetApiTests(unittest.TestCase):
         mock_pool.set_signing_config(signing_cfg)
         mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
-                                 headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
+                                 headers={'Content-Type': r'application/json',
+                                          'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 'headers="\(request-target\) \(created\)",'
                                                 'signature="[a-zA-Z0-9+/]+="',
-                                          'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
+                                          'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
         pet_api.add_pet(self.pet)
@@ -379,11 +379,11 @@ class PetApiTests(unittest.TestCase):
         mock_pool.set_signing_config(signing_cfg)
         mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
-                                 headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
+                                 headers={'Content-Type': r'application/json',
+                                          'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 'headers="\(request-target\) \(created\)",'
                                                 'signature="[a-zA-Z0-9+/]+="',
-                                          'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
+                                          'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
         pet_api.add_pet(self.pet)
@@ -414,11 +414,11 @@ class PetApiTests(unittest.TestCase):
         mock_pool.set_signing_config(signing_cfg)
         mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
-                                 headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
+                                 headers={'Content-Type': r'application/json',
+                                          'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 'headers="\(request-target\) \(created\)",'
                                                 'signature="[a-zA-Z0-9+/]+"',
-                                          'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
+                                          'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
         pet_api.add_pet(self.pet)

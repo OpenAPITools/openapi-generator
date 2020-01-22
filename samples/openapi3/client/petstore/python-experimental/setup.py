@@ -22,6 +22,8 @@ VERSION = "1.0.0"
 # http://pypi.python.org/pypi/setuptools
 
 REQUIRES = ["urllib3 >= 1.15", "six >= 1.10", "certifi", "python-dateutil"]
+REQUIRES.append("pem>=19.3.0")
+REQUIRES.append("pycryptodome>=3.9.0")
 EXTRAS = {':python_version <= "2.7"': ['future']}
 
 setup(
