@@ -12,7 +12,6 @@ package openapi
 import (
 	"bytes"
 	"encoding/json"
-	"time"
 )
 
 // NullableClass struct for NullableClass

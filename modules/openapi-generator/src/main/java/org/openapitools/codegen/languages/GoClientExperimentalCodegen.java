@@ -71,7 +71,6 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        objs = super.postProcessModels(objs);
 
         List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
         for (Map<String, Object> m : models) {
@@ -96,6 +95,10 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
             }
         }
 
+        // The superclass determines the list of required golang imports. The actual list of imports
+        // depends on which types are used, which is done in the code above. So super.postProcessModels
+        // must be invoked at the end of this method.
+        objs = super.postProcessModels(objs);
         return objs;
     }
 }
