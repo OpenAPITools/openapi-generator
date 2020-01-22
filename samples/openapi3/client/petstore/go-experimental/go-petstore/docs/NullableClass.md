@@ -8,8 +8,8 @@ Name | Type | Description | Notes
 **NumberProp** | Pointer to **NullableFloat32** |  | [optional] 
 **BooleanProp** | Pointer to **NullableBool** |  | [optional] 
 **StringProp** | Pointer to **NullableString** |  | [optional] 
-**DateProp** | Pointer to **NullableString** |  | [optional] 
-**DatetimeProp** | Pointer to [**NullableTime.Time**](time.Time.md) |  | [optional] 
+**DateProp** | Pointer to **NullableTime** |  | [optional] 
+**DatetimeProp** | Pointer to [**NullableTime**](time.Time.md) |  | [optional] 
 **ArrayNullableProp** | Pointer to [**[]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
 **ArrayAndItemsNullableProp** | Pointer to [**[]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
 **ArrayItemsNullable** | Pointer to [**[]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
@@ -149,13 +149,13 @@ when serializing to JSON (pass true as argument to set this, false to unset)
 The StringProp value is set to nil even if false is passed
 ### GetDateProp
 
-`func (o *NullableClass) GetDateProp() NullableString`
+`func (o *NullableClass) GetDateProp() NullableTime`
 
 GetDateProp returns the DateProp field if non-nil, zero value otherwise.
 
 ### GetDatePropOk
 
-`func (o *NullableClass) GetDatePropOk() (NullableString, bool)`
+`func (o *NullableClass) GetDatePropOk() (NullableTime, bool)`
 
 GetDatePropOk returns a tuple with the DateProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -168,9 +168,9 @@ HasDateProp returns a boolean if a field has been set.
 
 ### SetDateProp
 
-`func (o *NullableClass) SetDateProp(v NullableString)`
+`func (o *NullableClass) SetDateProp(v NullableTime)`
 
-SetDateProp gets a reference to the given NullableString and assigns it to the DateProp field.
+SetDateProp gets a reference to the given NullableTime and assigns it to the DateProp field.
 
 ### SetDatePropExplicitNull
 
@@ -181,13 +181,13 @@ when serializing to JSON (pass true as argument to set this, false to unset)
 The DateProp value is set to nil even if false is passed
 ### GetDatetimeProp
 
-`func (o *NullableClass) GetDatetimeProp() NullableTime.Time`
+`func (o *NullableClass) GetDatetimeProp() NullableTime`
 
 GetDatetimeProp returns the DatetimeProp field if non-nil, zero value otherwise.
 
 ### GetDatetimePropOk
 
-`func (o *NullableClass) GetDatetimePropOk() (NullableTime.Time, bool)`
+`func (o *NullableClass) GetDatetimePropOk() (NullableTime, bool)`
 
 GetDatetimePropOk returns a tuple with the DatetimeProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -200,9 +200,9 @@ HasDatetimeProp returns a boolean if a field has been set.
 
 ### SetDatetimeProp
 
-`func (o *NullableClass) SetDatetimeProp(v NullableTime.Time)`
+`func (o *NullableClass) SetDatetimeProp(v NullableTime)`
 
-SetDatetimeProp gets a reference to the given NullableTime.Time and assigns it to the DatetimeProp field.
+SetDatetimeProp gets a reference to the given NullableTime and assigns it to the DatetimeProp field.
 
 ### SetDatetimePropExplicitNull
 

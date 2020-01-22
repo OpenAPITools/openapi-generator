@@ -89,9 +89,12 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                     if (param.isMapContainer || param.isListContainer ) {
                         continue;
                     }
-        
-                    param.dataType = "Nullable" + Character.toUpperCase(param.dataType.charAt(0))
-                            + param.dataType.substring(1);
+                    if (param.isDateTime || param.isDate) {
+                        param.dataType = "NullableTime";
+                    } else {
+                        param.dataType = "Nullable" + Character.toUpperCase(param.dataType.charAt(0))
+                        + param.dataType.substring(1);
+                    }        
                 }
             }
         }
