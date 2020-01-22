@@ -102,7 +102,8 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['body'] = body
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.create_user = Endpoint(
@@ -134,7 +135,8 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (user.User,),
+                    'body':
+                        (user.User,),
                 },
                 'attribute_map': {
                 },
@@ -204,7 +206,8 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['body'] = body
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.create_users_with_array_input = Endpoint(
@@ -236,7 +239,8 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': ([user.User],),
+                    'body':
+                        ([user.User],),
                 },
                 'attribute_map': {
                 },
@@ -306,7 +310,8 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['body'] = body
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.create_users_with_list_input = Endpoint(
@@ -338,7 +343,8 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': ([user.User],),
+                    'body':
+                        ([user.User],),
                 },
                 'attribute_map': {
                 },
@@ -409,7 +415,8 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['username'] = username
+            kwargs['username'] = \
+                username
             return self.call_with_http_info(**kwargs)
 
         self.delete_user = Endpoint(
@@ -441,7 +448,8 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'username': (str,),
+                    'username':
+                        (str,),
                 },
                 'attribute_map': {
                     'username': 'username',
@@ -512,7 +520,8 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['username'] = username
+            kwargs['username'] = \
+                username
             return self.call_with_http_info(**kwargs)
 
         self.get_user_by_name = Endpoint(
@@ -544,7 +553,8 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'username': (str,),
+                    'username':
+                        (str,),
                 },
                 'attribute_map': {
                     'username': 'username',
@@ -619,8 +629,10 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['username'] = username
-            kwargs['password'] = password
+            kwargs['username'] = \
+                username
+            kwargs['password'] = \
+                password
             return self.call_with_http_info(**kwargs)
 
         self.login_user = Endpoint(
@@ -654,8 +666,10 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'username': (str,),
-                    'password': (str,),
+                    'username':
+                        (str,),
+                    'password':
+                        (str,),
                 },
                 'attribute_map': {
                     'username': 'username',
@@ -828,8 +842,10 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['username'] = username
-            kwargs['body'] = body
+            kwargs['username'] = \
+                username
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.update_user = Endpoint(
@@ -863,8 +879,10 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'username': (str,),
-                    'body': (user.User,),
+                    'username':
+                        (str,),
+                    'body':
+                        (user.User,),
                 },
                 'attribute_map': {
                     'username': 'username',

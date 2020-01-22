@@ -102,7 +102,8 @@ class PetApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['body'] = body
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.add_pet = Endpoint(
@@ -136,7 +137,8 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (pet.Pet,),
+                    'body':
+                        (pet.Pet,),
                 },
                 'attribute_map': {
                 },
@@ -210,7 +212,8 @@ class PetApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['pet_id'] = pet_id
+            kwargs['pet_id'] = \
+                pet_id
             return self.call_with_http_info(**kwargs)
 
         self.delete_pet = Endpoint(
@@ -245,8 +248,10 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'pet_id': (int,),
-                    'api_key': (str,),
+                    'pet_id':
+                        (int,),
+                    'api_key':
+                        (str,),
                 },
                 'attribute_map': {
                     'pet_id': 'petId',
@@ -320,7 +325,8 @@ class PetApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['status'] = status
+            kwargs['status'] = \
+                status
             return self.call_with_http_info(**kwargs)
 
         self.find_pets_by_status = Endpoint(
@@ -361,7 +367,8 @@ class PetApi(object):
                     },
                 },
                 'openapi_types': {
-                    'status': ([str],),
+                    'status':
+                        ([str],),
                 },
                 'attribute_map': {
                     'status': 'status',
@@ -437,7 +444,8 @@ class PetApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['tags'] = tags
+            kwargs['tags'] = \
+                tags
             return self.call_with_http_info(**kwargs)
 
         self.find_pets_by_tags = Endpoint(
@@ -471,7 +479,8 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'tags': ([str],),
+                    'tags':
+                        ([str],),
                 },
                 'attribute_map': {
                     'tags': 'tags',
@@ -547,7 +556,8 @@ class PetApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['pet_id'] = pet_id
+            kwargs['pet_id'] = \
+                pet_id
             return self.call_with_http_info(**kwargs)
 
         self.get_pet_by_id = Endpoint(
@@ -581,7 +591,8 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'pet_id': (int,),
+                    'pet_id':
+                        (int,),
                 },
                 'attribute_map': {
                     'pet_id': 'petId',
@@ -655,7 +666,8 @@ class PetApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['body'] = body
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.update_pet = Endpoint(
@@ -689,7 +701,8 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (pet.Pet,),
+                    'body':
+                        (pet.Pet,),
                 },
                 'attribute_map': {
                 },
@@ -764,7 +777,8 @@ class PetApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['pet_id'] = pet_id
+            kwargs['pet_id'] = \
+                pet_id
             return self.call_with_http_info(**kwargs)
 
         self.update_pet_with_form = Endpoint(
@@ -800,9 +814,12 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'pet_id': (int,),
-                    'name': (str,),
-                    'status': (str,),
+                    'pet_id':
+                        (int,),
+                    'name':
+                        (str,),
+                    'status':
+                        (str,),
                 },
                 'attribute_map': {
                     'pet_id': 'petId',
@@ -882,7 +899,8 @@ class PetApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['pet_id'] = pet_id
+            kwargs['pet_id'] = \
+                pet_id
             return self.call_with_http_info(**kwargs)
 
         self.upload_file = Endpoint(
@@ -919,10 +937,14 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'pet_id': (int,),
-                    'additional_metadata': (str,),
-                    'file': (file_type,),
-                    'files': ([file_type],),
+                    'pet_id':
+                        (int,),
+                    'additional_metadata':
+                        (str,),
+                    'file':
+                        (file_type,),
+                    'files':
+                        ([file_type],),
                 },
                 'attribute_map': {
                     'pet_id': 'petId',
@@ -1006,8 +1028,10 @@ class PetApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['pet_id'] = pet_id
-            kwargs['required_file'] = required_file
+            kwargs['pet_id'] = \
+                pet_id
+            kwargs['required_file'] = \
+                required_file
             return self.call_with_http_info(**kwargs)
 
         self.upload_file_with_required_file = Endpoint(
@@ -1044,9 +1068,12 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'pet_id': (int,),
-                    'required_file': (file_type,),
-                    'additional_metadata': (str,),
+                    'pet_id':
+                        (int,),
+                    'required_file':
+                        (file_type,),
+                    'additional_metadata':
+                        (str,),
                 },
                 'attribute_map': {
                     'pet_id': 'petId',

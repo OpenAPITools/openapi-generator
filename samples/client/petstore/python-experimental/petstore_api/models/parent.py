@@ -31,11 +31,13 @@ from petstore_api.model_utils import (  # noqa: F401
 try:
     from petstore_api.models import grandparent
 except ImportError:
-    grandparent = sys.modules['petstore_api.models.grandparent']
+    grandparent = sys.modules[
+        'petstore_api.models.grandparent']
 try:
     from petstore_api.models import parent_all_of
 except ImportError:
-    parent_all_of = sys.modules['petstore_api.models.parent_all_of']
+    parent_all_of = sys.modules[
+        'petstore_api.models.parent_all_of']
 
 
 class Parent(ModelComposed):
