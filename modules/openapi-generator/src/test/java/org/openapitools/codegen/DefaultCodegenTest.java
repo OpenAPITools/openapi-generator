@@ -1164,4 +1164,41 @@ public class DefaultCodegenTest {
         Assert.assertTrue(roundCNext.isCircularReference);
         Assert.assertFalse(roundCOut.isCircularReference);
     }
+
+    @Test
+    public void testCircularReferencedSchemaNames() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/4758-circularReferencedSchemaNames.yaml");
+        codegen.processOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel codegenModelSelf = codegen.fromModel("Self", openAPI.getComponents().getSchemas().get("Self"));
+        CodegenModel codegenModelCrossOne = codegen.fromModel("CrossOne", openAPI.getComponents().getSchemas().get("CrossOne"));
+        CodegenModel codegenModelCrossTwo = codegen.fromModel("CrossTwo", openAPI.getComponents().getSchemas().get("CrossTwo"));
+        CodegenModel codegenModelCircularOne = codegen.fromModel("CircularOne", openAPI.getComponents().getSchemas().get("CircularOne"));
+        CodegenModel codegenModelCircularTwo = codegen.fromModel("CircularTwo", openAPI.getComponents().getSchemas().get("CircularTwo"));
+        CodegenModel codegenModelCircularThree = codegen.fromModel("CircularThree", openAPI.getComponents().getSchemas().get("CircularThree"));
+
+        Set<String> assertionSelf = new TreeSet<String>();
+        Set<String> assertionCrossOne = new TreeSet<String>();
+        assertionCrossOne.add("CrossTwo");
+        Set<String> assertionCrossTwo = new TreeSet<String>();
+        assertionCrossTwo.add("CrossOne");
+        Set<String> assertionCircularOne = new TreeSet<String>();
+        assertionCircularOne.add("CircularThree");
+        assertionCircularOne.add("CircularTwo");
+        Set<String> assertionCircularTwo = new TreeSet<String>();
+        assertionCircularTwo.add("CircularOne");
+        assertionCircularTwo.add("CircularThree");
+        Set<String> assertionCircularThree = new TreeSet<String>();
+        assertionCircularThree.add("CircularOne");
+        assertionCircularThree.add("CircularTwo");
+
+        Assert.assertEquals(codegenModelSelf.getCircularReferences(), assertionSelf);
+        Assert.assertEquals(codegenModelCrossOne.getCircularReferences(), assertionCrossOne);
+        Assert.assertEquals(codegenModelCrossTwo.getCircularReferences(), assertionCrossTwo);
+        Assert.assertEquals(codegenModelCircularOne.getCircularReferences(), assertionCircularOne);
+        Assert.assertEquals(codegenModelCircularTwo.getCircularReferences(), assertionCircularTwo);
+        Assert.assertEquals(codegenModelCircularThree.getCircularReferences(), assertionCircularThree);
+    }
 }
