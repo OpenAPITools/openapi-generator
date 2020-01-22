@@ -17,17 +17,17 @@
 
 package org.openapitools.codegen.elixir;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.ElixirClientCodegen;
 import org.openapitools.codegen.options.ElixirClientOptionsProvider;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 public class ElixirClientOptionsTest extends AbstractOptionsTest {
 
-    @Tested
-    private ElixirClientCodegen clientCodegen;
+    private ElixirClientCodegen clientCodegen = mock(ElixirClientCodegen.class, mockSettings);
 
     public ElixirClientOptionsTest() {
         super(new ElixirClientOptionsProvider());
@@ -40,10 +40,7 @@ public class ElixirClientOptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setModuleName(ElixirClientOptionsProvider.INVOKER_PACKAGE_VALUE);
-            times = 1;
-        }};
+    protected void verifyOptions() {
+        verify(clientCodegen).setModuleName(ElixirClientOptionsProvider.INVOKER_PACKAGE_VALUE);
     }
 }
