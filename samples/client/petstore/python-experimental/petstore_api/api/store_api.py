@@ -102,7 +102,8 @@ class StoreApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['order_id'] = order_id
+            kwargs['order_id'] = \
+                order_id
             return self.call_with_http_info(**kwargs)
 
         self.delete_order = Endpoint(
@@ -134,7 +135,8 @@ class StoreApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'order_id': (str,),
+                    'order_id':
+                        (str,),
                 },
                 'attribute_map': {
                     'order_id': 'order_id',
@@ -306,7 +308,8 @@ class StoreApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['order_id'] = order_id
+            kwargs['order_id'] = \
+                order_id
             return self.call_with_http_info(**kwargs)
 
         self.get_order_by_id = Endpoint(
@@ -344,7 +347,8 @@ class StoreApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'order_id': (int,),
+                    'order_id':
+                        (int,),
                 },
                 'attribute_map': {
                     'order_id': 'order_id',
@@ -418,7 +422,8 @@ class StoreApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['body'] = body
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.place_order = Endpoint(
@@ -450,7 +455,8 @@ class StoreApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (order.Order,),
+                    'body':
+                        (order.Order,),
                 },
                 'attribute_map': {
                 },
