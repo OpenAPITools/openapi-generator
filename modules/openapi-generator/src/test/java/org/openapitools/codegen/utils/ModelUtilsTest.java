@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -234,5 +234,29 @@ public class ModelUtilsTest {
 
         // Test a null schema
         Assert.assertFalse(ModelUtils.isFreeFormObject(null));
+    }
+
+    @Test
+    public void testIsSetForValidSet() {
+        ArraySchema as = new ArraySchema()
+                .items(new StringSchema());
+        as.setUniqueItems(true);
+
+        Assert.assertTrue(ModelUtils.isSet(as));
+    }
+
+    @Test
+    public void testIsSetFalseForInvalidSet() {
+        ArraySchema as = new ArraySchema()
+                .items(new StringSchema());
+        as.setUniqueItems(false);
+
+        Assert.assertFalse(ModelUtils.isSet(as));
+    }
+
+    @Test
+    public void testIsSetFailsForNullSchema() {
+        ArraySchema as = null;
+        Assert.assertFalse(ModelUtils.isSet(as));
     }
 }

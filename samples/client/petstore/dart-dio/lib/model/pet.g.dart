@@ -17,25 +17,45 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
   @override
   Iterable<Object> serialize(Serializers serializers, Pet object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'category',
-      serializers.serialize(object.category,
-          specifiedType: const FullType(Category)),
-      'name',
-      serializers.serialize(object.name, specifiedType: const FullType(String)),
-      'photoUrls',
-      serializers.serialize(object.photoUrls,
-          specifiedType: const FullType(List, const [const FullType(String)])),
-      'tags',
-      serializers.serialize(object.tags,
-          specifiedType: const FullType(List, const [const FullType(Tag)])),
-      'status',
-      serializers.serialize(object.status,
-          specifiedType: const FullType(String)),
-    ];
-
+    final result = <Object>[];
+    if (object.id != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(object.id,
+            specifiedType: const FullType(int)));
+    }
+    if (object.category != null) {
+      result
+        ..add('category')
+        ..add(serializers.serialize(object.category,
+            specifiedType: const FullType(Category)));
+    }
+    if (object.name != null) {
+      result
+        ..add('name')
+        ..add(serializers.serialize(object.name,
+            specifiedType: const FullType(String)));
+    }
+    if (object.photoUrls != null) {
+      result
+        ..add('photoUrls')
+        ..add(serializers.serialize(object.photoUrls,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
+    }
+    if (object.tags != null) {
+      result
+        ..add('tags')
+        ..add(serializers.serialize(object.tags,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(Tag)])));
+    }
+    if (object.status != null) {
+      result
+        ..add('status')
+        ..add(serializers.serialize(object.status,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -63,16 +83,16 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
               specifiedType: const FullType(String)) as String;
           break;
         case 'photoUrls':
-          result.photoUrls = serializers.deserialize(value,
+          result.photoUrls.replace(serializers.deserialize(value,
                   specifiedType:
-                      const FullType(List, const [const FullType(String)]))
-              as List<String>;
+                      const FullType(BuiltList, const [const FullType(String)]))
+              as BuiltList<dynamic>);
           break;
         case 'tags':
-          result.tags = serializers.deserialize(value,
+          result.tags.replace(serializers.deserialize(value,
                   specifiedType:
-                      const FullType(List, const [const FullType(Tag)]))
-              as List<Tag>;
+                      const FullType(BuiltList, const [const FullType(Tag)]))
+              as BuiltList<dynamic>);
           break;
         case 'status':
           result.status = serializers.deserialize(value,
@@ -93,9 +113,9 @@ class _$Pet extends Pet {
   @override
   final String name;
   @override
-  final List<String> photoUrls;
+  final BuiltList<String> photoUrls;
   @override
-  final List<Tag> tags;
+  final BuiltList<Tag> tags;
   @override
   final String status;
 
@@ -109,26 +129,7 @@ class _$Pet extends Pet {
       this.photoUrls,
       this.tags,
       this.status})
-      : super._() {
-    if (id == null) {
-      throw new BuiltValueNullFieldError('Pet', 'id');
-    }
-    if (category == null) {
-      throw new BuiltValueNullFieldError('Pet', 'category');
-    }
-    if (name == null) {
-      throw new BuiltValueNullFieldError('Pet', 'name');
-    }
-    if (photoUrls == null) {
-      throw new BuiltValueNullFieldError('Pet', 'photoUrls');
-    }
-    if (tags == null) {
-      throw new BuiltValueNullFieldError('Pet', 'tags');
-    }
-    if (status == null) {
-      throw new BuiltValueNullFieldError('Pet', 'status');
-    }
-  }
+      : super._();
 
   @override
   Pet rebuild(void Function(PetBuilder) updates) =>
@@ -187,13 +188,14 @@ class PetBuilder implements Builder<Pet, PetBuilder> {
   String get name => _$this._name;
   set name(String name) => _$this._name = name;
 
-  List<String> _photoUrls;
-  List<String> get photoUrls => _$this._photoUrls;
-  set photoUrls(List<String> photoUrls) => _$this._photoUrls = photoUrls;
+  ListBuilder<String> _photoUrls;
+  ListBuilder<String> get photoUrls =>
+      _$this._photoUrls ??= new ListBuilder<String>();
+  set photoUrls(ListBuilder<String> photoUrls) => _$this._photoUrls = photoUrls;
 
-  List<Tag> _tags;
-  List<Tag> get tags => _$this._tags;
-  set tags(List<Tag> tags) => _$this._tags = tags;
+  ListBuilder<Tag> _tags;
+  ListBuilder<Tag> get tags => _$this._tags ??= new ListBuilder<Tag>();
+  set tags(ListBuilder<Tag> tags) => _$this._tags = tags;
 
   String _status;
   String get status => _$this._status;
@@ -206,8 +208,8 @@ class PetBuilder implements Builder<Pet, PetBuilder> {
       _id = _$v.id;
       _category = _$v.category?.toBuilder();
       _name = _$v.name;
-      _photoUrls = _$v.photoUrls;
-      _tags = _$v.tags;
+      _photoUrls = _$v.photoUrls?.toBuilder();
+      _tags = _$v.tags?.toBuilder();
       _status = _$v.status;
       _$v = null;
     }
@@ -234,16 +236,21 @@ class PetBuilder implements Builder<Pet, PetBuilder> {
       _$result = _$v ??
           new _$Pet._(
               id: id,
-              category: category.build(),
+              category: _category?.build(),
               name: name,
-              photoUrls: photoUrls,
-              tags: tags,
+              photoUrls: _photoUrls?.build(),
+              tags: _tags?.build(),
               status: status);
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'category';
-        category.build();
+        _category?.build();
+
+        _$failedField = 'photoUrls';
+        _photoUrls?.build();
+        _$failedField = 'tags';
+        _tags?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'Pet', _$failedField, e.toString());

@@ -24,6 +24,8 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
+use swagger::headers::SafeHeaders;
+
 use mimetypes;
 use serde_json;
 

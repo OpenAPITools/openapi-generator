@@ -72,7 +72,7 @@
     <licenses>
         <license>
             <name>Apache License 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.html</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -1060,6 +1060,7 @@
                 <module>samples/client/petstore/python-asyncio</module>
                 <module>samples/client/petstore/python-tornado</module>
                 <module>samples/openapi3/client/petstore/python</module>
+                <module>samples/openapi3/client/petstore/python-experimental</module>
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
@@ -1079,7 +1080,7 @@
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
                 <module>samples/server/petstore/rust-server</module>
                 <module>samples/server/petstore/python-flask</module>
-                <module>samples/server/petstore/python-flask-python2</module>
+                <!--<module>samples/server/petstore/python-flask-python2</module>-->
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1310,6 +1311,9 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/client/petstore/swift5/default/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/promisekit/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift5/rxswift/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift4/rxswift/SwaggerClientTests</module>
@@ -1398,9 +1402,9 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <swagger-core-version>2.0.10</swagger-core-version>
+        <swagger-core-version>2.1.1</swagger-core-version>
         <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
-        <swagger-parser-version>2.0.16</swagger-parser-version>
+        <swagger-parser-version>2.0.17</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>

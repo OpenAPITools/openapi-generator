@@ -55,6 +55,29 @@ class ApiClientTests(unittest.TestCase):
         self.assertEqual('test_username', client.configuration.username)
         self.assertEqual('test_password', client.configuration.password)
 
+        # test api key without prefix
+        config.api_key['api_key'] = '123456'
+        config.api_key_prefix['api_key'] = None
+        # update parameters based on auth setting
+        client.update_params_for_auth(header_params, query_params, auth_settings)
+        self.assertEqual(header_params['api_key'], '123456')
+
+        # test api key with empty prefix
+        config.api_key['api_key'] = '123456'
+        config.api_key_prefix['api_key'] = ''
+        # update parameters based on auth setting
+        client.update_params_for_auth(header_params, query_params, auth_settings)
+        self.assertEqual(header_params['api_key'], '123456')
+
+        # test api key with prefix specified in the api_key, useful when the prefix
+        # must include '=' sign followed by the API key secret without space.
+        config.api_key['api_key'] = 'PREFIX=123456'
+        config.api_key_prefix['api_key'] = None
+        # update parameters based on auth setting
+        client.update_params_for_auth(header_params, query_params, auth_settings)
+        self.assertEqual(header_params['api_key'], 'PREFIX=123456')
+
+
     def test_select_header_accept(self):
         accepts = ['APPLICATION/JSON', 'APPLICATION/XML']
         accept = self.api_client.select_header_accept(accepts)

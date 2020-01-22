@@ -18,23 +18,23 @@ class StoreApi {
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         Future<Response>deleteOrder(String orderId,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/store/order/{orderId}".replaceAll("{" + "orderId" + "}", orderId.toString());
+        String _path = "/store/order/{orderId}".replaceAll("{" r'orderId' "}", orderId.toString());
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'delete'.toUpperCase(),
             headers: headerParams,
@@ -48,23 +48,23 @@ class StoreApi {
         /// Returns a map of status codes to quantities
         Future<Response<Map<String, int>>>getInventory({ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/store/inventory";
+        String _path = "/store/inventory";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
@@ -92,23 +92,23 @@ class StoreApi {
         /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
         Future<Response<Order>>getOrderById(int orderId,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/store/order/{orderId}".replaceAll("{" + "orderId" + "}", orderId.toString());
+        String _path = "/store/order/{orderId}".replaceAll("{" r'orderId' "}", orderId.toString());
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
@@ -136,26 +136,26 @@ class StoreApi {
         /// 
         Future<Response<Order>>placeOrder(Order body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/store/order";
+        String _path = "/store/order";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
             var serializedBody = _serializers.serialize(body);
             var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
-                data: jsonbody,
+            data: bodyData,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,

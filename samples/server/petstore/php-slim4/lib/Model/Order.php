@@ -16,6 +16,8 @@
  */
 namespace OpenAPIServer\Model;
 
+use OpenAPIServer\Interfaces\ModelInterface;
+
 /**
  * Order
  *
@@ -23,24 +25,71 @@ namespace OpenAPIServer\Model;
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class Order
+class Order implements ModelInterface
 {
-    
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+  "type" : "object",
+  "properties" : {
+    "id" : {
+      "type" : "integer",
+      "format" : "int64"
+    },
+    "petId" : {
+      "type" : "integer",
+      "format" : "int64"
+    },
+    "quantity" : {
+      "type" : "integer",
+      "format" : "int32"
+    },
+    "shipDate" : {
+      "type" : "string",
+      "format" : "date-time"
+    },
+    "status" : {
+      "type" : "string",
+      "description" : "Order Status",
+      "enum" : [ "placed", "approved", "delivered" ]
+    },
+    "complete" : {
+      "type" : "boolean",
+      "default" : false
+    }
+  },
+  "xml" : {
+    "name" : "Order"
+  }
+}
+SCHEMA;
+
     /** @var int $id */
     private $id;
-    
+
     /** @var int $petId */
     private $petId;
-    
+
     /** @var int $quantity */
     private $quantity;
-    
+
     /** @var \DateTime $shipDate */
     private $shipDate;
-    
+
     /** @var string $status Order Status*/
     private $status;
-    
+
     /** @var bool $complete */
     private $complete;
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }

@@ -18,26 +18,26 @@ class UserApi {
         /// This can only be done by the logged in user.
         Future<Response>createUser(User body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user";
+        String _path = "/user";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
             var serializedBody = _serializers.serialize(body);
             var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
-                data: jsonbody,
+            data: bodyData,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
@@ -51,27 +51,27 @@ class UserApi {
         /// 
         Future<Response>createUsersWithArrayInput(List<User> body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user/createWithArray";
+        String _path = "/user/createWithArray";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
             final type = const FullType(BuiltList, const [const FullType(User)]);
             var serializedBody = _serializers.serialize(BuiltList<User>.from(body), specifiedType: type);
             var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
-                data: jsonbody,
+            data: bodyData,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
@@ -85,27 +85,27 @@ class UserApi {
         /// 
         Future<Response>createUsersWithListInput(List<User> body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user/createWithList";
+        String _path = "/user/createWithList";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
             final type = const FullType(BuiltList, const [const FullType(User)]);
             var serializedBody = _serializers.serialize(BuiltList<User>.from(body), specifiedType: type);
             var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
-                data: jsonbody,
+            data: bodyData,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
@@ -119,23 +119,23 @@ class UserApi {
         /// This can only be done by the logged in user.
         Future<Response>deleteUser(String username,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
+        String _path = "/user/{username}".replaceAll("{" r'username' "}", username.toString());
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'delete'.toUpperCase(),
             headers: headerParams,
@@ -149,23 +149,23 @@ class UserApi {
         /// 
         Future<Response<User>>getUserByName(String username,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
+        String _path = "/user/{username}".replaceAll("{" r'username' "}", username.toString());
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
@@ -193,25 +193,25 @@ class UserApi {
         /// 
         Future<Response<String>>loginUser(String username,String password,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user/login";
+        String _path = "/user/login";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-                queryParams["username"] = username;
-                queryParams["password"] = password;
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+                queryParams[r'username'] = username;
+                queryParams[r'password'] = password;
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
@@ -239,23 +239,23 @@ class UserApi {
         /// 
         Future<Response>logoutUser({ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user/logout";
+        String _path = "/user/logout";
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
+            data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
@@ -269,26 +269,26 @@ class UserApi {
         /// This can only be done by the logged in user.
         Future<Response>updateUser(String username,User body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
+        String _path = "/user/{username}".replaceAll("{" r'username' "}", username.toString());
 
-            // query params
-            Map<String, dynamic> queryParams = {};
-            Map<String, String> headerParams = Map.from(headers ?? {});
-            Map<String, String> formParams = {};
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
 
-            queryParams.removeWhere((key, value) => value == null);
-            headerParams.removeWhere((key, value) => value == null);
-            formParams.removeWhere((key, value) => value == null);
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
 
-            List<String> contentTypes = [];
+        List<String> contentTypes = [];
+
 
             var serializedBody = _serializers.serialize(body);
             var jsonbody = json.encode(serializedBody);
+            bodyData = jsonbody;
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
-                data: jsonbody,
+            data: bodyData,
             options: Options(
             method: 'put'.toUpperCase(),
             headers: headerParams,

@@ -27,6 +27,7 @@ public:
     void setTimeOut(const int timeOut);
     void setWorkingDirectory(const QString &path);
     void addHeaders(const QString &key, const QString &value);
+    void enableContentCompression();
 {{#operations}}{{#operation}}
     void {{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/operation}}{{/operations}}
 
@@ -37,6 +38,7 @@ private:
     int _timeOut;
     QString _workingDirectory;
     QMap<QString, QString> defaultHeaders;
+    bool _compress;
 {{#operations}}{{#operation}}
     void {{nickname}}Callback({{prefix}}HttpRequestWorker *worker);{{/operation}}{{/operations}}
 

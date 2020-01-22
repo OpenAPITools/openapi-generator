@@ -35,6 +35,7 @@ use std::collections::BTreeSet;
 pub use swagger::auth::Authorization;
 use swagger::{ApiError, XSpanId, XSpanIdString, Has, RequestParser};
 use swagger::auth::Scopes;
+use swagger::headers::SafeHeaders;
 
 use {Api,
      MultipartRequestPostResponse
@@ -123,7 +124,7 @@ where
             // MultipartRequestPost - POST /multipart_request
             &hyper::Method::Post if path.matched(paths::ID_MULTIPART_REQUEST) => {
                 let boundary = match multipart_boundary(&headers) {
-                    Some(boundary) => boundary.to_string(),
+                    Some(boundary) => boundary,
                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
                 };
                 // Form Body parameters (note that non-required body parameters will ignore garbage
@@ -250,11 +251,11 @@ impl<T, C> Clone for Service<T, C>
 }
 
 /// Utility function to get the multipart boundary marker (if any) from the Headers.
-fn multipart_boundary<'a>(headers: &'a Headers) -> Option<&'a str> {
-    headers.get::<ContentType>().and_then(|content_type| {
-        let ContentType(ref mime) = *content_type;
+fn multipart_boundary(headers: &Headers) -> Option<String> {
+    headers.safe_get::<ContentType>().and_then(|content_type| {
+        let ContentType(mime) = content_type;
         if mime.type_() == hyper::mime::MULTIPART && mime.subtype() == hyper::mime::FORM_DATA {
-            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str())
+            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str().to_string())
         } else {
             None
         }
