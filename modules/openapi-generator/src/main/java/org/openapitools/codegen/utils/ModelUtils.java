@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -386,6 +386,10 @@ public class ModelUtils {
 
     public static boolean isArraySchema(Schema schema) {
         return (schema instanceof ArraySchema);
+    }
+
+    public static boolean isSet(Schema schema) {
+        return ModelUtils.isArraySchema(schema) && Boolean.TRUE.equals(schema.getUniqueItems());
     }
 
     public static boolean isStringSchema(Schema schema) {
@@ -998,7 +1002,7 @@ public class ModelUtils {
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
                         return "UNKNOWN_PARENT_NAME";
-                    } else if (s.getDiscriminator() != null && StringUtils.isNotEmpty(s.getDiscriminator().getPropertyName())) {
+                    } else if (hasOrInheritsDiscriminator(s, allSchemas)) {
                         // discriminator.propertyName is used
                         return parentName;
                     } else {
@@ -1022,7 +1026,7 @@ public class ModelUtils {
         return null;
     }
 
-    public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
+    public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         List<String> names = new ArrayList<String>();
 
@@ -1035,9 +1039,12 @@ public class ModelUtils {
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
                         names.add("UNKNOWN_PARENT_NAME");
-                    } else if (s.getDiscriminator() != null && StringUtils.isNotEmpty(s.getDiscriminator().getPropertyName())) {
+                    } else if (hasOrInheritsDiscriminator(s, allSchemas)) {
                         // discriminator.propertyName is used
                         names.add(parentName);
+                        if (includeAncestors && s instanceof ComposedSchema) {
+                            names.addAll(getAllParentsName((ComposedSchema) s, allSchemas, true));
+                        }
                     } else {
                         LOGGER.debug("Not a parent since discriminator.propertyName is not set {}", s.get$ref());
                         // not a parent since discriminator.propertyName is not set
@@ -1049,6 +1056,32 @@ public class ModelUtils {
         }
 
         return names;
+    }
+
+    private static boolean hasOrInheritsDiscriminator(Schema schema, Map<String, Schema> allSchemas) {
+        if (schema.getDiscriminator() != null && StringUtils.isNotEmpty(schema.getDiscriminator().getPropertyName())) {
+            return true;
+        }
+        else if (StringUtils.isNotEmpty(schema.get$ref())) {
+            String parentName = getSimpleRef(schema.get$ref());
+            Schema s = allSchemas.get(parentName);
+            if (s != null) {
+                return hasOrInheritsDiscriminator(s, allSchemas);
+            }
+            else {
+                LOGGER.error("Failed to obtain schema from {}", parentName);
+            }
+        }
+        else if (schema instanceof ComposedSchema) {
+            final ComposedSchema composed = (ComposedSchema) schema;
+            final List<Schema> interfaces = getInterfaces(composed);
+            for (Schema i : interfaces) {
+                if (hasOrInheritsDiscriminator(i, allSchemas)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static boolean isNullable(Schema schema) {

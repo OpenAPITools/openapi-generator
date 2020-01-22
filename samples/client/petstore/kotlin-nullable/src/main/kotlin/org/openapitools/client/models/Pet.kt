@@ -18,10 +18,10 @@ import com.squareup.moshi.Json
 import java.io.Serializable
 /**
  * A pet for sale in the pet store
- * @param id 
- * @param category 
  * @param name 
  * @param photoUrls 
+ * @param id 
+ * @param category 
  * @param tags 
  * @param status pet status in the store
  */

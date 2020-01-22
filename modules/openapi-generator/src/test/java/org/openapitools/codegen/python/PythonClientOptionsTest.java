@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -54,6 +54,9 @@ public class PythonClientOptionsTest extends AbstractOptionsTest {
             times = 1;
 
             clientCodegen.setPackageUrl(PythonClientOptionsProvider.PACKAGE_URL_VALUE);
+            times = 1;
+
+            clientCodegen.setUseNose(PythonClientOptionsProvider.USE_NOSE_VALUE);
             times = 1;
 
             clientCodegen.packagePath();

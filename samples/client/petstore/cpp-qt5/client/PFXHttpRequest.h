@@ -71,6 +71,7 @@ public:
     void setWorkingDirectory(const QString &path);
     PFXHttpFileElement getHttpFileElement(const QString &fieldname = QString());
     QByteArray *getMultiPartField(const QString &fieldname = QString());
+    void setCompressionEnabled(bool enable);
 signals:
     void on_execution_finished(PFXHttpRequestWorker *worker);
 
@@ -81,8 +82,10 @@ private:
     QMap<QString, QByteArray *> multiPartFields;
     QString workingDirectory;
     int _timeOut;
+    bool isCompressionEnabled;
     void on_manager_timeout(QNetworkReply *reply);
-    void process_form_response();
+    void process_response(QNetworkReply *reply);
+    QByteArray decompress(const QByteArray& data);
 private slots:
     void on_manager_finished(QNetworkReply *reply);
 };

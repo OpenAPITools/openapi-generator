@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -57,6 +57,8 @@ public class GoClientOptionsTest extends AbstractOptionsTest {
             clientCodegen.setIsGoSubmodule(Boolean.valueOf(GoClientOptionsProvider.IS_GO_SUBMODULE_VALUE));
             times = 1;
             clientCodegen.setStructPrefix(Boolean.valueOf(GoClientOptionsProvider.STRUCT_PREFIX_VALUE));
+            times = 1;
+            clientCodegen.setWithAWSV4Signature(Boolean.valueOf(GoClientOptionsProvider.WITH_AWSV4_SIGNATURE));
             times = 1;
         }};
     }

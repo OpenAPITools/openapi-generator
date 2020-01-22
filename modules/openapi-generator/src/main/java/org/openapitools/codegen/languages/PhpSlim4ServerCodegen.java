@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,6 +42,10 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
     protected String psr7Implementation = "slim-psr7";
     protected String mockDirName = "Mock";
     protected String mockPackage = "";
+    protected String utilsDirName = "Utils";
+    protected String utilsPackage = "";
+    protected String interfacesDirName = "Interfaces";
+    protected String interfacesPackage = "";
 
     public PhpSlim4ServerCodegen() {
         super();
@@ -51,6 +55,8 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
                 .build();
 
         mockPackage = invokerPackage + "\\" + mockDirName;
+        utilsPackage = invokerPackage + "\\" + utilsDirName;
+        interfacesPackage = invokerPackage + "\\" + interfacesDirName;
         outputFolder = "generated-code" + File.separator + "slim4";
         embeddedTemplateDir = templateDir = "php-slim4-server";
 
@@ -86,14 +92,26 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
         super.processOpts();
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            // Update the invokerPackage for the default mockPackage
+            // Update mockPackage and utilsPackage
             mockPackage = invokerPackage + "\\" + mockDirName;
+            utilsPackage = invokerPackage + "\\" + utilsDirName;
+            interfacesPackage = invokerPackage + "\\" + interfacesDirName;
         }
 
         // make mock src path available in mustache template
         additionalProperties.put("mockPackage", mockPackage);
         additionalProperties.put("mockSrcPath", "./" + toSrcPath(mockPackage, srcBasePath));
         additionalProperties.put("mockTestPath", "./" + toSrcPath(mockPackage, testBasePath));
+
+        // same for utils package
+        additionalProperties.put("utilsPackage", utilsPackage);
+        additionalProperties.put("utilsSrcPath", "./" + toSrcPath(utilsPackage, srcBasePath));
+        additionalProperties.put("utilsTestPath", "./" + toSrcPath(utilsPackage, testBasePath));
+
+        // same for interfaces package
+        additionalProperties.put("interfacesPackage", interfacesPackage);
+        additionalProperties.put("interfacesSrcPath", "./" + toSrcPath(interfacesPackage, srcBasePath));
+        additionalProperties.put("interfacesTestPath", "./" + toSrcPath(interfacesPackage, testBasePath));
 
         if (additionalProperties.containsKey(PSR7_IMPLEMENTATION)) {
             this.setPsr7Implementation((String) additionalProperties.get(PSR7_IMPLEMENTATION));
@@ -132,6 +150,15 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
         supportingFiles.add(new SupportingFile("openapi_data_mocker_interface.mustache", toSrcPath(mockPackage, srcBasePath), toInterfaceName("OpenApiDataMocker") + ".php"));
         supportingFiles.add(new SupportingFile("openapi_data_mocker.mustache", toSrcPath(mockPackage, srcBasePath), "OpenApiDataMocker.php"));
         supportingFiles.add(new SupportingFile("openapi_data_mocker_test.mustache", toSrcPath(mockPackage, testBasePath), "OpenApiDataMockerTest.php"));
+
+        // traits of ported utils
+        supportingFiles.add(new SupportingFile("string_utils_trait.mustache", toSrcPath(utilsPackage, srcBasePath), toTraitName("StringUtils") + ".php"));
+        supportingFiles.add(new SupportingFile("string_utils_trait_test.mustache", toSrcPath(utilsPackage, testBasePath), toTraitName("StringUtils") + "Test.php"));
+        supportingFiles.add(new SupportingFile("model_utils_trait.mustache", toSrcPath(utilsPackage, srcBasePath), toTraitName("ModelUtils") + ".php"));
+        supportingFiles.add(new SupportingFile("model_utils_trait_test.mustache", toSrcPath(utilsPackage, testBasePath), toTraitName("ModelUtils") + "Test.php"));
+
+        // model interface
+        supportingFiles.add(new SupportingFile("model_interface.mustache", toSrcPath(interfacesPackage, srcBasePath), toInterfaceName("Model") + ".php"));
     }
 
     /**

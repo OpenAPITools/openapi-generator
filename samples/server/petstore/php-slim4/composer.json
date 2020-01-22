@@ -2,8 +2,9 @@
   "minimum-stability": "RC",
   "repositories": [
     {
-      "type": "github",
-      "url": "https://github.com/ybelenko/slim-token-authentication"
+      "type": "vcs",
+      "url": "https://github.com/ybelenko/slim-token-authentication",
+      "no-api": true
     }
   ],
   "require": {
@@ -28,13 +29,12 @@
   },
   "scripts": {
     "test": [
-      "@test-apis",
-      "@test-models",
-      "@test-mock"
+      "phpunit"
     ],
     "test-apis": "phpunit --testsuite Apis",
     "test-models": "phpunit --testsuite Models",
     "test-mock": "phpunit --testsuite Mock",
+    "test-utils": "phpunit --testsuite Utils",
     "phpcs": "phpcs",
     "phplint": "phplint ./ --exclude=vendor"
   }

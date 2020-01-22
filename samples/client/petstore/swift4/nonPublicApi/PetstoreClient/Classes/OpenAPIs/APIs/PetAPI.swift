@@ -48,12 +48,12 @@ internal class PetAPI {
     /**
      Deletes a pet
      
-     - parameter petId: (path) Pet id to delete 
      - parameter apiKey: (header)  (optional)
+     - parameter petId: (path) Pet id to delete 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    internal class func deletePet(petId: Int64, apiKey: String? = nil, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (_, error) -> Void in
+    internal class func deletePet(apiKey: String? = nil, petId: Int64, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
+        deletePetWithRequestBuilder(apiKey: apiKey, petId: petId).execute { (_, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -68,11 +68,11 @@ internal class PetAPI {
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - parameter petId: (path) Pet id to delete 
      - parameter apiKey: (header)  (optional)
+     - parameter petId: (path) Pet id to delete 
      - returns: RequestBuilder<Void> 
      */
-    internal class func deletePetWithRequestBuilder(petId: Int64, apiKey: String? = nil) -> RequestBuilder<Void> {
+    internal class func deletePetWithRequestBuilder(apiKey: String? = nil, petId: Int64) -> RequestBuilder<Void> {
         var path = "/pet/{petId}"
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -82,7 +82,7 @@ internal class PetAPI {
 
         let url = URLComponents(string: URLString)
         let nillableHeaders: [String: Any?] = [
-            "api_key": apiKey
+            "api_key": apiKey?.encodeToJSON()
         ]
         let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
 
@@ -129,7 +129,7 @@ internal class PetAPI {
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "status": status
+            "status": status.encodeToJSON()
         ])
 
         let requestBuilder: RequestBuilder<[Pet]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -166,7 +166,7 @@ internal class PetAPI {
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "tags": tags
+            "tags": tags.encodeToJSON()
         ])
 
         let requestBuilder: RequestBuilder<[Pet]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
@@ -284,8 +284,8 @@ internal class PetAPI {
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
-            "name": name,
-            "status": status
+            "name": name?.encodeToJSON(),
+            "status": status?.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -330,8 +330,8 @@ internal class PetAPI {
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
-            "additionalMetadata": additionalMetadata,
-            "file": file
+            "additionalMetadata": additionalMetadata?.encodeToJSON(),
+            "file": file?.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -348,12 +348,12 @@ internal class PetAPI {
      uploads an image (required)
      
      - parameter petId: (path) ID of pet to update 
-     - parameter requiredFile: (form) file to upload 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - parameter requiredFile: (form) file to upload 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    internal class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, completion: @escaping ((_ data: ApiResponse?, _ error: Error?) -> Void)) {
-        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { (response, error) -> Void in
+    internal class func uploadFileWithRequiredFile(petId: Int64, additionalMetadata: String? = nil, requiredFile: URL, completion: @escaping ((_ data: ApiResponse?, _ error: Error?) -> Void)) {
+        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, requiredFile: requiredFile).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -365,19 +365,19 @@ internal class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter petId: (path) ID of pet to update 
-     - parameter requiredFile: (form) file to upload 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - parameter requiredFile: (form) file to upload 
      - returns: RequestBuilder<ApiResponse> 
      */
-    internal class func uploadFileWithRequiredFileWithRequestBuilder(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> RequestBuilder<ApiResponse> {
+    internal class func uploadFileWithRequiredFileWithRequestBuilder(petId: Int64, additionalMetadata: String? = nil, requiredFile: URL) -> RequestBuilder<ApiResponse> {
         var path = "/fake/{petId}/uploadImageWithRequiredFile"
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String: Any?] = [
-            "additionalMetadata": additionalMetadata,
-            "requiredFile": requiredFile
+            "additionalMetadata": additionalMetadata?.encodeToJSON(),
+            "requiredFile": requiredFile.encodeToJSON()
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)

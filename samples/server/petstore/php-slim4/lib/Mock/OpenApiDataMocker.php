@@ -26,6 +26,8 @@
 namespace OpenAPIServer\Mock;
 
 use OpenAPIServer\Mock\OpenApiDataMockerInterface as IMocker;
+use OpenAPIServer\Utils\ModelUtilsTrait;
+use StdClass;
 use InvalidArgumentException;
 
 /**
@@ -37,6 +39,8 @@ use InvalidArgumentException;
  */
 final class OpenApiDataMocker implements IMocker
 {
+    use ModelUtilsTrait;
+
     /**
      * Mocks OpenApi Data.
      * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#data-types
@@ -65,7 +69,8 @@ final class OpenApiDataMocker implements IMocker
             case IMocker::DATA_TYPE_STRING:
                 $minLength = $options['minLength'] ?? 0;
                 $maxLength = $options['maxLength'] ?? null;
-                return $this->mockString($dataFormat, $minLength, $maxLength);
+                $enum = $options['enum'] ?? null;
+                return $this->mockString($dataFormat, $minLength, $maxLength, $enum);
             case IMocker::DATA_TYPE_BOOLEAN:
                 return $this->mockBoolean();
             case IMocker::DATA_TYPE_ARRAY:
@@ -74,6 +79,13 @@ final class OpenApiDataMocker implements IMocker
                 $maxItems = $options['maxItems'] ?? null;
                 $uniqueItems = $options['uniqueItems'] ?? false;
                 return $this->mockArray($items, $minItems, $maxItems, $uniqueItems);
+            case IMocker::DATA_TYPE_OBJECT:
+                $properties = $options['properties'] ?? null;
+                $minProperties = $options['minProperties'] ?? 0;
+                $maxProperties = $options['maxProperties'] ?? null;
+                $additionalProperties = $options['additionalProperties'] ?? null;
+                $required = $options['required'] ?? null;
+                return $this->mockObject($properties, $minProperties, $maxProperties, $additionalProperties, $required);
             default:
                 throw new InvalidArgumentException('"dataType" must be one of ' . implode(', ', [
                     IMocker::DATA_TYPE_INTEGER,
@@ -81,6 +93,7 @@ final class OpenApiDataMocker implements IMocker
                     IMocker::DATA_TYPE_STRING,
                     IMocker::DATA_TYPE_BOOLEAN,
                     IMocker::DATA_TYPE_ARRAY,
+                    IMocker::DATA_TYPE_OBJECT,
                 ]));
         }
     }
@@ -106,6 +119,22 @@ final class OpenApiDataMocker implements IMocker
         $exclusiveMinimum = false,
         $exclusiveMaximum = false
     ) {
+        $dataFormat = is_string($dataFormat) ? strtolower($dataFormat) : $dataFormat;
+        switch ($dataFormat) {
+            case IMocker::DATA_FORMAT_INT32:
+                // -2147483647..2147483647
+                $minimum = is_numeric($minimum) ? max($minimum, -2147483647) : -2147483647;
+                $maximum = is_numeric($maximum) ? min($maximum, 2147483647) : 2147483647;
+                break;
+            case IMocker::DATA_FORMAT_INT64:
+                // -9223372036854775807..9223372036854775807
+                $minimum = is_numeric($minimum) ? max($minimum, -9223372036854775807) : -9223372036854775807;
+                $maximum = is_numeric($maximum) ? min($maximum, 9223372036854775807) : 9223372036854775807;
+                break;
+            default:
+                // do nothing, unsupported format
+        }
+
         return $this->getRandomNumber($minimum, $maximum, $exclusiveMinimum, $exclusiveMaximum, 0);
     }
 
@@ -212,10 +241,10 @@ final class OpenApiDataMocker implements IMocker
      * Shortcut to mock array type
      * Equivalent to mockData(DATA_TYPE_ARRAY);
      *
-     * @param array     $items       Array of described items
-     * @param int|null  $minItems    (optional) An array instance is valid against "minItems" if its size is greater than, or equal to, the value of this keyword.
-     * @param int|null  $maxItems    (optional) An array instance is valid against "maxItems" if its size is less than, or equal to, the value of this keyword
-     * @param bool|null $uniqueItems (optional) If it has boolean value true, the instance validates successfully if all of its elements are unique
+     * @param object|array $items       Object or assoc array of described items
+     * @param int|null     $minItems    (optional) An array instance is valid against "minItems" if its size is greater than, or equal to, the value of this keyword.
+     * @param int|null     $maxItems    (optional) An array instance is valid against "maxItems" if its size is less than, or equal to, the value of this keyword
+     * @param bool|null    $uniqueItems (optional) If it has boolean value true, the instance validates successfully if all of its elements are unique
      *
      * @throws \InvalidArgumentException when invalid arguments passed
      *
@@ -231,8 +260,12 @@ final class OpenApiDataMocker implements IMocker
         $minSize = 0;
         $maxSize = \PHP_INT_MAX;
 
-        if (is_array($items) === false || array_key_exists('type', $items) === false) {
-            throw new InvalidArgumentException('"items" must be assoc array with "type" key');
+        if (
+            (is_array($items) === false && is_object($items) === false)
+            || (is_array($items) && array_key_exists('type', $items) === false)
+            || (is_object($items) && isset($items->type) === false)
+        ) {
+            new InvalidArgumentException('"items" must be object or assoc array with "type" key');
         }
 
         if ($minItems !== null) {
@@ -252,30 +285,169 @@ final class OpenApiDataMocker implements IMocker
             $maxSize = $maxItems;
         }
 
-        $dataType = $items['type'];
-        $dataFormat = $items['format'] ?? null;
         $options = $this->extractSchemaProperties($items);
+        $dataType = $options['type'];
+        $dataFormat = $options['format'] ?? null;
+        $ref = $options['$ref'] ?? null;
 
-        // always genarate smallest possible array to avoid huge JSON responses
+        // always generate smallest possible array to avoid huge JSON responses
         $arrSize = ($maxSize < 1) ? $maxSize : max($minSize, 1);
         while (count($arr) < $arrSize) {
-            $arr[] = $this->mock($dataType, $dataFormat, $options);
+            $data = $this->mockFromRef($ref);
+            $arr[] = ($data) ? $data : $this->mock($dataType, $dataFormat, $options);
         }
         return $arr;
     }
 
     /**
-     * @internal Extract OAS properties from array or object.
+     * Shortcut to mock object type.
+     * Equivalent to mockData(DATA_TYPE_OBJECT);
      *
-     * @param array $arr Processed array
+     * @param object|array           $properties           Object or array of described properties
+     * @param int|null               $minProperties        (optional) An object instance is valid against "minProperties" if its number of properties is greater than, or equal to, the value of this keyword.
+     * @param int|null               $maxProperties        (optional) An object instance is valid against "maxProperties" if its number of properties is less than, or equal to, the value of this keyword.
+     * @param bool|object|array|null $additionalProperties (optional) If "additionalProperties" is true, validation always succeeds.
+     * If "additionalProperties" is false, validation succeeds only if the instance is an object and all properties on the instance were covered by "properties" and/or "patternProperties".
+     * If "additionalProperties" is an object, validate the value as a schema to all of the properties that weren't validated by "properties" nor "patternProperties".
+     * @param array|null             $required             (optional) This array MUST have at least one element.  Elements of this array must be strings, and MUST be unique.
+     * An object instance is valid if its property set contains all elements in this array value.
+     *
+     * @throws \InvalidArgumentException when invalid arguments passed
+     *
+     * @return object
+     */
+    public function mockObject(
+        $properties,
+        $minProperties = 0,
+        $maxProperties = null,
+        $additionalProperties = null,
+        $required = null
+    ) {
+        $obj = new StdClass();
+
+        if (is_object($properties) === false && is_array($properties) === false) {
+            throw new InvalidArgumentException('The value of "properties" must be an array or object');
+        }
+
+        foreach ($properties as $propName => $propValue) {
+            if (is_object($propValue) === false && is_array($propValue) === false) {
+                throw new InvalidArgumentException('Each value of "properties" must be an array or object');
+            }
+        }
+
+        if ($minProperties !== null) {
+            if (is_integer($minProperties) === false || $minProperties < 0) {
+                throw new InvalidArgumentException('"minProperties" must be an integer. This integer must be greater than, or equal to, 0');
+            }
+        }
+
+        if ($maxProperties !== null) {
+            if (is_integer($maxProperties) === false || $maxProperties < 0) {
+                throw new InvalidArgumentException('"maxProperties" must be an integer. This integer must be greater than, or equal to, 0.');
+            }
+            if ($maxProperties < $minProperties) {
+                throw new InvalidArgumentException('"maxProperties" value cannot be less than "minProperties"');
+            }
+        }
+
+        if ($additionalProperties !== null) {
+            if (is_bool($additionalProperties) === false && is_object($additionalProperties) === false && is_array($additionalProperties) === false) {
+                throw new InvalidArgumentException('The value of "additionalProperties" must be a boolean or object or array.');
+            }
+        }
+
+        if ($required !== null) {
+            if (
+                is_array($required) === false
+                || count($required) > count(array_unique($required))
+            ) {
+                throw new InvalidArgumentException('The value of "required" must be an array. Elements of this array must be unique.');
+            }
+            foreach ($required as $requiredPropName) {
+                if (is_string($requiredPropName) === false) {
+                    throw new InvalidArgumentException('Elements of "required" array must be strings');
+                }
+            }
+        }
+
+        foreach ($properties as $propName => $propValue) {
+            $options = $this->extractSchemaProperties($propValue);
+            $dataType = $options['type'];
+            $dataFormat = $options['format'] ?? null;
+            $ref = $options['$ref'] ?? null;
+            $data = $this->mockFromRef($ref);
+            $obj->$propName = ($data) ? $data : $this->mock($dataType, $dataFormat, $options);
+        }
+
+        return $obj;
+    }
+
+    /**
+     * Mocks OpenApi Data from schema.
+     *
+     * @param array|object $schema OpenAPI schema
+     *
+     * @throws \InvalidArgumentException when invalid arguments passed
+     *
+     * @return mixed
+     */
+    public function mockFromSchema($schema)
+    {
+        $props = $this->extractSchemaProperties($schema);
+        if (array_key_exists('$ref', $props) && !empty($props['$ref'])) {
+            return $this->mockFromRef($props['$ref']);
+        } elseif ($props['type'] === null) {
+            throw new InvalidArgumentException('"schema" must be object or assoc array with "type" property');
+        }
+        return $this->mock($props['type'], $props['format'], $props);
+    }
+
+    /**
+     * Mock data by referenced schema.
+     * TODO: this method will return model instance, not an StdClass
+     *
+     * @param string|null $ref Ref to model, eg. #/components/schemas/User
+     *
+     * @return mixed
+     */
+    public function mockFromRef($ref)
+    {
+        $data = null;
+        if (is_string($ref) && !empty($ref)) {
+            $refName = static::getSimpleRef($ref);
+            $modelName = static::toModelName($refName);
+            $modelClass = 'OpenAPIServer\Model\\' . $modelName;
+            if (!class_exists($modelClass) || !method_exists($modelClass, 'getOpenApiSchema')) {
+                throw new InvalidArgumentException(sprintf(
+                    'Model %s not found or method %s doesn\'t exist',
+                    $modelClass,
+                    $modelClass . '::getOpenApiSchema'
+                ));
+            }
+            $data = $this->mockFromSchema($modelClass::getOpenApiSchema(true));
+        }
+
+        return $data;
+    }
+
+    /**
+     * @internal Extract OAS properties from array or object.
+     * @codeCoverageIgnore
+     *
+     * @param array|object $val Processed array or object
      *
      * @return array
      */
-    private function extractSchemaProperties($arr)
+    private function extractSchemaProperties($val)
     {
-        $props = [];
+        $props = [
+            'type' => null,
+            'format' => null,
+        ];
         foreach (
             [
+                'type',
+                'format',
                 'minimum',
                 'maximum',
                 'exclusiveMinimum',
@@ -294,10 +466,13 @@ final class OpenApiDataMocker implements IMocker
                 'additionalProperties',
                 'required',
                 'example',
+                '$ref',
             ] as $propName
         ) {
-            if (array_key_exists($propName, $arr)) {
-                $props[$propName] = $arr[$propName];
+            if (is_array($val) && array_key_exists($propName, $val)) {
+                $props[$propName] = $val[$propName];
+            } elseif (is_object($val) && isset($val->$propName)) {
+                $props[$propName] = $val->$propName;
             }
         }
         return $props;
@@ -305,6 +480,7 @@ final class OpenApiDataMocker implements IMocker
 
     /**
      * @internal
+     * @codeCoverageIgnore
      *
      * @return float|int
      */
@@ -357,6 +533,6 @@ final class OpenApiDataMocker implements IMocker
         if ($maxDecimals > 0) {
             return round($min + mt_rand() / mt_getrandmax() * ($max - $min), $maxDecimals);
         }
-        return mt_rand($min, $max);
+        return mt_rand((int) $min, (int) $max);
     }
 }

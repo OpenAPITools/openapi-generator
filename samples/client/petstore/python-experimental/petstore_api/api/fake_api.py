@@ -108,7 +108,8 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['xml_item'] = xml_item
+            kwargs['xml_item'] = \
+                xml_item
             return self.call_with_http_info(**kwargs)
 
         self.create_xml_item = Endpoint(
@@ -140,7 +141,8 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'xml_item': (xml_item.XmlItem,),
+                    'xml_item':
+                        (xml_item.XmlItem,),
                 },
                 'attribute_map': {
                 },
@@ -247,7 +249,8 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (bool,),
+                    'body':
+                        (bool,),
                 },
                 'attribute_map': {
                 },
@@ -349,7 +352,8 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (outer_composite.OuterComposite,),
+                    'body':
+                        (outer_composite.OuterComposite,),
                 },
                 'attribute_map': {
                 },
@@ -451,7 +455,8 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (outer_enum.OuterEnum,),
+                    'body':
+                        (outer_enum.OuterEnum,),
                 },
                 'attribute_map': {
                 },
@@ -553,7 +558,8 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (outer_number.OuterNumber,),
+                    'body':
+                        (outer_number.OuterNumber,),
                 },
                 'attribute_map': {
                 },
@@ -655,7 +661,8 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (str,),
+                    'body':
+                        (str,),
                 },
                 'attribute_map': {
                 },
@@ -728,7 +735,8 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['body'] = body
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.test_body_with_file_schema = Endpoint(
@@ -760,7 +768,8 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (file_schema_test_class.FileSchemaTestClass,),
+                    'body':
+                        (file_schema_test_class.FileSchemaTestClass,),
                 },
                 'attribute_map': {
                 },
@@ -833,8 +842,10 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['query'] = query
-            kwargs['body'] = body
+            kwargs['query'] = \
+                query
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.test_body_with_query_params = Endpoint(
@@ -868,8 +879,10 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'query': (str,),
-                    'body': (user.User,),
+                    'query':
+                        (str,),
+                    'body':
+                        (user.User,),
                 },
                 'attribute_map': {
                     'query': 'query',
@@ -944,7 +957,8 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['body'] = body
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.test_client_model = Endpoint(
@@ -976,7 +990,8 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (client.Client,),
+                    'body':
+                        (client.Client,),
                 },
                 'attribute_map': {
                 },
@@ -1055,11 +1070,16 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['query_integer'] = query_integer
-            kwargs['query_string'] = query_string
-            kwargs['path_string'] = path_string
-            kwargs['path_integer'] = path_integer
-            kwargs['header_number'] = header_number
+            kwargs['query_integer'] = \
+                query_integer
+            kwargs['query_string'] = \
+                query_string
+            kwargs['path_string'] = \
+                path_string
+            kwargs['path_integer'] = \
+                path_integer
+            kwargs['header_number'] = \
+                header_number
             return self.call_with_http_info(**kwargs)
 
         self.test_endpoint_enums_length_one = Endpoint(
@@ -1124,11 +1144,16 @@ class FakeApi(object):
                     },
                 },
                 'openapi_types': {
-                    'query_integer': (int,),
-                    'query_string': (str,),
-                    'path_string': (str,),
-                    'path_integer': (int,),
-                    'header_number': (float,),
+                    'query_integer':
+                        (int,),
+                    'query_string':
+                        (str,),
+                    'path_string':
+                        (str,),
+                    'path_integer':
+                        (int,),
+                    'header_number':
+                        (float,),
                 },
                 'attribute_map': {
                     'query_integer': 'query_integer',
@@ -1156,9 +1181,9 @@ class FakeApi(object):
         )
 
         def __test_endpoint_parameters(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
-            """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
+            """Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트  # noqa: E501
 
-            Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
+            Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
             >>> thread = api.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, async_req=True)
@@ -1221,10 +1246,14 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['number'] = number
-            kwargs['double'] = double
-            kwargs['pattern_without_delimiter'] = pattern_without_delimiter
-            kwargs['byte'] = byte
+            kwargs['number'] = \
+                number
+            kwargs['double'] = \
+                double
+            kwargs['pattern_without_delimiter'] = \
+                pattern_without_delimiter
+            kwargs['byte'] = \
+                byte
             return self.call_with_http_info(**kwargs)
 
         self.test_endpoint_parameters = Endpoint(
@@ -1323,20 +1352,34 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'number': (float,),
-                    'double': (float,),
-                    'pattern_without_delimiter': (str,),
-                    'byte': (str,),
-                    'integer': (int,),
-                    'int32': (int,),
-                    'int64': (int,),
-                    'float': (float,),
-                    'string': (str,),
-                    'binary': (file_type,),
-                    'date': (date,),
-                    'date_time': (datetime,),
-                    'password': (str,),
-                    'param_callback': (str,),
+                    'number':
+                        (float,),
+                    'double':
+                        (float,),
+                    'pattern_without_delimiter':
+                        (str,),
+                    'byte':
+                        (str,),
+                    'integer':
+                        (int,),
+                    'int32':
+                        (int,),
+                    'int64':
+                        (int,),
+                    'float':
+                        (float,),
+                    'string':
+                        (str,),
+                    'binary':
+                        (file_type,),
+                    'date':
+                        (date,),
+                    'date_time':
+                        (datetime,),
+                    'password':
+                        (str,),
+                    'param_callback':
+                        (str,),
                 },
                 'attribute_map': {
                     'number': 'number',
@@ -1530,14 +1573,22 @@ class FakeApi(object):
                     },
                 },
                 'openapi_types': {
-                    'enum_header_string_array': ([str],),
-                    'enum_header_string': (str,),
-                    'enum_query_string_array': ([str],),
-                    'enum_query_string': (str,),
-                    'enum_query_integer': (int,),
-                    'enum_query_double': (float,),
-                    'enum_form_string_array': ([str],),
-                    'enum_form_string': (str,),
+                    'enum_header_string_array':
+                        ([str],),
+                    'enum_header_string':
+                        (str,),
+                    'enum_query_string_array':
+                        ([str],),
+                    'enum_query_string':
+                        (str,),
+                    'enum_query_integer':
+                        (int,),
+                    'enum_query_double':
+                        (float,),
+                    'enum_form_string_array':
+                        ([str],),
+                    'enum_form_string':
+                        (str,),
                 },
                 'attribute_map': {
                     'enum_header_string_array': 'enum_header_string_array',
@@ -1633,9 +1684,12 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['required_string_group'] = required_string_group
-            kwargs['required_boolean_group'] = required_boolean_group
-            kwargs['required_int64_group'] = required_int64_group
+            kwargs['required_string_group'] = \
+                required_string_group
+            kwargs['required_boolean_group'] = \
+                required_boolean_group
+            kwargs['required_int64_group'] = \
+                required_int64_group
             return self.call_with_http_info(**kwargs)
 
         self.test_group_parameters = Endpoint(
@@ -1674,12 +1728,18 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'required_string_group': (int,),
-                    'required_boolean_group': (bool,),
-                    'required_int64_group': (int,),
-                    'string_group': (int,),
-                    'boolean_group': (bool,),
-                    'int64_group': (int,),
+                    'required_string_group':
+                        (int,),
+                    'required_boolean_group':
+                        (bool,),
+                    'required_int64_group':
+                        (int,),
+                    'string_group':
+                        (int,),
+                    'boolean_group':
+                        (bool,),
+                    'int64_group':
+                        (int,),
                 },
                 'attribute_map': {
                     'required_string_group': 'required_string_group',
@@ -1760,7 +1820,8 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['param'] = param
+            kwargs['param'] = \
+                param
             return self.call_with_http_info(**kwargs)
 
         self.test_inline_additional_properties = Endpoint(
@@ -1792,7 +1853,8 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'param': ({str: (str,)},),
+                    'param':
+                        ({str: (str,)},),
                 },
                 'attribute_map': {
                 },
@@ -1865,8 +1927,10 @@ class FakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['param'] = param
-            kwargs['param2'] = param2
+            kwargs['param'] = \
+                param
+            kwargs['param2'] = \
+                param2
             return self.call_with_http_info(**kwargs)
 
         self.test_json_form_data = Endpoint(
@@ -1900,8 +1964,10 @@ class FakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'param': (str,),
-                    'param2': (str,),
+                    'param':
+                        (str,),
+                    'param2':
+                        (str,),
                 },
                 'attribute_map': {
                     'param': 'param',

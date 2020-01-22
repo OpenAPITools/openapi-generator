@@ -27,13 +27,42 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
+                        <id>bundle-install</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>composer</executable>
+                            <arguments>
+                                <argument>install</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>syntax-check</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>./php_syntax_checker.bash</executable>
+                            <executable>composer</executable>
+                            <arguments>
+                                <argument>phplint</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>bundle-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>composer</executable>
+                            <arguments>
+                                <argument>test</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>

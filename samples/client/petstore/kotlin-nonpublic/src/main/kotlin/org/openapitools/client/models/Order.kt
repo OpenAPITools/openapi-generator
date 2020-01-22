@@ -31,7 +31,7 @@ internal data class Order (
     @Json(name = "quantity")
     val quantity: kotlin.Int? = null,
     @Json(name = "shipDate")
-    val shipDate: java.time.LocalDateTime? = null,
+    val shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
     @Json(name = "status")
     val status: Order.Status? = null,

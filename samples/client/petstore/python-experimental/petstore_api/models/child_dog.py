@@ -31,11 +31,13 @@ from petstore_api.model_utils import (  # noqa: F401
 try:
     from petstore_api.models import child_dog_all_of
 except ImportError:
-    child_dog_all_of = sys.modules['petstore_api.models.child_dog_all_of']
+    child_dog_all_of = sys.modules[
+        'petstore_api.models.child_dog_all_of']
 try:
     from petstore_api.models import parent_pet
 except ImportError:
-    parent_pet = sys.modules['petstore_api.models.parent_pet']
+    parent_pet = sys.modules[
+        'petstore_api.models.parent_pet']
 
 
 class ChildDog(ModelComposed):
@@ -53,8 +55,6 @@ class ChildDog(ModelComposed):
           and the value is json key in definition.
       discriminator_value_class_map (dict): A dict to go from the discriminator
           variable value to the discriminator class name.
-      openapi_types (dict): The key is attribute name
-          and the value is attribute type.
       validations (dict): The key is the tuple path to the attribute
           and the for var_name this is (var_name,). The value is a dict
           that stores validations for max_length, min_length, max_items,
@@ -67,15 +67,25 @@ class ChildDog(ModelComposed):
     allowed_values = {
     }
 
-    openapi_types = {
-        'pet_type': (str,),  # noqa: E501
-        'bark': (str,),  # noqa: E501
-    }
-
     validations = {
     }
 
     additional_properties_type = None
+
+    @staticmethod
+    def openapi_types():
+        """
+        This must be a class method so a model may have properties that are
+        of type self, this ensures that we don't create a cyclic import
+
+        Returns
+            openapi_types (dict): The key is attribute name
+                and the value is attribute type.
+        """
+        return {
+            'pet_type': (str,),  # noqa: E501
+            'bark': (str,),  # noqa: E501
+        }
 
     @staticmethod
     def discriminator():

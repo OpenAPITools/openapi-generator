@@ -137,8 +137,7 @@ public enum ServerTrustPolicy {
         for path in paths {
             if let
                 certificateData = NSData(contentsOfFile: path),
-                certificate = SecCertificateCreateWithData(nil, certificateData)
-            {
+                certificate = SecCertificateCreateWithData(nil, certificateData) {
                 certificates.append(certificate)
             }
         }
@@ -279,8 +278,7 @@ public enum ServerTrustPolicy {
         for index in 0..<SecTrustGetCertificateCount(trust) {
             if let
                 certificate = SecTrustGetCertificateAtIndex(trust, index),
-                publicKey = publicKeyForCertificate(certificate)
-            {
+                publicKey = publicKeyForCertificate(certificate) {
                 publicKeys.append(publicKey)
             }
         }

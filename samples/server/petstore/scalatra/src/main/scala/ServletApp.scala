@@ -33,5 +33,5 @@ object OpenAPIInfo {
     """http://org.openapitools""",
     """team@openapitools.org""",
     """Apache-2.0""",
-    """http://www.apache.org/licenses/LICENSE-2.0.html""")
+    """https://www.apache.org/licenses/LICENSE-2.0.html""")
 }

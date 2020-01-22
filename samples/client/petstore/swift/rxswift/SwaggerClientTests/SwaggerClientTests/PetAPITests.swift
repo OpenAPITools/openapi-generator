@@ -38,7 +38,7 @@ class PetAPITests: XCTestCase {
         newPet.status = .Available
         PetAPI.addPet(body: newPet).subscribe(onNext: {
             expectation.fulfill()
-            }, onError: { errorType in
+            }, onError: { _ in
                 XCTFail("error creating pet")
             }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
@@ -50,7 +50,7 @@ class PetAPITests: XCTestCase {
             XCTAssert(pet.id == 1000, "invalid id")
             XCTAssert(pet.name == "Fluffy", "invalid name")
             expectation.fulfill()
-            }, onError: { errorType in
+            }, onError: { _ in
                 XCTFail("error getting pet")
             }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)

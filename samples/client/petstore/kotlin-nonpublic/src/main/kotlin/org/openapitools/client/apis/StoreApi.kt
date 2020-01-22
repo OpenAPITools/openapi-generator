@@ -56,8 +56,14 @@ internal class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+            }
         }
     }
 
@@ -90,8 +96,14 @@ internal class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.Map<kotlin.String, kotlin.Int>
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+            }
         }
     }
 
@@ -125,8 +137,14 @@ internal class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2
             ResponseType.Success -> (localVarResponse as Success<*>).data as Order
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+            }
         }
     }
 
@@ -160,8 +178,14 @@ internal class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2
             ResponseType.Success -> (localVarResponse as Success<*>).data as Order
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((localVarResponse as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((localVarResponse as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+            }
         }
     }
 

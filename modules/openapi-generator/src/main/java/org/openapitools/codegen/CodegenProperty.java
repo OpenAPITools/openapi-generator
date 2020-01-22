@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -49,6 +49,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String jsonSchema;
     public String minimum;
     public String maximum;
+    public Number multipleOf;
     public boolean exclusiveMinimum;
     public boolean exclusiveMaximum;
     public boolean hasMore;
@@ -514,6 +515,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.maxProperties = maxProperties;
     }
 
+    public Number getMultipleOf() {
+        return multipleOf;
+    }
+
+    public void setMultipleOf(Number multipleOf) {
+        this.multipleOf = multipleOf;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenProperty{");
@@ -593,6 +602,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", maxProperties=").append(maxProperties);
         sb.append(", minProperties=").append(minProperties);
         sb.append(", uniqueItems=").append(uniqueItems);
+        sb.append(", multipleOf=").append(multipleOf);
         sb.append(", isXmlAttribute=").append(isXmlAttribute);
         sb.append(", xmlPrefix='").append(xmlPrefix).append('\'');
         sb.append(", xmlName='").append(xmlName).append('\'');
@@ -684,7 +694,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(minItems, that.minItems) &&
                 Objects.equals(xmlPrefix, that.xmlPrefix) &&
                 Objects.equals(xmlName, that.xmlName) &&
-                Objects.equals(xmlNamespace, that.xmlNamespace);
+                Objects.equals(xmlNamespace, that.xmlNamespace) &&
+                Objects.equals(multipleOf, that.multipleOf);
     }
 
     @Override
@@ -700,6 +711,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isReadOnly, isWriteOnly, isNullable, isSelfReference, isCircularReference, _enum, allowableValues,
                 items, mostInnerItems, vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName, xmlNamespace,
-                isXmlWrapped);
+                isXmlWrapped, multipleOf);
     }
 }

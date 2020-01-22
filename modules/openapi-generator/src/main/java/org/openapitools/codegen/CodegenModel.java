@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -82,6 +82,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private String minimum;
     private String maximum;
     private String pattern;
+    private Number multipleOf;
 
     public String getAdditionalPropertiesType() {
         return additionalPropertiesType;
@@ -423,6 +424,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.maxProperties = maxProperties;
     }
 
+    @Override
+    public Number getMultipleOf() {
+        return multipleOf;
+    }
+
+    @Override
+    public void setMultipleOf(Number multipleOf) {
+        this.multipleOf = multipleOf;
+    }
+
     public List<CodegenProperty> getReadOnlyVars() {
         return readOnlyVars;
     }
@@ -579,7 +590,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(getMinLength(), that.getMinLength()) &&
                 Objects.equals(getMinimum(), that.getMinimum()) &&
                 Objects.equals(getMaximum(), that.getMaximum()) &&
-                Objects.equals(getPattern(), that.getPattern());
+                Objects.equals(getPattern(), that.getPattern()) &&
+                Objects.equals(getMultipleOf(), that.getMultipleOf());
+
     }
 
     @Override
@@ -595,7 +608,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasChildren, isMapModel, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
-                getMaximum(), getPattern());
+                getMaximum(), getPattern(), getMultipleOf());
     }
 
     @Override
@@ -673,6 +686,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", minimum='").append(minimum).append('\'');
         sb.append(", maximum='").append(maximum).append('\'');
         sb.append(", pattern='").append(pattern).append('\'');
+        sb.append(", multipleOf='").append(multipleOf).append('\'');
         sb.append('}');
         return sb.toString();
     }
