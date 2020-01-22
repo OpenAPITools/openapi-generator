@@ -16,6 +16,11 @@ var client *sw.APIClient
 const testHost = "petstore.swagger.io:80"
 const testScheme = "http"
 
+var (
+	available = sw.STATUS_ITEMS_AVAILABLE
+	pending   = sw.PET_STATUS_PENDING
+)
+
 func TestMain(m *testing.M) {
 	cfg := sw.NewConfiguration()
 	cfg.AddDefaultHeader("testheader", "testvalue")
@@ -28,7 +33,7 @@ func TestMain(m *testing.M) {
 
 func TestAddPet(t *testing.T) {
 	newPet := (sw.Pet{Id: sw.PtrInt64(12830), Name: "gopher",
-		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
+		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: &pending,
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
 	r, err := client.PetApi.AddPet(context.Background()).Body(newPet).Execute()
@@ -101,7 +106,7 @@ func TestFindPetsByTag(t *testing.T) {
 			assert := assert.New(t)
 			for i := 0; i < len(resp); i++ {
 				if *resp[i].Id == 12830 {
-					assert.Equal(*resp[i].Status, "available", "Pet status should be `pending`")
+					assert.Equal(string(*resp[i].Status), "available", "Pet status should be `available`")
 					found = true
 				}
 			}
@@ -118,7 +123,7 @@ func TestFindPetsByTag(t *testing.T) {
 }
 
 func TestFindPetsByStatus(t *testing.T) {
-	resp, r, err := client.PetApi.FindPetsByStatus(context.Background()).Status([]string{"available"}).Execute()
+	resp, r, err := client.PetApi.FindPetsByStatus(context.Background()).Status([]sw.StatusItems{available}).Execute()
 	if err != nil {
 		t.Fatalf("Error while getting pet by id: %v", err)
 		t.Log(r)
@@ -128,7 +133,7 @@ func TestFindPetsByStatus(t *testing.T) {
 		} else {
 			assert := assert.New(t)
 			for i := 0; i < len(resp); i++ {
-				assert.Equal(*resp[i].Status, "available", "Pet status should be `available`")
+				assert.Equal(string(*resp[i].Status), "available", "Pet status should be `available`")
 			}
 		}
 
@@ -276,7 +281,7 @@ func isPetCorrect(t *testing.T, id int64, name string, status string) {
 	} else {
 		assert.Equal(*resp.Id, int64(id), "Pet id should be equal")
 		assert.Equal(resp.Name, name, fmt.Sprintf("Pet name should be %s", name))
-		assert.Equal(*resp.Status, status, fmt.Sprintf("Pet status should be %s", status))
+		assert.Equal(string(*resp.Status), status, fmt.Sprintf("Pet status should be %s", status))
 
 		//t.Log(resp)
 	}
