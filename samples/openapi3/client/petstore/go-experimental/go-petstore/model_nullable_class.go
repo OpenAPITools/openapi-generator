@@ -21,7 +21,7 @@ type NullableClass struct {
 	NumberProp *NullableFloat32 `json:"number_prop,omitempty"`
 	BooleanProp *NullableBool `json:"boolean_prop,omitempty"`
 	StringProp *NullableString `json:"string_prop,omitempty"`
-	DateProp *NullableTime `json:"date_prop,omitempty"`
+	DateProp *NullableString `json:"date_prop,omitempty"`
 	DatetimeProp *NullableTime `json:"datetime_prop,omitempty"`
 	ArrayNullableProp *[]map[string]interface{} `json:"array_nullable_prop,omitempty"`
 	ArrayAndItemsNullableProp *[]map[string]interface{} `json:"array_and_items_nullable_prop,omitempty"`
@@ -164,9 +164,9 @@ func (o *NullableClass) SetStringProp(v NullableString) {
 }
 
 // GetDateProp returns the DateProp field value if set, zero value otherwise.
-func (o *NullableClass) GetDateProp() NullableTime {
+func (o *NullableClass) GetDateProp() NullableString {
 	if o == nil || o.DateProp == nil {
-		var ret NullableTime
+		var ret NullableString
 		return ret
 	}
 	return *o.DateProp
@@ -174,9 +174,9 @@ func (o *NullableClass) GetDateProp() NullableTime {
 
 // GetDatePropOk returns a tuple with the DateProp field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *NullableClass) GetDatePropOk() (NullableTime, bool) {
+func (o *NullableClass) GetDatePropOk() (NullableString, bool) {
 	if o == nil || o.DateProp == nil {
-		var ret NullableTime
+		var ret NullableString
 		return ret, false
 	}
 	return *o.DateProp, true
@@ -191,8 +191,8 @@ func (o *NullableClass) HasDateProp() bool {
 	return false
 }
 
-// SetDateProp gets a reference to the given NullableTime and assigns it to the DateProp field.
-func (o *NullableClass) SetDateProp(v NullableTime) {
+// SetDateProp gets a reference to the given NullableString and assigns it to the DateProp field.
+func (o *NullableClass) SetDateProp(v NullableString) {
 	o.DateProp = &v
 }
 

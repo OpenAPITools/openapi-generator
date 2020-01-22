@@ -83,18 +83,15 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 }
 
                 for (CodegenProperty param : model.vars) {
-                    if (!param.isNullable) {
+                    if (!param.isNullable || param.isMapContainer || param.isListContainer) {
                         continue;
                     }
-                    if (param.isMapContainer || param.isListContainer ) {
-                        continue;
-                    }
-                    if (param.isDateTime || param.isDate) {
+                    if (param.isDateTime) {
                         param.dataType = "NullableTime";
                     } else {
                         param.dataType = "Nullable" + Character.toUpperCase(param.dataType.charAt(0))
-                        + param.dataType.substring(1);
-                    }        
+                            + param.dataType.substring(1);
+                    }
                 }
             }
         }
