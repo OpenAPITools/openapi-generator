@@ -31,7 +31,7 @@ func TestAddPet(t *testing.T) {
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(context.Background()).Body(newPet).Execute()
+	r, err := client.PetApi.AddPet(context.Background()).Pet(newPet).Execute()
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)

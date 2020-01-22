@@ -41,7 +41,7 @@ func TestOAuth2(t *testing.T) {
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(context.Background()).Body(newPet).Execute()
+	r, err := client.PetApi.AddPet(context.Background()).Pet(newPet).Execute()
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
@@ -76,7 +76,7 @@ func TestBasicAuth(t *testing.T) {
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(auth).Body(newPet).Execute()
+	r, err := client.PetApi.AddPet(auth).Pet(newPet).Execute()
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
@@ -106,7 +106,7 @@ func TestAccessToken(t *testing.T) {
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(nil).Body(newPet).Execute()
+	r, err := client.PetApi.AddPet(nil).Pet(newPet).Execute()
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
@@ -136,7 +136,7 @@ func TestAPIKeyNoPrefix(t *testing.T) {
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(context.Background()).Body(newPet).Execute()
+	r, err := client.PetApi.AddPet(context.Background()).Pet(newPet).Execute()
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
@@ -171,7 +171,7 @@ func TestAPIKeyWithPrefix(t *testing.T) {
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(nil).Body(newPet).Execute()
+	r, err := client.PetApi.AddPet(nil).Pet(newPet).Execute()
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
@@ -204,7 +204,7 @@ func TestDefaultHeader(t *testing.T) {
 		PhotoUrls: []string{"http://1.com", "http://2.com"}, Status: sw.PtrString("pending"),
 		Tags: &[]sw.Tag{sw.Tag{Id: sw.PtrInt64(1), Name: sw.PtrString("tag2")}}})
 
-	r, err := client.PetApi.AddPet(context.Background()).Body(newPet).Execute()
+	r, err := client.PetApi.AddPet(context.Background()).Pet(newPet).Execute()
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
