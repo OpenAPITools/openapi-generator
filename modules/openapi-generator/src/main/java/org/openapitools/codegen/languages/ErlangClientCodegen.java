@@ -124,7 +124,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Erlang application name (convention: lowercase).")
                 .defaultValue(this.packageName));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Erlang application version")
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Erlang application version")
                 .defaultValue(this.packageVersion));
     }
 

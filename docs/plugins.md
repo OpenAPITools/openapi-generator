@@ -51,7 +51,7 @@ To include in your project, add the following to `build.gradle`:
 buildscript {
   repositories {
     mavenLocal()
-    maven { url = "https://repo1.maven.org/maven2" }
+    maven { url "https://repo1.maven.org/maven2" }
   }
   dependencies {
     classpath "org.openapitools:openapi-generator-gradle-plugin:3.3.4"

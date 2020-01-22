@@ -102,7 +102,8 @@ class AnotherFakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['body'] = body
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.call_123_test_special_tags = Endpoint(
@@ -134,7 +135,8 @@ class AnotherFakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (client.Client,),
+                    'body':
+                        (client.Client,),
                 },
                 'attribute_map': {
                 },

@@ -22,10 +22,17 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>{{packageName}}</RootNamespace>
     <AssemblyName>{{packageName}}</AssemblyName>
+    <Description>{{packageDescription}}</Description>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFramework>{{targetFramework}}</TargetFramework>
     <FileAlignment>512</FileAlignment>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\{{packageName}}.xml</DocumentationFile>{{#licenseId}}
+    <PackageLicenseExpression>{{licenseId}}</PackageLicenseExpression>{{/licenseId}}
+    <RepositoryUrl>https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}</PackageProjectUrl>{{#releaseNote}}
+    <PackageReleaseNotes>{{releaseNote}}</PackageReleaseNotes>{{/releaseNote}}{{#packageTags}}
+    <PackageTags>{{{packageTags}}}</PackageTags>{{/packageTags}}
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
