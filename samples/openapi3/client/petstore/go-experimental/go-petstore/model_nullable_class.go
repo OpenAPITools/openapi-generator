@@ -23,11 +23,11 @@ type NullableClass struct {
 	StringProp *NullableString `json:"string_prop,omitempty"`
 	DateProp *NullableString `json:"date_prop,omitempty"`
 	DatetimeProp *NullableTime.Time `json:"datetime_prop,omitempty"`
-	ArrayNullableProp *Nullable[]map[string]interface{} `json:"array_nullable_prop,omitempty"`
-	ArrayAndItemsNullableProp *Nullable[]map[string]interface{} `json:"array_and_items_nullable_prop,omitempty"`
+	ArrayNullableProp *[]map[string]interface{} `json:"array_nullable_prop,omitempty"`
+	ArrayAndItemsNullableProp *[]map[string]interface{} `json:"array_and_items_nullable_prop,omitempty"`
 	ArrayItemsNullable *[]map[string]interface{} `json:"array_items_nullable,omitempty"`
-	ObjectNullableProp *NullableMap[string]map[string]interface{} `json:"object_nullable_prop,omitempty"`
-	ObjectAndItemsNullableProp *NullableMap[string]map[string]interface{} `json:"object_and_items_nullable_prop,omitempty"`
+	ObjectNullableProp *map[string]map[string]interface{} `json:"object_nullable_prop,omitempty"`
+	ObjectAndItemsNullableProp *map[string]map[string]interface{} `json:"object_and_items_nullable_prop,omitempty"`
 	ObjectItemsNullable *map[string]map[string]interface{} `json:"object_items_nullable,omitempty"`
 }
 
@@ -230,9 +230,9 @@ func (o *NullableClass) SetDatetimeProp(v NullableTime.Time) {
 }
 
 // GetArrayNullableProp returns the ArrayNullableProp field value if set, zero value otherwise.
-func (o *NullableClass) GetArrayNullableProp() Nullable[]map[string]interface{} {
+func (o *NullableClass) GetArrayNullableProp() []map[string]interface{} {
 	if o == nil || o.ArrayNullableProp == nil {
-		var ret Nullable[]map[string]interface{}
+		var ret []map[string]interface{}
 		return ret
 	}
 	return *o.ArrayNullableProp
@@ -240,9 +240,9 @@ func (o *NullableClass) GetArrayNullableProp() Nullable[]map[string]interface{} 
 
 // GetArrayNullablePropOk returns a tuple with the ArrayNullableProp field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *NullableClass) GetArrayNullablePropOk() (Nullable[]map[string]interface{}, bool) {
+func (o *NullableClass) GetArrayNullablePropOk() ([]map[string]interface{}, bool) {
 	if o == nil || o.ArrayNullableProp == nil {
-		var ret Nullable[]map[string]interface{}
+		var ret []map[string]interface{}
 		return ret, false
 	}
 	return *o.ArrayNullableProp, true
@@ -257,15 +257,15 @@ func (o *NullableClass) HasArrayNullableProp() bool {
 	return false
 }
 
-// SetArrayNullableProp gets a reference to the given Nullable[]map[string]interface{} and assigns it to the ArrayNullableProp field.
-func (o *NullableClass) SetArrayNullableProp(v Nullable[]map[string]interface{}) {
+// SetArrayNullableProp gets a reference to the given []map[string]interface{} and assigns it to the ArrayNullableProp field.
+func (o *NullableClass) SetArrayNullableProp(v []map[string]interface{}) {
 	o.ArrayNullableProp = &v
 }
 
 // GetArrayAndItemsNullableProp returns the ArrayAndItemsNullableProp field value if set, zero value otherwise.
-func (o *NullableClass) GetArrayAndItemsNullableProp() Nullable[]map[string]interface{} {
+func (o *NullableClass) GetArrayAndItemsNullableProp() []map[string]interface{} {
 	if o == nil || o.ArrayAndItemsNullableProp == nil {
-		var ret Nullable[]map[string]interface{}
+		var ret []map[string]interface{}
 		return ret
 	}
 	return *o.ArrayAndItemsNullableProp
@@ -273,9 +273,9 @@ func (o *NullableClass) GetArrayAndItemsNullableProp() Nullable[]map[string]inte
 
 // GetArrayAndItemsNullablePropOk returns a tuple with the ArrayAndItemsNullableProp field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *NullableClass) GetArrayAndItemsNullablePropOk() (Nullable[]map[string]interface{}, bool) {
+func (o *NullableClass) GetArrayAndItemsNullablePropOk() ([]map[string]interface{}, bool) {
 	if o == nil || o.ArrayAndItemsNullableProp == nil {
-		var ret Nullable[]map[string]interface{}
+		var ret []map[string]interface{}
 		return ret, false
 	}
 	return *o.ArrayAndItemsNullableProp, true
@@ -290,8 +290,8 @@ func (o *NullableClass) HasArrayAndItemsNullableProp() bool {
 	return false
 }
 
-// SetArrayAndItemsNullableProp gets a reference to the given Nullable[]map[string]interface{} and assigns it to the ArrayAndItemsNullableProp field.
-func (o *NullableClass) SetArrayAndItemsNullableProp(v Nullable[]map[string]interface{}) {
+// SetArrayAndItemsNullableProp gets a reference to the given []map[string]interface{} and assigns it to the ArrayAndItemsNullableProp field.
+func (o *NullableClass) SetArrayAndItemsNullableProp(v []map[string]interface{}) {
 	o.ArrayAndItemsNullableProp = &v
 }
 
@@ -329,9 +329,9 @@ func (o *NullableClass) SetArrayItemsNullable(v []map[string]interface{}) {
 }
 
 // GetObjectNullableProp returns the ObjectNullableProp field value if set, zero value otherwise.
-func (o *NullableClass) GetObjectNullableProp() NullableMap[string]map[string]interface{} {
+func (o *NullableClass) GetObjectNullableProp() map[string]map[string]interface{} {
 	if o == nil || o.ObjectNullableProp == nil {
-		var ret NullableMap[string]map[string]interface{}
+		var ret map[string]map[string]interface{}
 		return ret
 	}
 	return *o.ObjectNullableProp
@@ -339,9 +339,9 @@ func (o *NullableClass) GetObjectNullableProp() NullableMap[string]map[string]in
 
 // GetObjectNullablePropOk returns a tuple with the ObjectNullableProp field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *NullableClass) GetObjectNullablePropOk() (NullableMap[string]map[string]interface{}, bool) {
+func (o *NullableClass) GetObjectNullablePropOk() (map[string]map[string]interface{}, bool) {
 	if o == nil || o.ObjectNullableProp == nil {
-		var ret NullableMap[string]map[string]interface{}
+		var ret map[string]map[string]interface{}
 		return ret, false
 	}
 	return *o.ObjectNullableProp, true
@@ -356,15 +356,15 @@ func (o *NullableClass) HasObjectNullableProp() bool {
 	return false
 }
 
-// SetObjectNullableProp gets a reference to the given NullableMap[string]map[string]interface{} and assigns it to the ObjectNullableProp field.
-func (o *NullableClass) SetObjectNullableProp(v NullableMap[string]map[string]interface{}) {
+// SetObjectNullableProp gets a reference to the given map[string]map[string]interface{} and assigns it to the ObjectNullableProp field.
+func (o *NullableClass) SetObjectNullableProp(v map[string]map[string]interface{}) {
 	o.ObjectNullableProp = &v
 }
 
 // GetObjectAndItemsNullableProp returns the ObjectAndItemsNullableProp field value if set, zero value otherwise.
-func (o *NullableClass) GetObjectAndItemsNullableProp() NullableMap[string]map[string]interface{} {
+func (o *NullableClass) GetObjectAndItemsNullableProp() map[string]map[string]interface{} {
 	if o == nil || o.ObjectAndItemsNullableProp == nil {
-		var ret NullableMap[string]map[string]interface{}
+		var ret map[string]map[string]interface{}
 		return ret
 	}
 	return *o.ObjectAndItemsNullableProp
@@ -372,9 +372,9 @@ func (o *NullableClass) GetObjectAndItemsNullableProp() NullableMap[string]map[s
 
 // GetObjectAndItemsNullablePropOk returns a tuple with the ObjectAndItemsNullableProp field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *NullableClass) GetObjectAndItemsNullablePropOk() (NullableMap[string]map[string]interface{}, bool) {
+func (o *NullableClass) GetObjectAndItemsNullablePropOk() (map[string]map[string]interface{}, bool) {
 	if o == nil || o.ObjectAndItemsNullableProp == nil {
-		var ret NullableMap[string]map[string]interface{}
+		var ret map[string]map[string]interface{}
 		return ret, false
 	}
 	return *o.ObjectAndItemsNullableProp, true
@@ -389,8 +389,8 @@ func (o *NullableClass) HasObjectAndItemsNullableProp() bool {
 	return false
 }
 
-// SetObjectAndItemsNullableProp gets a reference to the given NullableMap[string]map[string]interface{} and assigns it to the ObjectAndItemsNullableProp field.
-func (o *NullableClass) SetObjectAndItemsNullableProp(v NullableMap[string]map[string]interface{}) {
+// SetObjectAndItemsNullableProp gets a reference to the given map[string]map[string]interface{} and assigns it to the ObjectAndItemsNullableProp field.
+func (o *NullableClass) SetObjectAndItemsNullableProp(v map[string]map[string]interface{}) {
 	o.ObjectAndItemsNullableProp = &v
 }
 
