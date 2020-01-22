@@ -139,7 +139,10 @@ func TestFindPetsByStatus(t *testing.T) {
 }
 
 func TestUploadFile(t *testing.T) {
-	file, _ := os.Open("../python/testfiles/foo.png")
+	file, err1 := os.Open("testfiles/foo.png")
+	if err1 != nil {
+		t.Fatalf("Error opening file: %v", err1)
+	}
 
 	_, r, err := client.PetApi.UploadFile(context.Background(), 12830).AdditionalMetadata("golang").File(file).Execute()
 
