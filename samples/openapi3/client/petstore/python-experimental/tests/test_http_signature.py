@@ -135,20 +135,20 @@ class MockPoolManager(object):
         m1 = r1.search(authorization_header)
         self._tc.assertIsNotNone(m1)
         headers = m1.group(1).split(' ')
-        signed_headers_dict = {}
+        signed_headers_list = []
         for h in headers:
             if h == '(created)':
-                signed_headers_dict[h] = created
+                signed_headers_list.append((h, created))
             elif h == '(request-target)':
                 url = request_target[1]
                 target_path = urlparse(url).path
-                signed_headers_dict[h] = "{0} {1}".format(request_target[0].lower(), target_path)
+                signed_headers_list.append((h, "{0} {1}".format(request_target[0].lower(), target_path)))
             else:
                 value = next((v for k, v in actual_headers.items() if k.lower() == h), None)
                 self._tc.assertIsNotNone(value)
-                signed_headers_dict[h] = value
+                signed_headers_list.append((h, value))
         header_items = [
-            "{0}: {1}".format(key.lower(), value) for key, value in signed_headers_dict.items()]
+            "{0}: {1}".format(key.lower(), value) for key, value in signed_headers_list]
         string_to_sign = "\n".join(header_items)
         digest = None
         if self.signing_cfg.signing_scheme in {signing.SCHEME_RSA_SHA512, signing.SCHEME_HS2019}:
@@ -278,8 +278,8 @@ class PetApiTests(unittest.TestCase):
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
-                                                'headers="\(request-target\) \(created\) host date digest content-type",'
-                                                'signature="[a-zA-Z0-9+/]+="',
+                                                r'headers="\(request-target\) \(created\) host date digest content-type",'
+                                                r'signature="[a-zA-Z0-9+/]+="',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
@@ -309,8 +309,8 @@ class PetApiTests(unittest.TestCase):
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
-                                                'headers="\(created\)",'
-                                                'signature="[a-zA-Z0-9+/]+="',
+                                                r'headers="\(created\)",'
+                                                r'signature="[a-zA-Z0-9+/]+="',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
@@ -345,8 +345,8 @@ class PetApiTests(unittest.TestCase):
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
-                                                'headers="\(request-target\) \(created\)",'
-                                                'signature="[a-zA-Z0-9+/]+="',
+                                                r'headers="\(request-target\) \(created\)",'
+                                                r'signature="[a-zA-Z0-9+/]+="',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
@@ -381,8 +381,8 @@ class PetApiTests(unittest.TestCase):
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
-                                                'headers="\(request-target\) \(created\)",'
-                                                'signature="[a-zA-Z0-9+/]+="',
+                                                r'headers="\(request-target\) \(created\)",'
+                                                r'signature="[a-zA-Z0-9+/]+="',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
@@ -416,8 +416,8 @@ class PetApiTests(unittest.TestCase):
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
-                                                'headers="\(request-target\) \(created\)",'
-                                                'signature="[a-zA-Z0-9+/]+"',
+                                                r'headers="\(request-target\) \(created\)",'
+                                                r'signature="[a-zA-Z0-9+/]+"',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
@@ -425,61 +425,77 @@ class PetApiTests(unittest.TestCase):
 
     def test_invalid_configuration(self):
         # Signing scheme must be valid.
-        with self.assertRaisesRegex(Exception, 'Unsupported security scheme'):
+        with self.assertRaises(Exception) as cm:
             signing_cfg = signing.HttpSigningConfiguration(
                 key_id="my-key-id",
                 signing_scheme='foo',
                 private_key_path=self.ec_p521_key_path
             )
+        self.assertTrue(re.match('Unsupported security scheme', str(cm.exception)),
+            'Exception message: {0}'.format(str(cm.exception)))
 
         # Signing scheme must be specified.
-        with self.assertRaisesRegex(Exception, 'Unsupported security scheme'):
+        with self.assertRaises(Exception) as cm:
             signing_cfg = signing.HttpSigningConfiguration(
                 key_id="my-key-id",
                 private_key_path=self.ec_p521_key_path,
                 signing_scheme=None
             )
+        self.assertTrue(re.match('Unsupported security scheme', str(cm.exception)),
+            'Exception message: {0}'.format(str(cm.exception)))
 
         # Private key passphrase is missing but key is encrypted.
-        with self.assertRaisesRegex(Exception, 'Not a valid clear PKCS#8 structure'):
+        with self.assertRaises(Exception) as cm:
             signing_cfg = signing.HttpSigningConfiguration(
                 key_id="my-key-id",
                 signing_scheme=signing.SCHEME_HS2019,
                 private_key_path=self.ec_p521_key_path,
             )
+        self.assertTrue(re.match('Not a valid clear PKCS#8 structure', str(cm.exception)),
+            'Exception message: {0}'.format(str(cm.exception)))
 
         # File containing private key must exist.
-        with self.assertRaisesRegex(Exception, 'Private key file does not exist'):
+        with self.assertRaises(Exception) as cm:
             signing_cfg = signing.HttpSigningConfiguration(
                 key_id="my-key-id",
                 signing_scheme=signing.SCHEME_HS2019,
                 private_key_path='foobar',
             )
+        self.assertTrue(re.match('Private key file does not exist', str(cm.exception)),
+            'Exception message: {0}'.format(str(cm.exception)))
 
         # The max validity must be a positive value.
-        with self.assertRaisesRegex(Exception, 'The signature max validity must be a positive value'):
+        with self.assertRaises(Exception) as cm:
             signing_cfg = signing.HttpSigningConfiguration(
                 key_id="my-key-id",
                 signing_scheme=signing.SCHEME_HS2019,
                 private_key_path=self.ec_p521_key_path,
                 signature_max_validity=timedelta(hours=-1)
             )
+        self.assertTrue(re.match('The signature max validity must be a positive value',
+                                str(cm.exception)),
+            'Exception message: {0}'.format(str(cm.exception)))
 
         # Cannot include the 'Authorization' header.
-        with self.assertRaisesRegex(Exception, "'Authorization' header cannot be included"):
+        with self.assertRaises(Exception) as cm:
             signing_cfg = signing.HttpSigningConfiguration(
                 key_id="my-key-id",
                 signing_scheme=signing.SCHEME_HS2019,
                 private_key_path=self.ec_p521_key_path,
                 signed_headers=['Authorization']
             )
+        self.assertTrue(re.match("'Authorization' header cannot be included", str(cm.exception)),
+            'Exception message: {0}'.format(str(cm.exception)))
 
         # Cannot specify duplicate headers.
-        with self.assertRaisesRegex(Exception, 'duplicate'):
+        with self.assertRaises(Exception) as cm:
             signing_cfg = signing.HttpSigningConfiguration(
                 key_id="my-key-id",
                 signing_scheme=signing.SCHEME_HS2019,
                 private_key_path=self.ec_p521_key_path,
                 signed_headers=['Host', 'Date', 'Host']
             )
+        self.assertTrue(re.match('Cannot have duplicates in the signed_headers parameter',
+                                str(cm.exception)),
+            'Exception message: {0}'.format(str(cm.exception)))
 

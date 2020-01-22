@@ -20,7 +20,6 @@ import six
 from six.moves.urllib.parse import quote
 
 from petstore_api import rest
-from petstore_api import signing
 from petstore_api.configuration import Configuration
 from petstore_api.exceptions import ApiValueError
 from petstore_api.model_utils import (

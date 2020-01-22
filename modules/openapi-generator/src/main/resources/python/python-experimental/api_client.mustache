@@ -15,9 +15,6 @@ import tornado.gen
 {{/tornado}}
 
 from {{packageName}} import rest
-{{#hasHttpSignatureMethods}}
-from {{packageName}} import signing
-{{/hasHttpSignatureMethods}}
 from {{packageName}}.configuration import Configuration
 from {{packageName}}.exceptions import ApiValueError
 from {{packageName}}.model_utils import (
