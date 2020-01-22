@@ -89,6 +89,7 @@ func TestGetUserByName(t *testing.T) {
 		assert.Equal(*resp.LastName, "lang", "Last name should be lang")
 		//t.Log(resp)
 	}
+
 	if apiResponse.StatusCode != 200 {
 		t.Log(apiResponse)
 	}
