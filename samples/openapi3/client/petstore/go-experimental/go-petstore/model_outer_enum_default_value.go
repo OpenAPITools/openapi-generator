@@ -19,9 +19,9 @@ type OuterEnumDefaultValue string
 
 // List of OuterEnumDefaultValue
 const (
-	PLACED OuterEnumDefaultValue = "placed"
-	APPROVED OuterEnumDefaultValue = "approved"
-	DELIVERED OuterEnumDefaultValue = "delivered"
+	OUTERENUMDEFAULTVALUE_PLACED OuterEnumDefaultValue = "placed"
+	OUTERENUMDEFAULTVALUE_APPROVED OuterEnumDefaultValue = "approved"
+	OUTERENUMDEFAULTVALUE_DELIVERED OuterEnumDefaultValue = "delivered"
 )
 
 type NullableOuterEnumDefaultValue struct {
