@@ -23,7 +23,8 @@ PFXUserApi::PFXUserApi(const QString &scheme, const QString &host, int port, con
       _port(port),
       _basePath(basePath),
       _timeOut(timeOut),
-      _compress(false) {}
+      isResponseCompressionEnabled(false),
+      isRequestCompressionEnabled(false) {}
 
 PFXUserApi::~PFXUserApi() {
 }
@@ -56,8 +57,12 @@ void PFXUserApi::addHeaders(const QString &key, const QString &value) {
     defaultHeaders.insert(key, value);
 }
 
-void PFXUserApi::enableContentCompression() {
-    _compress = true;
+void PFXUserApi::enableRequestCompression() {
+    isRequestCompressionEnabled = true;
+}
+
+void PFXUserApi::enableResponseCompression() {
+    isResponseCompressionEnabled = true;
 }
 
 void PFXUserApi::createUser(const PFXUser &body) {
@@ -71,7 +76,6 @@ void PFXUserApi::createUser(const PFXUser &body) {
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "POST");
 
     QString output = body.asJson();
@@ -117,7 +121,6 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "POST");
 
     QJsonDocument doc(::test_namespace::toJsonValue(body).toArray());
@@ -164,7 +167,6 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "POST");
 
     QJsonDocument doc(::test_namespace::toJsonValue(body).toArray());
@@ -214,7 +216,6 @@ void PFXUserApi::deleteUser(const QString &username) {
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "DELETE");
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
@@ -260,7 +261,6 @@ void PFXUserApi::getUserByName(const QString &username) {
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "GET");
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
@@ -316,7 +316,6 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "GET");
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
@@ -361,7 +360,6 @@ void PFXUserApi::logoutUser() {
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "GET");
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
@@ -407,7 +405,6 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "PUT");
 
     QString output = body.asJson();
