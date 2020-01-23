@@ -131,7 +131,7 @@ export class StoreService implements StoreServiceInterface {
     private addToHttpParamsRecursive(httpParams: HttpParams, value: any, key?: string): HttpParams {
         if (typeof value === "object") {
             if (Array.isArray(value)) {
-                (value as []).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             } else if (value instanceof Date) {
                 if (key != null) {
                     httpParams.append(key,
