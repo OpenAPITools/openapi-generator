@@ -10,6 +10,8 @@
 package openapi
 
 import (
+	"bytes"
+	"context"
 	"crypto"
 	"crypto/ecdsa"
 	"crypto/rand"
@@ -17,9 +19,13 @@ import (
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/pem"
+	"fmt"
+	"io"
 	"io/ioutil"
+	"net/http"
 	"net/textproto"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -115,7 +121,7 @@ type HttpSignatureAuth struct {
 // are invalid.
 func (h *HttpSignatureAuth) ContextWithValue(ctx context.Context) (context.Context, error) {
 	if err := h.loadPrivateKey(); err != nil {
-		return err
+		return nil, err
 	}
 	return context.WithValue(ctx, ContextHttpSignatureAuth, *h), nil
 }
@@ -125,7 +131,7 @@ func (h *HttpSignatureAuth) loadPrivateKey() (err error) {
 	var file *os.File
 	file, err = os.Open(h.PrivateKeyPath)
 	if err != nil {
-		return err
+		return fmt.Errorf("Cannot load private key '%s'. Error: %v", h.PrivateKeyPath, err)
 	}
 	defer func() {
 		err = file.Close()
@@ -146,7 +152,7 @@ func (h *HttpSignatureAuth) loadPrivateKey() (err error) {
 	var privKey []byte
 	if x509.IsEncryptedPEMBlock(pemBlock) {
 		// The PEM data is encrypted.
-		privKey, err = x509.DecryptPEMBlock(pemBlock, h.Passphrase)
+		privKey, err = x509.DecryptPEMBlock(pemBlock, []byte(h.Passphrase))
 		if err != nil {
 			// Failed to decrypt PEM block. Because of deficiencies in the encrypted-PEM format,
 			// it's not always possibleto detect an incorrect password.
@@ -189,7 +195,7 @@ func SignRequest(
 	auth HttpSignatureAuth) error {
 
 	if auth.privateKey == nil {
-		return errors.New("Private key is not set")
+		return fmt.Errorf("Private key is not set")
 	}
 	now := time.Now()
 	date := now.UTC().Format(http.TimeFormat)
