@@ -289,12 +289,8 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
     if (input->request_body.size() > 0) {
         qDebug() << "got a request body";
         request_content.clear();
-        if(!isFormData && (input->var_layout != MULTIPART)){
-            if(isRequestCompressionEnabled){
-                request_content.append(compress(input->request_body, 7, {{prefix}}CompressionType::Gzip));
-            } else {
-                request_content.append(input->request_body);
-            }
+        if(!isFormData && (input->var_layout != MULTIPART) && isRequestCompressionEnabled){
+            request_content.append(compress(input->request_body, 7, {{prefix}}CompressionType::Gzip));
         } else {
             request_content.append(input->request_body);
         }
@@ -325,6 +321,8 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
 
     if(isResponseCompressionEnabled){
         request.setRawHeader("Accept-Encoding", "gzip");
+    } else {
+        request.setRawHeader("Accept-Encoding", "identity");
     }
 
     if (input->http_method == "GET") {
@@ -452,14 +450,14 @@ QByteArray {{prefix}}HttpRequestWorker::decompress(const QByteArray& data){
 
 QByteArray {{prefix}}HttpRequestWorker::compress(const QByteArray& input, int level, {{prefix}}CompressionType compressType) {
     {{#contentCompression}}QByteArray output;
-    static const int GZIP_WINDOWS_BIT = 15+16;
-    static const int ZLIB_WINDOWS_BIT = 15;
+    static const int GZIP_WINDOW_BIT = 15+16;
+    static const int ZLIB_WINDOW_BIT = 15;
     static const int CHUNK_SIZE = 8*1024;
-    int windowsBits;
+    int windowBits;
     if( compressType == {{prefix}}CompressionType::Gzip ){
-        windowsBits = GZIP_WINDOWS_BIT;
+        windowBits = GZIP_WINDOW_BIT;
     } else if ( compressType == {{prefix}}CompressionType::Zlib ){
-        windowsBits = ZLIB_WINDOWS_BIT;
+        windowBits = ZLIB_WINDOW_BIT;
     }
     do{
         int flush = 0, ret = 0;
@@ -468,7 +466,7 @@ QByteArray {{prefix}}HttpRequestWorker::compress(const QByteArray& input, int le
         if(input.length() <= 0) {
             break;
         }
-        if (deflateInit2(&strm, qMax(-1, qMin(9, level)), Z_DEFLATED, windowsBits, 8, Z_DEFAULT_STRATEGY) != Z_OK){
+        if (deflateInit2(&strm, qMax(-1, qMin(9, level)), Z_DEFLATED, windowBits, 8, Z_DEFAULT_STRATEGY) != Z_OK){
             break;
         }
         output.clear();

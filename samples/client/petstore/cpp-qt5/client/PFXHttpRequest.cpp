@@ -296,12 +296,8 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
     if (input->request_body.size() > 0) {
         qDebug() << "got a request body";
         request_content.clear();
-        if(!isFormData && (input->var_layout != MULTIPART)){
-            if(isRequestCompressionEnabled){
-                request_content.append(compress(input->request_body, 7, PFXCompressionType::Gzip));
-            } else {
-                request_content.append(input->request_body);
-            }
+        if(!isFormData && (input->var_layout != MULTIPART) && isRequestCompressionEnabled){
+            request_content.append(compress(input->request_body, 7, PFXCompressionType::Gzip));
         } else {
             request_content.append(input->request_body);
         }
@@ -332,6 +328,8 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
 
     if(isResponseCompressionEnabled){
         request.setRawHeader("Accept-Encoding", "gzip");
+    } else {
+        request.setRawHeader("Accept-Encoding", "identity");
     }
 
     if (input->http_method == "GET") {
