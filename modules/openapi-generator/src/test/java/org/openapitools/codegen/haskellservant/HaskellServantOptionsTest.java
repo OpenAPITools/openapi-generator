@@ -17,18 +17,17 @@
 
 package org.openapitools.codegen.haskellservant;
 
-
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.HaskellServantCodegen;
 import org.openapitools.codegen.options.HaskellServantOptionsProvider;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 public class HaskellServantOptionsTest extends AbstractOptionsTest {
 
-    @Tested
-    private HaskellServantCodegen clientCodegen;
+    private HaskellServantCodegen clientCodegen = mock(HaskellServantCodegen.class, mockSettings);
 
     public HaskellServantOptionsTest() {
         super(new HaskellServantOptionsProvider());
@@ -40,14 +39,9 @@ public class HaskellServantOptionsTest extends AbstractOptionsTest {
     }
 
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setModelPackage(HaskellServantOptionsProvider.MODEL_PACKAGE_VALUE);
-            times = 1;
-            clientCodegen.setApiPackage(HaskellServantOptionsProvider.API_PACKAGE_VALUE);
-            times = 1;
-            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(HaskellServantOptionsProvider.SORT_PARAMS_VALUE));
-            times = 1;
-        }};
+    protected void verifyOptions() {
+        verify(clientCodegen).setModelPackage(HaskellServantOptionsProvider.MODEL_PACKAGE_VALUE);
+        verify(clientCodegen).setApiPackage(HaskellServantOptionsProvider.API_PACKAGE_VALUE);
+        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(HaskellServantOptionsProvider.SORT_PARAMS_VALUE));
     }
 }
