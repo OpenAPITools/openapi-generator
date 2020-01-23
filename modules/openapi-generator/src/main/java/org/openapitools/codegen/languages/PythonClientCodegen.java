@@ -829,36 +829,39 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             // List<String> reqs = schema.getRequired();
 
             // if required and optionals
-            List<String> reqs = new ArrayList<String>();
-            for (Object toAdd : schema.getProperties().keySet())
-                reqs.add((String)toAdd);
-
-            Map<String, Schema> properties = schema.getProperties();
-            Set<String> propkeys = null;
-            if (properties != null) propkeys = properties.keySet();
-            if (toExclude != null && reqs.contains(toExclude)) {
-                reqs.remove(toExclude);
-            }
-            for (String toRemove : included_schemas) {
-                if (reqs.contains(toRemove)) {
-                    reqs.remove(toRemove);
+            List<String> reqs = new ArrayList<>();
+            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+                for (Object toAdd : schema.getProperties().keySet()) {
+                    reqs.add((String) toAdd);
                 }
-            }
-            if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
-                included_schemas.add(schema.getTitle());
-            }
-            if (null != schema.getRequired()) for (Object toAdd : schema.getRequired()) {
-                reqs.add((String)toAdd);
-            }
-            if (null!=propkeys) for (String propname : propkeys) {
-                Schema schema2 = properties.get(propname);
-                if (reqs.contains(propname)) {
-                    String refTitle = schema2.getTitle();
-                    if (StringUtils.isBlank(refTitle) || "null".equals(refTitle)) {
-                        schema2.setTitle(propname);
+
+                Map<String, Schema> properties = schema.getProperties();
+                Set<String> propkeys = null;
+                if (properties != null) propkeys = properties.keySet();
+                if (toExclude != null && reqs.contains(toExclude)) {
+                    reqs.remove(toExclude);
+                }
+                for (String toRemove : included_schemas) {
+                    if (reqs.contains(toRemove)) {
+                        reqs.remove(toRemove);
                     }
-                    example += "\n" + indentation_string + underscore(propname) + " = "+
-                        toExampleValueRecursive(schema2, included_schemas, indentation+1)+", ";
+                }
+                if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
+                    included_schemas.add(schema.getTitle());
+                }
+                if (null != schema.getRequired()) for (Object toAdd : schema.getRequired()) {
+                    reqs.add((String) toAdd);
+                }
+                if (null != propkeys) for (String propname : propkeys) {
+                    Schema schema2 = properties.get(propname);
+                    if (reqs.contains(propname)) {
+                        String refTitle = schema2.getTitle();
+                        if (StringUtils.isBlank(refTitle) || "null".equals(refTitle)) {
+                            schema2.setTitle(propname);
+                        }
+                        example += "\n" + indentation_string + underscore(propname) + " = " +
+                                toExampleValueRecursive(schema2, included_schemas, indentation + 1) + ", ";
+                    }
                 }
             }
             example +=")";
