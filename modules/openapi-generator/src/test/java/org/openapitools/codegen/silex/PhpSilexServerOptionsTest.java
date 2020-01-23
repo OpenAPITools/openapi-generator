@@ -17,17 +17,16 @@
 
 package org.openapitools.codegen.silex;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PhpSilexServerCodegen;
 import org.openapitools.codegen.options.PhpSilexServerOptionsProvider;
 
-public class PhpSilexServerOptionsTest extends AbstractOptionsTest {
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-    @Tested
-    private PhpSilexServerCodegen clientCodegen;
+public class PhpSilexServerOptionsTest extends AbstractOptionsTest {
+    private PhpSilexServerCodegen clientCodegen = mock(PhpSilexServerCodegen.class, mockSettings);
 
     public PhpSilexServerOptionsTest() {
         super(new PhpSilexServerOptionsProvider());
@@ -40,10 +39,7 @@ public class PhpSilexServerOptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(PhpSilexServerOptionsProvider.SORT_PARAMS_VALUE));
-            times = 1;
-        }};
+    protected void verifyOptions() {
+        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(PhpSilexServerOptionsProvider.SORT_PARAMS_VALUE));
     }
 }
