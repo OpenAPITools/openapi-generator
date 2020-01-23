@@ -270,8 +270,12 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *HttpSignatureAuth, expec
 	authConfig.PrivateKeyPath = privateKeyPath
 	var authCtx context.Context
 	authCtx, err = authConfig.ContextWithValue(context.Background())
-	if err != nil {
+	if expectSuccess && err != nil {
 		t.Fatalf("Error validating HTTP signature configuration: %v", err)
+	}
+	if !expectSuccess && err != nil {
+		// Do not continue. Error is expected.
+		return ""
 	}
 	newPet := (Pet{Id: PtrInt64(12992), Name: "gopher",
 		PhotoUrls: []string{"http://1.com", "http://2.com"},
@@ -531,5 +535,78 @@ func TestHttpSignatureAuth(t *testing.T) {
 	re := regexp.MustCompile(expectedAuthorizationHeader)
 	if !re.MatchString(authorizationHeaderValue) {
 		t.Errorf("Authorization header value is incorrect. Got\n'%s'\nbut expected\n'%s'", authorizationHeaderValue, expectedAuthorizationHeader)
+	}
+}
+
+func TestInvalidHttpSignatureConfiguration(t *testing.T) {
+	var err error
+	var authConfig HttpSignatureAuth
+
+	authConfig = HttpSignatureAuth{
+	}
+	_, err = authConfig.ContextWithValue(context.Background())
+	if err == nil || !strings.Contains(err.Error(), "Key ID must be specified") {
+		t.Fatalf("Invalid configuration: %v", err)
+	}
+
+	authConfig = HttpSignatureAuth{
+		KeyId:            "my-key-id",
+	}
+	_, err = authConfig.ContextWithValue(context.Background())
+	if err == nil || !strings.Contains(err.Error(), "Private key path must be specified") {
+		t.Fatalf("Invalid configuration: %v", err)
+	}
+
+	authConfig = HttpSignatureAuth{
+		KeyId:            "my-key-id",
+		PrivateKeyPath:    "test.pem",
+	}
+	_, err = authConfig.ContextWithValue(context.Background())
+	if err == nil || !strings.Contains(err.Error(), "Invalid signing scheme") {
+		t.Fatalf("Invalid configuration: %v", err)
+	}
+
+	authConfig = HttpSignatureAuth{
+		KeyId:            "my-key-id",
+		PrivateKeyPath:   "test.pem",
+		SigningScheme:    "garbage",
+	}
+	_, err = authConfig.ContextWithValue(context.Background())
+	if err == nil || !strings.Contains(err.Error(), "Invalid signing scheme") {
+		t.Fatalf("Invalid configuration: %v", err)
+	}
+
+	authConfig = HttpSignatureAuth{
+		KeyId:            "my-key-id",
+		PrivateKeyPath:   "test.pem",
+		SigningScheme:    HttpSigningSchemeHs2019,
+		SignedHeaders:    []string{"foo", "bar", "foo"},
+	}
+	_, err = authConfig.ContextWithValue(context.Background())
+	if err == nil || !strings.Contains(err.Error(), "cannot have duplicate names") {
+		t.Fatalf("Invalid configuration: %v", err)
+	}
+
+	authConfig = HttpSignatureAuth{
+		KeyId:            "my-key-id",
+		PrivateKeyPath:   "test.pem",
+		SigningScheme:    HttpSigningSchemeHs2019,
+		SignedHeaders:    []string{"foo", "bar", "Authorization"},
+	}
+	_, err = authConfig.ContextWithValue(context.Background())
+	if err == nil || !strings.Contains(err.Error(), "Signed headers cannot include the 'Authorization' header") {
+		t.Fatalf("Invalid configuration: %v", err)
+	}
+
+	authConfig = HttpSignatureAuth{
+		KeyId:                "my-key-id",
+		PrivateKeyPath:       "test.pem",
+		SigningScheme:        HttpSigningSchemeHs2019,
+		SignedHeaders:        []string{"foo", "bar"},
+		SignatureMaxValidity: -7 * time.Minute,
+	}
+	_, err = authConfig.ContextWithValue(context.Background())
+	if err == nil || !strings.Contains(err.Error(), "Signature max validity must be a positive value") {
+		t.Fatalf("Invalid configuration: %v", err)
 	}
 }

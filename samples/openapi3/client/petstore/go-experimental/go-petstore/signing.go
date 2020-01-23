@@ -76,6 +76,13 @@ const (
 	HttpSigningAlgorithmRsaPSS string = "RSASSA-PSS"
 )
 
+var supportedSigningSchemes = map[string]bool{
+	HttpSigningSchemeHs2019: true,
+	HttpSigningSchemeRsaSha512: true,
+	HttpSigningSchemeRsaSha256: true,
+}
+
+
 // HttpSignatureAuth provides HTTP signature authentication to a request passed
 // via context using ContextHttpSignatureAuth.
 // An 'Authorization' header is calculated by creating a hash of select headers,
@@ -120,6 +127,28 @@ type HttpSignatureAuth struct {
 // suitable for HTTP signature. An error is returned if the HttpSignatureAuth configuration parameters
 // are invalid.
 func (h *HttpSignatureAuth) ContextWithValue(ctx context.Context) (context.Context, error) {
+	if h.KeyId == "" {
+		return nil, fmt.Errorf("Key ID must be specified")
+	}
+	if h.PrivateKeyPath == "" {
+		return nil, fmt.Errorf("Private key path must be specified")
+	}
+	if _, ok := supportedSigningSchemes[h.SigningScheme]; !ok {
+		return nil, fmt.Errorf("Invalid signing scheme: '%v'", h.SigningScheme)
+	}
+	m := make(map[string]bool)
+	for _, h := range h.SignedHeaders {
+		if strings.ToLower(h) == strings.ToLower(HttpHeaderAuthorization) {
+			return nil, fmt.Errorf("Signed headers cannot include the 'Authorization' header")
+		}
+		m[h] = true
+	}
+	if len(m) != len(h.SignedHeaders) {
+		return nil, fmt.Errorf("List of signed headers cannot have duplicate names")
+	}
+	if h.SignatureMaxValidity < 0 {
+		return nil, fmt.Errorf("Signature max validity must be a positive value")
+	}
 	if err := h.loadPrivateKey(); err != nil {
 		return nil, err
 	}
