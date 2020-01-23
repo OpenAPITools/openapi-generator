@@ -701,16 +701,18 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     @Override
     public int hashCode() {
 
-        return Objects.hash(openApiType, baseName, complexType, getter, setter, description, dataType,
-                datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam, baseType,
-                containerType, title, unescapedDescription, maxLength, minLength, pattern, example, jsonSchema,
-                minimum, maximum, exclusiveMinimum, exclusiveMaximum, hasMore, required, deprecated, secondaryParam,
-                hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric, isInteger,
-                isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime,
-                isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isEnum, isReadOnly,
-                isWriteOnly, isNullable, isSelfReference, isCircularReference, _enum, allowableValues, items,
-                mostInnerItems, vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
-                nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName, xmlNamespace,
-                isXmlWrapped, multipleOf);
+        return Objects.hash(openApiType, baseName, complexType, getter, setter, description,
+                dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
+                defaultValueWithParam, baseType, containerType, title, unescapedDescription,
+                maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
+                exclusiveMinimum, exclusiveMaximum, hasMore, required, deprecated, secondaryParam,
+                hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
+                isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
+                isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
+                isListContainer, isMapContainer, isEnum, isReadOnly, isWriteOnly, isNullable,
+                isSelfReference, isCircularReference, _enum, allowableValues, items, mostInnerItems,
+                vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
+                nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
+                xmlNamespace, isXmlWrapped);
     }
 }
