@@ -2246,6 +2246,10 @@ public class DefaultCodegen implements CodegenConfig {
         property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
         property.jsonSchema = Json.pretty(p);
+
+        if ( p.getDeprecated() != null) {
+            property.deprecated = p.getDeprecated();
+        }
         if (p.getReadOnly() != null) {
             property.isReadOnly = p.getReadOnly();
         }
