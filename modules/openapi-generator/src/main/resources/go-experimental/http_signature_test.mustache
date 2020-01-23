@@ -4,12 +4,18 @@ package {{packageName}}
 import (
 	"bytes"
 	"context"
+	"crypto"
+	"crypto/ecdsa"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
+	"encoding/asn1"
+	"encoding/base64"
 	"encoding/pem"
 	"fmt"
 	"io/ioutil"
+	"math/big"
+	"net/http"
 	"net/http/httputil"
 	"os"
 	"path/filepath"
@@ -361,7 +367,117 @@ func executeHttpSignatureAuth(t *testing.T, authConfig *HttpSignatureAuth, expec
 	if !re.MatchString(actual) {
 		t.Errorf("Authorization header is incorrect. Expected regex\n'%s'\nbut got\n'%s'", sb.String(), actual)
 	}
+	
+	validateHttpAuthorizationSignature(t, authConfig, r)
 	return r.Request.Header.Get("Authorization")
+}
+
+var (
+	// signatureRe is a regular expression to capture the fields from the signature.
+	signatureRe = regexp.MustCompile(
+		`Signature keyId="(?P<keyId>[^"]+)",algorithm="(?P<algorithm>[^"]+)"` +
+		`(,created=(?P<created>[0-9]+))?(,expires=(?P<expires>[0-9.]+))?,headers="(?P<headers>[^"]+)",signature="(?P<signature>[^"]+)"`)
+)
+
+// validateHttpAuthorizationSignature validates the HTTP signature in the HTTP request.
+// The signature verification would normally be done by the server.
+// Note: this is NOT a complete implementation of the HTTP signature validation. This code is for unit test purpose, do not use
+// it for server side implementation.
+// In particular, this code does not validate the calculation of the HTTP body digest.
+func validateHttpAuthorizationSignature(t *testing.T, authConfig *HttpSignatureAuth, r *http.Response) {
+	authHeader := r.Request.Header.Get("Authorization")
+	match := signatureRe.FindStringSubmatch(authHeader)
+	if len(match) < 3 {
+		t.Fatalf("Unexpected Authorization header: %s", authHeader)
+	}
+	result := make(map[string]string)
+	for i, name := range signatureRe.SubexpNames() {
+        if i != 0 && name != "" {
+            result[name] = match[i]
+        }
+    }
+	b64signature := result["signature"]
+	fmt.Printf("Algorithm: '%s' Headers: '%s' b64signature: '%s'\n", result["algorithm"], result["headers"], b64signature)
+	var sb bytes.Buffer
+	fmt.Fprintf(&sb, "%s %s", strings.ToLower(r.Request.Method), r.Request.URL.EscapedPath())
+	if r.Request.URL.RawQuery != "" {
+		// The ":path" pseudo-header field includes the path and query parts
+		// of the target URI (the "path-absolute" production and optionally a
+		// '?' character followed by the "query" production (see Sections 3.3
+		// and 3.4 of [RFC3986]
+		fmt.Fprintf(&sb, "?%s", r.Request.URL.RawQuery)
+	}
+	requestTarget := sb.String()
+
+	var signedHeaderKvs []string
+	signedHeaders := strings.Split(result["headers"], " ")
+	for _, h := range signedHeaders {
+		var value string
+		switch h {
+			case HttpSignatureParameterRequestTarget:
+				value = requestTarget
+			case HttpSignatureParameterCreated:
+				value = result["created"]
+			case HttpSignatureParameterExpires:
+				value = result["expires"]
+			default:
+				value = r.Request.Header.Get(h)
+		}
+		signedHeaderKvs = append(signedHeaderKvs, fmt.Sprintf("%s: %s", h, value))
+	}
+	stringToSign := strings.Join(signedHeaderKvs, "\n")
+
+	var h crypto.Hash
+	switch result["algorithm"] {
+	case HttpSigningSchemeHs2019, HttpSigningSchemeRsaSha512:
+		h = crypto.SHA512
+	case HttpSigningSchemeRsaSha256:
+		h = crypto.SHA256
+	default:
+		t.Fatalf("Unexpected signing algorithm: %s", result["algorithm"])
+	}
+	msgHash := h.New()
+	if _, err := msgHash.Write([]byte(stringToSign)); err != nil {
+		t.Fatalf("Unable to compute hash: %v", err)
+	}
+	d := msgHash.Sum(nil)
+	var pub crypto.PublicKey
+	var err error
+	if pub, err = authConfig.GetPublicKey(); err != nil {
+		t.Fatalf("Unable to get public key: %v", err)
+	}
+	if pub == nil {
+		t.Fatalf("Public key is nil")
+	}
+	var signature []byte
+	if signature, err = base64.StdEncoding.DecodeString(b64signature); err != nil {
+		t.Fatalf("Failed to decode signature: %v", err)
+	}
+	switch publicKey := pub.(type) {
+	case *rsa.PublicKey:
+		// It could be PKCS1v15 or PSS signature
+		var errPKCS1v15, errPSS error
+		// In a server-side implementation, we wouldn't try to validate both signatures. The specific
+		// signature algorithm would be derived from the key id. But here we just want to validate for unit test purpose.
+		errPKCS1v15 = rsa.VerifyPKCS1v15(publicKey, h, d, signature)
+		errPSS = rsa.VerifyPSS(publicKey, h, d, signature, nil)
+		if errPKCS1v15 != nil && errPSS != nil {
+			t.Fatalf("RSA Signature verification failed: %v. %v", errPKCS1v15, errPSS)
+		}
+	case *ecdsa.PublicKey:
+		type ecdsaSignature struct {
+			R, S *big.Int
+		}
+		var lEcdsa ecdsaSignature
+		if _, err = asn1.Unmarshal(signature, &lEcdsa); err != nil {
+			t.Fatalf("Unable to parse ECDSA signature: %v", err)
+		}
+		if !ecdsa.Verify(publicKey, d, lEcdsa.R, lEcdsa.S) {
+			t.Fatalf("ECDSA Signature verification failed")
+		}
+	default:
+		t.Fatalf("Unsupported public key: %T", pub)
+	}
 }
 
 func TestHttpSignatureAuth(t *testing.T) {

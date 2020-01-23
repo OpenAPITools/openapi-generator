@@ -155,6 +155,25 @@ func (h *HttpSignatureAuth) ContextWithValue(ctx context.Context) (context.Conte
 	return context.WithValue(ctx, ContextHttpSignatureAuth, *h), nil
 }
 
+// GetPublicKey returns the public key associated with this HTTP signature configuration.
+func (h *HttpSignatureAuth) GetPublicKey() (crypto.PublicKey, error) {
+	if h.privateKey == nil {
+		if err := h.loadPrivateKey(); err != nil {
+			return nil, err
+		}
+	}
+	switch key := h.privateKey.(type) {
+	case *rsa.PrivateKey:
+		return key.Public(), nil
+	case *ecdsa.PrivateKey:
+		return key.Public(), nil
+	default:
+		// Do not change '%T' to anything else such as '%v'!
+		// The value of the private key must not be returned.
+		return nil, fmt.Errorf("Unsupported key: %T", h.privateKey)
+	}
+}
+
 // loadPrivateKey reads the private key from the file specified in the HttpSignatureAuth.
 func (h *HttpSignatureAuth) loadPrivateKey() (err error) {
 	var file *os.File
