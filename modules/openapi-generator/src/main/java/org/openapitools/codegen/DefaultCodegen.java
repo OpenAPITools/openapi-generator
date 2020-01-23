@@ -4261,7 +4261,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                 codegenSecurities.add(cs);
             } else if (SecurityScheme.Type.HTTP.equals(securityScheme.getType())) {
-                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = false;
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = cs.isOpenIdConnect= false;
                 cs.isBasic = true;
                 if ("basic".equals(securityScheme.getScheme())) {
                     cs.isBasicBasic = true;
