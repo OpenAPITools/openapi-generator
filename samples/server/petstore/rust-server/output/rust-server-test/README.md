@@ -110,7 +110,7 @@ Method | HTTP request | Description
 
  - [ANullableContainer](docs/ANullableContainer.md)
  - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
- - [InlineObject](docs/InlineObject.md)
+ - [InlineBody](docs/InlineBody.md)
  - [ObjectOfObjects](docs/ObjectOfObjects.md)
  - [ObjectOfObjectsInner](docs/ObjectOfObjectsInner.md)
 

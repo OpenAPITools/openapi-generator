@@ -21,5 +21,7 @@ export {
   Order,
   Pet,
   Tag,
+  UpdatePetWithFormBody,
+  UploadFileBody,
   User,
 } from './models';

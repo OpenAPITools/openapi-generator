@@ -32,7 +32,7 @@ class BigCat implements ModelInterface
   "allOf" : [ {
     "$ref" : "#/components/schemas/Cat"
   }, {
-    "$ref" : "#/components/schemas/BigCat_allOf"
+    "$ref" : "#/components/schemas/BigCatAllOf"
   } ]
 }
 SCHEMA;

@@ -511,6 +511,45 @@ genTag n =
     <$> arbitraryReducedMaybe n -- tagId :: Maybe Integer
     <*> arbitraryReducedMaybe n -- tagName :: Maybe Text
   
+instance Arbitrary TestEndpointParametersBody where
+  arbitrary = sized genTestEndpointParametersBody
+
+genTestEndpointParametersBody :: Int -> Gen TestEndpointParametersBody
+genTestEndpointParametersBody n =
+  TestEndpointParametersBody
+    <$> arbitraryReducedMaybe n -- testEndpointParametersBodyInteger :: Maybe Int
+    <*> arbitraryReducedMaybe n -- testEndpointParametersBodyInt32 :: Maybe Int
+    <*> arbitraryReducedMaybe n -- testEndpointParametersBodyInt64 :: Maybe Integer
+    <*> arbitrary -- testEndpointParametersBodyNumber :: Double
+    <*> arbitraryReducedMaybe n -- testEndpointParametersBodyFloat :: Maybe Float
+    <*> arbitrary -- testEndpointParametersBodyDouble :: Double
+    <*> arbitraryReducedMaybe n -- testEndpointParametersBodyString :: Maybe Text
+    <*> arbitrary -- testEndpointParametersBodyPatternWithoutDelimiter :: Text
+    <*> arbitraryReduced n -- testEndpointParametersBodyByte :: ByteArray
+    <*> arbitraryReducedMaybe n -- testEndpointParametersBodyBinary :: Maybe FilePath
+    <*> arbitraryReducedMaybe n -- testEndpointParametersBodyDate :: Maybe Date
+    <*> arbitraryReducedMaybe n -- testEndpointParametersBodyDateTime :: Maybe DateTime
+    <*> arbitraryReducedMaybe n -- testEndpointParametersBodyPassword :: Maybe Text
+    <*> arbitraryReducedMaybe n -- testEndpointParametersBodyCallback :: Maybe Text
+  
+instance Arbitrary TestEnumParametersBody where
+  arbitrary = sized genTestEnumParametersBody
+
+genTestEnumParametersBody :: Int -> Gen TestEnumParametersBody
+genTestEnumParametersBody n =
+  TestEnumParametersBody
+    <$> arbitraryReducedMaybe n -- testEnumParametersBodyEnumFormStringArray :: Maybe [E'EnumFormStringArray]
+    <*> arbitraryReducedMaybe n -- testEnumParametersBodyEnumFormString :: Maybe E'EnumFormString
+  
+instance Arbitrary TestJsonFormDataBody where
+  arbitrary = sized genTestJsonFormDataBody
+
+genTestJsonFormDataBody :: Int -> Gen TestJsonFormDataBody
+genTestJsonFormDataBody n =
+  TestJsonFormDataBody
+    <$> arbitrary -- testJsonFormDataBodyParam :: Text
+    <*> arbitrary -- testJsonFormDataBodyParam2 :: Text
+  
 instance Arbitrary TypeHolderDefault where
   arbitrary = sized genTypeHolderDefault
 
@@ -535,6 +574,33 @@ genTypeHolderExample n =
     <*> arbitrary -- typeHolderExampleIntegerItem :: Int
     <*> arbitrary -- typeHolderExampleBoolItem :: Bool
     <*> arbitrary -- typeHolderExampleArrayItem :: [Int]
+  
+instance Arbitrary UpdatePetWithFormBody where
+  arbitrary = sized genUpdatePetWithFormBody
+
+genUpdatePetWithFormBody :: Int -> Gen UpdatePetWithFormBody
+genUpdatePetWithFormBody n =
+  UpdatePetWithFormBody
+    <$> arbitraryReducedMaybe n -- updatePetWithFormBodyName :: Maybe Text
+    <*> arbitraryReducedMaybe n -- updatePetWithFormBodyStatus :: Maybe Text
+  
+instance Arbitrary UploadFileBody where
+  arbitrary = sized genUploadFileBody
+
+genUploadFileBody :: Int -> Gen UploadFileBody
+genUploadFileBody n =
+  UploadFileBody
+    <$> arbitraryReducedMaybe n -- uploadFileBodyAdditionalMetadata :: Maybe Text
+    <*> arbitraryReducedMaybe n -- uploadFileBodyFile :: Maybe FilePath
+  
+instance Arbitrary UploadFileWithRequiredFileBody where
+  arbitrary = sized genUploadFileWithRequiredFileBody
+
+genUploadFileWithRequiredFileBody :: Int -> Gen UploadFileWithRequiredFileBody
+genUploadFileWithRequiredFileBody n =
+  UploadFileWithRequiredFileBody
+    <$> arbitraryReducedMaybe n -- uploadFileWithRequiredFileBodyAdditionalMetadata :: Maybe Text
+    <*> arbitrary -- uploadFileWithRequiredFileBodyRequiredFile :: FilePath
   
 instance Arbitrary User where
   arbitrary = sized genUser

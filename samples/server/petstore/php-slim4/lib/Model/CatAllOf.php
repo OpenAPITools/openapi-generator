@@ -29,6 +29,7 @@ class CatAllOf implements ModelInterface
 {
     private const MODEL_SCHEMA = <<<'SCHEMA'
 {
+  "type" : "object",
   "properties" : {
     "declawed" : {
       "type" : "boolean"

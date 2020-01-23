@@ -27,7 +27,7 @@ Name | Type | Description  | Notes
  **string_field** | **String**|  | 
  **binary_field** | **swagger::ByteArray**|  | 
  **optional_string_field** | **String**|  | 
- **object_field** | [**multipart_request_object_field**](multipart_request_object_field.md)|  | 
+ **object_field** | [**multipart_requestObjectField**](multipart_requestObjectField.md)|  | 
 
 ### Return type
 

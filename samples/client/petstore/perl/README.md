@@ -276,8 +276,14 @@ use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
+use WWW::OpenAPIClient::Object::TestEndpointParametersBody;
+use WWW::OpenAPIClient::Object::TestEnumParametersBody;
+use WWW::OpenAPIClient::Object::TestJsonFormDataBody;
 use WWW::OpenAPIClient::Object::TypeHolderDefault;
 use WWW::OpenAPIClient::Object::TypeHolderExample;
+use WWW::OpenAPIClient::Object::UpdatePetWithFormBody;
+use WWW::OpenAPIClient::Object::UploadFileBody;
+use WWW::OpenAPIClient::Object::UploadFileWithRequiredFileBody;
 use WWW::OpenAPIClient::Object::User;
 use WWW::OpenAPIClient::Object::XmlItem;
 
@@ -343,8 +349,14 @@ use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
+use WWW::OpenAPIClient::Object::TestEndpointParametersBody;
+use WWW::OpenAPIClient::Object::TestEnumParametersBody;
+use WWW::OpenAPIClient::Object::TestJsonFormDataBody;
 use WWW::OpenAPIClient::Object::TypeHolderDefault;
 use WWW::OpenAPIClient::Object::TypeHolderExample;
+use WWW::OpenAPIClient::Object::UpdatePetWithFormBody;
+use WWW::OpenAPIClient::Object::UploadFileBody;
+use WWW::OpenAPIClient::Object::UploadFileWithRequiredFileBody;
 use WWW::OpenAPIClient::Object::User;
 use WWW::OpenAPIClient::Object::XmlItem;
 
@@ -457,8 +469,14 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [WWW::OpenAPIClient::Object::SpecialModelName](docs/SpecialModelName.md)
  - [WWW::OpenAPIClient::Object::Tag](docs/Tag.md)
+ - [WWW::OpenAPIClient::Object::TestEndpointParametersBody](docs/TestEndpointParametersBody.md)
+ - [WWW::OpenAPIClient::Object::TestEnumParametersBody](docs/TestEnumParametersBody.md)
+ - [WWW::OpenAPIClient::Object::TestJsonFormDataBody](docs/TestJsonFormDataBody.md)
  - [WWW::OpenAPIClient::Object::TypeHolderDefault](docs/TypeHolderDefault.md)
  - [WWW::OpenAPIClient::Object::TypeHolderExample](docs/TypeHolderExample.md)
+ - [WWW::OpenAPIClient::Object::UpdatePetWithFormBody](docs/UpdatePetWithFormBody.md)
+ - [WWW::OpenAPIClient::Object::UploadFileBody](docs/UploadFileBody.md)
+ - [WWW::OpenAPIClient::Object::UploadFileWithRequiredFileBody](docs/UploadFileWithRequiredFileBody.md)
  - [WWW::OpenAPIClient::Object::User](docs/User.md)
  - [WWW::OpenAPIClient::Object::XmlItem](docs/XmlItem.md)
 

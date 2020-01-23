@@ -32,7 +32,7 @@ class Cat implements ModelInterface
   "allOf" : [ {
     "$ref" : "#/components/schemas/Animal"
   }, {
-    "$ref" : "#/components/schemas/Cat_allOf"
+    "$ref" : "#/components/schemas/CatAllOf"
   } ]
 }
 SCHEMA;

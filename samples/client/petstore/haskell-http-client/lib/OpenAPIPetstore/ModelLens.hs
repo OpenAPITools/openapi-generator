@@ -777,6 +777,108 @@ tagNameL f Tag{..} = (\tagName -> Tag { tagName, ..} ) <$> f tagName
 
 
 
+-- * TestEndpointParametersBody
+
+-- | 'testEndpointParametersBodyInteger' Lens
+testEndpointParametersBodyIntegerL :: Lens_' TestEndpointParametersBody (Maybe Int)
+testEndpointParametersBodyIntegerL f TestEndpointParametersBody{..} = (\testEndpointParametersBodyInteger -> TestEndpointParametersBody { testEndpointParametersBodyInteger, ..} ) <$> f testEndpointParametersBodyInteger
+{-# INLINE testEndpointParametersBodyIntegerL #-}
+
+-- | 'testEndpointParametersBodyInt32' Lens
+testEndpointParametersBodyInt32L :: Lens_' TestEndpointParametersBody (Maybe Int)
+testEndpointParametersBodyInt32L f TestEndpointParametersBody{..} = (\testEndpointParametersBodyInt32 -> TestEndpointParametersBody { testEndpointParametersBodyInt32, ..} ) <$> f testEndpointParametersBodyInt32
+{-# INLINE testEndpointParametersBodyInt32L #-}
+
+-- | 'testEndpointParametersBodyInt64' Lens
+testEndpointParametersBodyInt64L :: Lens_' TestEndpointParametersBody (Maybe Integer)
+testEndpointParametersBodyInt64L f TestEndpointParametersBody{..} = (\testEndpointParametersBodyInt64 -> TestEndpointParametersBody { testEndpointParametersBodyInt64, ..} ) <$> f testEndpointParametersBodyInt64
+{-# INLINE testEndpointParametersBodyInt64L #-}
+
+-- | 'testEndpointParametersBodyNumber' Lens
+testEndpointParametersBodyNumberL :: Lens_' TestEndpointParametersBody (Double)
+testEndpointParametersBodyNumberL f TestEndpointParametersBody{..} = (\testEndpointParametersBodyNumber -> TestEndpointParametersBody { testEndpointParametersBodyNumber, ..} ) <$> f testEndpointParametersBodyNumber
+{-# INLINE testEndpointParametersBodyNumberL #-}
+
+-- | 'testEndpointParametersBodyFloat' Lens
+testEndpointParametersBodyFloatL :: Lens_' TestEndpointParametersBody (Maybe Float)
+testEndpointParametersBodyFloatL f TestEndpointParametersBody{..} = (\testEndpointParametersBodyFloat -> TestEndpointParametersBody { testEndpointParametersBodyFloat, ..} ) <$> f testEndpointParametersBodyFloat
+{-# INLINE testEndpointParametersBodyFloatL #-}
+
+-- | 'testEndpointParametersBodyDouble' Lens
+testEndpointParametersBodyDoubleL :: Lens_' TestEndpointParametersBody (Double)
+testEndpointParametersBodyDoubleL f TestEndpointParametersBody{..} = (\testEndpointParametersBodyDouble -> TestEndpointParametersBody { testEndpointParametersBodyDouble, ..} ) <$> f testEndpointParametersBodyDouble
+{-# INLINE testEndpointParametersBodyDoubleL #-}
+
+-- | 'testEndpointParametersBodyString' Lens
+testEndpointParametersBodyStringL :: Lens_' TestEndpointParametersBody (Maybe Text)
+testEndpointParametersBodyStringL f TestEndpointParametersBody{..} = (\testEndpointParametersBodyString -> TestEndpointParametersBody { testEndpointParametersBodyString, ..} ) <$> f testEndpointParametersBodyString
+{-# INLINE testEndpointParametersBodyStringL #-}
+
+-- | 'testEndpointParametersBodyPatternWithoutDelimiter' Lens
+testEndpointParametersBodyPatternWithoutDelimiterL :: Lens_' TestEndpointParametersBody (Text)
+testEndpointParametersBodyPatternWithoutDelimiterL f TestEndpointParametersBody{..} = (\testEndpointParametersBodyPatternWithoutDelimiter -> TestEndpointParametersBody { testEndpointParametersBodyPatternWithoutDelimiter, ..} ) <$> f testEndpointParametersBodyPatternWithoutDelimiter
+{-# INLINE testEndpointParametersBodyPatternWithoutDelimiterL #-}
+
+-- | 'testEndpointParametersBodyByte' Lens
+testEndpointParametersBodyByteL :: Lens_' TestEndpointParametersBody (ByteArray)
+testEndpointParametersBodyByteL f TestEndpointParametersBody{..} = (\testEndpointParametersBodyByte -> TestEndpointParametersBody { testEndpointParametersBodyByte, ..} ) <$> f testEndpointParametersBodyByte
+{-# INLINE testEndpointParametersBodyByteL #-}
+
+-- | 'testEndpointParametersBodyBinary' Lens
+testEndpointParametersBodyBinaryL :: Lens_' TestEndpointParametersBody (Maybe FilePath)
+testEndpointParametersBodyBinaryL f TestEndpointParametersBody{..} = (\testEndpointParametersBodyBinary -> TestEndpointParametersBody { testEndpointParametersBodyBinary, ..} ) <$> f testEndpointParametersBodyBinary
+{-# INLINE testEndpointParametersBodyBinaryL #-}
+
+-- | 'testEndpointParametersBodyDate' Lens
+testEndpointParametersBodyDateL :: Lens_' TestEndpointParametersBody (Maybe Date)
+testEndpointParametersBodyDateL f TestEndpointParametersBody{..} = (\testEndpointParametersBodyDate -> TestEndpointParametersBody { testEndpointParametersBodyDate, ..} ) <$> f testEndpointParametersBodyDate
+{-# INLINE testEndpointParametersBodyDateL #-}
+
+-- | 'testEndpointParametersBodyDateTime' Lens
+testEndpointParametersBodyDateTimeL :: Lens_' TestEndpointParametersBody (Maybe DateTime)
+testEndpointParametersBodyDateTimeL f TestEndpointParametersBody{..} = (\testEndpointParametersBodyDateTime -> TestEndpointParametersBody { testEndpointParametersBodyDateTime, ..} ) <$> f testEndpointParametersBodyDateTime
+{-# INLINE testEndpointParametersBodyDateTimeL #-}
+
+-- | 'testEndpointParametersBodyPassword' Lens
+testEndpointParametersBodyPasswordL :: Lens_' TestEndpointParametersBody (Maybe Text)
+testEndpointParametersBodyPasswordL f TestEndpointParametersBody{..} = (\testEndpointParametersBodyPassword -> TestEndpointParametersBody { testEndpointParametersBodyPassword, ..} ) <$> f testEndpointParametersBodyPassword
+{-# INLINE testEndpointParametersBodyPasswordL #-}
+
+-- | 'testEndpointParametersBodyCallback' Lens
+testEndpointParametersBodyCallbackL :: Lens_' TestEndpointParametersBody (Maybe Text)
+testEndpointParametersBodyCallbackL f TestEndpointParametersBody{..} = (\testEndpointParametersBodyCallback -> TestEndpointParametersBody { testEndpointParametersBodyCallback, ..} ) <$> f testEndpointParametersBodyCallback
+{-# INLINE testEndpointParametersBodyCallbackL #-}
+
+
+
+-- * TestEnumParametersBody
+
+-- | 'testEnumParametersBodyEnumFormStringArray' Lens
+testEnumParametersBodyEnumFormStringArrayL :: Lens_' TestEnumParametersBody (Maybe [E'EnumFormStringArray])
+testEnumParametersBodyEnumFormStringArrayL f TestEnumParametersBody{..} = (\testEnumParametersBodyEnumFormStringArray -> TestEnumParametersBody { testEnumParametersBodyEnumFormStringArray, ..} ) <$> f testEnumParametersBodyEnumFormStringArray
+{-# INLINE testEnumParametersBodyEnumFormStringArrayL #-}
+
+-- | 'testEnumParametersBodyEnumFormString' Lens
+testEnumParametersBodyEnumFormStringL :: Lens_' TestEnumParametersBody (Maybe E'EnumFormString)
+testEnumParametersBodyEnumFormStringL f TestEnumParametersBody{..} = (\testEnumParametersBodyEnumFormString -> TestEnumParametersBody { testEnumParametersBodyEnumFormString, ..} ) <$> f testEnumParametersBodyEnumFormString
+{-# INLINE testEnumParametersBodyEnumFormStringL #-}
+
+
+
+-- * TestJsonFormDataBody
+
+-- | 'testJsonFormDataBodyParam' Lens
+testJsonFormDataBodyParamL :: Lens_' TestJsonFormDataBody (Text)
+testJsonFormDataBodyParamL f TestJsonFormDataBody{..} = (\testJsonFormDataBodyParam -> TestJsonFormDataBody { testJsonFormDataBodyParam, ..} ) <$> f testJsonFormDataBodyParam
+{-# INLINE testJsonFormDataBodyParamL #-}
+
+-- | 'testJsonFormDataBodyParam2' Lens
+testJsonFormDataBodyParam2L :: Lens_' TestJsonFormDataBody (Text)
+testJsonFormDataBodyParam2L f TestJsonFormDataBody{..} = (\testJsonFormDataBodyParam2 -> TestJsonFormDataBody { testJsonFormDataBodyParam2, ..} ) <$> f testJsonFormDataBodyParam2
+{-# INLINE testJsonFormDataBodyParam2L #-}
+
+
+
 -- * TypeHolderDefault
 
 -- | 'typeHolderDefaultStringItem' Lens
@@ -837,6 +939,48 @@ typeHolderExampleBoolItemL f TypeHolderExample{..} = (\typeHolderExampleBoolItem
 typeHolderExampleArrayItemL :: Lens_' TypeHolderExample ([Int])
 typeHolderExampleArrayItemL f TypeHolderExample{..} = (\typeHolderExampleArrayItem -> TypeHolderExample { typeHolderExampleArrayItem, ..} ) <$> f typeHolderExampleArrayItem
 {-# INLINE typeHolderExampleArrayItemL #-}
+
+
+
+-- * UpdatePetWithFormBody
+
+-- | 'updatePetWithFormBodyName' Lens
+updatePetWithFormBodyNameL :: Lens_' UpdatePetWithFormBody (Maybe Text)
+updatePetWithFormBodyNameL f UpdatePetWithFormBody{..} = (\updatePetWithFormBodyName -> UpdatePetWithFormBody { updatePetWithFormBodyName, ..} ) <$> f updatePetWithFormBodyName
+{-# INLINE updatePetWithFormBodyNameL #-}
+
+-- | 'updatePetWithFormBodyStatus' Lens
+updatePetWithFormBodyStatusL :: Lens_' UpdatePetWithFormBody (Maybe Text)
+updatePetWithFormBodyStatusL f UpdatePetWithFormBody{..} = (\updatePetWithFormBodyStatus -> UpdatePetWithFormBody { updatePetWithFormBodyStatus, ..} ) <$> f updatePetWithFormBodyStatus
+{-# INLINE updatePetWithFormBodyStatusL #-}
+
+
+
+-- * UploadFileBody
+
+-- | 'uploadFileBodyAdditionalMetadata' Lens
+uploadFileBodyAdditionalMetadataL :: Lens_' UploadFileBody (Maybe Text)
+uploadFileBodyAdditionalMetadataL f UploadFileBody{..} = (\uploadFileBodyAdditionalMetadata -> UploadFileBody { uploadFileBodyAdditionalMetadata, ..} ) <$> f uploadFileBodyAdditionalMetadata
+{-# INLINE uploadFileBodyAdditionalMetadataL #-}
+
+-- | 'uploadFileBodyFile' Lens
+uploadFileBodyFileL :: Lens_' UploadFileBody (Maybe FilePath)
+uploadFileBodyFileL f UploadFileBody{..} = (\uploadFileBodyFile -> UploadFileBody { uploadFileBodyFile, ..} ) <$> f uploadFileBodyFile
+{-# INLINE uploadFileBodyFileL #-}
+
+
+
+-- * UploadFileWithRequiredFileBody
+
+-- | 'uploadFileWithRequiredFileBodyAdditionalMetadata' Lens
+uploadFileWithRequiredFileBodyAdditionalMetadataL :: Lens_' UploadFileWithRequiredFileBody (Maybe Text)
+uploadFileWithRequiredFileBodyAdditionalMetadataL f UploadFileWithRequiredFileBody{..} = (\uploadFileWithRequiredFileBodyAdditionalMetadata -> UploadFileWithRequiredFileBody { uploadFileWithRequiredFileBodyAdditionalMetadata, ..} ) <$> f uploadFileWithRequiredFileBodyAdditionalMetadata
+{-# INLINE uploadFileWithRequiredFileBodyAdditionalMetadataL #-}
+
+-- | 'uploadFileWithRequiredFileBodyRequiredFile' Lens
+uploadFileWithRequiredFileBodyRequiredFileL :: Lens_' UploadFileWithRequiredFileBody (FilePath)
+uploadFileWithRequiredFileBodyRequiredFileL f UploadFileWithRequiredFileBody{..} = (\uploadFileWithRequiredFileBodyRequiredFile -> UploadFileWithRequiredFileBody { uploadFileWithRequiredFileBodyRequiredFile, ..} ) <$> f uploadFileWithRequiredFileBodyRequiredFile
+{-# INLINE uploadFileWithRequiredFileBodyRequiredFileL #-}
 
 
 

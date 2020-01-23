@@ -68,7 +68,7 @@ impl ::std::ops::DerefMut for AdditionalPropertiesObject {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
-pub struct InlineObject {
+pub struct InlineBody {
     #[serde(rename = "id")]
     pub id: String,
 
@@ -78,9 +78,9 @@ pub struct InlineObject {
 
 }
 
-impl InlineObject {
-    pub fn new(id: String, ) -> InlineObject {
-        InlineObject {
+impl InlineBody {
+    pub fn new(id: String, ) -> InlineBody {
+        InlineBody {
             id: id,
             password: None,
         }

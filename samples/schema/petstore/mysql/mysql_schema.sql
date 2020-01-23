@@ -154,10 +154,10 @@ CREATE TABLE IF NOT EXISTS `BigCat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Table structure for table `BigCat_allOf` generated from model 'BigCatUnderscoreallOf'
+-- Table structure for table `BigCatAllOf` generated from model 'BigCatAllOf'
 --
 
-CREATE TABLE IF NOT EXISTS `BigCat_allOf` (
+CREATE TABLE IF NOT EXISTS `BigCatAllOf` (
   `kind` ENUM('lions', 'tigers', 'leopards', 'jaguars') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -185,10 +185,10 @@ CREATE TABLE IF NOT EXISTS `Cat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Table structure for table `Cat_allOf` generated from model 'CatUnderscoreallOf'
+-- Table structure for table `CatAllOf` generated from model 'CatAllOf'
 --
 
-CREATE TABLE IF NOT EXISTS `Cat_allOf` (
+CREATE TABLE IF NOT EXISTS `CatAllOf` (
   `declawed` TINYINT(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -229,10 +229,10 @@ CREATE TABLE IF NOT EXISTS `Dog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Table structure for table `Dog_allOf` generated from model 'DogUnderscoreallOf'
+-- Table structure for table `DogAllOf` generated from model 'DogAllOf'
 --
 
-CREATE TABLE IF NOT EXISTS `Dog_allOf` (
+CREATE TABLE IF NOT EXISTS `DogAllOf` (
   `breed` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -418,6 +418,45 @@ CREATE TABLE IF NOT EXISTS `Tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `testEndpointParametersBody` generated from model 'testEndpointParametersBody'
+--
+
+CREATE TABLE IF NOT EXISTS `testEndpointParametersBody` (
+  `integer` TINYINT UNSIGNED DEFAULT NULL COMMENT 'None',
+  `int32` TINYINT UNSIGNED DEFAULT NULL COMMENT 'None',
+  `int64` BIGINT DEFAULT NULL COMMENT 'None',
+  `number` DECIMAL(20, 9) UNSIGNED NOT NULL COMMENT 'None',
+  `float` DECIMAL(20, 9) DEFAULT NULL COMMENT 'None',
+  `double` DECIMAL(20, 9) UNSIGNED NOT NULL COMMENT 'None',
+  `string` TEXT DEFAULT NULL COMMENT 'None',
+  `pattern_without_delimiter` TEXT NOT NULL COMMENT 'None',
+  `byte` MEDIUMBLOB NOT NULL COMMENT 'None',
+  `binary` MEDIUMBLOB DEFAULT NULL COMMENT 'None',
+  `date` DATE DEFAULT NULL COMMENT 'None',
+  `dateTime` DATETIME DEFAULT NULL COMMENT 'None',
+  `password` VARCHAR(64) DEFAULT NULL COMMENT 'None',
+  `callback` TEXT DEFAULT NULL COMMENT 'None'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `testEnumParametersBody` generated from model 'testEnumParametersBody'
+--
+
+CREATE TABLE IF NOT EXISTS `testEnumParametersBody` (
+  `enum_form_string_array` JSON DEFAULT NULL COMMENT 'Form parameter enum test (string array)',
+  `enum_form_string` ENUM('_abc', '-efg', '(xyz)') DEFAULT '-efg' COMMENT 'Form parameter enum test (string)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `testJsonFormDataBody` generated from model 'testJsonFormDataBody'
+--
+
+CREATE TABLE IF NOT EXISTS `testJsonFormDataBody` (
+  `param` TEXT NOT NULL COMMENT 'field1',
+  `param2` TEXT NOT NULL COMMENT 'field2'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `TypeHolderDefault` generated from model 'TypeHolderDefault'
 --
 
@@ -440,6 +479,33 @@ CREATE TABLE IF NOT EXISTS `TypeHolderExample` (
   `integer_item` INT NOT NULL,
   `bool_item` TINYINT(1) NOT NULL,
   `array_item` JSON NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `updatePetWithFormBody` generated from model 'updatePetWithFormBody'
+--
+
+CREATE TABLE IF NOT EXISTS `updatePetWithFormBody` (
+  `name` TEXT DEFAULT NULL COMMENT 'Updated name of the pet',
+  `status` TEXT DEFAULT NULL COMMENT 'Updated status of the pet'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `uploadFileBody` generated from model 'uploadFileBody'
+--
+
+CREATE TABLE IF NOT EXISTS `uploadFileBody` (
+  `additionalMetadata` TEXT DEFAULT NULL COMMENT 'Additional data to pass to server',
+  `file` MEDIUMBLOB DEFAULT NULL COMMENT 'file to upload'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `uploadFileWithRequiredFileBody` generated from model 'uploadFileWithRequiredFileBody'
+--
+
+CREATE TABLE IF NOT EXISTS `uploadFileWithRequiredFileBody` (
+  `additionalMetadata` TEXT DEFAULT NULL COMMENT 'Additional data to pass to server',
+  `requiredFile` MEDIUMBLOB NOT NULL COMMENT 'file to upload'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --

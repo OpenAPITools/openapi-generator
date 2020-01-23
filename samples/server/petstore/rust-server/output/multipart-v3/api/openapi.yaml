@@ -26,7 +26,7 @@ components:
         optional_string_field:
           type: string
         object_field:
-          $ref: '#/components/schemas/multipart_request_object_field'
+          $ref: '#/components/schemas/multipart_requestObjectField'
         binary_field:
           format: byte
           type: string
@@ -34,7 +34,7 @@ components:
       - binary_field
       - string_field
       type: object
-    multipart_request_object_field:
+    multipart_requestObjectField:
       properties:
         field_a:
           type: string
@@ -44,4 +44,5 @@ components:
           type: array
       required:
       - field_a
+      type: object
 

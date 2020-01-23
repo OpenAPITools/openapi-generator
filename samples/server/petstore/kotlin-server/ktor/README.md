@@ -79,6 +79,8 @@ Class | Method | HTTP request | Description
  - [org.openapitools.server.models.Order](docs/Order.md)
  - [org.openapitools.server.models.Pet](docs/Pet.md)
  - [org.openapitools.server.models.Tag](docs/Tag.md)
+ - [org.openapitools.server.models.UpdatePetWithFormBody](docs/UpdatePetWithFormBody.md)
+ - [org.openapitools.server.models.UploadFileBody](docs/UploadFileBody.md)
  - [org.openapitools.server.models.User](docs/User.md)
 
 

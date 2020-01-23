@@ -41,7 +41,7 @@ No authorization required
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **nested_response** | [**InlineObject**](InlineObject.md)|  | 
+  **nested_response** | [**InlineBody**](InlineBody.md)|  | 
 
 ### Return type
 

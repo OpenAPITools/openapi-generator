@@ -313,16 +313,7 @@
           "content" : {
             "application/x-www-form-urlencoded" : {
               "schema" : {
-                "properties" : {
-                  "name" : {
-                    "description" : "Updated name of the pet",
-                    "type" : "string"
-                  },
-                  "status" : {
-                    "description" : "Updated status of the pet",
-                    "type" : "string"
-                  }
-                }
+                "$ref" : "#/components/schemas/updatePetWithFormBody"
               }
             }
           }
@@ -359,17 +350,7 @@
           "content" : {
             "multipart/form-data" : {
               "schema" : {
-                "properties" : {
-                  "additionalMetadata" : {
-                    "description" : "Additional data to pass to server",
-                    "type" : "string"
-                  },
-                  "file" : {
-                    "description" : "file to upload",
-                    "format" : "binary",
-                    "type" : "string"
-                  }
-                }
+                "$ref" : "#/components/schemas/uploadFileBody"
               }
             }
           }
@@ -980,23 +961,7 @@
           "content" : {
             "application/x-www-form-urlencoded" : {
               "schema" : {
-                "properties" : {
-                  "enum_form_string_array" : {
-                    "description" : "Form parameter enum test (string array)",
-                    "items" : {
-                      "default" : "$",
-                      "enum" : [ ">", "$" ],
-                      "type" : "string"
-                    },
-                    "type" : "array"
-                  },
-                  "enum_form_string" : {
-                    "default" : "-efg",
-                    "description" : "Form parameter enum test (string)",
-                    "enum" : [ "_abc", "-efg", "(xyz)" ],
-                    "type" : "string"
-                  }
-                }
+                "$ref" : "#/components/schemas/testEnumParametersBody"
               }
             }
           }
@@ -1055,88 +1020,7 @@
           "content" : {
             "application/x-www-form-urlencoded" : {
               "schema" : {
-                "properties" : {
-                  "integer" : {
-                    "description" : "None",
-                    "format" : "int32",
-                    "maximum" : 100,
-                    "minimum" : 10,
-                    "type" : "integer"
-                  },
-                  "int32" : {
-                    "description" : "None",
-                    "format" : "int32",
-                    "maximum" : 200,
-                    "minimum" : 20,
-                    "type" : "integer"
-                  },
-                  "int64" : {
-                    "description" : "None",
-                    "format" : "int64",
-                    "type" : "integer"
-                  },
-                  "number" : {
-                    "description" : "None",
-                    "maximum" : 543.2,
-                    "minimum" : 32.1,
-                    "type" : "number"
-                  },
-                  "float" : {
-                    "description" : "None",
-                    "format" : "float",
-                    "maximum" : 987.6,
-                    "type" : "number"
-                  },
-                  "double" : {
-                    "description" : "None",
-                    "format" : "double",
-                    "maximum" : 123.4,
-                    "minimum" : 67.8,
-                    "type" : "number"
-                  },
-                  "string" : {
-                    "description" : "None",
-                    "pattern" : "/[a-z]/i",
-                    "type" : "string"
-                  },
-                  "pattern_without_delimiter" : {
-                    "description" : "None",
-                    "pattern" : "^[A-Z].*",
-                    "type" : "string"
-                  },
-                  "byte" : {
-                    "description" : "None",
-                    "format" : "byte",
-                    "type" : "string"
-                  },
-                  "binary" : {
-                    "description" : "None",
-                    "format" : "binary",
-                    "type" : "string"
-                  },
-                  "date" : {
-                    "description" : "None",
-                    "format" : "date",
-                    "type" : "string"
-                  },
-                  "dateTime" : {
-                    "description" : "None",
-                    "format" : "date-time",
-                    "type" : "string"
-                  },
-                  "password" : {
-                    "description" : "None",
-                    "format" : "password",
-                    "maxLength" : 64,
-                    "minLength" : 10,
-                    "type" : "string"
-                  },
-                  "callback" : {
-                    "description" : "None",
-                    "type" : "string"
-                  }
-                },
-                "required" : [ "byte", "double", "number", "pattern_without_delimiter" ]
+                "$ref" : "#/components/schemas/testEndpointParametersBody"
               }
             }
           },
@@ -1300,17 +1184,7 @@
           "content" : {
             "application/x-www-form-urlencoded" : {
               "schema" : {
-                "properties" : {
-                  "param" : {
-                    "description" : "field1",
-                    "type" : "string"
-                  },
-                  "param2" : {
-                    "description" : "field2",
-                    "type" : "string"
-                  }
-                },
-                "required" : [ "param", "param2" ]
+                "$ref" : "#/components/schemas/testJsonFormDataBody"
               }
             }
           },
@@ -1593,18 +1467,7 @@
           "content" : {
             "multipart/form-data" : {
               "schema" : {
-                "properties" : {
-                  "additionalMetadata" : {
-                    "description" : "Additional data to pass to server",
-                    "type" : "string"
-                  },
-                  "requiredFile" : {
-                    "description" : "file to upload",
-                    "format" : "binary",
-                    "type" : "string"
-                  }
-                },
-                "required" : [ "requiredFile" ]
+                "$ref" : "#/components/schemas/uploadFileWithRequiredFileBody"
               }
             }
           },
@@ -1924,21 +1787,21 @@
         "allOf" : [ {
           "$ref" : "#/components/schemas/Animal"
         }, {
-          "$ref" : "#/components/schemas/Dog_allOf"
+          "$ref" : "#/components/schemas/DogAllOf"
         } ]
       },
       "Cat" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/Animal"
         }, {
-          "$ref" : "#/components/schemas/Cat_allOf"
+          "$ref" : "#/components/schemas/CatAllOf"
         } ]
       },
       "BigCat" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/Cat"
         }, {
-          "$ref" : "#/components/schemas/BigCat_allOf"
+          "$ref" : "#/components/schemas/BigCatAllOf"
         } ]
       },
       "Animal" : {
@@ -2822,27 +2685,185 @@
           "prefix" : "pre"
         }
       },
-      "Dog_allOf" : {
+      "updatePetWithFormBody" : {
         "properties" : {
-          "breed" : {
+          "name" : {
+            "description" : "Updated name of the pet",
+            "type" : "string"
+          },
+          "status" : {
+            "description" : "Updated status of the pet",
             "type" : "string"
           }
         }
       },
-      "Cat_allOf" : {
+      "uploadFileBody" : {
+        "properties" : {
+          "additionalMetadata" : {
+            "description" : "Additional data to pass to server",
+            "type" : "string"
+          },
+          "file" : {
+            "description" : "file to upload",
+            "format" : "binary",
+            "type" : "string"
+          }
+        }
+      },
+      "testEnumParametersBody" : {
+        "properties" : {
+          "enum_form_string_array" : {
+            "description" : "Form parameter enum test (string array)",
+            "items" : {
+              "default" : "$",
+              "enum" : [ ">", "$" ],
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "enum_form_string" : {
+            "default" : "-efg",
+            "description" : "Form parameter enum test (string)",
+            "enum" : [ "_abc", "-efg", "(xyz)" ],
+            "type" : "string"
+          }
+        }
+      },
+      "testEndpointParametersBody" : {
+        "properties" : {
+          "integer" : {
+            "description" : "None",
+            "format" : "int32",
+            "maximum" : 100,
+            "minimum" : 10,
+            "type" : "integer"
+          },
+          "int32" : {
+            "description" : "None",
+            "format" : "int32",
+            "maximum" : 200,
+            "minimum" : 20,
+            "type" : "integer"
+          },
+          "int64" : {
+            "description" : "None",
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "number" : {
+            "description" : "None",
+            "maximum" : 543.2,
+            "minimum" : 32.1,
+            "type" : "number"
+          },
+          "float" : {
+            "description" : "None",
+            "format" : "float",
+            "maximum" : 987.6,
+            "type" : "number"
+          },
+          "double" : {
+            "description" : "None",
+            "format" : "double",
+            "maximum" : 123.4,
+            "minimum" : 67.8,
+            "type" : "number"
+          },
+          "string" : {
+            "description" : "None",
+            "pattern" : "/[a-z]/i",
+            "type" : "string"
+          },
+          "pattern_without_delimiter" : {
+            "description" : "None",
+            "pattern" : "^[A-Z].*",
+            "type" : "string"
+          },
+          "byte" : {
+            "description" : "None",
+            "format" : "byte",
+            "type" : "string"
+          },
+          "binary" : {
+            "description" : "None",
+            "format" : "binary",
+            "type" : "string"
+          },
+          "date" : {
+            "description" : "None",
+            "format" : "date",
+            "type" : "string"
+          },
+          "dateTime" : {
+            "description" : "None",
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "password" : {
+            "description" : "None",
+            "format" : "password",
+            "maxLength" : 64,
+            "minLength" : 10,
+            "type" : "string"
+          },
+          "callback" : {
+            "description" : "None",
+            "type" : "string"
+          }
+        },
+        "required" : [ "byte", "double", "number", "pattern_without_delimiter" ]
+      },
+      "testJsonFormDataBody" : {
+        "properties" : {
+          "param" : {
+            "description" : "field1",
+            "type" : "string"
+          },
+          "param2" : {
+            "description" : "field2",
+            "type" : "string"
+          }
+        },
+        "required" : [ "param", "param2" ]
+      },
+      "uploadFileWithRequiredFileBody" : {
+        "properties" : {
+          "additionalMetadata" : {
+            "description" : "Additional data to pass to server",
+            "type" : "string"
+          },
+          "requiredFile" : {
+            "description" : "file to upload",
+            "format" : "binary",
+            "type" : "string"
+          }
+        },
+        "required" : [ "requiredFile" ]
+      },
+      "DogAllOf" : {
+        "properties" : {
+          "breed" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "CatAllOf" : {
         "properties" : {
           "declawed" : {
             "type" : "boolean"
           }
-        }
+        },
+        "type" : "object"
       },
-      "BigCat_allOf" : {
+      "BigCatAllOf" : {
         "properties" : {
           "kind" : {
             "enum" : [ "lions", "tigers", "leopards", "jaguars" ],
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       }
     },
     "securitySchemes" : {

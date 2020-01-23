@@ -21,6 +21,8 @@ part 'model/category.dart';
 part 'model/order.dart';
 part 'model/pet.dart';
 part 'model/tag.dart';
+part 'model/update_pet_with_form_body.dart';
+part 'model/upload_file_body.dart';
 part 'model/user.dart';
 
 

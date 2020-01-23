@@ -34,7 +34,7 @@ describe 'DefaultApi' do
 
   # unit tests for foo_get
   # @param [Hash] opts the optional parameters
-  # @return [InlineResponseDefault]
+  # @return [NullResponseDefault]
   describe 'foo_get test' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers

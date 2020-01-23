@@ -15,18 +15,10 @@ paths:
       summary: A dummy endpoint to make the spec valid.
     put:
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
         content:
           '*/*':
             schema:
-              properties:
-                id:
-                  type: string
-                password:
-                  type: string
-              required:
-              - id
-              type: object
+              $ref: '#/components/schemas/InlineBody'
         required: true
       responses:
         "200":
@@ -86,12 +78,6 @@ components:
             - id
             type: object
       required: true
-    inline_object:
-      content:
-        '*/*':
-          schema:
-            $ref: '#/components/schemas/inline_object'
-      required: true
   schemas:
     additionalPropertiesObject:
       additionalProperties:
@@ -114,9 +100,12 @@ components:
       description: An object of objects
       properties:
         inner:
-          $ref: '#/components/schemas/ObjectOfObjects_inner'
+          $ref: '#/components/schemas/ObjectOfObjectsInner'
       type: object
-    inline_object:
+    InlineBody:
+      example:
+        password: password
+        id: id
       properties:
         id:
           type: string
@@ -125,7 +114,7 @@ components:
       required:
       - id
       type: object
-    ObjectOfObjects_inner:
+    ObjectOfObjectsInner:
       properties:
         required_thing:
           type: string
@@ -133,4 +122,5 @@ components:
           type: integer
       required:
       - required_thing
+      type: object
 

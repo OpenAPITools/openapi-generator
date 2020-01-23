@@ -29,6 +29,7 @@ class BigCatAllOf implements ModelInterface
 {
     private const MODEL_SCHEMA = <<<'SCHEMA'
 {
+  "type" : "object",
   "properties" : {
     "kind" : {
       "type" : "string",

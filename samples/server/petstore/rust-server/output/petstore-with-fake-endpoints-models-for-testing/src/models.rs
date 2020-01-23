@@ -1417,6 +1417,232 @@ impl Tag {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct TestEndpointParametersBody {
+    /// None
+    #[serde(rename = "integer")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub integer: Option<u32>,
+
+    /// None
+    #[serde(rename = "int32")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub int32: Option<u32>,
+
+    /// None
+    #[serde(rename = "int64")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub int64: Option<i64>,
+
+    /// None
+    #[serde(rename = "number")]
+    pub number: f64,
+
+    /// None
+    #[serde(rename = "float")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub float: Option<f32>,
+
+    /// None
+    #[serde(rename = "double")]
+    pub double: f64,
+
+    /// None
+    #[serde(rename = "string")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub string: Option<String>,
+
+    /// None
+    #[serde(rename = "pattern_without_delimiter")]
+    pub pattern_without_delimiter: String,
+
+    /// None
+    #[serde(rename = "byte")]
+    pub byte: swagger::ByteArray,
+
+    /// None
+    #[serde(rename = "binary")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub binary: Option<swagger::ByteArray>,
+
+    /// None
+    #[serde(rename = "date")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub date: Option<chrono::DateTime<chrono::Utc>>,
+
+    /// None
+    #[serde(rename = "dateTime")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub date_time: Option<chrono::DateTime<chrono::Utc>>,
+
+    /// None
+    #[serde(rename = "password")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub password: Option<String>,
+
+    /// None
+    #[serde(rename = "callback")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub callback: Option<String>,
+
+}
+
+impl TestEndpointParametersBody {
+    pub fn new(number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, ) -> TestEndpointParametersBody {
+        TestEndpointParametersBody {
+            integer: None,
+            int32: None,
+            int64: None,
+            number: number,
+            float: None,
+            double: double,
+            string: None,
+            pattern_without_delimiter: pattern_without_delimiter,
+            byte: byte,
+            binary: None,
+            date: None,
+            date_time: None,
+            password: None,
+            callback: None,
+        }
+    }
+}
+
+impl TestEndpointParametersBody {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct TestEnumParametersBody {
+    /// Form parameter enum test (string)
+    // Note: inline enums are not fully supported by openapi-generator
+    #[serde(rename = "enum_form_string")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub enum_form_string: Option<String>,
+
+}
+
+impl TestEnumParametersBody {
+    pub fn new() -> TestEnumParametersBody {
+        TestEnumParametersBody {
+            enum_form_string: Some("-efg".to_string()),
+        }
+    }
+}
+
+impl TestEnumParametersBody {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct TestJsonFormDataBody {
+    /// field1
+    #[serde(rename = "param")]
+    pub param: String,
+
+    /// field2
+    #[serde(rename = "param2")]
+    pub param2: String,
+
+}
+
+impl TestJsonFormDataBody {
+    pub fn new(param: String, param2: String, ) -> TestJsonFormDataBody {
+        TestJsonFormDataBody {
+            param: param,
+            param2: param2,
+        }
+    }
+}
+
+impl TestJsonFormDataBody {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct UpdatePetWithFormBody {
+    /// Updated name of the pet
+    #[serde(rename = "name")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub name: Option<String>,
+
+    /// Updated status of the pet
+    #[serde(rename = "status")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub status: Option<String>,
+
+}
+
+impl UpdatePetWithFormBody {
+    pub fn new() -> UpdatePetWithFormBody {
+        UpdatePetWithFormBody {
+            name: None,
+            status: None,
+        }
+    }
+}
+
+impl UpdatePetWithFormBody {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct UploadFileBody {
+    /// Additional data to pass to server
+    #[serde(rename = "additionalMetadata")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub additional_metadata: Option<String>,
+
+    /// file to upload
+    #[serde(rename = "file")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub file: Option<swagger::ByteArray>,
+
+}
+
+impl UploadFileBody {
+    pub fn new() -> UploadFileBody {
+        UploadFileBody {
+            additional_metadata: None,
+            file: None,
+        }
+    }
+}
+
+impl UploadFileBody {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 #[serde(rename = "User")]
 pub struct User {
     #[serde(rename = "id")]

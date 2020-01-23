@@ -191,6 +191,44 @@ export interface Tag {
     name?: string;
 }
 /**
+ * 
+ * @export
+ * @interface UpdatePetWithFormBody
+ */
+export interface UpdatePetWithFormBody {
+    /**
+     * Updated name of the pet
+     * @type {string}
+     * @memberof UpdatePetWithFormBody
+     */
+    name?: string;
+    /**
+     * Updated status of the pet
+     * @type {string}
+     * @memberof UpdatePetWithFormBody
+     */
+    status?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UploadFileBody
+ */
+export interface UploadFileBody {
+    /**
+     * Additional data to pass to server
+     * @type {string}
+     * @memberof UploadFileBody
+     */
+    additionalMetadata?: string;
+    /**
+     * file to upload
+     * @type {any}
+     * @memberof UploadFileBody
+     */
+    file?: any;
+}
+/**
  * A User who is purchasing from the pet store
  * @export
  * @interface User

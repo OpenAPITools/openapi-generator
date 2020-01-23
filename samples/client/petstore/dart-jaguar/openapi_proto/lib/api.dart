@@ -18,6 +18,8 @@ import 'package:openapi/model/category.pb.dart';
 import 'package:openapi/model/order.pb.dart';
 import 'package:openapi/model/pet.pb.dart';
 import 'package:openapi/model/tag.pb.dart';
+import 'package:openapi/model/update_pet_with_form_body.pb.dart';
+import 'package:openapi/model/upload_file_body.pb.dart';
 import 'package:openapi/model/user.pb.dart';
 
 
@@ -29,6 +31,8 @@ final _protoJaguarRepo = ProtoCodecRepo()
 ..add((data) => Order.fromBuffer(List<int>.from(data)))
 ..add((data) => Pet.fromBuffer(List<int>.from(data)))
 ..add((data) => Tag.fromBuffer(List<int>.from(data)))
+..add((data) => UpdatePetWithFormBody.fromBuffer(List<int>.from(data)))
+..add((data) => UploadFileBody.fromBuffer(List<int>.from(data)))
 ..add((data) => User.fromBuffer(List<int>.from(data)))
 ;
 final _jsonJaguarRepo = ProtoCodecRepo(isJsonFormatEnabled: true)
@@ -37,6 +41,8 @@ final _jsonJaguarRepo = ProtoCodecRepo(isJsonFormatEnabled: true)
 ..add((data) => Order.fromBuffer(List<int>.from(data)))
 ..add((data) => Pet.fromBuffer(List<int>.from(data)))
 ..add((data) => Tag.fromBuffer(List<int>.from(data)))
+..add((data) => UpdatePetWithFormBody.fromBuffer(List<int>.from(data)))
+..add((data) => UploadFileBody.fromBuffer(List<int>.from(data)))
 ..add((data) => User.fromBuffer(List<int>.from(data)))
 ;
 final Map<String, CodecRepo> defaultConverters = {

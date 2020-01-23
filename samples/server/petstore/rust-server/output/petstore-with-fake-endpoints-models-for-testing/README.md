@@ -201,6 +201,11 @@ Method | HTTP request | Description
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
+ - [TestEndpointParametersBody](docs/TestEndpointParametersBody.md)
+ - [TestEnumParametersBody](docs/TestEnumParametersBody.md)
+ - [TestJsonFormDataBody](docs/TestJsonFormDataBody.md)
+ - [UpdatePetWithFormBody](docs/UpdatePetWithFormBody.md)
+ - [UploadFileBody](docs/UploadFileBody.md)
  - [User](docs/User.md)
 
 

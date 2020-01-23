@@ -49,6 +49,10 @@ class ApiClient {
           return new Pet.fromJson(value);
         case 'Tag':
           return new Tag.fromJson(value);
+        case 'UpdatePetWithFormBody':
+          return new UpdatePetWithFormBody.fromJson(value);
+        case 'UploadFileBody':
+          return new UploadFileBody.fromJson(value);
         case 'User':
           return new User.fromJson(value);
         default:

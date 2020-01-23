@@ -212,8 +212,14 @@ Class | Method | HTTP request | Description
 * OpenAPIServer\Model\ReadOnlyFirst
 * OpenAPIServer\Model\SpecialModelName
 * OpenAPIServer\Model\Tag
+* OpenAPIServer\Model\TestEndpointParametersBody
+* OpenAPIServer\Model\TestEnumParametersBody
+* OpenAPIServer\Model\TestJsonFormDataBody
 * OpenAPIServer\Model\TypeHolderDefault
 * OpenAPIServer\Model\TypeHolderExample
+* OpenAPIServer\Model\UpdatePetWithFormBody
+* OpenAPIServer\Model\UploadFileBody
+* OpenAPIServer\Model\UploadFileWithRequiredFileBody
 * OpenAPIServer\Model\User
 * OpenAPIServer\Model\XmlItem
 

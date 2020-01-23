@@ -64,44 +64,6 @@ export interface Category {
     name?: string;
 }
 /**
- * 
- * @export
- * @interface InlineObject
- */
-export interface InlineObject {
-    /**
-     * Updated name of the pet
-     * @type {string}
-     * @memberof InlineObject
-     */
-    name?: string;
-    /**
-     * Updated status of the pet
-     * @type {string}
-     * @memberof InlineObject
-     */
-    status?: string;
-}
-/**
- * 
- * @export
- * @interface InlineObject1
- */
-export interface InlineObject1 {
-    /**
-     * Additional data to pass to server
-     * @type {string}
-     * @memberof InlineObject1
-     */
-    additionalMetadata?: string;
-    /**
-     * file to upload
-     * @type {any}
-     * @memberof InlineObject1
-     */
-    file?: any;
-}
-/**
  * An order for a pets from the pet store
  * @export
  * @interface Order
@@ -227,6 +189,44 @@ export interface Tag {
      * @memberof Tag
      */
     name?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UpdatePetWithFormBody
+ */
+export interface UpdatePetWithFormBody {
+    /**
+     * Updated name of the pet
+     * @type {string}
+     * @memberof UpdatePetWithFormBody
+     */
+    name?: string;
+    /**
+     * Updated status of the pet
+     * @type {string}
+     * @memberof UpdatePetWithFormBody
+     */
+    status?: string;
+}
+/**
+ * 
+ * @export
+ * @interface UploadFileBody
+ */
+export interface UploadFileBody {
+    /**
+     * Additional data to pass to server
+     * @type {string}
+     * @memberof UploadFileBody
+     */
+    additionalMetadata?: string;
+    /**
+     * file to upload
+     * @type {any}
+     * @memberof UploadFileBody
+     */
+    file?: any;
 }
 /**
  * A User who is purchasing from the pet store
