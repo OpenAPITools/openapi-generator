@@ -54,6 +54,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean exclusiveMaximum;
     public boolean hasMore;
     public boolean required;
+    public boolean deprecated;
     public boolean secondaryParam;
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType;
@@ -554,6 +555,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", exclusiveMaximum=").append(exclusiveMaximum);
         sb.append(", hasMore=").append(hasMore);
         sb.append(", required=").append(required);
+        sb.append(", deprecated=").append(deprecated);
         sb.append(", secondaryParam=").append(secondaryParam);
         sb.append(", hasMoreNonReadOnly=").append(hasMoreNonReadOnly);
         sb.append(", isPrimitiveType=").append(isPrimitiveType);
@@ -619,6 +621,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 exclusiveMaximum == that.exclusiveMaximum &&
                 hasMore == that.hasMore &&
                 required == that.required &&
+                deprecated == this.deprecated &&
                 secondaryParam == that.secondaryParam &&
                 hasMoreNonReadOnly == that.hasMoreNonReadOnly &&
                 isPrimitiveType == that.isPrimitiveType &&
@@ -701,7 +704,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         return Objects.hash(openApiType, baseName, complexType, getter, setter, description, dataType,
                 datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam, baseType,
                 containerType, title, unescapedDescription, maxLength, minLength, pattern, example, jsonSchema,
-                minimum, maximum, exclusiveMinimum, exclusiveMaximum, hasMore, required, secondaryParam,
+                minimum, maximum, exclusiveMinimum, exclusiveMaximum, hasMore, required, deprecated, secondaryParam,
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric, isInteger,
                 isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime,
                 isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isEnum, isReadOnly,
