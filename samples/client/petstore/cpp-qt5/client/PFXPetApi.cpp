@@ -23,7 +23,8 @@ PFXPetApi::PFXPetApi(const QString &scheme, const QString &host, int port, const
       _port(port),
       _basePath(basePath),
       _timeOut(timeOut),
-      _compress(false) {}
+      isResponseCompressionEnabled(false),
+      isRequestCompressionEnabled(false) {}
 
 PFXPetApi::~PFXPetApi() {
 }
@@ -56,8 +57,12 @@ void PFXPetApi::addHeaders(const QString &key, const QString &value) {
     defaultHeaders.insert(key, value);
 }
 
-void PFXPetApi::enableContentCompression() {
-    _compress = true;
+void PFXPetApi::enableRequestCompression() {
+    isRequestCompressionEnabled = true;
+}
+
+void PFXPetApi::enableResponseCompression() {
+    isResponseCompressionEnabled = true;
 }
 
 void PFXPetApi::addPet(const PFXPet &body) {
@@ -71,7 +76,6 @@ void PFXPetApi::addPet(const PFXPet &body) {
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "POST");
 
     QString output = body.asJson();
@@ -120,7 +124,6 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const QString &api_key) {
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "DELETE");
 
     if (api_key != nullptr) {
@@ -205,7 +208,6 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "GET");
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
@@ -296,7 +298,6 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "GET");
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
@@ -352,7 +353,6 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "GET");
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
@@ -396,7 +396,6 @@ void PFXPetApi::updatePet(const PFXPet &body) {
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "PUT");
 
     QString output = body.asJson();
@@ -445,7 +444,6 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const QString &name, con
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "POST");
 
     input.add_var("name", ::test_namespace::toStringValue(name));
@@ -493,7 +491,6 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const QString &additional_metad
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
     PFXHttpRequestInput input(fullPath, "POST");
 
     input.add_var("additionalMetadata", ::test_namespace::toStringValue(additional_metadata));
