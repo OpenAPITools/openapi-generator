@@ -31,16 +31,18 @@ configuration.api_key['api_key_query'] = 'YOUR_API_KEY'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.FakeClassnameTags123Api(petstore_api.ApiClient(configuration))
-client = petstore_api.Client() # Client | client model
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeClassnameTags123Api(api_client)
+    client = petstore_api.Client() # Client | client model
 
-try:
-    # To test class name in snake case
-    api_response = api_instance.test_classname(client)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling FakeClassnameTags123Api->test_classname: %s\n" % e)
+    try:
+        # To test class name in snake case
+        api_response = api_instance.test_classname(client)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling FakeClassnameTags123Api->test_classname: %s\n" % e)
 ```
 
 ### Parameters
