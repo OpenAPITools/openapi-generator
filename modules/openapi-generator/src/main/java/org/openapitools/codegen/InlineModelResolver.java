@@ -300,7 +300,8 @@ public class InlineModelResolver {
         if (requestBody == null) {
             return;
         }
-        flattenContent(requestBody.getContent(), operation.getOperationId() + "Body");
+        String name = operation.getOperationId() == null ? "InlineBody" : operation.getOperationId() + "Body";
+        flattenContent(requestBody.getContent(), name);
     }
 
     /**
@@ -351,11 +352,12 @@ public class InlineModelResolver {
 
         for (String key : responses.keySet()) {
             ApiResponse response = responses.get(key);
+            String prefix = operation.getOperationId() == null ? "Inline" : operation.getOperationId();
             String name;
             if ("200".equals(key)) {
-                name = operation.getOperationId() + "Response";
+                name = prefix + "Response";
             } else {
-                name = operation.getOperationId() + "Response" + StringUtils.camelize(key);
+                name = prefix + "Response" + StringUtils.camelize(key);
             }
             flattenContent(response.getContent(), name);
         }
