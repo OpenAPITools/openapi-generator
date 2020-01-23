@@ -86,6 +86,10 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                         continue;
                     }
                     if (param.isDateTime) {
+                        // Note this could have been done by adding the following line in processOpts(),
+                        // however, we only want to represent the DateTime object as NullableTime if
+                        // it's marked as nullable in the spec.
+                        //    typeMapping.put("DateTime", "NullableTime");
                         param.dataType = "NullableTime";
                     } else {
                         param.dataType = "Nullable" + Character.toUpperCase(param.dataType.charAt(0))
