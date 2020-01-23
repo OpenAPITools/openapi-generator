@@ -11,6 +11,8 @@ $ nosetests -v
 
 import os
 import time
+import atexit
+import weakref
 import unittest
 from dateutil.parser import parse
 
@@ -199,3 +201,17 @@ class ApiClientTests(unittest.TestCase):
         model = petstore_api.StringBooleanMap(**model_dict)
         result = self.api_client.sanitize_for_serialization(model)
         self.assertEqual(result, model_dict)
+
+    def test_context_manager_closes_threadpool(self):
+        with petstore_api.ApiClient() as client:
+            self.assertIsNotNone(client.pool)
+            pool_ref = weakref.ref(client._pool)
+            self.assertIsNotNone(pool_ref())
+        self.assertIsNone(pool_ref())
+
+    def test_atexit_closes_threadpool(self):
+        client = petstore_api.ApiClient()
+        self.assertIsNotNone(client.pool)
+        self.assertIsNotNone(client._pool)
+        atexit._run_exitfuncs()
+        self.assertIsNone(client._pool)
