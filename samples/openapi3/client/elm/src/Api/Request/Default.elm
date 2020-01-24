@@ -33,6 +33,7 @@ type HeaderType
     | HeaderTypeRight
 
 
+headerTypeVariants : List HeaderType
 headerTypeVariants =
     [ HeaderTypeLeft
     , HeaderTypeRight
@@ -57,6 +58,7 @@ type Enumeration
     | EnumerationC
 
 
+enumerationVariants : List Enumeration
 enumerationVariants =
     [ EnumerationA
     , EnumerationB
@@ -85,6 +87,7 @@ type Enum
     | EnumC
 
 
+enumVariants : List Enum
 enumVariants =
     [ EnumA
     , EnumB

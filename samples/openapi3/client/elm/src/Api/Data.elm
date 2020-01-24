@@ -140,6 +140,7 @@ type Enum
     | EnumBaz
 
 
+enumVariants : List Enum
 enumVariants =
     [ EnumFoo
     , EnumBar
@@ -153,6 +154,7 @@ type Enumeric
     | Enumeric3
 
 
+enumericVariants : List Enumeric
 enumericVariants =
     [ Enumeric1
     , Enumeric2
