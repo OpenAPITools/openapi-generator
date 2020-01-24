@@ -78,7 +78,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             {{#isBasicBasic}}
             // http basic authentication required
             if (configuration && (configuration.username || configuration.password)) {
-                localVarHeaderParameter["Authorization"] = "Basic " + btoa(configuration.username + ":" + configuration.password);
+                localVarRequestOptions["auth"] = { username: configuration.username, password: configuration.password }; 
             }
             {{/isBasicBasic}}
             {{#isBasicBearer}}
