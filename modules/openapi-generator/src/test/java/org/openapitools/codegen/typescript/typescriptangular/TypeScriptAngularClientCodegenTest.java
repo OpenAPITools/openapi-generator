@@ -16,6 +16,16 @@ import org.testng.annotations.Test;
 
 public class TypeScriptAngularClientCodegenTest {
     @Test
+    public void testModelSuffix() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put("modelSuffix", "MySuffix");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.toModelName("TestName"), "TestNameMySuffix");
+        Assert.assertEquals(codegen.toModelName("Error"), "ErrorMySuffix");
+    }
+
+    @Test
     public void testModelFileSuffix() {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put("modelFileSuffix", "MySuffix");
