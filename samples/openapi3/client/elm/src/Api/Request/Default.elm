@@ -18,6 +18,7 @@ module Api.Request.Default exposing
     , maybeGet
     , pathStringIntegerEnumerationGet, Enumeration(..), enumerationVariants
     , queryGet, Enum(..), enumVariants
+    , uuidGet
     )
 
 import Api
@@ -26,6 +27,7 @@ import Dict
 import Http
 import Json.Decode
 import Json.Encode
+import Uuid exposing (Uuid)
 
 
 type HeaderType
@@ -33,6 +35,7 @@ type HeaderType
     | HeaderTypeRight
 
 
+headerTypeVariants : List HeaderType
 headerTypeVariants =
     [ HeaderTypeLeft
     , HeaderTypeRight
@@ -57,6 +60,7 @@ type Enumeration
     | EnumerationC
 
 
+enumerationVariants : List Enumeration
 enumerationVariants =
     [ EnumerationA
     , EnumerationB
@@ -85,6 +89,7 @@ type Enum
     | EnumC
 
 
+enumVariants : List Enum
 enumVariants =
     [ EnumA
     , EnumB
@@ -157,3 +162,16 @@ queryGet string_query int_query enum_query =
         []
         Nothing
         (Json.Decode.succeed ())
+
+
+
+uuidGet : Maybe Uuid -> Api.Request Uuid
+uuidGet value_query =
+    Api.request
+        "GET"
+        "/uuid"
+        []
+        [ ( "value", Maybe.map Uuid.toString value_query ) ]
+        []
+        Nothing
+        Uuid.decoder

@@ -33,7 +33,7 @@ import Uuid exposing (Uuid){{/includeUuid}}
 {-| {{{notes}}}
 -}
 {{/notes}}
-{{operationId}} : {{#allParams}}{{^required}}Maybe {{/required}}{{#isListContainer}}List {{/isListContainer}}{{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{#isModel}}Api.Data.{{/isModel}}{{dataType}}{{/datatypeWithEnum}} -> {{/allParams}}Api.Request {{^responses}}(){{/responses}}{{#responses}}{{#-first}}{{^dataType}}(){{/dataType}}{{#isMapContainer}}(Dict.Dict String {{/isMapContainer}}{{#isListContainer}}(List {{/isListContainer}}{{^primitiveType}}Api.Data.{{/primitiveType}}{{#items}}{{#isModel}}Api.Data.{{/isModel}}{{/items}}{{dataType}}{{#isListContainer}}){{/isListContainer}}{{#isMapContainer}}){{/isMapContainer}}{{/-first}}{{/responses}}
+{{operationId}} : {{#allParams}}{{^required}}Maybe {{/required}}{{#isListContainer}}List {{/isListContainer}}{{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{#isModel}}Api.Data.{{/isModel}}{{dataType}}{{/datatypeWithEnum}} -> {{/allParams}}Api.Request {{^responses}}(){{/responses}}{{#responses}}{{#-first}}{{^dataType}}(){{/dataType}}{{#isMapContainer}}(Dict.Dict String {{/isMapContainer}}{{#isListContainer}}(List {{/isListContainer}}{{^primitiveType}}{{^isUuid}}Api.Data.{{/isUuid}}{{/primitiveType}}{{#items}}{{#isModel}}Api.Data.{{/isModel}}{{/items}}{{dataType}}{{#isListContainer}}){{/isListContainer}}{{#isMapContainer}}){{/isMapContainer}}{{/-first}}{{/responses}}
 {{operationId}}{{#allParams}} {{>paramName}}{{/allParams}} =
     Api.request
         "{{httpMethod}}"
