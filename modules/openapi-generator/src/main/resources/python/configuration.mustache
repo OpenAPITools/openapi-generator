@@ -297,7 +297,7 @@ class Configuration(object):
             }
 {{/isApiKey}}
 {{#isBasic}}
-  {{^isBasicBearer}}
+  {{#isBasicBasic}}
         if self.username is not None and self.password is not None:
             auth['{{name}}'] = {
                 'type': 'basic',
@@ -305,7 +305,7 @@ class Configuration(object):
                 'key': 'Authorization',
                 'value': self.get_basic_auth_token()
             }
-  {{/isBasicBearer}}
+  {{/isBasicBasic}}
   {{#isBasicBearer}}
         if self.access_token is not None:
             auth['{{name}}'] = {
