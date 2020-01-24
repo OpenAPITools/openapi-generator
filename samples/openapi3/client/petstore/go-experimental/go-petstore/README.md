@@ -1,4 +1,4 @@
-# Go API client for openapi
+# Go API client for petstore
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
@@ -17,13 +17,12 @@ Install the following dependencies:
 go get github.com/stretchr/testify/assert
 go get golang.org/x/oauth2
 go get golang.org/x/net/context
-go get github.com/antihax/optional
 ```
 
 Put the package under your project folder and add the following in import:
 
 ```golang
-import sw "./openapi"
+import sw "./petstore"
 ```
 
 ## Configuration of Server URL

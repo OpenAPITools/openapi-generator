@@ -28,12 +28,12 @@ import {{{moduleName}}} from '{{{projectName}}}';
 let defaultClient = {{{moduleName}}}.ApiClient.instance;
 {{#authMethods}}
 {{#isBasic}}
-{{^isBasicBearer}}
+{{#isBasicBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 let {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.username = 'YOUR USERNAME';
 {{{name}}}.password = 'YOUR PASSWORD';
-{{/isBasicBearer}}
+{{/isBasicBasic}}
 {{#isBasicBearer}}
 // Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
 let {{{name}}} = defaultClient.authentications['{{{name}}}'];
