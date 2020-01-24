@@ -66,6 +66,7 @@ declare -a samples=(
 "${root}/bin/csharp-netcore-petstore-all.sh"
 "${root}/bin/elixir-petstore.sh"
 "${root}/bin/openapi3/go-petstore.sh"
+"${root}/bin/openapi3/go-experimental-petstore.sh"
 "${root}/bin/go-experimental-petstore.sh"
 "${root}/bin/go-petstore.sh"
 "${root}/bin/go-petstore-withxml.sh"
