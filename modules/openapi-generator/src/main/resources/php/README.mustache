@@ -122,10 +122,10 @@ All endpoints do not require authorization.
 
 {{/isApiKey}}
 {{#isBasic}}
-{{^isBasicBearer}}
+{{#isBasicBasic}}
 
 - **Type**: HTTP basic authentication
-{{/isBasicBearer}}
+{{/isBasicBasic}}
 {{#isBasicBearer}}
 
 - **Type**: Bearer authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}

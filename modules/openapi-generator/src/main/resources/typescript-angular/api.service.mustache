@@ -258,11 +258,11 @@ export class {{classname}} {
 {{/isKeyInQuery}}
 {{/isApiKey}}
 {{#isBasic}}
-    {{^isBasicBearer}}
+    {{#isBasicBasic}}
         if (this.configuration.username || this.configuration.password) {
             {{#useHttpClient}}headers = {{/useHttpClient}}headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
         }
-    {{/isBasicBearer}}
+    {{/isBasicBasic}}
     {{#isBasicBearer}}
         if (this.configuration.accessToken) {
             const accessToken = typeof this.configuration.accessToken === 'function'

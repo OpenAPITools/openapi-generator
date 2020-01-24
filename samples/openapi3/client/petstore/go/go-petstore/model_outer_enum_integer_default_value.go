@@ -13,7 +13,7 @@ type OuterEnumIntegerDefaultValue int32
 
 // List of OuterEnumIntegerDefaultValue
 const (
-	_0 OuterEnumIntegerDefaultValue = 0
-	_1 OuterEnumIntegerDefaultValue = 1
-	_2 OuterEnumIntegerDefaultValue = 2
+	OUTERENUMINTEGERDEFAULTVALUE__0 OuterEnumIntegerDefaultValue = 0
+	OUTERENUMINTEGERDEFAULTVALUE__1 OuterEnumIntegerDefaultValue = 1
+	OUTERENUMINTEGERDEFAULTVALUE__2 OuterEnumIntegerDefaultValue = 2
 )
