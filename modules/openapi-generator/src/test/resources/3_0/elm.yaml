@@ -97,6 +97,22 @@ paths:
       responses:
         "200":
           description: Default response
+  /uuid:
+    get:
+      parameters:
+        - name: value
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Default response
+          content:
+            application/json:
+              schema:
+                type: string
+                format: uuid
 components:
   schemas:
     Absent:
