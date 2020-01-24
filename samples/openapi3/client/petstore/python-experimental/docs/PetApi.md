@@ -22,7 +22,6 @@ Add a new pet to the store
 
 ### Example
 
-* Basic Authentication (http_signature_test):
 * OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
@@ -170,7 +169,6 @@ Multiple status values can be provided with comma separated strings
 
 ### Example
 
-* Basic Authentication (http_signature_test):
 * OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
@@ -253,7 +251,6 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example
 
-* Basic Authentication (http_signature_test):
 * OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
@@ -398,7 +395,6 @@ Update an existing pet
 
 ### Example
 
-* Basic Authentication (http_signature_test):
 * OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
