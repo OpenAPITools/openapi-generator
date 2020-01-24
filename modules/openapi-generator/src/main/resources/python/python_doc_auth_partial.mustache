@@ -2,11 +2,11 @@
 {{#authMethods}}
 configuration = {{{packageName}}}.Configuration()
 {{#isBasic}}
-{{^isBasicBearer}}
+{{#isBasicBasic}}
 # Configure HTTP basic authorization: {{{name}}}
 configuration.username = 'YOUR_USERNAME'
 configuration.password = 'YOUR_PASSWORD'
-{{/isBasicBearer}}
+{{/isBasicBasic}}
 {{#isBasicBearer}}
 # Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
 configuration.access_token = 'YOUR_BEARER_TOKEN'
