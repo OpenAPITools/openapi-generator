@@ -921,7 +921,8 @@ public class ModelUtils {
     }
 
     /**
-     * Get the the parent model name from the schemas (allOf, anyOf, oneOf)
+     * Get the parent model name from the schemas (allOf, anyOf, oneOf).
+     * If there are multiple parents, return the first one.
      *
      * @param composedSchema schema (alias or direct reference)
      * @param allSchemas     all schemas
@@ -965,6 +966,14 @@ public class ModelUtils {
         return null;
     }
 
+    /**
+     * Get the list of parent model names from the schemas (allOf, anyOf, oneOf).
+     *
+     * @param composedSchema   schema (alias or direct reference)
+     * @param allSchemas       all schemas
+     * @param includeAncestors if true, include the indirect ancestors in the return value. If false, return the direct parents.
+     * @return the name of the parent model
+     */
     public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         List<String> names = new ArrayList<String>();

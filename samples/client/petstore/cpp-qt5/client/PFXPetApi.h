@@ -37,7 +37,8 @@ public:
     void setTimeOut(const int timeOut);
     void setWorkingDirectory(const QString &path);
     void addHeaders(const QString &key, const QString &value);
-    void enableContentCompression();
+    void enableRequestCompression();
+    void enableResponseCompression();
 
     void addPet(const PFXPet &body);
     void deletePet(const qint64 &pet_id, const QString &api_key);
@@ -55,7 +56,8 @@ private:
     int _timeOut;
     QString _workingDirectory;
     QMap<QString, QString> defaultHeaders;
-    bool _compress;
+    bool isResponseCompressionEnabled;
+    bool isRequestCompressionEnabled;
 
     void addPetCallback(PFXHttpRequestWorker *worker);
     void deletePetCallback(PFXHttpRequestWorker *worker);

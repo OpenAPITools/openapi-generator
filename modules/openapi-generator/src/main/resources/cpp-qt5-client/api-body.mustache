@@ -15,7 +15,8 @@ namespace {{this}} {
       _port(port),
       _basePath(basePath),
       _timeOut(timeOut),
-      _compress(false) {}
+      isResponseCompressionEnabled(false),
+      isRequestCompressionEnabled(false) {}
 
 {{classname}}::~{{classname}}() {
 }
@@ -48,8 +49,12 @@ void {{classname}}::addHeaders(const QString &key, const QString &value) {
     defaultHeaders.insert(key, value);
 }
 
-void {{classname}}::enableContentCompression() {
-    _compress = true;
+void {{classname}}::enableRequestCompression() {
+    isRequestCompressionEnabled = true;
+}
+
+void {{classname}}::enableResponseCompression() {
+    isResponseCompressionEnabled = true;
 }
 
 {{#operations}}
@@ -113,8 +118,9 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
 {{/collectionFormat}}{{/queryParams}}
     {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker(this);
     worker->setTimeOut(_timeOut);
-    worker->setWorkingDirectory(_workingDirectory);
-    worker->setCompressionEnabled(_compress);
+    worker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    worker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    worker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
 {{#formParams}}{{^isFile}}
     input.add_var("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));{{/isFile}}{{#isFile}}

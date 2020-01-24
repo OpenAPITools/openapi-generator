@@ -70,8 +70,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isBinary;
     public boolean isFile;
     public boolean isBoolean;
-    public boolean isDate;
-    public boolean isDateTime;
+    public boolean isDate; // full-date notation as defined by RFC 3339, section 5.6, for example, 2017-07-21
+    public boolean isDateTime; // the date-time notation as defined by RFC 3339, section 5.6, for example, 2017-07-21T17:32:28Z
     public boolean isUuid;
     public boolean isUri;
     public boolean isEmail;
