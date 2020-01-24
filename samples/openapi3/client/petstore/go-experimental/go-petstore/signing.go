@@ -189,9 +189,6 @@ func (h *HttpSignatureAuth) loadPrivateKey() (err error) {
 	if err != nil {
 		return err
 	}
-	if !strings.HasSuffix(h.PrivateKeyPath, ".pem") {
-		return fmt.Errorf("Private key must be in PEM format.")
-	}
 	pemBlock, _ := pem.Decode(priv)
 	if pemBlock == nil {
 		// No PEM data has been found.
