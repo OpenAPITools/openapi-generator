@@ -1087,6 +1087,8 @@
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
                 <module>samples/client/petstore/go-experimental</module>
+                <module>samples/openapi3/client/petstore/go-experimental</module>
+                <module>samples/openapi3/client/petstore/go</module>
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
                 <module>samples/client/petstore/scala-httpclient</module>

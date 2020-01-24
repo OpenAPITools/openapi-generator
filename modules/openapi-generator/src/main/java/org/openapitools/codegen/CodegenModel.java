@@ -24,8 +24,16 @@ import java.util.*;
 
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel implements IJsonSchemaValidationProperties {
+    // The parent model name from the schemas. The parent is determined by inspecting the allOf, anyOf and
+    // oneOf attributes in the OAS. First codegen inspects 'allOf', then 'anyOf', then 'oneOf'.
+    // If there are multiple object references in the attribute ('allOf', 'anyOf', 'oneOf'), and one of the
+    // object is a discriminator, that object is set as the parent. If no discriminator is specified,
+    // codegen returns the first one in the list, i.e. there is no obvious parent in the OpenAPI specification.
+    // When possible, the mustache templates should use 'allParents' to handle multiple parents.
     public String parent, parentSchema;
     public List<String> interfaces;
+    // The list of parent model name from the schemas. In order of preference, the parent is obtained
+    // from the 'allOf' attribute, then 'anyOf', and finally 'oneOf'.
     public List<String> allParents;
 
     // References to parent and interface CodegenModels. Only set when code generator supports inheritance.
