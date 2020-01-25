@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,6 +25,7 @@ import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.*;
 
 import java.io.File;
 import java.util.HashMap;
@@ -50,7 +51,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
-    protected String requestDateConverter = RequestDateConverter.TO_STRING.value;
+    protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
     protected String collectionType = CollectionType.ARRAY.value;
 
     public enum DateLibrary {
@@ -94,6 +95,34 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
      */
     public KotlinClientCodegen() {
         super();
+
+        /*
+         * OAuth flows supported _only_ by client explicitly setting bearer token. The "flows" are not supported.
+         */
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .excludeWireFormatFeatures(WireFormatFeature.XML, WireFormatFeature.PROTOBUF)
+                .excludeSecurityFeatures(
+                        SecurityFeature.OpenIDConnect,
+                        SecurityFeature.OAuth2_Password,
+                        SecurityFeature.OAuth2_AuthorizationCode,
+                        SecurityFeature.OAuth2_ClientCredentials,
+                        SecurityFeature.OAuth2_Implicit
+                )
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(ClientModificationFeature.BasePath)
+                .build();
 
         artifactId = "kotlin-client";
         packageName = "org.openapitools.client";
@@ -143,8 +172,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         CliOption requestDateConverter = new CliOption(REQUEST_DATE_CONVERTER, "JVM-Option. Defines in how to handle date-time objects that are used for a request (as query or parameter)");
         Map<String, String> requestDateConverterOptions = new HashMap<>();
-        requestDateConverterOptions.put(RequestDateConverter.TO_STRING.value, "[DEFAULT] Use the 'toString'-method of the date-time object to retrieve the related string representation.");
-        requestDateConverterOptions.put(RequestDateConverter.TO_JSON.value, "Date formater option using a json converter.");
+        requestDateConverterOptions.put(RequestDateConverter.TO_JSON.value, "[DEFAULT] Date formater option using a json converter.");
+        requestDateConverterOptions.put(RequestDateConverter.TO_STRING.value, "Use the 'toString'-method of the date-time object to retrieve the related string representation.");
         requestDateConverter.setEnum(requestDateConverterOptions);
         requestDateConverter.setDefault(this.requestDateConverter);
         cliOptions.add(requestDateConverter);

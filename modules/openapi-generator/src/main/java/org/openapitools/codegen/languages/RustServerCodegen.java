@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,6 +30,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -73,6 +74,34 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     public RustServerCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Union,
+                        SchemaSupportFeature.Composite
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath
+                )
+                .build();
+
 
         // Show the generation timestamp by default
         hideGenerationTimestamp = Boolean.FALSE;
@@ -430,11 +459,13 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // string
-        var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
-        if (var.matches("\\d.*")) {
-            var = "_" + var;
-        } else {
-            var = sanitizeName(var);
+        else {
+            var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
+            if (var.matches("\\d.*")) {
+                var = "_" + var;
+            } else {
+                var = sanitizeName(var);
+            }
         }
         return var;
     }
@@ -518,13 +549,23 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private boolean isMimetypePlain(String mimetype) {
-      return isMimetypePlainText(mimetype) || isMimetypeHtmlText(mimetype) || isMimetypeOctetStream(mimetype);
+        return isMimetypePlainText(mimetype) || isMimetypeHtmlText(mimetype) || isMimetypeOctetStream(mimetype);
     }
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         Map<String, Schema> definitions = ModelUtils.getSchemas(this.openAPI);
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+
+        String pathFormatString = op.path;
+        for (CodegenParameter param : op.pathParams) {
+            // Replace {baseName} with {paramName} for format string
+            String paramSearch = "{" + param.baseName + "}";
+            String paramReplace = "{" + param.paramName + "}";
+
+            pathFormatString = pathFormatString.replace(paramSearch, paramReplace);
+        }
+        op.vendorExtensions.put("x-path-format-string", pathFormatString);
 
         // The Rust code will need to contain a series of regular expressions.
         // For performance, we'll construct these at start-of-day and re-use
@@ -558,10 +599,18 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
             // Don't prefix with '^' so that the templates can put the
             // basePath on the front.
-            pathSetEntry.put("pathRegEx", op.path.replace("{", "(?P<").replace("}", ">[^/?#]*)") + "$");
+            String pathRegEx = op.path;
+            for (CodegenParameter param : op.pathParams) {
+                // Replace {baseName} with (?P<paramName>[^/?#]*) for regex
+                String paramSearch = "{" + param.baseName + "}";
+                String paramReplace = "(?P<" + param.paramName + ">[^/?#]*)";
+
+                pathRegEx = pathRegEx.replace(paramSearch, paramReplace);
+            }
+
+            pathSetEntry.put("pathRegEx", pathRegEx + "$");
             pathSetMap.put(pathId, pathSetEntry);
         }
-
         op.vendorExtensions.put("operation_id", underscore(op.operationId));
         op.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase(Locale.ROOT));
         op.vendorExtensions.put("path", op.path.replace("{", ":").replace("}", ""));
@@ -992,7 +1041,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     am.getItems() != null &&
                     !StringUtils.isEmpty(am.getItems().get$ref())) {
                 Schema inner_schema = allDefinitions.get(
-                    ModelUtils.getSimpleRef(am.getItems().get$ref()));
+                        ModelUtils.getSimpleRef(am.getItems().get$ref()));
 
                 if (inner_schema.getXml() != null &&
                         inner_schema.getXml().getName() != null) {
@@ -1007,7 +1056,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 modelXmlNames.put("models::" + mdl.classname, xmlName);
             }
 
-            mdl.arrayModelType = toModelName(mdl.arrayModelType);
+            if (typeMapping.containsKey(mdl.arrayModelType)) {
+                mdl.arrayModelType = typeMapping.get(mdl.arrayModelType);
+            } else {
+                mdl.arrayModelType = toModelName(mdl.arrayModelType);
+            }
         }
 
         if (mdl.xmlNamespace != null) {
@@ -1248,9 +1301,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     // the user than the alternative.
                     LOGGER.warn("Ignoring additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318) alongside defined properties");
                     cm.dataType = null;
-                }
-                else
-                {
+                } else {
                     String type;
 
                     if (typeMapping.containsKey(cm.additionalPropertiesType)) {

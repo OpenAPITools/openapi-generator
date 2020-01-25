@@ -6,7 +6,7 @@
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>sample-project</name>
-	<url>http://maven.apache.org</url>
+	<url>https://maven.apache.org</url>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

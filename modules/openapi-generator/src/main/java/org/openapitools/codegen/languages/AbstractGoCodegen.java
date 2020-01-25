@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -45,6 +45,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
+
+    protected boolean usesOptionals = true;
 
     public AbstractGoCodegen() {
         super();
@@ -400,7 +402,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
 
                 // import "time" if the operation has a required time parameter.
-                if (param.required) {
+                if (param.required || !usesOptionals) {
                     if (!addedTimeImport && "time.Time".equals(param.dataType)) {
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
@@ -414,7 +416,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
 
                 // import "optionals" package if the parameter is optional
-                if (!param.required) {
+                if (!param.required && usesOptionals) {
                     if (!addedOptionalImport) {
                         imports.add(createMapping("import", "github.com/antihax/optional"));
                         addedOptionalImport = true;

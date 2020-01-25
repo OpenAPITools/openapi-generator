@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,18 +17,21 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.text.Collator;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -57,6 +60,28 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public ElmClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath
+                )
+                .build();
+
         templateDir = "elm";
         apiPackage = "Api.Request";
         modelPackage = "Api";
@@ -131,6 +156,12 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("elm.mustache", "", "elm.json"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+            .put("removeWhitespace", new RemoveWhitespaceLambda());
     }
 
     @Override
@@ -401,5 +432,12 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             return getTypeDeclaration(inner);
         }
         return super.getTypeDeclaration(p);
+    }
+
+    private static class RemoveWhitespaceLambda implements Mustache.Lambda {
+        @Override
+        public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
+            writer.write(fragment.execute().replaceAll("\\s+", ""));
+        }
     }
 }

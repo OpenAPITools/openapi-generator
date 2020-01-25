@@ -135,6 +135,8 @@ Class | Method | HTTP request | Description
  - [Model.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [Model.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [Model.ArrayTest](docs/ArrayTest.md)
+ - [Model.BigCat](docs/BigCat.md)
+ - [Model.BigCatAllOf](docs/BigCatAllOf.md)
  - [Model.Capitalization](docs/Capitalization.md)
  - [Model.Cat](docs/Cat.md)
  - [Model.CatAllOf](docs/CatAllOf.md)

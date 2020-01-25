@@ -16,6 +16,8 @@
  */
 namespace {{modelPackage}};
 
+use {{interfacesPackage}}\{{interfaceNamePrefix}}Model{{interfaceNameSuffix}};
+
 /**
  * {{classname}}
  *
@@ -23,12 +25,27 @@ namespace {{modelPackage}};
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class {{classname}}
+class {{classname}} implements {{interfaceNamePrefix}}Model{{interfaceNameSuffix}}
 {
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{{{modelJson}}}
+SCHEMA;
     {{#vars}}
-    
+
     /** @var {{dataType}} ${{name}} {{#description}}{{description}}{{/description}}*/
     private ${{name}};
     {{/vars}}
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }
 {{/model}}{{/models}}

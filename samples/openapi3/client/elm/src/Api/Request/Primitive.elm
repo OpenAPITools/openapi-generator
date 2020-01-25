@@ -27,12 +27,12 @@ import Json.Encode
 
 
 update : Api.Data.Primitive -> Api.Request Api.Data.Primitive
-update primitive =
+update primitive_body =
     Api.request
         "POST"
         "/data"
         []
         []
         []
-        (Just (Api.Data.encodePrimitive primitive))
+        (Just (Api.Data.encodePrimitive primitive_body))
         Api.Data.primitiveDecoder
