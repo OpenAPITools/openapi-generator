@@ -260,3 +260,9 @@ components:
       xml:
         name: snake_another_xml_object
         namespace: http://foo.bar
+    MyIDList:
+      type:  array
+      items:
+        $ref: '#/components/schemas/MyID'
+    MyID:
+      type: integer

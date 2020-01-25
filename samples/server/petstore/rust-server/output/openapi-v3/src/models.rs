@@ -243,6 +243,118 @@ impl InlineResponse201 {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct MyId(i32);
+
+impl ::std::convert::From<i32> for MyId {
+    fn from(x: i32) -> Self {
+        MyId(x)
+    }
+}
+
+
+impl ::std::convert::From<MyId> for i32 {
+    fn from(x: MyId) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for MyId {
+    type Target = i32;
+    fn deref(&self) -> &i32 {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for MyId {
+    fn deref_mut(&mut self) -> &mut i32 {
+        &mut self.0
+    }
+}
+
+
+impl MyId {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct MyIdList(Vec<i32>);
+
+impl ::std::convert::From<Vec<i32>> for MyIdList {
+    fn from(x: Vec<i32>) -> Self {
+        MyIdList(x)
+    }
+}
+
+impl ::std::convert::From<MyIdList> for Vec<i32> {
+    fn from(x: MyIdList) -> Self {
+        x.0
+    }
+}
+
+impl ::std::iter::FromIterator<i32> for MyIdList {
+    fn from_iter<U: IntoIterator<Item=i32>>(u: U) -> Self {
+        MyIdList(Vec::<i32>::from_iter(u))
+    }
+}
+
+impl ::std::iter::IntoIterator for MyIdList {
+    type Item = i32;
+    type IntoIter = ::std::vec::IntoIter<i32>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl<'a> ::std::iter::IntoIterator for &'a MyIdList {
+    type Item = &'a i32;
+    type IntoIter = ::std::slice::Iter<'a, i32>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        (&self.0).into_iter()
+    }
+}
+
+impl<'a> ::std::iter::IntoIterator for &'a mut MyIdList {
+    type Item = &'a mut i32;
+    type IntoIter = ::std::slice::IterMut<'a, i32>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        (&mut self.0).into_iter()
+    }
+}
+
+impl ::std::ops::Deref for MyIdList {
+    type Target = Vec<i32>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for MyIdList {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+
+impl MyIdList {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 /// Test a model containing a UUID
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
