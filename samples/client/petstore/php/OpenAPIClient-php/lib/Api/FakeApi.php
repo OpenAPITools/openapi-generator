@@ -2077,7 +2077,7 @@ class FakeApi
     /**
      * Operation testEndpointParameters
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      *
      * @param  float $number None (required)
      * @param  double $double None (required)
@@ -2106,7 +2106,7 @@ class FakeApi
     /**
      * Operation testEndpointParametersWithHttpInfo
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      *
      * @param  float $number None (required)
      * @param  double $double None (required)
@@ -2171,7 +2171,7 @@ class FakeApi
     /**
      * Operation testEndpointParametersAsync
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      *
      * @param  float $number None (required)
      * @param  double $double None (required)
@@ -2204,7 +2204,7 @@ class FakeApi
     /**
      * Operation testEndpointParametersAsyncWithHttpInfo
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      *
      * @param  float $number None (required)
      * @param  double $double None (required)

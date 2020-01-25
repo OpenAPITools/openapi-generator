@@ -10,27 +10,27 @@ abstract class Pet implements Built<Pet, PetBuilder> {
 
     
         @nullable
-    @BuiltValueField(wireName: 'id')
+    @BuiltValueField(wireName: r'id')
     int get id;
     
         @nullable
-    @BuiltValueField(wireName: 'category')
+    @BuiltValueField(wireName: r'category')
     Category get category;
     
         @nullable
-    @BuiltValueField(wireName: 'name')
+    @BuiltValueField(wireName: r'name')
     String get name;
     
         @nullable
-    @BuiltValueField(wireName: 'photoUrls')
+    @BuiltValueField(wireName: r'photoUrls')
     BuiltList<String> get photoUrls;
     
         @nullable
-    @BuiltValueField(wireName: 'tags')
+    @BuiltValueField(wireName: r'tags')
     BuiltList<Tag> get tags;
     /* pet status in the store */
         @nullable
-    @BuiltValueField(wireName: 'status')
+    @BuiltValueField(wireName: r'status')
     String get status;
         //enum statusEnum {  available,  pending,  sold,  };
 

@@ -45,8 +45,6 @@ class XmlItem(ModelNormal):
           and the value is json key in definition.
       discriminator_value_class_map (dict): A dict to go from the discriminator
           variable value to the discriminator class name.
-      openapi_types (dict): The key is attribute name
-          and the value is attribute type.
       validations (dict): The key is the tuple path to the attribute
           and the for var_name this is (var_name,). The value is a dict
           that stores validations for max_length, min_length, max_items,
@@ -59,42 +57,52 @@ class XmlItem(ModelNormal):
     allowed_values = {
     }
 
-    openapi_types = {
-        'attribute_string': (str,),  # noqa: E501
-        'attribute_number': (float,),  # noqa: E501
-        'attribute_integer': (int,),  # noqa: E501
-        'attribute_boolean': (bool,),  # noqa: E501
-        'wrapped_array': ([int],),  # noqa: E501
-        'name_string': (str,),  # noqa: E501
-        'name_number': (float,),  # noqa: E501
-        'name_integer': (int,),  # noqa: E501
-        'name_boolean': (bool,),  # noqa: E501
-        'name_array': ([int],),  # noqa: E501
-        'name_wrapped_array': ([int],),  # noqa: E501
-        'prefix_string': (str,),  # noqa: E501
-        'prefix_number': (float,),  # noqa: E501
-        'prefix_integer': (int,),  # noqa: E501
-        'prefix_boolean': (bool,),  # noqa: E501
-        'prefix_array': ([int],),  # noqa: E501
-        'prefix_wrapped_array': ([int],),  # noqa: E501
-        'namespace_string': (str,),  # noqa: E501
-        'namespace_number': (float,),  # noqa: E501
-        'namespace_integer': (int,),  # noqa: E501
-        'namespace_boolean': (bool,),  # noqa: E501
-        'namespace_array': ([int],),  # noqa: E501
-        'namespace_wrapped_array': ([int],),  # noqa: E501
-        'prefix_ns_string': (str,),  # noqa: E501
-        'prefix_ns_number': (float,),  # noqa: E501
-        'prefix_ns_integer': (int,),  # noqa: E501
-        'prefix_ns_boolean': (bool,),  # noqa: E501
-        'prefix_ns_array': ([int],),  # noqa: E501
-        'prefix_ns_wrapped_array': ([int],),  # noqa: E501
-    }
-
     validations = {
     }
 
     additional_properties_type = None
+
+    @staticmethod
+    def openapi_types():
+        """
+        This must be a class method so a model may have properties that are
+        of type self, this ensures that we don't create a cyclic import
+
+        Returns
+            openapi_types (dict): The key is attribute name
+                and the value is attribute type.
+        """
+        return {
+            'attribute_string': (str,),  # noqa: E501
+            'attribute_number': (float,),  # noqa: E501
+            'attribute_integer': (int,),  # noqa: E501
+            'attribute_boolean': (bool,),  # noqa: E501
+            'wrapped_array': ([int],),  # noqa: E501
+            'name_string': (str,),  # noqa: E501
+            'name_number': (float,),  # noqa: E501
+            'name_integer': (int,),  # noqa: E501
+            'name_boolean': (bool,),  # noqa: E501
+            'name_array': ([int],),  # noqa: E501
+            'name_wrapped_array': ([int],),  # noqa: E501
+            'prefix_string': (str,),  # noqa: E501
+            'prefix_number': (float,),  # noqa: E501
+            'prefix_integer': (int,),  # noqa: E501
+            'prefix_boolean': (bool,),  # noqa: E501
+            'prefix_array': ([int],),  # noqa: E501
+            'prefix_wrapped_array': ([int],),  # noqa: E501
+            'namespace_string': (str,),  # noqa: E501
+            'namespace_number': (float,),  # noqa: E501
+            'namespace_integer': (int,),  # noqa: E501
+            'namespace_boolean': (bool,),  # noqa: E501
+            'namespace_array': ([int],),  # noqa: E501
+            'namespace_wrapped_array': ([int],),  # noqa: E501
+            'prefix_ns_string': (str,),  # noqa: E501
+            'prefix_ns_number': (float,),  # noqa: E501
+            'prefix_ns_integer': (int,),  # noqa: E501
+            'prefix_ns_boolean': (bool,),  # noqa: E501
+            'prefix_ns_array': ([int],),  # noqa: E501
+            'prefix_ns_wrapped_array': ([int],),  # noqa: E501
+        }
 
     @staticmethod
     def discriminator():

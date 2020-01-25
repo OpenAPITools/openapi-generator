@@ -1,6 +1,5 @@
 library {{pubName}}.api;
 
-import 'package:http/io_client.dart';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 import 'package:{{pubName}}/serializers.dart';
@@ -11,7 +10,7 @@ class {{clientName}} {
 
     Dio dio;
     Serializers serializers;
-    String basePath = "http://petstore.swagger.io/v2";
+    String basePath = "{{{basePath}}}";
 
     {{clientName}}({this.dio, Serializers serializers}) {
     if (dio == null) {
