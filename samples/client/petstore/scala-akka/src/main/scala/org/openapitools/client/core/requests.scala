@@ -95,6 +95,8 @@ object ApiKeyLocations {
 
   case object HEADER extends ApiKeyLocation
 
+  case object COOKIE extends ApiKeyLocation
+
 }
 
 
