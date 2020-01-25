@@ -36,8 +36,9 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(Configuration.Default);
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(config);
             var body = new User(); // User | Created user object
 
             try
@@ -102,8 +103,9 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(Configuration.Default);
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(config);
             var body = new List<User>(); // List<User> | List of user object
 
             try
@@ -168,8 +170,9 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(Configuration.Default);
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(config);
             var body = new List<User>(); // List<User> | List of user object
 
             try
@@ -236,8 +239,9 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(Configuration.Default);
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(config);
             var username = username_example;  // string | The name that needs to be deleted
 
             try
@@ -303,8 +307,9 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(Configuration.Default);
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(config);
             var username = username_example;  // string | The name that needs to be fetched. Use user1 for testing.
 
             try
@@ -372,8 +377,9 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(Configuration.Default);
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(config);
             var username = username_example;  // string | The user name for login
             var password = password_example;  // string | The password for login in clear text
 
@@ -442,8 +448,9 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(Configuration.Default);
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(config);
 
             try
             {
@@ -506,8 +513,9 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(Configuration.Default);
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new UserApi(config);
             var username = username_example;  // string | name that need to be deleted
             var body = new User(); // User | Updated user object
 

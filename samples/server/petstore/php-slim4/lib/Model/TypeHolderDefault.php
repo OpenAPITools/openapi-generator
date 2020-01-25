@@ -16,6 +16,8 @@
  */
 namespace OpenAPIServer\Model;
 
+use OpenAPIServer\Interfaces\ModelInterface;
+
 /**
  * TypeHolderDefault
  *
@@ -23,21 +25,61 @@ namespace OpenAPIServer\Model;
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class TypeHolderDefault
+class TypeHolderDefault implements ModelInterface
 {
-    
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+  "required" : [ "array_item", "bool_item", "integer_item", "number_item", "string_item" ],
+  "type" : "object",
+  "properties" : {
+    "string_item" : {
+      "type" : "string",
+      "default" : "what"
+    },
+    "number_item" : {
+      "type" : "number"
+    },
+    "integer_item" : {
+      "type" : "integer"
+    },
+    "bool_item" : {
+      "type" : "boolean",
+      "default" : true
+    },
+    "array_item" : {
+      "type" : "array",
+      "items" : {
+        "type" : "integer"
+      }
+    }
+  }
+}
+SCHEMA;
+
     /** @var string $stringItem */
     private $stringItem;
-    
+
     /** @var float $numberItem */
     private $numberItem;
-    
+
     /** @var int $integerItem */
     private $integerItem;
-    
+
     /** @var bool $boolItem */
     private $boolItem;
-    
+
     /** @var int[] $arrayItem */
     private $arrayItem;
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }

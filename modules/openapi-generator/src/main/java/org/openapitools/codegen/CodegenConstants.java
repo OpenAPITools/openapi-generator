@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -223,6 +223,12 @@ public class CodegenConstants {
 
     public static final String MODEL_NAME_SUFFIX = "modelNameSuffix";
     public static final String MODEL_NAME_SUFFIX_DESC = "Suffix that will be appended to all model names.";
+
+    public static final String ENUM_NAME_SUFFIX = "enumNameSuffix";
+    public static final String ENUM_NAME_SUFFIX_DESC = "Suffix that will be appended to all enum names.";
+
+    public static final String ENUM_VALUE_SUFFIX = "enumValueSuffix";
+    public static final String ENUM_VALUE_SUFFIX_DESC = "Suffix that will be appended to all enum values. Note: For clients this may impact serialization and deserialization of enum values.";
 
     public static final String GIT_HOST = "gitHost";
     public static final String GIT_HOST_DESC = "Git host, e.g. gitlab.com.";

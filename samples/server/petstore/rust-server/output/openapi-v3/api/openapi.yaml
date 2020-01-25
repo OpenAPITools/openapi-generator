@@ -14,9 +14,9 @@ paths:
             schema:
               $ref: '#/components/schemas/xml_array'
       responses:
-        201:
+        "201":
           description: OK
-        400:
+        "400":
           description: Bad Request
       summary: Post an array
     put:
@@ -26,51 +26,51 @@ paths:
             schema:
               $ref: '#/components/schemas/xml_object'
       responses:
-        201:
+        "201":
           description: OK
-        400:
+        "400":
           description: Bad Request
   /multiget:
     get:
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/anotherXmlObject'
           description: JSON rsp
-        201:
+        "201":
           content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/inline_response_201'
           description: XML rsp
-        202:
+        "202":
           content:
             application/octet-stream:
               schema:
                 format: binary
                 type: string
           description: octet rsp
-        203:
+        "203":
           content:
             text/plain:
               schema:
                 type: string
           description: string rsp
-        204:
+        "204":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/anotherXmlObject'
           description: Duplicate Response long text. One.
-        205:
+        "205":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/anotherXmlObject'
           description: Duplicate Response long text. Two.
-        206:
+        "206":
           content:
             application/json:
               schema:
@@ -85,9 +85,9 @@ paths:
             schema:
               $ref: '#/components/schemas/anotherXmlObject'
       responses:
-        201:
+        "201":
           description: OK
-        400:
+        "400":
           description: Bad Request
     put:
       requestBody:
@@ -96,9 +96,9 @@ paths:
             schema:
               $ref: '#/components/schemas/anotherXmlArray'
       responses:
-        201:
+        "201":
           description: OK
-        400:
+        "400":
           description: Bad Request
   /xml_extra:
     post:
@@ -108,14 +108,14 @@ paths:
             schema:
               $ref: '#/components/schemas/duplicate_xml_object'
       responses:
-        201:
+        "201":
           description: OK
-        400:
+        "400":
           description: Bad Request
   /uuid:
     get:
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -131,12 +131,12 @@ paths:
               type: string
         required: true
       responses:
-        200:
+        "200":
           description: OK
   /readonly_auth_scheme:
     get:
       responses:
-        200:
+        "200":
           description: Check that limiting to a single required auth scheme works
       security:
       - authScheme:
@@ -144,7 +144,7 @@ paths:
   /multiple_auth_scheme:
     get:
       responses:
-        200:
+        "200":
           description: Check that limiting to multiple required auth schemes works
       security:
       - authScheme:
@@ -153,7 +153,7 @@ paths:
   /responses_with_headers:
     get:
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -165,7 +165,7 @@ paths:
               schema:
                 type: String
               style: simple
-        412:
+        "412":
           description: Precondition Failed
           headers:
             Further-Info:

@@ -113,6 +113,12 @@ pub enum FakeOuterStringSerializeResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum HyphenParamResponse {
+    /// Success
+    Success
+}
+
+#[derive(Debug, PartialEq)]
 pub enum TestBodyWithQueryParamsResponse {
     /// Success
     Success
@@ -360,12 +366,15 @@ pub trait Api<C> {
     fn fake_outer_string_serialize(&self, body: Option<models::OuterString>, context: &C) -> Box<dyn Future<Item=FakeOuterStringSerializeResponse, Error=ApiError> + Send>;
 
 
+    fn hyphen_param(&self, hyphen_param: String, context: &C) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError> + Send>;
+
+
     fn test_body_with_query_params(&self, query: String, body: models::User, context: &C) -> Box<dyn Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError> + Send>;
 
     /// To test \"client\" model
     fn test_client_model(&self, body: models::Client, context: &C) -> Box<dyn Future<Item=TestClientModelResponse, Error=ApiError> + Send>;
 
-    /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
     fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>, context: &C) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send>;
 
     /// To test enum parameters
@@ -461,12 +470,15 @@ pub trait ApiNoContext {
     fn fake_outer_string_serialize(&self, body: Option<models::OuterString>) -> Box<dyn Future<Item=FakeOuterStringSerializeResponse, Error=ApiError> + Send>;
 
 
+    fn hyphen_param(&self, hyphen_param: String) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError> + Send>;
+
+
     fn test_body_with_query_params(&self, query: String, body: models::User) -> Box<dyn Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError> + Send>;
 
     /// To test \"client\" model
     fn test_client_model(&self, body: models::Client) -> Box<dyn Future<Item=TestClientModelResponse, Error=ApiError> + Send>;
 
-    /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
     fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send>;
 
     /// To test enum parameters
@@ -583,6 +595,11 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     }
 
 
+    fn hyphen_param(&self, hyphen_param: String) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError> + Send> {
+        self.api().hyphen_param(hyphen_param, &self.context())
+    }
+
+
     fn test_body_with_query_params(&self, query: String, body: models::User) -> Box<dyn Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError> + Send> {
         self.api().test_body_with_query_params(query, body, &self.context())
     }
@@ -592,7 +609,7 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         self.api().test_client_model(body, &self.context())
     }
 
-    /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
     fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send> {
         self.api().test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, date, date_time, password, callback, &self.context())
     }
