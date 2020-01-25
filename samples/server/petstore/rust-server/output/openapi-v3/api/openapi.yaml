@@ -180,6 +180,13 @@ paths:
               style: simple
 components:
   schemas:
+    EnumWithStarObject:
+      description: Test a model containing a special character in the enum
+      enum:
+      - FOO
+      - BAR
+      - '*'
+      type: string
     UuidObject:
       description: Test a model containing a UUID
       format: uuid

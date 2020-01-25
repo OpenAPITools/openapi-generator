@@ -124,6 +124,7 @@ Method | HTTP request | Description
  - [AnotherXmlInner](docs/AnotherXmlInner.md)
  - [AnotherXmlObject](docs/AnotherXmlObject.md)
  - [DuplicateXmlObject](docs/DuplicateXmlObject.md)
+ - [EnumWithStarObject](docs/EnumWithStarObject.md)
  - [InlineResponse201](docs/InlineResponse201.md)
  - [MyId](docs/MyId.md)
  - [MyIdList](docs/MyIdList.md)
