@@ -782,9 +782,8 @@ public class CodeGenMojo extends AbstractMojo {
             FileChannel fileChannel;
             try (FileOutputStream fileOutputStream = new FileOutputStream(inputSpecTempFile)) {
                 fileChannel = fileOutputStream.getChannel();
+                fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
             }
-
-            fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
         }
 
         ByteSource inputSpecByteSource =
