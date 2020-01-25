@@ -200,6 +200,13 @@ components:
             test.read: Allowed to read state.
             test.write: Allowed to change state.
   schemas:
+    EnumWithStarObject:
+      description: Test a model containing a special character in the enum
+      type: string
+      enum:
+      - FOO
+      - BAR
+      - "*"
     UuidObject:
       description: Test a model containing a UUID
       type: string
@@ -269,3 +276,9 @@ components:
            $ref: '#/components/schemas/StringObject'
     StringObject:
       type: string
+    MyIDList:
+      type:  array
+      items:
+        $ref: '#/components/schemas/MyID'
+    MyID:
+      type: integer

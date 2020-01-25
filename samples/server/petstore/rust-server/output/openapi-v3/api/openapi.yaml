@@ -180,6 +180,13 @@ paths:
               style: simple
 components:
   schemas:
+    EnumWithStarObject:
+      description: Test a model containing a special character in the enum
+      enum:
+      - FOO
+      - BAR
+      - '*'
+      type: string
     UuidObject:
       description: Test a model containing a UUID
       format: uuid
@@ -251,6 +258,12 @@ components:
       type: object
     StringObject:
       type: string
+    MyIDList:
+      items:
+        $ref: '#/components/schemas/MyID'
+      type: array
+    MyID:
+      type: integer
     inline_response_201:
       properties:
         foo:
