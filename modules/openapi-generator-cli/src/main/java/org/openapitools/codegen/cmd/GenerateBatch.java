@@ -123,27 +123,12 @@ public class GenerateBatch implements Runnable {
             }
         }
 
-
         LOGGER.info(String.format(Locale.ROOT, "Batch generation using up to %d threads.\nIncludes: %s\nRoot: %s", numThreads, includesDir.getAbsolutePath(), rootDir.toAbsolutePath().toString()));
 
         // Create a module which loads our config files, but supports a special "!include" key which can point to an existing config file.
         // This allows us to create a sort of meta-config which holds configs which are otherwise required at CLI time (via generate task).
         // That is, this allows us to create a wrapper config for generatorName, inputSpec, outputDir, etc.
-        SimpleModule module = new SimpleModule("GenerateBatch");
-        module.setDeserializerModifier(new BeanDeserializerModifier() {
-            @Override
-            public JsonDeserializer<?> modifyDeserializer(DeserializationConfig config,
-                                                          BeanDescription bd, JsonDeserializer<?> original) {
-                JsonDeserializer<?> result;
-                if (bd.getBeanClass() == DynamicSettings.class) {
-                    result = new DynamicSettingsRefSupport(original, includesDir);
-                } else {
-                    result = original;
-                }
-                return result;
-            }
-        });
-
+        SimpleModule module = getCustomDeserializationModel(includesDir);
         List<CodegenConfigurator> configurators = configs.stream().map(config -> CodegenConfigurator.fromFile(config, module)).collect(Collectors.toList());
 
         // it doesn't make sense to interleave INFO level logs, so limit these to only ERROR.
@@ -227,6 +212,28 @@ public class GenerateBatch implements Runnable {
                 GlobalSettings.reset();
             }
         }
+    }
+
+    static SimpleModule getCustomDeserializationModel(final File includesDir) {
+        // Create a module which loads our config files, but supports a special "!include" key which can point to an existing config file.
+        // This allows us to create a sort of meta-config which holds configs which are otherwise required at CLI time (via generate task).
+        // That is, this allows us to create a wrapper config for generatorName, inputSpec, outputDir, etc.
+        SimpleModule module = new SimpleModule("GenerateBatch");
+        module.setDeserializerModifier(new BeanDeserializerModifier() {
+            @Override
+            public JsonDeserializer<?> modifyDeserializer(DeserializationConfig config,
+                                                          BeanDescription bd, JsonDeserializer<?> original) {
+                JsonDeserializer<?> result;
+                if (bd.getBeanClass() == DynamicSettings.class) {
+                    result = new DynamicSettingsRefSupport(original, includesDir);
+                } else {
+                    result = original;
+                }
+                return result;
+            }
+        });
+
+        return module;
     }
 
     static class DynamicSettingsRefSupport extends DelegatingDeserializer {
