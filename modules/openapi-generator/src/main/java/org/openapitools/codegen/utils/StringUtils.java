@@ -40,7 +40,7 @@ public class StringUtils {
      * @return The dashized version of the word, e.g. "my-name"
      */
     public static String dashize(String word) {
-        return underscore(word).replaceAll("[_ ]", "-");
+        return underscore(word).replaceAll("[_ ]+", "-");
     }
 
     /**
