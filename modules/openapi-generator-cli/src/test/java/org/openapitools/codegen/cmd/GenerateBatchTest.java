@@ -33,11 +33,7 @@ public class GenerateBatchTest {
     @BeforeTest
     public void setUp(ITestContext ctx) throws IOException {
         workingDirectory = Paths.get("src", "test", "resources", "batch");
-
-        TestRunner runner = (TestRunner) ctx;
-        runner.setOutputDirectory(workingDirectory.toString());
     }
-
 
     @DataProvider(name = "customIncludeDeserializerFiles")
     public Object[][] customIncludeDeserializerFiles() {
