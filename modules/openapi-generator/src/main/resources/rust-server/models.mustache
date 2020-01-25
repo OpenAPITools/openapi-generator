@@ -183,7 +183,7 @@ pub struct {{{classname}}} {
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]{{/isNullable}}
     #[serde(skip_serializing_if="Option::is_none")]
-    pub {{{name}}}: Option<{{#isNullable}}swagger::Nullable<{{/isNullable}}{{#isListContainer}}Vec<{{#items}}{{{dataType}}}{{/items}}>{{/isListContainer}}{{^isListContainer}}{{{dataType}}}{{/isListContainer}}{{#isNullable}}>{{/isNullable}}>,
+    pub {{{name}}}: Option<{{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
 {{/required}}
 
 {{/vars}}

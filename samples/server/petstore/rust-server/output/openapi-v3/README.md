@@ -128,6 +128,8 @@ Method | HTTP request | Description
  - [InlineResponse201](docs/InlineResponse201.md)
  - [MyId](docs/MyId.md)
  - [MyIdList](docs/MyIdList.md)
+ - [ObjectWithArrayOfObjects](docs/ObjectWithArrayOfObjects.md)
+ - [StringObject](docs/StringObject.md)
  - [UuidObject](docs/UuidObject.md)
  - [XmlArray](docs/XmlArray.md)
  - [XmlInner](docs/XmlInner.md)
