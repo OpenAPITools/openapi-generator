@@ -25,24 +25,11 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
@@ -275,10 +262,23 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
 
     private static final String INDENT = "        ";
 
-    private static final SimpleDateFormat ISO8601_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    // SimpleDateFormat is not thread-safe, and may not be stored in a static field unless stored by ThreadLocal.
+    // It's not enough to add a ThreadLocal at the usage site.
+    private static final ThreadLocal<SimpleDateFormat> ISO8601_DATE_FORMAT = ThreadLocal.withInitial(() ->
+    {
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        f.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return f;
+    });
 
-    private static final SimpleDateFormat ISO8601_DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX",
-            Locale.getDefault());
+    // SimpleDateFormat is not thread-safe, and may not be stored in a static field unless stored by ThreadLocal.
+    // It's not enough to add a ThreadLocal at the usage site.
+    private static final ThreadLocal<SimpleDateFormat> ISO8601_DATETIME_FORMAT = ThreadLocal.withInitial(() ->
+    {
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX", Locale.getDefault());
+        f.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return f;
+    });
 
     private static final long MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
 
@@ -292,13 +292,11 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             "LocalDateTime", "LocalDate");
 
     static {
-        ISO8601_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
-        ISO8601_DATETIME_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
         long minDate = 0;
         long maxDate = 0;
         try {
-            minDate = ISO8601_DATETIME_FORMAT.parse("1970-01-01T00:00:00Z").getTime();
-            maxDate = ISO8601_DATETIME_FORMAT.parse("2099-12-31T23:59:59Z").getTime();
+            minDate = ISO8601_DATETIME_FORMAT.get().parse("1970-01-01T00:00:00Z").getTime();
+            maxDate = ISO8601_DATETIME_FORMAT.get().parse("2099-12-31T23:59:59Z").getTime();
         } catch (ParseException e) {
             // Won't happen with the values provided.
         }
@@ -383,12 +381,15 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         short max = var == null || var.maximum == null ? Byte.MAX_VALUE : Byte.parseByte(var.maximum);
         short exclusiveMin = (short) (var != null && var.exclusiveMinimum ? 1 : 0);
         short inclusiveMax = (short) (var == null || !var.exclusiveMaximum ? 1 : 0);
-        int itemCount = Math.max(var.itemCount, var.minItems == null ? 1 : Math.max(1, var.minItems));
+        int itemCount = 0;
+        if (var != null) {
+            itemCount = Math.max(var.itemCount, var.minItems == null ? 1 : Math.max(1, var.minItems));
+        }
         byte[] randomBytes = new byte[itemCount];
         for (int i = 0; i < itemCount; i++)
             randomBytes[i] = (byte) (min + exclusiveMin + ((max + inclusiveMax - min - exclusiveMin) * Math.random()));
         String randomBytesBase64 = Base64.getEncoder().encodeToString(randomBytes);
-        if (loadTestDataFromFile)
+        if (loadTestDataFromFile && var != null)
             var.addTestData(randomBytesBase64);
         else
             buffer.append('"');
@@ -431,13 +432,10 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
      * @param buffer
      * @param indent
      * @param op
+     * @param var
      * @param localVars
      * @param models
-     * @param type
-     * @param baseType
-     * @param isListContainer
-     * @param isMapContainer
-     * @param localVar
+     *
      * @return <code>localVar</code> with a numeric suffix if necessary to ensure uniqueness.
      */
     private String appendLocalVariable(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
@@ -582,7 +580,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             long minDate = MIN_DATE;
             long maxDate = MAX_DATE;
             if (var != null) {
-                DateFormat df = var.dataFormat.equals("date-time") ? ISO8601_DATETIME_FORMAT : ISO8601_DATE_FORMAT;
+                DateFormat df = var.dataFormat.equals("date-time") ? ISO8601_DATETIME_FORMAT.get() : ISO8601_DATE_FORMAT.get();
                 String isoFormat = var.dataFormat.equals("date-time") ? "date-time" : "full-date";
                 if (var.minimum != null) {
                     try {
@@ -622,10 +620,10 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 Date randomDate = new Date(randomDateLong);
                 switch (var.dataFormat) {
                     case "date":
-                        var.addTestData(ISO8601_DATE_FORMAT.format(randomDate));
+                        var.addTestData(ISO8601_DATE_FORMAT.get().format(randomDate));
                         break;
                     case "date-time":
-                        var.addTestData(ISO8601_DATETIME_FORMAT.format(randomDate));
+                        var.addTestData(ISO8601_DATETIME_FORMAT.get().format(randomDate));
                         break;
                 }
             } else {
@@ -787,7 +785,6 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
      * @param localVar  The variable whose value is to be set.
      * @param localVars Tracks local variables which have been allocated.
      * @param models    A map of models, keyed on class name.
-     * @param type      The value type.
      */
     private void appendScalarValue(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
                                    String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {

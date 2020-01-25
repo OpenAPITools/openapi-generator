@@ -169,6 +169,8 @@ public class GenerateBatch implements Runnable {
             System.out.println("COMPLETE.");
         } catch (InterruptedException e) {
             e.printStackTrace();
+            // re-interrupt
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -255,11 +257,13 @@ public class GenerateBatch implements Runnable {
                         // load the file into the tree node and continue parsing as normal
                         ((ObjectNode) node).remove(INCLUDE);
 
-                        JsonParser includeParser = codec.getFactory().createParser(includeFile);
-                        TreeNode includeNode = includeParser.readValueAsTree();
+                        TreeNode includeNode;
+                        try (JsonParser includeParser = codec.getFactory().createParser(includeFile)) {
+                            includeNode = includeParser.readValueAsTree();
+                        }
 
                         ObjectReader reader = codec.readerForUpdating(node);
-                        TreeNode updated = reader.readValue(includeFile);
+                        TreeNode updated = reader.readValue(includeNode.traverse());
                         JsonParser updatedParser = updated.traverse();
                         updatedParser.nextToken();
                         return super.deserialize(updatedParser, ctx);

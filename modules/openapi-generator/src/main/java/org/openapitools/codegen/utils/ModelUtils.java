@@ -35,11 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -246,10 +242,14 @@ public class ModelUtils {
         if (parameters != null) {
             for (Parameter p : parameters) {
                 Parameter parameter = getReferencedParameter(openAPI, p);
-                if (parameter.getSchema() != null) {
-                    visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
+                if (parameter != null) {
+                    if (parameter.getSchema() != null) {
+                        visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
+                    }
+                    visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
+                } else {
+                    LOGGER.warn(String.format(Locale.ROOT, "Unreferenced parameter found: %s", p.getName()));
                 }
-                visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
             }
         }
     }
