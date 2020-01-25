@@ -264,6 +264,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
 
     // SimpleDateFormat is not thread-safe, and may not be stored in a static field unless stored by ThreadLocal.
     // It's not enough to add a ThreadLocal at the usage site.
+    @SuppressWarnings("squid:S5164")
     private static final ThreadLocal<SimpleDateFormat> ISO8601_DATE_FORMAT = ThreadLocal.withInitial(() ->
     {
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -273,6 +274,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
 
     // SimpleDateFormat is not thread-safe, and may not be stored in a static field unless stored by ThreadLocal.
     // It's not enough to add a ThreadLocal at the usage site.
+    @SuppressWarnings("squid:S5164")
     private static final ThreadLocal<SimpleDateFormat> ISO8601_DATETIME_FORMAT = ThreadLocal.withInitial(() ->
     {
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX", Locale.getDefault());

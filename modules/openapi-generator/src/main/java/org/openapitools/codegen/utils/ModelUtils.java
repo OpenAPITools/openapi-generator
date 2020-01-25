@@ -248,7 +248,7 @@ public class ModelUtils {
                     }
                     visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
                 } else {
-                    LOGGER.warn(String.format(Locale.ROOT, "Unreferenced parameter found: %s", p.getName()));
+                    LOGGER.warn("Unreferenced parameter found.");
                 }
             }
         }

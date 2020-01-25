@@ -777,12 +777,12 @@ public class CodeGenMojo extends AbstractMojo {
                     conn.setRequestProperty(auth.getKeyName(), auth.getValue());
                 }
             }
-            ReadableByteChannel readableByteChannel = Channels.newChannel(conn.getInputStream());
-
-            FileChannel fileChannel;
-            try (FileOutputStream fileOutputStream = new FileOutputStream(inputSpecTempFile)) {
-                fileChannel = fileOutputStream.getChannel();
-                fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+            try (ReadableByteChannel readableByteChannel = Channels.newChannel(conn.getInputStream())) {
+                FileChannel fileChannel;
+                try (FileOutputStream fileOutputStream = new FileOutputStream(inputSpecTempFile)) {
+                    fileChannel = fileOutputStream.getChannel();
+                    fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+                }
             }
         }
 

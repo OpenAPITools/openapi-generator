@@ -50,6 +50,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public static final String SNAPSHOT = "snapshot";
 
     // NOTE: SimpleDateFormat is not thread-safe and may not be static unless it is thread-local
+    @SuppressWarnings("squid:S5164")
     protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
 
     protected String modelPropertyNaming = "camelCase";
