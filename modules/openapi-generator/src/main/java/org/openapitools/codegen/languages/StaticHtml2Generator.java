@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,6 +27,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.Markdown;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -52,6 +53,17 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
 
     public StaticHtml2Generator() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
+                .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
+                .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
+                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
+                .globalFeatures(EnumSet.allOf(GlobalFeature.class))
+                .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
+                .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class))
+                .build();
+
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "htmlDocs2";
 

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -232,6 +232,8 @@ public class DartDioClientCodegen extends DartClientCodegen {
         supportingFiles.add(new SupportingFile("pubspec.mustache", "", "pubspec.yaml"));
         supportingFiles.add(new SupportingFile("analysis_options.mustache", "", "analysis_options.yaml"));
         supportingFiles.add(new SupportingFile("apilib.mustache", libFolder, "api.dart"));
+        supportingFiles.add(new SupportingFile("api_util.mustache", libFolder, "api_util.dart"));
+
         supportingFiles.add(new SupportingFile("serializers.mustache", libFolder, "serializers.dart"));
 
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
@@ -241,15 +243,13 @@ public class DartDioClientCodegen extends DartClientCodegen {
             additionalProperties.put("core", "true");
             typeMapping.put("Date", "DateTime");
             typeMapping.put("date", "DateTime");
-            importMapping.put("DateTime", "DateTime");
-            importMapping.put("OffsetDateTime", "DateTime");
         } else if ("timemachine".equals(dateLibrary)) {
             additionalProperties.put("timeMachine", "true");
-            typeMapping.put("date", "LocalDate");
-            typeMapping.put("Date", "LocalDate");
+            typeMapping.put("date", "OffsetDate");
+            typeMapping.put("Date", "OffsetDate");
             typeMapping.put("DateTime", "OffsetDateTime");
             typeMapping.put("datetime", "OffsetDateTime");
-            importMapping.put("LocalDate", "package:time_machine/time_machine.dart");
+            importMapping.put("OffsetDate", "package:time_machine/time_machine.dart");
             importMapping.put("OffsetDateTime", "package:time_machine/time_machine.dart");
             supportingFiles.add(new SupportingFile("local_date_serializer.mustache", libFolder, "local_date_serializer.dart"));
 
@@ -346,6 +346,10 @@ public class DartDioClientCodegen extends DartClientCodegen {
             op.vendorExtensions.put("isForm", isForm);
             op.vendorExtensions.put("isMultipart", isMultipart);
 
+            if (op.getHasFormParams()) {
+                fullImports.add("package:" + pubName + "/api_util.dart");
+            }
+
             Set<String> imports = new HashSet<>();
             for (String item : op.imports) {
                 if (!modelToIgnore.contains(item.toLowerCase(Locale.ROOT))) {
@@ -356,6 +360,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
             }
             modelImports.addAll(imports);
             op.imports = imports;
+
         }
 
         objs.put("modelImports", modelImports);

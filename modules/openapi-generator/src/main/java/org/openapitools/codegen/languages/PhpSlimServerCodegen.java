@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +48,21 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
     public PhpSlimServerCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .build();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.DEPRECATED)
