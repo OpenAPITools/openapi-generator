@@ -49,7 +49,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public static final String NPM_VERSION = "npmVersion";
     public static final String SNAPSHOT = "snapshot";
 
-    protected static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
+    // NOTE: SimpleDateFormat is not thread-safe and may not be static unless it is thread-local
+    @SuppressWarnings("squid:S5164")
+    protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
 
     protected String modelPropertyNaming = "camelCase";
     protected Boolean supportsES6 = false;
@@ -158,7 +160,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 " Required to generate a full package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. If not provided, using the version from the OpenAPI specification file.").defaultValue(this.getNpmVersion()));
         this.cliOptions.add(CliOption.newBoolean(SNAPSHOT,
-                "When setting this property to true, the version will be suffixed with -SNAPSHOT." + this.SNAPSHOT_SUFFIX_FORMAT.toPattern(),
+                "When setting this property to true, the version will be suffixed with -SNAPSHOT." + this.SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
                 false));
 
     }
@@ -204,9 +206,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
             if (additionalProperties.containsKey(SNAPSHOT) && Boolean.parseBoolean(additionalProperties.get(SNAPSHOT).toString())) {
                 if (npmVersion.toUpperCase(Locale.ROOT).matches("^.*-SNAPSHOT$")) {
-                    this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+                    this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.get().format(new Date()));
                 } else {
-                    this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+                    this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.get().format(new Date()));
                 }
             }
             additionalProperties.put(NPM_VERSION, npmVersion);

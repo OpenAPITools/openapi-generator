@@ -252,6 +252,12 @@ If you don't have maven installed, you may directly use the included [maven wrap
 ./mvnw clean install
 ```
 
+The default build contains minimal static analysis (via CheckStyle). To run your build with PMD and Spotbugs, use the `static-analysis` profile:
+
+```sh
+mvn -Pstatic-analysis clean install
+```
+
 ### [1.5 - Homebrew](#table-of-contents)
 
 To install, run `brew install openapi-generator`
