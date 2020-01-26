@@ -52,7 +52,7 @@ send toMsg (Request req) =
         , headers = req.headers
         , url = Url.Builder.crossOrigin req.basePath req.pathParams req.queryParams
         , body = req.body
-        , expect = Http.expectJson toMsg req.decoder
+        , expect = expectJson toMsg req.decoder
         , timeout = req.timeout
         , tracker = req.tracker
         }
@@ -119,3 +119,44 @@ interpolatePath rawPath pathParams =
 queries : List (String, Maybe String) -> List Url.Builder.QueryParameter
 queries =
     List.filterMap (\(key, value) -> Maybe.map (Url.Builder.string key) value)
+
+
+expectJson : (Result Http.Error a -> msg) -> Json.Decode.Decoder a -> Http.Expect msg
+expectJson toMsg decoder =
+    Http.expectStringResponse toMsg <|
+        \response ->
+            case response of
+                Http.BadUrl_ url ->
+                    Err (Http.BadUrl url)
+
+                Http.Timeout_ ->
+                    Err Http.Timeout
+
+                Http.NetworkError_ ->
+                    Err Http.NetworkError
+
+                Http.BadStatus_ metadata _ ->
+                    Err (Http.BadStatus metadata.statusCode)
+
+                Http.GoodStatus_ _ body ->
+                    if String.isEmpty body then
+                        -- we might 'expect' no body if the return type is `()`
+                        case Json.Decode.decodeString decoder "{}" of
+                            Ok value ->
+                                Ok value
+
+                            Err _ ->
+                                decodeBody decoder body
+
+                    else
+                        decodeBody decoder body
+
+
+decodeBody : Json.Decode.Decoder a -> String -> Result Http.Error a
+decodeBody decoder body =
+    case Json.Decode.decodeString decoder body of
+        Ok value ->
+            Ok value
+
+        Err err ->
+            Err (Http.BadBody (Json.Decode.errorToString err))

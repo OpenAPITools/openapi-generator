@@ -5,8 +5,8 @@
 //
 
 class APIHelper {
-    static func rejectNil(source: [String:AnyObject?]) -> [String:AnyObject]? {
-        var destination = [String:AnyObject]()
+    static func rejectNil(source: [String: AnyObject?]) -> [String: AnyObject]? {
+        var destination = [String: AnyObject]()
         for (key, nillableValue) in source {
             if let value: AnyObject = nillableValue {
                 destination[key] = value
@@ -19,8 +19,8 @@ class APIHelper {
         return destination
     }
 
-    static func rejectNilHeaders(source: [String:AnyObject?]) -> [String:String] {
-        var destination = [String:String]()
+    static func rejectNilHeaders(source: [String: AnyObject?]) -> [String: String] {
+        var destination = [String: String]()
         for (key, nillableValue) in source {
             if let value: AnyObject = nillableValue {
                 destination[key] = "\(value)"
@@ -29,11 +29,11 @@ class APIHelper {
         return destination
     }
 
-    static func convertBoolToString(source: [String: AnyObject]?) -> [String:AnyObject]? {
+    static func convertBoolToString(source: [String: AnyObject]?) -> [String: AnyObject]? {
         guard let source = source else {
             return nil
         }
-        var destination = [String:AnyObject]()
+        var destination = [String: AnyObject]()
         let theTrue = NSNumber(bool: true)
         let theFalse = NSNumber(bool: false)
         for (key, value) in source {

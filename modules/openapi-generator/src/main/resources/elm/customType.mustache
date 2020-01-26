@@ -6,6 +6,7 @@ type {{^paramName}}{{classname}}{{/paramName}}{{enumName}}
 {{/allowableValues}}
 
 
+{{#lambda.camelcase}}{{^paramName}}{{classname}}{{/paramName}}{{enumName}}{{/lambda.camelcase}}Variants : List {{^paramName}}{{classname}}{{/paramName}}{{enumName}}
 {{#lambda.camelcase}}{{^paramName}}{{classname}}{{/paramName}}{{enumName}}{{/lambda.camelcase}}Variants =
 {{#allowableValues}}
   {{#enumVars}}

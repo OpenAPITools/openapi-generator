@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,8 +47,10 @@ import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
@@ -73,6 +75,54 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
+    public static FeatureSet DefaultFeatureSet;
+
+    static {
+        DefaultFeatureSet = FeatureSet.newBuilder()
+                .includeDataTypeFeatures(
+                        DataTypeFeature.Int32, DataTypeFeature.Int64, DataTypeFeature.Float, DataTypeFeature.Double,
+                        DataTypeFeature.Decimal, DataTypeFeature.String, DataTypeFeature.Byte, DataTypeFeature.Binary,
+                        DataTypeFeature.Boolean, DataTypeFeature.Date, DataTypeFeature.DateTime, DataTypeFeature.Password,
+                        DataTypeFeature.File, DataTypeFeature.Array, DataTypeFeature.Maps, DataTypeFeature.CollectionFormat,
+                        DataTypeFeature.CollectionFormatMulti, DataTypeFeature.Enum, DataTypeFeature.ArrayOfEnum, DataTypeFeature.ArrayOfModel,
+                        DataTypeFeature.ArrayOfCollectionOfPrimitives, DataTypeFeature.ArrayOfCollectionOfModel, DataTypeFeature.ArrayOfCollectionOfEnum,
+                        DataTypeFeature.MapOfEnum, DataTypeFeature.MapOfModel, DataTypeFeature.MapOfCollectionOfPrimitives,
+                        DataTypeFeature.MapOfCollectionOfModel, DataTypeFeature.MapOfCollectionOfEnum
+                        // Custom types are template specific
+                )
+                .includeDocumentationFeatures(
+                        DocumentationFeature.Api, DocumentationFeature.Model
+                        // README is template specific
+                )
+                .includeGlobalFeatures(
+                        GlobalFeature.Host, GlobalFeature.BasePath, GlobalFeature.Info, GlobalFeature.PartialSchemes,
+                        GlobalFeature.Consumes, GlobalFeature.Produces, GlobalFeature.ExternalDocumentation, GlobalFeature.Examples,
+                        GlobalFeature.Callbacks
+                        // TODO: xml structures, styles, link objects, parameterized servers, full schemes for OAS 2.0
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Simple, SchemaSupportFeature.Composite,
+                        SchemaSupportFeature.Polymorphism
+                        // Union (OneOf) not 100% yet.
+                )
+                .includeParameterFeatures(
+                        ParameterFeature.Path, ParameterFeature.Query, ParameterFeature.Header, ParameterFeature.Body,
+                        ParameterFeature.FormUnencoded, ParameterFeature.FormMultipart, ParameterFeature.Cookie
+                )
+                .includeSecurityFeatures(
+                        SecurityFeature.BasicAuth, SecurityFeature.ApiKey, SecurityFeature.BearerToken,
+                        SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
+                        SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
+                        // OpenIDConnect not yet supported
+                )
+                .includeWireFormatFeatures(
+                        WireFormatFeature.JSON, WireFormatFeature.XML
+                        // PROTOBUF and Custom are generator specific
+                )
+                .build();
+    }
+
+    protected FeatureSet featureSet;
     protected GeneratorMetadata generatorMetadata;
     protected String inputSpec;
     protected String outputFolder = "";
@@ -86,6 +136,10 @@ public class DefaultCodegen implements CodegenConfig {
     protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String apiNameSuffix = "Api";
     protected String testPackage = "";
+    /*
+    apiTemplateFiles are for API outputs only (controllers/handlers).
+    API templates may be written multiple times; APIs are grouped by tag and the file is written once per tag group.
+    */
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> apiTestTemplateFiles = new HashMap<String, String>();
@@ -99,6 +153,11 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
     protected Map<String, String> serverVariables = new HashMap<String, String>();
     protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
+    /*
+    Supporting files are those which aren't models, APIs, or docs.
+    These get a different map of data bound to the templates. Supporting files are written once.
+    See also 'apiTemplateFiles'.
+    */
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
@@ -1112,6 +1171,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenType == null) {
             codegenType = CodegenType.OTHER;
         }
+
+        featureSet = DefaultFeatureSet;
+
         generatorMetadata = GeneratorMetadata.newBuilder()
                 .stability(Stability.STABLE)
                 .generationMessage(String.format(Locale.ROOT, "OpenAPI Generator: %s (%s)", getName(), codegenType.toValue()))
@@ -2304,6 +2366,9 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (p.getExclusiveMaximum() != null) {
                 property.exclusiveMaximum = p.getExclusiveMaximum();
+            }
+            if (p.getMultipleOf() != null) {
+                property.multipleOf = p.getMultipleOf();
             }
 
             // check if any validation rule defined
@@ -5367,5 +5432,15 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public void setStrictSpecBehavior(final boolean strictSpecBehavior) {
         this.strictSpecBehavior = strictSpecBehavior;
+    }
+
+    @Override
+    public FeatureSet getFeatureSet() {
+        return this.featureSet;
+    }
+
+    @Override
+    public void setFeatureSet(final FeatureSet featureSet) {
+        this.featureSet = featureSet == null ? DefaultFeatureSet : featureSet;
     }
 }

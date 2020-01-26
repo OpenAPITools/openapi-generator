@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.JbossFeature;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,8 +35,11 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
     protected boolean generateJbossDeploymentDescriptor = true;
 
     public JavaResteasyServerCodegen() {
-
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         artifactId = "openapi-jaxrs-resteasy-server";
         outputFolder = "generated-code/JavaJaxRS-Resteasy";
