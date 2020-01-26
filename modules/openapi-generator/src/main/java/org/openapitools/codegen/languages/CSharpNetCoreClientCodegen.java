@@ -77,6 +77,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected boolean nonPublicApi = Boolean.FALSE;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
+    protected String releaseNote = "Minor update";
+    protected String licenseId;
+    protected String packageTags;
 
     public CSharpNetCoreClientCodegen() {
         super();
@@ -159,6 +162,18 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         addOption(CodegenConstants.INTERFACE_PREFIX,
                 CodegenConstants.INTERFACE_PREFIX_DESC,
                 interfacePrefix);
+
+        addOption(CodegenConstants.LICENSE_ID,
+                CodegenConstants.LICENSE_ID_DESC,
+                this.licenseId);
+
+        addOption(CodegenConstants.RELEASE_NOTE,
+                CodegenConstants.RELEASE_NOTE_DESC,
+                this.releaseNote);
+
+        addOption(CodegenConstants.PACKAGE_TAGS,
+                CodegenConstants.PACKAGE_TAGS_DESC,
+                this.packageTags);
 
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
@@ -684,6 +699,18 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
+    }
+
+    public void setLicenseId(String licenseId) {
+        this.licenseId = licenseId;
+    }
+
+    public void setReleaseNote(String releaseNote) {
+        this.releaseNote = releaseNote;
+    }
+
+    public void setPackageTags(String packageTags) {
+        this.packageTags = packageTags;
     }
 
     @Override

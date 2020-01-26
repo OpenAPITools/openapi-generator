@@ -134,7 +134,7 @@ import java.io.File
         }
         {{/isApiKey}}
         {{#isBasic}}
-        {{^isBasicBearer}}
+        {{#isBasicBasic}}
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
             username?.let { username ->
                 password?.let { password ->
@@ -142,7 +142,7 @@ import java.io.File
                 }
             }
         }
-        {{/isBasicBearer}}
+        {{/isBasicBasic}}
         {{#isBasicBearer}}
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
             accessToken?.let { accessToken ->

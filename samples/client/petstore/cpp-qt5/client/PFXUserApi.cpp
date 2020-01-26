@@ -22,7 +22,9 @@ PFXUserApi::PFXUserApi(const QString &scheme, const QString &host, int port, con
       _host(host),
       _port(port),
       _basePath(basePath),
-      _timeOut(timeOut) {}
+      _timeOut(timeOut),
+      isResponseCompressionEnabled(false),
+      isRequestCompressionEnabled(false) {}
 
 PFXUserApi::~PFXUserApi() {
 }
@@ -53,6 +55,14 @@ void PFXUserApi::setWorkingDirectory(const QString &path) {
 
 void PFXUserApi::addHeaders(const QString &key, const QString &value) {
     defaultHeaders.insert(key, value);
+}
+
+void PFXUserApi::enableRequestCompression() {
+    isRequestCompressionEnabled = true;
+}
+
+void PFXUserApi::enableResponseCompression() {
+    isResponseCompressionEnabled = true;
 }
 
 void PFXUserApi::createUser(const PFXUser &body) {
@@ -87,6 +97,7 @@ void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     worker->deleteLater();
 
@@ -132,6 +143,7 @@ void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker)
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     worker->deleteLater();
 
@@ -177,6 +189,7 @@ void PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker *worker) 
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     worker->deleteLater();
 
@@ -221,6 +234,7 @@ void PFXUserApi::deleteUserCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     worker->deleteLater();
 
@@ -265,6 +279,7 @@ void PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     PFXUser output(QString(worker->response));
     worker->deleteLater();
@@ -319,6 +334,7 @@ void PFXUserApi::loginUserCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     QString output;
     ::test_namespace::fromStringValue(QString(worker->response), output);
@@ -362,6 +378,7 @@ void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     worker->deleteLater();
 
@@ -409,6 +426,7 @@ void PFXUserApi::updateUserCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     worker->deleteLater();
 

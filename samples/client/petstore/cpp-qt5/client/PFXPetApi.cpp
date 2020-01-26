@@ -22,7 +22,9 @@ PFXPetApi::PFXPetApi(const QString &scheme, const QString &host, int port, const
       _host(host),
       _port(port),
       _basePath(basePath),
-      _timeOut(timeOut) {}
+      _timeOut(timeOut),
+      isResponseCompressionEnabled(false),
+      isRequestCompressionEnabled(false) {}
 
 PFXPetApi::~PFXPetApi() {
 }
@@ -53,6 +55,14 @@ void PFXPetApi::setWorkingDirectory(const QString &path) {
 
 void PFXPetApi::addHeaders(const QString &key, const QString &value) {
     defaultHeaders.insert(key, value);
+}
+
+void PFXPetApi::enableRequestCompression() {
+    isRequestCompressionEnabled = true;
+}
+
+void PFXPetApi::enableResponseCompression() {
+    isResponseCompressionEnabled = true;
 }
 
 void PFXPetApi::addPet(const PFXPet &body) {
@@ -87,6 +97,7 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     worker->deleteLater();
 
@@ -135,6 +146,7 @@ void PFXPetApi::deletePetCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     worker->deleteLater();
 
@@ -214,6 +226,7 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     QList<PFXPet> output;
     QString json(worker->response);
@@ -303,6 +316,7 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     QList<PFXPet> output;
     QString json(worker->response);
@@ -357,6 +371,7 @@ void PFXPetApi::getPetByIdCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     PFXPet output(QString(worker->response));
     worker->deleteLater();
@@ -402,6 +417,7 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     worker->deleteLater();
 
@@ -448,6 +464,7 @@ void PFXPetApi::updatePetWithFormCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     worker->deleteLater();
 
@@ -494,6 +511,7 @@ void PFXPetApi::uploadFileCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     PFXApiResponse output(QString(worker->response));
     worker->deleteLater();

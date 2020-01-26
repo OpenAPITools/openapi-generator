@@ -22,7 +22,9 @@ PFXStoreApi::PFXStoreApi(const QString &scheme, const QString &host, int port, c
       _host(host),
       _port(port),
       _basePath(basePath),
-      _timeOut(timeOut) {}
+      _timeOut(timeOut),
+      isResponseCompressionEnabled(false),
+      isRequestCompressionEnabled(false) {}
 
 PFXStoreApi::~PFXStoreApi() {
 }
@@ -53,6 +55,14 @@ void PFXStoreApi::setWorkingDirectory(const QString &path) {
 
 void PFXStoreApi::addHeaders(const QString &key, const QString &value) {
     defaultHeaders.insert(key, value);
+}
+
+void PFXStoreApi::enableRequestCompression() {
+    isRequestCompressionEnabled = true;
+}
+
+void PFXStoreApi::enableResponseCompression() {
+    isResponseCompressionEnabled = true;
 }
 
 void PFXStoreApi::deleteOrder(const QString &order_id) {
@@ -87,6 +97,7 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     worker->deleteLater();
 
@@ -128,6 +139,7 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     QMap<QString, qint32> output;
     QString json(worker->response);
@@ -182,6 +194,7 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     PFXOrder output(QString(worker->response));
     worker->deleteLater();
@@ -227,6 +240,7 @@ void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     PFXOrder output(QString(worker->response));
     worker->deleteLater();

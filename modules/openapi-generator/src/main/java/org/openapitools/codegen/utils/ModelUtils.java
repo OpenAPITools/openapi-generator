@@ -35,11 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -246,10 +242,14 @@ public class ModelUtils {
         if (parameters != null) {
             for (Parameter p : parameters) {
                 Parameter parameter = getReferencedParameter(openAPI, p);
-                if (parameter.getSchema() != null) {
-                    visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
+                if (parameter != null) {
+                    if (parameter.getSchema() != null) {
+                        visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
+                    }
+                    visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
+                } else {
+                    LOGGER.warn("Unreferenced parameter found.");
                 }
-                visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
             }
         }
     }
@@ -921,7 +921,8 @@ public class ModelUtils {
     }
 
     /**
-     * Get the the parent model name from the schemas (allOf, anyOf, oneOf)
+     * Get the parent model name from the schemas (allOf, anyOf, oneOf).
+     * If there are multiple parents, return the first one.
      *
      * @param composedSchema schema (alias or direct reference)
      * @param allSchemas     all schemas
@@ -965,6 +966,14 @@ public class ModelUtils {
         return null;
     }
 
+    /**
+     * Get the list of parent model names from the schemas (allOf, anyOf, oneOf).
+     *
+     * @param composedSchema   schema (alias or direct reference)
+     * @param allSchemas       all schemas
+     * @param includeAncestors if true, include the indirect ancestors in the return value. If false, return the direct parents.
+     * @return the name of the parent model
+     */
     public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         List<String> names = new ArrayList<String>();

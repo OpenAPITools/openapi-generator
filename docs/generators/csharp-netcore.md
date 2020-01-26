@@ -9,6 +9,7 @@ sidebar_label: csharp-netcore
 |caseInsensitiveResponseHeaders|Make API response's headers case-insensitive| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |interfacePrefix|Prefix interfaces with a community standard or widely accepted prefix.| |I|
+|licenseId|The identifier of the license| |null|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |PascalCase|
 |netCoreProjectFile|Use the new format (.NET Core) for .NET project files (.csproj).| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|
@@ -18,7 +19,9 @@ sidebar_label: csharp-netcore
 |optionalProjectFile|Generate {PackageName}.csproj.| |true|
 |packageGuid|The GUID that will be associated with the C# project| |null|
 |packageName|C# package name (convention: Title.Case).| |Org.OpenAPITools|
+|packageTags|Tags to identify the package| |null|
 |packageVersion|C# package version.| |1.0.0|
+|releaseNote|Release note, default to 'Minor update'.| |Minor update|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|

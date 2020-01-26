@@ -31,7 +31,8 @@ from petstore_api.model_utils import (  # noqa: F401
 try:
     from petstore_api.models import outer_number
 except ImportError:
-    outer_number = sys.modules['petstore_api.models.outer_number']
+    outer_number = sys.modules[
+        'petstore_api.models.outer_number']
 
 
 class OuterComposite(ModelNormal):

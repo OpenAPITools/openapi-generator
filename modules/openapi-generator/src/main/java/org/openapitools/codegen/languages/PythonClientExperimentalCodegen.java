@@ -277,7 +277,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // name looks like cat.Cat
         String moduleName = name.split("\\.")[0];
         // https://exceptionshub.com/circular-or-cyclic-imports-in-python.html
-        String modelImport = "try:\n    from " + modelPackage() + " import "+ moduleName+ "\nexcept ImportError:\n    "+moduleName+" = sys.modules['"+modelPackage() + "."+ moduleName+"']";
+        String modelImport = "try:\n    from " + modelPackage() +
+          " import " + moduleName+ "\nexcept ImportError:\n    " +
+          moduleName + " = sys.modules[\n        '" + modelPackage() + "." + moduleName + "']";
         return modelImport;
     }
 
@@ -816,7 +818,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (ModelUtils.isFreeFormObject(p) && ModelUtils.getAdditionalProperties(p) == null) {
             return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
         }
-        if ((ModelUtils.isMapSchema(p) || p.getType() == "object") && ModelUtils.getAdditionalProperties(p) != null) {
+        if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && ModelUtils.getAdditionalProperties(p) != null) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return prefix + "{str: " + getTypeString(inner, "(", ")") + "}" + fullSuffix;
         } else if (ModelUtils.isArraySchema(p)) {
