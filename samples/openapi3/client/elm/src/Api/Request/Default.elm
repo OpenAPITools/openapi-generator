@@ -18,6 +18,7 @@ module Api.Request.Default exposing
     , maybeGet
     , pathStringIntegerEnumerationGet, Enumeration(..), enumerationVariants
     , queryGet, Enum(..), enumVariants
+    , securedPost
     , uuidGet
     )
 
@@ -162,6 +163,20 @@ queryGet string_query int_query enum_query =
         []
         Nothing
         (Json.Decode.succeed ())
+
+
+
+securedPost : String -> Api.Request ()
+securedPost auth_token =
+    Api.request
+        "POST"
+        "/secured"
+        []
+        []
+        []
+        Nothing
+        (Json.Decode.succeed ())
+        |> Api.withBearerToken auth_token
 
 
 

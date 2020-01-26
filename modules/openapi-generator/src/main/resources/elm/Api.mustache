@@ -6,6 +6,7 @@ module Api exposing
     , withBasePath
     , withTimeout
     , withTracker
+    , withBearerToken
     , withHeader
     , withHeaders
     )
@@ -85,6 +86,11 @@ withTimeout timeout (Request req) =
 withTracker : String -> Request a -> Request a
 withTracker tracker (Request req) =
     Request { req | tracker = Just tracker }
+
+
+withBearerToken : String -> Request a -> Request a
+withBearerToken token (Request req) =
+    Request { req | headers = Http.header "Authorization" ("Bearer " ++ token) :: req.headers }
 
 
 withHeader : String -> String -> Request a -> Request a
