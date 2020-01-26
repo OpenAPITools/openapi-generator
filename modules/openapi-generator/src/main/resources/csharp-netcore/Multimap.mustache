@@ -16,8 +16,7 @@ namespace {{packageName}}.Client
     {
         #region Private Fields
 
-        private readonly {{^net35}}Concurrent{{/net35}}Dictionary<T, IList<TValue>> _dictionary =
-            new {{^net35}}Concurrent{{/net35}}Dictionary<T, IList<TValue>>();
+        private readonly {{^net35}}Concurrent{{/net35}}Dictionary<T, IList<TValue>> _dictionary;
 
         #endregion Private Fields
 
@@ -35,7 +34,8 @@ namespace {{packageName}}.Client
         /// Constructor with comparer.
         /// </summary>
         /// <param name="comparer"></param>
-        public Multimap(IEqualityComparer<T> comparer) {
+        public Multimap(IEqualityComparer<T> comparer)
+        {
             _dictionary = new {{^net35}}Concurrent{{/net35}}Dictionary<T, IList<TValue>>(comparer);
         }
 
