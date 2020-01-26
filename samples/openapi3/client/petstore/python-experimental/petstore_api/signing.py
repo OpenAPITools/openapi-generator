@@ -251,8 +251,7 @@ class HttpSigningConfiguration(object):
         target_path = urlparse(self.host).path
         request_target = method.lower() + " " + target_path + resource_path
         if query_params:
-            raw_query = urlencode(query_params).replace('+', '%20')
-            request_target += "?" + raw_query
+            request_target += "?" + urlencode(query_params)
 
         # Get current time and generate RFC 1123 (HTTP/1.1) date/time string.
         now = datetime.now()
