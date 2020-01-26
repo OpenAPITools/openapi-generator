@@ -1515,7 +1515,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Sets the content type of the parameter based on the encoding specified in the request body.
      *
      * @param codegenParameter Codegen parameter
-     * @param requestBody      Request body
+     * @param mediaType        MediaType from the request body
      */
     public void setParameterContentType(CodegenParameter codegenParameter, MediaType mediaType) {
         if (mediaType != null && mediaType.getEncoding() != null) {
