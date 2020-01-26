@@ -29,8 +29,11 @@ public class CodegenSecurity {
     public String type;
     public String scheme;
     public Boolean hasMore, isBasic, isOAuth, isApiKey;
-    // is Basic is true for all http authentication type. Those are to differentiate basic and bearer authentication
-    public Boolean isBasicBasic, isBasicBearer;
+    // is Basic is true for all http authentication type.
+    // Those are to differentiate basic and bearer authentication
+    // isHttpSignature is to support HTTP signature authorization scheme.
+    // https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
+    public Boolean isBasicBasic, isBasicBearer, isHttpSignature;
     public String bearerFormat;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     // ApiKey specific
@@ -50,6 +53,7 @@ public class CodegenSecurity {
         filteredSecurity.hasMore = false;
         filteredSecurity.isBasic = isBasic;
         filteredSecurity.isBasicBasic = isBasicBasic;
+        filteredSecurity.isHttpSignature = isHttpSignature;
         filteredSecurity.isBasicBearer = isBasicBearer;
         filteredSecurity.isApiKey = isApiKey;
         filteredSecurity.isOAuth = isOAuth;
@@ -97,6 +101,7 @@ public class CodegenSecurity {
                 Objects.equals(isOAuth, that.isOAuth) &&
                 Objects.equals(isApiKey, that.isApiKey) &&
                 Objects.equals(isBasicBasic, that.isBasicBasic) &&
+                Objects.equals(isHttpSignature, that.isHttpSignature) &&
                 Objects.equals(isBasicBearer, that.isBasicBearer) &&
                 Objects.equals(bearerFormat, that.bearerFormat) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
@@ -117,8 +122,9 @@ public class CodegenSecurity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(name, type, scheme, hasMore, isBasic, isOAuth, isApiKey, isBasicBasic, isBasicBearer,
-                bearerFormat, vendorExtensions, keyParamName, isKeyInQuery, isKeyInHeader, isKeyInCookie, flow,
+        return Objects.hash(name, type, scheme, hasMore, isBasic, isOAuth, isApiKey,
+                isBasicBasic, isHttpSignature, isBasicBearer, bearerFormat, vendorExtensions,
+                keyParamName, isKeyInQuery, isKeyInHeader, isKeyInCookie, flow,
                 authorizationUrl, tokenUrl, scopes, isCode, isPassword, isApplication, isImplicit);
     }
 
@@ -133,6 +139,7 @@ public class CodegenSecurity {
         sb.append(", isOAuth=").append(isOAuth);
         sb.append(", isApiKey=").append(isApiKey);
         sb.append(", isBasicBasic=").append(isBasicBasic);
+        sb.append(", isHttpSignature=").append(isHttpSignature);
         sb.append(", isBasicBearer=").append(isBasicBearer);
         sb.append(", bearerFormat='").append(bearerFormat).append('\'');
         sb.append(", vendorExtensions=").append(vendorExtensions);
