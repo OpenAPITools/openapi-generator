@@ -22,4 +22,13 @@
 		</Or>
 	</Match>
 
+	<!-- For source/class naming, see https://spotbugs.readthedocs.io/en/stable/filter.html#java-element-name-matching -->
+	<Match>
+		<!-- Ignore all source files with samples in path name -->
+		<Source name="~.*\samples\.*"/>
+	</Match>
+	<Match>
+		<!-- Ignore all bugs in any test classes -->
+		<Class name="~.*\.*Test" />
+	</Match>
 </FindBugsFilter>

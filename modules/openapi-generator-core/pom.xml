@@ -25,21 +25,6 @@
           <configLocation>${project.parent.basedir}${file.separator}google_checkstyle.xml</configLocation>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-maven-plugin</artifactId>
-        <configuration>
-          <excludeFilterFile>${project.parent.basedir}${file.separator}spotbugs-exclude.xml</excludeFilterFile>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>se.bjurr.violations</groupId>
-        <artifactId>violations-maven-plugin</artifactId>
-      </plugin>
     </plugins>
   </build>
 
@@ -60,6 +45,31 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>static-analysis</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-maven-plugin</artifactId>
+            <configuration>
+              <excludeFilterFile>${project.parent.basedir}${file.separator}spotbugs-exclude.xml</excludeFilterFile>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-pmd-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>se.bjurr.violations</groupId>
+            <artifactId>violations-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <properties>
     <slf4j-version>1.7.12</slf4j-version>
