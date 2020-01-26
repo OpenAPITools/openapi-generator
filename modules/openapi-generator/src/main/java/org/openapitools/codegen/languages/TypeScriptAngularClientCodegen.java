@@ -604,11 +604,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toModelName(String name) {
-        String modelName = super.toModelName(name);
-        if (modelSuffix.length() == 0 || modelName.endsWith(modelSuffix)) {
-            return modelName;
+        if (modelSuffix.length() != 0 && !name.endsWith(modelSuffix)) {
+            name = name + modelSuffix;
         }
-        return modelName + modelSuffix;
+
+        return super.toModelName(name);
     }
 
     public String removeModelPrefixSuffix(String name) {

@@ -101,6 +101,25 @@
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle.plugin.version}</version>
+                <configuration>
+                    <consoleOutput>false</consoleOutput>
+                    <failsOnError>false</failsOnError>
+                    <excludes>**/samples/*.java</excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>checkstyle-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>net.revelc.code</groupId>
                 <artifactId>formatter-maven-plugin</artifactId>
                 <!-- Uncomment this to format before checkstyle -->
@@ -150,6 +169,52 @@
                     </dependency>
                 </dependencies>
             </plugin>-->
+            <!-- https://www.jacoco.org/jacoco/trunk/doc/maven.html -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-site</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <element>PACKAGE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>**/gradle-wrapper.jar</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -159,8 +224,18 @@
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <junitArtifactName>none:none</junitArtifactName>
                     <testNGArtifactName>org.testng:testng</testNGArtifactName>
-                    <argLine>-XX:+StartAttachListener</argLine>
+                    <argLine>@{argLine} -XX:+StartAttachListener</argLine>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <!--  must be on the classpath for test instrumentation  -->
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>org.jacoco.agent</artifactId>
+                        <classifier>runtime</classifier>
+                        <version>${jacoco.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -305,9 +380,62 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>se.bjurr.violations</groupId>
+                    <artifactId>violations-maven-plugin</artifactId>
+                    <version>${violations-maven.plugin.version}</version>
+                    <configuration>
+                        <maxViolations>0</maxViolations>
+                        <detailLevel>VERBOSE</detailLevel>
+                        <minSeverity>ERROR</minSeverity>
+                        <violations>
+                            <violation>
+                                <parser>FINDBUGS</parser>
+                                <reporter>Spotbugs</reporter>
+                                <folder>${project.basedir}</folder>
+                                <pattern>.*/spotbugsXml\.xml$</pattern>
+                            </violation>
+                            <violation>
+                                <parser>PMD</parser>
+                                <reporter>PMD</reporter>
+                                <folder>${project.basedir}</folder>
+                                <pattern>.*/pmd\.xml$</pattern>
+                            </violation>
+                            <violation>
+                                <parser>CHECKSTYLE</parser>
+                                <reporter>Checkstyle</reporter>
+                                <folder>${project.basedir}</folder>
+                                <pattern>.*/checkstyle-result\.xml$</pattern>
+                            </violation>
+                        </violations>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>violations</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
                     <groupId>net.revelc.code</groupId>
                     <artifactId>formatter-maven-plugin</artifactId>
                     <version>0.5.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>${spotbugs.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-pmd-plugin</artifactId>
+                    <version>${pmd.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${checkstyle.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -413,6 +541,73 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <!-- CI related -->
+        <profile>
+            <!-- This profile will run much more in-depth static analysis checks. -->
+            <id>static-analysis</id>
+            <properties>
+                <skipTests>true</skipTests>
+                <maven.javadoc.skip>true</maven.javadoc.skip>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <version>${spotbugs.plugin.version}</version>
+                        <configuration>
+                            <failOnError>false</failOnError>
+                            <!-- https://spotbugs.readthedocs.io/en/stable/effort.html -->
+                            <effort>min</effort>
+                            <excludeFilterFile>${project.basedir}${file.separator}spotbugs-exclude.xml</excludeFilterFile>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>spotbugs-check</id>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <phase>verify</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                        <version>${pmd.plugin.version}</version>
+                        <configuration>
+                            <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                            <failOnViolation>false</failOnViolation>
+                            <printFailingErrors>false</printFailingErrors>
+                            <rulesets>
+                                <ruleset>category/java/errorprone.xml</ruleset>
+                            </rulesets>
+                            <excludes>
+                                <exclude>**/samples/**/*</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>pmd-check</id>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <phase>verify</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <version>${spotbugs.plugin.version}</version>
+                    </plugin>
+                </plugins>
+            </reporting>
         </profile>
         <!-- Samples -->
         <profile>
@@ -1407,5 +1602,10 @@
         <surefire-version>3.0.0-M3</surefire-version>
         <reflections-version>0.9.10</reflections-version>
         <mockito-version>3.2.0</mockito-version>
+        <jacoco.version>0.8.5</jacoco.version>
+        <spotbugs.plugin.version>3.1.12.2</spotbugs.plugin.version>
+        <pmd.plugin.version>3.12.0</pmd.plugin.version>
+        <violations-maven.plugin.version>1.34</violations-maven.plugin.version>
+        <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
     </properties>
 </project>

@@ -1,5 +1,5 @@
 {
-  "!include": "./bin/jaxrs-resteasy-joda-petstore-server.json",
+  "!include": "bin/jaxrs-resteasy-joda-petstore-server.json",
   "artifactId": "jaxrs-resteasy-joda-server",
   "generatorName": "jaxrs-resteasy",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",

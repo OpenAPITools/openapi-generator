@@ -283,7 +283,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
         for (CodegenOperation op : operationList) {
-            if(op.returnType == "object") {
+            if("object".equals(op.returnType)) {
                 op.isMapContainer = true;
                 op.returnSimpleType = false;
             }

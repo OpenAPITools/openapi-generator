@@ -3646,6 +3646,7 @@ public class DefaultCodegen implements CodegenConfig {
                     // As of January 2020, the "signature" scheme has not been registered with IANA yet.
                     // This scheme may have to be changed when it is officially registered with IANA.
                     cs.isHttpSignature = true;
+                    LOGGER.warn("Security scheme 'HTTP signature' is a draft IETF RFC and subject to change.");
                 }
             } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
                 cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
