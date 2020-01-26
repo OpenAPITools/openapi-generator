@@ -1512,24 +1512,19 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Sets the content type of the related parameter based on the encoding specified in the request body.
+     * Sets the content type of the parameter based on the encoding specified in the request body.
      *
      * @param codegenParameter Codegen parameter
      * @param requestBody      Request body
      */
-    public void setRelatedParameterContentType(CodegenParameter codegenParameter, RequestBody requestBody) {
-        Content content = requestBody.getContent();
-
-        MediaType mediaType = content.get("multipart/related");
+    public void setParameterContentType(CodegenParameter codegenParameter, MediaType mediaType) {
         if (mediaType != null && mediaType.getEncoding() != null) {
             Encoding encoding = mediaType.getEncoding().get(codegenParameter.baseName);
             if (encoding != null) {
                 codegenParameter.contentType = encoding.getContentType();
             } else {
-                LOGGER.warn("multipart/related encoding not specified for " + codegenParameter.baseName);
+                LOGGER.debug("encoding not specified for " + codegenParameter.baseName);
             }
-        } else {
-            LOGGER.error("setRelatedParameterContentType called on non multipart/related requestBody");
         }
     }
 
@@ -2894,7 +2889,6 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenParameter> headerParams = new ArrayList<CodegenParameter>();
         List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
         List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
-        List<CodegenParameter> relatedParams = new ArrayList<CodegenParameter>();
         List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
         List<CodegenParameter> optionalParams = new ArrayList<CodegenParameter>();
 
@@ -2902,29 +2896,17 @@ public class DefaultCodegen implements CodegenConfig {
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody != null) {
             String contentType = getContentType(requestBody);
-            if ("multipart/related".equalsIgnoreCase(getContentType(requestBody))) {
-                // process related parameters
-                relatedParams = fromRequestBodyToFormParameters(requestBody, imports);
-                for (CodegenParameter cp : relatedParams) {
-                    // Set as related parameters rather than form parameters
-                    cp.isFormParam = Boolean.FALSE;
-                    cp.isRelatedParam = Boolean.TRUE;
-                    setRelatedParameterContentType(cp, requestBody);
-                    postProcessParameter(cp);
-                }
-                // add related parameters to the beginning of all parameter list
-                if (prependFormOrBodyParameters) {
-                    for (CodegenParameter cp : relatedParams) {
-                        allParams.add(cp.copy());
-                    }
-                }
-            } else if (contentType != null &&
-                       (contentType.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                       contentType.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
+            if (contentType != null) {
+                contentType = contentType.toLowerCase(Locale.ROOT);
+            }
+            if (contentType != null &&
+                    (contentType.startsWith("application/x-www-form-urlencoded") ||
+                            contentType.startsWith("multipart"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
-                op.isMultipart = contentType.toLowerCase(Locale.ROOT).startsWith("multipart");
+                op.isMultipart = contentType.startsWith("multipart");
                 for (CodegenParameter cp : formParams) {
+                    setParameterContentType(cp, requestBody.getContent().get(contentType));
                     postProcessParameter(cp);
                 }
                 // add form parameters to the beginning of all parameter list
@@ -2990,10 +2972,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         // add form/body parameter (if any) to the end of all parameter list
         if (!prependFormOrBodyParameters) {
-            for (CodegenParameter cp : relatedParams) {
-                allParams.add(cp.copy());
-            }
-
             for (CodegenParameter cp : formParams) {
                 allParams.add(cp.copy());
             }
@@ -3042,7 +3020,6 @@ public class DefaultCodegen implements CodegenConfig {
         op.headerParams = addHasMore(headerParams);
         op.cookieParams = addHasMore(cookieParams);
         op.formParams = addHasMore(formParams);
-        op.relatedParams = addHasMore(relatedParams);
         op.requiredParams = addHasMore(requiredParams);
         op.optionalParams = addHasMore(optionalParams);
         op.externalDocs = operation.getExternalDocs();
@@ -4790,22 +4767,6 @@ public class DefaultCodegen implements CodegenConfig {
             if (consume != null &&
                     (consume.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
                             consume.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean hasRelatedParameter(OpenAPI openAPI, Operation operation) {
-        Set<String> consumesInfo = getConsumesInfo(openAPI, operation);
-
-        if (consumesInfo == null || consumesInfo.isEmpty()) {
-            return false;
-        }
-
-        for (String consume : consumesInfo) {
-            if ("multipart/related".equalsIgnoreCase(consume)) {
                 return true;
             }
         }

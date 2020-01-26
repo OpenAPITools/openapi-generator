@@ -21,7 +21,7 @@ import java.util.*;
 
 public class CodegenParameter implements IJsonSchemaValidationProperties {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
-            isCookieParam, isBodyParam, hasMore, isContainer, isRelatedParam,
+            isCookieParam, isBodyParam, hasMore, isContainer,
             secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat, contentType,
             collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style;
@@ -114,7 +114,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.unescapedDescription = this.unescapedDescription;
         output.baseType = this.baseType;
         output.isFormParam = this.isFormParam;
-        output.isRelatedParam = this.isRelatedParam;
         output.isQueryParam = this.isQueryParam;
         output.isPathParam = this.isPathParam;
         output.isHeaderParam = this.isHeaderParam;
@@ -186,7 +185,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(isFormParam, isRelatedParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf);
+        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, hasMore, isContainer, secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName, style, example, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isFile, isEnum, _enum, allowableValues, items, mostInnerItems, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf);
     }
 
     @Override
@@ -195,7 +194,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         if (!(o instanceof CodegenParameter)) return false;
         CodegenParameter that = (CodegenParameter) o;
         return isFormParam == that.isFormParam &&
-                isRelatedParam == that.isRelatedParam &&
                 isQueryParam == that.isQueryParam &&
                 isPathParam == that.isPathParam &&
                 isHeaderParam == that.isHeaderParam &&
@@ -270,7 +268,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenParameter{");
         sb.append("isFormParam=").append(isFormParam);
-        sb.append(", isRelatedParam=").append(isRelatedParam);
         sb.append(", isQueryParam=").append(isQueryParam);
         sb.append(", isPathParam=").append(isPathParam);
         sb.append(", isHeaderParam=").append(isHeaderParam);

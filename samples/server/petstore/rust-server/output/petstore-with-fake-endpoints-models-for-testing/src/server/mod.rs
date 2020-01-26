@@ -2145,7 +2145,6 @@ Some("status_example".to_string());
                                                         .expect("Unable to create Bad Request response due to failure to process all message")))
                                     },
                                 };
-                
                                 let field_additional_metadata = entries.fields.remove("additional_metadata");
                                 let param_additional_metadata = match field_additional_metadata {
                                     Some(field) => {
@@ -2170,7 +2169,6 @@ Some("status_example".to_string());
                                             None
                                     }
                                 };
-
                                 let field_file = entries.fields.remove("file");
                                 let param_file = match field_file {
                                     Some(field) => {

@@ -321,7 +321,8 @@ impl<C, F> Api<C> for Client<F> where
   {{/consumesMultipart}}
   {{^consumesMultipart}}
     {{#vendorExtensions}}
-      {{#formParams}}
+      {{^consumesMultipartRelated}}
+        {{#formParams}}
         {{#-first}}
         let params = &[
         {{/-first}}
@@ -337,8 +338,10 @@ impl<C, F> Api<C> for Client<F> where
         });
         *request.body_mut() = Body::from(body.into_bytes());
         {{/-last}}
-      {{/formParams}}
-      {{#relatedParams}}
+        {{/formParams}}
+      {{/consumesMultipartRelated}}
+      {{#consumesMultipartRelated}}
+        {{#formParams}}
         {{#-first}}
         // Construct the Body for a multipart/related request. The mime 0.2.6 library
         // does not parse quoted-string parameters correctly. The boundary doesn't
@@ -397,7 +400,8 @@ impl<C, F> Api<C> for Client<F> where
         });
 
         {{/-last}}
-      {{/relatedParams}}
+        {{/formParams}}
+      {{/consumesMultipartRelated}}
     {{/vendorExtensions}}
     {{#bodyParam}}
       {{#-first}}

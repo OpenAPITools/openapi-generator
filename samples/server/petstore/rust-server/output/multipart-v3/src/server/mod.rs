@@ -298,7 +298,6 @@ where
                                                         .expect("Unable to create Bad Request response due to failure to process all message")))
                                     },
                                 };
-                
                                 let field_string_field = entries.fields.remove("string_field");
                                 let param_string_field = match field_string_field {
                                     Some(field) => {
@@ -325,7 +324,6 @@ where
                                             .expect("Unable to create Bad Request due to missing required form parameter string_field")))
                                     }
                                 };
-
                                 let field_optional_string_field = entries.fields.remove("optional_string_field");
                                 let param_optional_string_field = match field_optional_string_field {
                                     Some(field) => {
@@ -350,7 +348,6 @@ where
                                             None
                                     }
                                 };
-
                                 let field_object_field = entries.fields.remove("object_field");
                                 let param_object_field = match field_object_field {
                                     Some(field) => {
@@ -375,7 +372,6 @@ where
                                             None
                                     }
                                 };
-
                                 let field_binary_field = entries.fields.remove("binary_field");
                                 let param_binary_field = match field_binary_field {
                                     Some(field) => {
