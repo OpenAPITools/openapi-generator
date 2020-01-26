@@ -664,7 +664,6 @@ where
                 };
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.hyphen_param(
                                             param_hyphen_param,

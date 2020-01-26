@@ -48,7 +48,7 @@ paths:
               $ref: '#/components/schemas/multipart_related_request'
         required: true
       responses:
-        201:
+        "201":
           description: OK
 components:
   schemas:
