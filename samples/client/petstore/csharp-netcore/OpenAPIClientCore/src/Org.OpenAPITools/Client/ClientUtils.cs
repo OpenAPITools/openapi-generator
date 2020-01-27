@@ -11,13 +11,10 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using KellermanSoftware.CompareNetObjects;
 
 namespace Org.OpenAPITools.Client
@@ -63,15 +60,11 @@ namespace Org.OpenAPITools.Client
         {
             var parameters = new Multimap<string, string>();
 
-            if (IsCollection(value) && collectionFormat == "multi")
+            if (value is ICollection collection && collectionFormat == "multi")
             {
-                var valueCollection = value as IEnumerable;
-                if (valueCollection != null)
+                foreach (var item in collection)
                 {
-                    foreach (var item in valueCollection)
-                    {
-                        parameters.Add(name, ParameterToString(item));
-                    }
+                    parameters.Add(name, ParameterToString(item));
                 }
             }
             else
@@ -92,47 +85,24 @@ namespace Org.OpenAPITools.Client
         /// <returns>Formatted string.</returns>
         public static string ParameterToString(object obj, IReadableConfiguration configuration = null)
         {
-            if (obj is DateTime)
+            if (obj is DateTime dateTime)
                 // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
                 // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
-                return ((DateTime)obj).ToString((configuration ?? GlobalConfiguration.Instance).DateTimeFormat);
-            else if (obj is DateTimeOffset)
+                return dateTime.ToString((configuration ?? GlobalConfiguration.Instance).DateTimeFormat);
+            if (obj is DateTimeOffset dateTimeOffset)
                 // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
                 // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
-                return ((DateTimeOffset)obj).ToString((configuration ?? GlobalConfiguration.Instance).DateTimeFormat);
-            else
-            {
-                if (obj is IList)
-                {
-                    var list = obj as IList;
-                    var flattenedString = new StringBuilder();
-                    foreach (var param in list)
-                    {
-                        if (flattenedString.Length > 0)
-                            flattenedString.Append(",");
-                        flattenedString.Append(param);
-                    }
-                    return flattenedString.ToString();
-                }
-                
-                return Convert.ToString (obj);
-            }
+                return dateTimeOffset.ToString((configuration ?? GlobalConfiguration.Instance).DateTimeFormat);
+            if (obj is ICollection collection)
+                return string.Join(",", collection.Cast<object>());
+
+            return Convert.ToString(obj);
         }
-        
-        /// <summary>
-        /// Check if generic object is a collection.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns>True if object is a collection type</returns>
-        private static bool IsCollection(object value)
-        {
-            return value is IList || value is ICollection;
-        }
-        
+
         /// <summary>
         /// URL encode a string
         /// Credit/Ref: https://github.com/restsharp/RestSharp/blob/master/RestSharp/Extensions/StringExtensions.cs#L50
@@ -175,7 +145,7 @@ namespace Org.OpenAPITools.Client
         /// <returns>Encoded string.</returns>
         public static string Base64Encode(string text)
         {
-            return System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
+            return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(text));
         }
 
         /// <summary>
@@ -185,14 +155,9 @@ namespace Org.OpenAPITools.Client
         /// <returns>Byte array</returns>
         public static byte[] ReadAsBytes(Stream inputStream)
         {
-            byte[] buf = new byte[16*1024];
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
-                int count;
-                while ((count = inputStream.Read(buf, 0, buf.Length)) > 0)
-                {
-                    ms.Write(buf, 0, count);
-                }
+                inputStream.CopyTo(ms);
                 return ms.ToArray();
             }
         }
