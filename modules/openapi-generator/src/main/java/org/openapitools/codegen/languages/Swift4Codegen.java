@@ -1011,7 +1011,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                     return "\"" + codegenParameter.paramName + "_example\"";
                 }
             } else if ("Bool".equals(codegenParameter.dataType)) { // boolean
-                if (Boolean.TRUE.equals(codegenParameter.example)) {
+                if (Boolean.parseBoolean(codegenParameter.example)) {
                     return "true";
                 } else {
                     return "false";
@@ -1051,7 +1051,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                     return "\"" + codegenProperty.name + "_example\"";
                 }
             } else if ("Bool".equals(codegenProperty.dataType)) { // boolean
-                if (Boolean.TRUE.equals(codegenProperty.example)) {
+                if (Boolean.parseBoolean(codegenProperty.example)) {
                     return "true";
                 } else {
                     return "false";

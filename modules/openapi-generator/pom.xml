@@ -44,6 +44,13 @@
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <configLocation>${project.parent.basedir}${file.separator}google_checkstyle.xml</configLocation>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
@@ -151,6 +158,33 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>static-analysis</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <configuration>
+                            <excludeFilterFile>${project.parent.basedir}${file.separator}spotbugs-exclude.xml</excludeFilterFile>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>se.bjurr.violations</groupId>
+                        <artifactId>violations-maven-plugin</artifactId>
+                        <configuration>
+                            <!-- Should be decreased continuousle as issues are fixed, and will eventually
+                                reach 0. -->
+                            <maxViolations>65</maxViolations>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
@@ -292,12 +326,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jmockit</groupId>
-            <artifactId>jmockit</artifactId>
-<!--             <version>${jmockit-version}</version> -->
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.googlecode.java-diff-utils</groupId>
             <artifactId>diffutils</artifactId>
             <version>${diffutils-version}</version>
@@ -311,7 +339,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.2.0</version>
+            <version>${mockito-version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

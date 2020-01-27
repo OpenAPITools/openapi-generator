@@ -44,7 +44,7 @@ class ApiClientTests(unittest.TestCase):
         self.assertEqual('PREFIX', client.configuration.api_key_prefix['api_key'])
 
         # update parameters based on auth setting
-        client.update_params_for_auth(header_params, query_params, auth_settings)
+        client.update_params_for_auth(header_params, query_params, auth_settings, resource_path=None, method=None, body=None)
 
         # test api key auth
         self.assertEqual(header_params['test1'], 'value1')
@@ -59,14 +59,14 @@ class ApiClientTests(unittest.TestCase):
         config.api_key['api_key'] = '123456'
         config.api_key_prefix['api_key'] = None
         # update parameters based on auth setting
-        client.update_params_for_auth(header_params, query_params, auth_settings)
+        client.update_params_for_auth(header_params, query_params, auth_settings, resource_path=None, method=None, body=None)
         self.assertEqual(header_params['api_key'], '123456')
 
         # test api key with empty prefix
         config.api_key['api_key'] = '123456'
         config.api_key_prefix['api_key'] = ''
         # update parameters based on auth setting
-        client.update_params_for_auth(header_params, query_params, auth_settings)
+        client.update_params_for_auth(header_params, query_params, auth_settings, resource_path=None, method=None, body=None)
         self.assertEqual(header_params['api_key'], '123456')
 
         # test api key with prefix specified in the api_key, useful when the prefix
@@ -74,7 +74,7 @@ class ApiClientTests(unittest.TestCase):
         config.api_key['api_key'] = 'PREFIX=123456'
         config.api_key_prefix['api_key'] = None
         # update parameters based on auth setting
-        client.update_params_for_auth(header_params, query_params, auth_settings)
+        client.update_params_for_auth(header_params, query_params, auth_settings, resource_path=None, method=None, body=None)
         self.assertEqual(header_params['api_key'], 'PREFIX=123456')
 
 

@@ -67,10 +67,8 @@ sidebar_label: typescript-rxjs
 <li>HttpMethod</li>
 <li>HttpQuery</li>
 <li>Middleware</li>
-<li>ModelPropertyNaming</li>
 <li>RequestArgs</li>
 <li>RequestOpts</li>
-<li>RequiredError</li>
 <li>ResponseArgs</li>
 <li>abstract</li>
 <li>await</li>
@@ -90,7 +88,6 @@ sidebar_label: typescript-rxjs
 <li>double</li>
 <li>else</li>
 <li>enum</li>
-<li>exists</li>
 <li>export</li>
 <li>extends</li>
 <li>false</li>

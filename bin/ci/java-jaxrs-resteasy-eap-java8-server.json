@@ -1,5 +1,5 @@
 {
-  "!include": "./bin/jaxrs-resteasy-eap-java8-petstore-server.json",
+  "!include": "bin/jaxrs-resteasy-eap-java8-petstore-server.json",
   "artifactId": "jaxrs-resteasy-eap-java8-server",
   "generatorName": "jaxrs-resteasy-eap",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",

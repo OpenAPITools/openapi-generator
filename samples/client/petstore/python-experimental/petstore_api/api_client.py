@@ -152,12 +152,13 @@ class ApiClient(object):
                                                     collection_formats)
             post_params.extend(self.files_parameters(files))
 
-        # auth setting
-        self.update_params_for_auth(header_params, query_params, auth_settings)
-
         # body
         if body:
             body = self.sanitize_for_serialization(body)
+
+        # auth setting
+        self.update_params_for_auth(header_params, query_params,
+                                    auth_settings, resource_path, method, body)
 
         # request url
         if _host is None:
@@ -510,12 +511,17 @@ class ApiClient(object):
         else:
             return content_types[0]
 
-    def update_params_for_auth(self, headers, querys, auth_settings):
+    def update_params_for_auth(self, headers, querys, auth_settings,
+                               resource_path, method, body):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
         :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
+        :resource_path: A string representation of the HTTP request resource path.
+        :method: A string representation of the HTTP request method.
+        :body: A object representing the body of the HTTP request.
+            The object type is the return value of sanitize_for_serialization().
         """
         if not auth_settings:
             return
@@ -526,7 +532,8 @@ class ApiClient(object):
                 if auth_setting['in'] == 'cookie':
                     headers['Cookie'] = auth_setting['value']
                 elif auth_setting['in'] == 'header':
-                    headers[auth_setting['key']] = auth_setting['value']
+                    if auth_setting['type'] != 'http-signature':
+                        headers[auth_setting['key']] = auth_setting['value']
                 elif auth_setting['in'] == 'query':
                     querys.append((auth_setting['key'], auth_setting['value']))
                 else:

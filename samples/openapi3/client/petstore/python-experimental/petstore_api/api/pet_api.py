@@ -110,6 +110,7 @@ class PetApi(object):
             settings={
                 'response_type': None,
                 'auth': [
+                    'http_signature_test',
                     'petstore_auth'
                 ],
                 'endpoint_path': '/pet',
@@ -336,6 +337,7 @@ class PetApi(object):
             settings={
                 'response_type': ([pet.Pet],),
                 'auth': [
+                    'http_signature_test',
                     'petstore_auth'
                 ],
                 'endpoint_path': '/pet/findByStatus',
@@ -455,6 +457,7 @@ class PetApi(object):
             settings={
                 'response_type': ([pet.Pet],),
                 'auth': [
+                    'http_signature_test',
                     'petstore_auth'
                 ],
                 'endpoint_path': '/pet/findByTags',
@@ -677,6 +680,7 @@ class PetApi(object):
             settings={
                 'response_type': None,
                 'auth': [
+                    'http_signature_test',
                     'petstore_auth'
                 ],
                 'endpoint_path': '/pet',

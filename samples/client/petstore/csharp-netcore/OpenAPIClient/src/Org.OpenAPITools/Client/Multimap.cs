@@ -25,8 +25,7 @@ namespace Org.OpenAPITools.Client
     {
         #region Private Fields
 
-        private readonly ConcurrentDictionary<T, IList<TValue>> _dictionary =
-            new ConcurrentDictionary<T, IList<TValue>>();
+        private readonly ConcurrentDictionary<T, IList<TValue>> _dictionary;
 
         #endregion Private Fields
 
@@ -44,7 +43,8 @@ namespace Org.OpenAPITools.Client
         /// Constructor with comparer.
         /// </summary>
         /// <param name="comparer"></param>
-        public Multimap(IEqualityComparer<T> comparer) {
+        public Multimap(IEqualityComparer<T> comparer)
+        {
             _dictionary = new ConcurrentDictionary<T, IList<TValue>>(comparer);
         }
 
