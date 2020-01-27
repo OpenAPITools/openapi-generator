@@ -29,6 +29,27 @@ import time
 import petstore_api
 from pprint import pprint
 configuration = petstore_api.Configuration()
+# Configure HTTP signature authorization: http_signature_test
+# You can specify the signing key-id, private key path, signing scheme, signing algorithm,
+# list of signed headers and signature max validity.
+configuration.signing_info = petstore_api.signing.HttpSigningConfiguration(
+    key_id =                 'my-key-id',
+    private_key_path =       'rsa.pem',
+    signing_scheme =         signing.SCHEME_HS2019,
+    signing_algorithm =      signing.ALGORITHM_RSASSA_PSS,
+    signed_headers =         [signing.HEADER_REQUEST_TARGET,
+                                signing.HEADER_CREATED,
+                                signing.HEADER_EXPIRES,
+                                signing.HEADER_HOST,
+                                signing.HEADER_DATE,
+                                signing.HEADER_DIGEST,
+                                'Content-Type',
+                                'Content-Length',
+                                'User-Agent'
+                                ],
+    signature_max_validity = datetime.timedelta(minutes=5)
+)
+configuration = petstore_api.Configuration()
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
@@ -58,7 +79,7 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -155,6 +176,27 @@ import time
 import petstore_api
 from pprint import pprint
 configuration = petstore_api.Configuration()
+# Configure HTTP signature authorization: http_signature_test
+# You can specify the signing key-id, private key path, signing scheme, signing algorithm,
+# list of signed headers and signature max validity.
+configuration.signing_info = petstore_api.signing.HttpSigningConfiguration(
+    key_id =                 'my-key-id',
+    private_key_path =       'rsa.pem',
+    signing_scheme =         signing.SCHEME_HS2019,
+    signing_algorithm =      signing.ALGORITHM_RSASSA_PSS,
+    signed_headers =         [signing.HEADER_REQUEST_TARGET,
+                                signing.HEADER_CREATED,
+                                signing.HEADER_EXPIRES,
+                                signing.HEADER_HOST,
+                                signing.HEADER_DATE,
+                                signing.HEADER_DIGEST,
+                                'Content-Type',
+                                'Content-Length',
+                                'User-Agent'
+                                ],
+    signature_max_validity = datetime.timedelta(minutes=5)
+)
+configuration = petstore_api.Configuration()
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
@@ -185,7 +227,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -215,6 +257,27 @@ from __future__ import print_function
 import time
 import petstore_api
 from pprint import pprint
+configuration = petstore_api.Configuration()
+# Configure HTTP signature authorization: http_signature_test
+# You can specify the signing key-id, private key path, signing scheme, signing algorithm,
+# list of signed headers and signature max validity.
+configuration.signing_info = petstore_api.signing.HttpSigningConfiguration(
+    key_id =                 'my-key-id',
+    private_key_path =       'rsa.pem',
+    signing_scheme =         signing.SCHEME_HS2019,
+    signing_algorithm =      signing.ALGORITHM_RSASSA_PSS,
+    signed_headers =         [signing.HEADER_REQUEST_TARGET,
+                                signing.HEADER_CREATED,
+                                signing.HEADER_EXPIRES,
+                                signing.HEADER_HOST,
+                                signing.HEADER_DATE,
+                                signing.HEADER_DIGEST,
+                                'Content-Type',
+                                'Content-Length',
+                                'User-Agent'
+                                ],
+    signature_max_validity = datetime.timedelta(minutes=5)
+)
 configuration = petstore_api.Configuration()
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
@@ -246,7 +309,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -339,6 +402,27 @@ import time
 import petstore_api
 from pprint import pprint
 configuration = petstore_api.Configuration()
+# Configure HTTP signature authorization: http_signature_test
+# You can specify the signing key-id, private key path, signing scheme, signing algorithm,
+# list of signed headers and signature max validity.
+configuration.signing_info = petstore_api.signing.HttpSigningConfiguration(
+    key_id =                 'my-key-id',
+    private_key_path =       'rsa.pem',
+    signing_scheme =         signing.SCHEME_HS2019,
+    signing_algorithm =      signing.ALGORITHM_RSASSA_PSS,
+    signed_headers =         [signing.HEADER_REQUEST_TARGET,
+                                signing.HEADER_CREATED,
+                                signing.HEADER_EXPIRES,
+                                signing.HEADER_HOST,
+                                signing.HEADER_DATE,
+                                signing.HEADER_DIGEST,
+                                'Content-Type',
+                                'Content-Length',
+                                'User-Agent'
+                                ],
+    signature_max_validity = datetime.timedelta(minutes=5)
+)
+configuration = petstore_api.Configuration()
 # Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
@@ -368,7 +452,7 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
