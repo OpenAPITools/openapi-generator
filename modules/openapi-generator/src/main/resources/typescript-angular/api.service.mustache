@@ -151,6 +151,38 @@ export class {{classname}} {
 {{/operation}}
 {{/useHttpClient}}
 
+    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object") {
+            {{#useHttpClient}}httpParams = {{/useHttpClient}}this.addToHttpParamsRecursive(httpParams, value);
+        } else {
+            {{#useHttpClient}}httpParams = {{/useHttpClient}}this.addToHttpParamsRecursive(httpParams, value, key);
+        }
+        return httpParams;
+    }
+
+    private addToHttpParamsRecursive(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object") {
+            if (Array.isArray(value)) {
+                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+            } else if (value instanceof Date) {
+                if (key != null) {
+                    {{#useHttpClient}}httpParams = {{/useHttpClient}}httpParams.append(key,
+                        (value as Date).toISOString(){{^isDateTime}}.substr(0, 10)){{/isDateTime}};
+                } else {
+                   throw Error("key may not be null if value is Date");
+                }
+            } else {
+                Object.keys(value).forEach( k => {{#useHttpClient}}httpParams = {{/useHttpClient}}this.addToHttpParamsRecursive(
+                    httpParams, value[k], key != null ? `${key}.${k}` : k));
+            }
+        } else if (key != null) {
+            {{#useHttpClient}}httpParams = {{/useHttpClient}}httpParams.append(key, value);
+        } else {
+            throw Error("key may not be null if value is not object or array");
+        }
+        return httpParams;
+    }
+
 {{#operation}}
     /**
 {{#summary}}
@@ -206,22 +238,20 @@ export class {{classname}} {
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
-                {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.append('{{baseName}}', <any>element);
+                {{#useHttpClient}}queryParameters = {{/useHttpClient}}this.addToHttpParams(queryParameters,
+                  <any>element, '{{baseName}}');
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            {{#useHttpClient}}queryParameters = {{/useHttpClient}}this.addToHttpParams(queryParameters,
+                {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']), '{{baseName}}');
         {{/isCollectionFormatMulti}}
         }
         {{/isListContainer}}
         {{^isListContainer}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
-        {{#isDateTime}}
-            {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{baseName}}', ({{paramName}} as any instanceof Date) ? ({{paramName}} as any).toISOString(): {{paramName}});
-        {{/isDateTime}}
-        {{^isDateTime}}
-            {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{baseName}}', <any>{{paramName}});
-        {{/isDateTime}}
+          {{#useHttpClient}}queryParameters = {{/useHttpClient}}this.addToHttpParams(queryParameters,
+            <any>{{paramName}}, '{{baseName}}');
         }
         {{/isListContainer}}
 {{/queryParams}}
