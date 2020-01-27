@@ -93,7 +93,7 @@ namespace {{packageName}}.Client
                 // For example: 2009-06-15T13:45:30.0000000
                 return dateTimeOffset.ToString((configuration ?? GlobalConfiguration.Instance).DateTimeFormat);
             if (obj is ICollection collection)
-                return string.Join(',', collection);
+                return string.Join(',', collection.Cast<object>());
 
             return Convert.ToString(obj);
         }

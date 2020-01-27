@@ -33,7 +33,7 @@ namespace {{packageName}}.Client
         /// Constructor with comparer.
         /// </summary>
         /// <param name="comparer"></param>
-        public Multimap(IEqualityComparer<T> comparer)
+        public Multimap(IEqualityComparer<TKey> comparer)
         {
             _dictionary = new Dictionary<TKey, IList<TValue>>(comparer);
         }
@@ -262,7 +262,8 @@ namespace {{packageName}}.Client
          */
         private bool TryRemove(TKey key, out IList<TValue> value)
         {
-            return _dictionary.Remove(key, out value);
+            _dictionary.TryGetValue(key, out value);
+            return _dictionary.Remove(key);
         }
 
         /**
@@ -270,7 +271,16 @@ namespace {{packageName}}.Client
          */
         private bool TryAdd(TKey key, IList<TValue> value)
         {
-            return _dictionary.TryAdd(key, value);
+            try
+            {
+                _dictionary.Add(key, value);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+
+            return true;
         }
         #endregion Private Members
     }
