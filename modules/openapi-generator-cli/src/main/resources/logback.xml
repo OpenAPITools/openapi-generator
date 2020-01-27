@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+
+    <turboFilter class="org.openapitools.codegen.log.LogDebounceFilter">
+        <maxRepititions>2</maxRepititions>
+        <expireMillis>4000</expireMillis>
+        <maxCacheSize>800</maxCacheSize>
+    </turboFilter>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <target>System.out</target>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
