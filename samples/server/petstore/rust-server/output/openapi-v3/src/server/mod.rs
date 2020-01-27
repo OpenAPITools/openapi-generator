@@ -147,7 +147,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_MULTIGET) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.multiget_get(
                                         &context
@@ -322,7 +321,6 @@ where
                 }
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.multiple_auth_scheme_get(
                                         &context
@@ -391,7 +389,6 @@ where
                 }
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.readonly_auth_scheme_get(
                                         &context
@@ -449,7 +446,6 @@ where
                                                         .body(Body::from("Missing required body parameter body"))
                                                         .expect("Unable to create Bad Request response for missing body parameter body"))),
                                 };
-
                                 Box::new(
                                     api_impl.required_octet_stream_put(
                                             param_body,
@@ -497,7 +493,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.responses_with_headers_get(
                                         &context
@@ -574,7 +569,6 @@ where
             &hyper::Method::GET if path.matched(paths::ID_UUID) => {
                 Box::new({
                         {{
-
                                 Box::new(
                                     api_impl.uuid_get(
                                         &context
@@ -642,7 +636,6 @@ where
                                 } else {
                                     None
                                 };
-
                                 Box::new(
                                     api_impl.xml_extra_post(
                                             param_duplicate_xml_object,
@@ -722,7 +715,6 @@ where
                                 } else {
                                     None
                                 };
-
                                 Box::new(
                                     api_impl.xml_other_post(
                                             param_another_xml_object,
@@ -802,7 +794,6 @@ where
                                 } else {
                                     None
                                 };
-
                                 Box::new(
                                     api_impl.xml_other_put(
                                             param_string,
@@ -882,7 +873,6 @@ where
                                 } else {
                                     None
                                 };
-
                                 Box::new(
                                     api_impl.xml_post(
                                             param_string,
@@ -962,7 +952,6 @@ where
                                 } else {
                                     None
                                 };
-
                                 Box::new(
                                     api_impl.xml_put(
                                             param_xml_object,

@@ -10,6 +10,33 @@ use std::string::ParseError;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct MultipartRelatedRequest {
+    #[serde(rename = "object_field")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub object_field: Option<models::MultipartRequestObjectField>,
+
+    #[serde(rename = "optional_binary_field")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub optional_binary_field: Option<swagger::ByteArray>,
+
+    #[serde(rename = "required_binary_field")]
+    pub required_binary_field: swagger::ByteArray,
+
+}
+
+impl MultipartRelatedRequest {
+    pub fn new(required_binary_field: swagger::ByteArray, ) -> MultipartRelatedRequest {
+        MultipartRelatedRequest {
+            object_field: None,
+            optional_binary_field: None,
+            required_binary_field: required_binary_field,
+        }
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct MultipartRequest {
     #[serde(rename = "string_field")]
     pub string_field: String,

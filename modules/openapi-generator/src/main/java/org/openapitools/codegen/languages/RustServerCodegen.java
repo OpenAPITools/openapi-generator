@@ -544,6 +544,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return mimetype.toLowerCase(Locale.ROOT).startsWith(octetMimeType);
     }
 
+    private boolean isMimetypeMultipartRelated(String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith("multipart/related");
+    }
+
     private boolean isMimetypePlain(String mimetype) {
         return isMimetypePlainText(mimetype) || isMimetypeHtmlText(mimetype) || isMimetypeOctetStream(mimetype);
     }
@@ -847,6 +851,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                             additionalProperties.put("usesUrlEncodedForm", true);
                         } else if (isMimetypeMultipartFormData(mediaType)) {
                             op.vendorExtensions.put("consumesMultipart", true);
+                            additionalProperties.put("apiUsesMultipartFormData", true);
+                            additionalProperties.put("apiUsesMultipart", true);
+                        } else if (isMimetypeMultipartRelated(mediaType)) {
+                            op.vendorExtensions.put("consumesMultipartRelated", true);
+                            additionalProperties.put("apiUsesMultipartRelated", true);
                             additionalProperties.put("apiUsesMultipart", true);
                         }
                     }

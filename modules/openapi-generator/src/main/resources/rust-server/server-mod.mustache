@@ -13,10 +13,16 @@ use swagger::{ApiError, XSpanIdString, Has, RequestParser};
 use swagger::auth::Scopes;
 use swagger::context::ContextualPayload;
 use url::form_urlencoded;
-{{#apiUsesMultipart}}
+{{#apiUsesMultipartRelated}}
+use hyper_0_10::header::{Headers, ContentType};
+header! { (ContentId, "Content-ID") => [String] }
+use mime_0_2::{TopLevel, SubLevel, Mime as Mime2};
+use mime_multipart::{read_multipart_body, Node, Part};
+{{/apiUsesMultipartRelated}}
+{{#apiUsesMultipartFormData}}
 use multipart::server::Multipart;
 use multipart::server::save::SaveResult;
-{{/apiUsesMultipart}}
+{{/apiUsesMultipartFormData}}
 {{#usesXml}}
 use serde_xml_rs;
 {{/usesXml}}
@@ -175,7 +181,7 @@ where
                 }
 {{/hasAuthMethods}}
 {{#vendorExtensions}}
-  {{#consumesMultipart}} 
+  {{#consumesMultipart}}
                 let boundary = match swagger::multipart::boundary(&headers) {
                     Some(boundary) => boundary.to_string(),
                     None => return Box::new(future::ok(Response::builder()
@@ -364,7 +370,7 @@ where
                                                         .expect("Unable to create Bad Request response due to failure to process all message")))
                                     },
                                 };
-                {{#formParams}}{{#-first}}{{/-first}}
+        {{#formParams}}
                                 let field_{{{paramName}}} = entries.fields.remove("{{{paramName}}}");
                                 let param_{{{paramName}}} = match field_{{{paramName}}} {
                                     Some(field) => {
@@ -415,25 +421,131 @@ where
       {{/vendorExtensions}}
     {{/bodyParams}}
   {{/consumesMultipart}}
-  {{^consumesMultipart}}
-    {{^bodyParams}}
-      {{#vendorExtensions}}
+  {{^consumesMultipartRelated}}
+    {{^consumesMultipart}}
+      {{^bodyParams}}
+        {{#vendorExtensions}}
                 Box::new({
                         {{
-        {{#formParams}}
-          {{#-first}}
+          {{#formParams}}
+            {{#-first}}
                                 // Form parameters
-          {{/-first}}
-                                let param_{{{paramName}}} = 
+            {{/-first}}
+                                let param_{{{paramName}}} =
 {{^isContainer}}{{#vendorExtensions}}{{{example}}};{{/vendorExtensions}}{{/isContainer}}
 {{#isListContainer}}{{#required}}Vec::new();{{/required}}{{^required}}None;{{/required}}{{/isListContainer}}
 {{#isMapContainer}}None;{{/isMapContainer}}
-        {{/formParams}}
-      {{/vendorExtensions}}
-    {{/bodyParams}}
-  {{/consumesMultipart}}
-{{/vendorExtensions}}
+          {{/formParams}}
+        {{/vendorExtensions}}
+      {{/bodyParams}}
+    {{/consumesMultipart}}
+  {{/consumesMultipartRelated}}
+  {{#consumesMultipartRelated}}
+                // Body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                Box::new(body.concat2()
+                    .then(move |result| -> Self::Future {
+                        match result {
+                            Ok(body) => {
+                                let mut unused_elements: Vec<String> = vec![];
 
+                                // Get multipart chunks.
+
+                                // Extract the top-level content type header.
+                                let content_type_mime = headers
+                                    .get(CONTENT_TYPE)
+                                    .ok_or("Missing content-type header".to_string())
+                                    .and_then(|v| v.to_str().map_err(|e| format!("Couldn't read content-type header value for {{operationId}}: {}", e)))
+                                    .and_then(|v| v.parse::<Mime2>().map_err(|_e| format!("Couldn't parse content-type header value for {{operationId}}")));
+
+                                // Insert top-level content type header into a Headers object.
+                                let mut multi_part_headers = Headers::new();
+                                match content_type_mime {
+                                    Ok(content_type_mime) => {
+                                        multi_part_headers.set(ContentType(content_type_mime));
+                                    },
+                                    Err(e) => {
+                                        return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(e))
+                                                .expect("Unable to create Bad Request response due to unable to read content-type header for {{operationId}}")));
+                                    }
+                                }
+
+                                // &*body expresses the body as a byteslice, &mut provides a
+                                // mutable reference to that byteslice.
+                                let nodes = match read_multipart_body(&mut&*body, &multi_part_headers, false) {
+                                    Ok(nodes) => nodes,
+                                    Err(e) => {
+                                        return Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Could not read multipart body for {{operationId}}: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read multipart body for {{operationId}}")));
+                                    }
+                                };
+
+                                {{#formParams}}
+                                let mut param_{{{paramName}}} = None;
+                                {{/formParams}}
+
+                                for node in nodes {
+                                    if let Node::Part(part) = node {
+                                        let content_type = part.content_type().map(|x| format!("{}",x));
+                                        match content_type.as_ref().map(|x| x.as_str()) {
+                                {{#formParams}}
+                                  {{^isBinary}}
+                                            Some("{{{contentType}}}") => {
+                                                // Extract JSON part.
+                                                let deserializer = &mut serde_json::Deserializer::from_slice(part.body.as_slice());
+                                                let json_data: {{dataType}} = match serde_ignored::deserialize(deserializer, |path| {
+                                                    warn!("Ignoring unknown field in JSON part: {}", path);
+                                                    unused_elements.push(path.to_string());
+                                                }) {
+                                                    Ok(json_data) => json_data,
+                                                    Err(e) => return Box::new(future::ok(Response::builder()
+                                                                    .status(StatusCode::BAD_REQUEST)
+                                                                    .body(Body::from(format!("Couldn't parse body parameter {{dataType}} - doesn't match schema: {}", e)))
+                                                                    .expect("Unable to create Bad Request response for invalid body parameter {{dataType}} due to schema")))
+                                                };
+                                                // Push JSON part to return object.
+                                                param_{{{paramName}}}.get_or_insert(json_data);
+                                            },
+                                  {{/isBinary}}
+                                  {{#isBinary}}
+                                            Some("{{{contentType}}}") => {
+                                                param_{{{paramName}}}.get_or_insert(swagger::ByteArray(part.body));
+                                            },
+                                  {{/isBinary}}
+                                {{/formParams}}
+                                            Some(content_type) => {
+                                                warn!("Ignoring unknown content type: {}", content_type);
+                                                unused_elements.push(content_type.to_string());
+                                            },
+                                            None => {
+                                                warn!("Missing content type");
+                                            },
+                                        }
+                                    } else {
+                                        unimplemented!("No support for handling unexpected parts");
+                                        // unused_elements.push();
+                                    }
+                                }
+
+                                // Check that the required multipart chunks are present.
+                                {{#formParams}}
+                                  {{#required}}
+                                let param_{{{paramName}}} = match param_required_binary_field {
+                                    Some(x) => x,
+                                    None =>  return Box::new(future::ok(Response::builder()
+                                                                    .status(StatusCode::BAD_REQUEST)
+                                                                    .body(Body::from(format!("Missing required multipart/related parameter {{{paramName}}}")))
+                                                                    .expect("Unable to create Bad Request response for missing multipart/related parameter {{{paramName}}} due to schema")))
+                                };
+                                  {{/required}}
+                                {{/formParams}}
+                              {{/consumesMultipartRelated}}
+                            {{/vendorExtensions}}
                                 Box::new(
                                     api_impl.{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
                                         {{#allParams}}
@@ -537,8 +649,23 @@ where
 {{#vendorExtensions}}
   {{^consumesMultipart}}
     {{^bodyParams}}
+      {{#vendorExtensions}}
+        {{#consumesMultipartRelated}}
+
+                            },
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter {{{baseName}}}: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter {{{baseName}}}"))),
+                        }
+                    })
+                ) as Self::Future
+        {{/consumesMultipartRelated}}
+        {{^consumesMultipartRelated}}
                         }}
                 }) as Self::Future
+        {{/consumesMultipartRelated}}
+      {{/vendorExtensions}}
     {{/bodyParams}}
   {{/consumesMultipart}}
 {{/vendorExtensions}}

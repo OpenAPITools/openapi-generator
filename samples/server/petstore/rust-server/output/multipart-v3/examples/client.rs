@@ -14,6 +14,7 @@ use futures::{Future, future, Stream, stream};
 #[allow(unused_imports)]
 use multipart_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       ApiError,
+                      MultipartRelatedRequestPostResponse,
                       MultipartRequestPostResponse
                      };
 use clap::{App, Arg};
@@ -23,6 +24,8 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
+
+                "MultipartRelatedRequestPost",
 
                 "MultipartRequestPost",
 
@@ -69,6 +72,16 @@ fn main() {
     let client = client.with_context(context);
 
     match matches.value_of("operation") {
+
+        Some("MultipartRelatedRequestPost") => {
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.multipart_related_request_post(
+                  swagger::ByteArray(Vec::from("BINARY_DATA_HERE")),
+                  None,
+                  Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")))
+            ));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
 
         Some("MultipartRequestPost") => {
             let mut rt = tokio::runtime::Runtime::new().unwrap();

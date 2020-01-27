@@ -11,8 +11,14 @@ license = "Unlicense"
 default = ["client", "server"]
 client = [
 {{#apiUsesMultipart}}
-    "multipart", "multipart/client", "swagger/multipart",
+    "mime_0_2",
 {{/apiUsesMultipart}}
+{{#apiUsesMultipartFormData}}
+    "multipart", "multipart/client", "swagger/multipart",
+{{/apiUsesMultipartFormData}}
+ {{#apiUsesMultipartRelated}}
+    "hyper_0_10", "mime_multipart",
+{{/apiUsesMultipartRelated}}
 {{#usesUrlEncodedForm}}
     "serde_urlencoded",
 {{/usesUrlEncodedForm}}
@@ -20,8 +26,14 @@ client = [
 ]
 server = [
 {{#apiUsesMultipart}}
-    "multipart", "multipart/server",
+    "mime_0_2",
 {{/apiUsesMultipart}}
+{{#apiUsesMultipartFormData}}
+    "multipart", "multipart/server",
+{{/apiUsesMultipartFormData}}
+{{#apiUsesMultipartRelated}}
+    "hyper_0_10", "mime_multipart",
+{{/apiUsesMultipartRelated}}
     "serde_json", "serde_ignored", "hyper", "native-tls", "openssl", "tokio", "tokio-tls", "regex", "percent-encoding", "url", "lazy_static"
 ]
 conversion = ["frunk", "frunk_derives", "frunk_core", "frunk-enum-core", "frunk-enum-derive"]
@@ -44,9 +56,11 @@ serde_derive = "1.0"
 serde-xml-rs = {git = "git://github.com/Metaswitch/serde-xml-rs.git" , branch = "master"}
 {{/usesXml}}
 {{#apiUsesMultipart}}
-mime_0_2 = { package = "mime", version = "0.2.6" }
-multipart = { version = "0.16", default-features = false, optional = true }
+mime_0_2 = { package = "mime", version = "0.2.6", optional = true }
 {{/apiUsesMultipart}}
+{{#apiUsesMultipartFormData}}
+multipart = { version = "0.16", default-features = false, optional = true }
+{{/apiUsesMultipartFormData}}
 {{#apiUsesUuid}}
 uuid = {version = "0.7", features = ["serde", "v4"]}
 {{/apiUsesUuid}}
@@ -54,6 +68,10 @@ uuid = {version = "0.7", features = ["serde", "v4"]}
 # Common between server and client features
 hyper = {version = "0.12", optional = true}
 hyper-tls = {version = "0.2.1", optional = true}
+{{#apiUsesMultipartRelated}}
+mime_multipart = {version = "0.5", optional = true}
+hyper_0_10 = {package = "hyper", version = "0.10", default-features = false, optional=true}
+{{/apiUsesMultipartRelated}}
 native-tls = {version = "0.1.4", optional = true}
 openssl = {version = "0.9.14", optional = true}
 serde_json = {version = "1.0", optional = true}

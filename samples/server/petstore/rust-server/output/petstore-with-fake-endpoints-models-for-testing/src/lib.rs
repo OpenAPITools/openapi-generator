@@ -36,6 +36,8 @@ extern crate hyper_tls;
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate openssl;
 #[cfg(any(feature = "client", feature = "server"))]
+extern crate mime_0_2;
+#[cfg(any(feature = "client", feature = "server"))]
 extern crate native_tls;
 #[cfg(feature = "server")]
 extern crate percent_encoding;
@@ -53,7 +55,6 @@ extern crate serde_xml_rs;
 
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate multipart;
-extern crate mime_0_2;
 
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate serde_urlencoded;
