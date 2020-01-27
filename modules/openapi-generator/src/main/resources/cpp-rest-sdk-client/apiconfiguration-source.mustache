@@ -13,7 +13,7 @@ ApiConfiguration::~ApiConfiguration()
 {
 }
 
-web::http::client::http_client_config& ApiConfiguration::getHttpConfig()
+const web::http::client::http_client_config& ApiConfiguration::getHttpConfig() const
 {
     return m_HttpConfig;
 }
@@ -44,6 +44,11 @@ void ApiConfiguration::setUserAgent( const utility::string_t value )
 }
 
 std::map<utility::string_t, utility::string_t>& ApiConfiguration::getDefaultHeaders()
+{
+    return m_DefaultHeaders;
+}
+
+const std::map<utility::string_t, utility::string_t>& ApiConfiguration::getDefaultHeaders() const
 {
     return m_DefaultHeaders;
 }
