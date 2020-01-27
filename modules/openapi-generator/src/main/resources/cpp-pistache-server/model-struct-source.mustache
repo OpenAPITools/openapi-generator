@@ -23,6 +23,7 @@ nlohmann::json {{classname}}::to_json() const
 
 bool {{classname}}::operator==(const {{classname}}& other) const
 {
+    static_cast<void>(other);
     return true{{#vars}} && {{baseName}} == other.{{baseName}}{{/vars}};
 }
 
@@ -33,6 +34,8 @@ bool {{classname}}::operator!=(const {{classname}}& other) const
 
 void to_json(nlohmann::json& j, const {{classname}}& o)
 {
+    static_cast<void>(j);
+    static_cast<void>(o);
     {{#vars}}
     {{^required}}if (!o.{{baseName}}.isEmpty()){{/required}}
         j["{{baseName}}"] = o.{{baseName}}{{^required}}.get(){{/required}};
@@ -41,6 +44,8 @@ void to_json(nlohmann::json& j, const {{classname}}& o)
 
 void from_json(const nlohmann::json& j, {{classname}}& o)
 {
+    static_cast<void>(j);
+    static_cast<void>(o);
     {{#vars}}
     {{#required}}j.at("{{baseName}}").get_to(o.{{baseName}});{{/required}}
     {{^required}}if (j.find("{{baseName}}") != j.end()) {
