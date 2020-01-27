@@ -418,6 +418,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         postProcessEmitDefaultValue(property.vendorExtensions);
 
         super.postProcessModelProperty(model, property);
+
+        if (!property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
+            property.vendorExtensions.put("x-value-type", true);
+        }
     }
 
     @Override
@@ -453,8 +457,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         postProcessEmitDefaultValue(parameter.vendorExtensions);
         super.postProcessParameter(parameter);
 
-        if (!parameter.required && nullableType.contains(parameter.dataType)) { //optional
-            parameter.dataType = parameter.dataType + "?";
+        if (nullableType.contains(parameter.dataType)) {
+            if (!parameter.required) { //optional
+                parameter.dataType = parameter.dataType + "?";
+            } else {
+                parameter.vendorExtensions.put("x-value-type", true);
+            }
         }
     }
 
