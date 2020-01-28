@@ -251,7 +251,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteOrder(orderId: string, options?: any) {
+        deleteOrder(orderId: string, options?: any): AxiosPromise<void> {
             return StoreApiFp(configuration).deleteOrder(orderId, options)(axios, basePath);
         },
         /**
@@ -260,7 +260,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInventory(options?: any) {
+        getInventory(options?: any): AxiosPromise<{ [key: string]: number; }> {
             return StoreApiFp(configuration).getInventory(options)(axios, basePath);
         },
         /**
@@ -270,7 +270,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderById(orderId: number, options?: any) {
+        getOrderById(orderId: number, options?: any): AxiosPromise<Order> {
             return StoreApiFp(configuration).getOrderById(orderId, options)(axios, basePath);
         },
         /**
@@ -280,7 +280,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(body: Order, options?: any) {
+        placeOrder(body: Order, options?: any): AxiosPromise<Order> {
             return StoreApiFp(configuration).placeOrder(body, options)(axios, basePath);
         },
     };
