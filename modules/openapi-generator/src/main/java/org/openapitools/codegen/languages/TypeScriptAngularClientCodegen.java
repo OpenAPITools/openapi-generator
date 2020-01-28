@@ -448,13 +448,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         operations.put("hasSomeFormParams", hasSomeFormParams);
 
-        // Add additional filename information for model imports in the services
-        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
-        for (Map<String, Object> im : imports) {
-            im.put("filename", im.get("import"));
-            im.put("classname", im.get("classname"));
-        }
-
         return operations;
     }
 
