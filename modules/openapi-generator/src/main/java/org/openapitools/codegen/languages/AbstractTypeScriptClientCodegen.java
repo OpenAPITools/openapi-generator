@@ -291,40 +291,55 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toModelName(final String name) {
+        String fullModelName = name;
+        fullModelName = addPrefix(fullModelName, modelNamePrefix);
+        fullModelName = addSuffix(fullModelName, modelNameSuffix);
+        return toTypescriptTypeName(fullModelName, "Model");
+    }
+
+    protected String addPrefix(String name, String prefix) {
+        if (!StringUtils.isEmpty(prefix)) {
+            name = prefix + "_" + name;
+        }
+        return name;
+    }
+
+    protected String addSuffix(String name, String suffix) {
+        if (!StringUtils.isEmpty(suffix)) {
+            name = name + "_" + suffix;
+        }
+
+        return name;
+    }
+
+    protected String toTypescriptTypeName(final String name, String safePrefix) {
         ArrayList<String> exceptions = new ArrayList<String>(Arrays.asList("\\|", " "));
         String sanName = sanitizeName(name, "(?![| ])\\W", exceptions);
 
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
-            sanName = modelNamePrefix + "_" + sanName;
-        }
-
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
-            sanName = sanName + "_" + modelNameSuffix;
-        }
+        sanName = camelize(sanName);
 
         // model name cannot use reserved keyword, e.g. return
+        // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowcase
         if (isReservedWord(sanName)) {
-            String modelName = camelize("model_" + sanName);
+            String modelName = safePrefix + sanName;
             LOGGER.warn(sanName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         // model name starts with number
         if (sanName.matches("^\\d.*")) {
-            String modelName = camelize("model_" + sanName); // e.g. 200Response => Model200Response (after camelize)
+            String modelName = safePrefix + sanName; // e.g. 200Response => Model200Response
             LOGGER.warn(sanName + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         if (languageSpecificPrimitives.contains(sanName)) {
-            String modelName = camelize("model_" + sanName);
+            String modelName = safePrefix + sanName;
             LOGGER.warn(sanName + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
             return modelName;
         }
 
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(sanName);
+        return sanName;
     }
 
     @Override
@@ -579,12 +594,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = toModelName(property.name) + enumSuffix;
-        if (enumName.matches("\\d.*")) { // starts with number
-            return "_" + enumName;
-        } else {
-            return enumName;
-        }
+        String enumName = property.name;
+        enumName = addSuffix(enumName, enumSuffix);
+        return toTypescriptTypeName(enumName, "_");
     }
 
     @Override

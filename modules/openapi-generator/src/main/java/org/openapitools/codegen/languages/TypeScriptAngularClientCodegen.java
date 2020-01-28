@@ -160,7 +160,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             setStringEnums(Boolean.valueOf(additionalProperties.get(STRING_ENUMS).toString()));
             additionalProperties.put("stringEnums", getStringEnums());
             if (getStringEnums()) {
-                enumSuffix = "";
                 classEnumSeparator = "";
             }
         }
@@ -605,10 +604,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toModelName(String name) {
-        if (modelSuffix.length() != 0 && !name.endsWith(modelSuffix)) {
-            name = name + modelSuffix;
-        }
-
+        name = addSuffix(name, modelSuffix);
         return super.toModelName(name);
     }
 

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
 import org.testng.Assert;
@@ -24,6 +25,27 @@ public class TypeScriptAngularClientCodegenTest {
 
         Assert.assertEquals(codegen.toModelName("TestName"), "TestNameMySuffix");
         Assert.assertEquals(codegen.toModelName("Error"), "ErrorMySuffix");
+    }
+
+    @Test
+    public void testToEnumName() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameEnum");
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("123")), "_123Enum");
+
+        // enum value should not use model suffix
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put("modelSuffix", "Model");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameEnum");
+    }
+
+    private CodegenProperty makeEnumProperty(String name) {
+        CodegenProperty enumProperty = new CodegenProperty();
+        enumProperty.name = name;
+        return enumProperty;
     }
 
     @Test
