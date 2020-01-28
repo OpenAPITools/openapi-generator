@@ -71,7 +71,7 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (tuple): timeout setting for this request. If one
+                _request_timeout (float/tuple): timeout setting for this request. If one
                     number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
@@ -81,18 +81,10 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index: integer specifying the index of the server
+                _host_index (int): specifies the index of the server
                     that we want to use.
                     Default is 0.
-
                 async_req (bool): execute request asynchronously
-                param _preload_content (bool): if False, the urllib3.HTTPResponse
-                    object will be returned without reading/decoding response data.
-                    Default is True.
-                param _request_timeout (float/tuple): timeout setting for this
-                    request. If one number provided, it will be total request
-                    timeout. It can also be a pair (tuple) of (connection, read)
-                    timeouts.
 
             Returns:
                 None
@@ -191,7 +183,7 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (tuple): timeout setting for this request. If one
+                _request_timeout (float/tuple): timeout setting for this request. If one
                     number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
@@ -201,18 +193,10 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index: integer specifying the index of the server
+                _host_index (int): specifies the index of the server
                     that we want to use.
                     Default is 0.
-
                 async_req (bool): execute request asynchronously
-                param _preload_content (bool): if False, the urllib3.HTTPResponse
-                    object will be returned without reading/decoding response data.
-                    Default is True.
-                param _request_timeout (float/tuple): timeout setting for this
-                    request. If one number provided, it will be total request
-                    timeout. It can also be a pair (tuple) of (connection, read)
-                    timeouts.
 
             Returns:
                 None
@@ -311,7 +295,7 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (tuple): timeout setting for this request. If one
+                _request_timeout (float/tuple): timeout setting for this request. If one
                     number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
@@ -321,18 +305,10 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index: integer specifying the index of the server
+                _host_index (int): specifies the index of the server
                     that we want to use.
                     Default is 0.
-
                 async_req (bool): execute request asynchronously
-                param _preload_content (bool): if False, the urllib3.HTTPResponse
-                    object will be returned without reading/decoding response data.
-                    Default is True.
-                param _request_timeout (float/tuple): timeout setting for this
-                    request. If one number provided, it will be total request
-                    timeout. It can also be a pair (tuple) of (connection, read)
-                    timeouts.
 
             Returns:
                 None
@@ -432,7 +408,7 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (tuple): timeout setting for this request. If one
+                _request_timeout (float/tuple): timeout setting for this request. If one
                     number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
@@ -442,18 +418,10 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index: integer specifying the index of the server
+                _host_index (int): specifies the index of the server
                     that we want to use.
                     Default is 0.
-
                 async_req (bool): execute request asynchronously
-                param _preload_content (bool): if False, the urllib3.HTTPResponse
-                    object will be returned without reading/decoding response data.
-                    Default is True.
-                param _request_timeout (float/tuple): timeout setting for this
-                    request. If one number provided, it will be total request
-                    timeout. It can also be a pair (tuple) of (connection, read)
-                    timeouts.
 
             Returns:
                 None
@@ -553,7 +521,7 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (tuple): timeout setting for this request. If one
+                _request_timeout (float/tuple): timeout setting for this request. If one
                     number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
@@ -563,18 +531,10 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index: integer specifying the index of the server
+                _host_index (int): specifies the index of the server
                     that we want to use.
                     Default is 0.
-
                 async_req (bool): execute request asynchronously
-                param _preload_content (bool): if False, the urllib3.HTTPResponse
-                    object will be returned without reading/decoding response data.
-                    Default is True.
-                param _request_timeout (float/tuple): timeout setting for this
-                    request. If one number provided, it will be total request
-                    timeout. It can also be a pair (tuple) of (connection, read)
-                    timeouts.
 
             Returns:
                 user.User
@@ -679,7 +639,7 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (tuple): timeout setting for this request. If one
+                _request_timeout (float/tuple): timeout setting for this request. If one
                     number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
@@ -689,18 +649,10 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index: integer specifying the index of the server
+                _host_index (int): specifies the index of the server
                     that we want to use.
                     Default is 0.
-
                 async_req (bool): execute request asynchronously
-                param _preload_content (bool): if False, the urllib3.HTTPResponse
-                    object will be returned without reading/decoding response data.
-                    Default is True.
-                param _request_timeout (float/tuple): timeout setting for this
-                    request. If one number provided, it will be total request
-                    timeout. It can also be a pair (tuple) of (connection, read)
-                    timeouts.
 
             Returns:
                 str
@@ -808,7 +760,7 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (tuple): timeout setting for this request. If one
+                _request_timeout (float/tuple): timeout setting for this request. If one
                     number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
@@ -818,18 +770,10 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index: integer specifying the index of the server
+                _host_index (int): specifies the index of the server
                     that we want to use.
                     Default is 0.
-
                 async_req (bool): execute request asynchronously
-                param _preload_content (bool): if False, the urllib3.HTTPResponse
-                    object will be returned without reading/decoding response data.
-                    Default is True.
-                param _request_timeout (float/tuple): timeout setting for this
-                    request. If one number provided, it will be total request
-                    timeout. It can also be a pair (tuple) of (connection, read)
-                    timeouts.
 
             Returns:
                 None
@@ -923,7 +867,7 @@ class UserApi(object):
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
                     will be returned without reading/decoding response data.
                     Default is True.
-                _request_timeout (tuple): timeout setting for this request. If one
+                _request_timeout (float/tuple): timeout setting for this request. If one
                     number provided, it will be total request timeout. It can also
                     be a pair (tuple) of (connection, read) timeouts.
                     Default is None.
@@ -933,18 +877,10 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index: integer specifying the index of the server
+                _host_index (int): specifies the index of the server
                     that we want to use.
                     Default is 0.
-
                 async_req (bool): execute request asynchronously
-                param _preload_content (bool): if False, the urllib3.HTTPResponse
-                    object will be returned without reading/decoding response data.
-                    Default is True.
-                param _request_timeout (float/tuple): timeout setting for this
-                    request. If one number provided, it will be total request
-                    timeout. It can also be a pair (tuple) of (connection, read)
-                    timeouts.
 
             Returns:
                 None
