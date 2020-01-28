@@ -53,7 +53,10 @@ class FakeApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-        def __fake_health_get(self, **kwargs):  # noqa: E501
+        def __fake_health_get(
+            self,
+            **kwargs
+        ):
             """Health check endpoint  # noqa: E501
 
             This method makes a synchronous HTTP request by default. To make an
@@ -61,29 +64,40 @@ class FakeApi(object):
             >>> thread = api.fake_health_get(async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: health_check_result.HealthCheckResult
-                If the method is called asynchronously, returns the request
-                thread.
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                health_check_result.HealthCheckResult
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -150,7 +164,10 @@ class FakeApi(object):
             callable=__fake_health_get
         )
 
-        def __fake_outer_boolean_serialize(self, **kwargs):  # noqa: E501
+        def __fake_outer_boolean_serialize(
+            self,
+            **kwargs
+        ):
             """fake_outer_boolean_serialize  # noqa: E501
 
             Test serialization of outer boolean types  # noqa: E501
@@ -159,30 +176,41 @@ class FakeApi(object):
             >>> thread = api.fake_outer_boolean_serialize(async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param bool body: Input boolean as post body
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: bool
-                If the method is called asynchronously, returns the request
-                thread.
+
+            Keyword Args:
+                body (bool): Input boolean as post body. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                bool
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -255,7 +283,10 @@ class FakeApi(object):
             callable=__fake_outer_boolean_serialize
         )
 
-        def __fake_outer_composite_serialize(self, **kwargs):  # noqa: E501
+        def __fake_outer_composite_serialize(
+            self,
+            **kwargs
+        ):
             """fake_outer_composite_serialize  # noqa: E501
 
             Test serialization of object with outer number type  # noqa: E501
@@ -264,30 +295,41 @@ class FakeApi(object):
             >>> thread = api.fake_outer_composite_serialize(async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param outer_composite.OuterComposite outer_composite_outer_composite: Input composite as post body
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: outer_composite.OuterComposite
-                If the method is called asynchronously, returns the request
-                thread.
+
+            Keyword Args:
+                outer_composite_outer_composite (outer_composite.OuterComposite): Input composite as post body. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                outer_composite.OuterComposite
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -360,7 +402,10 @@ class FakeApi(object):
             callable=__fake_outer_composite_serialize
         )
 
-        def __fake_outer_number_serialize(self, **kwargs):  # noqa: E501
+        def __fake_outer_number_serialize(
+            self,
+            **kwargs
+        ):
             """fake_outer_number_serialize  # noqa: E501
 
             Test serialization of outer number types  # noqa: E501
@@ -369,30 +414,41 @@ class FakeApi(object):
             >>> thread = api.fake_outer_number_serialize(async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param float body: Input number as post body
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: float
-                If the method is called asynchronously, returns the request
-                thread.
+
+            Keyword Args:
+                body (float): Input number as post body. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                float
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -465,7 +521,10 @@ class FakeApi(object):
             callable=__fake_outer_number_serialize
         )
 
-        def __fake_outer_string_serialize(self, **kwargs):  # noqa: E501
+        def __fake_outer_string_serialize(
+            self,
+            **kwargs
+        ):
             """fake_outer_string_serialize  # noqa: E501
 
             Test serialization of outer string types  # noqa: E501
@@ -474,30 +533,41 @@ class FakeApi(object):
             >>> thread = api.fake_outer_string_serialize(async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param str body: Input string as post body
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: str
-                If the method is called asynchronously, returns the request
-                thread.
+
+            Keyword Args:
+                body (str): Input string as post body. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                str
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -570,7 +640,11 @@ class FakeApi(object):
             callable=__fake_outer_string_serialize
         )
 
-        def __test_body_with_file_schema(self, file_schema_test_class_file_schema_test_class, **kwargs):  # noqa: E501
+        def __test_body_with_file_schema(
+            self,
+            file_schema_test_class_file_schema_test_class,
+            **kwargs
+        ):
             """test_body_with_file_schema  # noqa: E501
 
             For this test, the body for this request much reference a schema named `File`.  # noqa: E501
@@ -579,30 +653,42 @@ class FakeApi(object):
             >>> thread = api.test_body_with_file_schema(file_schema_test_class_file_schema_test_class, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param file_schema_test_class.FileSchemaTestClass file_schema_test_class_file_schema_test_class: (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                file_schema_test_class_file_schema_test_class (file_schema_test_class.FileSchemaTestClass):
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -677,7 +763,12 @@ class FakeApi(object):
             callable=__test_body_with_file_schema
         )
 
-        def __test_body_with_query_params(self, query, user_user, **kwargs):  # noqa: E501
+        def __test_body_with_query_params(
+            self,
+            query,
+            user_user,
+            **kwargs
+        ):
             """test_body_with_query_params  # noqa: E501
 
             This method makes a synchronous HTTP request by default. To make an
@@ -685,31 +776,43 @@ class FakeApi(object):
             >>> thread = api.test_body_with_query_params(query, user_user, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param str query: (required)
-            :param user.User user_user: (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                query (str):
+                user_user (user.User):
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -792,7 +895,11 @@ class FakeApi(object):
             callable=__test_body_with_query_params
         )
 
-        def __test_client_model(self, client_client, **kwargs):  # noqa: E501
+        def __test_client_model(
+            self,
+            client_client,
+            **kwargs
+        ):
             """To test \"client\" model  # noqa: E501
 
             To test \"client\" model  # noqa: E501
@@ -801,30 +908,42 @@ class FakeApi(object):
             >>> thread = api.test_client_model(client_client, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param client.Client client_client: client model (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: client.Client
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                client_client (client.Client): client model
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                client.Client
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -901,7 +1020,14 @@ class FakeApi(object):
             callable=__test_client_model
         )
 
-        def __test_endpoint_parameters(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
+        def __test_endpoint_parameters(
+            self,
+            number,
+            double,
+            pattern_without_delimiter,
+            byte,
+            **kwargs
+        ):
             """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
             Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
@@ -910,43 +1036,55 @@ class FakeApi(object):
             >>> thread = api.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param float number: None (required)
-            :param float double: None (required)
-            :param str pattern_without_delimiter: None (required)
-            :param str byte: None (required)
-            :param int integer: None
-            :param int int32: None
-            :param int int64: None
-            :param float float: None
-            :param str string: None
-            :param file_type binary: None
-            :param date date: None
-            :param datetime date_time: None
-            :param str password: None
-            :param str param_callback: None
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                number (float): None
+                double (float): None
+                pattern_without_delimiter (str): None
+                byte (str): None
+
+            Keyword Args:
+                integer (int): None. [optional]
+                int32 (int): None. [optional]
+                int64 (int): None. [optional]
+                float (float): None. [optional]
+                string (str): None. [optional]
+                binary (file_type): None. [optional]
+                date (date): None. [optional]
+                date_time (datetime): None. [optional]
+                password (str): None. [optional]
+                param_callback (str): None. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -1147,7 +1285,10 @@ class FakeApi(object):
             callable=__test_endpoint_parameters
         )
 
-        def __test_enum_parameters(self, **kwargs):  # noqa: E501
+        def __test_enum_parameters(
+            self,
+            **kwargs
+        ):
             """To test enum parameters  # noqa: E501
 
             To test enum parameters  # noqa: E501
@@ -1156,37 +1297,48 @@ class FakeApi(object):
             >>> thread = api.test_enum_parameters(async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param [str] enum_header_string_array: Header parameter enum test (string array)
-            :param str enum_header_string: Header parameter enum test (string)
-            :param [str] enum_query_string_array: Query parameter enum test (string array)
-            :param str enum_query_string: Query parameter enum test (string)
-            :param int enum_query_integer: Query parameter enum test (double)
-            :param float enum_query_double: Query parameter enum test (double)
-            :param [str] enum_form_string_array: Form parameter enum test (string array)
-            :param str enum_form_string: Form parameter enum test (string)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+
+            Keyword Args:
+                enum_header_string_array ([str]): Header parameter enum test (string array). [optional]
+                enum_header_string (str): Header parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+                enum_query_string_array ([str]): Query parameter enum test (string array). [optional]
+                enum_query_string (str): Query parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+                enum_query_integer (int): Query parameter enum test (double). [optional]
+                enum_query_double (float): Query parameter enum test (double). [optional]
+                enum_form_string_array ([str]): Form parameter enum test (string array). [optional] if omitted the server will use the default value of '$'
+                enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -1347,7 +1499,13 @@ class FakeApi(object):
             callable=__test_enum_parameters
         )
 
-        def __test_group_parameters(self, required_string_group, required_boolean_group, required_int64_group, **kwargs):  # noqa: E501
+        def __test_group_parameters(
+            self,
+            required_string_group,
+            required_boolean_group,
+            required_int64_group,
+            **kwargs
+        ):
             """Fake endpoint to test group parameters (optional)  # noqa: E501
 
             Fake endpoint to test group parameters (optional)  # noqa: E501
@@ -1356,35 +1514,47 @@ class FakeApi(object):
             >>> thread = api.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param int required_string_group: Required String in group parameters (required)
-            :param bool required_boolean_group: Required Boolean in group parameters (required)
-            :param int required_int64_group: Required Integer in group parameters (required)
-            :param int string_group: String in group parameters
-            :param bool boolean_group: Boolean in group parameters
-            :param int int64_group: Integer in group parameters
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                required_string_group (int): Required String in group parameters
+                required_boolean_group (bool): Required Boolean in group parameters
+                required_int64_group (int): Required Integer in group parameters
+
+            Keyword Args:
+                string_group (int): String in group parameters. [optional]
+                boolean_group (bool): Boolean in group parameters. [optional]
+                int64_group (int): Integer in group parameters. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -1491,7 +1661,11 @@ class FakeApi(object):
             callable=__test_group_parameters
         )
 
-        def __test_inline_additional_properties(self, request_body, **kwargs):  # noqa: E501
+        def __test_inline_additional_properties(
+            self,
+            request_body,
+            **kwargs
+        ):
             """test inline additionalProperties  # noqa: E501
 
             This method makes a synchronous HTTP request by default. To make an
@@ -1499,30 +1673,42 @@ class FakeApi(object):
             >>> thread = api.test_inline_additional_properties(request_body, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param {str: (str,)} request_body: request body (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                request_body ({str: (str,)}): request body
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -1597,7 +1783,12 @@ class FakeApi(object):
             callable=__test_inline_additional_properties
         )
 
-        def __test_json_form_data(self, param, param2, **kwargs):  # noqa: E501
+        def __test_json_form_data(
+            self,
+            param,
+            param2,
+            **kwargs
+        ):
             """test json serialization of form data  # noqa: E501
 
             This method makes a synchronous HTTP request by default. To make an
@@ -1605,31 +1796,43 @@ class FakeApi(object):
             >>> thread = api.test_json_form_data(param, param2, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param str param: field1 (required)
-            :param str param2: field2 (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                param (str): field1
+                param2 (str): field2
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -1713,7 +1916,15 @@ class FakeApi(object):
             callable=__test_json_form_data
         )
 
-        def __test_query_parameter_collection_format(self, pipe, ioutil, http, url, context, **kwargs):  # noqa: E501
+        def __test_query_parameter_collection_format(
+            self,
+            pipe,
+            ioutil,
+            http,
+            url,
+            context,
+            **kwargs
+        ):
             """test_query_parameter_collection_format  # noqa: E501
 
             To test the collection format in query parameters  # noqa: E501
@@ -1722,34 +1933,46 @@ class FakeApi(object):
             >>> thread = api.test_query_parameter_collection_format(pipe, ioutil, http, url, context, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param [str] pipe: (required)
-            :param [str] ioutil: (required)
-            :param [str] http: (required)
-            :param [str] url: (required)
-            :param [str] context: (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                pipe ([str]):
+                ioutil ([str]):
+                http ([str]):
+                url ([str]):
+                context ([str]):
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False

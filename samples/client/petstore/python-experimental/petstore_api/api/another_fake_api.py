@@ -49,7 +49,11 @@ class AnotherFakeApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-        def __call_123_test_special_tags(self, body, **kwargs):  # noqa: E501
+        def __call_123_test_special_tags(
+            self,
+            body,
+            **kwargs
+        ):
             """To test special tags  # noqa: E501
 
             To test special tags and operation ID starting with number  # noqa: E501
@@ -58,30 +62,42 @@ class AnotherFakeApi(object):
             >>> thread = api.call_123_test_special_tags(body, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param client.Client body: client model (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: client.Client
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                body (client.Client): client model
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index: integer specifying the index of the server
+                    that we want to use.
+                    Default is 0.
+
+                async_req (bool): execute request asynchronously
+                param _preload_content (bool): if False, the urllib3.HTTPResponse
+                    object will be returned without reading/decoding response data.
+                    Default is True.
+                param _request_timeout (float/tuple): timeout setting for this
+                    request. If one number provided, it will be total request
+                    timeout. It can also be a pair (tuple) of (connection, read)
+                    timeouts.
+
+            Returns:
+                client.Client
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
