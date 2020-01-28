@@ -8,6 +8,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.TestUtils;
@@ -40,6 +41,11 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.additionalProperties().put("modelSuffix", "Model");
         codegen.processOpts();
         Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameEnum");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.ENUM_NAME_SUFFIX, "");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestName");
     }
 
     private CodegenProperty makeEnumProperty(String name) {
