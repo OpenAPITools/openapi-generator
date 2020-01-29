@@ -36,12 +36,12 @@ class Configuration(object):
       The dict value is an API key prefix when generating the auth data.
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
-    :param signing_info: Configuration parameters for HTTP signature.
+    :param signing_info: Configuration parameters for the HTTP signature security scheme.
         Must be an instance of petstore_api.signing.HttpSigningConfiguration
 
     :Example:
 
-    Given the following security scheme in the OpenAPI specification:
+    1. Given the following security scheme in the OpenAPI specification:
       components:
         securitySchemes:
           cookieAuth:         # name for the security scheme
@@ -57,11 +57,25 @@ class Configuration(object):
     The following cookie will be added to the HTTP request:
        Cookie: JSESSIONID abc123
 
+    2. Given the following security scheme in the OpenAPI specification:
+      components:
+        securitySchemes:
+          http_basic_auth:
+            type: http
+            scheme: basic
+
     Configure API client with HTTP basic authentication:
       conf = petstore_api.Configuration(
           username='the-user',
           password='the-password',
       )
+
+    3. Given the following security scheme in the OpenAPI specification:
+      components:
+        securitySchemes:
+          http_basic_auth:
+            type: http
+            scheme: signature
 
     Configure API client with HTTP signature authentication. Use the 'hs2019' signature scheme,
     sign the HTTP requests with the RSA-SSA-PSS signature algorithm, and set the expiration time
