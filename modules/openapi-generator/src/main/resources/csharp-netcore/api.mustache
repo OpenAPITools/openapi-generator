@@ -272,13 +272,7 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/vendorExtensions.x-csharp-value-type}}
             {{#vendorExtensions.x-csharp-value-type}}
-            foreach (var _kvp in {{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}))
-            {
-                foreach (var _kvpValue in _kvp.Value)
-                {
-                    localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
-                }
-            }
+            localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
             {{/vendorExtensions.x-csharp-value-type}}
             {{/queryParams}}
             {{#headerParams}}
@@ -430,13 +424,7 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/vendorExtensions.x-csharp-value-type}}
             {{#vendorExtensions.x-csharp-value-type}}
-            foreach (var _kvp in {{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}))
-            {
-                foreach (var _kvpValue in _kvp.Value)
-                {
-                    localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
-                }
-            }
+            localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
             {{/vendorExtensions.x-csharp-value-type}}
             {{/queryParams}}
             {{#headerParams}}
