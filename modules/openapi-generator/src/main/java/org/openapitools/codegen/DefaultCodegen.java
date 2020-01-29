@@ -4325,6 +4325,9 @@ public class DefaultCodegen implements CodegenConfig {
         return sanitizeName(name, removeCharRegEx, new ArrayList<String>());
     }
 
+    private static Map<String, Map<String, Map<List<String>, String>>> sanitizedNames =
+        new HashMap<String, Map<String, Map<List<String>, String>>>();
+
     /**
      * Sanitize name (parameter, property, method, etc)
      *
@@ -4349,6 +4352,21 @@ public class DefaultCodegen implements CodegenConfig {
         // if the name is just '$', map it to 'value' for the time being.
         if ("$".equals(name)) {
             return "value";
+        }
+
+        Map<String, Map<List<String>, String>> m1 = sanitizedNames.get(name);
+        if (m1 == null) {
+            m1 = new HashMap<String, Map<List<String>, String>>();
+            sanitizedNames.put(name, m1);
+        }
+        Map<List<String>, String> m2 = m1.get(removeCharRegEx);
+        if (m2 == null) {
+            m2 = new HashMap<List<String>, String>();
+            m1.put(removeCharRegEx, m2);
+        }
+        List<String> l = Collections.unmodifiableList(exceptionList);
+        if (m2.containsKey(l)) {
+            return m2.get(l);
         }
 
         // input[] => input
@@ -4386,7 +4404,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             name = name.replaceAll(removeCharRegEx, "");
         }
-
+        m2.put(l, name);
         return name;
     }
 
