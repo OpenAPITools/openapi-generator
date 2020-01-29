@@ -68,6 +68,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // Defines TargetFrameworkVersion in csproj files
     protected String targetFramework = defaultFramework.name;
 
+    // Defines nuget identifiers for target framework
+    protected String targetFrameworkNuget = targetFramework;
+
     protected boolean supportsAsync = Boolean.TRUE;
     protected boolean netStandard = Boolean.FALSE;
 
@@ -566,6 +569,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         syncStringProperty(additionalProperties, CodegenConstants.API_PACKAGE, this::setApiPackage, apiPackage);
         syncStringProperty(additionalProperties, CodegenConstants.MODEL_PACKAGE, this::setModelPackage, modelPackage);
         syncStringProperty(additionalProperties, CodegenConstants.OPTIONAL_PROJECT_GUID, this::setPackageGuid, packageGuid);
+        syncStringProperty(additionalProperties, "targetFrameworkNuget", this::setTargetFrameworkNuget, this.targetFrameworkNuget);
 
         syncBooleanProperty(additionalProperties, "netStandard", this::setNetStandard, this.netStandard);
 
@@ -606,6 +610,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ISynchronousClient.mustache", clientPackageDir, "ISynchronousClient.cs"));
         supportingFiles.add(new SupportingFile("RequestOptions.mustache", clientPackageDir, "RequestOptions.cs"));
         supportingFiles.add(new SupportingFile("Multimap.mustache", clientPackageDir, "Multimap.cs"));
+
+        if (Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
+            supportingFiles.add(new SupportingFile("project.json.mustache", packageFolder + File.separator, "project.json"));
+        }
 
         supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache",
                 clientPackageDir, "IReadableConfiguration.cs"));
@@ -691,6 +699,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             this.targetFramework = dotnetFramework;
         }
         LOGGER.info("Generating code for .NET Framework " + this.targetFramework);
+    }
+
+    public void setTargetFrameworkNuget(String targetFrameworkNuget) {
+        this.targetFrameworkNuget = targetFrameworkNuget;
     }
 
     public void setValidatable(boolean validatable) {
