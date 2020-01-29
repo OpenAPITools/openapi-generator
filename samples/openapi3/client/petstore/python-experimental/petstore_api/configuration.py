@@ -117,7 +117,8 @@ class Configuration(object):
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
                  username=None, password=None,
-                 signing_info=None):
+                 signing_info=None,
+                 ):
         """Constructor
         """
         self.host = host

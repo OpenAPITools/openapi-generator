@@ -31,8 +31,10 @@ class Configuration(object):
       The dict value is an API key prefix when generating the auth data.
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
+{{#hasHttpSignatureMethods}}
     :param signing_info: Configuration parameters for the HTTP signature security scheme.
         Must be an instance of {{{packageName}}}.signing.HttpSigningConfiguration
+{{/hasHttpSignatureMethods}}
 
 {{#hasAuthMethods}}
     :Example:
@@ -119,7 +121,10 @@ class Configuration(object):
     def __init__(self, host="{{{basePath}}}",
                  api_key=None, api_key_prefix=None,
                  username=None, password=None,
-                 signing_info=None):
+{{#hasHttpSignatureMethods}}
+                 signing_info=None,
+{{/hasHttpSignatureMethods}}
+                 ):
         """Constructor
         """
         self.host = host
@@ -148,11 +153,13 @@ class Configuration(object):
         self.password = password
         """Password for HTTP basic authentication
         """
+{{#hasHttpSignatureMethods}}
         if signing_info is not None:
             signing_info.host = host
         self.signing_info = signing_info
         """The HTTP signing configuration
         """
+{{/hasHttpSignatureMethods}}
 {{#hasOAuthMethods}}
         self.access_token = ""
         """access token for OAuth/Bearer
@@ -160,7 +167,7 @@ class Configuration(object):
 {{/hasOAuthMethods}}
 {{^hasOAuthMethods}}
 {{#hasBearerMethods}}
-        self.access_token = ""
+        self.access_token = None
         """access token for OAuth/Bearer
         """
 {{/hasBearerMethods}}

@@ -37,8 +37,6 @@ class Configuration(object):
       The dict value is an API key prefix when generating the auth data.
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
-    :param signing_info: Configuration parameters for the HTTP signature security scheme.
-        Must be an instance of petstore_api.signing.HttpSigningConfiguration
 
     :Example:
 
@@ -77,7 +75,7 @@ class Configuration(object):
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
                  username=None, password=None,
-                 signing_info=None):
+                 ):
         """Constructor
         """
         self.host = host
@@ -105,11 +103,6 @@ class Configuration(object):
         """
         self.password = password
         """Password for HTTP basic authentication
-        """
-        if signing_info is not None:
-            signing_info.host = host
-        self.signing_info = signing_info
-        """The HTTP signing configuration
         """
         self.access_token = ""
         """access token for OAuth/Bearer
