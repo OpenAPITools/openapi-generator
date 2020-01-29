@@ -97,6 +97,13 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         modelTestTemplateFiles.remove("model_test.mustache", ".py");
         modelTestTemplateFiles.put("python-experimental/model_test.mustache", ".py");
 
+        // this generator does not use SORT_PARAMS_BY_REQUIRED_FLAG
+        // this generator uses the following order for endpoint paramters and model properties
+        // required params/props with no enum of length one
+        // required params/props with enum of length one (which is used to set a default value as a python named arg value)
+        // optional params/props with **kwargs in python
+        cliOptions.remove(4);
+
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.EXPERIMENTAL)
                 .build();
