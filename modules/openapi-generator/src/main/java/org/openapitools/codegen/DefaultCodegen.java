@@ -4423,31 +4423,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Only write if the file doesn't exist
-     *
-     * @param outputFolder   Output folder
-     * @param supportingFile Supporting file
-     */
-    public void writeOptional(String outputFolder, SupportingFile supportingFile) {
-        String folder = "";
-
-        if (outputFolder != null && !"".equals(outputFolder)) {
-            folder += outputFolder + File.separator;
-        }
-        folder += supportingFile.folder;
-        if (!"".equals(folder)) {
-            folder += File.separator + supportingFile.destinationFilename;
-        } else {
-            folder = supportingFile.destinationFilename;
-        }
-        if (!new File(folder).exists()) {
-            supportingFiles.add(supportingFile);
-        } else {
-            LOGGER.info("Skipped overwriting " + supportingFile.destinationFilename + " as the file already exists in " + folder);
-        }
-    }
-
-    /**
      * Set CodegenParameter boolean flag using CodegenProperty.
      *
      * @param parameter Codegen Parameter

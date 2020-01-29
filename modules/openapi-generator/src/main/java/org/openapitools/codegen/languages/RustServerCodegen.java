@@ -237,7 +237,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("example-ca.pem", "examples", "ca.pem"));
         supportingFiles.add(new SupportingFile("example-server-chain.pem", "examples", "server-chain.pem"));
         supportingFiles.add(new SupportingFile("example-server-key.pem", "examples", "server-key.pem"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
+                .doNotOverwrite());
     }
 
     @Override
