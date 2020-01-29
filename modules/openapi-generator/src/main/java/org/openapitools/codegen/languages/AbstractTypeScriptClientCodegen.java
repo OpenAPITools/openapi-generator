@@ -148,6 +148,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("DateTime", "Date");
         typeMapping.put("binary", "any");
         typeMapping.put("File", "any");
+        typeMapping.put("file", "any");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
