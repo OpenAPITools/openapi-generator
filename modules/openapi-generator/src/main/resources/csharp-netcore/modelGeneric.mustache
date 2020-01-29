@@ -61,13 +61,13 @@
             {{^isInherited}}
             {{^isReadOnly}}
             {{#required}}
-            {{^vendorExtensions.x-value-type}}
+            {{^vendorExtensions.x-csharp-value-type}}
             // to ensure "{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}" is required (not null)
             this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} ?? throw new ArgumentNullException("{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} is a required property for {{classname}} and cannot be null");;
-            {{/vendorExtensions.x-value-type}}
-            {{#vendorExtensions.x-value-type}}
+            {{/vendorExtensions.x-csharp-value-type}}
+            {{#vendorExtensions.x-csharp-value-type}}
             this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
-            {{/vendorExtensions.x-value-type}}
+            {{/vendorExtensions.x-csharp-value-type}}
             {{/required}}
             {{/isReadOnly}}
             {{/isInherited}}
@@ -77,13 +77,13 @@
             {{^isReadOnly}}
             {{^required}}
             {{#defaultValue}}
-            {{^vendorExtensions.x-value-type}}
+            {{^vendorExtensions.x-csharp-value-type}}
             // use default value if no "{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}" provided
             this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} ?? {{{defaultValue}}};
-            {{/vendorExtensions.x-value-type}}
-            {{#vendorExtensions.x-value-type}}
+            {{/vendorExtensions.x-csharp-value-type}}
+            {{#vendorExtensions.x-csharp-value-type}}
             this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
-            {{/vendorExtensions.x-value-type}}
+            {{/vendorExtensions.x-csharp-value-type}}
             {{/defaultValue}}
             {{^defaultValue}}
             this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};

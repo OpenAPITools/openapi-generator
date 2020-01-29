@@ -420,7 +420,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         super.postProcessModelProperty(model, property);
 
         if (!property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
-            property.vendorExtensions.put("x-value-type", true);
+            property.vendorExtensions.put("x-csharp-value-type", true);
         }
     }
 
@@ -461,7 +461,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             if (!parameter.required) { //optional
                 parameter.dataType = parameter.dataType + "?";
             } else {
-                parameter.vendorExtensions.put("x-value-type", true);
+                parameter.vendorExtensions.put("x-csharp-value-type", true);
             }
         }
     }
