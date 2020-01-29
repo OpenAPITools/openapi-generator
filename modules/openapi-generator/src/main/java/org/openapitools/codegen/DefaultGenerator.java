@@ -855,6 +855,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
                 bundle.put("hasHttpSignatureMethods", true);
             }
+            if (ProcessUtils.hasHttpBasicMethods(authMethods)) {
+                bundle.put("hasHttpBasicMethods", true);
+            }
+            if (ProcessUtils.hasApiKeyMethods(authMethods)) {
+                bundle.put("hasApiKeyMethods", true);
+            }
         }
 
         List<CodegenServer> servers = config.fromServers(openAPI.getServers());

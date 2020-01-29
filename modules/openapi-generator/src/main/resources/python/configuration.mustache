@@ -34,9 +34,12 @@ class Configuration(object):
     :param signing_info: Configuration parameters for the HTTP signature security scheme.
         Must be an instance of {{{packageName}}}.signing.HttpSigningConfiguration
 
+{{#hasAuthMethods}}
     :Example:
+{{#hasApiKeyMethods}}
 
-    1. Given the following security scheme in the OpenAPI specification:
+    API Key Authentication Example.
+    Given the following security scheme in the OpenAPI specification:
       components:
         securitySchemes:
           cookieAuth:         # name for the security scheme
@@ -51,8 +54,11 @@ class Configuration(object):
       )
     The following cookie will be added to the HTTP request:
        Cookie: JSESSIONID abc123
+{{/hasApiKeyMethods}}
+{{#hasHttpBasicMethods}}
 
-    2. Given the following security scheme in the OpenAPI specification:
+    HTTP Basic Authentication Example.
+    Given the following security scheme in the OpenAPI specification:
       components:
         securitySchemes:
           http_basic_auth:
@@ -64,8 +70,11 @@ class Configuration(object):
           username='the-user',
           password='the-password',
       )
+{{/hasHttpBasicMethods}}
+{{#hasHttpSignatureMethods}}
 
-    3. Given the following security scheme in the OpenAPI specification:
+    HTTP Signature Authentication Example.
+    Given the following security scheme in the OpenAPI specification:
       components:
         securitySchemes:
           http_basic_auth:
@@ -103,6 +112,8 @@ class Configuration(object):
             signature_max_validity = datetime.timedelta(minutes=5)
         )
       )
+{{/hasHttpSignatureMethods}}
+{{/hasAuthMethods}}
     """
 
     def __init__(self, host="{{{basePath}}}",

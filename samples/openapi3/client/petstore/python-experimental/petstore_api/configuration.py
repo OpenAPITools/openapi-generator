@@ -42,7 +42,8 @@ class Configuration(object):
 
     :Example:
 
-    1. Given the following security scheme in the OpenAPI specification:
+    API Key Authentication Example.
+    Given the following security scheme in the OpenAPI specification:
       components:
         securitySchemes:
           cookieAuth:         # name for the security scheme
@@ -58,7 +59,8 @@ class Configuration(object):
     The following cookie will be added to the HTTP request:
        Cookie: JSESSIONID abc123
 
-    2. Given the following security scheme in the OpenAPI specification:
+    HTTP Basic Authentication Example.
+    Given the following security scheme in the OpenAPI specification:
       components:
         securitySchemes:
           http_basic_auth:
@@ -71,7 +73,8 @@ class Configuration(object):
           password='the-password',
       )
 
-    3. Given the following security scheme in the OpenAPI specification:
+    HTTP Signature Authentication Example.
+    Given the following security scheme in the OpenAPI specification:
       components:
         securitySchemes:
           http_basic_auth:
