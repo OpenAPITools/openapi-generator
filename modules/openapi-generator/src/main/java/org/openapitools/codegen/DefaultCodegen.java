@@ -26,6 +26,7 @@ import com.samskivert.mustache.Mustache.Lambda;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.headers.Header;
@@ -59,6 +60,7 @@ import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
 import org.openapitools.codegen.templating.mustache.UppercaseLambda;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -187,6 +189,11 @@ public class DefaultCodegen implements CodegenConfig {
     // flag to indicate whether to use environment variable to post process file
     protected boolean enablePostProcessFile = false;
     private TemplatingEngineAdapter templatingEngine = new MustacheEngineAdapter();
+    // flag to indicate whether to use the utils.OneOfImplementorAdditionalData related logic
+    protected boolean useOneOfInterfaces = false;
+    // whether or not the oneOf imports machinery should add oneOf interfaces as imports in implementing classes
+    protected boolean addOneOfInterfaceImports = false;
+    protected List<CodegenModel> addOneOfInterfaces = new ArrayList<CodegenModel>();
 
     // flag to indicate whether to only update files whose contents have changed
     protected boolean enableMinimalUpdate = false;
@@ -326,6 +333,65 @@ public class DefaultCodegen implements CodegenConfig {
     // override with any special post-processing for all models
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        if (this.useOneOfInterfaces) {
+            // First, add newly created oneOf interfaces
+            for (CodegenModel cm : addOneOfInterfaces) {
+                Map<String, Object> modelValue = new HashMap<String, Object>() {{
+                    putAll(additionalProperties());
+                    put("model", cm);
+                }};
+                List<Object> modelsValue = Arrays.asList(modelValue);
+                List<Map<String, String>> importsValue = new ArrayList<Map<String, String>>();
+                Map<String, Object> objsValue = new HashMap<String, Object>() {{
+                    put("models", modelsValue);
+                    put("package", modelPackage());
+                    put("imports", importsValue);
+                    put("classname", cm.classname);
+                    putAll(additionalProperties);
+                }};
+                objs.put(cm.name, objsValue);
+            }
+
+            // Gather data from all the models that contain oneOf into OneOfImplementorAdditionalData classes
+            // (see docstring of that class to find out what information is gathered and why)
+            Map<String, OneOfImplementorAdditionalData> additionalDataMap = new HashMap<String, OneOfImplementorAdditionalData>();
+            for (Map.Entry modelsEntry : objs.entrySet()) {
+                Map<String, Object> modelsAttrs = (Map<String, Object>) modelsEntry.getValue();
+                List<Object> models = (List<Object>) modelsAttrs.get("models");
+                List<Map<String, String>> modelsImports = (List<Map<String, String>>) modelsAttrs.getOrDefault("imports", new ArrayList<Map<String, String>>());
+                for (Object _mo : models) {
+                    Map<String, Object> mo = (Map<String, Object>) _mo;
+                    CodegenModel cm = (CodegenModel) mo.get("model");
+                    if (cm.oneOf.size() > 0) {
+                        cm.vendorExtensions.put("isOneOfInterface", true);
+                        System.out.println(cm);
+                        for (String one : cm.oneOf) {
+                            if (!additionalDataMap.containsKey(one)) {
+                                additionalDataMap.put(one, new OneOfImplementorAdditionalData(one));
+                            }
+                            additionalDataMap.get(one).addFromInterfaceModel(cm, modelsImports);
+                        }
+                        // if this is oneOf interface, make sure we include the necessary imports for it
+                        addImportsToOneOfInterface(modelsImports);
+                    }
+                }
+            }
+
+            // Add all the data from OneOfImplementorAdditionalData classes to the implementing models
+            for (Map.Entry modelsEntry : objs.entrySet()) {
+                Map<String, Object> modelsAttrs = (Map<String, Object>) modelsEntry.getValue();
+                List<Object> models = (List<Object>) modelsAttrs.get("models");
+                List<Map<String, String>> imports = (List<Map<String, String>>) modelsAttrs.get("imports");
+                for (Object _implmo : models) {
+                    Map<String, Object> implmo = (Map<String, Object>) _implmo;
+                    CodegenModel implcm = (CodegenModel) implmo.get("model");
+                    if (additionalDataMap.containsKey(implcm.name)) {
+                        additionalDataMap.get(implcm.name).addToImplementor(this, implcm, imports, addOneOfInterfaceImports);
+                    }
+                }
+            }
+        }
+
         return objs;
     }
 
@@ -626,6 +692,62 @@ public class DefaultCodegen implements CodegenConfig {
     //override with any special handling of the entire OpenAPI spec document
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
+        if (useOneOfInterfaces) {
+            // we process the openapi schema here to find oneOf schemas and create interface models for them
+            Map<String, Schema> schemas = new HashMap<String, Schema>(openAPI.getComponents().getSchemas());
+            if (schemas == null) {
+                schemas = new HashMap<String, Schema>();
+            }
+            Map<String, PathItem> pathItems = openAPI.getPaths();
+
+            // we need to add all request and response bodies to processed schemas
+            if (pathItems != null) {
+                for (Map.Entry<String, PathItem> e : pathItems.entrySet()) {
+                    for (Map.Entry<PathItem.HttpMethod, Operation> op : e.getValue().readOperationsMap().entrySet()) {
+                        String opId = getOrGenerateOperationId(op.getValue(), e.getKey(), op.getKey().toString());
+                        // process request body
+                        RequestBody b = ModelUtils.getReferencedRequestBody(openAPI, op.getValue().getRequestBody());
+                        Schema requestSchema = null;
+                        if (b != null) {
+                            requestSchema = ModelUtils.getSchemaFromRequestBody(b);
+                        }
+                        if (requestSchema != null) {
+                            schemas.put(opId, requestSchema);
+                        }
+                        // process all response bodies
+                        for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
+                            ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
+                            Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
+                            if (responseSchema != null) {
+                                schemas.put(opId + ar.getKey(), responseSchema);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // go through all gathered schemas and add them as interfaces to be created
+            for (Map.Entry<String, Schema> e : schemas.entrySet()) {
+                String n = toModelName(e.getKey());
+                Schema s = e.getValue();
+                String nOneOf = toModelName(n + "OneOf");
+                if (ModelUtils.isComposedSchema(s)) {
+                    addOneOfNameExtension((ComposedSchema) s, n);
+                } else if (ModelUtils.isArraySchema(s)) {
+                    Schema items = ((ArraySchema) s).getItems();
+                    if (ModelUtils.isComposedSchema(items)) {
+                        addOneOfNameExtension((ComposedSchema) items, nOneOf);
+                        addOneOfInterfaceModel((ComposedSchema) items, nOneOf);
+                    }
+                } else if (ModelUtils.isMapSchema(s)) {
+                    Schema addProps = ModelUtils.getAdditionalProperties(s);
+                    if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
+                        addOneOfNameExtension((ComposedSchema) addProps, nOneOf);
+                        addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf);
+                    }
+                }
+            }
+        }
     }
 
     // override with any special handling of the entire OpenAPI spec document
@@ -5534,4 +5656,40 @@ public class DefaultCodegen implements CodegenConfig {
     public void setRemoveEnumValuePrefix(final boolean removeEnumValuePrefix) {
         this.removeEnumValuePrefix = removeEnumValuePrefix;
     }
+
+    //// Following methods are related to the "useOneOfInterfaces" feature
+    /**
+     * Add "x-oneOf-name" extension to a given oneOf schema (assuming it has at least 1 oneOf elements)
+     * @param s schema to add the extension to
+     * @param name name of the parent oneOf schema
+     */
+    public void addOneOfNameExtension(ComposedSchema s, String name) {
+        if (s.getOneOf() != null && s.getOneOf().size() > 0) {
+            s.addExtension("x-oneOf-name", name);
+        }
+    }
+
+    /**
+     * Add a given ComposedSchema as an interface model to be generated
+     * @param cs ComposedSchema object to create as interface model
+     * @param type name to use for the generated interface model
+     */
+    public void addOneOfInterfaceModel(ComposedSchema cs, String type) {
+        CodegenModel cm = new CodegenModel();
+
+        for (Schema o : cs.getOneOf()) {
+            // TODO: inline objects
+            cm.oneOf.add(toModelName(ModelUtils.getSimpleRef(o.get$ref())));
+        }
+        cm.name = type;
+        cm.classname = type;
+        cm.vendorExtensions.put("isOneOfInterface", true);
+        cm.discriminator = createDiscriminator("", (Schema) cs);
+        cm.interfaceModels = new ArrayList<CodegenModel>();
+
+        addOneOfInterfaces.add(cm);
+    }
+
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {}
+    //// End of methods related to the "useOneOfInterfaces" feature
 }

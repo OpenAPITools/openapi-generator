@@ -522,6 +522,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        objs = super.postProcessAllModels(objs);
         objs = super.updateAllModels(objs);
 
         if (!additionalModelTypeAnnotations.isEmpty()) {
@@ -1067,6 +1068,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
         if (openAPI == null) {
             return;
         }
