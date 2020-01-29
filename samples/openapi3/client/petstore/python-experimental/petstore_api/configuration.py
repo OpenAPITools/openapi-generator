@@ -151,7 +151,7 @@ class Configuration(object):
         self.signing_info = signing_info
         """The HTTP signing configuration
         """
-        self.access_token = ""
+        self.access_token = None
         """access token for OAuth/Bearer
         """
         self.logger = {}

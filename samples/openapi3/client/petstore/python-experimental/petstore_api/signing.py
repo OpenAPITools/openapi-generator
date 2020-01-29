@@ -389,5 +389,4 @@ class HttpSigningConfiguration(object):
         auth_str = auth_str + "headers=\"{0}\",signature=\"{1}\"".format(
                                                 headers_value, signed_msg.decode('ascii'))
 
-        print("AUTH: {0}".format(auth_str))
         return auth_str
