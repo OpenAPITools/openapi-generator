@@ -23,16 +23,18 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.AnotherFakeApi()
-body = petstore_api.Client() # Client | client model
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.AnotherFakeApi(api_client)
+    body = petstore_api.Client() # Client | client model
 
-try:
-    # To test special tags
-    api_response = api_instance.call_123_test_special_tags(body)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
+    try:
+        # To test special tags
+        api_response = api_instance.call_123_test_special_tags(body)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
 ```
 
 ### Parameters

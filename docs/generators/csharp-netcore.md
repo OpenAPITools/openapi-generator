@@ -25,7 +25,7 @@ sidebar_label: csharp-netcore
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
-|targetFramework|The target .NET framework version.|<dl><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3 compatible</dd><dt>**netstandard1.4**</dt><dd>.NET Standard 1.4 compatible</dd><dt>**netstandard1.5**</dt><dd>.NET Standard 1.5 compatible</dd><dt>**netstandard1.6**</dt><dd>.NET Standard 1.6 compatible</dd><dt>**netstandard2.0**</dt><dd>.NET Standard 2.0 compatible</dd><dt>**netcoreapp2.0**</dt><dd>.NET Core 2.0 compatible</dd><dl>|netstandard2.0|
+|targetFramework|The target .NET framework version.|<dl><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3 compatible</dd><dt>**netstandard1.4**</dt><dd>.NET Standard 1.4 compatible</dd><dt>**netstandard1.5**</dt><dd>.NET Standard 1.5 compatible</dd><dt>**netstandard1.6**</dt><dd>.NET Standard 1.6 compatible</dd><dt>**netstandard2.0**</dt><dd>.NET Standard 2.0 compatible</dd><dt>**netstandard2.1**</dt><dd>.NET Standard 2.1 compatible</dd><dt>**netcoreapp2.0**</dt><dd>.NET Core 2.0 compatible</dd><dt>**netcoreapp2.1**</dt><dd>.NET Core 2.1 compatible</dd><dt>**netcoreapp3.0**</dt><dd>.NET Core 3.0 compatible</dd><dt>**netcoreapp3.1**</dt><dd>.NET Core 3.1 compatible</dd><dl>|netstandard2.0|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |validatable|Generates self-validatable models.| |true|

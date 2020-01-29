@@ -53,17 +53,19 @@ from pprint import pprint
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.AnotherFakeApi(petstore_api.ApiClient(configuration))
-client_client = petstore_api.Client() # client.Client | client model
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.AnotherFakeApi(api_client)
+    client_client = petstore_api.Client() # client.Client | client model
 
-try:
-    # To test special tags
-    api_response = api_instance.call_123_test_special_tags(client_client)
-    pprint(api_response)
-except petstore_api.ApiException as e:
-    print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
-
+    try:
+        # To test special tags
+        api_response = api_instance.call_123_test_special_tags(client_client)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
+    
 ```
 
 ## Documentation for API Endpoints
