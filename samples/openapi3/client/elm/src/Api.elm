@@ -2,10 +2,13 @@ module Api exposing
     ( Request
     , request
     , send
+    , sendWithCustomError
+    , task
     , map
     , withBasePath
     , withTimeout
     , withTracker
+    , withBearerToken
     , withHeader
     , withHeaders
     )
@@ -13,6 +16,7 @@ module Api exposing
 import Http
 import Json.Decode
 import Json.Encode
+import Task
 import Url.Builder
 
 
@@ -46,15 +50,32 @@ request method path pathParams queryParams headerParams body decoder =
 
 
 send : (Result Http.Error a -> msg) -> Request a -> Cmd msg
-send toMsg (Request req) =
+send toMsg req =
+    sendWithCustomError identity toMsg req
+
+
+sendWithCustomError : (Http.Error -> e) -> (Result e a -> msg) -> Request a -> Cmd msg
+sendWithCustomError mapError toMsg (Request req) =
     Http.request
         { method = req.method
         , headers = req.headers
         , url = Url.Builder.crossOrigin req.basePath req.pathParams req.queryParams
         , body = req.body
-        , expect = expectJson toMsg req.decoder
+        , expect = expectJson mapError toMsg req.decoder
         , timeout = req.timeout
         , tracker = req.tracker
+        }
+
+
+task : Request a -> Task.Task Http.Error a
+task (Request req) =
+    Http.task
+        { method = req.method
+        , headers = req.headers
+        , url = Url.Builder.crossOrigin req.basePath req.pathParams req.queryParams
+        , body = req.body
+        , resolver = jsonResolver req.decoder
+        , timeout = req.timeout
         }
 
 
@@ -85,6 +106,11 @@ withTimeout timeout (Request req) =
 withTracker : String -> Request a -> Request a
 withTracker tracker (Request req) =
     Request { req | tracker = Just tracker }
+
+
+withBearerToken : String -> Request a -> Request a
+withBearerToken token (Request req) =
+    Request { req | headers = Http.header "Authorization" ("Bearer " ++ token) :: req.headers }
 
 
 withHeader : String -> String -> Request a -> Request a
@@ -121,35 +147,43 @@ queries =
     List.filterMap (\(key, value) -> Maybe.map (Url.Builder.string key) value)
 
 
-expectJson : (Result Http.Error a -> msg) -> Json.Decode.Decoder a -> Http.Expect msg
-expectJson toMsg decoder =
-    Http.expectStringResponse toMsg <|
-        \response ->
-            case response of
-                Http.BadUrl_ url ->
-                    Err (Http.BadUrl url)
+expectJson : (Http.Error -> e) -> (Result e a -> msg) -> Json.Decode.Decoder a -> Http.Expect msg
+expectJson mapError toMsg decoder =
+    Http.expectStringResponse toMsg (Result.mapError mapError << decodeResponse decoder)
 
-                Http.Timeout_ ->
-                    Err Http.Timeout
 
-                Http.NetworkError_ ->
-                    Err Http.NetworkError
+jsonResolver : Json.Decode.Decoder a -> Http.Resolver Http.Error a
+jsonResolver decoder =
+    Http.stringResolver (decodeResponse decoder)
 
-                Http.BadStatus_ metadata _ ->
-                    Err (Http.BadStatus metadata.statusCode)
 
-                Http.GoodStatus_ _ body ->
-                    if String.isEmpty body then
-                        -- we might 'expect' no body if the return type is `()`
-                        case Json.Decode.decodeString decoder "{}" of
-                            Ok value ->
-                                Ok value
+decodeResponse : Json.Decode.Decoder a -> Http.Response String -> Result Http.Error a
+decodeResponse decoder response =
+    case response of
+        Http.BadUrl_ url ->
+            Err (Http.BadUrl url)
 
-                            Err _ ->
-                                decodeBody decoder body
+        Http.Timeout_ ->
+            Err Http.Timeout
 
-                    else
+        Http.NetworkError_ ->
+            Err Http.NetworkError
+
+        Http.BadStatus_ metadata _ ->
+            Err (Http.BadStatus metadata.statusCode)
+
+        Http.GoodStatus_ _ body ->
+            if String.isEmpty body then
+                -- we might 'expect' no body if the return type is `()`
+                case Json.Decode.decodeString decoder "{}" of
+                    Ok value ->
+                        Ok value
+
+                    Err _ ->
                         decodeBody decoder body
+
+            else
+                decodeBody decoder body
 
 
 decodeBody : Json.Decode.Decoder a -> String -> Result Http.Error a

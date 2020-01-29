@@ -33,8 +33,8 @@ import Uuid exposing (Uuid){{/includeUuid}}
 {-| {{{notes}}}
 -}
 {{/notes}}
-{{operationId}} : {{#allParams}}{{^required}}Maybe {{/required}}{{#isListContainer}}List {{/isListContainer}}{{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{#isModel}}Api.Data.{{/isModel}}{{dataType}}{{/datatypeWithEnum}} -> {{/allParams}}Api.Request {{^responses}}(){{/responses}}{{#responses}}{{#-first}}{{^dataType}}(){{/dataType}}{{#isMapContainer}}(Dict.Dict String {{/isMapContainer}}{{#isListContainer}}(List {{/isListContainer}}{{^primitiveType}}{{^isUuid}}Api.Data.{{/isUuid}}{{/primitiveType}}{{#items}}{{#isModel}}Api.Data.{{/isModel}}{{/items}}{{dataType}}{{#isListContainer}}){{/isListContainer}}{{#isMapContainer}}){{/isMapContainer}}{{/-first}}{{/responses}}
-{{operationId}}{{#allParams}} {{>paramName}}{{/allParams}} =
+{{operationId}} : {{#allParams}}{{^required}}Maybe {{/required}}{{#isListContainer}}List {{/isListContainer}}{{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{#isModel}}Api.Data.{{/isModel}}{{dataType}}{{/datatypeWithEnum}} -> {{/allParams}}{{#authMethods}}{{#isBasicBearer}}String -> {{/isBasicBearer}}{{/authMethods}}Api.Request {{^responses}}(){{/responses}}{{#responses}}{{#isDefault}}{{^dataType}}(){{/dataType}}{{#isMapContainer}}(Dict.Dict String {{/isMapContainer}}{{#isListContainer}}(List {{/isListContainer}}{{^primitiveType}}{{^isUuid}}Api.Data.{{/isUuid}}{{/primitiveType}}{{#items}}{{#isModel}}Api.Data.{{/isModel}}{{/items}}{{dataType}}{{#isListContainer}}){{/isListContainer}}{{#isMapContainer}}){{/isMapContainer}}{{/isDefault}}{{/responses}}
+{{operationId}}{{#allParams}} {{>paramName}}{{/allParams}}{{#authMethods}}{{#isBasicBearer}} auth_token{{/isBasicBearer}}{{/authMethods}} =
     Api.request
         "{{httpMethod}}"
         "{{path}}"
@@ -42,5 +42,6 @@ import Uuid exposing (Uuid){{/includeUuid}}
         [{{#queryParams}} ( "{{baseName}}", {{#required}}Just <| {{/required}}{{^required}}Maybe.map {{/required}}{{>paramToString}} {{>paramName}} ){{#-last}} {{/-last}}{{^-last}},{{/-last}}{{/queryParams}}]
         [{{#headerParams}} ( "{{baseName}}", {{#required}}Just <| {{/required}}{{^required}}Maybe.map {{/required}}{{>paramToString}} {{>paramName}} ){{#-last}} {{/-last}}{{^-last}},{{/-last}}{{/headerParams}}]
         {{#bodyParam}}({{#required}}Just ({{/required}}{{^required}}Maybe.map {{/required}}{{#isModel}}Api.Data.{{/isModel}}{{>recordFieldValueEncoder}} {{>paramName}}{{#required}}){{/required}}){{/bodyParam}}{{^bodyParam}}Nothing{{/bodyParam}}
-        {{^responses}}(Json.Decode.succeed ()){{/responses}}{{#responses}}{{#isDefault}}{{^dataType}}(Json.Decode.succeed ()){{/dataType}}{{#dataType}}{{>recordFieldValueDecoder}}{{/dataType}}{{/isDefault}}{{/responses}}
+        {{^responses}}(Json.Decode.succeed ()){{/responses}}{{#responses}}{{#isDefault}}{{^dataType}}(Json.Decode.succeed ()){{/dataType}}{{#dataType}}{{>recordFieldValueDecoder}}{{/dataType}}{{/isDefault}}{{/responses}}{{#authMethods}}{{#isBasicBearer}}
+        |> Api.withBearerToken auth_token{{/isBasicBearer}}{{/authMethods}}
 {{/operation}}{{/operations}}

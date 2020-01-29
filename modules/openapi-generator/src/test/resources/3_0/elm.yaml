@@ -97,6 +97,16 @@ paths:
       responses:
         "200":
           description: Default response
+  /secured:
+    post:
+      summary: Secured endpoint
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Authenticated
+        "401":
+          description: Unauthenticated
   /uuid:
     get:
       parameters:
@@ -278,3 +288,8 @@ components:
           type: string
         in_the_middle:
           type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
