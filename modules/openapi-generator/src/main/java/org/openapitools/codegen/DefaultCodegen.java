@@ -4325,6 +4325,8 @@ public class DefaultCodegen implements CodegenConfig {
         return sanitizeName(name, removeCharRegEx, new ArrayList<String>());
     }
 
+    // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
+    // arguments, this cache is used to optimized performance.
     private static Map<String, Map<String, Map<List<String>, String>>> sanitizedNames =
         new HashMap<String, Map<String, Map<List<String>, String>>>();
 

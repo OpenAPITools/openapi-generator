@@ -8,8 +8,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringUtils {
-    // A cache of camelized words.
-    private static Map<Boolean, Map<String, String>> camelizedWords = new HashMap<Boolean, Map<String, String>>();
+    // A cache of camelized words. The camelize() method is invoked many times with the same
+    // arguments, this cache is used to optimized performance.
+    private static Map<Boolean, Map<String, String>> camelizedWords =
+        new HashMap<Boolean, Map<String, String>>();
+
+    // A cache of underscored words, used to optimize the performance of the underscore() method.
+    private static Map<String, String> underscoreWords = new HashMap<String, String>();
 
     static {
         camelizedWords.put(false, new HashMap<String, String>());
@@ -25,11 +30,15 @@ public class StringUtils {
      * @return The underscored version of the word
      */
     public static String underscore(final String word) {
+        String result = underscoreWords.get(word);
+        if (result != null) {
+            return result;
+        }
         String firstPattern = "([A-Z]+)([A-Z][a-z])";
         String secondPattern = "([a-z\\d])([A-Z])";
         String replacementPattern = "$1_$2";
         // Replace package separator with slash.
-        String result = word.replaceAll("\\.", "/");
+        result = word.replaceAll("\\.", "/");
         // Replace $ with two underscores for inner classes.
         result = result.replaceAll("\\$", "__");
         // Replace capital letter with _ plus lowercase letter.
@@ -39,6 +48,7 @@ public class StringUtils {
         // replace space with underscore
         result = result.replace(' ', '_');
         result = result.toLowerCase(Locale.ROOT);
+        underscoreWords.put(word, result);
         return result;
     }
 
