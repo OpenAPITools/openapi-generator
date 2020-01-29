@@ -546,6 +546,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         strategy.configureAdditionalProperties(additionalProperties);
 
+        setTargetFrameworkNuget(strategy.getNugetFrameworkIdentifier());
         setTargetFramework(strategy.name);
 
         if (strategy != FrameworkStrategy.NETSTANDARD_2_0) {
