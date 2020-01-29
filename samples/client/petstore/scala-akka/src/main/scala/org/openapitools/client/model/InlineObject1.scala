@@ -12,10 +12,7 @@
 package org.openapitools.client.model
 
 import java.io.File
-
 import org.openapitools.client.core.ApiModel
-import org.joda.time.DateTime
-import java.util.UUID
 
 case class InlineObject1 (
   /* Additional data to pass to server */
