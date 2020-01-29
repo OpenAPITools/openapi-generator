@@ -148,6 +148,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> modelDocTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> reservedWordsMappings = new HashMap<String, String>();
     protected String templateDir;
+    protected String templateResourcePath;
     protected String embeddedTemplateDir;
     protected String commonTemplateDir = "_common";
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -204,6 +205,10 @@ public class DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         if (additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)) {
             this.setTemplateDir((String) additionalProperties.get(CodegenConstants.TEMPLATE_DIR));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.TEMPLATE_RESOURCE_PATH)) {
+            this.setTemplateResourcePath ((String) additionalProperties.get(CodegenConstants.TEMPLATE_RESOURCE_PATH));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
@@ -781,6 +786,10 @@ public class DefaultCodegen implements CodegenConfig {
         return templateDir;
     }
 
+    public String templateResourcePath() {
+        return templateResourcePath;
+    }
+
     public String embeddedTemplateDir() {
         if (embeddedTemplateDir != null) {
             return embeddedTemplateDir;
@@ -887,6 +896,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void setTemplateDir(String templateDir) {
         this.templateDir = templateDir;
+    }
+
+    public void setTemplateResourcePath(String templateResourcePath) {
+      this.templateResourcePath = templateResourcePath;
     }
 
     public void setModelPackage(String modelPackage) {

@@ -134,6 +134,12 @@ public class CodeGenMojo extends AbstractMojo {
     private File templateDirectory;
 
     /**
+     * A classpath resource path containing the template files.
+     */
+    @Parameter(name = "templateResourcePath", property = "openapi.generator.maven.plugin.templateResourcePath")
+    private String templateResourcePath;
+
+    /**
      * The name of templating engine to use, "mustache" (default) or "handlebars" (beta)
      */
     @Parameter(name = "engine", defaultValue = "mustache", property="openapi.generator.maven.plugin.engine")
@@ -581,6 +587,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (null != templateDirectory) {
                 configurator.setTemplateDir(templateDirectory.getAbsolutePath());
+            }
+
+            if (isNotEmpty (templateResourcePath)) {
+                configurator.setTemplateResourcePath (templateResourcePath);
             }
 
             if (null != engine) {

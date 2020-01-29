@@ -44,6 +44,7 @@ public class CodegenConstants {
     public static final String MODEL_PACKAGE_DESC = "package for generated models";
 
     public static final String TEMPLATE_DIR = "templateDir";
+    public static final String TEMPLATE_RESOURCE_PATH = "templateResourcePath";
 
     public static final String ALLOW_UNICODE_IDENTIFIERS = "allowUnicodeIdentifiers";
     public static final String ALLOW_UNICODE_IDENTIFIERS_DESC = "boolean, toggles whether unicode identifiers are allowed in names or not, default is false";

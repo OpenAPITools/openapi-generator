@@ -56,6 +56,7 @@ public class WorkflowSettings {
     private boolean enableMinimalUpdate = DEFAULT_ENABLE_MINIMAL_UPDATE;
     private boolean strictSpecBehavior = DEFAULT_STRICT_SPEC_BEHAVIOR;
     private String templateDir;
+    private String templateResourcePath;
     private String templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
     private String ignoreFileOverride;
     private ImmutableMap<String, String> systemProperties = DEFAULT_SYSTEM_PROPERTIES;
@@ -72,6 +73,7 @@ public class WorkflowSettings {
         this.enableMinimalUpdate = builder.enableMinimalUpdate;
         this.strictSpecBehavior = builder.strictSpecBehavior;
         this.templateDir = builder.templateDir;
+        this.templateResourcePath = builder.templateResourcePath;
         this.templatingEngineName = builder.templatingEngineName;
         this.ignoreFileOverride = builder.ignoreFileOverride;
         this.systemProperties = ImmutableMap.copyOf(builder.systemProperties);
@@ -103,6 +105,7 @@ public class WorkflowSettings {
         builder.strictSpecBehavior = copy.isStrictSpecBehavior();
         builder.templatingEngineName = copy.getTemplatingEngineName();
         builder.ignoreFileOverride = copy.getIgnoreFileOverride();
+        builder.templateResourcePath = copy.getTemplateResourcePath ();
 
         // this, and any other collections, must be mutable in the builder.
         builder.systemProperties = new HashMap<>(copy.getSystemProperties());
@@ -228,6 +231,16 @@ public class WorkflowSettings {
     }
 
     /**
+     * Gets the classpath resource path holding templates used in generation. This option allows users to extend or modify built-in templates, or to write their own.
+     * If {@link #getTemplateDir()} is given templates in that directory take precedence over templates in the defined classpath resource path.
+     *
+     * @return the classpath template resource path
+     */
+    public String getTemplateResourcePath() {
+        return templateResourcePath;
+    }
+
+    /**
      * Gets the name of the templating engine to target. This option allows a user to target an engine which differs from the generator default, or to
      * refer to their own fully qualified type name of a custom template engine adapter.
      *
@@ -272,6 +285,7 @@ public class WorkflowSettings {
         private Boolean enableMinimalUpdate = DEFAULT_ENABLE_MINIMAL_UPDATE;
         private Boolean strictSpecBehavior = DEFAULT_STRICT_SPEC_BEHAVIOR;
         private String templateDir;
+        private String templateResourcePath;
         private String templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
         private String ignoreFileOverride;
 
@@ -421,6 +435,20 @@ public class WorkflowSettings {
         }
 
         /**
+         * Sets the {@code templateResourcePath} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param templateResourcePath the {@code templateResourcePath} to set
+         * @return a reference to this Builder
+         */
+        public Builder withTemplateResourcePath(String templateResourcePath) {
+            if (templateResourcePath != null) {
+                this.templateResourcePath = templateResourcePath;
+            }
+
+            return this;
+        }
+
+        /**
          * Sets the {@code templatingEngineName} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param templatingEngineName the {@code templatingEngineName} to set
@@ -498,6 +526,7 @@ public class WorkflowSettings {
                 ", enableMinimalUpdate=" + enableMinimalUpdate +
                 ", strictSpecBehavior=" + strictSpecBehavior +
                 ", templateDir='" + templateDir + '\'' +
+                ", templateResourcePath='" + templateResourcePath + '\'' +
                 ", templatingEngineName='" + templatingEngineName + '\'' +
                 ", ignoreFileOverride='" + ignoreFileOverride + '\'' +
                 ", systemProperties=" + systemProperties +
@@ -520,6 +549,7 @@ public class WorkflowSettings {
                 Objects.equals(getInputSpec(), that.getInputSpec()) &&
                 Objects.equals(getOutputDir(), that.getOutputDir()) &&
                 Objects.equals(getTemplateDir(), that.getTemplateDir()) &&
+                Objects.equals(getTemplateResourcePath (), that.getTemplateResourcePath ()) &&
                 Objects.equals(getTemplatingEngineName(), that.getTemplatingEngineName()) &&
                 Objects.equals(getIgnoreFileOverride(), that.getIgnoreFileOverride()) &&
                 Objects.equals(getSystemProperties(), that.getSystemProperties());
@@ -539,6 +569,7 @@ public class WorkflowSettings {
                 isEnableMinimalUpdate(),
                 isStrictSpecBehavior(),
                 getTemplateDir(),
+                getTemplateResourcePath (),
                 getTemplatingEngineName(),
                 getIgnoreFileOverride(),
                 getSystemProperties()

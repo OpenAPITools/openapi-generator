@@ -16,9 +16,9 @@ The transform logic needs to implement [CodegenConfig.java](https://github.com/o
 ## Modifying Templates
 
 > OpenAPI Generator applies user-defined templates via options:  
-> * CLI: `-t/--template` CLI options
-> * Maven Plugin: `templateDirectory`
-> * Gradle Plugin: `templateDir`
+> * CLI: `-t/--template` (or `-trp/--template-resource-path` for a classpath resource) CLI options 
+> * Maven Plugin: `templateDirectory` (or `templateResourcePath` for a classpath resource)
+> * Gradle Plugin: `templateDir` (or `templateResourcePath` for a classpath resource)
 
 Built-in templates are written in Mustache and processed by [jmustache](https://github.com/samskivert/jmustache). Beginning with version 4.0.0, we support experimental Handlebars and user-defined template engines via plugins.
 

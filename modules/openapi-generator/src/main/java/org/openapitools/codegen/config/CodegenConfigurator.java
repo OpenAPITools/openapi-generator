@@ -390,6 +390,12 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator setTemplateResourcePath(String templateResourcePath) {
+        workflowSettingsBuilder.withTemplateResourcePath(templateResourcePath);
+        return this;
+    }
+
+
     public CodegenConfigurator setTemplatingEngineName(String templatingEngineName) {
         this.templatingEngineName = templatingEngineName;
         workflowSettingsBuilder.withTemplatingEngineName(templatingEngineName);
@@ -539,6 +545,10 @@ public class CodegenConfigurator {
         String templateDir = workflowSettings.getTemplateDir();
         if (templateDir != null) {
             config.additionalProperties().put(CodegenConstants.TEMPLATE_DIR, workflowSettings.getTemplateDir());
+        }
+        String templateResourcePath = workflowSettings.getTemplateResourcePath ();
+        if (templateResourcePath != null) {
+            config.additionalProperties ().put (CodegenConstants.TEMPLATE_RESOURCE_PATH, workflowSettings.getTemplateResourcePath ());
         }
 
         ClientOptInput input = new ClientOptInput()

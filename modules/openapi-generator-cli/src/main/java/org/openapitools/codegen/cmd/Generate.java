@@ -59,6 +59,10 @@ public class Generate implements Runnable {
             description = "folder containing the template files")
     private String templateDir;
 
+    @Option(name = {"-trp", "--template-resource-path"}, title = "template resource path",
+        description = "classpath resource containing the template files")
+    private String templateResourcePath;
+
     @Option(name = {"-e", "--engine"}, title = "templating engine",
             description = "templating engine: \"mustache\" (default) or \"handlebars\" (beta)")
     private String templatingEngine;
@@ -305,6 +309,10 @@ public class Generate implements Runnable {
 
         if (isNotEmpty(templateDir)) {
             configurator.setTemplateDir(templateDir);
+        }
+
+        if (isNotEmpty(templateResourcePath)) {
+          configurator.setTemplateResourcePath (templateResourcePath);
         }
 
         if (isNotEmpty(packageName)) {

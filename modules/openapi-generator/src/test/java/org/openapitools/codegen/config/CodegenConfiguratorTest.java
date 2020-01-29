@@ -84,6 +84,7 @@ public class CodegenConfiguratorTest {
                 .setPackageName("package-name")
                 .setReleaseNote("release-note")
                 .setTemplateDir(templateDir)
+                .setTemplateResourcePath ("templateresourcepath")
                 .setOutputDir(outDir);
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -109,6 +110,7 @@ public class CodegenConfiguratorTest {
         want(props, CodegenConstants.ENABLE_POST_PROCESS_FILE, false);
         want(props, CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
         want(props, CodegenConstants.TEMPLATE_DIR, templateDir);
+        want(props, CodegenConstants.TEMPLATE_RESOURCE_PATH, "templateresourcepath");
         want(props, CodegenConstants.GIT_REPO_ID, "git");
         want(props, CodegenConstants.GIT_USER_ID, "user");
         want(props, CodegenConstants.GIT_HOST, "test.com");

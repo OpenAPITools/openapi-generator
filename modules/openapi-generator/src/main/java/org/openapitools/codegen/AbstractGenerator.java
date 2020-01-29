@@ -33,17 +33,17 @@ import java.util.regex.Pattern;
 
 public abstract class AbstractGenerator implements TemplatingGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGenerator.class);
-    
+
     /**
      * Is the minimal-file-update option enabled?
-     * 
+     *
      * @return Option value
      */
     public abstract boolean getEnableMinimalUpdate();
 
     /**
      * Write String to a file, formatting as UTF-8
-     * 
+     *
      * @param filename The name of file to write
      * @param contents The contents string.
      * @return File representing the written file.
@@ -55,7 +55,7 @@ public abstract class AbstractGenerator implements TemplatingGenerator {
 
     /**
      * Write bytes to a file
-     * 
+     *
      * @param filename The name of file to write
      * @param contents The contents bytes.  Typically this is a UTF-8 formatted string.
      * @return File representing the written file.
@@ -96,7 +96,7 @@ public abstract class AbstractGenerator implements TemplatingGenerator {
     private boolean filesEqual(File file1, File file2) throws IOException {
         return file1.exists() && file2.exists() && Arrays.equals(Files.readAllBytes(file1.toPath()), Files.readAllBytes(file2.toPath()));
     }
-    
+
     private File writeToFileRaw(String filename, byte[] contents) throws IOException {
         // Use Paths.get here to normalize path (for Windows file separator, space escaping on Linux/Mac, etc)
         File output = Paths.get(filename).toFile();
@@ -153,8 +153,10 @@ public abstract class AbstractGenerator implements TemplatingGenerator {
     public String getFullTemplateFile(CodegenConfig config, String templateFile) {
         //1st the code will check if there's a <template folder>/libraries/<library> folder containing the file
         //2nd it will check for the file in the specified <template folder> folder
-        //3rd it will check if there's an <embedded template>/libraries/<library> folder containing the file
-        //4th and last it will assume the file is in <embedded template> folder.
+        //3rd it will check for a classpath resource <template resource path>/libraries/<library> containing the file
+        //4th it will check for a classpath resource <template resource path> containing the file
+        //5th it will check if there's an <embedded template>/libraries/<library> folder containing the file
+        //6th and last it will assume the file is in <embedded template> folder.
 
         //check the supplied template library folder for the file
         final String library = config.getLibrary();
@@ -172,6 +174,21 @@ public abstract class AbstractGenerator implements TemplatingGenerator {
             return template;
         }
 
+        // check classpath resource path
+        if (config.templateResourcePath () != null) {
+            if (StringUtils.isNotEmpty(library)) {
+                final String classpathLibTemplateFile = buildLibraryFilePath(config.templateResourcePath (), library, templateFile);
+                if (classpathTemplateExists (classpathLibTemplateFile)) {
+                    return classpathLibTemplateFile;
+                }
+            }
+
+            final String classpathTemplateFile = config.templateResourcePath () + File.separator + templateFile;
+            if (classpathTemplateExists (classpathTemplateFile)) {
+              return classpathTemplateFile;
+            }
+        }
+
         //try the embedded template library folder next
         if (StringUtils.isNotEmpty(library)) {
             final String embeddedLibTemplateFile = buildLibraryFilePath(config.embeddedTemplateDir(), library, templateFile);
@@ -180,7 +197,7 @@ public abstract class AbstractGenerator implements TemplatingGenerator {
                 return embeddedLibTemplateFile;
             }
         }
-            
+
         // Fall back to the template file embedded/packaged in the JAR file...
         return config.embeddedTemplateDir() + File.separator + templateFile;
     }
@@ -196,6 +213,10 @@ public abstract class AbstractGenerator implements TemplatingGenerator {
     }
 
     public boolean embeddedTemplateExists(String name) {
+        return classpathTemplateExists (name);
+    }
+
+    public boolean classpathTemplateExists(String name) {
         return this.getClass().getClassLoader().getResource(getCPResourcePath(name)) != null;
     }
 
