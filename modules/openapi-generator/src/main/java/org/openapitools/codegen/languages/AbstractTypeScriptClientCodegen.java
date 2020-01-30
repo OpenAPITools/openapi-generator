@@ -131,7 +131,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping = new HashMap<String, String>();
         typeMapping.put("Array", "Array");
         typeMapping.put("array", "Array");
-        typeMapping.put("List", "Array");
         typeMapping.put("boolean", "boolean");
         typeMapping.put("string", "string");
         typeMapping.put("int", "number");
