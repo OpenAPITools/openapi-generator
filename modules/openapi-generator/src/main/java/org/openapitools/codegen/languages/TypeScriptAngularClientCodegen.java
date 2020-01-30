@@ -227,6 +227,23 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(FILE_NAMING)) {
             this.setFileNaming(additionalProperties.get(FILE_NAMING).toString());
         }
+
+        if (isEnumSuffixV4Compat) {
+            applyEnumSuffixV4CompatMode();
+        }
+    }
+
+    private void applyEnumSuffixV4CompatMode() {
+        String fullModelSuffix = modelSuffix + modelNameSuffix;
+        if (stringEnums) {
+            // with stringEnums, legacy code would discard "Enum" suffix altogether
+            // resulting in smth like PetModelTypeModeL
+            enumSuffix = fullModelSuffix;
+        } else {
+            // without stringEnums, "Enum" was appended to model suffix, e.g. PetModel.TypeModelEnum
+            enumSuffix = fullModelSuffix + "Enum";
+        }
+
     }
 
     private void addNpmPackageGeneration(SemVer ngVersion) {

@@ -49,6 +49,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public static final String NPM_VERSION = "npmVersion";
     public static final String SNAPSHOT = "snapshot";
 
+    public static final String ENUM_NAME_SUFFIX_V4_COMPAT = "v4-compat";
+    public static final String ENUM_NAME_SUFFIX_DESC_CUSTOMIZED = CodegenConstants.ENUM_NAME_SUFFIX_DESC
+            + " A special '" + ENUM_NAME_SUFFIX_V4_COMPAT + "' value enables the backward-compatible behavior (as pre v4.2.3)";
+
+
     // NOTE: SimpleDateFormat is not thread-safe and may not be static unless it is thread-local
     @SuppressWarnings("squid:S5164")
     protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
@@ -59,7 +64,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
 
-    protected String enumSuffix = "Enum";
+    protected String enumSuffix = ENUM_NAME_SUFFIX_V4_COMPAT;
+    protected Boolean isEnumSuffixV4Compat = false;
+
     protected String classEnumSeparator = ".";
 
     public AbstractTypeScriptClientCodegen() {
@@ -154,7 +161,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("URI", "string");
         typeMapping.put("Error", "Error");
 
-        cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
+        cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX_DESC_CUSTOMIZED).defaultValue(this.enumSuffix));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue(this.modelPropertyNaming));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue(String.valueOf(this.getSupportsES6())));
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
@@ -194,6 +201,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());
         }
 
+        if (enumSuffix.equals(ENUM_NAME_SUFFIX_V4_COMPAT)) {
+            isEnumSuffixV4Compat = true;
+            enumSuffix = modelNameSuffix + "Enum";
+        }
     }
 
     @Override
