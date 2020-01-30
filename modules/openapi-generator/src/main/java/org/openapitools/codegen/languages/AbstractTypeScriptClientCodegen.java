@@ -600,7 +600,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                     .map(value -> "'" + value.name() + "'")
                     .collect(Collectors.joining(", "));
 
-            String msg = String.format("Invalid enum property naming '%s'. Must be one of %s.",naming, values);
+            String msg = String.format(Locale.ROOT, "Invalid enum property naming '%s'. Must be one of %s.",naming, values);
             throw new IllegalArgumentException(msg);
         }
     }
