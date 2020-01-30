@@ -22,10 +22,10 @@ export interface Order {
     /**
      * Order Status
      */
-    status?: OrderStatusEnum;
+    status?: OrderStatus;
     complete?: boolean;
 }
-export enum OrderStatusEnum {
+export enum OrderStatus {
     Placed = 'placed',
     Approved = 'approved',
     Delivered = 'delivered'
