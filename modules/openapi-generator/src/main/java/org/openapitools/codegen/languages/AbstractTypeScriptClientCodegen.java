@@ -37,6 +37,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -595,9 +596,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         try {
             enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.valueOf(naming);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid enum property naming '" +
-                    naming + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase', 'snake_case', or 'UPPERCASE'");
+            String values = Stream.of(ENUM_PROPERTY_NAMING_TYPE.values())
+                    .map(value -> "'" + value.name() + "'")
+                    .collect(Collectors.joining(", "));
+
+            String msg = String.format("Invalid enum property naming '%s'. Must be one of %s.",naming, values);
+            throw new IllegalArgumentException(msg);
         }
     }
 
