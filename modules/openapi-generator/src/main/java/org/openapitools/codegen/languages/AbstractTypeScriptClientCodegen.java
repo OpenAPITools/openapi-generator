@@ -616,7 +616,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             case snake_case:
                 return underscore(name);
             case UPPERCASE:
-                return name.toUpperCase();
+                return name.toUpperCase(Locale.ROOT);
             default:
                 throw new IllegalArgumentException("Unsupported enum property naming: '" + name);
         }
