@@ -186,12 +186,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         if (GlobalSettings.getProperty("debugOpenAPI") != null) {
-            SerializerUtils.toJsonString(openAPI);
+            System.out.println(SerializerUtils.toJsonString(openAPI));
         } else if (GlobalSettings.getProperty("debugSwagger") != null) {
             // This exists for backward compatibility
             // We fall to this block only if debugOpenAPI is null. No need to dump this twice.
             LOGGER.info("Please use system property 'debugOpenAPI' instead of 'debugSwagger'.");
-            SerializerUtils.toJsonString(openAPI);
+            System.out.println(SerializerUtils.toJsonString(openAPI));
         }
 
         config.processOpts();

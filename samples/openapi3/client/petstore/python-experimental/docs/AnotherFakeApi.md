@@ -22,17 +22,19 @@ import time
 import petstore_api
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.AnotherFakeApi()
-client_client = petstore_api.Client() # client.Client | client model
-
-# example passing only required values which don't have defaults set
-try:
-    # To test special tags
-    api_response = api_instance.call_123_test_special_tags(client_client)
-    pprint(api_response)
-except petstore_api.ApiException as e:
-    print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.AnotherFakeApi(api_client)
+    client_client = petstore_api.Client() # client.Client | client model
+    
+    # example passing only required values which don't have defaults set
+    try:
+        # To test special tags
+        api_response = api_instance.call_123_test_special_tags(client_client)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
 ```
 
 ### Parameters
