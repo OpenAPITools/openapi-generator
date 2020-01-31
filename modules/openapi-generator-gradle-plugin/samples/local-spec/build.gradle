@@ -91,3 +91,13 @@ task generateGoWithInvalidSpec(type: org.openapitools.generator.gradle.plugin.ta
             dateLibrary: "threetenp"
     ]
 }
+
+task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+}
+
+task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+}
+
+task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])

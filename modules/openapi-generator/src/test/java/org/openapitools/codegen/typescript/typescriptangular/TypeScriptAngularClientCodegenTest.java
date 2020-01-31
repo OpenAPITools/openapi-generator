@@ -19,6 +19,33 @@ import org.testng.annotations.Test;
 
 public class TypeScriptAngularClientCodegenTest {
     @Test
+    public void toEnumVarName() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        // unspecified option should default to PascalCase
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("valid_id", "string"), "ValidId");
+        Assert.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "IllegalId");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original.name());
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("valid_id", "string"), "valid_id");
+        Assert.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "illegal_id");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.UPPERCASE.name());
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("valid_id", "string"), "VALID_ID");
+        Assert.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "ILLEGAL_ID");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.snake_case.name());
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("valid_ID", "string"), "valid_id");
+        Assert.assertEquals(codegen.toEnumVarName("Illegal-Id+", "string"), "illegal_id");
+    }
+
+    @Test
     public void testModelSuffix() {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put("modelSuffix", "MySuffix");
@@ -214,6 +241,5 @@ public class TypeScriptAngularClientCodegenTest {
 
         Assert.assertEquals(codegen.toModelImport(modelName), "model/foo-response-links");
         Assert.assertEquals(codegen.toModelFilename(modelName), "./foo-response-links");
-
     }
 }
