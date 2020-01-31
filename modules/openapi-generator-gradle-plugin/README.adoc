@@ -377,6 +377,11 @@ openApiGenerate {
 |None
 |The input specification to validate. Supports all formats supported by the Parser.
 
+|recommend
+|Boolean
+|true
+|Whether or not to offer recommendations related to the validated specification document.
+
 |===
 
 === openApiMeta
@@ -521,6 +526,7 @@ BUILD SUCCESSFUL in 0s
 ----
 openApiValidate {
    inputSpec = "/src/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
+   recommend = true
 }
 ----
 
