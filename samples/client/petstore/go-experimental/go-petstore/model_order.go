@@ -26,6 +26,13 @@ type Order struct {
 	Complete *bool `json:"complete,omitempty"`
 }
 
+func NewOrder() *Order {
+    this := Order{}
+    var Complete bool = false
+    this.Complete = &Complete
+    return &this
+}
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Order) GetId() int64 {
 	if o == nil || o.Id == nil {

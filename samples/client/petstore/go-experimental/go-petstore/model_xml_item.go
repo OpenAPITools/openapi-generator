@@ -47,6 +47,11 @@ type XmlItem struct {
 	PrefixNsWrappedArray *[]int32 `json:"prefix_ns_wrapped_array,omitempty"`
 }
 
+func NewXmlItem() *XmlItem {
+    this := XmlItem{}
+    return &this
+}
+
 // GetAttributeString returns the AttributeString field value if set, zero value otherwise.
 func (o *XmlItem) GetAttributeString() string {
 	if o == nil || o.AttributeString == nil {

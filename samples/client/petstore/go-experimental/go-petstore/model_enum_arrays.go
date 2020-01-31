@@ -20,6 +20,11 @@ type EnumArrays struct {
 	ArrayEnum *[]string `json:"array_enum,omitempty"`
 }
 
+func NewEnumArrays() *EnumArrays {
+    this := EnumArrays{}
+    return &this
+}
+
 // GetJustSymbol returns the JustSymbol field value if set, zero value otherwise.
 func (o *EnumArrays) GetJustSymbol() string {
 	if o == nil || o.JustSymbol == nil {

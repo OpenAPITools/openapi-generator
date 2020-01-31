@@ -19,6 +19,11 @@ type List struct {
 	Var123List *string `json:"123-list,omitempty"`
 }
 
+func NewList() *List {
+    this := List{}
+    return &this
+}
+
 // GetVar123List returns the Var123List field value if set, zero value otherwise.
 func (o *List) GetVar123List() string {
 	if o == nil || o.Var123List == nil {

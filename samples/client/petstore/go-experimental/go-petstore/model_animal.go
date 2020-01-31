@@ -20,6 +20,13 @@ type Animal struct {
 	Color *string `json:"color,omitempty"`
 }
 
+func NewAnimal() *Animal {
+    this := Animal{}
+    var Color string = "red"
+    this.Color = &Color
+    return &this
+}
+
 // GetClassName returns the ClassName field value
 func (o *Animal) GetClassName() string {
 	if o == nil {

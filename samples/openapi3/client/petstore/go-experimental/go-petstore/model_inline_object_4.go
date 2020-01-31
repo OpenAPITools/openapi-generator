@@ -22,6 +22,11 @@ type InlineObject4 struct {
 	Param2 string `json:"param2"`
 }
 
+func NewInlineObject4() *InlineObject4 {
+    this := InlineObject4{}
+    return &this
+}
+
 // GetParam returns the Param field value
 func (o *InlineObject4) GetParam() string {
 	if o == nil {

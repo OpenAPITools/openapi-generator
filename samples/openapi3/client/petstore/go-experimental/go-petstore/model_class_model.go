@@ -19,6 +19,11 @@ type ClassModel struct {
 	Class *string `json:"_class,omitempty"`
 }
 
+func NewClassModel() *ClassModel {
+    this := ClassModel{}
+    return &this
+}
+
 // GetClass returns the Class field value if set, zero value otherwise.
 func (o *ClassModel) GetClass() string {
 	if o == nil || o.Class == nil {

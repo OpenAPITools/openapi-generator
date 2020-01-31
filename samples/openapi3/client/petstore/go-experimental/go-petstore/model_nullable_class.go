@@ -30,6 +30,11 @@ type NullableClass struct {
 	ObjectItemsNullable *map[string]map[string]interface{} `json:"object_items_nullable,omitempty"`
 }
 
+func NewNullableClass() *NullableClass {
+    this := NullableClass{}
+    return &this
+}
+
 // GetIntegerProp returns the IntegerProp field value if set, zero value otherwise.
 func (o *NullableClass) GetIntegerProp() NullableInt32 {
 	if o == nil || o.IntegerProp == nil {

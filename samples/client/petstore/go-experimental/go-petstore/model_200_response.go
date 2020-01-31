@@ -20,6 +20,11 @@ type Model200Response struct {
 	Class *string `json:"class,omitempty"`
 }
 
+func NewModel200Response() *Model200Response {
+    this := Model200Response{}
+    return &this
+}
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Model200Response) GetName() int32 {
 	if o == nil || o.Name == nil {

@@ -24,6 +24,11 @@ type TypeHolderExample struct {
 	ArrayItem []int32 `json:"array_item"`
 }
 
+func NewTypeHolderExample() *TypeHolderExample {
+    this := TypeHolderExample{}
+    return &this
+}
+
 // GetStringItem returns the StringItem field value
 func (o *TypeHolderExample) GetStringItem() string {
 	if o == nil {

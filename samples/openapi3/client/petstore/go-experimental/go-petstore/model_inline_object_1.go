@@ -23,6 +23,11 @@ type InlineObject1 struct {
 	File **os.File `json:"file,omitempty"`
 }
 
+func NewInlineObject1() *InlineObject1 {
+    this := InlineObject1{}
+    return &this
+}
+
 // GetAdditionalMetadata returns the AdditionalMetadata field value if set, zero value otherwise.
 func (o *InlineObject1) GetAdditionalMetadata() string {
 	if o == nil || o.AdditionalMetadata == nil {

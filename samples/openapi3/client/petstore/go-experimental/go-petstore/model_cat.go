@@ -20,6 +20,11 @@ type Cat struct {
 	Declawed *bool `json:"declawed,omitempty"`
 }
 
+func NewCat() *Cat {
+    this := Cat{}
+    return &this
+}
+
 // GetDeclawed returns the Declawed field value if set, zero value otherwise.
 func (o *Cat) GetDeclawed() bool {
 	if o == nil || o.Declawed == nil {

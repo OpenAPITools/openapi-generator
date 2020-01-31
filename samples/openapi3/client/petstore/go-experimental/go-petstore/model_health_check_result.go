@@ -19,6 +19,11 @@ type HealthCheckResult struct {
 	NullableMessage *NullableString `json:"NullableMessage,omitempty"`
 }
 
+func NewHealthCheckResult() *HealthCheckResult {
+    this := HealthCheckResult{}
+    return &this
+}
+
 // GetNullableMessage returns the NullableMessage field value if set, zero value otherwise.
 func (o *HealthCheckResult) GetNullableMessage() NullableString {
 	if o == nil || o.NullableMessage == nil {

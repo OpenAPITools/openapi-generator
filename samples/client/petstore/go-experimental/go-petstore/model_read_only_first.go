@@ -20,6 +20,11 @@ type ReadOnlyFirst struct {
 	Baz *string `json:"baz,omitempty"`
 }
 
+func NewReadOnlyFirst() *ReadOnlyFirst {
+    this := ReadOnlyFirst{}
+    return &this
+}
+
 // GetBar returns the Bar field value if set, zero value otherwise.
 func (o *ReadOnlyFirst) GetBar() string {
 	if o == nil || o.Bar == nil {

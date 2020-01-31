@@ -22,6 +22,11 @@ type MixedPropertiesAndAdditionalPropertiesClass struct {
 	Map *map[string]Animal `json:"map,omitempty"`
 }
 
+func NewMixedPropertiesAndAdditionalPropertiesClass() *MixedPropertiesAndAdditionalPropertiesClass {
+    this := MixedPropertiesAndAdditionalPropertiesClass{}
+    return &this
+}
+
 // GetUuid returns the Uuid field value if set, zero value otherwise.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string {
 	if o == nil || o.Uuid == nil {

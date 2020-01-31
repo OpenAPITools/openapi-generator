@@ -26,6 +26,15 @@ type EnumTest struct {
 	OuterEnumIntegerDefaultValue *OuterEnumIntegerDefaultValue `json:"outerEnumIntegerDefaultValue,omitempty"`
 }
 
+func NewEnumTest() *EnumTest {
+    this := EnumTest{}
+    var OuterEnumDefaultValue OuterEnumDefaultValue = "placed"
+    this.OuterEnumDefaultValue = &OuterEnumDefaultValue
+    var OuterEnumIntegerDefaultValue OuterEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue__0
+    this.OuterEnumIntegerDefaultValue = &OuterEnumIntegerDefaultValue
+    return &this
+}
+
 // GetEnumString returns the EnumString field value if set, zero value otherwise.
 func (o *EnumTest) GetEnumString() string {
 	if o == nil || o.EnumString == nil {

@@ -34,6 +34,11 @@ type FormatTest struct {
 	BigDecimal *float64 `json:"BigDecimal,omitempty"`
 }
 
+func NewFormatTest() *FormatTest {
+    this := FormatTest{}
+    return &this
+}
+
 // GetInteger returns the Integer field value if set, zero value otherwise.
 func (o *FormatTest) GetInteger() int32 {
 	if o == nil || o.Integer == nil {

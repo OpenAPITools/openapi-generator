@@ -19,6 +19,11 @@ type DogAllOf struct {
 	Breed *string `json:"breed,omitempty"`
 }
 
+func NewDogAllOf() *DogAllOf {
+    this := DogAllOf{}
+    return &this
+}
+
 // GetBreed returns the Breed field value if set, zero value otherwise.
 func (o *DogAllOf) GetBreed() string {
 	if o == nil || o.Breed == nil {

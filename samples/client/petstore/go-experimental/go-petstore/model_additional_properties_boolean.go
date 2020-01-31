@@ -19,6 +19,11 @@ type AdditionalPropertiesBoolean struct {
 	Name *string `json:"name,omitempty"`
 }
 
+func NewAdditionalPropertiesBoolean() *AdditionalPropertiesBoolean {
+    this := AdditionalPropertiesBoolean{}
+    return &this
+}
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AdditionalPropertiesBoolean) GetName() string {
 	if o == nil || o.Name == nil {

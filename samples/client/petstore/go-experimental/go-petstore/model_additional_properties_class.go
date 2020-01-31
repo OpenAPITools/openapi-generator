@@ -29,6 +29,11 @@ type AdditionalPropertiesClass struct {
 	Anytype3 *map[string]interface{} `json:"anytype_3,omitempty"`
 }
 
+func NewAdditionalPropertiesClass() *AdditionalPropertiesClass {
+    this := AdditionalPropertiesClass{}
+    return &this
+}
+
 // GetMapString returns the MapString field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapString() map[string]string {
 	if o == nil || o.MapString == nil {

@@ -37,6 +37,11 @@ type FormatTest struct {
 	PatternWithDigitsAndDelimiter *string `json:"pattern_with_digits_and_delimiter,omitempty"`
 }
 
+func NewFormatTest() *FormatTest {
+    this := FormatTest{}
+    return &this
+}
+
 // GetInteger returns the Integer field value if set, zero value otherwise.
 func (o *FormatTest) GetInteger() int32 {
 	if o == nil || o.Integer == nil {

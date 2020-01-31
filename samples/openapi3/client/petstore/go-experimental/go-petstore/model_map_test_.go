@@ -22,6 +22,11 @@ type MapTest struct {
 	IndirectMap *map[string]bool `json:"indirect_map,omitempty"`
 }
 
+func NewMapTest() *MapTest {
+    this := MapTest{}
+    return &this
+}
+
 // GetMapMapOfString returns the MapMapOfString field value if set, zero value otherwise.
 func (o *MapTest) GetMapMapOfString() map[string]map[string]string {
 	if o == nil || o.MapMapOfString == nil {

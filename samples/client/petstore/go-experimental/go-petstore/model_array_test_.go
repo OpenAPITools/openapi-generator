@@ -21,6 +21,11 @@ type ArrayTest struct {
 	ArrayArrayOfModel *[][]ReadOnlyFirst `json:"array_array_of_model,omitempty"`
 }
 
+func NewArrayTest() *ArrayTest {
+    this := ArrayTest{}
+    return &this
+}
+
 // GetArrayOfString returns the ArrayOfString field value if set, zero value otherwise.
 func (o *ArrayTest) GetArrayOfString() []string {
 	if o == nil || o.ArrayOfString == nil {

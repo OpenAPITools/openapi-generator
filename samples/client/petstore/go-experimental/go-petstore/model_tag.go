@@ -20,6 +20,11 @@ type Tag struct {
 	Name *string `json:"name,omitempty"`
 }
 
+func NewTag() *Tag {
+    this := Tag{}
+    return &this
+}
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Tag) GetId() int64 {
 	if o == nil || o.Id == nil {

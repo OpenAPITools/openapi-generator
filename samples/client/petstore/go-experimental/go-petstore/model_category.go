@@ -20,6 +20,13 @@ type Category struct {
 	Name string `json:"name"`
 }
 
+func NewCategory() *Category {
+    this := Category{}
+    var Name string = "default-name"
+    this.Name = Name
+    return &this
+}
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Category) GetId() int64 {
 	if o == nil || o.Id == nil {

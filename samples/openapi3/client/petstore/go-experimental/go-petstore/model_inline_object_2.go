@@ -22,6 +22,13 @@ type InlineObject2 struct {
 	EnumFormString *string `json:"enum_form_string,omitempty"`
 }
 
+func NewInlineObject2() *InlineObject2 {
+    this := InlineObject2{}
+    var EnumFormString string = "-efg"
+    this.EnumFormString = &EnumFormString
+    return &this
+}
+
 // GetEnumFormStringArray returns the EnumFormStringArray field value if set, zero value otherwise.
 func (o *InlineObject2) GetEnumFormStringArray() []string {
 	if o == nil || o.EnumFormStringArray == nil {

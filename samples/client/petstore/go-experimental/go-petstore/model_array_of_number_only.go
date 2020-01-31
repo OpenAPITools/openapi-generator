@@ -19,6 +19,11 @@ type ArrayOfNumberOnly struct {
 	ArrayNumber *[]float32 `json:"ArrayNumber,omitempty"`
 }
 
+func NewArrayOfNumberOnly() *ArrayOfNumberOnly {
+    this := ArrayOfNumberOnly{}
+    return &this
+}
+
 // GetArrayNumber returns the ArrayNumber field value if set, zero value otherwise.
 func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
 	if o == nil || o.ArrayNumber == nil {

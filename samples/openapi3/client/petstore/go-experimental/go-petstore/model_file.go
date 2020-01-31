@@ -20,6 +20,11 @@ type File struct {
 	SourceURI *string `json:"sourceURI,omitempty"`
 }
 
+func NewFile() *File {
+    this := File{}
+    return &this
+}
+
 // GetSourceURI returns the SourceURI field value if set, zero value otherwise.
 func (o *File) GetSourceURI() string {
 	if o == nil || o.SourceURI == nil {

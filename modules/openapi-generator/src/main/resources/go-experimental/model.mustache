@@ -48,6 +48,19 @@ type {{classname}} struct {
 {{/vars}}
 {{/vendorExtensions.x-is-one-of-interface}}
 }
+
+func New{{classname}}() *{{classname}} {
+    this := {{classname}}{}
+{{#vars}}
+{{#defaultValue}}
+{{^isContainer}}
+    var {{name}} {{{dataType}}} = {{{.}}}
+    this.{{name}} = {{^required}}&{{/required}}{{name}}
+{{/isContainer}}
+{{/defaultValue}}
+{{/vars}}
+    return &this
+}
 {{/isEnum}}
 
 {{^isEnum}}

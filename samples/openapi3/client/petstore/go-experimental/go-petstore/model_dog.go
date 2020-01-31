@@ -20,6 +20,11 @@ type Dog struct {
 	Breed *string `json:"breed,omitempty"`
 }
 
+func NewDog() *Dog {
+    this := Dog{}
+    return &this
+}
+
 // GetBreed returns the Breed field value if set, zero value otherwise.
 func (o *Dog) GetBreed() string {
 	if o == nil || o.Breed == nil {

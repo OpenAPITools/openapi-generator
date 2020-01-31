@@ -19,6 +19,11 @@ type SpecialModelName struct {
 	SpecialPropertyName *int64 `json:"$special[property.name],omitempty"`
 }
 
+func NewSpecialModelName() *SpecialModelName {
+    this := SpecialModelName{}
+    return &this
+}
+
 // GetSpecialPropertyName returns the SpecialPropertyName field value if set, zero value otherwise.
 func (o *SpecialModelName) GetSpecialPropertyName() int64 {
 	if o == nil || o.SpecialPropertyName == nil {

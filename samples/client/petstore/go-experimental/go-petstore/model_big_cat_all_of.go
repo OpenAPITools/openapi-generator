@@ -19,6 +19,11 @@ type BigCatAllOf struct {
 	Kind *string `json:"kind,omitempty"`
 }
 
+func NewBigCatAllOf() *BigCatAllOf {
+    this := BigCatAllOf{}
+    return &this
+}
+
 // GetKind returns the Kind field value if set, zero value otherwise.
 func (o *BigCatAllOf) GetKind() string {
 	if o == nil || o.Kind == nil {

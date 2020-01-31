@@ -19,6 +19,11 @@ type NumberOnly struct {
 	JustNumber *float32 `json:"JustNumber,omitempty"`
 }
 
+func NewNumberOnly() *NumberOnly {
+    this := NumberOnly{}
+    return &this
+}
+
 // GetJustNumber returns the JustNumber field value if set, zero value otherwise.
 func (o *NumberOnly) GetJustNumber() float32 {
 	if o == nil || o.JustNumber == nil {

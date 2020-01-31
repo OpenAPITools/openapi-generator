@@ -20,6 +20,11 @@ type FileSchemaTestClass struct {
 	Files *[]File `json:"files,omitempty"`
 }
 
+func NewFileSchemaTestClass() *FileSchemaTestClass {
+    this := FileSchemaTestClass{}
+    return &this
+}
+
 // GetFile returns the File field value if set, zero value otherwise.
 func (o *FileSchemaTestClass) GetFile() File {
 	if o == nil || o.File == nil {

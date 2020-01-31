@@ -19,6 +19,13 @@ type Foo struct {
 	Bar *string `json:"bar,omitempty"`
 }
 
+func NewFoo() *Foo {
+    this := Foo{}
+    var Bar string = "bar"
+    this.Bar = &Bar
+    return &this
+}
+
 // GetBar returns the Bar field value if set, zero value otherwise.
 func (o *Foo) GetBar() string {
 	if o == nil || o.Bar == nil {

@@ -25,6 +25,11 @@ type Pet struct {
 	Status *string `json:"status,omitempty"`
 }
 
+func NewPet() *Pet {
+    this := Pet{}
+    return &this
+}
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Pet) GetId() int64 {
 	if o == nil || o.Id == nil {

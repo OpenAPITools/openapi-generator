@@ -22,6 +22,11 @@ type InlineObject struct {
 	Status *string `json:"status,omitempty"`
 }
 
+func NewInlineObject() *InlineObject {
+    this := InlineObject{}
+    return &this
+}
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *InlineObject) GetName() string {
 	if o == nil || o.Name == nil {

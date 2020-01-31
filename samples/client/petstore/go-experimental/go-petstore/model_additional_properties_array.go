@@ -19,6 +19,11 @@ type AdditionalPropertiesArray struct {
 	Name *string `json:"name,omitempty"`
 }
 
+func NewAdditionalPropertiesArray() *AdditionalPropertiesArray {
+    this := AdditionalPropertiesArray{}
+    return &this
+}
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AdditionalPropertiesArray) GetName() string {
 	if o == nil || o.Name == nil {

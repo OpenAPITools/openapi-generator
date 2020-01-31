@@ -48,6 +48,11 @@ type InlineObject3 struct {
 	Callback *string `json:"callback,omitempty"`
 }
 
+func NewInlineObject3() *InlineObject3 {
+    this := InlineObject3{}
+    return &this
+}
+
 // GetInteger returns the Integer field value if set, zero value otherwise.
 func (o *InlineObject3) GetInteger() int32 {
 	if o == nil || o.Integer == nil {

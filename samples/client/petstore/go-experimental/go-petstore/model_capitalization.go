@@ -25,6 +25,11 @@ type Capitalization struct {
 	ATT_NAME *string `json:"ATT_NAME,omitempty"`
 }
 
+func NewCapitalization() *Capitalization {
+    this := Capitalization{}
+    return &this
+}
+
 // GetSmallCamel returns the SmallCamel field value if set, zero value otherwise.
 func (o *Capitalization) GetSmallCamel() string {
 	if o == nil || o.SmallCamel == nil {

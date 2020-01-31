@@ -19,6 +19,11 @@ type Client struct {
 	Client *string `json:"client,omitempty"`
 }
 
+func NewClient() *Client {
+    this := Client{}
+    return &this
+}
+
 // GetClient returns the Client field value if set, zero value otherwise.
 func (o *Client) GetClient() string {
 	if o == nil || o.Client == nil {

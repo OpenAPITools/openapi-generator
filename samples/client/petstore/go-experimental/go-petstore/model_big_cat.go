@@ -20,6 +20,11 @@ type BigCat struct {
 	Kind *string `json:"kind,omitempty"`
 }
 
+func NewBigCat() *BigCat {
+    this := BigCat{}
+    return &this
+}
+
 // GetKind returns the Kind field value if set, zero value otherwise.
 func (o *BigCat) GetKind() string {
 	if o == nil || o.Kind == nil {

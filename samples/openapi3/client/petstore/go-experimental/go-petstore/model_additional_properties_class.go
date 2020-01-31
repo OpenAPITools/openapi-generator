@@ -20,6 +20,11 @@ type AdditionalPropertiesClass struct {
 	MapOfMapProperty *map[string]map[string]string `json:"map_of_map_property,omitempty"`
 }
 
+func NewAdditionalPropertiesClass() *AdditionalPropertiesClass {
+    this := AdditionalPropertiesClass{}
+    return &this
+}
+
 // GetMapProperty returns the MapProperty field value if set, zero value otherwise.
 func (o *AdditionalPropertiesClass) GetMapProperty() map[string]string {
 	if o == nil || o.MapProperty == nil {

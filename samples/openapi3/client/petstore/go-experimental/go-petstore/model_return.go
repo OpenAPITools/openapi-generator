@@ -19,6 +19,11 @@ type Return struct {
 	Return *int32 `json:"return,omitempty"`
 }
 
+func NewReturn() *Return {
+    this := Return{}
+    return &this
+}
+
 // GetReturn returns the Return field value if set, zero value otherwise.
 func (o *Return) GetReturn() int32 {
 	if o == nil || o.Return == nil {

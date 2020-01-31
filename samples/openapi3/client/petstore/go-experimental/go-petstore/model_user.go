@@ -27,6 +27,11 @@ type User struct {
 	UserStatus *int32 `json:"userStatus,omitempty"`
 }
 
+func NewUser() *User {
+    this := User{}
+    return &this
+}
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *User) GetId() int64 {
 	if o == nil || o.Id == nil {

@@ -22,6 +22,11 @@ type Name struct {
 	Var123Number *int32 `json:"123Number,omitempty"`
 }
 
+func NewName() *Name {
+    this := Name{}
+    return &this
+}
+
 // GetName returns the Name field value
 func (o *Name) GetName() int32 {
 	if o == nil {

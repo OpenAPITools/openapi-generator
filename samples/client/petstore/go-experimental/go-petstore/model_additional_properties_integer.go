@@ -19,6 +19,11 @@ type AdditionalPropertiesInteger struct {
 	Name *string `json:"name,omitempty"`
 }
 
+func NewAdditionalPropertiesInteger() *AdditionalPropertiesInteger {
+    this := AdditionalPropertiesInteger{}
+    return &this
+}
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AdditionalPropertiesInteger) GetName() string {
 	if o == nil || o.Name == nil {

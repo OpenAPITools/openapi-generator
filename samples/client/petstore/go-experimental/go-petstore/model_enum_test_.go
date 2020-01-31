@@ -23,6 +23,11 @@ type EnumTest struct {
 	OuterEnum *OuterEnum `json:"outerEnum,omitempty"`
 }
 
+func NewEnumTest() *EnumTest {
+    this := EnumTest{}
+    return &this
+}
+
 // GetEnumString returns the EnumString field value if set, zero value otherwise.
 func (o *EnumTest) GetEnumString() string {
 	if o == nil || o.EnumString == nil {

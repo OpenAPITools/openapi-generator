@@ -21,6 +21,11 @@ type ApiResponse struct {
 	Message *string `json:"message,omitempty"`
 }
 
+func NewApiResponse() *ApiResponse {
+    this := ApiResponse{}
+    return &this
+}
+
 // GetCode returns the Code field value if set, zero value otherwise.
 func (o *ApiResponse) GetCode() int32 {
 	if o == nil || o.Code == nil {

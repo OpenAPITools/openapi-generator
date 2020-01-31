@@ -19,6 +19,11 @@ type InlineResponseDefault struct {
 	String *Foo `json:"string,omitempty"`
 }
 
+func NewInlineResponseDefault() *InlineResponseDefault {
+    this := InlineResponseDefault{}
+    return &this
+}
+
 // GetString returns the String field value if set, zero value otherwise.
 func (o *InlineResponseDefault) GetString() Foo {
 	if o == nil || o.String == nil {

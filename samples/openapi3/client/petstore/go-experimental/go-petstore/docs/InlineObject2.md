@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **EnumFormStringArray** | Pointer to **[]string** | Form parameter enum test (string array) | [optional] 
-**EnumFormString** | Pointer to **string** | Form parameter enum test (string) | [optional] [default to ENUM_FORM_STRING_EFG]
+**EnumFormString** | Pointer to **string** | Form parameter enum test (string) | [optional] [default to "-efg"]
 
 ## Methods
 

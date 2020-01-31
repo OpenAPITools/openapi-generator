@@ -19,6 +19,11 @@ type CatAllOf struct {
 	Declawed *bool `json:"declawed,omitempty"`
 }
 
+func NewCatAllOf() *CatAllOf {
+    this := CatAllOf{}
+    return &this
+}
+
 // GetDeclawed returns the Declawed field value if set, zero value otherwise.
 func (o *CatAllOf) GetDeclawed() bool {
 	if o == nil || o.Declawed == nil {

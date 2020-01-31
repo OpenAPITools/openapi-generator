@@ -21,6 +21,11 @@ type OuterComposite struct {
 	MyBoolean *bool `json:"my_boolean,omitempty"`
 }
 
+func NewOuterComposite() *OuterComposite {
+    this := OuterComposite{}
+    return &this
+}
+
 // GetMyNumber returns the MyNumber field value if set, zero value otherwise.
 func (o *OuterComposite) GetMyNumber() float32 {
 	if o == nil || o.MyNumber == nil {

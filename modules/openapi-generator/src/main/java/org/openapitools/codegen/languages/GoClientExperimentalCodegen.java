@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
@@ -23,6 +24,7 @@ import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,6 +97,18 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
     public String toModelName(String name) {
         // underscoring would also lowercase the whole name, thus losing acronyms which are in capitals
         return camelize(toModel(name, false));
+    }
+
+    public String toDefaultValue(Schema p) {
+        p = ModelUtils.getReferencedSchema(this.openAPI, p);
+        if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "\"" + escapeText((String) p.getDefault()) + "\"";
+            }
+            return null;
+        }
+
+        return super.toDefaultValue(p);
     }
 
     @Override

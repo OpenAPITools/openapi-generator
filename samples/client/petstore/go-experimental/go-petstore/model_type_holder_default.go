@@ -23,6 +23,15 @@ type TypeHolderDefault struct {
 	ArrayItem []int32 `json:"array_item"`
 }
 
+func NewTypeHolderDefault() *TypeHolderDefault {
+    this := TypeHolderDefault{}
+    var StringItem string = "what"
+    this.StringItem = StringItem
+    var BoolItem bool = true
+    this.BoolItem = BoolItem
+    return &this
+}
+
 // GetStringItem returns the StringItem field value
 func (o *TypeHolderDefault) GetStringItem() string {
 	if o == nil {

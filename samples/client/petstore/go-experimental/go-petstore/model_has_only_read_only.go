@@ -20,6 +20,11 @@ type HasOnlyReadOnly struct {
 	Foo *string `json:"foo,omitempty"`
 }
 
+func NewHasOnlyReadOnly() *HasOnlyReadOnly {
+    this := HasOnlyReadOnly{}
+    return &this
+}
+
 // GetBar returns the Bar field value if set, zero value otherwise.
 func (o *HasOnlyReadOnly) GetBar() string {
 	if o == nil || o.Bar == nil {
