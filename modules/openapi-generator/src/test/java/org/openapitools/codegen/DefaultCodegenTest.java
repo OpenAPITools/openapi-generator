@@ -541,8 +541,7 @@ public class DefaultCodegenTest {
         CodegenModel model = codegen.fromModel("NewMessageEventCoreNoOwnProps", schema);
         Assert.assertEquals(getNames(model.getVars()), Collections.emptyList());
         Assert.assertEquals(model.parent, "MessageEventCore");
-        // this is legacy behavior that causes issues
-        Assert.assertEquals(model.allParents, Collections.emptyList());
+        Assert.assertEquals(model.allParents, Collections.singletonList("MessageEventCore"));
     }
 
     class CodegenWithMultipleInheritance extends DefaultCodegen {
