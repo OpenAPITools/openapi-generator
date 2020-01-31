@@ -9,7 +9,6 @@ These map almost fully 1:1 with the options you'd pass to the CLI or Maven plugi
 
 Tasks are listed under the "OpenAPI Tools" tasks heading.
 
-
 .OpenAPI Tools Tasks
 |===
 |task name |description
@@ -37,6 +36,30 @@ these tasks as dependencies to other tasks (using `dependsOn`), you'll need  a t
 compileJava.dependsOn tasks.openApiGenerate
 ```
 ====
+
+All extensions can be rewritten as tasks. Where you can have only a single extension defined in your gradle file, you may have multiple tasks.
+
+.One Extension, multiple tasks
+[source,groovy]
+----
+// Validating a single specification
+openApiValidate {
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+}
+
+// Define a task for validating one specification
+task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+}
+
+// Define a task for validating another specification
+task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+}
+
+// Define a task for batch validations
+task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])
+----
 
 == Plugin Setup
 
