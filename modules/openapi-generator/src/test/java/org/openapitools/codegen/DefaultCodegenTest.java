@@ -528,7 +528,7 @@ public class DefaultCodegenTest {
         Schema child = openAPI.getComponents().getSchemas().get("clubForCreation");
         codegen.setOpenAPI(openAPI);
         CodegenModel childModel = codegen.fromModel("clubForCreation", child);
-        showVars(childModel);
+        Assert.assertEquals(getRequiredVars(childModel), Collections.singletonList("name"));
     }
 
     @Test
@@ -539,22 +539,20 @@ public class DefaultCodegenTest {
 
         Schema person = openAPI.getComponents().getSchemas().get("person");
         CodegenModel personModel = codegen.fromModel("person", person);
-        showVars(personModel);
+        Assert.assertEquals(getRequiredVars(personModel), Arrays.asList("firstName", "name", "email", "id"));
 
         Schema personForCreation = openAPI.getComponents().getSchemas().get("personForCreation");
         CodegenModel personForCreationModel = codegen.fromModel("personForCreation", personForCreation);
-        showVars(personForCreationModel);
+        Assert.assertEquals(getRequiredVars(personForCreationModel), Arrays.asList("firstName", "name", "email"));
 
         Schema personForUpdate = openAPI.getComponents().getSchemas().get("personForUpdate");
         CodegenModel personForUpdateModel = codegen.fromModel("personForUpdate", personForUpdate);
-        showVars(personForUpdateModel);
+        Assert.assertEquals(getRequiredVars(personForUpdateModel), Collections.emptyList());
     }
 
-    private void showVars(CodegenModel model) {
-        if(model.getRequiredVars() != null) {
-
-            System.out.println(model.getRequiredVars().stream().map(v -> v.name).collect(Collectors.toList()));
-        }
+    private List<String> getRequiredVars(CodegenModel model) {
+        if(model.getRequiredVars() == null) return null;
+        return model.getRequiredVars().stream().map(v -> v.name).collect(Collectors.toList());
     }
 
 
