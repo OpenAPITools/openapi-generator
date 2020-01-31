@@ -81,15 +81,7 @@ namespace Org.OpenAPITools.Model
             this.Quantity = quantity;
             this.ShipDate = shipDate;
             this.Status = status;
-            // use default value if no "complete" provided
-            if (complete == null)
-            {
-                this.Complete = false;
-            }
-            else
-            {
-                this.Complete = complete;
-            }
+            this.Complete = complete;
         }
         
         /// <summary>

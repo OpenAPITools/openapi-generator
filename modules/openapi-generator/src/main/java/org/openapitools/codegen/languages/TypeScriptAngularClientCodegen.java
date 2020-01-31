@@ -160,7 +160,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             setStringEnums(Boolean.valueOf(additionalProperties.get(STRING_ENUMS).toString()));
             additionalProperties.put("stringEnums", getStringEnums());
             if (getStringEnums()) {
-                enumSuffix = "";
                 classEnumSeparator = "";
             }
         }
@@ -228,6 +227,23 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(FILE_NAMING)) {
             this.setFileNaming(additionalProperties.get(FILE_NAMING).toString());
         }
+
+        if (isEnumSuffixV4Compat) {
+            applyEnumSuffixV4CompatMode();
+        }
+    }
+
+    private void applyEnumSuffixV4CompatMode() {
+        String fullModelSuffix = modelSuffix + modelNameSuffix;
+        if (stringEnums) {
+            // with stringEnums, legacy code would discard "Enum" suffix altogether
+            // resulting in smth like PetModelTypeModeL
+            enumSuffix = fullModelSuffix;
+        } else {
+            // without stringEnums, "Enum" was appended to model suffix, e.g. PetModel.TypeModelEnum
+            enumSuffix = fullModelSuffix + "Enum";
+        }
+
     }
 
     private void addNpmPackageGeneration(SemVer ngVersion) {
@@ -451,6 +467,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         // Add additional filename information for model imports in the services
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
+            // This property is not used in the templates any more, subject for removal
             im.put("filename", im.get("import"));
             im.put("classname", im.get("classname"));
         }
@@ -604,10 +621,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toModelName(String name) {
-        if (modelSuffix.length() != 0 && !name.endsWith(modelSuffix)) {
-            name = name + modelSuffix;
-        }
-
+        name = addSuffix(name, modelSuffix);
         return super.toModelName(name);
     }
 

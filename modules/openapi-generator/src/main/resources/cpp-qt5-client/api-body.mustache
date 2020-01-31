@@ -57,6 +57,10 @@ void {{classname}}::enableResponseCompression() {
     isResponseCompressionEnabled = true;
 }
 
+void {{classname}}::abortRequests(){
+    emit abortRequestsSignal();
+}
+
 {{#operations}}
 {{#operation}}
 void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
@@ -143,7 +147,7 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
-
+    connect(this, &{{classname}}::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 

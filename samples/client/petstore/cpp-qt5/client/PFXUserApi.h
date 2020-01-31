@@ -38,6 +38,7 @@ public:
     void addHeaders(const QString &key, const QString &value);
     void enableRequestCompression();
     void enableResponseCompression();
+    void abortRequests();
 
     void createUser(const PFXUser &body);
     void createUsersWithArrayInput(const QList<PFXUser> &body);
@@ -104,6 +105,8 @@ signals:
     void loginUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void logoutUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void updateUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+
+    void abortRequestsSignal(); 
 };
 
 } // namespace test_namespace

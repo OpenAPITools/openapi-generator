@@ -93,8 +93,7 @@ declare -a always_iterate=(
 "${root}/bin/utils/export_generators_readme.sh"
 )
 
-export JAVA_OPTS="${JAVA_OPTS} -Djava.awt.headless=true"
-
+export JAVA_OPTS="${JAVA_OPTS} -Djava.awt.headless=true -Dorg.slf4j.simpleLogger.defaultLogLevel=warn"
 if [ "true" = "$batch_mode" ]; then
   if [ ! -f "$executable" ]; then
     (cd "${root}" && mvn -B clean package -DskipTests=true -Dmaven.javadoc.skip=true)
