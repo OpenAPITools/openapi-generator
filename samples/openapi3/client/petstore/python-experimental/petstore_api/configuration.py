@@ -37,6 +37,8 @@ class Configuration(object):
       The dict value is an API key prefix when generating the auth data.
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
+    :param signing_info: Configuration parameters for HTTP signature.
+        Must be an instance of petstore_api.signing.HttpSigningConfiguration
 
     :Example:
 
@@ -55,11 +57,50 @@ class Configuration(object):
       )
     The following cookie will be added to the HTTP request:
        Cookie: JSESSIONID abc123
+
+    Configure API client with HTTP basic authentication:
+      conf = petstore_api.Configuration(
+          username='the-user',
+          password='the-password',
+      )
+
+    Configure API client with HTTP signature authentication. Use the 'hs2019' signature scheme,
+    sign the HTTP requests with the RSA-SSA-PSS signature algorithm, and set the expiration time
+    of the signature to 5 minutes after the signature has been created.
+    Note you can use the constants defined in the petstore_api.signing module, and you can
+    also specify arbitrary HTTP headers to be included in the HTTP signature, except for the
+    'Authorization' header, which is used to carry the signature.
+
+    One may be tempted to sign all headers by default, but in practice it rarely works.
+    This is beccause explicit proxies, transparent proxies, TLS termination endpoints or
+    load balancers may add/modify/remove headers. Include the HTTP headers that you know
+    are not going to be modified in transit.
+
+      conf = petstore_api.Configuration(
+        signing_info = petstore_api.signing.HttpSigningConfiguration(
+            key_id =                 'my-key-id',
+            private_key_path =       'rsa.pem',
+            signing_scheme =         signing.SCHEME_HS2019,
+            signing_algorithm =      signing.ALGORITHM_RSASSA_PSS,
+            signed_headers =         [signing.HEADER_REQUEST_TARGET,
+                                      signing.HEADER_CREATED,
+                                      signing.HEADER_EXPIRES,
+                                      signing.HEADER_HOST,
+                                      signing.HEADER_DATE,
+                                      signing.HEADER_DIGEST,
+                                      'Content-Type',
+                                      'Content-Length',
+                                      'User-Agent'
+                                     ],
+            signature_max_validity = datetime.timedelta(minutes=5)
+        )
+      )
     """
 
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
-                 username=None, password=None):
+                 username=None, password=None,
+                 signing_info=None):
         """Constructor
         """
         self.host = host
@@ -87,6 +128,11 @@ class Configuration(object):
         """
         self.password = password
         """Password for HTTP basic authentication
+        """
+        if signing_info is not None:
+            signing_info.host = host
+        self.signing_info = signing_info
+        """The HTTP signing configuration
         """
         self.access_token = ""
         """access token for OAuth/Bearer
@@ -303,6 +349,13 @@ class Configuration(object):
                 'in': 'header',
                 'key': 'Authorization',
                 'value': self.get_basic_auth_token()
+            }
+        if self.signing_info is not None:
+            auth['http_signature_test'] = {
+                'type': 'http-signature',
+                'in': 'header',
+                'key': 'Authorization',
+                'value': None  # Signature headers are calculated for every HTTP request
             }
         if self.access_token is not None:
             auth['petstore_auth'] = {

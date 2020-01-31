@@ -7,6 +7,8 @@ sidebar_label: typescript-rxjs
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|enumNameSuffix|Suffix that will be appended to all enum names. A special 'v4-compat' value enables the backward-compatible behavior (as pre v4.2.3)| |v4-compat|
+|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |PascalCase|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
@@ -67,10 +69,8 @@ sidebar_label: typescript-rxjs
 <li>HttpMethod</li>
 <li>HttpQuery</li>
 <li>Middleware</li>
-<li>ModelPropertyNaming</li>
 <li>RequestArgs</li>
 <li>RequestOpts</li>
-<li>RequiredError</li>
 <li>ResponseArgs</li>
 <li>abstract</li>
 <li>await</li>
@@ -90,7 +90,6 @@ sidebar_label: typescript-rxjs
 <li>double</li>
 <li>else</li>
 <li>enum</li>
-<li>exists</li>
 <li>export</li>
 <li>extends</li>
 <li>false</li>

@@ -29,6 +29,7 @@ public:
     void addHeaders(const QString &key, const QString &value);
     void enableRequestCompression();
     void enableResponseCompression();
+    void abortRequests();
 {{#operations}}{{#operation}}
     void {{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/operation}}{{/operations}}
 
@@ -53,6 +54,8 @@ signals:
     void {{nickname}}SignalE({{#returnType}}{{{returnType}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
     void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
+
+    void abortRequestsSignal(); 
 };
 
 {{#cppNamespaceDeclarations}}

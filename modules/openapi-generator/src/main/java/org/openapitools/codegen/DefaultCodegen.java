@@ -1663,6 +1663,10 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @SuppressWarnings("static-method")
     public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+        Map<String, Object> exts = composedSchema.getExtensions();
+        if (exts != null && exts.containsKey("x-oneOf-name")) {
+            return (String) exts.get("x-oneOf-name");
+        }
         return "oneOf<" + String.join(",", names) + ">";
     }
 
@@ -2126,13 +2130,16 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
-    private CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
+    protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
         if (schema.getDiscriminator() == null) {
             return null;
         }
         CodegenDiscriminator discriminator = new CodegenDiscriminator();
         discriminator.setPropertyName(toVarName(schema.getDiscriminator().getPropertyName()));
         discriminator.setPropertyBaseName(schema.getDiscriminator().getPropertyName());
+        discriminator.setPropertyGetter(toGetter(discriminator.getPropertyName()));
+        // FIXME: for now, we assume that the discriminator property is String
+        discriminator.setPropertyType(typeMapping.get("string"));
         discriminator.setMapping(schema.getDiscriminator().getMapping());
         if (schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
             for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
@@ -2255,6 +2262,10 @@ public class DefaultCodegen implements CodegenConfig {
         property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
         property.jsonSchema = Json.pretty(p);
+
+        if (p.getDeprecated() != null) {
+            property.deprecated = p.getDeprecated();
+        }
         if (p.getReadOnly() != null) {
             property.isReadOnly = p.getReadOnly();
         }
@@ -3617,6 +3628,7 @@ public class DefaultCodegen implements CodegenConfig {
             cs.name = key;
             cs.type = securityScheme.getType().toString();
             cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = false;
+            cs.isHttpSignature = false;
             cs.isBasicBasic = cs.isBasicBearer = false;
             cs.scheme = securityScheme.getScheme();
             if (securityScheme.getExtensions() != null) {
@@ -3638,6 +3650,14 @@ public class DefaultCodegen implements CodegenConfig {
                 } else if ("bearer".equals(securityScheme.getScheme())) {
                     cs.isBasicBearer = true;
                     cs.bearerFormat = securityScheme.getBearerFormat();
+                } else if ("signature".equals(securityScheme.getScheme())) {
+                    // HTTP signature as defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
+                    // The registry of security schemes is maintained by IANA.
+                    // https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml
+                    // As of January 2020, the "signature" scheme has not been registered with IANA yet.
+                    // This scheme may have to be changed when it is officially registered with IANA.
+                    cs.isHttpSignature = true;
+                    LOGGER.warn("Security scheme 'HTTP signature' is a draft IETF RFC and subject to change.");
                 }
             } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
                 cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;

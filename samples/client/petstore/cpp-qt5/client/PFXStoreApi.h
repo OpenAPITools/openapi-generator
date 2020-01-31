@@ -38,6 +38,7 @@ public:
     void addHeaders(const QString &key, const QString &value);
     void enableRequestCompression();
     void enableResponseCompression();
+    void abortRequests();
 
     void deleteOrder(const QString &order_id);
     void getInventory();
@@ -80,6 +81,8 @@ signals:
     void getInventorySignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void getOrderByIdSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void placeOrderSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+
+    void abortRequestsSignal(); 
 };
 
 } // namespace test_namespace

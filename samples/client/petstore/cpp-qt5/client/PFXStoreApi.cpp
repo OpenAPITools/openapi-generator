@@ -65,6 +65,10 @@ void PFXStoreApi::enableResponseCompression() {
     isResponseCompressionEnabled = true;
 }
 
+void PFXStoreApi::abortRequests(){
+    emit abortRequestsSignal();
+}
+
 void PFXStoreApi::deleteOrder(const QString &order_id) {
     QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
@@ -84,7 +88,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::deleteOrderCallback);
-
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -126,7 +130,7 @@ void PFXStoreApi::getInventory() {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getInventoryCallback);
-
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -181,7 +185,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getOrderByIdCallback);
-
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -227,7 +231,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
-
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 

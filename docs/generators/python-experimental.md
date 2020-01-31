@@ -12,7 +12,6 @@ sidebar_label: python-experimental
 |packageUrl|python package URL.| |null|
 |packageVersion|python package version.| |1.0.0|
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |useNose|use the nose test framework| |false|
 
 ## IMPORT MAPPING
