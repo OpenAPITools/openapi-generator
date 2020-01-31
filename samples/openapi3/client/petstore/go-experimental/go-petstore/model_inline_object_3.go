@@ -49,7 +49,22 @@ type InlineObject3 struct {
 }
 
 // NewInlineObject3 instantiates a new InlineObject3 object
-func NewInlineObject3() *InlineObject3 {
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewInlineObject3(number float32, double float64, patternWithoutDelimiter string, byte string, ) *InlineObject3 {
+    this := InlineObject3{}
+    this.Number = number
+    this.Double = double
+    this.PatternWithoutDelimiter = patternWithoutDelimiter
+    this.Byte = byte
+    return &this
+}
+
+// NewInlineObject3WithDefaults instantiates a new InlineObject3 object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewInlineObject3WithDefaults() *InlineObject3 {
     this := InlineObject3{}
     return &this
 }

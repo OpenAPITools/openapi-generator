@@ -25,7 +25,24 @@ type TypeHolderExample struct {
 }
 
 // NewTypeHolderExample instantiates a new TypeHolderExample object
-func NewTypeHolderExample() *TypeHolderExample {
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewTypeHolderExample(stringItem string, numberItem float32, floatItem float32, integerItem int32, boolItem bool, arrayItem []int32, ) *TypeHolderExample {
+    this := TypeHolderExample{}
+    this.StringItem = stringItem
+    this.NumberItem = numberItem
+    this.FloatItem = floatItem
+    this.IntegerItem = integerItem
+    this.BoolItem = boolItem
+    this.ArrayItem = arrayItem
+    return &this
+}
+
+// NewTypeHolderExampleWithDefaults instantiates a new TypeHolderExample object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewTypeHolderExampleWithDefaults() *TypeHolderExample {
     this := TypeHolderExample{}
     return &this
 }

@@ -14,9 +14,20 @@ Name | Type | Description | Notes
 
 ### NewEnumTest
 
-`func NewEnumTest() *EnumTest`
+`func NewEnumTest(enumStringRequired string, ) *EnumTest`
 
 NewEnumTest instantiates a new EnumTest object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewEnumTestWithDefaults
+
+`func NewEnumTestWithDefaults() *EnumTest`
+
+NewEnumTestWithDefaults instantiates a new EnumTest object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
 
 ### GetEnumString
 

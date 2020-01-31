@@ -26,7 +26,20 @@ type Pet struct {
 }
 
 // NewPet instantiates a new Pet object
-func NewPet() *Pet {
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewPet(name string, photoUrls []string, ) *Pet {
+    this := Pet{}
+    this.Name = name
+    this.PhotoUrls = photoUrls
+    return &this
+}
+
+// NewPetWithDefaults instantiates a new Pet object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewPetWithDefaults() *Pet {
     this := Pet{}
     return &this
 }

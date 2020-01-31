@@ -14,6 +14,17 @@ Name | Type | Description | Notes
 `func NewEnumArrays() *EnumArrays`
 
 NewEnumArrays instantiates a new EnumArrays object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewEnumArraysWithDefaults
+
+`func NewEnumArraysWithDefaults() *EnumArrays`
+
+NewEnumArraysWithDefaults instantiates a new EnumArrays object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
 
 ### GetJustSymbol
 

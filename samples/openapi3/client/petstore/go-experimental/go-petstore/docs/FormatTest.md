@@ -24,9 +24,20 @@ Name | Type | Description | Notes
 
 ### NewFormatTest
 
-`func NewFormatTest() *FormatTest`
+`func NewFormatTest(number float32, byte string, date string, password string, ) *FormatTest`
 
 NewFormatTest instantiates a new FormatTest object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewFormatTestWithDefaults
+
+`func NewFormatTestWithDefaults() *FormatTest`
+
+NewFormatTestWithDefaults instantiates a new FormatTest object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
 
 ### GetInteger
 

@@ -24,12 +24,28 @@ type TypeHolderDefault struct {
 }
 
 // NewTypeHolderDefault instantiates a new TypeHolderDefault object
-func NewTypeHolderDefault() *TypeHolderDefault {
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewTypeHolderDefault(stringItem string, numberItem float32, integerItem int32, boolItem bool, arrayItem []int32, ) *TypeHolderDefault {
     this := TypeHolderDefault{}
-    var StringItem string = "what"
-    this.StringItem = StringItem
-    var BoolItem bool = true
-    this.BoolItem = BoolItem
+    this.StringItem = stringItem
+    this.NumberItem = numberItem
+    this.IntegerItem = integerItem
+    this.BoolItem = boolItem
+    this.ArrayItem = arrayItem
+    return &this
+}
+
+// NewTypeHolderDefaultWithDefaults instantiates a new TypeHolderDefault object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewTypeHolderDefaultWithDefaults() *TypeHolderDefault {
+    this := TypeHolderDefault{}
+    var stringItem string = "what"
+    this.StringItem = stringItem
+    var boolItem bool = true
+    this.BoolItem = boolItem
     return &this
 }
 

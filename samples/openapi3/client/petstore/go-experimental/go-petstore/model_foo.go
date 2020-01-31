@@ -20,10 +20,23 @@ type Foo struct {
 }
 
 // NewFoo instantiates a new Foo object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
 func NewFoo() *Foo {
     this := Foo{}
-    var Bar string = "bar"
-    this.Bar = &Bar
+    var bar string = "bar"
+    this.Bar = &bar
+    return &this
+}
+
+// NewFooWithDefaults instantiates a new Foo object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewFooWithDefaults() *Foo {
+    this := Foo{}
+    var bar string = "bar"
+    this.Bar = &bar
     return &this
 }
 

@@ -38,7 +38,22 @@ type FormatTest struct {
 }
 
 // NewFormatTest instantiates a new FormatTest object
-func NewFormatTest() *FormatTest {
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewFormatTest(number float32, byte string, date string, password string, ) *FormatTest {
+    this := FormatTest{}
+    this.Number = number
+    this.Byte = byte
+    this.Date = date
+    this.Password = password
+    return &this
+}
+
+// NewFormatTestWithDefaults instantiates a new FormatTest object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewFormatTestWithDefaults() *FormatTest {
     this := FormatTest{}
     return &this
 }

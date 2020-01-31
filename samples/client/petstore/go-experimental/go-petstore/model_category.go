@@ -21,10 +21,22 @@ type Category struct {
 }
 
 // NewCategory instantiates a new Category object
-func NewCategory() *Category {
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewCategory(name string, ) *Category {
     this := Category{}
-    var Name string = "default-name"
-    this.Name = Name
+    this.Name = name
+    return &this
+}
+
+// NewCategoryWithDefaults instantiates a new Category object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewCategoryWithDefaults() *Category {
+    this := Category{}
+    var name string = "default-name"
+    this.Name = name
     return &this
 }
 
