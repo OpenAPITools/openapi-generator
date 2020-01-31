@@ -8,7 +8,6 @@
 import Foundation
 
 /** Must be named &#x60;File&#x60; for test. */
-
 internal struct File: Codable {
 
     /** Test capitalization */

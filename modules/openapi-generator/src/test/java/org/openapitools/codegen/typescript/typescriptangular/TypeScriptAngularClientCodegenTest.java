@@ -8,7 +8,9 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
 import org.testng.Assert;
@@ -17,6 +19,33 @@ import org.testng.annotations.Test;
 
 public class TypeScriptAngularClientCodegenTest {
     @Test
+    public void toEnumVarName() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        // unspecified option should default to PascalCase
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("valid_id", "string"), "ValidId");
+        Assert.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "IllegalId");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original.name());
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("valid_id", "string"), "valid_id");
+        Assert.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "illegal_id");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.UPPERCASE.name());
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("valid_id", "string"), "VALID_ID");
+        Assert.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "ILLEGAL_ID");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.snake_case.name());
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("valid_ID", "string"), "valid_id");
+        Assert.assertEquals(codegen.toEnumVarName("Illegal-Id+", "string"), "illegal_id");
+    }
+
+    @Test
     public void testModelSuffix() {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put("modelSuffix", "MySuffix");
@@ -24,6 +53,57 @@ public class TypeScriptAngularClientCodegenTest {
 
         Assert.assertEquals(codegen.toModelName("TestName"), "TestNameMySuffix");
         Assert.assertEquals(codegen.toModelName("Error"), "ErrorMySuffix");
+    }
+
+    @Test
+    public void testToEnumName() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.ENUM_NAME_SUFFIX, "Enum");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameEnum");
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("123")), "_123Enum");
+
+        // enum value should not use model suffix
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.MODEL_SUFFIX, "Model");
+        codegen.additionalProperties().put(CodegenConstants.ENUM_NAME_SUFFIX, "Enum2");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameEnum2");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.ENUM_NAME_SUFFIX, "");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestName");
+    }
+
+    @Test
+    public void testToEnumNameCompatMode() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        // default - stringEnums=false
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameEnum");
+
+        // model suffix is prepended to "Enum" suffix
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Model1");
+        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.MODEL_SUFFIX, "Model2");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameModel2Model1Enum");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.STRING_ENUMS, true);
+        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Model1");
+        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.MODEL_SUFFIX, "Model2");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameModel2Model1");
+    }
+
+    private CodegenProperty makeEnumProperty(String name) {
+        CodegenProperty enumProperty = new CodegenProperty();
+        enumProperty.name = name;
+        return enumProperty;
     }
 
     @Test
@@ -161,6 +241,5 @@ public class TypeScriptAngularClientCodegenTest {
 
         Assert.assertEquals(codegen.toModelImport(modelName), "model/foo-response-links");
         Assert.assertEquals(codegen.toModelFilename(modelName), "./foo-response-links");
-
     }
 }
