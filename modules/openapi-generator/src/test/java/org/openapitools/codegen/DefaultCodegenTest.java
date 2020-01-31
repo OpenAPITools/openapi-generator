@@ -532,6 +532,29 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAllOfSingleRefNoOwnProps() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/composed-allof.yaml");
+        final DefaultCodegen codegen = new CodegenWithMultipleInheritance();
+
+        Schema schema = openAPI.getComponents().getSchemas().get("NewMessageEventCoreNoOwnProps");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel model = codegen.fromModel("NewMessageEventCoreNoOwnProps", schema);
+        Assert.assertEquals(getNames(model.getVars()), Collections.emptyList());
+        Assert.assertEquals(model.parent, "MessageEventCore");
+        // this is legacy behavior that causes issues
+        Assert.assertEquals(model.allParents, Collections.emptyList());
+    }
+
+    class CodegenWithMultipleInheritance extends DefaultCodegen {
+        public CodegenWithMultipleInheritance() {
+            super();
+            supportsInheritance = true;
+            supportsMultipleInheritance = true;
+        }
+    }
+
+
+    @Test
     public void testAllOfParent() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf-required-parent.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
@@ -551,10 +574,13 @@ public class DefaultCodegenTest {
     }
 
     private List<String> getRequiredVars(CodegenModel model) {
-        if(model.getRequiredVars() == null) return null;
-        return model.getRequiredVars().stream().map(v -> v.name).collect(Collectors.toList());
+        return getNames(model.getRequiredVars());
     }
 
+    private List<String> getNames(List<CodegenProperty> props) {
+        if(props == null) return null;
+        return props.stream().map(v -> v.name).collect(Collectors.toList());
+    }
 
     @Test
     public void testCallbacks() {
