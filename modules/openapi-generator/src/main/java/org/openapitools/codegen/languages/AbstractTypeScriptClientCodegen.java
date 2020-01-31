@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -36,6 +37,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -54,6 +56,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
 
     protected String modelPropertyNaming = "camelCase";
+    protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
     protected Boolean supportsES6 = false;
     protected HashSet<String> languageGenericTypes;
     protected String npmName = null;
@@ -153,6 +156,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("URI", "string");
         typeMapping.put("Error", "Error");
 
+        cliOptions.add(new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC).defaultValue(this.enumPropertyNaming.name()));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue(this.modelPropertyNaming));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue(String.valueOf(this.getSupportsES6())));
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
@@ -175,6 +179,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             LOGGER.info("Warning: Environment variable 'TS_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
+            setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
@@ -187,7 +195,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         if (additionalProperties.containsKey(NPM_NAME)) {
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());
         }
-
     }
 
     @Override
@@ -543,12 +550,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String toEnumVarName(String name, String datatype) {
         if (name.length() == 0) {
-            return "Empty";
+            return getNameUsingEnumPropertyNaming("empty");
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(getSymbolName(name));
+            return getNameUsingEnumPropertyNaming(getSymbolName(name));
         }
 
         // number
@@ -566,9 +573,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        // camelize the enum variable name
-        // ref: https://basarat.gitbooks.io/typescript/content/docs/enums.html
-        enumName = camelize(enumName);
+        enumName = getNameUsingEnumPropertyNaming(enumName);
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
@@ -584,6 +589,40 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return "_" + enumName;
         } else {
             return enumName;
+        }
+    }
+
+    protected void setEnumPropertyNaming(String naming) {
+        try {
+            enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.valueOf(naming);
+        } catch (IllegalArgumentException e) {
+            String values = Stream.of(ENUM_PROPERTY_NAMING_TYPE.values())
+                    .map(value -> "'" + value.name() + "'")
+                    .collect(Collectors.joining(", "));
+
+            String msg = String.format(Locale.ROOT, "Invalid enum property naming '%s'. Must be one of %s.",naming, values);
+            throw new IllegalArgumentException(msg);
+        }
+    }
+
+    protected ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {
+        return enumPropertyNaming;
+    }
+
+    private String getNameUsingEnumPropertyNaming(String name) {
+        switch (getEnumPropertyNaming()) {
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            case UPPERCASE:
+                return name.toUpperCase(Locale.ROOT);
+            default:
+                throw new IllegalArgumentException("Unsupported enum property naming: '" + name);
         }
     }
 
