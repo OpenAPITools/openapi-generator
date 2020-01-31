@@ -49,6 +49,7 @@ type {{classname}} struct {
 {{/vendorExtensions.x-is-one-of-interface}}
 }
 
+// New{{classname}} instantiates a new {{classname}} object
 func New{{classname}}() *{{classname}} {
     this := {{classname}}{}
 {{#vars}}
