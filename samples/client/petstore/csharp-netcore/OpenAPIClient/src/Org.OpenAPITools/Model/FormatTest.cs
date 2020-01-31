@@ -56,46 +56,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="bigDecimal">bigDecimal.</param>
         public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), decimal bigDecimal = default(decimal))
         {
-            // to ensure "number" is required (not null)
-            if (number == null)
-            {
-                throw new InvalidDataException("number is a required property for FormatTest and cannot be null");
-            }
-            else
-            {
-                this.Number = number;
-            }
-
+            this.Number = number;
             // to ensure "_byte" is required (not null)
-            if (_byte == null)
-            {
-                throw new InvalidDataException("_byte is a required property for FormatTest and cannot be null");
-            }
-            else
-            {
-                this.Byte = _byte;
-            }
-
-            // to ensure "date" is required (not null)
-            if (date == null)
-            {
-                throw new InvalidDataException("date is a required property for FormatTest and cannot be null");
-            }
-            else
-            {
-                this.Date = date;
-            }
-
+            this.Byte = _byte ?? throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");;
+            this.Date = date;
             // to ensure "password" is required (not null)
-            if (password == null)
-            {
-                throw new InvalidDataException("password is a required property for FormatTest and cannot be null");
-            }
-            else
-            {
-                this.Password = password;
-            }
-
+            this.Password = password ?? throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");;
             this.Integer = integer;
             this.Int32 = int32;
             this.Int64 = int64;

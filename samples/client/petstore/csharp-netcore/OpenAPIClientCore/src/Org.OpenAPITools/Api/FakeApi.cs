@@ -1823,14 +1823,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
         {
-            // verify the required parameter 'number' is set
-            if (number == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'number' when calling FakeApi->TestEndpointParameters");
-
-            // verify the required parameter '_double' is set
-            if (_double == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter '_double' when calling FakeApi->TestEndpointParameters");
-
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'patternWithoutDelimiter' when calling FakeApi->TestEndpointParameters");
@@ -1867,18 +1859,12 @@ namespace Org.OpenAPITools.Api
             {
                 localVarRequestOptions.FormParameters.Add("int64", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int64)); // form parameter
             }
-            if (number != null)
-            {
-                localVarRequestOptions.FormParameters.Add("number", Org.OpenAPITools.Client.ClientUtils.ParameterToString(number)); // form parameter
-            }
+            localVarRequestOptions.FormParameters.Add("number", Org.OpenAPITools.Client.ClientUtils.ParameterToString(number)); // form parameter
             if (_float != null)
             {
                 localVarRequestOptions.FormParameters.Add("float", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_float)); // form parameter
             }
-            if (_double != null)
-            {
-                localVarRequestOptions.FormParameters.Add("double", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_double)); // form parameter
-            }
+            localVarRequestOptions.FormParameters.Add("double", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_double)); // form parameter
             if (_string != null)
             {
                 localVarRequestOptions.FormParameters.Add("string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_string)); // form parameter
@@ -1977,14 +1963,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
         {
-            // verify the required parameter 'number' is set
-            if (number == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'number' when calling FakeApi->TestEndpointParameters");
-
-            // verify the required parameter '_double' is set
-            if (_double == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter '_double' when calling FakeApi->TestEndpointParameters");
-
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'patternWithoutDelimiter' when calling FakeApi->TestEndpointParameters");
@@ -2022,18 +2000,12 @@ namespace Org.OpenAPITools.Api
             {
                 localVarRequestOptions.FormParameters.Add("int64", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int64)); // form parameter
             }
-            if (number != null)
-            {
-                localVarRequestOptions.FormParameters.Add("number", Org.OpenAPITools.Client.ClientUtils.ParameterToString(number)); // form parameter
-            }
+            localVarRequestOptions.FormParameters.Add("number", Org.OpenAPITools.Client.ClientUtils.ParameterToString(number)); // form parameter
             if (_float != null)
             {
                 localVarRequestOptions.FormParameters.Add("float", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_float)); // form parameter
             }
-            if (_double != null)
-            {
-                localVarRequestOptions.FormParameters.Add("double", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_double)); // form parameter
-            }
+            localVarRequestOptions.FormParameters.Add("double", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_double)); // form parameter
             if (_string != null)
             {
                 localVarRequestOptions.FormParameters.Add("string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(_string)); // form parameter
@@ -2349,18 +2321,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public Org.OpenAPITools.Client.ApiResponse<Object> TestGroupParametersWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?))
         {
-            // verify the required parameter 'requiredStringGroup' is set
-            if (requiredStringGroup == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredStringGroup' when calling FakeApi->TestGroupParameters");
-
-            // verify the required parameter 'requiredBooleanGroup' is set
-            if (requiredBooleanGroup == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredBooleanGroup' when calling FakeApi->TestGroupParameters");
-
-            // verify the required parameter 'requiredInt64Group' is set
-            if (requiredInt64Group == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredInt64Group' when calling FakeApi->TestGroupParameters");
-
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] _contentTypes = new String[] {
@@ -2376,24 +2336,18 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (requiredStringGroup != null)
+            foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup))
             {
-                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup))
+                foreach (var _kvpValue in _kvp.Value)
                 {
-                    foreach (var _kvpValue in _kvp.Value)
-                    {
-                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
-                    }
+                    localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                 }
             }
-            if (requiredInt64Group != null)
+            foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_int64_group", requiredInt64Group))
             {
-                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_int64_group", requiredInt64Group))
+                foreach (var _kvpValue in _kvp.Value)
                 {
-                    foreach (var _kvpValue in _kvp.Value)
-                    {
-                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
-                    }
+                    localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                 }
             }
             if (stringGroup != null)
@@ -2416,8 +2370,7 @@ namespace Org.OpenAPITools.Api
                     }
                 }
             }
-            if (requiredBooleanGroup != null)
-                localVarRequestOptions.HeaderParameters.Add("required_boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(requiredBooleanGroup)); // header parameter
+            localVarRequestOptions.HeaderParameters.Add("required_boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(requiredBooleanGroup)); // header parameter
             if (booleanGroup != null)
                 localVarRequestOptions.HeaderParameters.Add("boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanGroup)); // header parameter
 
@@ -2464,18 +2417,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestGroupParametersAsyncWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?))
         {
-            // verify the required parameter 'requiredStringGroup' is set
-            if (requiredStringGroup == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredStringGroup' when calling FakeApi->TestGroupParameters");
-
-            // verify the required parameter 'requiredBooleanGroup' is set
-            if (requiredBooleanGroup == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredBooleanGroup' when calling FakeApi->TestGroupParameters");
-
-            // verify the required parameter 'requiredInt64Group' is set
-            if (requiredInt64Group == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredInt64Group' when calling FakeApi->TestGroupParameters");
-
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -2492,24 +2433,18 @@ namespace Org.OpenAPITools.Api
             foreach (var _accept in _accepts)
                 localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            if (requiredStringGroup != null)
+            foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup))
             {
-                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup))
+                foreach (var _kvpValue in _kvp.Value)
                 {
-                    foreach (var _kvpValue in _kvp.Value)
-                    {
-                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
-                    }
+                    localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                 }
             }
-            if (requiredInt64Group != null)
+            foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_int64_group", requiredInt64Group))
             {
-                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_int64_group", requiredInt64Group))
+                foreach (var _kvpValue in _kvp.Value)
                 {
-                    foreach (var _kvpValue in _kvp.Value)
-                    {
-                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
-                    }
+                    localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
                 }
             }
             if (stringGroup != null)
@@ -2532,8 +2467,7 @@ namespace Org.OpenAPITools.Api
                     }
                 }
             }
-            if (requiredBooleanGroup != null)
-                localVarRequestOptions.HeaderParameters.Add("required_boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(requiredBooleanGroup)); // header parameter
+            localVarRequestOptions.HeaderParameters.Add("required_boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(requiredBooleanGroup)); // header parameter
             if (booleanGroup != null)
                 localVarRequestOptions.HeaderParameters.Add("boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanGroup)); // header parameter
 

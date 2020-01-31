@@ -65,6 +65,10 @@ void PFXUserApi::enableResponseCompression() {
     isResponseCompressionEnabled = true;
 }
 
+void PFXUserApi::abortRequests(){
+    emit abortRequestsSignal();
+}
+
 void PFXUserApi::createUser(const PFXUser &body) {
     QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
@@ -84,7 +88,7 @@ void PFXUserApi::createUser(const PFXUser &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUserCallback);
-
+    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -130,7 +134,7 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithArrayInputCallback);
-
+    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -176,7 +180,7 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithListInputCallback);
-
+    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -221,7 +225,7 @@ void PFXUserApi::deleteUser(const QString &username) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::deleteUserCallback);
-
+    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -266,7 +270,7 @@ void PFXUserApi::getUserByName(const QString &username) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::getUserByNameCallback);
-
+    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -321,7 +325,7 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::loginUserCallback);
-
+    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -365,7 +369,7 @@ void PFXUserApi::logoutUser() {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::logoutUserCallback);
-
+    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -413,7 +417,7 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::updateUserCallback);
-
+    connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 

@@ -48,55 +48,12 @@ namespace Org.OpenAPITools.Model
         public TypeHolderDefault(string stringItem = "what", decimal numberItem = default(decimal), int integerItem = default(int), bool boolItem = true, List<int> arrayItem = default(List<int>))
         {
             // to ensure "stringItem" is required (not null)
-            if (stringItem == null)
-            {
-                throw new InvalidDataException("stringItem is a required property for TypeHolderDefault and cannot be null");
-            }
-            else
-            {
-                this.StringItem = stringItem;
-            }
-
-            // to ensure "numberItem" is required (not null)
-            if (numberItem == null)
-            {
-                throw new InvalidDataException("numberItem is a required property for TypeHolderDefault and cannot be null");
-            }
-            else
-            {
-                this.NumberItem = numberItem;
-            }
-
-            // to ensure "integerItem" is required (not null)
-            if (integerItem == null)
-            {
-                throw new InvalidDataException("integerItem is a required property for TypeHolderDefault and cannot be null");
-            }
-            else
-            {
-                this.IntegerItem = integerItem;
-            }
-
-            // to ensure "boolItem" is required (not null)
-            if (boolItem == null)
-            {
-                throw new InvalidDataException("boolItem is a required property for TypeHolderDefault and cannot be null");
-            }
-            else
-            {
-                this.BoolItem = boolItem;
-            }
-
+            this.StringItem = stringItem ?? throw new ArgumentNullException("stringItem is a required property for TypeHolderDefault and cannot be null");;
+            this.NumberItem = numberItem;
+            this.IntegerItem = integerItem;
+            this.BoolItem = boolItem;
             // to ensure "arrayItem" is required (not null)
-            if (arrayItem == null)
-            {
-                throw new InvalidDataException("arrayItem is a required property for TypeHolderDefault and cannot be null");
-            }
-            else
-            {
-                this.ArrayItem = arrayItem;
-            }
-
+            this.ArrayItem = arrayItem ?? throw new ArgumentNullException("arrayItem is a required property for TypeHolderDefault and cannot be null");;
         }
         
         /// <summary>

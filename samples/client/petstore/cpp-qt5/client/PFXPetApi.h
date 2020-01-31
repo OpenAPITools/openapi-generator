@@ -39,6 +39,7 @@ public:
     void addHeaders(const QString &key, const QString &value);
     void enableRequestCompression();
     void enableResponseCompression();
+    void abortRequests();
 
     void addPet(const PFXPet &body);
     void deletePet(const qint64 &pet_id, const QString &api_key);
@@ -105,6 +106,8 @@ signals:
     void updatePetSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void updatePetWithFormSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void uploadFileSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+
+    void abortRequestsSignal(); 
 };
 
 } // namespace test_namespace

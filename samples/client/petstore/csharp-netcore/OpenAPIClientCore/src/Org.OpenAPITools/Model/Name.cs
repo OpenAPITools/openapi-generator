@@ -44,16 +44,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="property">property.</param>
         public Name(int name = default(int), string property = default(string))
         {
-            // to ensure "name" is required (not null)
-            if (name == null)
-            {
-                throw new InvalidDataException("name is a required property for Name and cannot be null");
-            }
-            else
-            {
-                this._Name = name;
-            }
-
+            this._Name = name;
             this.Property = property;
         }
         

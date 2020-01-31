@@ -252,6 +252,12 @@ If you don't have maven installed, you may directly use the included [maven wrap
 ./mvnw clean install
 ```
 
+The default build contains minimal static analysis (via CheckStyle). To run your build with PMD and Spotbugs, use the `static-analysis` profile:
+
+```sh
+mvn -Pstatic-analysis clean install
+```
+
 ### [1.5 - Homebrew](#table-of-contents)
 
 To install, run `brew install openapi-generator`
@@ -721,8 +727,10 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-12-04 - [Angular＋NestJS＋OpenAPI（Swagger）でマイクロサービスを視野に入れた環境を考える](https://qiita.com/teracy55/items/0327c7a170ec772970c6) by [てらしー](https://twitter.com/teracy55)
 - 2019-12-17 - [OpenAPI Generator で OAuth2 アクセストークン発行のコードまで生成してみる](https://www.techscore.com/blog/2019/12/17/openapi-generator-oauth2-accesstoken/) by [TECHSCORE](https://www.techscore.com/blog/)
 - 2019-12-23 - [Use Ada for Your Web Development](https://www.electronicdesign.com/technologies/embedded-revolution/article/21119177/use-ada-for-your-web-development) by [Stephane Carrez](https://github.com/stcarrez)
-- 2019-01-17 - [OpenAPI demo for Pulp 3.0 GA](https://www.youtube.com/watch?v=mFBP-M0ZPfw&t=178s) by [Pulp](https://www.youtube.com/channel/UCI43Ffs4VPDv7awXvvBJfRQ) at [Youtube](https://www.youtube.com/)
-- 2019-01-19 - [Why document a REST API as code?](https://dev.to/rolfstreefkerk/why-document-a-rest-api-as-code-5e7p) by [Rolf Streefkerk](https://github.com/rpstreef) at [DEV Community](https://dev.to)
+- 2020-01-17 - [OpenAPI demo for Pulp 3.0 GA](https://www.youtube.com/watch?v=mFBP-M0ZPfw&t=178s) by [Pulp](https://www.youtube.com/channel/UCI43Ffs4VPDv7awXvvBJfRQ) at [Youtube](https://www.youtube.com/)
+- 2020-01-19 - [Why document a REST API as code?](https://dev.to/rolfstreefkerk/why-document-a-rest-api-as-code-5e7p) by [Rolf Streefkerk](https://github.com/rpstreef) at [DEV Community](https://dev.to)
+- 2020-01-28 - [Get Your Serverless Swagger Back with OpenAPI](https://dev.to/matttyler/get-your-serverless-swagger-back-with-openapi-48gc) by [Matt Tyler](https://dev.to/matttyler)
+- 
 
 ## [6 - About Us](#table-of-contents)
 
@@ -918,7 +926,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | GraphQL   | @renepardon (2018/12) |
 | Groovy    |  |
 | Haskell   |  |
-| Java      | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) |
+| Java      | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) @bkabrda (2020/01) |
 | Kotlin    | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) |
 | Lua       | @daurnimator (2017/08) |
 | Nim       |  |

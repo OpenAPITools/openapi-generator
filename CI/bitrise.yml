@@ -28,7 +28,7 @@ workflows:
 
             set -e
 
-            mvn package
+            mvn package -Dorg.slf4j.simpleLogger.defaultLogLevel=error
         title: Build openapi-generator
     - script@1.1.5:
         title: Update Swift4 samples
