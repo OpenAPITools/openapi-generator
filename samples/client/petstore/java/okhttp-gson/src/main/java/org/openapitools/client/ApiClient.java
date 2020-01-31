@@ -85,6 +85,7 @@ public class ApiClient {
      */
     public ApiClient() {
         init();
+        initHttpClient();
 
         // Setup authentications (key: authentication name, value: authentication).
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
@@ -120,18 +121,27 @@ public class ApiClient {
                 "petstore_auth",
                 retryingOAuth
         );
-        httpClient.interceptors().add(retryingOAuth);
+        initHttpClient(Collections.singletonList(retryingOAuth));
 
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
 
-    private void init() {
+    private void initHttpClient() {
+        initHttpClient(Collections.emptyList());
+    }
+
+    private void initHttpClient(List<Interceptor> interceptors) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addNetworkInterceptor(getProgressInterceptor());
+        for (Interceptor interceptor: interceptors) {
+            builder.addInterceptor(interceptor);
+        }
+
         httpClient = builder.build();
+    }
 
-
+    private void init() {
         verifyingSsl = true;
 
         json = new JSON();
