@@ -21,6 +21,7 @@ type ApiResponse struct {
 	Message *string `json:"message,omitempty"`
 }
 
+// NewApiResponse instantiates a new ApiResponse object
 func NewApiResponse() *ApiResponse {
     this := ApiResponse{}
     return &this

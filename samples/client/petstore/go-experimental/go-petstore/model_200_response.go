@@ -20,6 +20,7 @@ type Model200Response struct {
 	Class *string `json:"class,omitempty"`
 }
 
+// NewModel200Response instantiates a new Model200Response object
 func NewModel200Response() *Model200Response {
     this := Model200Response{}
     return &this

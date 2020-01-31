@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewDogAllOf
+
+`func NewDogAllOf() *DogAllOf`
+
+NewDogAllOf instantiates a new DogAllOf object
+
 ### GetBreed
 
 `func (o *DogAllOf) GetBreed() string`

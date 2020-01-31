@@ -19,6 +19,7 @@ type AdditionalPropertiesBoolean struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// NewAdditionalPropertiesBoolean instantiates a new AdditionalPropertiesBoolean object
 func NewAdditionalPropertiesBoolean() *AdditionalPropertiesBoolean {
     this := AdditionalPropertiesBoolean{}
     return &this

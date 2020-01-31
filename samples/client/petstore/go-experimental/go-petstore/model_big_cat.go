@@ -20,6 +20,7 @@ type BigCat struct {
 	Kind *string `json:"kind,omitempty"`
 }
 
+// NewBigCat instantiates a new BigCat object
 func NewBigCat() *BigCat {
     this := BigCat{}
     return &this

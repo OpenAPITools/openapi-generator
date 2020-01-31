@@ -55,8 +55,8 @@ func New{{classname}}() *{{classname}} {
 {{#vars}}
 {{#defaultValue}}
 {{^isContainer}}
-    var {{name}} {{{dataType}}} = {{{.}}}
-    this.{{name}} = {{^required}}&{{/required}}{{name}}
+    var {{nameInCamelCase}} {{{dataType}}} = {{{.}}}
+    this.{{nameInCamelCase}} = {{^required}}&{{/required}}{{nameInCamelCase}}
 {{/isContainer}}
 {{/defaultValue}}
 {{/vars}}

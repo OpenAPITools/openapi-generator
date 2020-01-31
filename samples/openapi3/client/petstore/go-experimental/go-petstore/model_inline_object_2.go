@@ -22,6 +22,7 @@ type InlineObject2 struct {
 	EnumFormString *string `json:"enum_form_string,omitempty"`
 }
 
+// NewInlineObject2 instantiates a new InlineObject2 object
 func NewInlineObject2() *InlineObject2 {
     this := InlineObject2{}
     var EnumFormString string = "-efg"

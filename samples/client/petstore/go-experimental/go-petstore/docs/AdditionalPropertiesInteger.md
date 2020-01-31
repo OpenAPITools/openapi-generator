@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewAdditionalPropertiesInteger
+
+`func NewAdditionalPropertiesInteger() *AdditionalPropertiesInteger`
+
+NewAdditionalPropertiesInteger instantiates a new AdditionalPropertiesInteger object
+
 ### GetName
 
 `func (o *AdditionalPropertiesInteger) GetName() string`

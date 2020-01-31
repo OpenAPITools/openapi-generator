@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewFile
+
+`func NewFile() *File`
+
+NewFile instantiates a new File object
+
 ### GetSourceURI
 
 `func (o *File) GetSourceURI() string`

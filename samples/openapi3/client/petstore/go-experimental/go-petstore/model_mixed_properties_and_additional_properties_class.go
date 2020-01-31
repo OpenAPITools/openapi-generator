@@ -22,6 +22,7 @@ type MixedPropertiesAndAdditionalPropertiesClass struct {
 	Map *map[string]Animal `json:"map,omitempty"`
 }
 
+// NewMixedPropertiesAndAdditionalPropertiesClass instantiates a new MixedPropertiesAndAdditionalPropertiesClass object
 func NewMixedPropertiesAndAdditionalPropertiesClass() *MixedPropertiesAndAdditionalPropertiesClass {
     this := MixedPropertiesAndAdditionalPropertiesClass{}
     return &this

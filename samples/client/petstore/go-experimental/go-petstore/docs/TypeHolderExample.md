@@ -13,6 +13,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewTypeHolderExample
+
+`func NewTypeHolderExample() *TypeHolderExample`
+
+NewTypeHolderExample instantiates a new TypeHolderExample object
+
 ### GetStringItem
 
 `func (o *TypeHolderExample) GetStringItem() string`

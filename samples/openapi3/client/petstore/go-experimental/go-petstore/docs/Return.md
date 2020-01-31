@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewReturn
+
+`func NewReturn() *Return`
+
+NewReturn instantiates a new Return object
+
 ### GetReturn
 
 `func (o *Return) GetReturn() int32`

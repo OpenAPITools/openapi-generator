@@ -13,6 +13,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewOrder
+
+`func NewOrder() *Order`
+
+NewOrder instantiates a new Order object
+
 ### GetId
 
 `func (o *Order) GetId() int64`

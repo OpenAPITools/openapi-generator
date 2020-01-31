@@ -22,6 +22,7 @@ type InlineObject4 struct {
 	Param2 string `json:"param2"`
 }
 
+// NewInlineObject4 instantiates a new InlineObject4 object
 func NewInlineObject4() *InlineObject4 {
     this := InlineObject4{}
     return &this

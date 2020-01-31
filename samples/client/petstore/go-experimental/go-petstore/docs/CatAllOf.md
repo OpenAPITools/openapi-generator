@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewCatAllOf
+
+`func NewCatAllOf() *CatAllOf`
+
+NewCatAllOf instantiates a new CatAllOf object
+
 ### GetDeclawed
 
 `func (o *CatAllOf) GetDeclawed() bool`

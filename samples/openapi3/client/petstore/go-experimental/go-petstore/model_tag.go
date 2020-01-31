@@ -20,6 +20,7 @@ type Tag struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// NewTag instantiates a new Tag object
 func NewTag() *Tag {
     this := Tag{}
     return &this

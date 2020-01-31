@@ -36,6 +36,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewXmlItem
+
+`func NewXmlItem() *XmlItem`
+
+NewXmlItem instantiates a new XmlItem object
+
 ### GetAttributeString
 
 `func (o *XmlItem) GetAttributeString() string`

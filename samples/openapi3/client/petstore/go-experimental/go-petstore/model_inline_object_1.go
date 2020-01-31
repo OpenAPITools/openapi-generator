@@ -23,6 +23,7 @@ type InlineObject1 struct {
 	File **os.File `json:"file,omitempty"`
 }
 
+// NewInlineObject1 instantiates a new InlineObject1 object
 func NewInlineObject1() *InlineObject1 {
     this := InlineObject1{}
     return &this

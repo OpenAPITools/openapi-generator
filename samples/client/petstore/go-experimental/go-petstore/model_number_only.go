@@ -19,6 +19,7 @@ type NumberOnly struct {
 	JustNumber *float32 `json:"JustNumber,omitempty"`
 }
 
+// NewNumberOnly instantiates a new NumberOnly object
 func NewNumberOnly() *NumberOnly {
     this := NumberOnly{}
     return &this

@@ -9,6 +9,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewHasOnlyReadOnly
+
+`func NewHasOnlyReadOnly() *HasOnlyReadOnly`
+
+NewHasOnlyReadOnly instantiates a new HasOnlyReadOnly object
+
 ### GetBar
 
 `func (o *HasOnlyReadOnly) GetBar() string`

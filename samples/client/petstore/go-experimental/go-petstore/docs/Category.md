@@ -9,6 +9,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewCategory
+
+`func NewCategory() *Category`
+
+NewCategory instantiates a new Category object
+
 ### GetId
 
 `func (o *Category) GetId() int64`

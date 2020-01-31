@@ -25,6 +25,7 @@ type Pet struct {
 	Status *string `json:"status,omitempty"`
 }
 
+// NewPet instantiates a new Pet object
 func NewPet() *Pet {
     this := Pet{}
     return &this

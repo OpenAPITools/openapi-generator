@@ -10,6 +10,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewArrayTest
+
+`func NewArrayTest() *ArrayTest`
+
+NewArrayTest instantiates a new ArrayTest object
+
 ### GetArrayOfString
 
 `func (o *ArrayTest) GetArrayOfString() []string`

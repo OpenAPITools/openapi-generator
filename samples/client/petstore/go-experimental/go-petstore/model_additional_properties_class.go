@@ -29,6 +29,7 @@ type AdditionalPropertiesClass struct {
 	Anytype3 *map[string]interface{} `json:"anytype_3,omitempty"`
 }
 
+// NewAdditionalPropertiesClass instantiates a new AdditionalPropertiesClass object
 func NewAdditionalPropertiesClass() *AdditionalPropertiesClass {
     this := AdditionalPropertiesClass{}
     return &this

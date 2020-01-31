@@ -23,6 +23,7 @@ type InlineObject5 struct {
 	RequiredFile *os.File `json:"requiredFile"`
 }
 
+// NewInlineObject5 instantiates a new InlineObject5 object
 func NewInlineObject5() *InlineObject5 {
     this := InlineObject5{}
     return &this

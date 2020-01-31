@@ -26,6 +26,7 @@ type EnumTest struct {
 	OuterEnumIntegerDefaultValue *OuterEnumIntegerDefaultValue `json:"outerEnumIntegerDefaultValue,omitempty"`
 }
 
+// NewEnumTest instantiates a new EnumTest object
 func NewEnumTest() *EnumTest {
     this := EnumTest{}
     var OuterEnumDefaultValue OuterEnumDefaultValue = "placed"

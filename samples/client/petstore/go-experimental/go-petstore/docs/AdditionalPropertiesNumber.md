@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewAdditionalPropertiesNumber
+
+`func NewAdditionalPropertiesNumber() *AdditionalPropertiesNumber`
+
+NewAdditionalPropertiesNumber instantiates a new AdditionalPropertiesNumber object
+
 ### GetName
 
 `func (o *AdditionalPropertiesNumber) GetName() string`

@@ -19,6 +19,7 @@ type Foo struct {
 	Bar *string `json:"bar,omitempty"`
 }
 
+// NewFoo instantiates a new Foo object
 func NewFoo() *Foo {
     this := Foo{}
     var Bar string = "bar"

@@ -10,6 +10,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewApiResponse
+
+`func NewApiResponse() *ApiResponse`
+
+NewApiResponse instantiates a new ApiResponse object
+
 ### GetCode
 
 `func (o *ApiResponse) GetCode() int32`

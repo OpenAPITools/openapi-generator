@@ -9,6 +9,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewAnimal
+
+`func NewAnimal() *Animal`
+
+NewAnimal instantiates a new Animal object
+
 ### GetClassName
 
 `func (o *Animal) GetClassName() string`

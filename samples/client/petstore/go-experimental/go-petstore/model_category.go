@@ -20,6 +20,7 @@ type Category struct {
 	Name string `json:"name"`
 }
 
+// NewCategory instantiates a new Category object
 func NewCategory() *Category {
     this := Category{}
     var Name string = "default-name"

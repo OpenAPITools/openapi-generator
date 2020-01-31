@@ -19,6 +19,7 @@ type DogAllOf struct {
 	Breed *string `json:"breed,omitempty"`
 }
 
+// NewDogAllOf instantiates a new DogAllOf object
 func NewDogAllOf() *DogAllOf {
     this := DogAllOf{}
     return &this

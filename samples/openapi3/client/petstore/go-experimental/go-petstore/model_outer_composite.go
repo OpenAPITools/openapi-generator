@@ -21,6 +21,7 @@ type OuterComposite struct {
 	MyBoolean *bool `json:"my_boolean,omitempty"`
 }
 
+// NewOuterComposite instantiates a new OuterComposite object
 func NewOuterComposite() *OuterComposite {
     this := OuterComposite{}
     return &this

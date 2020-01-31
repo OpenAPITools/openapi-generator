@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewSpecialModelName
+
+`func NewSpecialModelName() *SpecialModelName`
+
+NewSpecialModelName instantiates a new SpecialModelName object
+
 ### GetSpecialPropertyName
 
 `func (o *SpecialModelName) GetSpecialPropertyName() int64`

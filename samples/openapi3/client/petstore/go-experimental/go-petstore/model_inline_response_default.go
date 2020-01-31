@@ -19,6 +19,7 @@ type InlineResponseDefault struct {
 	String *Foo `json:"string,omitempty"`
 }
 
+// NewInlineResponseDefault instantiates a new InlineResponseDefault object
 func NewInlineResponseDefault() *InlineResponseDefault {
     this := InlineResponseDefault{}
     return &this

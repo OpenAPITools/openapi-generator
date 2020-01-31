@@ -20,6 +20,7 @@ type AdditionalPropertiesClass struct {
 	MapOfMapProperty *map[string]map[string]string `json:"map_of_map_property,omitempty"`
 }
 
+// NewAdditionalPropertiesClass instantiates a new AdditionalPropertiesClass object
 func NewAdditionalPropertiesClass() *AdditionalPropertiesClass {
     this := AdditionalPropertiesClass{}
     return &this

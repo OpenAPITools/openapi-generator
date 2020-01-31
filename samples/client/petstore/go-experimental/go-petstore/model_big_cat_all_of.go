@@ -19,6 +19,7 @@ type BigCatAllOf struct {
 	Kind *string `json:"kind,omitempty"`
 }
 
+// NewBigCatAllOf instantiates a new BigCatAllOf object
 func NewBigCatAllOf() *BigCatAllOf {
     this := BigCatAllOf{}
     return &this

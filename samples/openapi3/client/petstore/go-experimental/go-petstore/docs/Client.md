@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewClient
+
+`func NewClient() *Client`
+
+NewClient instantiates a new Client object
+
 ### GetClient
 
 `func (o *Client) GetClient() string`

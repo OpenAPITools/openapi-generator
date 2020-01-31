@@ -19,6 +19,7 @@ type ClassModel struct {
 	Class *string `json:"_class,omitempty"`
 }
 
+// NewClassModel instantiates a new ClassModel object
 func NewClassModel() *ClassModel {
     this := ClassModel{}
     return &this

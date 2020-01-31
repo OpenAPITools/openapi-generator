@@ -20,6 +20,7 @@ type Cat struct {
 	Declawed *bool `json:"declawed,omitempty"`
 }
 
+// NewCat instantiates a new Cat object
 func NewCat() *Cat {
     this := Cat{}
     return &this

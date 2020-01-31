@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewNumberOnly
+
+`func NewNumberOnly() *NumberOnly`
+
+NewNumberOnly instantiates a new NumberOnly object
+
 ### GetJustNumber
 
 `func (o *NumberOnly) GetJustNumber() float32`

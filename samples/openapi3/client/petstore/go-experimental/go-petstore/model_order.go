@@ -26,6 +26,7 @@ type Order struct {
 	Complete *bool `json:"complete,omitempty"`
 }
 
+// NewOrder instantiates a new Order object
 func NewOrder() *Order {
     this := Order{}
     var Complete bool = false

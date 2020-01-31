@@ -13,6 +13,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewCapitalization
+
+`func NewCapitalization() *Capitalization`
+
+NewCapitalization instantiates a new Capitalization object
+
 ### GetSmallCamel
 
 `func (o *Capitalization) GetSmallCamel() string`

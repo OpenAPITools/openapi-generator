@@ -9,6 +9,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewInlineObject2
+
+`func NewInlineObject2() *InlineObject2`
+
+NewInlineObject2 instantiates a new InlineObject2 object
+
 ### GetEnumFormStringArray
 
 `func (o *InlineObject2) GetEnumFormStringArray() []string`

@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewAdditionalPropertiesBoolean
+
+`func NewAdditionalPropertiesBoolean() *AdditionalPropertiesBoolean`
+
+NewAdditionalPropertiesBoolean instantiates a new AdditionalPropertiesBoolean object
+
 ### GetName
 
 `func (o *AdditionalPropertiesBoolean) GetName() string`

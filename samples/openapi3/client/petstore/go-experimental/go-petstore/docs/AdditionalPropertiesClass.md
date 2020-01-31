@@ -9,6 +9,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewAdditionalPropertiesClass
+
+`func NewAdditionalPropertiesClass() *AdditionalPropertiesClass`
+
+NewAdditionalPropertiesClass instantiates a new AdditionalPropertiesClass object
+
 ### GetMapProperty
 
 `func (o *AdditionalPropertiesClass) GetMapProperty() map[string]string`

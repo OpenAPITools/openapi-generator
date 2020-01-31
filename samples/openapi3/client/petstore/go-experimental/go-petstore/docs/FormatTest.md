@@ -22,6 +22,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewFormatTest
+
+`func NewFormatTest() *FormatTest`
+
+NewFormatTest instantiates a new FormatTest object
+
 ### GetInteger
 
 `func (o *FormatTest) GetInteger() int32`

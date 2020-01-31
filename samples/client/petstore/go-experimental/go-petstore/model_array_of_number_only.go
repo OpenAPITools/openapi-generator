@@ -19,6 +19,7 @@ type ArrayOfNumberOnly struct {
 	ArrayNumber *[]float32 `json:"ArrayNumber,omitempty"`
 }
 
+// NewArrayOfNumberOnly instantiates a new ArrayOfNumberOnly object
 func NewArrayOfNumberOnly() *ArrayOfNumberOnly {
     this := ArrayOfNumberOnly{}
     return &this

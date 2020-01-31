@@ -23,6 +23,7 @@ type EnumTest struct {
 	OuterEnum *OuterEnum `json:"outerEnum,omitempty"`
 }
 
+// NewEnumTest instantiates a new EnumTest object
 func NewEnumTest() *EnumTest {
     this := EnumTest{}
     return &this

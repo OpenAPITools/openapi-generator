@@ -37,6 +37,7 @@ type FormatTest struct {
 	PatternWithDigitsAndDelimiter *string `json:"pattern_with_digits_and_delimiter,omitempty"`
 }
 
+// NewFormatTest instantiates a new FormatTest object
 func NewFormatTest() *FormatTest {
     this := FormatTest{}
     return &this

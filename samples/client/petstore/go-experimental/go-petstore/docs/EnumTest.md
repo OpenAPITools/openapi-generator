@@ -12,6 +12,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewEnumTest
+
+`func NewEnumTest() *EnumTest`
+
+NewEnumTest instantiates a new EnumTest object
+
 ### GetEnumString
 
 `func (o *EnumTest) GetEnumString() string`

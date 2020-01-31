@@ -9,6 +9,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewInlineObject
+
+`func NewInlineObject() *InlineObject`
+
+NewInlineObject instantiates a new InlineObject object
+
 ### GetName
 
 `func (o *InlineObject) GetName() string`

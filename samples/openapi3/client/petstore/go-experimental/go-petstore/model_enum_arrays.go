@@ -20,6 +20,7 @@ type EnumArrays struct {
 	ArrayEnum *[]string `json:"array_enum,omitempty"`
 }
 
+// NewEnumArrays instantiates a new EnumArrays object
 func NewEnumArrays() *EnumArrays {
     this := EnumArrays{}
     return &this

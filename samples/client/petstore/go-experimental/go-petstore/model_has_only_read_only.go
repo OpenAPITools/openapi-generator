@@ -20,6 +20,7 @@ type HasOnlyReadOnly struct {
 	Foo *string `json:"foo,omitempty"`
 }
 
+// NewHasOnlyReadOnly instantiates a new HasOnlyReadOnly object
 func NewHasOnlyReadOnly() *HasOnlyReadOnly {
     this := HasOnlyReadOnly{}
     return &this

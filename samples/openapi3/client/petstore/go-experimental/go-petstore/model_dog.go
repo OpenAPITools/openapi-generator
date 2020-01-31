@@ -20,6 +20,7 @@ type Dog struct {
 	Breed *string `json:"breed,omitempty"`
 }
 
+// NewDog instantiates a new Dog object
 func NewDog() *Dog {
     this := Dog{}
     return &this

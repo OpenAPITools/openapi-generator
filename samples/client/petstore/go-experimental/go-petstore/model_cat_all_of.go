@@ -19,6 +19,7 @@ type CatAllOf struct {
 	Declawed *bool `json:"declawed,omitempty"`
 }
 
+// NewCatAllOf instantiates a new CatAllOf object
 func NewCatAllOf() *CatAllOf {
     this := CatAllOf{}
     return &this

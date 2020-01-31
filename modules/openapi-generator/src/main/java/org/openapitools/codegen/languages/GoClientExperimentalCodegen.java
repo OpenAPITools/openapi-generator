@@ -112,6 +112,13 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
     }
 
     @Override
+    public CodegenProperty fromProperty(String name, Schema p) {
+        CodegenProperty prop = super.fromProperty(name, p);
+        prop.nameInCamelCase = camelize(prop.name, true);
+        return prop;
+    }
+
+    @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
 
         List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");

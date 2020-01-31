@@ -11,6 +11,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewName
+
+`func NewName() *Name`
+
+NewName instantiates a new Name object
+
 ### GetName
 
 `func (o *Name) GetName() int32`

@@ -48,6 +48,7 @@ type InlineObject3 struct {
 	Callback *string `json:"callback,omitempty"`
 }
 
+// NewInlineObject3 instantiates a new InlineObject3 object
 func NewInlineObject3() *InlineObject3 {
     this := InlineObject3{}
     return &this

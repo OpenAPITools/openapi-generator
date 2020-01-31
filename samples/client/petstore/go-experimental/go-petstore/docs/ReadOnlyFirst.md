@@ -9,6 +9,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewReadOnlyFirst
+
+`func NewReadOnlyFirst() *ReadOnlyFirst`
+
+NewReadOnlyFirst instantiates a new ReadOnlyFirst object
+
 ### GetBar
 
 `func (o *ReadOnlyFirst) GetBar() string`

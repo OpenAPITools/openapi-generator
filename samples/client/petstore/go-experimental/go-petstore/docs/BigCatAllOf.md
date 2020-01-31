@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewBigCatAllOf
+
+`func NewBigCatAllOf() *BigCatAllOf`
+
+NewBigCatAllOf instantiates a new BigCatAllOf object
+
 ### GetKind
 
 `func (o *BigCatAllOf) GetKind() string`

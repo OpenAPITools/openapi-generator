@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewClassModel
+
+`func NewClassModel() *ClassModel`
+
+NewClassModel instantiates a new ClassModel object
+
 ### GetClass
 
 `func (o *ClassModel) GetClass() string`

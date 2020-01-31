@@ -19,6 +19,7 @@ type Client struct {
 	Client *string `json:"client,omitempty"`
 }
 
+// NewClient instantiates a new Client object
 func NewClient() *Client {
     this := Client{}
     return &this

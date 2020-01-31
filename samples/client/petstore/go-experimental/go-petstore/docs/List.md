@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewList
+
+`func NewList() *List`
+
+NewList instantiates a new List object
+
 ### GetVar123List
 
 `func (o *List) GetVar123List() string`

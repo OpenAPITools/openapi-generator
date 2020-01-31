@@ -30,6 +30,7 @@ type NullableClass struct {
 	ObjectItemsNullable *map[string]map[string]interface{} `json:"object_items_nullable,omitempty"`
 }
 
+// NewNullableClass instantiates a new NullableClass object
 func NewNullableClass() *NullableClass {
     this := NullableClass{}
     return &this

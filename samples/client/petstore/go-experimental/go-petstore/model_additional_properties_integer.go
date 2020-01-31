@@ -19,6 +19,7 @@ type AdditionalPropertiesInteger struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// NewAdditionalPropertiesInteger instantiates a new AdditionalPropertiesInteger object
 func NewAdditionalPropertiesInteger() *AdditionalPropertiesInteger {
     this := AdditionalPropertiesInteger{}
     return &this

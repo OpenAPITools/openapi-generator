@@ -22,6 +22,7 @@ type Name struct {
 	Var123Number *int32 `json:"123Number,omitempty"`
 }
 
+// NewName instantiates a new Name object
 func NewName() *Name {
     this := Name{}
     return &this

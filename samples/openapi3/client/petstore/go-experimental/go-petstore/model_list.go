@@ -19,6 +19,7 @@ type List struct {
 	Var123List *string `json:"123-list,omitempty"`
 }
 
+// NewList instantiates a new List object
 func NewList() *List {
     this := List{}
     return &this

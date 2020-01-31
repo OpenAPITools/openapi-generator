@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewCat
+
+`func NewCat() *Cat`
+
+NewCat instantiates a new Cat object
+
 ### GetDeclawed
 
 `func (o *Cat) GetDeclawed() bool`

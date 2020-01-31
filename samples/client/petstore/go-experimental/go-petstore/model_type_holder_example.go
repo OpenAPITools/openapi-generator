@@ -24,6 +24,7 @@ type TypeHolderExample struct {
 	ArrayItem []int32 `json:"array_item"`
 }
 
+// NewTypeHolderExample instantiates a new TypeHolderExample object
 func NewTypeHolderExample() *TypeHolderExample {
     this := TypeHolderExample{}
     return &this

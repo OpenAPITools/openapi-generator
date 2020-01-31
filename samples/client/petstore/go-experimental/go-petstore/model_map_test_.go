@@ -22,6 +22,7 @@ type MapTest struct {
 	IndirectMap *map[string]bool `json:"indirect_map,omitempty"`
 }
 
+// NewMapTest instantiates a new MapTest object
 func NewMapTest() *MapTest {
     this := MapTest{}
     return &this

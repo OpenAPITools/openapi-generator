@@ -10,6 +10,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewOuterComposite
+
+`func NewOuterComposite() *OuterComposite`
+
+NewOuterComposite instantiates a new OuterComposite object
+
 ### GetMyNumber
 
 `func (o *OuterComposite) GetMyNumber() float32`

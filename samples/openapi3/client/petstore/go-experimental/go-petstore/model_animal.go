@@ -20,6 +20,7 @@ type Animal struct {
 	Color *string `json:"color,omitempty"`
 }
 
+// NewAnimal instantiates a new Animal object
 func NewAnimal() *Animal {
     this := Animal{}
     var Color string = "red"

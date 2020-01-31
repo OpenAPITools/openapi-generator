@@ -25,6 +25,7 @@ type Capitalization struct {
 	ATT_NAME *string `json:"ATT_NAME,omitempty"`
 }
 
+// NewCapitalization instantiates a new Capitalization object
 func NewCapitalization() *Capitalization {
     this := Capitalization{}
     return &this

@@ -19,6 +19,7 @@ type AdditionalPropertiesArray struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// NewAdditionalPropertiesArray instantiates a new AdditionalPropertiesArray object
 func NewAdditionalPropertiesArray() *AdditionalPropertiesArray {
     this := AdditionalPropertiesArray{}
     return &this

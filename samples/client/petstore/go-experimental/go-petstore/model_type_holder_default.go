@@ -23,6 +23,7 @@ type TypeHolderDefault struct {
 	ArrayItem []int32 `json:"array_item"`
 }
 
+// NewTypeHolderDefault instantiates a new TypeHolderDefault object
 func NewTypeHolderDefault() *TypeHolderDefault {
     this := TypeHolderDefault{}
     var StringItem string = "what"

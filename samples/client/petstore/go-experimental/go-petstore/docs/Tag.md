@@ -9,6 +9,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewTag
+
+`func NewTag() *Tag`
+
+NewTag instantiates a new Tag object
+
 ### GetId
 
 `func (o *Tag) GetId() int64`

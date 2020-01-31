@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewAdditionalPropertiesAnyType
+
+`func NewAdditionalPropertiesAnyType() *AdditionalPropertiesAnyType`
+
+NewAdditionalPropertiesAnyType instantiates a new AdditionalPropertiesAnyType object
+
 ### GetName
 
 `func (o *AdditionalPropertiesAnyType) GetName() string`

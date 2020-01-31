@@ -47,6 +47,7 @@ type XmlItem struct {
 	PrefixNsWrappedArray *[]int32 `json:"prefix_ns_wrapped_array,omitempty"`
 }
 
+// NewXmlItem instantiates a new XmlItem object
 func NewXmlItem() *XmlItem {
     this := XmlItem{}
     return &this

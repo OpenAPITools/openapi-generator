@@ -19,6 +19,7 @@ type Return struct {
 	Return *int32 `json:"return,omitempty"`
 }
 
+// NewReturn instantiates a new Return object
 func NewReturn() *Return {
     this := Return{}
     return &this

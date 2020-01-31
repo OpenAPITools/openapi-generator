@@ -9,6 +9,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewEnumArrays
+
+`func NewEnumArrays() *EnumArrays`
+
+NewEnumArrays instantiates a new EnumArrays object
+
 ### GetJustSymbol
 
 `func (o *EnumArrays) GetJustSymbol() string`

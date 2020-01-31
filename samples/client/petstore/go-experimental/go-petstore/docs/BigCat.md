@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewBigCat
+
+`func NewBigCat() *BigCat`
+
+NewBigCat instantiates a new BigCat object
+
 ### GetKind
 
 `func (o *BigCat) GetKind() string`

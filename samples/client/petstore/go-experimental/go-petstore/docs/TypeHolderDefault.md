@@ -12,6 +12,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewTypeHolderDefault
+
+`func NewTypeHolderDefault() *TypeHolderDefault`
+
+NewTypeHolderDefault instantiates a new TypeHolderDefault object
+
 ### GetStringItem
 
 `func (o *TypeHolderDefault) GetStringItem() string`

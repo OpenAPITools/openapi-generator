@@ -9,6 +9,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewInlineObject1
+
+`func NewInlineObject1() *InlineObject1`
+
+NewInlineObject1 instantiates a new InlineObject1 object
+
 ### GetAdditionalMetadata
 
 `func (o *InlineObject1) GetAdditionalMetadata() string`

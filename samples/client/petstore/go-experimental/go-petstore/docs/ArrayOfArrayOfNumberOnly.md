@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewArrayOfArrayOfNumberOnly
+
+`func NewArrayOfArrayOfNumberOnly() *ArrayOfArrayOfNumberOnly`
+
+NewArrayOfArrayOfNumberOnly instantiates a new ArrayOfArrayOfNumberOnly object
+
 ### GetArrayArrayNumber
 
 `func (o *ArrayOfArrayOfNumberOnly) GetArrayArrayNumber() [][]float32`

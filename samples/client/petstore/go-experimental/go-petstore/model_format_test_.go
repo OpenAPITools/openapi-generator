@@ -34,6 +34,7 @@ type FormatTest struct {
 	BigDecimal *float64 `json:"BigDecimal,omitempty"`
 }
 
+// NewFormatTest instantiates a new FormatTest object
 func NewFormatTest() *FormatTest {
     this := FormatTest{}
     return &this

@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewDog
+
+`func NewDog() *Dog`
+
+NewDog instantiates a new Dog object
+
 ### GetBreed
 
 `func (o *Dog) GetBreed() string`

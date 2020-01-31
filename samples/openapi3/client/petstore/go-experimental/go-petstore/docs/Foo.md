@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewFoo
+
+`func NewFoo() *Foo`
+
+NewFoo instantiates a new Foo object
+
 ### GetBar
 
 `func (o *Foo) GetBar() string`

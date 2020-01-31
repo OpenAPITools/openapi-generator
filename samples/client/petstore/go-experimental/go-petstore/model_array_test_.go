@@ -21,6 +21,7 @@ type ArrayTest struct {
 	ArrayArrayOfModel *[][]ReadOnlyFirst `json:"array_array_of_model,omitempty"`
 }
 
+// NewArrayTest instantiates a new ArrayTest object
 func NewArrayTest() *ArrayTest {
     this := ArrayTest{}
     return &this

@@ -13,6 +13,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewPet
+
+`func NewPet() *Pet`
+
+NewPet instantiates a new Pet object
+
 ### GetId
 
 `func (o *Pet) GetId() int64`

@@ -9,6 +9,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewInlineObject4
+
+`func NewInlineObject4() *InlineObject4`
+
+NewInlineObject4 instantiates a new InlineObject4 object
+
 ### GetParam
 
 `func (o *InlineObject4) GetParam() string`

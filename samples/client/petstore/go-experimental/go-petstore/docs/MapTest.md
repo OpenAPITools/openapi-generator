@@ -11,6 +11,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewMapTest
+
+`func NewMapTest() *MapTest`
+
+NewMapTest instantiates a new MapTest object
+
 ### GetMapMapOfString
 
 `func (o *MapTest) GetMapMapOfString() map[string]map[string]string`

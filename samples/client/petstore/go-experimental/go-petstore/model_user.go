@@ -27,6 +27,7 @@ type User struct {
 	UserStatus *int32 `json:"userStatus,omitempty"`
 }
 
+// NewUser instantiates a new User object
 func NewUser() *User {
     this := User{}
     return &this

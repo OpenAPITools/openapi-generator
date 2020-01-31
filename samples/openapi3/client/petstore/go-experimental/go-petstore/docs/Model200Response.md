@@ -9,6 +9,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewModel200Response
+
+`func NewModel200Response() *Model200Response`
+
+NewModel200Response instantiates a new Model200Response object
+
 ### GetName
 
 `func (o *Model200Response) GetName() int32`

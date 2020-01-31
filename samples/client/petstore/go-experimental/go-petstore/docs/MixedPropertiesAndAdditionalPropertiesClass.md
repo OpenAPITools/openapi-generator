@@ -10,6 +10,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewMixedPropertiesAndAdditionalPropertiesClass
+
+`func NewMixedPropertiesAndAdditionalPropertiesClass() *MixedPropertiesAndAdditionalPropertiesClass`
+
+NewMixedPropertiesAndAdditionalPropertiesClass instantiates a new MixedPropertiesAndAdditionalPropertiesClass object
+
 ### GetUuid
 
 `func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string`

@@ -20,6 +20,7 @@ type File struct {
 	SourceURI *string `json:"sourceURI,omitempty"`
 }
 
+// NewFile instantiates a new File object
 func NewFile() *File {
     this := File{}
     return &this

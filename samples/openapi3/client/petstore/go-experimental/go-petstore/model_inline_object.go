@@ -22,6 +22,7 @@ type InlineObject struct {
 	Status *string `json:"status,omitempty"`
 }
 
+// NewInlineObject instantiates a new InlineObject object
 func NewInlineObject() *InlineObject {
     this := InlineObject{}
     return &this

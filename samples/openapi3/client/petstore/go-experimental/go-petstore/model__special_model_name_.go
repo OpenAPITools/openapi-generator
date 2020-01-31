@@ -19,6 +19,7 @@ type SpecialModelName struct {
 	SpecialPropertyName *int64 `json:"$special[property.name],omitempty"`
 }
 
+// NewSpecialModelName instantiates a new SpecialModelName object
 func NewSpecialModelName() *SpecialModelName {
     this := SpecialModelName{}
     return &this

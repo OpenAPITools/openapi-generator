@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewInlineResponseDefault
+
+`func NewInlineResponseDefault() *InlineResponseDefault`
+
+NewInlineResponseDefault instantiates a new InlineResponseDefault object
+
 ### GetString
 
 `func (o *InlineResponseDefault) GetString() Foo`

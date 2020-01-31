@@ -8,6 +8,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewHealthCheckResult
+
+`func NewHealthCheckResult() *HealthCheckResult`
+
+NewHealthCheckResult instantiates a new HealthCheckResult object
+
 ### GetNullableMessage
 
 `func (o *HealthCheckResult) GetNullableMessage() NullableString`

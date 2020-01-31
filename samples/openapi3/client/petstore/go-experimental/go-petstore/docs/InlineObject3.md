@@ -21,6 +21,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewInlineObject3
+
+`func NewInlineObject3() *InlineObject3`
+
+NewInlineObject3 instantiates a new InlineObject3 object
+
 ### GetInteger
 
 `func (o *InlineObject3) GetInteger() int32`

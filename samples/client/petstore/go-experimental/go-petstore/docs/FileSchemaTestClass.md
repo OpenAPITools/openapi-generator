@@ -9,6 +9,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewFileSchemaTestClass
+
+`func NewFileSchemaTestClass() *FileSchemaTestClass`
+
+NewFileSchemaTestClass instantiates a new FileSchemaTestClass object
+
 ### GetFile
 
 `func (o *FileSchemaTestClass) GetFile() File`

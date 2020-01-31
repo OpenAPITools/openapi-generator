@@ -20,6 +20,7 @@ type ReadOnlyFirst struct {
 	Baz *string `json:"baz,omitempty"`
 }
 
+// NewReadOnlyFirst instantiates a new ReadOnlyFirst object
 func NewReadOnlyFirst() *ReadOnlyFirst {
     this := ReadOnlyFirst{}
     return &this

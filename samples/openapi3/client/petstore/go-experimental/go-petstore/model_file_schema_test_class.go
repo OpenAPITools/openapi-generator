@@ -20,6 +20,7 @@ type FileSchemaTestClass struct {
 	Files *[]File `json:"files,omitempty"`
 }
 
+// NewFileSchemaTestClass instantiates a new FileSchemaTestClass object
 func NewFileSchemaTestClass() *FileSchemaTestClass {
     this := FileSchemaTestClass{}
     return &this

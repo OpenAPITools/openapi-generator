@@ -15,6 +15,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewUser
+
+`func NewUser() *User`
+
+NewUser instantiates a new User object
+
 ### GetId
 
 `func (o *User) GetId() int64`

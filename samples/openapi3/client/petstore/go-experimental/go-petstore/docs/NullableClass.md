@@ -19,6 +19,12 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewNullableClass
+
+`func NewNullableClass() *NullableClass`
+
+NewNullableClass instantiates a new NullableClass object
+
 ### GetIntegerProp
 
 `func (o *NullableClass) GetIntegerProp() NullableInt32`

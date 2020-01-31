@@ -19,6 +19,7 @@ type HealthCheckResult struct {
 	NullableMessage *NullableString `json:"NullableMessage,omitempty"`
 }
 
+// NewHealthCheckResult instantiates a new HealthCheckResult object
 func NewHealthCheckResult() *HealthCheckResult {
     this := HealthCheckResult{}
     return &this

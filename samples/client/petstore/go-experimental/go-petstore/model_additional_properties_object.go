@@ -19,6 +19,7 @@ type AdditionalPropertiesObject struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// NewAdditionalPropertiesObject instantiates a new AdditionalPropertiesObject object
 func NewAdditionalPropertiesObject() *AdditionalPropertiesObject {
     this := AdditionalPropertiesObject{}
     return &this
