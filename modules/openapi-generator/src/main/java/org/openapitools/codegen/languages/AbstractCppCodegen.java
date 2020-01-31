@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
@@ -35,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
@@ -312,9 +314,19 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             this.additionalProperties.put("scheme", scheme);
         }
     }
-    
+
     @Override
+    @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            // cannot handle inheritance from maps and arrays in C++
+            if((cm.isArrayModel || cm.isMapModel ) && (cm.parentModel == null)) {
+                cm.parent = null;
+            }
+        }
         return postProcessModelsEnum(objs);
     }
 }
