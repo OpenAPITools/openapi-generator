@@ -32,7 +32,7 @@ HEADER_REQUEST_TARGET = '(request-target)'
 # The time when the HTTP signature was generated.
 HEADER_CREATED = '(created)'
 # The time when the HTTP signature expires. The API server should reject HTTP requests
-# that have expired. 
+# that have expired.
 HEADER_EXPIRES = '(expires)'
 # The 'Host' header.
 HEADER_HOST = 'Host'
