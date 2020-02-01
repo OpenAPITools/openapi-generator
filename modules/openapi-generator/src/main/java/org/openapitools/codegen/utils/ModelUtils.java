@@ -963,8 +963,28 @@ public class ModelUtils {
     }
 
     /**
-     * Get the parent model name from the schemas (allOf, anyOf, oneOf).
-     * If there are multiple parents, return the first one.
+     * Get the parent model name from the composed schema (allOf, anyOf, oneOf).
+     * It traverses the OAS model (possibly resolving $ref) to determine schemas
+     * that specify a determinator.
+     * If there are multiple elements in the composed schema and it is not clear
+     * which one should be the parent, return null.
+     *
+     * For example, given the following OAS spec, the parent of 'Dog' is Animal
+     * because 'Animal' specifies a discriminator.
+     * 
+     * animal:
+     *   type: object
+     *   discriminator:
+     *     propertyName: type
+     *   properties:
+     *     type: string
+     * 
+     * dog:
+     *   allOf:
+     *      - $ref: '#/components/schemas/animal'
+     *      - type: object
+     *        properties:
+     *          breed: string
      *
      * @param composedSchema schema (alias or direct reference)
      * @param allSchemas     all schemas
@@ -974,7 +994,8 @@ public class ModelUtils {
         List<Schema> interfaces = getInterfaces(composedSchema);
 
         List<String> refedParentNames = new ArrayList<>();
-
+        int nullSchemaChildrenCount = 0;
+        boolean hasAmbiguousParents = false;
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {
                 // get the actual schema
@@ -991,17 +1012,33 @@ public class ModelUtils {
                         LOGGER.debug("Not a parent since discriminator.propertyName is not set {}", s.get$ref());
                         // not a parent since discriminator.propertyName is not set
                         refedParentNames.add(parentName);
+                        hasAmbiguousParents = true;
                     }
                 } else {
-                    // not a ref, doing nothing
+                    // not a ref, doing nothing, except counting the number of times the 'null' type
+                    // is listed as composed element.
+                    if (ModelUtils.isNullSchema(schema)) {
+                        // If there are two interfaces, and one of them is the 'null' type,
+                        // then the parent is obvious and there is no need to warn about specifying
+                        // a determinator.
+                        nullSchemaChildrenCount++;
+                    }
                 }
+            }
+            if (refedParentNames.size() == 1 && nullSchemaChildrenCount == 1) {
+                // One schema is a $ref and the other is the 'null' type, so the parent is obvious.
+                // In this particular case there is no need to specify a discriminator.
+                hasAmbiguousParents = false;
             }
         }
 
         // parent name only makes sense when there is a single obvious parent
         if (refedParentNames.size() == 1) {
-            LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
-                    "and will be removed in a future release. Generating model for {}", composedSchema.getName());
+            if (hasAmbiguousParents) {
+                LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
+                    "and will be removed in a future release. Generating model for composed schema name: {}. Title: {}",
+                    composedSchema.getName(), composedSchema.getTitle());
+            }
             return refedParentNames.get(0);
         }
 
