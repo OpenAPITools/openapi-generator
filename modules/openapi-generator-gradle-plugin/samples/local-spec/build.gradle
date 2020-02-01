@@ -28,6 +28,7 @@ openApiMeta {
 
 openApiValidate {
     inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+    recommend = true
 }
 
 // Builds a Kotlin client by default.
