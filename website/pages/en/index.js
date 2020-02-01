@@ -185,7 +185,7 @@ class Index extends React.Component {
       | npm install @openapitools/openapi-generator-cli -g
       | 
       | # install a specific version of "openapi-generator-cli"
-      | npm install @openapitools/openapi-generator-cli@cli-4.2.2 -g
+      | npm install @openapitools/openapi-generator-cli@cli-4.2.3 -g
       |
       | # Or install it as dev-dependency in your node.js projects
       | npm install @openapitools/openapi-generator-cli -D
