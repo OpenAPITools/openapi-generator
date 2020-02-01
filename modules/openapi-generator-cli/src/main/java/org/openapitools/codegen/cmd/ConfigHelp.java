@@ -24,15 +24,15 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.GeneratorNotFoundException;
+import org.openapitools.codegen.meta.FeatureSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -78,6 +78,9 @@ public class ConfigHelp implements Runnable {
     @Option(name = {"--instantiation-types"}, title = "instantiation types", description = "displays types used to instantiate simple type/alias names")
     private Boolean instantiationTypes;
 
+    @Option(name = {"--feature-set"}, title = "feature set", description = "displays feature set as supported by the generator")
+    private Boolean featureSets;
+
     @Option(name = {
             "--markdown-header"}, title = "markdown header", description = "When format=markdown, include this option to write out markdown headers (e.g. for docusaurus).")
     private Boolean markdownHeader;
@@ -99,6 +102,7 @@ public class ConfigHelp implements Runnable {
             reservedWords = Boolean.TRUE;
             languageSpecificPrimitives = Boolean.TRUE;
             importMappings = Boolean.TRUE;
+            featureSets = Boolean.TRUE;
         }
 
         try {
@@ -199,17 +203,12 @@ public class ConfigHelp implements Runnable {
             sb.append("|");
 
             // default
-            sb.append(escapeHtml4(langCliOption.getDefault())).append("|");
-
-            sb.append(newline);
+            sb.append(escapeHtml4(langCliOption.getDefault())).append("|").append(newline);
         });
 
 
         if (Boolean.TRUE.equals(importMappings)) {
-            sb.append(newline);
-            sb.append("## IMPORT MAPPING");
-            sb.append(newline);
-            sb.append(newline);
+            sb.append(newline).append("## IMPORT MAPPING").append(newline).append(newline);
 
             sb.append("| Type/Alias | Imports |").append(newline);
             sb.append("| ---------- | ------- |").append(newline);
@@ -227,10 +226,7 @@ public class ConfigHelp implements Runnable {
         }
 
         if (Boolean.TRUE.equals(instantiationTypes)) {
-            sb.append(newline);
-            sb.append("## INSTANTIATION TYPES");
-            sb.append(newline);
-            sb.append(newline);
+            sb.append(newline).append("## INSTANTIATION TYPES").append(newline).append(newline);
 
             sb.append("| Type/Alias | Instantiated By |").append(newline);
             sb.append("| ---------- | --------------- |").append(newline);
@@ -248,31 +244,51 @@ public class ConfigHelp implements Runnable {
         }
 
         if (Boolean.TRUE.equals(languageSpecificPrimitives)) {
-            sb.append(newline);
-            sb.append("## LANGUAGE PRIMITIVES");
-            sb.append(newline);
-            sb.append(newline);
+            sb.append(newline).append("## LANGUAGE PRIMITIVES").append(newline).append(newline);
+
             sb.append("<ul data-columns=\"2\" style=\"list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto\">");
             config.languageSpecificPrimitives()
                     .stream()
                     .sorted(String::compareTo)
                     .forEach(s -> sb.append("<li>").append(escapeHtml4(s)).append("</li>").append(newline));
-            sb.append("</ul>");
-            sb.append(newline);
+            sb.append("</ul>").append(newline);
         }
 
         if (Boolean.TRUE.equals(reservedWords)) {
-            sb.append(newline);
-            sb.append("## RESERVED WORDS");
-            sb.append(newline);
-            sb.append(newline);
+            sb.append(newline).append("## RESERVED WORDS").append(newline).append(newline);
+
             sb.append("<ul data-columns=\"2\" style=\"list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto\">");
             config.reservedWords()
                     .stream()
                     .sorted(String::compareTo)
                     .forEach(s -> sb.append("<li>").append(escapeHtml4(s)).append("</li>").append(newline));
-            sb.append("</ul>");
-            sb.append(newline);
+            sb.append("</ul>").append(newline);
+        }
+
+        if (Boolean.TRUE.equals(featureSets)) {
+            sb.append(newline).append("## FEATURE SET").append(newline).append(newline);
+
+            List<FeatureSet.FeatureSetFlattened> flattened = config.getFeatureSet().flatten();
+            flattened.sort(Comparator.comparing(FeatureSet.FeatureSetFlattened::getFeatureCategory));
+
+            AtomicReference<String> lastCategory = new AtomicReference<>();
+            flattened.forEach(featureSet -> {
+                if (!featureSet.getFeatureCategory().equals(lastCategory.get())) {
+                    lastCategory.set(featureSet.getFeatureCategory());
+
+                    String[] header = StringUtils.splitByCharacterTypeCamelCase(featureSet.getFeatureCategory());
+                    sb.append(newline).append("### ").append(StringUtils.join(header, " ")).append(newline);
+
+                    sb.append("| Name | Supported | Defined By |").append(newline);
+                    sb.append("| ---- | --------- | ---------- |").append(newline);
+                }
+
+                // Appends a ✓ or ✗ for support
+                sb.append("|").append(featureSet.getFeatureName())
+                  .append("|").append(featureSet.isSupported() ? "✓" : "✗")
+                  .append("|").append(StringUtils.join(featureSet.getSource(), ","))
+                  .append(newline);
+            });
         }
     }
 
@@ -305,14 +321,12 @@ public class ConfigHelp implements Runnable {
     }
 
     private void generatePlainTextHelp(StringBuilder sb, CodegenConfig config) {
-        sb.append(newline);
-        sb.append("CONFIG OPTIONS");
+        sb.append(newline).append("CONFIG OPTIONS");
         if (Boolean.TRUE.equals(namedHeader)) {
             sb.append(" for ").append(generatorName).append(newline);
         }
 
-        sb.append(newline);
-        sb.append(newline);
+        sb.append(newline).append(newline);
 
         String optIndent = "\t";
         String optNestedIndent = "\t    ";
@@ -324,19 +338,14 @@ public class ConfigHelp implements Runnable {
                 }, TreeMap::new));
 
         langCliOptions.forEach((key, langCliOption) -> {
-            sb.append(optIndent).append(key);
-            sb.append(newline);
+            sb.append(optIndent).append(key).append(newline);
             sb.append(optNestedIndent).append(langCliOption.getOptionHelp()
                     .replaceAll("\n", System.lineSeparator() + optNestedIndent));
-            sb.append(newline);
-            sb.append(newline);
+            sb.append(newline).append(newline);
         });
 
         if (Boolean.TRUE.equals(importMappings)) {
-            sb.append(newline);
-            sb.append("IMPORT MAPPING");
-            sb.append(newline);
-            sb.append(newline);
+            sb.append(newline).append("IMPORT MAPPING").append(newline).append(newline);
             Map<String, String> map = config.importMapping()
                     .entrySet()
                     .stream()
@@ -348,10 +357,7 @@ public class ConfigHelp implements Runnable {
         }
 
         if (Boolean.TRUE.equals(instantiationTypes)) {
-            sb.append(newline);
-            sb.append("INSTANTIATION TYPES");
-            sb.append(newline);
-            sb.append(newline);
+            sb.append(newline).append("INSTANTIATION TYPES").append(newline).append(newline);
             Map<String, String> map = config.instantiationTypes()
                     .entrySet()
                     .stream()
@@ -363,23 +369,52 @@ public class ConfigHelp implements Runnable {
         }
 
         if (Boolean.TRUE.equals(languageSpecificPrimitives)) {
-            sb.append(newline);
-            sb.append("LANGUAGE PRIMITIVES");
-            sb.append(newline);
-            sb.append(newline);
+            sb.append(newline).append("LANGUAGE PRIMITIVES").append(newline).append(newline);
             String[] arr = config.languageSpecificPrimitives().stream().sorted().toArray(String[]::new);
             writePlainTextFromArray(sb, arr, optIndent);
             sb.append(newline);
         }
 
         if (Boolean.TRUE.equals(reservedWords)) {
-            sb.append(newline);
-            sb.append("RESERVED WORDS");
-            sb.append(newline);
-            sb.append(newline);
+            sb.append(newline).append("RESERVED WORDS").append(newline).append(newline);
             String[] arr = config.reservedWords().stream().sorted().toArray(String[]::new);
             writePlainTextFromArray(sb, arr, optIndent);
             sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(featureSets)) {
+            sb.append(newline).append("FEATURE SET").append(newline);
+
+            List<FeatureSet.FeatureSetFlattened> flattened = config.getFeatureSet().flatten();
+            flattened.sort(Comparator.comparing(FeatureSet.FeatureSetFlattened::getFeatureCategory));
+
+            AtomicReference<String> lastCategory = new AtomicReference<>();
+
+            String nameKey = "Name";
+            String supportedKey = "Supported";
+            String definedByKey = "Defined By";
+            int maxNameLength = flattened.stream().map(FeatureSet.FeatureSetFlattened::getFeatureName).mapToInt(String::length).max().orElse(nameKey.length());
+            int maxSupportedLength = supportedKey.length();
+            int definedInLength = 20;
+            String format = "%-" + maxNameLength + "s\t%-" + maxSupportedLength + "s\t%-" + definedInLength + "s";
+
+            flattened.forEach(featureSet -> {
+                if (!featureSet.getFeatureCategory().equals(lastCategory.get())) {
+                    lastCategory.set(featureSet.getFeatureCategory());
+                    sb.append(newline).append(newline).append("  ").append(featureSet.getFeatureCategory()).append(":");
+                    sb.append(newline).append(newline);
+                    sb.append(optIndent).append(String.format(Locale.ROOT, format, nameKey, supportedKey, definedByKey)).append(newline);
+                    sb.append(optIndent).append(String.format(Locale.ROOT, format,
+                            StringUtils.repeat("-", maxNameLength),
+                            StringUtils.repeat("-", maxSupportedLength),
+                            StringUtils.repeat("-", definedInLength)));
+                }
+
+                String mark = featureSet.isSupported() ? "✓" : "x";
+                String centeredMark = StringUtils.center(mark, maxSupportedLength);
+                String definedByCsv = StringUtils.join(featureSet.getSource(), ",");
+                sb.append(newline).append(optIndent).append(String.format(Locale.ROOT, format, featureSet.getFeatureName(), centeredMark, definedByCsv));
+            });
         }
     }
 

@@ -183,7 +183,7 @@ public class FeatureSet {
     /**
      * Displays a flattened or "normalized" view of the featureSet. This is for simplifying user-facing display only.
      */
-    static class FeatureSetFlattened {
+    public static class FeatureSetFlattened {
         String featureCategory;
         String featureName;
         boolean isSupported;
