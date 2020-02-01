@@ -130,7 +130,7 @@ public class ApiClient {
                 "{{name}}",
                 retryingOAuth
         );
-        initHttpClient(Collections.singletonList(retryingOAuth));
+        initHttpClient(Collections.<Interceptor>singletonList(retryingOAuth));
 {{/hasOAuthMethods}}
 
         // Prevent the authentications from being modified.
@@ -141,7 +141,7 @@ public class ApiClient {
     {{/oauthMethods}}
     {{/hasOAuthMethods}}
     private void initHttpClient() {
-        initHttpClient(Collections.emptyList());
+        initHttpClient(Collections.<Interceptor>emptyList());
     }
 
     private void initHttpClient(List<Interceptor> interceptors) {

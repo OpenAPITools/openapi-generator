@@ -121,14 +121,14 @@ public class ApiClient {
                 "petstore_auth",
                 retryingOAuth
         );
-        initHttpClient(Collections.singletonList(retryingOAuth));
+        initHttpClient(Collections.<Interceptor>singletonList(retryingOAuth));
 
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
 
     private void initHttpClient() {
-        initHttpClient(Collections.emptyList());
+        initHttpClient(Collections.<Interceptor>emptyList());
     }
 
     private void initHttpClient(List<Interceptor> interceptors) {
