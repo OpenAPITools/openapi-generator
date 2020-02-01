@@ -68,7 +68,7 @@ task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "4.2.3-SNAPSHOT"
+  id "org.openapi.generator" version "4.2.3"
 }
 ----
 
@@ -84,7 +84,7 @@ buildscript {
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:4.2.0"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:4.2.3"
   }
 }
 
@@ -377,6 +377,11 @@ openApiGenerate {
 |None
 |The input specification to validate. Supports all formats supported by the Parser.
 
+|recommend
+|Boolean
+|true
+|Whether or not to offer recommendations related to the validated specification document.
+
 |===
 
 === openApiMeta
@@ -521,6 +526,7 @@ BUILD SUCCESSFUL in 0s
 ----
 openApiValidate {
    inputSpec = "/src/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
+   recommend = true
 }
 ----
 
@@ -649,7 +655,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:4.2.0') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:4.2.3') {
             exclude group: 'com.google.guava'
         }
     }

@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 /**
  * Encapsulates details about the result of a validation test.
  */
-@SuppressWarnings("WeakerAccess")
 public final class ValidationResult {
     private final List<Validated> validations;
 
@@ -96,9 +95,16 @@ public final class ValidationResult {
     public void addResult(Validated validated) {
         synchronized (validations) {
             ValidationRule rule = validated.getRule();
-            if (rule != null && !rule.equals(ValidationRule.empty())) {
+            if (rule != null && !rule.equals(ValidationRule.empty()) && !validations.contains(validated)) {
                 validations.add(validated);
             }
         }
+    }
+
+    public ValidationResult consume(ValidationResult other) {
+        synchronized (validations) {
+            validations.addAll(other.validations);
+        }
+        return this;
     }
 }

@@ -569,7 +569,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         setSupportsAsync(Boolean.TRUE);
         setNetStandard(strategy.isNetStandard);
-        setNetCoreProjectFileFlag(!strategy.isNetStandard);
+
+        if (!strategy.isNetStandard) {
+            setNetCoreProjectFileFlag(true);
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
             LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is not supported in the .NET Standard generator.");
