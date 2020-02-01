@@ -25,7 +25,11 @@ then
   mvn -B clean package
 fi
 
-SPEC="modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml"
+#SPEC="modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml"
+# petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml is the same as the above file, with
+# the addition of the HTTP signature security scheme. Ideally, this would have been directly added to
+# petstore-with-fake-endpoints-models-for-testing.yaml, but this cannot be done until issue #5025 is resolved.
+SPEC="modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml"
 GENERATOR="go-experimental"
 STUB_DIR="samples/openapi3/client/petstore/go-experimental/go-petstore"
 
