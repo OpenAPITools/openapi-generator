@@ -397,6 +397,27 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * isNullSchema returns true if the specified schema is the 'null' type.
+     * 
+     * The 'null' type is supported in OAS 3.1 and above. It is not supported
+     * in OAS 2.0 and OAS 3.0.x.
+     * 
+     * For example, the "null" type could be used to specify that a value must
+     * either be null or a specified type:
+     * 
+     * OptionalOrder:
+     *   oneOf:
+     *     - type: 'null'
+     *     - $ref: '#/components/schemas/Order'
+     */
+    public static boolean isNullSchema(Schema schema) {
+        if ("null".equals(schema.getType())) {
+            return true;
+        }
+        return false;
+    }
+
     public static boolean isIntegerSchema(Schema schema) {
         if (schema instanceof IntegerSchema) {
             return true;

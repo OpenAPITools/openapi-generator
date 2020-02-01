@@ -705,6 +705,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         for (int i=0 ; i< indentation ; i++) indentation_string += "    ";
         String example = super.toExampleValue(schema);
 
+        if (ModelUtils.isNullSchema(schema) && null!=example) {
+            return "None";
+        }
         // correct "true"s into "True"s, since super.toExampleValue uses "toString()" on Java booleans
         if (ModelUtils.isBooleanSchema(schema) && null!=example) {
             if ("false".equalsIgnoreCase(example)) example = "False";
@@ -866,7 +869,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             }
             example +=")";
         } else {
-            LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
+            LOGGER.warn("Type '" + schema.getType() + "' not handled properly in toExampleValue");
         }
 
         if (ModelUtils.isStringSchema(schema)) {
