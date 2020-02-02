@@ -16,11 +16,14 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,6 +70,15 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
     public void processOpts() {
         super.processOpts();
         supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
+
+        // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
+        Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
+           (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
+        List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
+        if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
+            supportingFiles.add(new SupportingFile("signing.mustache", "", "signing.go"));
+            supportingFiles.add(new SupportingFile("http_signature_test.mustache", "", "http_signature_test.go"));
+        }
     }
 
     @Override

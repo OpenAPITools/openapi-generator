@@ -87,7 +87,10 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
             }
         }
 
-        parameters.forEach(parameter -> validationResult.consume(parameterValidations.validate(parameter)));
+        parameters.forEach(parameter -> {
+            parameter = ModelUtils.getReferencedParameter(specification, parameter);
+            validationResult.consume(parameterValidations.validate(parameter));
+        });
 
         return validationResult;
     }
