@@ -57,12 +57,12 @@ class Order {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'petId': petId,
-      'quantity': quantity,
-      'shipDate': shipDate == null ? '' : shipDate.toUtc().toIso8601String(),
-      'status': status,
-      'complete': complete
+          'id': id,
+          'petId': petId,
+          'quantity': quantity,
+        'shipDate': shipDate == null ? '' : shipDate.toUtc().toIso8601String(),
+          'status': status,
+          'complete': complete
     };
   }
 

@@ -35,9 +35,9 @@ class ApiResponse {
 
   Map<String, dynamic> toJson() {
     return {
-      'code': code,
-      'type': type,
-      'message': message
+          'code': code,
+          'type': type,
+          'message': message
     };
   }
 

@@ -70,14 +70,14 @@ class User {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'username': username,
-      'firstName': firstName,
-      'lastName': lastName,
-      'email': email,
-      'password': password,
-      'phone': phone,
-      'userStatus': userStatus
+          'id': id,
+          'username': username,
+          'firstName': firstName,
+          'lastName': lastName,
+          'email': email,
+          'password': password,
+          'phone': phone,
+          'userStatus': userStatus
     };
   }
 
