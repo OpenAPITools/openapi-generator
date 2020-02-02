@@ -189,7 +189,7 @@ class Pet(Model):
         :param status: The status of this Pet.
         :type status: str
         """
-        allowed_values = ["available", "pending", "sold"]
+        allowed_values = ["available", "pending", "sold"]  # noqa: E501
         if status not in allowed_values:
             raise ValueError(
                 "Invalid value for `status` ({0}), must be one of {1}"

@@ -23,7 +23,7 @@ pip install git+https://github.com/GIT_USER_ID/GIT_REPO_ID.git
 
 Then import the package:
 ```python
-import petstore_api 
+import petstore_api
 ```
 
 ### Setuptools
@@ -54,17 +54,19 @@ from pprint import pprint
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.AnotherFakeApi(petstore_api.ApiClient(configuration))
-client = petstore_api.Client() # Client | client model
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.AnotherFakeApi(api_client)
+    client = petstore_api.Client() # Client | client model
 
-try:
-    # To test special tags
-    api_response = api_instance.call_123_test_special_tags(client)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
-
+    try:
+        # To test special tags
+        api_response = api_instance.call_123_test_special_tags(client)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
+    
 ```
 
 ## Documentation for API Endpoints

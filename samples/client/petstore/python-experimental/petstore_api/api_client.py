@@ -11,6 +11,7 @@
 from __future__ import absolute_import
 
 import json
+import atexit
 import mimetypes
 from multiprocessing.pool import ThreadPool
 import os
@@ -79,11 +80,19 @@ class ApiClient(object):
         # Set default User-Agent.
         self.user_agent = 'OpenAPI-Generator/1.0.0/python'
 
-    def __del__(self):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+
+    def close(self):
         if self._pool:
             self._pool.close()
             self._pool.join()
             self._pool = None
+            if hasattr(atexit, 'unregister'):
+                atexit.unregister(self.close)
 
     @property
     def pool(self):
@@ -91,6 +100,7 @@ class ApiClient(object):
          avoids instantiating unused threadpool for blocking clients.
         """
         if self._pool is None:
+            atexit.register(self.close)
             self._pool = ThreadPool(self.pool_threads)
         return self._pool
 
@@ -152,12 +162,13 @@ class ApiClient(object):
                                                     collection_formats)
             post_params.extend(self.files_parameters(files))
 
-        # auth setting
-        self.update_params_for_auth(header_params, query_params, auth_settings)
-
         # body
         if body:
             body = self.sanitize_for_serialization(body)
+
+        # auth setting
+        self.update_params_for_auth(header_params, query_params,
+                                    auth_settings, resource_path, method, body)
 
         # request url
         if _host is None:
@@ -339,18 +350,19 @@ class ApiClient(object):
                                    _return_http_data_only, collection_formats,
                                    _preload_content, _request_timeout, _host,
                                    _check_type)
-        else:
-            thread = self.pool.apply_async(self.__call_api, (resource_path,
-                                           method, path_params, query_params,
-                                           header_params, body,
-                                           post_params, files,
-                                           response_type, auth_settings,
-                                           _return_http_data_only,
-                                           collection_formats,
-                                           _preload_content,
-                                           _request_timeout,
-                                           _host, _check_type))
-        return thread
+
+        return self.pool.apply_async(self.__call_api, (resource_path,
+                                                       method, path_params,
+                                                       query_params,
+                                                       header_params, body,
+                                                       post_params, files,
+                                                       response_type,
+                                                       auth_settings,
+                                                       _return_http_data_only,
+                                                       collection_formats,
+                                                       _preload_content,
+                                                       _request_timeout,
+                                                       _host, _check_type))
 
     def request(self, method, url, query_params=None, headers=None,
                 post_params=None, body=None, _preload_content=True,
@@ -509,12 +521,17 @@ class ApiClient(object):
         else:
             return content_types[0]
 
-    def update_params_for_auth(self, headers, querys, auth_settings):
+    def update_params_for_auth(self, headers, querys, auth_settings,
+                               resource_path, method, body):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
         :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
+        :resource_path: A string representation of the HTTP request resource path.
+        :method: A string representation of the HTTP request method.
+        :body: A object representing the body of the HTTP request.
+            The object type is the return value of sanitize_for_serialization().
         """
         if not auth_settings:
             return
@@ -522,12 +539,11 @@ class ApiClient(object):
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
-                if not auth_setting['value']:
-                    continue
-                elif auth_setting['in'] == 'cookie':
+                if auth_setting['in'] == 'cookie':
                     headers['Cookie'] = auth_setting['value']
                 elif auth_setting['in'] == 'header':
-                    headers[auth_setting['key']] = auth_setting['value']
+                    if auth_setting['type'] != 'http-signature':
+                        headers[auth_setting['key']] = auth_setting['value']
                 elif auth_setting['in'] == 'query':
                     querys.append((auth_setting['key'], auth_setting['value']))
                 else:

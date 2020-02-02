@@ -6,7 +6,7 @@ import org.openapitools.client.apis.PetApi
 import org.openapitools.client.apis.StoreApi
 import org.openapitools.client.models.Order
 import org.openapitools.client.models.Pet
-import java.time.LocalDateTime.now
+import java.time.OffsetDateTime.now
 
 class StoreApiTest : ShouldSpec() {
     init {

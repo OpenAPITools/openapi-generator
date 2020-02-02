@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../client/OAIUserApi.h"
+#include "../client/PFXUserApi.h"
 
-using namespace OpenAPI;
+using namespace test_namespace;
 
-class UserApiTests: public QObject {
+class UserApiTests : public QObject {
     Q_OBJECT
 
-    OAIUser createRandomUser();
+    PFXUser createRandomUser();
 
 private slots:
     void createUserTest();
@@ -18,6 +18,4 @@ private slots:
     void loginUserTest();
     void logoutUserTest();
     void updateUserTest();
-private:
-    const QString PetStoreHost = QStringLiteral("http://petstore.swagger.io");
 };

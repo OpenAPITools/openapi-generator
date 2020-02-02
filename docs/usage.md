@@ -557,3 +557,85 @@ The name of the file should be `config.yml` or `config.yaml` (in our example it 
 openapi-generator generate -i petstore.yaml -g typescript-fetch -o out \
     -c config.yaml
 ```
+
+
+## batch
+
+The `batch` command allows you to move all CLI arguments supported by the `generate` command into a YAML or JSON file.
+
+*NOTE*: This command supports an additional `!include` property which may point to another "shared" file, the base path to which can be
+modified by `--includes-base-dir`.
+
+```bash
+openapi-generator help batch
+NAME
+        openapi-generator-cli batch - Generate code in batch via external
+        configs.
+
+SYNOPSIS
+        openapi-generator-cli batch [--fail-fast]
+                [--includes-base-dir <includes>] [(-r <threads> | --threads <threads>)]
+                [--root-dir <root>] [--timeout <timeout>] [(-v | --verbose)] [--]
+                <configs>...
+
+OPTIONS
+        --fail-fast
+            fail fast on any errors
+
+        --includes-base-dir <includes>
+            base directory used for includes
+
+        -r <threads>, --threads <threads>
+            thread count
+
+        --root-dir <root>
+            root directory used output/includes (includes can be overridden)
+
+        --timeout <timeout>
+            execution timeout (minutes)
+
+        -v, --verbose
+            verbose mode
+
+        --
+            This option can be used to separate command-line options from the
+            list of argument, (useful when arguments might be mistaken for
+            command-line options
+
+        <configs>
+            Generator configuration files.
+```
+
+Example:
+
+```bash
+# create "shared" config
+mkdir shared && cat > shared/common.yaml <<EOF
+inputSpec: https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+additionalProperties:
+    x-ext-name: "Your Name"
+EOF
+
+# create "standard" configs
+cat > kotlin.yaml <<EOF
+'!include': 'shared/common.yaml'
+outputDir: out/kotlin
+generatorName: kotlin
+artifactId: kotlin-petstore-string
+additionalProperties:
+  dateLibrary: string
+  serializableModel: "true"
+EOF
+
+cat > csharp.yaml <<EOF
+'!include': 'shared/common.yaml'
+outputDir: out/csharp-netcore
+generatorName: csharp-netcore
+additionalProperties:
+  packageGuid: "{321C8C3F-0156-40C1-AE42-D59761FB9B6C}"
+  useCompareNetObjects: "true"
+EOF
+
+# Generate them
+openapi-generator batch *.yaml
+```

@@ -63,7 +63,7 @@ func (v NullableDogAllOf) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableDogAllOf) UnmarshalJSON(src []byte) error {
@@ -74,4 +74,3 @@ func (v *NullableDogAllOf) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

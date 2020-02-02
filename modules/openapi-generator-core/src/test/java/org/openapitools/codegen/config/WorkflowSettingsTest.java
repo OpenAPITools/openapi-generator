@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@ package org.openapitools.codegen.config;
 import org.testng.annotations.Test;
 
 import java.nio.file.Paths;
+import java.util.Map;
 
 import static org.testng.Assert.*;
 
@@ -46,6 +47,25 @@ public class WorkflowSettingsTest {
         assertFalse(settings.isEnablePostProcessFile());
         assertFalse(settings.isEnableMinimalUpdate());
         assertTrue(settings.isStrictSpecBehavior());
+    }
+
+    @Test
+    public void newBuilderFromCopyShouldMutateSystemProperties(){
+        WorkflowSettings original = WorkflowSettings.newBuilder()
+                .withOutputDir("output")
+                .withVerbose(true)
+                .withSkipOverwrite(false)
+                .withSystemProperty("first", "1st")
+                .build();
+
+        WorkflowSettings modified = WorkflowSettings.newBuilder(original)
+                .withSystemProperty("second", "2nd")
+                .build();
+
+        Map<String, String> properties = modified.getSystemProperties();
+        assertEquals(properties.size(), 2, "System Properties map should allow mutation when invoked via copy constructor");
+        assertEquals(properties.getOrDefault("first", ""), "1st");
+        assertEquals(properties.getOrDefault("second", ""), "2nd");
     }
 
     private void assertOnChangesToDefaults(WorkflowSettings defaults) {

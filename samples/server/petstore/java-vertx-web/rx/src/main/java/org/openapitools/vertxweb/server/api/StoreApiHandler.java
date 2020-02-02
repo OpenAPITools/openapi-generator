@@ -36,6 +36,7 @@ public class StoreApiHandler {
 
         Single.defer( () -> {
             String orderId = ParameterCast.toString(routingContext.pathParams().get("orderId"));
+
             logger.info("Parameter orderId is {}", orderId);
             return apiImpl.deleteOrder(orderId);
         })
@@ -59,6 +60,7 @@ public class StoreApiHandler {
         HttpServerResponse response = routingContext.response();
 
         Single.defer( () -> {
+
             return apiImpl.getInventory();
         })
         .subscribe(
@@ -82,6 +84,7 @@ public class StoreApiHandler {
 
         Single.defer( () -> {
             Long orderId = ParameterCast.toLong(routingContext.pathParams().get("orderId"));
+
             logger.info("Parameter orderId is {}", orderId);
             return apiImpl.getOrderById(orderId);
         })
@@ -105,6 +108,7 @@ public class StoreApiHandler {
         HttpServerResponse response = routingContext.response();
 
         Single.defer( () -> {
+
             String jsonString = routingContext.getBodyAsString();
             Order order = jsonString == null ? null : Json.decodeValue(jsonString, new TypeReference<Order>(){});
             logger.info("Parameter order is {}", order);

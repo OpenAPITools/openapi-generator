@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,15 +38,20 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     private static final String NUMERIC_ENUM_PREFIX = "_";
 
     protected boolean withGoCodegenComment = false;
+    protected boolean withAWSV4Signature = false;
     protected boolean withXml = false;
     protected boolean enumClassPrefix = false;
+    protected boolean structPrefix = false;
 
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
 
+    protected boolean usesOptionals = true;
+
     public AbstractGoCodegen() {
         super();
 
+        supportsInheritance = true;
         hideGenerationTimestamp = Boolean.FALSE;
 
         defaultIncludes = new HashSet<String>(
@@ -113,10 +118,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("object", "map[string]interface{}");
 
         numberTypes = new HashSet<String>(
-            Arrays.asList(
-                "uint", "uint8", "uint16", "uint32", "uint64",
-                "int", "int8", "int16","int32", "int64",
-                "float32", "float64")
+                Arrays.asList(
+                        "uint", "uint8", "uint16", "uint32", "uint64",
+                        "int", "int8", "int16", "int32", "int64",
+                        "float32", "float64")
         );
 
         importMapping = new HashMap<String, String>();
@@ -278,10 +283,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return "[]" + getTypeDeclaration(inner);
+            return "[]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(inner);
+            return getSchemaType(p) + "[string]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
         }
         //return super.getTypeDeclaration(p);
 
@@ -327,6 +332,34 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         } else
             type = openAPIType;
         return type;
+    }
+    
+    /**
+     * Determines the golang instantiation type of the specified schema.
+     * 
+     * This function is called when the input schema is a map, and specifically
+     * when the 'additionalProperties' attribute is present in the OAS specification.
+     * Codegen invokes this function to resolve the "parent" association to
+     * 'additionalProperties'.
+     *
+     * Note the 'parent' attribute in the codegen model is used in the following scenarios:
+     * - Indicate a polymorphic association with some other type (e.g. class inheritance).
+     * - If the specification has a discriminator, cogegen create a “parent” based on the discriminator.
+     * - Use of the 'additionalProperties' attribute in the OAS specification.
+     *   This is the specific scenario when codegen invokes this function. 
+     *
+     * @param property the input schema
+     *
+     * @return the golang instantiation type of the specified property.
+     */
+    @Override
+    public String toInstantiationType(Schema property) {
+        if (ModelUtils.isMapSchema(property)) {
+            return getTypeDeclaration(property);
+        } else if (ModelUtils.isArraySchema(property)) {
+            return getTypeDeclaration(property);
+        }
+        return super.toInstantiationType(property);
     }
 
     @Override
@@ -375,7 +408,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // this will only import "fmt" and "strings" if there are items in pathParams
         for (CodegenOperation operation : operations) {
             if (operation.pathParams != null && operation.pathParams.size() > 0) {
-                imports.add(createMapping("import", "fmt"));
                 imports.add(createMapping("import", "strings"));
                 break; //just need to import once
             }
@@ -399,7 +431,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
 
                 // import "time" if the operation has a required time parameter.
-                if (param.required) {
+                if (param.required || !usesOptionals) {
                     if (!addedTimeImport && "time.Time".equals(param.dataType)) {
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
@@ -413,7 +445,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
 
                 // import "optionals" package if the parameter is optional
-                if (!param.required) {
+                if (!param.required && usesOptionals) {
                     if (!addedOptionalImport) {
                         imports.add(createMapping("import", "github.com/antihax/optional"));
                         addedOptionalImport = true;
@@ -505,7 +537,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 CodegenModel model = (CodegenModel) v;
                 for (CodegenProperty param : model.vars) {
                     if (!addedTimeImport
-                        && ("time.Time".equals(param.dataType) || ("[]time.Time".equals(param.dataType)))) {
+                            && ("time.Time".equals(param.dataType) || ("[]time.Time".equals(param.dataType)))) {
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
                     }
@@ -633,12 +665,20 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         this.withGoCodegenComment = withGoCodegenComment;
     }
 
+    public void setWithAWSV4Signature(boolean withAWSV4Signature) {
+        this.withAWSV4Signature = withAWSV4Signature;
+    }
+
     public void setWithXml(boolean withXml) {
         this.withXml = withXml;
     }
 
     public void setEnumClassPrefix(boolean enumClassPrefix) {
         this.enumClassPrefix = enumClassPrefix;
+    }
+
+    public void setStructPrefix(boolean structPrefix) {
+        this.structPrefix = structPrefix;
     }
 
     @Override

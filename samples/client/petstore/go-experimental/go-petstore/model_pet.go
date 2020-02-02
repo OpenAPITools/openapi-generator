@@ -198,7 +198,7 @@ func (v NullablePet) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullablePet) UnmarshalJSON(src []byte) error {
@@ -209,4 +209,3 @@ func (v *NullablePet) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

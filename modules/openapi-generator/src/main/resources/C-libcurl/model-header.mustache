@@ -36,12 +36,12 @@ cJSON *{{classname}}_convertToJSON({{classname}}_e {{classname}});
     {{^isModel}}
     {{#isEnum}}
         {{#allowableValues}}
-                typedef enum  { {{#enumVars}} {{{value}}}{{#first}} = 0{{/first}}{{^-last}},{{/-last}}{{/enumVars}} } {{baseName}}_e;
+                typedef enum  { {{#enumVars}} {{{value}}}{{#first}} = 0{{/first}}{{^-last}},{{/-last}}{{/enumVars}} } {{name}}_e;
         {{/allowableValues}}
 
-        char* {{baseName}}_ToString({{baseName}}_e {{baseName}});
+        char* {{name}}_ToString({{name}}_e {{name}});
 
-        {{baseName}}_e {{baseName}}_FromString(char* {{baseName}});
+        {{name}}_e {{name}}_FromString(char* {{name}});
     {{/isEnum}}
     {{/isModel}}
     {{/isContainer}}
@@ -50,12 +50,12 @@ cJSON *{{classname}}_convertToJSON({{classname}}_e {{classname}});
         {{^isModel}}
         {{#isEnum}}
             {{#allowableValues}}
-                    typedef enum  { {{#enumVars}} {{{value}}}{{^-last}},{{/-last}}{{/enumVars}} } {{baseName}}_e;
+                    typedef enum  { {{#enumVars}} {{{value}}}{{^-last}},{{/-last}}{{/enumVars}} } {{name}}_e;
             {{/allowableValues}}
 
-            char* {{baseName}}_ToString({{baseName}}_e {{baseName}});
+            char* {{name}}_ToString({{name}}_e {{name}});
 
-            {{baseName}}_e {{baseName}}_FromString(char* {{baseName}});
+            {{name}}_e {{name}}_FromString(char* {{name}});
         {{/isEnum}}
         {{/isModel}}
         {{/items}}
@@ -69,64 +69,64 @@ typedef struct {{classname}}_t {
     {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
-    {{datatype}}_e {{baseName}}; //enum model
+    {{datatype}}_e {{name}}; //enum model
     {{/isEnum}}
     {{^isEnum}}
-    {{datatype}}_t *{{baseName}}; //model
+    struct {{datatype}}_t *{{name}}; //model
     {{/isEnum}}
     {{/isModel}}
     {{#isUuid}}
-    {{datatype}} *{{baseName}}; // uuid
+    {{datatype}} *{{name}}; // uuid
     {{/isUuid}}
     {{#isEmail}}
-    {{datatype}} *{{baseName}}; // email
+    {{datatype}} *{{name}}; // email
     {{/isEmail}}
     {{#isFreeFormObject}}
-    {{datatype}}_t *{{baseName}}; //object
+    {{datatype}}_t *{{name}}; //object
     {{/isFreeFormObject}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    {{datatype}} {{baseName}}; //numeric
+    {{datatype}} {{name}}; //numeric
     {{/isNumeric}}
     {{#isBoolean}}
-    {{datatype}} {{baseName}}; //boolean
+    {{datatype}} {{name}}; //boolean
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{baseName}}_e {{baseName}}; //enum
+    {{name}}_e {{name}}; //enum
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
-    {{datatype}} *{{baseName}}; // string
+    {{datatype}} *{{name}}; // string
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{datatype}} {{baseName}}; //Byte
+    {{datatype}} {{name}}; //Byte
     {{/isByteArray}}
     {{#isBinary}}
-    {{datatype}} {{baseName}}; //binary
+    {{datatype}} {{name}}; //binary
     {{/isBinary}}
     {{#isDate}}
-    {{datatype}} *{{baseName}}; //date
+    {{datatype}} *{{name}}; //date
     {{/isDate}}
     {{#isDateTime}}
-    {{datatype}} *{{baseName}}; //date time
+    {{datatype}} *{{name}}; //date time
     {{/isDateTime}}
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
     {{#isListContainer}}
     {{#isPrimitiveType}}
-    {{datatype}}_t *{{baseName}}; //primitive container
+    {{datatype}}_t *{{name}}; //primitive container
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    {{datatype}}_t *{{baseName}}; //nonprimitive container
+    {{datatype}}_t *{{name}}; //nonprimitive container
     {{/isPrimitiveType}}
     {{/isListContainer}}
     {{#isMapContainer}}
-    {{datatype}} {{baseName}}; //map
+    {{datatype}} {{name}}; //map
     {{/isMapContainer}}
     {{/isContainer}}
     {{/vars}}
@@ -139,64 +139,64 @@ typedef struct {{classname}}_t {
     {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
-    {{datatype}}_e {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_e {{name}}{{#hasMore}},{{/hasMore}}
     {{/isEnum}}
     {{^isEnum}}
-    {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isEnum}}
     {{/isModel}}
     {{#isUuid}}
-    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isUuid}}
     {{#isEmail}}
-    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isEmail}}
     {{#isFreeFormObject}}
-    {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isFreeFormObject}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
     {{/isNumeric}}
     {{#isBoolean}}
-    {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{baseName}}_e {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{name}}_e {{name}}{{#hasMore}},{{/hasMore}}
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
-    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
     {{/isByteArray}}
     {{#isBinary}}
-    {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
     {{/isBinary}}
     {{#isDate}}
-    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isDate}}
     {{#isDateTime}}
-    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isDateTime}}
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
     {{#isListContainer}}
     {{#isPrimitiveType}}
-    {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
     {{/isPrimitiveType}}
     {{/isListContainer}}
     {{#isMapContainer}}
-    {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{name}}{{#hasMore}},{{/hasMore}}
     {{/isMapContainer}}
     {{/isContainer}}
     {{/vars}}

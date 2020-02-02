@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,10 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.Logger;
@@ -28,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.util.regex.Pattern;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -44,6 +42,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
+    public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
     public static final String PROVIDED_IN_ROOT = "providedInRoot";
@@ -58,6 +57,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     protected String ngVersion = "8.0.0";
     protected String npmRepository = null;
+    private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
     protected String modelSuffix = "";
@@ -69,6 +69,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     public TypeScriptAngularClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
+
         this.outputFolder = "generated-code/typescript-angular";
 
         supportsMultipleInheritance = true;
@@ -85,6 +90,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,
                 "Setting this property to true will generate interfaces next to the default class implementations.",
+                false));
+        this.cliOptions.add(CliOption.newBoolean(USE_SINGLE_REQUEST_PARAMETER,
+                "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.",
                 false));
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
@@ -152,7 +160,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             setStringEnums(Boolean.valueOf(additionalProperties.get(STRING_ENUMS).toString()));
             additionalProperties.put("stringEnums", getStringEnums());
             if (getStringEnums()) {
-                enumSuffix = "";
                 classEnumSeparator = "";
             }
         }
@@ -163,6 +170,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
         }
+        
+        if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
+            this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
+        }
+        writePropertyBack(USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
         if (additionalProperties.containsKey(TAGGED_UNIONS)) {
             taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
@@ -215,6 +227,23 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(FILE_NAMING)) {
             this.setFileNaming(additionalProperties.get(FILE_NAMING).toString());
         }
+
+        if (isEnumSuffixV4Compat) {
+            applyEnumSuffixV4CompatMode();
+        }
+    }
+
+    private void applyEnumSuffixV4CompatMode() {
+        String fullModelSuffix = modelSuffix + modelNameSuffix;
+        if (stringEnums) {
+            // with stringEnums, legacy code would discard "Enum" suffix altogether
+            // resulting in smth like PetModelTypeModeL
+            enumSuffix = fullModelSuffix;
+        } else {
+            // without stringEnums, "Enum" was appended to model suffix, e.g. PetModel.TypeModelEnum
+            enumSuffix = fullModelSuffix + "Enum";
+        }
+
     }
 
     private void addNpmPackageGeneration(SemVer ngVersion) {
@@ -438,6 +467,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         // Add additional filename information for model imports in the services
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
+            // This property is not used in the templates any more, subject for removal
             im.put("filename", im.get("import"));
             im.put("classname", im.get("classname"));
         }
@@ -576,6 +606,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.npmRepository = npmRepository;
     }
 
+    private boolean getUseSingleRequestParameter() {
+        return useSingleRequestParameter;
+    }
+
+    private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
+        this.useSingleRequestParameter = useSingleRequestParameter;
+    }
+
     private String getApiFilenameFromClassname(String classname) {
         String name = classname.substring(0, classname.length() - serviceSuffix.length());
         return toApiFilename(name);
@@ -583,11 +621,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toModelName(String name) {
-        String modelName = super.toModelName(name);
-        if (modelSuffix.length() == 0 || modelName.endsWith(modelSuffix)) {
-            return modelName;
-        }
-        return modelName + modelSuffix;
+        name = addSuffix(name, modelSuffix);
+        return super.toModelName(name);
     }
 
     public String removeModelPrefixSuffix(String name) {

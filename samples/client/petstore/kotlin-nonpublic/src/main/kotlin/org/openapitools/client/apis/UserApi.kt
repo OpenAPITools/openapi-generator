@@ -32,7 +32,11 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * This can only be done by the logged in user.
     * @param body Created user object 
     * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun createUser(body: User) : Unit {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -43,17 +47,23 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+            }
         }
     }
 
@@ -62,7 +72,11 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * 
     * @param body List of user object 
     * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun createUsersWithArrayInput(body: kotlin.Array<User>) : Unit {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -73,17 +87,23 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+            }
         }
     }
 
@@ -92,7 +112,11 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * 
     * @param body List of user object 
     * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun createUsersWithListInput(body: kotlin.Array<User>) : Unit {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -103,17 +127,23 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+            }
         }
     }
 
@@ -122,7 +152,11 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * This can only be done by the logged in user.
     * @param username The name that needs to be deleted 
     * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun deleteUser(username: kotlin.String) : Unit {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -133,17 +167,23 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+            }
         }
     }
 
@@ -152,8 +192,12 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * 
     * @param username The name that needs to be fetched. Use user1 for testing. 
     * @return User
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getUserByName(username: kotlin.String) : User {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -164,17 +208,23 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<User>(
+        val localVarResponse = request<User>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as User
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as User
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+            }
         }
     }
 
@@ -184,8 +234,12 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * @param username The user name for login 
     * @param password The password for login in clear text 
     * @return kotlin.String
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun loginUser(username: kotlin.String, password: kotlin.String) : kotlin.String {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
@@ -200,17 +254,23 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<kotlin.String>(
+        val localVarResponse = request<kotlin.String>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.String
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.String
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+            }
         }
     }
 
@@ -218,7 +278,11 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * Logs out current logged in user session
     * 
     * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun logoutUser() : Unit {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -229,17 +293,23 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+            }
         }
     }
 
@@ -249,7 +319,11 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * @param username name that need to be deleted 
     * @param body Updated user object 
     * @return void
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
     */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun updateUser(username: kotlin.String, body: User) : Unit {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -260,17 +334,23 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Any?>(
+        val localVarResponse = request<Any?>(
             localVariableConfig,
             localVariableBody
         )
 
-        return when (response.responseType) {
+        return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+            }
         }
     }
 

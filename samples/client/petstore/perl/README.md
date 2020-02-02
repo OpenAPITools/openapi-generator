@@ -245,6 +245,8 @@ use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayTest;
+use WWW::OpenAPIClient::Object::BigCat;
+use WWW::OpenAPIClient::Object::BigCatAllOf;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
 use WWW::OpenAPIClient::Object::CatAllOf;
@@ -310,6 +312,8 @@ use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayTest;
+use WWW::OpenAPIClient::Object::BigCat;
+use WWW::OpenAPIClient::Object::BigCatAllOf;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
 use WWW::OpenAPIClient::Object::CatAllOf;
@@ -378,7 +382,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
-*FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+*FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 *FakeApi* | [**test_enum_parameters**](docs/FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
@@ -422,6 +426,8 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [WWW::OpenAPIClient::Object::ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [WWW::OpenAPIClient::Object::ArrayTest](docs/ArrayTest.md)
+ - [WWW::OpenAPIClient::Object::BigCat](docs/BigCat.md)
+ - [WWW::OpenAPIClient::Object::BigCatAllOf](docs/BigCatAllOf.md)
  - [WWW::OpenAPIClient::Object::Capitalization](docs/Capitalization.md)
  - [WWW::OpenAPIClient::Object::Cat](docs/Cat.md)
  - [WWW::OpenAPIClient::Object::CatAllOf](docs/CatAllOf.md)

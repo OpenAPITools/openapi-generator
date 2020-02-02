@@ -1,19 +1,17 @@
 #pragma once
 
-#include "../client/OAIPetApi.h"
+#include "../client/PFXPetApi.h"
 
-using namespace OpenAPI;
+using namespace test_namespace;
 
-class PetApiTests: public QObject {
+class PetApiTests : public QObject {
     Q_OBJECT
 
-    OAIPet createRandomPet();
+    PFXPet createRandomPet();
 
 private slots:
     void findPetsByStatusTest();
     void createAndGetPetTest();
     void updatePetTest();
     void updatePetWithFormTest();
-private:
-    const QString PetStoreHost = QStringLiteral("http://petstore.swagger.io");
 };

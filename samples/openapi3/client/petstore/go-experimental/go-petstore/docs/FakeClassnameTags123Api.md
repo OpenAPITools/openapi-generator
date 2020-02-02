@@ -10,19 +10,24 @@ Method | HTTP request | Description
 
 ## TestClassname
 
-> Client TestClassname(ctx, client)
+> Client TestClassname(ctx).Client(client).Execute()
 
 To test class name in snake case
 
-To test class name in snake case
 
-### Required Parameters
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestClassnameRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**client** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md) | client model | 
 
 ### Return type
 

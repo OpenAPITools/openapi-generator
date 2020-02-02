@@ -63,7 +63,7 @@ func (v NullableArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableArrayOfNumberOnly) UnmarshalJSON(src []byte) error {
@@ -74,4 +74,3 @@ func (v *NullableArrayOfNumberOnly) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

@@ -13,6 +13,7 @@
 from __future__ import absolute_import
 
 import re  # noqa: F401
+import sys  # noqa: F401
 
 # python 2 and python 3 compatibility library
 import six
@@ -33,7 +34,7 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models.client import Client
+from petstore_api.models import client
 
 
 class FakeClassnameTags123Api(object):
@@ -48,7 +49,11 @@ class FakeClassnameTags123Api(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-        def __test_classname(self, body, **kwargs):  # noqa: E501
+        def __test_classname(
+            self,
+            body,
+            **kwargs
+        ):
             """To test class name in snake case  # noqa: E501
 
             To test class name in snake case  # noqa: E501
@@ -57,30 +62,34 @@ class FakeClassnameTags123Api(object):
             >>> thread = api.test_classname(body, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param Client body: client model (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: Client
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                body (client.Client): client model
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                client.Client
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -101,12 +110,13 @@ class FakeClassnameTags123Api(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['body'] = body
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.test_classname = Endpoint(
             settings={
-                'response_type': (Client,),
+                'response_type': (client.Client,),
                 'auth': [
                     'api_key_query'
                 ],
@@ -135,7 +145,8 @@ class FakeClassnameTags123Api(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (Client,),
+                    'body':
+                        (client.Client,),
                 },
                 'attribute_map': {
                 },

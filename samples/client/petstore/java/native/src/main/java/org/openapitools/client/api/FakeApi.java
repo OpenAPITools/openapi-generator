@@ -104,7 +104,10 @@ public class FakeApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -147,7 +150,10 @@ public class FakeApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Boolean>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -190,7 +196,10 @@ public class FakeApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<OuterComposite>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -233,7 +242,10 @@ public class FakeApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<BigDecimal>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -276,7 +288,10 @@ public class FakeApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -321,7 +336,10 @@ public class FakeApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -380,7 +398,10 @@ public class FakeApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -427,13 +448,16 @@ public class FakeApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
   /**
-   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
    * @param number None (required)
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
@@ -495,7 +519,10 @@ public class FakeApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -559,7 +586,10 @@ public class FakeApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -633,7 +663,10 @@ public class FakeApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -678,7 +711,10 @@ public class FakeApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -726,7 +762,10 @@ public class FakeApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -802,7 +841,10 @@ public class FakeApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }

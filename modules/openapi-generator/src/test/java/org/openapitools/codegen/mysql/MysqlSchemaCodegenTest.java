@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -272,6 +272,26 @@ public class MysqlSchemaCodegenTest {
         Assert.assertTrue(codegen.getJsonDataTypeEnabled());
         codegen.setJsonDataTypeEnabled(false);
         Assert.assertFalse(codegen.getJsonDataTypeEnabled());
+    }
+
+    @Test
+    public void testSetIdentifierNamingConvention() {
+        final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
+        Assert.assertSame("original", codegen.getIdentifierNamingConvention());
+        codegen.setIdentifierNamingConvention("invalidValue");
+        Assert.assertSame("original", codegen.getIdentifierNamingConvention());
+        codegen.setIdentifierNamingConvention("snake_case");
+        Assert.assertSame("snake_case", codegen.getIdentifierNamingConvention());
+        codegen.setIdentifierNamingConvention("anotherInvalid");
+        Assert.assertSame("snake_case", codegen.getIdentifierNamingConvention());
+    }
+
+    @Test
+    public void testGetIdentifierNamingConvention() {
+        final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
+        Assert.assertSame("original", codegen.getIdentifierNamingConvention());
+        codegen.setIdentifierNamingConvention("snake_case");
+        Assert.assertSame("snake_case", codegen.getIdentifierNamingConvention());
     }
 
 }

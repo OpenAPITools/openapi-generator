@@ -1,16 +1,14 @@
 #pragma once
 
-#include "../client/OAIStoreApi.h"
+#include "../client/PFXStoreApi.h"
 
-using namespace OpenAPI;
+using namespace test_namespace;
 
-class StoreApiTests: public QObject {
+class StoreApiTests : public QObject {
     Q_OBJECT
 
 private slots:
     void placeOrderTest();
     void getOrderByIdTest();
     void getInventoryTest();
-private:
-    const QString PetStoreHost = QStringLiteral("http://petstore.swagger.io");
 };

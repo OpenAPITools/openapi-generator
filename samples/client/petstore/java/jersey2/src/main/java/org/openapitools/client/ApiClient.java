@@ -678,7 +678,7 @@ public class ApiClient {
     if (queryParams != null) {
       for (Pair queryParam : queryParams) {
         if (queryParam.getValue() != null) {
-          target = target.queryParam(queryParam.getName(), queryParam.getValue());
+          target = target.queryParam(queryParam.getName(), escapeString(queryParam.getValue()));
         }
       }
     }
@@ -693,6 +693,13 @@ public class ApiClient {
     }
 
     for (Entry<String, String> entry : cookieParams.entrySet()) {
+      String value = entry.getValue();
+      if (value != null) {
+        invocationBuilder = invocationBuilder.cookie(entry.getKey(), value);
+      }
+    }
+
+    for (Entry<String, String> entry : defaultCookieMap.entrySet()) {
       String value = entry.getValue();
       if (value != null) {
         invocationBuilder = invocationBuilder.cookie(entry.getKey(), value);

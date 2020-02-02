@@ -76,7 +76,7 @@ public class ApiClient {
             this.separator = separator;
         }
 
-        private String collectionToString(Collection<? extends CharSequence> collection) {
+        private String collectionToString(Collection<?> collection) {
             return StringUtils.collectionToDelimitedString(collection, separator);
         }
     }
@@ -395,7 +395,7 @@ public class ApiClient {
     * @param values The values of the parameter.
     * @return String representation of the parameter
     */
-    public String collectionPathParameterToString(CollectionFormat collectionFormat, Collection<? extends CharSequence> values) {
+    public String collectionPathParameterToString(CollectionFormat collectionFormat, Collection<?> values) {
         // create the value based on the collection format
         if (CollectionFormat.MULTI.equals(collectionFormat)) {
             // not valid for path params
@@ -647,14 +647,20 @@ public class ApiClient {
         }
     }
 
+    /**
+     * Build cookie header. Keeps a single value per cookie (as per <a href="https://tools.ietf.org/html/rfc6265#section-5.3">
+     * RFC6265 section 5.3</a>).
+     *
+     * @param cookies map all cookies
+     * @return header string for cookies.
+     */
     private String buildCookieHeader(MultiValueMap<String, String> cookies) {
         final StringBuilder cookieValue = new StringBuilder();
         String delimiter = "";
         for (final Map.Entry<String, List<String>> entry : cookies.entrySet()) {
-            for (String value : entry.getValue()) {
-                cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), entry.getValue()));
-                delimiter = "; ";
-            }
+            final String value = entry.getValue().get(entry.getValue().size() - 1);
+            cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), value));
+            delimiter = "; ";
         }
         return cookieValue.toString();
     }

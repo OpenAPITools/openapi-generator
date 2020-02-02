@@ -26,15 +26,17 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.StoreApi()
-order_id = 'order_id_example' # str | ID of the order that needs to be deleted
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.StoreApi(api_client)
+    order_id = 'order_id_example' # str | ID of the order that needs to be deleted
 
-try:
-    # Delete purchase order by ID
-    api_instance.delete_order(order_id)
-except ApiException as e:
-    print("Exception when calling StoreApi->delete_order: %s\n" % e)
+    try:
+        # Delete purchase order by ID
+        api_instance.delete_order(order_id)
+    except ApiException as e:
+        print("Exception when calling StoreApi->delete_order: %s\n" % e)
 ```
 
 ### Parameters
@@ -88,15 +90,17 @@ configuration.api_key['api_key'] = 'YOUR_API_KEY'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.StoreApi(petstore_api.ApiClient(configuration))
-
-try:
-    # Returns pet inventories by status
-    api_response = api_instance.get_inventory()
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling StoreApi->get_inventory: %s\n" % e)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.StoreApi(api_client)
+    
+    try:
+        # Returns pet inventories by status
+        api_response = api_instance.get_inventory()
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling StoreApi->get_inventory: %s\n" % e)
 ```
 
 ### Parameters
@@ -138,16 +142,18 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.StoreApi()
-order_id = 56 # int | ID of pet that needs to be fetched
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.StoreApi(api_client)
+    order_id = 56 # int | ID of pet that needs to be fetched
 
-try:
-    # Find purchase order by ID
-    api_response = api_instance.get_order_by_id(order_id)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling StoreApi->get_order_by_id: %s\n" % e)
+    try:
+        # Find purchase order by ID
+        api_response = api_instance.get_order_by_id(order_id)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling StoreApi->get_order_by_id: %s\n" % e)
 ```
 
 ### Parameters
@@ -192,16 +198,18 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.StoreApi()
-body = petstore_api.Order() # Order | order placed for purchasing the pet
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.StoreApi(api_client)
+    body = petstore_api.Order() # Order | order placed for purchasing the pet
 
-try:
-    # Place an order for a pet
-    api_response = api_instance.place_order(body)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling StoreApi->place_order: %s\n" % e)
+    try:
+        # Place an order for a pet
+        api_response = api_instance.place_order(body)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling StoreApi->place_order: %s\n" % e)
 ```
 
 ### Parameters

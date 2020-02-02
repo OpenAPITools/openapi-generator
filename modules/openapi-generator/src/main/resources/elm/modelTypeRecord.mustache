@@ -18,7 +18,7 @@ type alias {{classname}} =
 
 toString : {{classname}} -> String
 toString =
-    Encode.encode 0 << encode{{#vendorExtensions.discriminatorName}} ""{{/vendorExtensions.discriminatorName}}
+    Encode.encode 0 << encode
 
 
 {{#vars}}

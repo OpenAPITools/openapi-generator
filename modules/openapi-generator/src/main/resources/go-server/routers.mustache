@@ -7,7 +7,9 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-
+    {{#featureCORS}}
+	"github.com/gorilla/handlers"
+    {{/featureCORS}}
 	"github.com/gorilla/mux"
 )
 
@@ -35,6 +37,9 @@ func NewRouter(routers ...Router) *mux.Router {
 			var handler http.Handler
 			handler = route.HandlerFunc
 			handler = Logger(handler, route.Name)
+            {{#featureCORS}}
+			handler = handlers.CORS()(handler)
+            {{/featureCORS}}
 
 			router.
 				Methods(route.Method).

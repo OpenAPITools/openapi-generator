@@ -17,8 +17,8 @@ import http = require('http');
 import { ApiResponse } from '../model/apiResponse';
 import { Pet } from '../model/pet';
 
-import { ObjectSerializer, Authentication, VoidAuth } from '../model/models';
-import { HttpBasicAuth, ApiKeyAuth, OAuth } from '../model/models';
+import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
+import { HttpBasicAuth, HttpBearerAuth, ApiKeyAuth, OAuth } from '../model/models';
 
 import { HttpError, RequestFile } from './apis';
 
@@ -34,7 +34,7 @@ export enum PetApiApiKeys {
 
 export class PetApi {
     protected _basePath = defaultBasePath;
-    protected defaultHeaders : any = {};
+    protected _defaultHeaders : any = {};
     protected _useQuerystring : boolean = false;
 
     protected authentications = {
@@ -42,6 +42,8 @@ export class PetApi {
         'petstore_auth': new OAuth(),
         'api_key': new ApiKeyAuth('header', 'api_key'),
     }
+
+    protected interceptors: Interceptor[] = [];
 
     constructor(basePath?: string);
     constructor(basePathOrUsername: string, password?: string, basePath?: string) {
@@ -64,6 +66,14 @@ export class PetApi {
         this._basePath = basePath;
     }
 
+    set defaultHeaders(defaultHeaders: any) {
+        this._defaultHeaders = defaultHeaders;
+    }
+
+    get defaultHeaders() {
+        return this._defaultHeaders;
+    }
+
     get basePath() {
         return this._basePath;
     }
@@ -80,6 +90,10 @@ export class PetApi {
         this.authentications.petstore_auth.accessToken = token;
     }
 
+    public addInterceptor(interceptor: Interceptor) {
+        this.interceptors.push(interceptor);
+    }
+
     /**
      * 
      * @summary Add a new pet to the store
@@ -88,7 +102,7 @@ export class PetApi {
     public async addPet (body: Pet, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};
 
         // verify required parameter 'body' is not null or undefined
@@ -111,10 +125,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.petstore_auth.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -147,7 +168,7 @@ export class PetApi {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};
 
         // verify required parameter 'petId' is not null or undefined
@@ -170,10 +191,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.petstore_auth.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -204,7 +232,7 @@ export class PetApi {
     public async findPetsByStatus (status: Array<'available' | 'pending' | 'sold'>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByStatus';
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/xml', 'application/json'];
         // give precedence to 'application/json'
         if (produces.indexOf('application/json') >= 0) {
@@ -237,10 +265,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.petstore_auth.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -272,7 +307,7 @@ export class PetApi {
     public async findPetsByTags (tags: Array<string>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByTags';
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/xml', 'application/json'];
         // give precedence to 'application/json'
         if (produces.indexOf('application/json') >= 0) {
@@ -305,10 +340,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.petstore_auth.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -341,7 +383,7 @@ export class PetApi {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/xml', 'application/json'];
         // give precedence to 'application/json'
         if (produces.indexOf('application/json') >= 0) {
@@ -370,10 +412,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.api_key.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.api_key.apiKey) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.api_key.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -405,7 +454,7 @@ export class PetApi {
     public async updatePet (body: Pet, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};
 
         // verify required parameter 'body' is not null or undefined
@@ -428,10 +477,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.petstore_auth.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -465,7 +521,7 @@ export class PetApi {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};
 
         // verify required parameter 'petId' is not null or undefined
@@ -495,10 +551,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.petstore_auth.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -532,7 +595,7 @@ export class PetApi {
         const localVarPath = this.basePath + '/pet/{petId}/uploadImage'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/json'];
         // give precedence to 'application/json'
         if (produces.indexOf('application/json') >= 0) {
@@ -570,10 +633,17 @@ export class PetApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.petstore_auth.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.petstore_auth.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;

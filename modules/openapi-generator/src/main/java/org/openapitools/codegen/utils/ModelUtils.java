@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,14 +29,13 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.IJsonSchemaValidationProperties;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -90,12 +89,20 @@ public class ModelUtils {
      * @return schemas a list of used schemas
      */
     public static List<String> getAllUsedSchemas(OpenAPI openAPI) {
+        Map<String, List<String>> childrenMap = getChildrenMap(openAPI);
         List<String> allUsedSchemas = new ArrayList<String>();
         visitOpenAPI(openAPI, (s, t) -> {
             if (s.get$ref() != null) {
                 String ref = getSimpleRef(s.get$ref());
                 if (!allUsedSchemas.contains(ref)) {
                     allUsedSchemas.add(ref);
+                }
+                if (childrenMap.containsKey(ref)) {
+                    for (String child : childrenMap.get(ref)) {
+                        if (!allUsedSchemas.contains(child)) {
+                            allUsedSchemas.add(child);
+                        }
+                    }
                 }
             }
         });
@@ -109,6 +116,18 @@ public class ModelUtils {
      * @return schemas a list of unused schemas
      */
     public static List<String> getUnusedSchemas(OpenAPI openAPI) {
+        final  Map<String, List<String>> childrenMap;
+        Map<String, List<String>> tmpChildrenMap;
+        try {
+            tmpChildrenMap = getChildrenMap(openAPI);
+        } catch (NullPointerException npe) {
+            // in rare cases, such as a spec document with only one top-level oneOf schema and multiple referenced schemas,
+            // the stream used in getChildrenMap will raise an NPE. Rather than modify getChildrenMap which is used by getAllUsedSchemas,
+            // we'll catch here as a workaround for this edge case.
+            tmpChildrenMap = new HashMap<>();
+        }
+
+        childrenMap = tmpChildrenMap;
         List<String> unusedSchemas = new ArrayList<String>();
 
         Map<String, Schema> schemas = getSchemas(openAPI);
@@ -116,7 +135,11 @@ public class ModelUtils {
 
         visitOpenAPI(openAPI, (s, t) -> {
             if (s.get$ref() != null) {
-                unusedSchemas.remove(getSimpleRef(s.get$ref()));
+                String ref = getSimpleRef(s.get$ref());
+                unusedSchemas.remove(ref);
+                if (childrenMap.containsKey(ref)) {
+                    unusedSchemas.removeAll(childrenMap.get(ref));
+                }
             }
         });
         return unusedSchemas;
@@ -220,10 +243,14 @@ public class ModelUtils {
         if (parameters != null) {
             for (Parameter p : parameters) {
                 Parameter parameter = getReferencedParameter(openAPI, p);
-                if (parameter.getSchema() != null) {
-                    visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
+                if (parameter != null) {
+                    if (parameter.getSchema() != null) {
+                        visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
+                    }
+                    visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
+                } else {
+                    LOGGER.warn("Unreferenced parameter found.");
                 }
-                visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
             }
         }
     }
@@ -358,6 +385,10 @@ public class ModelUtils {
 
     public static boolean isArraySchema(Schema schema) {
         return (schema instanceof ArraySchema);
+    }
+
+    public static boolean isSet(Schema schema) {
+        return ModelUtils.isArraySchema(schema) && Boolean.TRUE.equals(schema.getUniqueItems());
     }
 
     public static boolean isStringSchema(Schema schema) {
@@ -761,15 +792,36 @@ public class ModelUtils {
         return getSchemaFromContent(response.getContent());
     }
 
+    /**
+     * Return the first Schema from a specified OAS 'content' section.
+     * 
+     * For example, given the following OAS, this method returns the schema
+     * for the 'application/json' content type because it is listed first in the OAS.
+     * 
+     * responses:
+     *   '200':
+     *     content:
+     *       application/json:
+     *         schema:
+     *           $ref: '#/components/schemas/XYZ'
+     *       application/xml:
+     *          ...
+     *   
+     * @param content a 'content' section in the OAS specification. 
+     * @return the Schema.
+     */
     private static Schema getSchemaFromContent(Content content) {
         if (content == null || content.isEmpty()) {
             return null;
         }
+        Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
         if (content.size() > 1) {
-            LOGGER.warn("Multiple schemas found in content, returning only the first one");
+            // Other content types are currently ignored by codegen. If you see this warning,
+            // reorder the OAS spec to put the desired content type first.
+            LOGGER.warn("Multiple schemas found in the OAS 'content' section, returning only the first one ({})",
+                entry.getKey());
         }
-        MediaType mediaType = content.values().iterator().next();
-        return mediaType.getSchema();
+        return entry.getValue().getSchema();
     }
 
     /**
@@ -882,6 +934,19 @@ public class ModelUtils {
         return null;
     }
 
+    public static Map<String, List<String>> getChildrenMap(OpenAPI openAPI) {
+        Map<String, Schema> allSchemas = getSchemas(openAPI);
+
+        // FIXME: The collect here will throw NPE if a spec document has only a single oneOf hierarchy.
+        Map<String, List<Entry<String, Schema>>> groupedByParent = allSchemas.entrySet().stream()
+            .filter(entry -> isComposedSchema(entry.getValue()))
+            .collect(Collectors.groupingBy(entry -> getParentName((ComposedSchema) entry.getValue(), allSchemas)));
+
+        return groupedByParent.entrySet().stream()
+                .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue().stream().map(e -> e.getKey()).collect(Collectors.toList())));
+    }
+
+
     /**
      * Get the interfaces from the schema (composed)
      *
@@ -901,7 +966,8 @@ public class ModelUtils {
     }
 
     /**
-     * Get the the parent model name from the schemas (allOf, anyOf, oneOf)
+     * Get the parent model name from the schemas (allOf, anyOf, oneOf).
+     * If there are multiple parents, return the first one.
      *
      * @param composedSchema schema (alias or direct reference)
      * @param allSchemas     all schemas
@@ -921,7 +987,7 @@ public class ModelUtils {
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
                         return "UNKNOWN_PARENT_NAME";
-                    } else if (s.getDiscriminator() != null && StringUtils.isNotEmpty(s.getDiscriminator().getPropertyName())) {
+                    } else if (hasOrInheritsDiscriminator(s, allSchemas)) {
                         // discriminator.propertyName is used
                         return parentName;
                     } else {
@@ -945,7 +1011,15 @@ public class ModelUtils {
         return null;
     }
 
-    public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
+    /**
+     * Get the list of parent model names from the schemas (allOf, anyOf, oneOf).
+     *
+     * @param composedSchema   schema (alias or direct reference)
+     * @param allSchemas       all schemas
+     * @param includeAncestors if true, include the indirect ancestors in the return value. If false, return the direct parents.
+     * @return the name of the parent model
+     */
+    public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         List<String> names = new ArrayList<String>();
 
@@ -958,9 +1032,12 @@ public class ModelUtils {
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
                         names.add("UNKNOWN_PARENT_NAME");
-                    } else if (s.getDiscriminator() != null && StringUtils.isNotEmpty(s.getDiscriminator().getPropertyName())) {
+                    } else if (hasOrInheritsDiscriminator(s, allSchemas)) {
                         // discriminator.propertyName is used
                         names.add(parentName);
+                        if (includeAncestors && s instanceof ComposedSchema) {
+                            names.addAll(getAllParentsName((ComposedSchema) s, allSchemas, true));
+                        }
                     } else {
                         LOGGER.debug("Not a parent since discriminator.propertyName is not set {}", s.get$ref());
                         // not a parent since discriminator.propertyName is not set
@@ -972,6 +1049,32 @@ public class ModelUtils {
         }
 
         return names;
+    }
+
+    private static boolean hasOrInheritsDiscriminator(Schema schema, Map<String, Schema> allSchemas) {
+        if (schema.getDiscriminator() != null && StringUtils.isNotEmpty(schema.getDiscriminator().getPropertyName())) {
+            return true;
+        }
+        else if (StringUtils.isNotEmpty(schema.get$ref())) {
+            String parentName = getSimpleRef(schema.get$ref());
+            Schema s = allSchemas.get(parentName);
+            if (s != null) {
+                return hasOrInheritsDiscriminator(s, allSchemas);
+            }
+            else {
+                LOGGER.error("Failed to obtain schema from {}", parentName);
+            }
+        }
+        else if (schema instanceof ComposedSchema) {
+            final ComposedSchema composed = (ComposedSchema) schema;
+            final List<Schema> interfaces = getInterfaces(composed);
+            for (Schema i : interfaces) {
+                if (hasOrInheritsDiscriminator(i, allSchemas)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static boolean isNullable(Schema schema) {
@@ -988,5 +1091,34 @@ public class ModelUtils {
         }
 
         return false;
+    }
+
+    public static void syncValidationProperties(Schema schema, IJsonSchemaValidationProperties target){
+        if (schema != null && target != null) {
+            target.setPattern(schema.getPattern());
+            BigDecimal minimum = schema.getMinimum();
+            BigDecimal maximum = schema.getMaximum();
+            Boolean exclusiveMinimum = schema.getExclusiveMinimum();
+            Boolean exclusiveMaximum = schema.getExclusiveMaximum();
+            Integer minLength = schema.getMinLength();
+            Integer maxLength = schema.getMaxLength();
+            Integer minItems = schema.getMinItems();
+            Integer maxItems = schema.getMaxItems();
+            Boolean uniqueItems = schema.getUniqueItems();
+            Integer minProperties = schema.getMinProperties();
+            Integer maxProperties = schema.getMaxProperties();
+
+            if (minimum != null) target.setMinimum(String.valueOf(minimum));
+            if (maximum != null) target.setMaximum(String.valueOf(maximum));
+            if (exclusiveMinimum != null) target.setExclusiveMinimum(exclusiveMinimum);
+            if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
+            if (minLength != null) target.setMinLength(minLength);
+            if (maxLength != null) target.setMaxLength(maxLength);
+            if (minItems != null) target.setMinItems(minItems);
+            if (maxItems != null) target.setMaxItems(maxItems);
+            if (uniqueItems != null) target.setUniqueItems(uniqueItems);
+            if (minProperties != null) target.setMinProperties(minProperties);
+            if (maxProperties != null) target.setMaxProperties(maxProperties);
+        }
     }
 }

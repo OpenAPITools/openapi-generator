@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,6 +26,9 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.templating.mustache.SplitStringLambda;
+import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,6 +102,33 @@ public class SpringCodegen extends AbstractJavaCodegen
     public SpringCodegen() {
         super();
 
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.OAuth2_AuthorizationCode,
+                        SecurityFeature.OAuth2_ClientCredentials,
+                        SecurityFeature.OAuth2_Password,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BasicAuth
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .includeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .build();
+
         outputFolder = "generated-code/javaSpring";
         embeddedTemplateDir = templateDir = "JavaSpring";
         apiPackage = "org.openapitools.api";
@@ -129,7 +159,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(SKIP_DEFAULT_INTERFACE, "Whether to generate default implementations for java8 interfaces", skipDefaultInterface));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers", async));
         cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)", reactive));
-        cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)"));
+        cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, HystrixCommand, RxObservable, RxSingle or fully qualified type)"));
         cliOptions.add(CliOption.newBoolean(VIRTUAL_SERVICE, "Generates the virtual service. For more details refer - https://github.com/elan-venture/virtualan/wiki"));
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames", useTags));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
@@ -303,9 +333,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(UNHANDLED_EXCEPTION_HANDLING)) {
             this.setUnhandledException(Boolean.valueOf(additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING).toString()));
-        } else {
-            additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
         }
+        additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
 
         typeMapping.put("file", "Resource");
         importMapping.put("Resource", "org.springframework.core.io.Resource");
@@ -463,6 +492,10 @@ public class SpringCodegen extends AbstractJavaCodegen
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
+
+        additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
+
+        additionalProperties.put("lambdaSplitString", new SplitStringLambda());
     }
 
     @Override
@@ -844,4 +877,25 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void setUseOptional(boolean useOptional) {
         this.useOptional = useOptional;
     }
+
+    @Override
+    public void postProcessParameter(CodegenParameter p) {
+        // we use a custom version of this function to remove the l, d, and f suffixes from Long/Double/Float
+        // defaultValues
+        // remove the l because our users will use Long.parseLong(String defaultValue)
+        // remove the d because our users will use Double.parseDouble(String defaultValue)
+        // remove the f because our users will use Float.parseFloat(String defaultValue)
+        // NOTE: for CodegenParameters we DO need these suffixes because those defaultValues are used as java value
+        // literals assigned to Long/Double/Float
+        if (p.defaultValue == null) {
+            return;
+        }
+        Boolean fixLong = (p.isLong && "l".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
+        Boolean fixDouble = (p.isDouble && "d".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
+        Boolean fixFloat = (p.isFloat && "f".equals(p.defaultValue.substring(p.defaultValue.length()-1)));
+        if (fixLong || fixDouble || fixFloat) {
+            p.defaultValue = p.defaultValue.substring(0, p.defaultValue.length()-1);
+        }
+    }
+
 }

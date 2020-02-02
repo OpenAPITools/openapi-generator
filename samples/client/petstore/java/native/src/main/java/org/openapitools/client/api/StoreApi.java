@@ -95,7 +95,10 @@ public class StoreApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -135,7 +138,10 @@ public class StoreApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Map<String, Integer>>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -181,7 +187,10 @@ public class StoreApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -228,7 +237,10 @@ public class StoreApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }

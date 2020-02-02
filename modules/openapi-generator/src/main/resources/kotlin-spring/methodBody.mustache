@@ -1,0 +1,23 @@
+{{#examples}}
+    {{#-first}}
+        {{#async}}
+return CompletableFuture.supplyAsync(()-> {
+        {{/async}}getRequest().ifPresent { request ->
+{{#async}}    {{/async}}            for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+    {{/-first}}
+{{#async}}        {{/async}}{{^async}}    {{/async}}            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
+{{#async}}        {{/async}}{{^async}}    {{/async}}                ApiUtil.setExampleResponse(request, "{{{contentType}}}", "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}")
+{{#async}}        {{/async}}{{^async}}    {{/async}}                break
+{{#async}}        {{/async}}{{^async}}    {{/async}}            }
+    {{#-last}}
+{{#async}}        {{/async}}{{^async}}    {{/async}}        }
+{{#async}}    {{/async}}        }
+{{#async}}    {{/async}}        return ResponseEntity({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}})
+            {{#async}}
+        }, Runnable::run)
+            {{/async}}
+    {{/-last}}
+{{/examples}}
+{{^examples}}
+return {{#async}}CompletableFuture.completedFuture({{/async}}ResponseEntity({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}})
+{{/examples}}

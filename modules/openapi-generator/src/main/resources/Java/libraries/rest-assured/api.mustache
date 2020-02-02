@@ -56,6 +56,15 @@ public class {{classname}} {
         return reqSpec;
     }
 
+    public List<Oper> getAllOperations() {
+        return Arrays.asList(
+{{#operations}}
+{{#operation}}
+                {{operationId}}(){{^-last}},{{/-last}}
+{{/operation}}
+{{/operations}}
+        );
+    }
 {{#operations}}
 {{#operation}}
 
@@ -107,7 +116,7 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public static class {{operationIdCamelCase}}Oper {
+    public static class {{operationIdCamelCase}}Oper implements Oper {
 
         public static final Method REQ_METHOD = {{httpMethod}};
         public static final String REQ_URI = "{{path}}";
@@ -134,6 +143,7 @@ public class {{classname}} {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }

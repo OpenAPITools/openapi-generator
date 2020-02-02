@@ -78,28 +78,28 @@ fn main() {
 
         Some("DummyGet") => {
             let result = core.run(client.dummy_get());
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         // Disabled because there's no example.
         // Some("DummyPut") => {
         //     let result = core.run(client.dummy_put(???));
-        //     println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+        //     println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         //  },
 
         Some("FileResponseGet") => {
             let result = core.run(client.file_response_get());
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         Some("HtmlPost") => {
             let result = core.run(client.html_post("body_example".to_string()));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         Some("RawJsonGet") => {
             let result = core.run(client.raw_json_get());
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
          },
 
         _ => {

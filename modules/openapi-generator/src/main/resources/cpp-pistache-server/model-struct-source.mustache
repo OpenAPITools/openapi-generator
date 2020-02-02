@@ -21,6 +21,16 @@ nlohmann::json {{classname}}::to_json() const
     return o;
 }
 
+bool {{classname}}::operator==(const {{classname}}& other) const
+{
+    return {{#vars}}{{baseName}} == other.{{baseName}}{{#hasMore}} && {{/hasMore}}{{/vars}};
+}
+
+bool {{classname}}::operator!=(const {{classname}}& other) const
+{
+    return !(*this == other);
+}
+
 void to_json(nlohmann::json& j, const {{classname}}& o)
 {
     {{#vars}}

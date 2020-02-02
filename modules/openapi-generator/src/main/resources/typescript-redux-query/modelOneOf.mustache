@@ -1,0 +1,46 @@
+{{#hasImports}}
+import {
+    {{#imports}}
+    {{{.}}},
+    {{{.}}}FromJSON,
+    {{{.}}}ToJSON,
+    {{/imports}}
+} from './';
+
+{{/hasImports}}
+/**
+ * @type {{classname}}{{#description}}
+ * {{{description}}}{{/description}}
+ * @export
+ */
+export type {{classname}} = {{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}};
+
+{{#discriminator}}
+
+export function {{classname}}FromJSON(json: any): {{classname}} {
+  switch (json.{{propertyName}}) {
+  {{#mappedModels}}
+  case '{{mappingName}}': return {{modelName}}FromJSON(json);
+  {{/mappedModels}}
+  default: throw new Error("Unexpected {{propertyName}} value.");
+  }
+}
+
+export function {{classname}}ToJSON(value?: {{classname}}): any {
+    {{#hasVars}}
+    if (value === undefined) {
+        return undefined;
+    }
+
+    switch (value.{{propertyName}}) {
+    {{#mappedModels}}
+    case '{{mappingName}}': return {{modelName}}ToJSON(<{{modelName}}>value);
+    {{/mappedModels}}
+    default: throw new Error("Unexpected {{propertyName}} value.");
+    }
+    {{/hasVars}}
+    {{^hasVars}}
+    return value;
+    {{/hasVars}}
+}
+{{/discriminator}}

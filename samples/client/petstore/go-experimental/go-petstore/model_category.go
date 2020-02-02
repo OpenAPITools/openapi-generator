@@ -79,7 +79,7 @@ func (v NullableCategory) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableCategory) UnmarshalJSON(src []byte) error {
@@ -90,4 +90,3 @@ func (v *NullableCategory) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

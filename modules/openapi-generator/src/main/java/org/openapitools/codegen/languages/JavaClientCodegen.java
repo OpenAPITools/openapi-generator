@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,11 +23,21 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.templating.mustache.CaseFormatLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 
 import java.io.File;
 import java.util.*;
@@ -39,8 +49,7 @@ import static java.util.Collections.sort;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, PerformBeanValidationFeatures,
-        GzipFeatures {
+        implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures {
 
     static final String MEDIA_TYPE = "mediaType";
 
@@ -77,6 +86,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String RETROFIT_1 = "retrofit";
     public static final String RETROFIT_2 = "retrofit2";
     public static final String VERTX = "vertx";
+    public static final String MICROPROFILE = "microprofile";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
@@ -100,8 +110,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected String authFolder;
     protected String serializationLibrary = null;
 
+    protected boolean useOneOfInterfaces = false;
+    protected List<CodegenModel> addOneOfInterfaces = new ArrayList<CodegenModel>();
+
     public JavaClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         outputFolder = "generated-code" + File.separator + "java";
         embeddedTemplateDir = templateDir = "Java";
@@ -145,6 +162,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 1.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.9.x. Only for Java8");
         supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+");
+        supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client X.x. JSON processing: Jackson 2.9.x");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -177,9 +195,20 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+        if (MICROPROFILE.equals(getLibrary())) {
+            co.subresourceOperation = !co.path.isEmpty();
+        }
+    }
+
+    @Override
     public void processOpts() {
         if ((WEBCLIENT.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) || NATIVE.equals(getLibrary())) {
             dateLibrary = "java8";
+        }
+        else if (MICROPROFILE.equals(getLibrary())) {
+            dateLibrary = "legacy";
         }
 
         super.processOpts();
@@ -266,12 +295,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
-        if (!(RESTTEMPLATE.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()))) {
+        if (!(RESTTEMPLATE.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
         }
 
         // google-api-client doesn't use the OpenAPI auth, because it uses Google Credential directly (HttpRequestInitializer)
-        if (!(GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()))) {
+        if (!(GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
             supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.mustache", authFolder, "HttpBearerAuth.java"));
             supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
@@ -303,13 +332,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             apiDocTemplateFiles.remove("api_doc.mustache");
         }
 
-        if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || usesAnyRetrofitLibrary() || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || WEBCLIENT.equals(getLibrary()))) {
+        if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || usesAnyRetrofitLibrary() || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || WEBCLIENT.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
             supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
         }
 
-        if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || usesAnyRetrofitLibrary() || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()))) {
+        if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || usesAnyRetrofitLibrary() || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         }
 
@@ -380,9 +409,19 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
                 supportingFiles.add(new SupportingFile("GsonObjectMapper.mustache", invokerFolder, "GsonObjectMapper.java"));
             }
+            supportingFiles.add(new SupportingFile("Oper.mustache", apiFolder, "Oper.java"));
             additionalProperties.put("convert", new CaseFormatLambda(LOWER_CAMEL, UPPER_UNDERSCORE));
             apiTemplateFiles.put("api.mustache", ".java");
             supportingFiles.add(new SupportingFile("ResponseSpecBuilders.mustache", invokerFolder, "ResponseSpecBuilders.java"));
+        } else if (MICROPROFILE.equals(getLibrary())) {
+            supportingFiles.clear(); // Don't need extra files provided by Java Codegen
+            String apiExceptionFolder = (sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
+            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+            supportingFiles.add(new SupportingFile("api_exception.mustache", apiExceptionFolder, "ApiException.java"));
+            supportingFiles.add(new SupportingFile("api_exception_mapper.mustache", apiExceptionFolder, "ApiExceptionMapper.java"));
+            importMapping.put("LocalDate", "org.joda.time.LocalDate");
+            serializationLibrary = "none";
         } else {
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
         }
@@ -457,6 +496,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else {
             additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
             additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+        }
+
+        if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
+            useOneOfInterfaces = true;
         }
 
     }
@@ -541,9 +584,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         // google-api-client doesn't use the OpenAPI auth, because it uses Google Credential directly (HttpRequestInitializer)
-        if ((!(GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || usePlayWS || NATIVE.equals(getLibrary()))) && ProcessUtils.hasOAuthMethods(objs)) {
+        if ((!(GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || usePlayWS || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) && ProcessUtils.hasOAuthMethods(objs)) {
             supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
             supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
+        }
+
+        if (MICROPROFILE.equals(getLibrary())) {
+            objs = AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
         }
 
         return objs;
@@ -635,6 +682,23 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 model.imports.add("JsonCreator");
             }
         }
+        if (MICROPROFILE.equals(getLibrary())) {
+            model.imports.remove("ApiModelProperty");
+            model.imports.remove("ApiModel");
+            model.imports.remove("JsonSerialize");
+            model.imports.remove("ToStringSerializer");
+        }
+    }
+    @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
+        if (MICROPROFILE.equals(getLibrary())) {
+            if (codegenModel.imports.contains("ApiModel")) {
+                // Remove io.swagger.annotations.ApiModel import
+                codegenModel.imports.remove("ApiModel");
+            }
+        }
+        return codegenModel;
     }
 
     @Override
@@ -662,9 +726,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         objs = super.postProcessModels(objs);
+        List<Object> models = (List<Object>) objs.get("models");
+
         if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON) && !JERSEY1.equals(getLibrary())) {
             List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-            List<Object> models = (List<Object>) objs.get("models");
             for (Object _mo : models) {
                 Map<String, Object> mo = (Map<String, Object>) _mo;
                 CodegenModel cm = (CodegenModel) mo.get("model");
@@ -688,6 +753,20 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                         imports.add(importsItem);
                     }
                 }
+            }
+        }
+
+        // add implements for serializable/parcelable to all models
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            cm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());
+            List<String> impl = (List<String>) cm.getVendorExtensions().get("implements");
+            if (this.parcelableModel) {
+                impl.add("Parcelable");
+            }
+            if (this.serializableModel) {
+                impl.add("Serializable");
             }
         }
 
@@ -764,6 +843,250 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else {
             throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
         }
+    }
+
+    public void addOneOfNameExtension(Schema s, String name) {
+        ComposedSchema cs = (ComposedSchema) s;
+        if (cs.getOneOf() != null && cs.getOneOf().size() > 0) {
+            cs.addExtension("x-oneOf-name", name);
+        }
+    }
+
+    public void addOneOfInterfaceModel(ComposedSchema cs, String type) {
+        CodegenModel cm = new CodegenModel();
+
+        for (Schema o : cs.getOneOf()) {
+            // TODO: inline objects
+            cm.oneOf.add(toModelName(ModelUtils.getSimpleRef(o.get$ref())));
+        }
+        cm.name = type;
+        cm.classname = type;
+        cm.vendorExtensions.put("isOneOfInterface", true);
+        cm.discriminator = createDiscriminator("", (Schema) cs);
+        cm.interfaceModels = new ArrayList<CodegenModel>();
+
+        addOneOfInterfaces.add(cm);
+    }
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        // we process the openapi schema here to find oneOf schemas here and create interface models for them
+        super.preprocessOpenAPI(openAPI);
+        Map<String, Schema> schemas = new HashMap<String, Schema>(openAPI.getComponents().getSchemas());
+        if (schemas == null) {
+            schemas = new HashMap<String, Schema>();
+        }
+        Map<String, PathItem> pathItems = openAPI.getPaths();
+
+        // we need to add all request and response bodies to processed schemas
+        if (pathItems != null) {
+            for (Map.Entry<String, PathItem> e : pathItems.entrySet()) {
+                for (Map.Entry<PathItem.HttpMethod, Operation> op : e.getValue().readOperationsMap().entrySet()) {
+                    String opId = getOrGenerateOperationId(op.getValue(), e.getKey(), op.getKey().toString());
+                    // process request body
+                    RequestBody b = ModelUtils.getReferencedRequestBody(openAPI, op.getValue().getRequestBody());
+                    Schema requestSchema = null;
+                    if (b != null) {
+                        requestSchema = ModelUtils.getSchemaFromRequestBody(b);
+                    }
+                    if (requestSchema != null) {
+                        schemas.put(opId, requestSchema);
+                    }
+                    // process all response bodies
+                    for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
+                        ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
+                        Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
+                        if (responseSchema != null) {
+                            schemas.put(opId + ar.getKey(), responseSchema);
+                        }
+                    }
+                }
+            }
+        }
+
+        for (Map.Entry<String, Schema> e : schemas.entrySet()) {
+            String n = toModelName(e.getKey());
+            Schema s = e.getValue();
+            String nOneOf = toModelName(n + "OneOf");
+            if (ModelUtils.isComposedSchema(s)) {
+                addOneOfNameExtension(s, n);
+            } else if (ModelUtils.isArraySchema(s)) {
+                Schema items = ((ArraySchema) s).getItems();
+                if (ModelUtils.isComposedSchema(items)) {
+                    addOneOfNameExtension(items, nOneOf);
+                    addOneOfInterfaceModel((ComposedSchema) items, nOneOf);
+                }
+            } else if (ModelUtils.isMapSchema(s)) {
+                Schema addProps = ModelUtils.getAdditionalProperties(s);
+                if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
+                    addOneOfNameExtension(addProps, nOneOf);
+                    addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf);
+                }
+            }
+        }
+    }
+
+    private class OneOfImplementorAdditionalData {
+        private String implementorName;
+        private List<String> additionalInterfaces = new ArrayList<String>();
+        private List<CodegenProperty> additionalProps = new ArrayList<CodegenProperty>();
+        private List<Map<String, String>> additionalImports = new ArrayList<Map<String, String>>();
+
+        public OneOfImplementorAdditionalData(String implementorName) {
+            this.implementorName = implementorName;
+        }
+
+        public String getImplementorName() {
+            return implementorName;
+        }
+
+        public void addFromInterfaceModel(CodegenModel cm, List<Map<String, String>> modelsImports) {
+            // Add cm as implemented interface
+            additionalInterfaces.add(cm.classname);
+
+            // Add all vars defined on cm
+            // a "oneOf" model (cm) by default inherits all properties from its "interfaceModels",
+            // but we only want to add properties defined on cm itself
+            List<CodegenProperty> toAdd = new ArrayList<CodegenProperty>(cm.vars);
+            // note that we can't just toAdd.removeAll(m.vars) for every interfaceModel,
+            // as they might have different value of `hasMore` and thus are not equal
+            List<String> omitAdding = new ArrayList<String>();
+            for (CodegenModel m : cm.interfaceModels) {
+                for (CodegenProperty v : m.vars) {
+                    omitAdding.add(v.baseName);
+                }
+            }
+            for (CodegenProperty v : toAdd) {
+                if (!omitAdding.contains(v.baseName)) {
+                    additionalProps.add(v.clone());
+                }
+            }
+
+            // Add all imports of cm
+            for (Map<String, String> importMap : modelsImports) {
+                // we're ok with shallow clone here, because imports are strings only
+                additionalImports.add(new HashMap<String, String>(importMap));
+            }
+        }
+
+        public void addToImplementor(CodegenModel implcm, List<Map<String, String>> implImports) {
+            implcm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());
+
+            // Add implemented interfaces
+            for (String intf : additionalInterfaces) {
+                List<String> impl = (List<String>) implcm.getVendorExtensions().get("implements");
+                impl.add(intf);
+                // Add imports for interfaces
+                implcm.imports.add(intf);
+                Map<String, String> importsItem = new HashMap<String, String>();
+                importsItem.put("import", toModelImport(intf));
+                implImports.add(importsItem);
+            }
+
+            // Add oneOf-containing models properties - we need to properly set the hasMore values to make renderind correct
+            if (implcm.vars.size() > 0 && additionalProps.size() > 0) {
+                implcm.vars.get(implcm.vars.size() - 1).hasMore = true;
+            }
+            for (int i = 0; i < additionalProps.size(); i++) {
+                CodegenProperty var = additionalProps.get(i);
+                if (i == additionalProps.size() - 1) {
+                    var.hasMore = false;
+                } else {
+                    var.hasMore = true;
+                }
+                implcm.vars.add(var);
+            }
+
+            // Add imports
+            for (Map<String, String> oneImport : additionalImports) {
+                // exclude imports from this package - these are imports that only the oneOf interface needs
+                if (!implImports.contains(oneImport) && !oneImport.getOrDefault("import", "").startsWith(modelPackage())) {
+                    implImports.add(oneImport);
+                }
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        if (this.useOneOfInterfaces) {
+            // First, add newly created oneOf interfaces
+            for (CodegenModel cm : addOneOfInterfaces) {
+                Map<String, Object> modelValue = new HashMap<String, Object>() {{
+                    putAll(additionalProperties());
+                    put("model", cm);
+                }};
+                List<Object> modelsValue = Arrays.asList(modelValue);
+                List<Map<String, String>> importsValue = new ArrayList<Map<String, String>>();
+                for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+                    Map<String, String> oneImport = new HashMap<String, String>() {{
+                        put("import", importMapping.get(i));
+                    }};
+                    importsValue.add(oneImport);
+                }
+                Map<String, Object> objsValue = new HashMap<String, Object>() {{
+                    put("models", modelsValue);
+                    put("package", modelPackage());
+                    put("imports", importsValue);
+                    put("classname", cm.classname);
+                    putAll(additionalProperties);
+                }};
+                objs.put(cm.name, objsValue);
+            }
+
+            // - Add all "oneOf" models as interfaces to be implemented by the models that
+            //   are the choices in "oneOf"; also mark the models containing "oneOf" as interfaces
+            // - Add all properties of "oneOf" to the implementing classes (NOTE that this
+            //   would be problematic if the class was in multiple such "oneOf" models, in which
+            //   case it would get all their properties, but it's probably better than not doing this)
+            // - Add all imports of "oneOf" model to all the implementing classes (this might not
+            //   be optimal, as it can contain more than necessary, but it's good enough)
+            Map<String, OneOfImplementorAdditionalData> additionalDataMap = new HashMap<String, OneOfImplementorAdditionalData>();
+            for (Map.Entry modelsEntry : objs.entrySet()) {
+                Map<String, Object> modelsAttrs = (Map<String, Object>) modelsEntry.getValue();
+                List<Object> models = (List<Object>) modelsAttrs.get("models");
+                List<Map<String, String>> modelsImports = (List<Map<String, String>>) modelsAttrs.getOrDefault("imports", new ArrayList<Map<String, String>>());
+                for (Object _mo : models) {
+                    Map<String, Object> mo = (Map<String, Object>) _mo;
+                    CodegenModel cm = (CodegenModel) mo.get("model");
+                    if (cm.oneOf.size() > 0) {
+                        cm.vendorExtensions.put("isOneOfInterface", true);
+                        // if this is oneOf interface, make sure we include the necessary jackson imports for it
+                        for (String s : Arrays.asList("JsonTypeInfo", "JsonSubTypes")) {
+                            Map<String, String> i = new HashMap<String, String>() {{
+                                put("import", importMapping.get(s));
+                            }};
+                            if (!modelsImports.contains(i)) {
+                                modelsImports.add(i);
+                            }
+                        }
+                        for (String one : cm.oneOf) {
+                            if (!additionalDataMap.containsKey(one)) {
+                                additionalDataMap.put(one, new OneOfImplementorAdditionalData(one));
+                            }
+                            additionalDataMap.get(one).addFromInterfaceModel(cm, modelsImports);
+                        }
+                    }
+                }
+            }
+
+            for (Map.Entry modelsEntry : objs.entrySet()) {
+                Map<String, Object> modelsAttrs = (Map<String, Object>) modelsEntry.getValue();
+                List<Object> models = (List<Object>) modelsAttrs.get("models");
+                List<Map<String, String>> imports = (List<Map<String, String>>) modelsAttrs.get("imports");
+                for (Object _implmo : models) {
+                    Map<String, Object> implmo = (Map<String, Object>) _implmo;
+                    CodegenModel implcm = (CodegenModel) implmo.get("model");
+                    if (additionalDataMap.containsKey(implcm.name)) {
+                        additionalDataMap.get(implcm.name).addToImplementor(implcm, imports);
+                    }
+                }
+            }
+        }
+
+        return objs;
     }
 
     public void forceSerializationLibrary(String serializationLibrary) {

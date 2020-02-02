@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,6 +36,7 @@ public class ElixirClientOptionsProvider implements OptionsProvider {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "false")
+                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, "false")
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, "false")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, "false")
                 .put(CodegenConstants.INVOKER_PACKAGE, "Yay.Pets")

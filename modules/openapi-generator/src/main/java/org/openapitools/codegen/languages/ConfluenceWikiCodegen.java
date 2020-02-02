@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
@@ -33,6 +34,23 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
 
     public ConfluenceWikiCodegen() {
         super();
+
+        // TODO: ConfluenceWiki maintainer review
+        featureSet = getFeatureSet().modify()
+                .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeParameterFeatures(ParameterFeature.Cookie)
+                .includeWireFormatFeatures(
+                        WireFormatFeature.JSON,
+                        WireFormatFeature.XML,
+                        WireFormatFeature.Custom
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Union
+                )
+                .build();
+
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "confluenceWikiDocs";
 

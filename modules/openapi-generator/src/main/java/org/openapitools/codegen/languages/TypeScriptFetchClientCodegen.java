@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
@@ -47,6 +48,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public TypeScriptFetchClientCodegen() {
         super();
 
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
+
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
         importMapping.clear();
@@ -54,8 +59,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         outputFolder = "generated-code/typescript-fetch";
         embeddedTemplateDir = templateDir = "typescript-fetch";
 
-        this.apiPackage = "src" + File.separator +"apis";
-        this.modelPackage = "src" + File.separator + "models";
         this.apiTemplateFiles.put("apis.mustache", ".ts");
         this.modelTemplateFiles.put("models.mustache", ".ts");
         this.addExtraReservedWords();
@@ -98,10 +101,17 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         super.processOpts();
         additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming().equals("original"));
         additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
-        supportingFiles.add(new SupportingFile("index.mustache", "src", "index.ts"));
-        supportingFiles.add(new SupportingFile("runtime.mustache", "src", "runtime.ts"));
-        supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
-        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+
+        String sourceDir = "";
+        if (additionalProperties.containsKey(NPM_NAME)) {
+            sourceDir = "src" + File.separator;
+        }
+
+        this.apiPackage = sourceDir + "apis";
+        this.modelPackage = sourceDir + "models";
+
+        supportingFiles.add(new SupportingFile("index.mustache", sourceDir, "index.ts"));
+        supportingFiles.add(new SupportingFile("runtime.mustache", sourceDir, "runtime.ts"));
 
         if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
             this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
@@ -211,7 +221,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         //Files for building our lib
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
+        supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         supportingFiles.add(new SupportingFile("npmignore.mustache", "", ".npmignore"));
+        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
 
     @Override
@@ -271,7 +283,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
         for (CodegenOperation op : operationList) {
-            if(op.returnType == "object") {
+            if("object".equals(op.returnType)) {
                 op.isMapContainer = true;
                 op.returnSimpleType = false;
             }

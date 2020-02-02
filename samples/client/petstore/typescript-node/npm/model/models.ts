@@ -169,6 +169,19 @@ export class HttpBasicAuth implements Authentication {
     }
 }
 
+export class HttpBearerAuth implements Authentication {
+    public accessToken: string | (() => string) = '';
+
+    applyToRequest(requestOptions: localVarRequest.Options): void {
+        if (requestOptions && requestOptions.headers) {
+            const accessToken = typeof this.accessToken === 'function'
+                            ? this.accessToken()
+                            : this.accessToken;
+            requestOptions.headers["Authorization"] = "Bearer " + accessToken;
+        }
+    }
+}
+
 export class ApiKeyAuth implements Authentication {
     public apiKey: string = '';
 
@@ -209,3 +222,5 @@ export class VoidAuth implements Authentication {
         // Do nothing
     }
 }
+
+export type Interceptor = (requestOptions: localVarRequest.Options) => (Promise<void> | void);

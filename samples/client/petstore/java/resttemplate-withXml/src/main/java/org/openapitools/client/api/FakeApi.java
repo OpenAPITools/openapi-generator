@@ -88,7 +88,7 @@ public class FakeApi {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
@@ -130,7 +130,7 @@ public class FakeApi {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         final String[] accepts = { 
             "*/*"
@@ -172,7 +172,7 @@ public class FakeApi {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         final String[] accepts = { 
             "*/*"
@@ -214,7 +214,7 @@ public class FakeApi {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         final String[] accepts = { 
             "*/*"
@@ -256,7 +256,7 @@ public class FakeApi {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         final String[] accepts = { 
             "*/*"
@@ -302,7 +302,7 @@ public class FakeApi {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
@@ -355,7 +355,7 @@ public class FakeApi {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query", query));
 
@@ -404,7 +404,7 @@ public class FakeApi {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         final String[] accepts = { 
             "application/json"
@@ -421,8 +421,8 @@ public class FakeApi {
         return apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
      * @param number None (required)
@@ -446,8 +446,8 @@ public class FakeApi {
     }
 
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
      * @param number None (required)
@@ -495,7 +495,7 @@ public class FakeApi {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         if (integer != null)
             formParams.add("integer", integer);
@@ -581,7 +581,7 @@ public class FakeApi {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "enum_query_string_array", enumQueryStringArray));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_string", enumQueryString));
@@ -594,7 +594,7 @@ public class FakeApi {
         headerParams.add("enum_header_string", apiClient.parameterToString(enumHeaderString));
 
         if (enumFormStringArray != null)
-            formParams.add("enum_form_string_array", enumFormStringArray);
+            formParams.put("enum_form_string_array", enumFormStringArray);
         if (enumFormString != null)
             formParams.add("enum_form_string", enumFormString);
 
@@ -662,7 +662,7 @@ public class FakeApi {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_string_group", requiredStringGroup));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_int64_group", requiredInt64Group));
@@ -716,7 +716,7 @@ public class FakeApi {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         final String[] accepts = { };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
@@ -769,7 +769,7 @@ public class FakeApi {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         if (param != null)
             formParams.add("param", param);
@@ -848,7 +848,7 @@ public class FakeApi {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap formParams = new LinkedMultiValueMap();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "pipe", pipe));
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "ioutil", ioutil));

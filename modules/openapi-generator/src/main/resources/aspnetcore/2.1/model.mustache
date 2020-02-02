@@ -18,7 +18,20 @@ namespace {{modelPackage}}
     /// </summary>
     [DataContract]
     public {{#modelClassModifier}}{{modelClassModifier}} {{/modelClassModifier}}class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>
-    { {{#vars}}{{#isEnum}}{{^isModel}}{{>enumClass}}{{/isModel}}{{/isEnum}}{{#items.isEnum}}{{^isModel}}{{#items}}{{>enumClass}}{{/items}}{{/isModel}}{{/items.isEnum}}
+    {
+        {{#vars}}
+        {{#items.isEnum}}
+        {{#items}}
+        {{^complexType}}
+{{>enumClass}}
+        {{/complexType}}
+        {{/items}}
+        {{/items.isEnum}}
+        {{#isEnum}}
+        {{^complexType}}
+{{>enumClass}}
+        {{/complexType}}
+        {{/isEnum}}
         /// <summary>
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
         /// </summary>{{#description}}
@@ -37,6 +50,7 @@ namespace {{modelPackage}}
         public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }{{#defaultValue}} = {{{defaultValue}}};{{/defaultValue}}
         {{/isEnum}}
         {{#hasMore}}
+
         {{/hasMore}}
         {{/vars}}
 

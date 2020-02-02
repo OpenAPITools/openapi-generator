@@ -39,6 +39,7 @@ public class UserApiHandler {
         HttpServerResponse response = routingContext.response();
 
         Single.defer( () -> {
+
             String jsonString = routingContext.getBodyAsString();
             User user = jsonString == null ? null : Json.decodeValue(jsonString, new TypeReference<User>(){});
             logger.info("Parameter user is {}", user);
@@ -64,6 +65,7 @@ public class UserApiHandler {
         HttpServerResponse response = routingContext.response();
 
         Single.defer( () -> {
+
             String jsonString = routingContext.getBodyAsString();
             List<User> user = jsonString == null ? null : Json.decodeValue(jsonString, new TypeReference<List<User>>(){});
             logger.info("Parameter user is {}", user);
@@ -89,6 +91,7 @@ public class UserApiHandler {
         HttpServerResponse response = routingContext.response();
 
         Single.defer( () -> {
+
             String jsonString = routingContext.getBodyAsString();
             List<User> user = jsonString == null ? null : Json.decodeValue(jsonString, new TypeReference<List<User>>(){});
             logger.info("Parameter user is {}", user);
@@ -115,6 +118,7 @@ public class UserApiHandler {
 
         Single.defer( () -> {
             String username = ParameterCast.toString(routingContext.pathParams().get("username"));
+
             logger.info("Parameter username is {}", username);
             return apiImpl.deleteUser(username);
         })
@@ -139,6 +143,7 @@ public class UserApiHandler {
 
         Single.defer( () -> {
             String username = ParameterCast.toString(routingContext.pathParams().get("username"));
+
             logger.info("Parameter username is {}", username);
             return apiImpl.getUserByName(username);
         })
@@ -164,6 +169,7 @@ public class UserApiHandler {
         Single.defer( () -> {
             String username = ParameterCast.toString(routingContext.queryParams().get("username"));
             String password = ParameterCast.toString(routingContext.queryParams().get("password"));
+
             logger.info("Parameter username is {}", username);
             logger.info("Parameter password is {}", password);
             return apiImpl.loginUser(username, password);
@@ -188,6 +194,7 @@ public class UserApiHandler {
         HttpServerResponse response = routingContext.response();
 
         Single.defer( () -> {
+
             return apiImpl.logoutUser();
         })
         .subscribe(
@@ -211,6 +218,7 @@ public class UserApiHandler {
 
         Single.defer( () -> {
             String username = ParameterCast.toString(routingContext.pathParams().get("username"));
+
             String jsonString = routingContext.getBodyAsString();
             User user = jsonString == null ? null : Json.decodeValue(jsonString, new TypeReference<User>(){});
             logger.info("Parameter username is {}", username);
