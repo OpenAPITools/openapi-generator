@@ -165,12 +165,7 @@ namespace {{packageName}}.Client
         /// <param name="fromObject">Object to be casted</param>
         /// <param name="toObject">Target type</param>
         /// <returns>Casted object</returns>
-        {{#supportsAsync}}
-        public static dynamic ConvertType(dynamic fromObject, Type toObject)
-        {{/supportsAsync}}
-        {{^supportsAsync}}
         public static object ConvertType<T>(T fromObject, Type toObject) where T : class
-        {{/supportsAsync}}
         {
             return Convert.ChangeType(fromObject, toObject);
         }
