@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
-set ags=generate -i modules\openapi-generator\src\test\resources\3_0\petstore-with-fake-endpoints-models-for-testing.yaml -g python-experimental -o samples\openapi3\client\petstore\python-experimental --additional-properties packageName=petstore_api
+set ags=generate -i modules\openapi-generator\src\test\resources\3_0\petstore-with-fake-endpoints-models-for-testing-httpsig-cmpsdschemas.yaml -g python-experimental -o samples\openapi3\client\petstore\python-experimental --additional-properties packageName=petstore_api
 
 java %JAVA_OPTS% -jar %executable% %ags%
