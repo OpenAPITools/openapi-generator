@@ -58,9 +58,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/create_xml_item",
         consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" },
         method = RequestMethod.POST)
-    default ResponseEntity<Void> createXmlItem(
-@ApiParam(value = "XmlItem Body" ,required=true )  @Valid @RequestBody XmlItem xmlItem
-) {
+    default ResponseEntity<Void> createXmlItem(@ApiParam(value = "XmlItem Body" ,required=true )  @Valid @RequestBody XmlItem xmlItem) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -79,9 +77,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/boolean",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default ResponseEntity<Boolean> fakeOuterBooleanSerialize(
-@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody(required = false) Boolean body
-) {
+    default ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody(required = false) Boolean body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -100,9 +96,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/composite",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
-@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody(required = false) OuterComposite body
-) {
+    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody(required = false) OuterComposite body) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
@@ -130,9 +124,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/number",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
-@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody(required = false) BigDecimal body
-) {
+    default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody(required = false) BigDecimal body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -151,9 +143,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/outer/string",
         produces = { "*/*" }, 
         method = RequestMethod.POST)
-    default ResponseEntity<String> fakeOuterStringSerialize(
-@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody(required = false) String body
-) {
+    default ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody(required = false) String body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -172,9 +162,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/body-with-file-schema",
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    default ResponseEntity<Void> testBodyWithFileSchema(
-@ApiParam(value = "" ,required=true )  @Valid @RequestBody FileSchemaTestClass body
-) {
+    default ResponseEntity<Void> testBodyWithFileSchema(@ApiParam(value = "" ,required=true )  @Valid @RequestBody FileSchemaTestClass body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -193,11 +181,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/body-with-query-params",
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    default ResponseEntity<Void> testBodyWithQueryParams(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query
-
-,
-@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body
-) {
+    default ResponseEntity<Void> testBodyWithQueryParams(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -217,9 +201,7 @@ public interface FakeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default ResponseEntity<Client> testClientModel(
-@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body
-) {
+    default ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -264,35 +246,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake",
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
-    default ResponseEntity<Void> testEndpointParameters(
-@ApiParam(value = "None", required=true) @RequestPart(value="number", required=true)  BigDecimal number
-,
-@ApiParam(value = "None", required=true) @RequestPart(value="double", required=true)  Double _double
-,
-@ApiParam(value = "None", required=true) @RequestPart(value="pattern_without_delimiter", required=true)  String patternWithoutDelimiter
-,
-@ApiParam(value = "None", required=true) @RequestPart(value="byte", required=true)  byte[] _byte
-,
-@ApiParam(value = "None") @RequestPart(value="integer", required=false)  Integer integer
-,
-@ApiParam(value = "None") @RequestPart(value="int32", required=false)  Integer int32
-,
-@ApiParam(value = "None") @RequestPart(value="int64", required=false)  Long int64
-,
-@ApiParam(value = "None") @RequestPart(value="float", required=false)  Float _float
-,
-@ApiParam(value = "None") @RequestPart(value="string", required=false)  String string
-,
-@ApiParam(value = "None") @Valid @RequestPart(value = "binary") MultipartFile binary
-,
-@ApiParam(value = "None") @RequestPart(value="date", required=false)  LocalDate date
-,
-@ApiParam(value = "None") @RequestPart(value="dateTime", required=false)  OffsetDateTime dateTime
-,
-@ApiParam(value = "None") @RequestPart(value="password", required=false)  String password
-,
-@ApiParam(value = "None") @RequestPart(value="callback", required=false)  String paramCallback
-) {
+    default ResponseEntity<Void> testEndpointParameters(@ApiParam(value = "None", required=true) @RequestPart(value="number", required=true)  BigDecimal number,@ApiParam(value = "None", required=true) @RequestPart(value="double", required=true)  Double _double,@ApiParam(value = "None", required=true) @RequestPart(value="pattern_without_delimiter", required=true)  String patternWithoutDelimiter,@ApiParam(value = "None", required=true) @RequestPart(value="byte", required=true)  byte[] _byte,@ApiParam(value = "None") @RequestPart(value="integer", required=false)  Integer integer,@ApiParam(value = "None") @RequestPart(value="int32", required=false)  Integer int32,@ApiParam(value = "None") @RequestPart(value="int64", required=false)  Long int64,@ApiParam(value = "None") @RequestPart(value="float", required=false)  Float _float,@ApiParam(value = "None") @RequestPart(value="string", required=false)  String string,@ApiParam(value = "None") @Valid @RequestPart(value = "binary") MultipartFile binary,@ApiParam(value = "None") @RequestPart(value="date", required=false)  LocalDate date,@ApiParam(value = "None") @RequestPart(value="dateTime", required=false)  OffsetDateTime dateTime,@ApiParam(value = "None") @RequestPart(value="password", required=false)  String password,@ApiParam(value = "None") @RequestPart(value="callback", required=false)  String paramCallback) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -320,23 +274,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake",
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.GET)
-    default ResponseEntity<Void> testEnumParameters(
-@ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $") @RequestHeader(value="enum_header_string_array", required=false) List<String> enumHeaderStringArray
-,
-@ApiParam(value = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @RequestHeader(value="enum_header_string", required=false) String enumHeaderString
-,@ApiParam(value = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray
-
-,@ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString
-
-,@ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger
-
-,@ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble
-
-,
-@ApiParam(value = "Form parameter enum test (string array)", allowableValues=">, $") @RequestPart(value="enum_form_string_array", required=false)  List<String> enumFormStringArray
-,
-@ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @RequestPart(value="enum_form_string", required=false)  String enumFormString
-) {
+    default ResponseEntity<Void> testEnumParameters(@ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $") @RequestHeader(value="enum_header_string_array", required=false) List<String> enumHeaderStringArray,@ApiParam(value = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @RequestHeader(value="enum_header_string", required=false) String enumHeaderString,@ApiParam(value = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,@ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString,@ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,@ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,@ApiParam(value = "Form parameter enum test (string array)", allowableValues=">, $") @RequestPart(value="enum_form_string_array", required=false)  List<String> enumFormStringArray,@ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @RequestPart(value="enum_form_string", required=false)  String enumFormString) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -359,19 +297,7 @@ public interface FakeApi {
         @ApiResponse(code = 400, message = "Someting wrong") })
     @RequestMapping(value = "/fake",
         method = RequestMethod.DELETE)
-    default ResponseEntity<Void> testGroupParameters(@NotNull @ApiParam(value = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup
-
-,
-@ApiParam(value = "Required Boolean in group parameters" ,required=true) @RequestHeader(value="required_boolean_group", required=true) Boolean requiredBooleanGroup
-,@NotNull @ApiParam(value = "Required Integer in group parameters", required = true) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group
-
-,@ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup
-
-,
-@ApiParam(value = "Boolean in group parameters" ) @RequestHeader(value="boolean_group", required=false) Boolean booleanGroup
-,@ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Long int64Group
-
-) {
+    default ResponseEntity<Void> testGroupParameters(@NotNull @ApiParam(value = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,@ApiParam(value = "Required Boolean in group parameters" ,required=true) @RequestHeader(value="required_boolean_group", required=true) Boolean requiredBooleanGroup,@NotNull @ApiParam(value = "Required Integer in group parameters", required = true) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,@ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,@ApiParam(value = "Boolean in group parameters" ) @RequestHeader(value="boolean_group", required=false) Boolean booleanGroup,@ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Long int64Group) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -389,9 +315,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/inline-additionalProperties",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<Void> testInlineAdditionalProperties(
-@ApiParam(value = "request body" ,required=true )  @Valid @RequestBody Map<String, String> param
-) {
+    default ResponseEntity<Void> testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true )  @Valid @RequestBody Map<String, String> param) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -410,11 +334,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake/jsonFormData",
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.GET)
-    default ResponseEntity<Void> testJsonFormData(
-@ApiParam(value = "field1", required=true) @RequestPart(value="param", required=true)  String param
-,
-@ApiParam(value = "field2", required=true) @RequestPart(value="param2", required=true)  String param2
-) {
+    default ResponseEntity<Void> testJsonFormData(@ApiParam(value = "field1", required=true) @RequestPart(value="param", required=true)  String param,@ApiParam(value = "field2", required=true) @RequestPart(value="param2", required=true)  String param2) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -436,17 +356,7 @@ public interface FakeApi {
         @ApiResponse(code = 200, message = "Success") })
     @RequestMapping(value = "/fake/test-query-paramters",
         method = RequestMethod.PUT)
-    default ResponseEntity<Void> testQueryParameterCollectionFormat(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe
-
-,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil
-
-,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http
-
-,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url
-
-,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context
-
-) {
+    default ResponseEntity<Void> testQueryParameterCollectionFormat(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -472,13 +382,7 @@ public interface FakeApi {
         produces = { "application/json" }, 
         consumes = { "multipart/form-data" },
         method = RequestMethod.POST)
-    default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
-@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId
-,
-@ApiParam(value = "file to upload") @Valid @RequestPart(value = "requiredFile") MultipartFile requiredFile
-,
-@ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata
-) {
+    default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "requiredFile") MultipartFile requiredFile,@ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
