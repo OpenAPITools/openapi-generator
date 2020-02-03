@@ -170,7 +170,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="fromObject">Object to be casted</param>
         /// <param name="toObject">Target type</param>
         /// <returns>Casted object</returns>
-        public static dynamic ConvertType(dynamic fromObject, Type toObject)
+        public static object ConvertType<T>(T fromObject, Type toObject) where T : class
         {
             return Convert.ChangeType(fromObject, toObject);
         }
