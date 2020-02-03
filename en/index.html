@@ -34,6 +34,7 @@
 <ul>
 <li>Maven Plugin</li>
 <li>Gradle Plugin</li>
+<li>Bazel Plugin</li>
 <li>CLI via Homebrew</li>
 <li>CLI via Docker</li>
 <li>CLI via npm</li>
@@ -41,24 +42,29 @@
 </ul>
 <p>For details, see  <a href="/docs/en/integrations.html">Workflow Integrations</a></p>
 <p>Generation also allows for easy customization via options, custom templates, or even custom generators on your classpath. See <a href="/docs/en/customization.html">Customization</a> for details.</p>
-<p>As a very community-oriented project, the core team is also active on the project's <a href="https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM">Slack Workspace</a>.</p>
-</span></div></div><div class="blockImage"><img src="/img/color-logo.svg"/></div></div></div></div></div><div class="container paddingBottom paddingTop" id="try"><div class="wrapper"><div class="gridBlock"><div class="blockElement imageAlignSide imageAlignLeft twoByGridBlock"><div class="blockImage"><img src="/img/tools/npm.svg"/></div><div class="blockContent"><h2><div><span><p>Try via NPM</p>
+</span></div></div><div class="blockImage"><img src="/img/color-logo.svg"/></div></div></div></div></div><div class="container paddingBottom paddingTop" id="connectOnSlack"><div class="wrapper"><div class="gridBlock"><div class="blockElement imageAlignSide imageAlignLeft twoByGridBlock"><div class="blockImage"><img src="/img/tools/Slack_Mark-256x256-3a29a6b.png"/></div><div class="blockContent"><h2><div><span><p>Active Community</p>
+</span></div></h2><div><span><p><strong>Connect</strong> with us on Slack!</p>
+<p>We're a very community-oriented project. We have an active community of users, contributors, and core team members on Slack. Slack is often a good
+place to start if you're looking for guidance about where to begin contributing, if you have an idea you're
+not sure fits the project, or if you just want to ask a question or say hello.</p>
+<p>Slack is free to <a href="https://slack.com/downloads">download</a>, and our workspace is free to <a href="https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM">sign up</a>.</p>
+</span></div></div></div></div></div></div><div class="container paddingBottom paddingTop" id="try"><div class="wrapper"><div class="gridBlock"><div class="blockElement imageAlignSide imageAlignLeft twoByGridBlock"><div class="blockImage"><img src="/img/tools/npm.svg"/></div><div class="blockContent"><h2><div><span><p>Try via NPM</p>
 </span></div></h2><div><span><p>The <a href="https://github.com/openapitools/openapi-generator-cli">NPM package wrapper</a> is cross-platform wrapper around the .jar artifact.
 <strong>Install</strong> globally, exposing the CLI on the command line:</p>
  <!-- RELEASE_VERSION -->
- ```bash
- # install the latest version of "openapi-generator-cli"
- npm install @openapitools/openapi-generator-cli -g
-<h1><a class="anchor" aria-hidden="true" id="install-a-specific-version-of-openapi-generator-cli"></a><a href="#install-a-specific-version-of-openapi-generator-cli" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>install a specific version of &quot;openapi-generator-cli&quot;</h1>
-<p>npm install @openapitools/openapi-generator-cli@cli-4.2.3 -g</p>
-<h1><a class="anchor" aria-hidden="true" id="or-install-it-as-dev-dependency-in-your-nodejs-projects"></a><a href="#or-install-it-as-dev-dependency-in-your-nodejs-projects" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Or install it as dev-dependency in your node.js projects</h1>
-<p>npm install @openapitools/openapi-generator-cli -D</p>
-<pre><code class="hljs"><span class="xml"><span class="hljs-comment">&lt;!-- /RELEASE_VERSION --&gt;</span></span>
+<pre><code class="hljs css language-bash"><span class="hljs-comment"># install the latest version of "openapi-generator-cli"</span>
+npm install @openapitools/openapi-generator-cli -g
 
-Then, <span class="hljs-strong">**generate**</span> a ruby client from a valid [<span class="hljs-string">petstore.yaml</span>](<span class="hljs-link">https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml</span>) doc:
-<span class="hljs-code">```bash
-openapi-generator generate -i petstore.yaml -g ruby -o /tmp/test/
-</span></code></pre>
+<span class="hljs-comment"># install a specific version of "openapi-generator-cli"</span>
+npm install @openapitools/openapi-generator-cli@cli-4.2.3 -g
+
+<span class="hljs-comment"># Or install it as dev-dependency in your node.js projects</span>
+npm install @openapitools/openapi-generator-cli -D
+</code></pre>
+ <!-- /RELEASE_VERSION -->
+<p>Then, <strong>generate</strong> a ruby client from a valid <a href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml">petstore.yaml</a> doc:</p>
+<pre><code class="hljs css language-bash">openapi-generator generate -i petstore.yaml -g ruby -o /tmp/<span class="hljs-built_in">test</span>/
+</code></pre>
 </span></div></div></div></div></div></div><div class="container paddingBottom paddingTop" id="tryHomebrew"><div class="wrapper"><div class="gridBlock"><div class="blockElement imageAlignSide imageAlignLeft twoByGridBlock"><div class="blockImage"><img src="/img/tools/homebrew-256x256.png"/></div><div class="blockContent"><h2><div><span><p>Try via Homebrew</p>
 </span></div></h2><div><span><p><strong>Install</strong> via <a href="https://brew.sh/">homebrew</a>:</p>
 <pre><code class="hljs css language-bash">brew install openapi-generator
@@ -75,4 +81,5 @@ openapi-generator generate -i petstore.yaml -g ruby -o /tmp/test/
 -g go \
 -o /<span class="hljs-built_in">local</span>/out/go
 </code></pre>
+<p>For a full list of our docker images, check out <a href="https://hub.docker.com/u/openapitools">u/openapitools</a> on Docker Hub.</p>
 </span></div></div></div></div></div></div><div class="productShowcaseSection paddingBottom"><h2>Who is Using This?</h2><p>Here are some users of OpenAPI Generator</p><div class="logos"><a href="https://www.askul.co.jp/"><img src="/img/companies/logo-askul-01.gif" alt="ASKUL" title="ASKUL"/></a><a href="https://www.bithost.ch/"><img src="/img/companies/bithost.svg" alt="Bithost GmbH" title="Bithost GmbH"/></a><a href="https://www.juststarinfo.com/"><img src="/img/companies/juststar.png" alt="JustStar" title="JustStar"/></a><a href="https://www.metaswitch.com/"><img src="/img/companies/metaswitch.svg" alt="Metaswitch" title="Metaswitch"/></a><a href="http://www.stingray.com/"><img src="/img/companies/stingray.png" alt="Stingray" title="Stingray"/></a><a href="https://dev.telstra.com/"><img src="/img/companies/telstra.svg" alt="Telstra" title="Telstra"/></a><a href="https://www.unblu.com/"><img src="/img/companies/unblu.svg" alt="unblu inc." title="unblu inc."/></a><a href="https://wso2.com/"><img src="/img/companies/wso2.png" alt="WSO2" title="WSO2"/></a><a href="https://www.zalando.com/"><img src="/img/companies/zalando.jpg" alt="Zalando" title="Zalando"/></a></div><div class="more-users"><a class="button" href="/en/users.html">More OpenAPI Generator Users</a></div></div></div></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2020 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
