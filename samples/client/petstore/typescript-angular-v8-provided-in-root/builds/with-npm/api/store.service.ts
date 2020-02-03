@@ -59,7 +59,7 @@ export class StoreService {
     }
 
     private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
-        if (value == null) {
+        if(value == null) {
             return httpParams;
         }
 
