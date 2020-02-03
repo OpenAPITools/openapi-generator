@@ -9,6 +9,7 @@ import org.slf4j.MarkerFactory;
 import org.slf4j.ext.LoggerWrapper;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Provides calling code a way to log important messages only once, regardless of how many times the invocation has occurred.
@@ -65,7 +66,7 @@ public class OnceLogger extends LoggerWrapper {
     /**
      * Internal message cache for logger decorated with the onceler.
      */
-    private static Cache<String, Integer> messageCountCache;
+    private static Cache<String, AtomicInteger> messageCountCache;
 
     OnceLogger(Logger logger) {
         this(logger, FQCN);
@@ -96,7 +97,7 @@ public class OnceLogger extends LoggerWrapper {
     /**
      * Delegate to the appropriate method of the underlying logger.
      *
-     * @param msg
+     * @param msg The log message.
      */
     @Override
     public void trace(String msg) {
@@ -105,17 +106,16 @@ public class OnceLogger extends LoggerWrapper {
         if (shouldLog(msg)) super.trace(MARKER, msg);
     }
 
+    @SuppressWarnings("ConstantConditions")
     private boolean shouldLog(final String msg) {
-        Integer count = messageCountCache.get(msg, i -> 0);
-        count += 1;
-        messageCountCache.put(msg, count);
-        return count <= maxRepetitions;
+        AtomicInteger counter = messageCountCache.get(msg, i -> new AtomicInteger(0));
+        return counter.incrementAndGet() <= maxRepetitions;
     }
 
     /**
      * Delegate to the appropriate method of the underlying logger.
      *
-     * @param msg
+     * @param msg The log message.
      */
     @Override
     public void debug(String msg) {
@@ -127,7 +127,7 @@ public class OnceLogger extends LoggerWrapper {
     /**
      * Delegate to the appropriate method of the underlying logger.
      *
-     * @param msg
+     * @param msg The log message.
      */
     @Override
     public void info(String msg) {
@@ -139,7 +139,7 @@ public class OnceLogger extends LoggerWrapper {
     /**
      * Delegate to the appropriate method of the underlying logger.
      *
-     * @param msg
+     * @param msg The log message.
      */
     @Override
     public void warn(String msg) {
@@ -151,7 +151,7 @@ public class OnceLogger extends LoggerWrapper {
     /**
      * Delegate to the appropriate method of the underlying logger.
      *
-     * @param msg
+     * @param msg The log message.
      */
     @Override
     public void error(String msg) {
