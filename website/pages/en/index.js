@@ -125,6 +125,28 @@ class Index extends React.Component {
       </div>
     );
 
+    const connectContents = stripMargin`
+        | **Connect** with us on Slack!
+        |
+        | We're a very community-oriented project. We have an active community of users, contributors, and core team members on Slack. Slack is often a good
+        | place to start if you're looking for guidance about where to begin contributing, if you have an idea you're
+        | not sure fits the project, or if you just want to ask a question or say hello.
+        | 
+        | Slack is free to [download](https://slack.com/downloads), and our workspace is free to [sign up](https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM).
+        `;
+      const ConnectOnSlack = () => (
+          <Block id="connectOnSlack">
+              {[
+                  {
+                      content: `${connectContents}`,
+                      image: `${baseUrl}img/tools/Slack_Mark-256x256-3a29a6b.png`,
+                      imageAlign: 'left',
+                      title: 'Active Community',
+                  },
+              ]}
+          </Block>
+      );
+
     const tryHomebrewContents = stripMargin`
         | **Install** via [homebrew](https://brew.sh/):
         |
@@ -162,6 +184,8 @@ class Index extends React.Component {
     | -g go \\
     | -o /local/out/go
     | \`\`\`
+    |
+    | For a full list of our docker images, check out [u/openapitools](https://hub.docker.com/u/openapitools) on Docker Hub.
     `;
    const TryOutDocker = () => (
       <Block id="tryDocker">
@@ -179,7 +203,9 @@ class Index extends React.Component {
    const tryNpmContents = stripMargin`
       | The [NPM package wrapper](https://github.com/openapitools/openapi-generator-cli) is cross-platform wrapper around the .jar artifact.
       | **Install** globally, exposing the CLI on the command line:
+      | 
       | <!-- RELEASE_VERSION -->
+      | 
       | \`\`\`bash
       | # install the latest version of "openapi-generator-cli"
       | npm install @openapitools/openapi-generator-cli -g
@@ -190,7 +216,8 @@ class Index extends React.Component {
       | # Or install it as dev-dependency in your node.js projects
       | npm install @openapitools/openapi-generator-cli -D
       | \`\`\`
-      |<!-- /RELEASE_VERSION -->
+      | 
+      | <!-- /RELEASE_VERSION -->
       |
       | Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml) doc:
       | \`\`\`bash
@@ -229,17 +256,17 @@ class Index extends React.Component {
       <Block background="light">
         {[
           {
-            content: 'OpenAPI Generator supports many different integrations and use cases, including (but not limited to):\n\n' +
+            content: 'OpenAPI Generator supports many different integrations and use cases, including (but not limited to):\n' +
               '* Maven Plugin\n' +
               '* Gradle Plugin\n' +
+              '* Bazel Plugin\n' +
               '* CLI via Homebrew\n' +
               '* CLI via Docker\n' +
               '* CLI via npm\n' +
               '* Generator SaaS\n\n' +
               'For details, see  [Workflow Integrations](' + this.docUrl('integrations.html', this.props.language) + ')\n\n' +
               'Generation also allows for easy customization via options, custom templates, or even custom generators on your classpath. ' +
-               'See [Customization](' + this.docUrl('customization.html', this.props.language) + ') for details.\n\n' +
-              'As a very community-oriented project, the core team is also active on the project\'s [Slack Workspace](https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM).',
+               'See [Customization](' + this.docUrl('customization.html', this.props.language) + ') for details.',
             image: `${baseUrl}img/color-logo.svg`,
             imageAlign: 'right',
             title: 'Learn How',
@@ -358,6 +385,7 @@ class Index extends React.Component {
           <Features />
           {/*<FeatureCallout />*/}
           <LearnHow />
+          <ConnectOnSlack/>
           <TryNpm />
           <TryOutHomebrew />
           <TryOutDocker />
