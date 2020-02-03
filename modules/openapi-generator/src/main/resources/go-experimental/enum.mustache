@@ -1,0 +1,13 @@
+// {{{classname}}}{{#enumName}}{{{name}}}{{/enumName}} {{#description}}{{{.}}}{{/description}}{{^description}}the model '{{{classname}}}'{{/description}}
+type {{{classname}}}{{#enumName}}{{{name}}}{{/enumName}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+
+// List of {{{classname}}}{{#enumName}}{{{name}}}{{/enumName}}
+const (
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{^-first}}
+    {{/-first}}
+    {{#enumClassPrefix}}{{{classname.toUpperCase}}}_{{/enumClassPrefix}}{{#enumName}}{{{.}}}{{/enumName}}{{name}} {{{classname}}} = {{{value}}}
+    {{/enumVars}}
+    {{/allowableValues}}
+)

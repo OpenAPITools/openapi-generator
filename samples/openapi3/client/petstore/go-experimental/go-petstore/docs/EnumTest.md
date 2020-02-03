@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **OuterEnum** | Pointer to [**NullableOuterEnum**](OuterEnum.md) |  | [optional] 
 **OuterEnumInteger** | Pointer to [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] 
 **OuterEnumDefaultValue** | Pointer to [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] [default to "placed"]
-**OuterEnumIntegerDefaultValue** | Pointer to [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] [default to OuterEnumIntegerDefaultValue__0]
+**OuterEnumIntegerDefaultValue** | Pointer to [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] [default to OUTERENUMINTEGERDEFAULTVALUE__0]
 
 ## Methods
 

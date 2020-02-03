@@ -35,7 +35,7 @@ func NewEnumTest(enumStringRequired string, ) *EnumTest {
     this.EnumStringRequired = enumStringRequired
     var outerEnumDefaultValue OuterEnumDefaultValue = "placed"
     this.OuterEnumDefaultValue = &outerEnumDefaultValue
-    var outerEnumIntegerDefaultValue OuterEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue__0
+    var outerEnumIntegerDefaultValue OuterEnumIntegerDefaultValue = OUTERENUMINTEGERDEFAULTVALUE__0
     this.OuterEnumIntegerDefaultValue = &outerEnumIntegerDefaultValue
     return &this
 }
@@ -47,7 +47,7 @@ func NewEnumTestWithDefaults() *EnumTest {
     this := EnumTest{}
     var outerEnumDefaultValue OuterEnumDefaultValue = "placed"
     this.OuterEnumDefaultValue = &outerEnumDefaultValue
-    var outerEnumIntegerDefaultValue OuterEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue__0
+    var outerEnumIntegerDefaultValue OuterEnumIntegerDefaultValue = OUTERENUMINTEGERDEFAULTVALUE__0
     this.OuterEnumIntegerDefaultValue = &outerEnumIntegerDefaultValue
     return &this
 }

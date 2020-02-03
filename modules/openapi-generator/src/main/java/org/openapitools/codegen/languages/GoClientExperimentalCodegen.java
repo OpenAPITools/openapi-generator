@@ -29,10 +29,14 @@ import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+=======
+import java.util.*;
+>>>>>>> Fix defaults for enums
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -99,6 +103,28 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         return camelize(toModel(name, false));
     }
 
+    public String toEnumDefaultValue(String value, String datatype) {
+        String prefix = "";
+        if (enumClassPrefix) {
+            prefix = datatype.toUpperCase(Locale.ROOT) + "_";
+        }
+        return prefix + value;
+    }
+
+    @Override
+    public void updateCodegenPropertyEnum(CodegenProperty var) {
+        // make sure the inline enums have plain defaults (e.g. string, int, float)
+        String enumDefault = null;
+        if (var.isEnum && var.defaultValue != null) {
+            enumDefault = var.defaultValue;
+        }
+        super.updateCodegenPropertyEnum(var);
+        if (var.isEnum && enumDefault != null) {
+            var.defaultValue = enumDefault;
+        }
+    }
+
+    @Override
     public String toDefaultValue(Schema p) {
         p = ModelUtils.getReferencedSchema(this.openAPI, p);
         if (ModelUtils.isStringSchema(p)) {
