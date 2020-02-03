@@ -129,7 +129,7 @@ export class StoreService implements StoreServiceInterface {
     }
 
     private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
-        if(value == null) {
+        if (value == null) {
             return httpParams;
         }
 
