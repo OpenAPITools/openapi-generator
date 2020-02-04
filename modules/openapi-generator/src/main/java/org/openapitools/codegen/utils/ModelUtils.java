@@ -972,7 +972,8 @@ public class ModelUtils {
     public static String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
         List<Schema> interfaces = getInterfaces(composedSchema);
 
-        List<String> refedParentNames = new ArrayList<>();
+        List<String> refedWithoutDiscriminator = new ArrayList<>();
+
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {
                 // get the actual schema
@@ -986,9 +987,8 @@ public class ModelUtils {
                         // discriminator.propertyName is used
                         return parentName;
                     } else {
-                        LOGGER.debug("Not a parent since discriminator.propertyName is not set {}", s.get$ref());
                         // not a parent since discriminator.propertyName is not set
-                        refedParentNames.add(parentName);
+                        refedWithoutDiscriminator.add(parentName);
                     }
                 } else {
                     // not a ref, doing nothing
@@ -997,11 +997,11 @@ public class ModelUtils {
         }
 
         // parent name only makes sense when there is a single obvious parent
-        if (refedParentNames.size() == 1) {
+        if (refedWithoutDiscriminator.size() == 1) {
             LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
                 "and will be removed in a future release. Generating model for composed schema name: {}. Title: {}",
                 composedSchema.getName(), composedSchema.getTitle());
-            return refedParentNames.get(0);
+            return refedWithoutDiscriminator.get(0);
         }
 
         return null;
@@ -1018,7 +1018,7 @@ public class ModelUtils {
     public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         List<String> names = new ArrayList<String>();
-        List<String> refedParentNames = new ArrayList<>();
+        List<String> refedWithoutDiscriminator = new ArrayList<>();
 
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {
@@ -1036,9 +1036,8 @@ public class ModelUtils {
                             names.addAll(getAllParentsName((ComposedSchema) s, allSchemas, true));
                         }
                     } else {
-                        LOGGER.debug("Not a parent since discriminator.propertyName is not set {}", s.get$ref());
                         // not a parent since discriminator.propertyName is not set
-                        refedParentNames.add(parentName);
+                        refedWithoutDiscriminator.add(parentName);
                     }
                 } else {
                     // not a ref, doing nothing
@@ -1046,10 +1045,10 @@ public class ModelUtils {
             }
         }
 
-        if (names.size() == 0 && refedParentNames.size() == 1) {
+        if (names.size() == 0 && refedWithoutDiscriminator.size() == 1) {
             LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
-                    "and will be removed in a future release. Generating model for {}", composedSchema.getName());
-            return refedParentNames;
+                    "and will be removed in a future release. Generating model for {}. Title: {}", composedSchema.getName(), composedSchema.getTitle());
+            return refedWithoutDiscriminator;
         }
 
         return names;
