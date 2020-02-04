@@ -559,7 +559,7 @@ public class JavaClientCodegenTest {
         java.util.LinkedHashSet hs;
         String mn;
 
-        // inline oneOf models
+        // inline oneOf models work because the inline schemas are turned into $refs
         modelName = "FruitInlineDisc";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
@@ -570,12 +570,10 @@ public class JavaClientCodegenTest {
         hs.add(new MappedModel(mn, codegen.toModelName(mn)));
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
 
-        // inline oneOf with inline oneOf model
-        modelName = "FruitInlineInlineDisc";
-        sc = openAPI.getComponents().getSchemas().get(modelName);
-        cm = codegen.fromModel(modelName, sc);
-        hs = new java.util.LinkedHashSet();
-        Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
+        // inline oneOf with inline oneOf model doesn't work because we have null $refs and we throw an exception
+        final String fmodelName = "FruitInlineInlineDisc";
+        final Schema fsc = openAPI.getComponents().getSchemas().get(fmodelName);
+        Assert.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
 
         // ref oneOf models with discriminator in properties in those models
         modelName = "FruitReqDisc";
