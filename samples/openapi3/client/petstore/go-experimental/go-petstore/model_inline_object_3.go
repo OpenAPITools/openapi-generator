@@ -52,12 +52,12 @@ type InlineObject3 struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInlineObject3(number float32, double float64, patternWithoutDelimiter string, byte string, ) *InlineObject3 {
+func NewInlineObject3(number float32, double float64, patternWithoutDelimiter string, byte_ string, ) *InlineObject3 {
     this := InlineObject3{}
     this.Number = number
     this.Double = double
     this.PatternWithoutDelimiter = patternWithoutDelimiter
-    this.Byte = byte
+    this.Byte = byte_
     return &this
 }
 

@@ -23,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewFormatTest
 
-`func NewFormatTest(number float32, byte string, date string, password string, ) *FormatTest`
+`func NewFormatTest(number float32, byte_ string, date string, password string, ) *FormatTest`
 
 NewFormatTest instantiates a new FormatTest object
 This constructor will assign default values to properties that have it defined,

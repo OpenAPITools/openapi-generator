@@ -103,6 +103,14 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         return camelize(toModel(name, false));
     }
 
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return name + '_';
+    }
+
+    @Override
     public String toEnumDefaultValue(String value, String datatype) {
         String prefix = "";
         if (enumClassPrefix) {
@@ -140,7 +148,11 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
     @Override
     public CodegenProperty fromProperty(String name, Schema p) {
         CodegenProperty prop = super.fromProperty(name, p);
-        prop.nameInCamelCase = camelize(prop.name, true);
+        String cc = camelize(prop.name, true);
+        if (isReservedWord(cc)) {
+            cc = escapeReservedWord(cc);
+        }
+        prop.nameInCamelCase = cc;
         return prop;
     }
 

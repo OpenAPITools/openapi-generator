@@ -23,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewInlineObject3
 
-`func NewInlineObject3(number float32, double float64, patternWithoutDelimiter string, byte string, ) *InlineObject3`
+`func NewInlineObject3(number float32, double float64, patternWithoutDelimiter string, byte_ string, ) *InlineObject3`
 
 NewInlineObject3 instantiates a new InlineObject3 object
 This constructor will assign default values to properties that have it defined,
