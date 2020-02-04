@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 Delete purchase order by ID
 
-For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
 ### Example
 ```kotlin
@@ -58,7 +58,7 @@ No authorization required
 
 <a name="getInventory"></a>
 # **getInventory**
-> kotlin.collections.Map&lt;kotlin.String, kotlin.Int&gt; getInventory()
+> kotlin.collections.Map<kotlin.String, kotlin.Int> getInventory()
 
 Returns pet inventories by status
 
@@ -88,7 +88,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**kotlin.collections.Map&lt;kotlin.String, kotlin.Int&gt;**
+**kotlin.collections.Map<kotlin.String, kotlin.Int>**
 
 ### Authorization
 
@@ -108,7 +108,7 @@ Configure api_key:
 
 Find purchase order by ID
 
-For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
 ### Example
 ```kotlin

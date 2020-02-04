@@ -89,7 +89,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**kotlin.Array&lt;User&gt;**](User.md)| List of user object |
+ **body** | [**kotlin.Array<User>**](User.md)| List of user object |
 
 ### Return type
 
@@ -133,7 +133,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**kotlin.Array&lt;User&gt;**](User.md)| List of user object |
+ **body** | [**kotlin.Array<User>**](User.md)| List of user object |
 
 ### Return type
 

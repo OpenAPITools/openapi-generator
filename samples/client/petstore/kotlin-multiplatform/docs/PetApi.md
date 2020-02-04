@@ -110,7 +110,7 @@ Configure petstore_auth:
 
 <a name="findPetsByStatus"></a>
 # **findPetsByStatus**
-> kotlin.Array&lt;Pet&gt; findPetsByStatus(status)
+> kotlin.Array<Pet> findPetsByStatus(status)
 
 Finds Pets by status
 
@@ -140,11 +140,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+ **status** | [**kotlin.Array<kotlin.String>**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
 
 ### Return type
 
-[**kotlin.Array&lt;Pet&gt;**](Pet.md)
+[**kotlin.Array<Pet>**](Pet.md)
 
 ### Authorization
 
@@ -159,7 +159,7 @@ Configure petstore_auth:
 
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
-> kotlin.Array&lt;Pet&gt; findPetsByTags(tags)
+> kotlin.Array<Pet> findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -189,11 +189,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by |
+ **tags** | [**kotlin.Array<kotlin.String>**](kotlin.String.md)| Tags to filter by |
 
 ### Return type
 
-[**kotlin.Array&lt;Pet&gt;**](Pet.md)
+[**kotlin.Array<Pet>**](Pet.md)
 
 ### Authorization
 
