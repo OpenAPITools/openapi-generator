@@ -37,10 +37,8 @@ data class Order (
     val status: Order.Status? = null,
     @SerializedName("complete")
     val complete: kotlin.Boolean? = null
-) 
+) {
 
-
-{
     /**
     * Order Status
     * Values: placed,approved,delivered

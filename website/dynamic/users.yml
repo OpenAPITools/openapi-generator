@@ -119,6 +119,11 @@
   infoLink: "https://www.elementai.com/"
   pinned: false
 -
+  caption: "freee"
+  image: "img/companies/freee.png"
+  infoLink: "https://corp.freee.co.jp/en/"
+  pinned: false
+-
   caption: "Fenergo"
   image: "img/companies/fenergo.png"
   infoLink: "https://www.fenergo.com/"
