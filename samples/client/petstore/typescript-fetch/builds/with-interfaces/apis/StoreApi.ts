@@ -72,7 +72,7 @@ export class StoreApi extends runtime.BaseAPI {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    async getInventoryRaw(): Promise<runtime.ApiResponse<{ [key: string]: number; }>> {
+    async getInventoryRaw(): Promise<runtime.ApiResponse<{ [key: string]: number | undefined; }>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -95,7 +95,7 @@ export class StoreApi extends runtime.BaseAPI {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    async getInventory(): Promise<{ [key: string]: number; }> {
+    async getInventory(): Promise<{ [key: string]: number | undefined; }> {
         const response = await this.getInventoryRaw();
         return await response.value();
     }
