@@ -23,18 +23,23 @@ public class OnceLogger extends LoggerWrapper {
     /**
      * Allow advanced users to modify cache size of the OnceLogger (more for performance tuning in hosted environments)
      */
-    private static final String CACHE_SIZE_PROPERTY = "org.openapitools.codegen.utils.oncelogger.cachesize";
+    static final String CACHE_SIZE_PROPERTY = "org.openapitools.codegen.utils.oncelogger.cachesize";
 
     /**
      * Allow advanced users to disable the OnceLogger (more for performance tuning in hosted environments).
      * This is really only useful or necessary if this implementation causes issues.
      */
-    private static final String ENABLE_ONCE_LOGGER_PROPERTY = "org.openapitools.codegen.utils.oncelogger.enabled";
+    static final String ENABLE_ONCE_LOGGER_PROPERTY = "org.openapitools.codegen.utils.oncelogger.enabled";
 
     /**
      * Allow advanced users to modify cache expiration of the OnceLogger (more for performance tuning in hosted environments)
      */
-    private static final String EXPIRY_PROPERTY = "org.openapitools.codegen.utils.oncelogger.expiry";
+    static final String EXPIRY_PROPERTY = "org.openapitools.codegen.utils.oncelogger.expiry";
+
+    /**
+     * Internal message cache for logger decorated with the onceler.
+     */
+    static Cache<String, AtomicInteger> messageCountCache;
 
     /**
      * The fully qualified class name of the <b>logger instance</b>,
@@ -63,11 +68,6 @@ public class OnceLogger extends LoggerWrapper {
      */
     private static int maxRepetitions = 1;
 
-    /**
-     * Internal message cache for logger decorated with the onceler.
-     */
-    private static Cache<String, AtomicInteger> messageCountCache;
-
     OnceLogger(Logger logger) {
         this(logger, FQCN);
     }
@@ -77,6 +77,8 @@ public class OnceLogger extends LoggerWrapper {
     }
 
     static {
+        // Initializes a cache which holds an atomic counter of log message instances.
+        // The intent is to debounce log messages such that they occur at most [maxRepetitions] per [expireMillis].
         messageCountCache = Caffeine.newBuilder()
                 .maximumSize(maxCacheSize)
                 .expireAfterWrite(expireMillis, TimeUnit.MILLISECONDS)
@@ -150,6 +152,9 @@ public class OnceLogger extends LoggerWrapper {
 
     /**
      * Delegate to the appropriate method of the underlying logger.
+     *
+     * Use this method sparingly. If you're limiting error messages, ask yourself
+     * whether your log fits better as a warning.
      *
      * @param msg The log message.
      */
