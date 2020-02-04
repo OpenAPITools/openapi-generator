@@ -118,7 +118,7 @@ namespace Org.OpenAPITools.Client
 
             if (type == typeof(String) || type.Name.StartsWith("System.Nullable")) // return primitive type
             {
-                return ClientUtils.ConvertType(response.Content, type);
+                return Convert.ChangeType(response.Content, type);
             }
 
             // at this point, it must be a model (json)
