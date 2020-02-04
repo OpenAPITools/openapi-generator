@@ -21,6 +21,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -406,15 +409,29 @@ public class WorkflowSettings {
          */
         public Builder withTemplateDir(String templateDir) {
             if (templateDir != null) {
+                URI uri = null;
                 File f = new File(templateDir);
 
                 // check to see if the folder exists
-                if (!(f.exists() && f.isDirectory())) {
+                if (f.exists() && f.isDirectory()) {
+                    uri = f.toURI();
+                    this.templateDir =  Paths.get(uri).toAbsolutePath().toString();
+                } else {
+                    URL url = this.getClass().getClassLoader().getResource(templateDir);
+                    if (url != null) {
+                        try {
+                            uri = url.toURI();
+                            this.templateDir = templateDir;
+                        } catch (URISyntaxException e) {
+                            LOGGER.warn("The requested template was found on the classpath, but resulted in a syntax error.");
+                        }
+                    }
+                }
+
+                if (uri == null) {
                     throw new IllegalArgumentException(
                             "Template directory " + templateDir + " does not exist.");
                 }
-
-                this.templateDir =  Paths.get(f.toURI()).toAbsolutePath().toString();
             }
 
             return this;

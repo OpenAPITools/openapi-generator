@@ -121,6 +121,11 @@ class PetApiTests(unittest.TestCase):
         self.assertIsNotNone(config.get_host_settings())
         self.assertEqual(config.get_basic_auth_token(),
                           urllib3.util.make_headers(basic_auth=":").get('authorization'))
+        # No authentication scheme has been configured at this point, so auth_settings()
+        # should return an empty list.
+        self.assertEqual(len(config.auth_settings()), 0)
+        # Configure OAuth2 access token and verify the auth_settings have OAuth2 parameters.
+        config.access_token = 'MY-ACCESS_TOKEN'
         self.assertEqual(len(config.auth_settings()), 1)
         self.assertIn("petstore_auth", config.auth_settings().keys())
         config.username = "user"

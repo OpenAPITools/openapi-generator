@@ -282,7 +282,7 @@ public class SpringCodegenTest {
         final String multipartArrayApi = files.get("/src/main/java/org/openapitools/api/MultipartArrayApi.java");
         Assert.assertTrue(multipartArrayApi.contains("List<MultipartFile> files"));
         Assert.assertTrue(multipartArrayApi.contains("@ApiParam(value = \"Many files\")"));
-        Assert.assertTrue(multipartArrayApi.contains("@RequestPart(\"files\")"));
+        Assert.assertTrue(multipartArrayApi.contains("@RequestPart(value = \"files\")"));
 
         // Check that the delegate handles the single file
         final String multipartSingleApiDelegate = files.get("/src/main/java/org/openapitools/api/MultipartSingleApiDelegate.java");
@@ -292,7 +292,7 @@ public class SpringCodegenTest {
         final String multipartSingleApi = files.get("/src/main/java/org/openapitools/api/MultipartSingleApi.java");
         Assert.assertTrue(multipartSingleApi.contains("MultipartFile file"));
         Assert.assertTrue(multipartSingleApi.contains("@ApiParam(value = \"One file\")"));
-        Assert.assertTrue(multipartSingleApi.contains("@RequestPart(\"file\")"));
+        Assert.assertTrue(multipartSingleApi.contains("@RequestPart(value = \"file\")"));
     }
 
     @Test

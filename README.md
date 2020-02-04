@@ -393,10 +393,10 @@ openapi-generator version
 ```
 
 <!-- RELEASE_VERSION -->
-Or install a particular OpenAPI Generator version (e.g. v4.2.2):
+Or install a particular OpenAPI Generator version (e.g. v4.2.3):
 
 ```sh
-npm install @openapitools/openapi-generator-cli@cli-4.2.2 -g
+npm install @openapitools/openapi-generator-cli@cli-4.2.3 -g
 ```
 
 Or install it as dev-dependency:
@@ -590,6 +590,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Element AI](https://www.elementai.com/)
 - [Embotics](https://www.embotics.com/)
 - [Fenergo](https://www.fenergo.com/)
+- [freee](https://corp.freee.co.jp/en/)
 - [FreshCells](https://www.freshcells.de/)
 - [Fuse](https://www.fuse.no/)
 - [Gantner](https://www.gantner.com)
@@ -722,6 +723,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-01-17 - [OpenAPI demo for Pulp 3.0 GA](https://www.youtube.com/watch?v=mFBP-M0ZPfw&t=178s) by [Pulp](https://www.youtube.com/channel/UCI43Ffs4VPDv7awXvvBJfRQ) at [Youtube](https://www.youtube.com/)
 - 2020-01-19 - [Why document a REST API as code?](https://dev.to/rolfstreefkerk/why-document-a-rest-api-as-code-5e7p) by [Rolf Streefkerk](https://github.com/rpstreef) at [DEV Community](https://dev.to)
 - 2020-01-28 - [Get Your Serverless Swagger Back with OpenAPI](https://dev.to/matttyler/get-your-serverless-swagger-back-with-openapi-48gc) by [Matt Tyler](https://dev.to/matttyler)
+- 2020-01-30 - [OpenAPI Generatorへのコントリビュート](https://www.yutaka0m.work/entry/2020/01/30/163905) by [yutaka0m](https://github.com/yutaka0m)
 - 
 
 ## [6 - About Us](#table-of-contents)
@@ -906,7 +908,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Bash      | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09) |
 | C         | @zhemant (2018/11) @ityuhui (2019/12) |
 | C++       | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08) |
-| C#        | @mandrean (2017/08), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert) @frankyjuang (2019/09) |
+| C#        | @mandrean (2017/08), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert) @frankyjuang (2019/09) @shibayan (2020/02)|
 | Clojure   |  |
 | Dart      | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) @nickmeinhold (2019/09) @athornz (2019/12) @amondnet (2019/12) |
 | Eiffel    | @jvelilla (2017/09) |

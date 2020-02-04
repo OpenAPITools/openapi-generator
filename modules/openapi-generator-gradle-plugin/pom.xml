@@ -96,6 +96,7 @@
                                 <task>clean</task>
                                 <task>assemble</task>
                                 <task>publishToMavenLocal</task>
+                                <task>publishPluginMavenPublicationToMavenLocal</task>
                             </tasks>
                         </configuration>
                     </execution>

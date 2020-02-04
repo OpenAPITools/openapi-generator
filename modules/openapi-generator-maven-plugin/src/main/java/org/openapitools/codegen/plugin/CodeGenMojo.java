@@ -40,6 +40,7 @@ import java.util.Set;
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 import io.swagger.v3.parser.util.ClasspathHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -132,6 +133,12 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "templateDirectory", property = "openapi.generator.maven.plugin.templateDirectory")
     private File templateDirectory;
+
+    /**
+     * Resource path containing template files.
+     */
+    @Parameter(name = "templateResourcePath", property = "openapi.generator.maven.plugin.templateResourcePath")
+    private String templateResourcePath;
 
     /**
      * The name of templating engine to use, "mustache" (default) or "handlebars" (beta)
@@ -581,6 +588,13 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (null != templateDirectory) {
                 configurator.setTemplateDir(templateDirectory.getAbsolutePath());
+            }
+
+            if (StringUtils.isNotEmpty(templateResourcePath)) {
+                if (null != templateDirectory) {
+                    LOGGER.warn("Both templateDirectory and templateResourcePath were configured. templateResourcePath overwrites templateDirectory.");
+                }
+                configurator.setTemplateDir(templateResourcePath);
             }
 
             if (null != engine) {

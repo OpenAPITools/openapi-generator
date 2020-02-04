@@ -1593,9 +1593,13 @@ public class DefaultCodegen implements CodegenConfig {
     public String getSchemaType(Schema schema) {
         if (schema instanceof ComposedSchema) { // composed schema
             ComposedSchema cs = (ComposedSchema) schema;
+            // Get the interfaces, i.e. the set of elements under 'allOf', 'anyOf' or 'oneOf'.
             List<Schema> schemas = ModelUtils.getInterfaces(cs);
 
             List<String> names = new ArrayList<>();
+            // Build a list of the schema types under each interface.
+            // For example, if a 'allOf' composed schema has $ref children,
+            // add the type of each child to the list of names.
             for (Schema s : schemas) {
                 names.add(getSingleSchemaType(s));
             }
@@ -1637,7 +1641,8 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (names.size() == 1) {
             return names.get(0);
         } else {
-            LOGGER.warn("allOf with multiple schemas defined. Using only the first one: {}. To fully utilize allOf, please use $ref instead of inline schema definition", names.get(0));
+            LOGGER.warn("allOf with multiple schemas defined. Using only the first one: {}. " +
+                "To fully utilize allOf, please use $ref instead of inline schema definition", names.get(0));
             return names.get(0);
         }
     }
@@ -1670,6 +1675,12 @@ public class DefaultCodegen implements CodegenConfig {
         return "oneOf<" + String.join(",", names) + ">";
     }
 
+    /**
+     * Return a string representation of the schema type, resolving aliasing and references if necessary.
+     * 
+     * @param schema
+     * @return the string representation of the schema type.
+     */
     private String getSingleSchemaType(Schema schema) {
         Schema unaliasSchema = ModelUtils.unaliasSchema(this.openAPI, schema);
 
@@ -4332,6 +4343,11 @@ public class DefaultCodegen implements CodegenConfig {
         return sanitizeName(name, removeCharRegEx, new ArrayList<String>());
     }
 
+    // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
+    // arguments, this cache is used to optimized performance.
+    private static Map<String, Map<String, Map<List<String>, String>>> sanitizedNames =
+        new HashMap<String, Map<String, Map<List<String>, String>>>();
+
     /**
      * Sanitize name (parameter, property, method, etc)
      *
@@ -4356,6 +4372,21 @@ public class DefaultCodegen implements CodegenConfig {
         // if the name is just '$', map it to 'value' for the time being.
         if ("$".equals(name)) {
             return "value";
+        }
+
+        Map<String, Map<List<String>, String>> m1 = sanitizedNames.get(name);
+        if (m1 == null) {
+            m1 = new HashMap<String, Map<List<String>, String>>();
+            sanitizedNames.put(name, m1);
+        }
+        Map<List<String>, String> m2 = m1.get(removeCharRegEx);
+        if (m2 == null) {
+            m2 = new HashMap<List<String>, String>();
+            m1.put(removeCharRegEx, m2);
+        }
+        List<String> l = Collections.unmodifiableList(exceptionList);
+        if (m2.containsKey(l)) {
+            return m2.get(l);
         }
 
         // input[] => input
@@ -4393,7 +4424,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             name = name.replaceAll(removeCharRegEx, "");
         }
-
+        m2.put(l, name);
         return name;
     }
 
