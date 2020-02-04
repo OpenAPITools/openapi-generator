@@ -140,7 +140,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             inner = ModelUtils.getAdditionalProperties(p);
-            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
+            return "{ [key: string]: " + this.getTypeDeclaration(inner) + " | undefined; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "Blob";
         } else if (ModelUtils.isBinarySchema(p)) {
