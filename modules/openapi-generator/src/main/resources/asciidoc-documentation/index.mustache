@@ -25,7 +25,7 @@
 
 {{#authMethods}}
 {{#isBasic}}
-{{^isBasicBearer}}* *HTTP Basic* Authentication _{{{name}}}_{{/isBasicBearer}}
+{{#isBasicBasic}}* *HTTP Basic* Authentication _{{{name}}}_{{/isBasicBasic}}
 {{#isBasicBearer}}* *Bearer* Authentication {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}* *OAuth*  AuthorizationUrl: _{{authorizationUrl}}_, TokenUrl:   _{{tokenUrl}}_ {{/isOAuth}}

@@ -49,7 +49,11 @@ class UserApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-        def __create_user(self, body, **kwargs):  # noqa: E501
+        def __create_user(
+            self,
+            body,
+            **kwargs
+        ):
             """Create user  # noqa: E501
 
             This can only be done by the logged in user.  # noqa: E501
@@ -58,30 +62,34 @@ class UserApi(object):
             >>> thread = api.create_user(body, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param user.User body: Created user object (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                body (user.User): Created user object
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -102,7 +110,8 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['body'] = body
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.create_user = Endpoint(
@@ -134,7 +143,8 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (user.User,),
+                    'body':
+                        (user.User,),
                 },
                 'attribute_map': {
                 },
@@ -152,7 +162,11 @@ class UserApi(object):
             callable=__create_user
         )
 
-        def __create_users_with_array_input(self, body, **kwargs):  # noqa: E501
+        def __create_users_with_array_input(
+            self,
+            body,
+            **kwargs
+        ):
             """Creates list of users with given input array  # noqa: E501
 
             This method makes a synchronous HTTP request by default. To make an
@@ -160,30 +174,34 @@ class UserApi(object):
             >>> thread = api.create_users_with_array_input(body, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param [user.User] body: List of user object (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                body ([user.User]): List of user object
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -204,7 +222,8 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['body'] = body
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.create_users_with_array_input = Endpoint(
@@ -236,7 +255,8 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': ([user.User],),
+                    'body':
+                        ([user.User],),
                 },
                 'attribute_map': {
                 },
@@ -254,7 +274,11 @@ class UserApi(object):
             callable=__create_users_with_array_input
         )
 
-        def __create_users_with_list_input(self, body, **kwargs):  # noqa: E501
+        def __create_users_with_list_input(
+            self,
+            body,
+            **kwargs
+        ):
             """Creates list of users with given input array  # noqa: E501
 
             This method makes a synchronous HTTP request by default. To make an
@@ -262,30 +286,34 @@ class UserApi(object):
             >>> thread = api.create_users_with_list_input(body, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param [user.User] body: List of user object (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                body ([user.User]): List of user object
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -306,7 +334,8 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['body'] = body
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.create_users_with_list_input = Endpoint(
@@ -338,7 +367,8 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': ([user.User],),
+                    'body':
+                        ([user.User],),
                 },
                 'attribute_map': {
                 },
@@ -356,7 +386,11 @@ class UserApi(object):
             callable=__create_users_with_list_input
         )
 
-        def __delete_user(self, username, **kwargs):  # noqa: E501
+        def __delete_user(
+            self,
+            username,
+            **kwargs
+        ):
             """Delete user  # noqa: E501
 
             This can only be done by the logged in user.  # noqa: E501
@@ -365,30 +399,34 @@ class UserApi(object):
             >>> thread = api.delete_user(username, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param str username: The name that needs to be deleted (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                username (str): The name that needs to be deleted
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -409,7 +447,8 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['username'] = username
+            kwargs['username'] = \
+                username
             return self.call_with_http_info(**kwargs)
 
         self.delete_user = Endpoint(
@@ -441,7 +480,8 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'username': (str,),
+                    'username':
+                        (str,),
                 },
                 'attribute_map': {
                     'username': 'username',
@@ -460,7 +500,11 @@ class UserApi(object):
             callable=__delete_user
         )
 
-        def __get_user_by_name(self, username, **kwargs):  # noqa: E501
+        def __get_user_by_name(
+            self,
+            username,
+            **kwargs
+        ):
             """Get user by user name  # noqa: E501
 
             This method makes a synchronous HTTP request by default. To make an
@@ -468,30 +512,34 @@ class UserApi(object):
             >>> thread = api.get_user_by_name(username, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param str username: The name that needs to be fetched. Use user1 for testing. (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: user.User
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                username (str): The name that needs to be fetched. Use user1 for testing.
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                user.User
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -512,7 +560,8 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['username'] = username
+            kwargs['username'] = \
+                username
             return self.call_with_http_info(**kwargs)
 
         self.get_user_by_name = Endpoint(
@@ -544,7 +593,8 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'username': (str,),
+                    'username':
+                        (str,),
                 },
                 'attribute_map': {
                     'username': 'username',
@@ -566,7 +616,12 @@ class UserApi(object):
             callable=__get_user_by_name
         )
 
-        def __login_user(self, username, password, **kwargs):  # noqa: E501
+        def __login_user(
+            self,
+            username,
+            password,
+            **kwargs
+        ):
             """Logs user into the system  # noqa: E501
 
             This method makes a synchronous HTTP request by default. To make an
@@ -574,31 +629,35 @@ class UserApi(object):
             >>> thread = api.login_user(username, password, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param str username: The user name for login (required)
-            :param str password: The password for login in clear text (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: str
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                username (str): The user name for login
+                password (str): The password for login in clear text
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                str
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -619,8 +678,10 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['username'] = username
-            kwargs['password'] = password
+            kwargs['username'] = \
+                username
+            kwargs['password'] = \
+                password
             return self.call_with_http_info(**kwargs)
 
         self.login_user = Endpoint(
@@ -654,8 +715,10 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'username': (str,),
-                    'password': (str,),
+                    'username':
+                        (str,),
+                    'password':
+                        (str,),
                 },
                 'attribute_map': {
                     'username': 'username',
@@ -679,7 +742,10 @@ class UserApi(object):
             callable=__login_user
         )
 
-        def __logout_user(self, **kwargs):  # noqa: E501
+        def __logout_user(
+            self,
+            **kwargs
+        ):
             """Logs out current logged in user session  # noqa: E501
 
             This method makes a synchronous HTTP request by default. To make an
@@ -687,29 +753,32 @@ class UserApi(object):
             >>> thread = api.logout_user(async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -774,7 +843,12 @@ class UserApi(object):
             callable=__logout_user
         )
 
-        def __update_user(self, username, body, **kwargs):  # noqa: E501
+        def __update_user(
+            self,
+            username,
+            body,
+            **kwargs
+        ):
             """Updated user  # noqa: E501
 
             This can only be done by the logged in user.  # noqa: E501
@@ -783,31 +857,35 @@ class UserApi(object):
             >>> thread = api.update_user(username, body, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param str username: name that need to be deleted (required)
-            :param user.User body: Updated user object (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                username (str): name that need to be deleted
+                body (user.User): Updated user object
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -828,8 +906,10 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['username'] = username
-            kwargs['body'] = body
+            kwargs['username'] = \
+                username
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.update_user = Endpoint(
@@ -863,8 +943,10 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'username': (str,),
-                    'body': (user.User,),
+                    'username':
+                        (str,),
+                    'body':
+                        (user.User,),
                 },
                 'attribute_map': {
                     'username': 'username',
