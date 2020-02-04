@@ -39,10 +39,8 @@ data class Pet (
     /* pet status in the store */
     @SerializedName("status")
     val status: Pet.Status? = null
-) 
+) {
 
-
-{
     /**
     * pet status in the store
     * Values: available,pending,sold

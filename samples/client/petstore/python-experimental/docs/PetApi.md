@@ -34,16 +34,18 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-body = petstore_api.Pet() # pet.Pet | Pet object that needs to be added to the store
-
-# example passing only required values which don't have defaults set
-try:
-    # Add a new pet to the store
-    api_instance.add_pet(body)
-except petstore_api.ApiException as e:
-    print("Exception when calling PetApi->add_pet: %s\n" % e)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.PetApi(api_client)
+    body = petstore_api.Pet() # pet.Pet | Pet object that needs to be added to the store
+    
+    # example passing only required values which don't have defaults set
+    try:
+        # Add a new pet to the store
+        api_instance.add_pet(body)
+    except petstore_api.ApiException as e:
+        print("Exception when calling PetApi->add_pet: %s\n" % e)
 ```
 
 ### Parameters
@@ -92,25 +94,27 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet_id = 56 # int | Pet id to delete
-api_key = 'api_key_example' # str |  (optional)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.PetApi(api_client)
+    pet_id = 56 # int | Pet id to delete
+    api_key = 'api_key_example' # str |  (optional)
 
-# example passing only required values which don't have defaults set
-try:
-    # Deletes a pet
-    api_instance.delete_pet(pet_id)
-except petstore_api.ApiException as e:
-    print("Exception when calling PetApi->delete_pet: %s\n" % e)
+    # example passing only required values which don't have defaults set
+    try:
+        # Deletes a pet
+        api_instance.delete_pet(pet_id)
+    except petstore_api.ApiException as e:
+        print("Exception when calling PetApi->delete_pet: %s\n" % e)
 
-# example passing only required values which don't have defaults set
-# and optional values
-try:
-    # Deletes a pet
-    api_instance.delete_pet(pet_id, api_key=api_key)
-except petstore_api.ApiException as e:
-    print("Exception when calling PetApi->delete_pet: %s\n" % e)
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # Deletes a pet
+        api_instance.delete_pet(pet_id, api_key=api_key)
+    except petstore_api.ApiException as e:
+        print("Exception when calling PetApi->delete_pet: %s\n" % e)
 ```
 
 ### Parameters
@@ -162,17 +166,19 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-status = ['status_example'] # [str] | Status values that need to be considered for filter
-
-# example passing only required values which don't have defaults set
-try:
-    # Finds Pets by status
-    api_response = api_instance.find_pets_by_status(status)
-    pprint(api_response)
-except petstore_api.ApiException as e:
-    print("Exception when calling PetApi->find_pets_by_status: %s\n" % e)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.PetApi(api_client)
+    status = ['status_example'] # [str] | Status values that need to be considered for filter
+    
+    # example passing only required values which don't have defaults set
+    try:
+        # Finds Pets by status
+        api_response = api_instance.find_pets_by_status(status)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling PetApi->find_pets_by_status: %s\n" % e)
 ```
 
 ### Parameters
@@ -223,17 +229,19 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-tags = ['tags_example'] # [str] | Tags to filter by
-
-# example passing only required values which don't have defaults set
-try:
-    # Finds Pets by tags
-    api_response = api_instance.find_pets_by_tags(tags)
-    pprint(api_response)
-except petstore_api.ApiException as e:
-    print("Exception when calling PetApi->find_pets_by_tags: %s\n" % e)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.PetApi(api_client)
+    tags = ['tags_example'] # [str] | Tags to filter by
+    
+    # example passing only required values which don't have defaults set
+    try:
+        # Finds Pets by tags
+        api_response = api_instance.find_pets_by_tags(tags)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling PetApi->find_pets_by_tags: %s\n" % e)
 ```
 
 ### Parameters
@@ -286,17 +294,19 @@ configuration.api_key['api_key'] = 'YOUR_API_KEY'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet_id = 56 # int | ID of pet to return
-
-# example passing only required values which don't have defaults set
-try:
-    # Find pet by ID
-    api_response = api_instance.get_pet_by_id(pet_id)
-    pprint(api_response)
-except petstore_api.ApiException as e:
-    print("Exception when calling PetApi->get_pet_by_id: %s\n" % e)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.PetApi(api_client)
+    pet_id = 56 # int | ID of pet to return
+    
+    # example passing only required values which don't have defaults set
+    try:
+        # Find pet by ID
+        api_response = api_instance.get_pet_by_id(pet_id)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling PetApi->get_pet_by_id: %s\n" % e)
 ```
 
 ### Parameters
@@ -346,16 +356,18 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-body = petstore_api.Pet() # pet.Pet | Pet object that needs to be added to the store
-
-# example passing only required values which don't have defaults set
-try:
-    # Update an existing pet
-    api_instance.update_pet(body)
-except petstore_api.ApiException as e:
-    print("Exception when calling PetApi->update_pet: %s\n" % e)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.PetApi(api_client)
+    body = petstore_api.Pet() # pet.Pet | Pet object that needs to be added to the store
+    
+    # example passing only required values which don't have defaults set
+    try:
+        # Update an existing pet
+        api_instance.update_pet(body)
+    except petstore_api.ApiException as e:
+        print("Exception when calling PetApi->update_pet: %s\n" % e)
 ```
 
 ### Parameters
@@ -406,26 +418,28 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet_id = 56 # int | ID of pet that needs to be updated
-name = 'name_example' # str | Updated name of the pet (optional)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.PetApi(api_client)
+    pet_id = 56 # int | ID of pet that needs to be updated
+    name = 'name_example' # str | Updated name of the pet (optional)
 status = 'status_example' # str | Updated status of the pet (optional)
 
-# example passing only required values which don't have defaults set
-try:
-    # Updates a pet in the store with form data
-    api_instance.update_pet_with_form(pet_id)
-except petstore_api.ApiException as e:
-    print("Exception when calling PetApi->update_pet_with_form: %s\n" % e)
+    # example passing only required values which don't have defaults set
+    try:
+        # Updates a pet in the store with form data
+        api_instance.update_pet_with_form(pet_id)
+    except petstore_api.ApiException as e:
+        print("Exception when calling PetApi->update_pet_with_form: %s\n" % e)
 
-# example passing only required values which don't have defaults set
-# and optional values
-try:
-    # Updates a pet in the store with form data
-    api_instance.update_pet_with_form(pet_id, name=name, status=status)
-except petstore_api.ApiException as e:
-    print("Exception when calling PetApi->update_pet_with_form: %s\n" % e)
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # Updates a pet in the store with form data
+        api_instance.update_pet_with_form(pet_id, name=name, status=status)
+    except petstore_api.ApiException as e:
+        print("Exception when calling PetApi->update_pet_with_form: %s\n" % e)
 ```
 
 ### Parameters
@@ -475,29 +489,31 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet_id = 56 # int | ID of pet to update
-additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.PetApi(api_client)
+    pet_id = 56 # int | ID of pet to update
+    additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
 file = open('/path/to/file', 'rb') # file_type | file to upload (optional)
 files = open('/path/to/file', 'rb') # [file_type] | files to upload (optional)
 
-# example passing only required values which don't have defaults set
-try:
-    # uploads an image
-    api_response = api_instance.upload_file(pet_id)
-    pprint(api_response)
-except petstore_api.ApiException as e:
-    print("Exception when calling PetApi->upload_file: %s\n" % e)
+    # example passing only required values which don't have defaults set
+    try:
+        # uploads an image
+        api_response = api_instance.upload_file(pet_id)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling PetApi->upload_file: %s\n" % e)
 
-# example passing only required values which don't have defaults set
-# and optional values
-try:
-    # uploads an image
-    api_response = api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file, files=files)
-    pprint(api_response)
-except petstore_api.ApiException as e:
-    print("Exception when calling PetApi->upload_file: %s\n" % e)
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # uploads an image
+        api_response = api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file, files=files)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling PetApi->upload_file: %s\n" % e)
 ```
 
 ### Parameters
@@ -548,28 +564,30 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet_id = 56 # int | ID of pet to update
-required_file = open('/path/to/file', 'rb') # file_type | file to upload
-additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.PetApi(api_client)
+    pet_id = 56 # int | ID of pet to update
+    required_file = open('/path/to/file', 'rb') # file_type | file to upload
+    additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
 
-# example passing only required values which don't have defaults set
-try:
-    # uploads an image (required)
-    api_response = api_instance.upload_file_with_required_file(pet_id, required_file)
-    pprint(api_response)
-except petstore_api.ApiException as e:
-    print("Exception when calling PetApi->upload_file_with_required_file: %s\n" % e)
+    # example passing only required values which don't have defaults set
+    try:
+        # uploads an image (required)
+        api_response = api_instance.upload_file_with_required_file(pet_id, required_file)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling PetApi->upload_file_with_required_file: %s\n" % e)
 
-# example passing only required values which don't have defaults set
-# and optional values
-try:
-    # uploads an image (required)
-    api_response = api_instance.upload_file_with_required_file(pet_id, required_file, additional_metadata=additional_metadata)
-    pprint(api_response)
-except petstore_api.ApiException as e:
-    print("Exception when calling PetApi->upload_file_with_required_file: %s\n" % e)
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # uploads an image (required)
+        api_response = api_instance.upload_file_with_required_file(pet_id, required_file, additional_metadata=additional_metadata)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling PetApi->upload_file_with_required_file: %s\n" % e)
 ```
 
 ### Parameters

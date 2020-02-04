@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -161,14 +161,14 @@ public abstract class AbstractGenerator implements TemplatingGenerator {
         if (StringUtils.isNotEmpty(library)) {
             //look for the file in the library subfolder of the supplied template
             final String libTemplateFile = buildLibraryFilePath(config.templateDir(), library, templateFile);
-            if (new File(libTemplateFile).exists()) {
+            if (new File(libTemplateFile).exists() || this.getClass().getClassLoader().getResource(libTemplateFile) != null) {
                 return libTemplateFile;
             }
         }
 
         //check the supplied template main folder for the file
         final String template = config.templateDir() + File.separator + templateFile;
-        if (new File(template).exists()) {
+        if (new File(template).exists() || this.getClass().getClassLoader().getResource(template) != null) {
             return template;
         }
 

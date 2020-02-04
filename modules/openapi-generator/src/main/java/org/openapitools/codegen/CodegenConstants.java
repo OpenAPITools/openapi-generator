@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -113,6 +113,9 @@ public class CodegenConstants {
 
     public static final String LICENSE_NAME = "licenseName";
     public static final String LICENSE_NAME_DESC = "The name of the license";
+
+    public static final String LICENSE_ID = "licenseId";
+    public static final String LICENSE_ID_DESC = "The identifier of the license";
 
     public static final String LICENSE_URL = "licenseUrl";
     public static final String LICENSE_URL_DESC = "The URL of the license";
@@ -336,4 +339,7 @@ public class CodegenConstants {
 
     public static final String ENUM_CLASS_PREFIX = "enumClassPrefix";
     public static final String ENUM_CLASS_PREFIX_DESC = "Prefix enum with class name";
+
+    public static final String PACKAGE_TAGS = "packageTags";
+    public static final String PACKAGE_TAGS_DESC = "Tags to identify the package";
 }

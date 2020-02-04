@@ -347,7 +347,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                 case let .success(decodableObj):
                     completion(.success(Response(response: httpResponse, body: decodableObj)))
                 case let .failure(error):
-                    completion(.failure(error))
+                    completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
                 }
 
             })

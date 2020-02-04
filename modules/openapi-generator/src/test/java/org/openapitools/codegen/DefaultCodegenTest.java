@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -676,6 +676,22 @@ public class DefaultCodegenTest {
         CodegenProperty property = codegen.fromProperty("address", (Schema) openAPI.getComponents().getSchemas().get("User").getProperties().get("address"));
 
         Assert.assertTrue(property.isNullable);
+    }
+
+    @Test
+    public void testDeprecatedProperty() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/property-deplicated.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Map responseProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("Response").getProperties());
+        final Map requestProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("Response").getProperties());
+
+        Assert.assertTrue(codegen.fromProperty("firstName",(Schema) responseProperties.get("firstName")).deprecated);
+        Assert.assertFalse(codegen.fromProperty("customerCode",(Schema) responseProperties.get("customerCode")).deprecated);
+        Assert.assertTrue(codegen.fromProperty("firstName",(Schema) requestProperties.get("firstName")).deprecated);
+        Assert.assertFalse(codegen.fromProperty("customerCode",(Schema) requestProperties.get("customerCode")).deprecated);
     }
 
     @Test

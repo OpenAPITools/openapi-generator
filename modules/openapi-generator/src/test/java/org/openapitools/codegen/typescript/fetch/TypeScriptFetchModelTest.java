@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -227,6 +227,7 @@ public class TypeScriptFetchModelTest {
         // TODO: update yaml file.
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.processOpts();
         codegen.setOpenAPI(openAPI);
         final Schema schema = openAPI.getComponents().getSchemas().get("EnumArrays");
 
@@ -264,6 +265,7 @@ public class TypeScriptFetchModelTest {
     public void enumMdoelValueTest() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.processOpts();
         codegen.setOpenAPI(openAPI);
         final Schema schema = openAPI.getComponents().getSchemas().get("Enum_Test");
 

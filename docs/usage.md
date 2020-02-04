@@ -230,7 +230,7 @@ An example bash completion script can be found in the repo at [scripts/openapi-g
 
 ## generate
 
-The `generate` command is the workhorse of the generator toolset. As such, it has _many_ more options and the previous commands. The options are abbreviated below, but you may expand the full descriptions.
+The `generate` command is the workhorse of the generator toolset. As such, it has _many_ more options and the previous commands. The abbreviated options are below, but you may expand the full descriptions.
 
 
 ```bash
@@ -443,6 +443,8 @@ At a minimum, `generate` requires:
 * `-g` to specify the generator
 * `-o` to specify a meaningful output directory (defaults to the current directory!)
 * `-i` to specify the input OpenAPI document
+
+> **NOTE** You may also pass `-Dcolor` as a system property to colorize terminal outputs.
 
 ### Examples
 

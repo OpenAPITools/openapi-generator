@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -54,6 +54,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean exclusiveMaximum;
     public boolean hasMore;
     public boolean required;
+    public boolean deprecated;
     public boolean secondaryParam;
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType;
@@ -70,8 +71,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isBinary;
     public boolean isFile;
     public boolean isBoolean;
-    public boolean isDate;
-    public boolean isDateTime;
+    public boolean isDate; // full-date notation as defined by RFC 3339, section 5.6, for example, 2017-07-21
+    public boolean isDateTime; // the date-time notation as defined by RFC 3339, section 5.6, for example, 2017-07-21T17:32:28Z
     public boolean isUuid;
     public boolean isUri;
     public boolean isEmail;
@@ -554,6 +555,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", exclusiveMaximum=").append(exclusiveMaximum);
         sb.append(", hasMore=").append(hasMore);
         sb.append(", required=").append(required);
+        sb.append(", deprecated=").append(deprecated);
         sb.append(", secondaryParam=").append(secondaryParam);
         sb.append(", hasMoreNonReadOnly=").append(hasMoreNonReadOnly);
         sb.append(", isPrimitiveType=").append(isPrimitiveType);
@@ -619,6 +621,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 exclusiveMaximum == that.exclusiveMaximum &&
                 hasMore == that.hasMore &&
                 required == that.required &&
+                deprecated == this.deprecated &&
                 secondaryParam == that.secondaryParam &&
                 hasMoreNonReadOnly == that.hasMoreNonReadOnly &&
                 isPrimitiveType == that.isPrimitiveType &&
@@ -698,16 +701,18 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     @Override
     public int hashCode() {
 
-        return Objects.hash(openApiType, baseName, complexType, getter, setter, description, dataType,
-                datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam, baseType,
-                containerType, title, unescapedDescription, maxLength, minLength, pattern, example, jsonSchema,
-                minimum, maximum, exclusiveMinimum, exclusiveMaximum, hasMore, required, secondaryParam,
-                hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric, isInteger,
-                isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime,
-                isUuid, isUri, isEmail, isFreeFormObject, isListContainer, isMapContainer, isEnum, isReadOnly,
-                isWriteOnly, isNullable, isSelfReference, isCircularReference, _enum, allowableValues, items,
-                mostInnerItems, vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
-                nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName, xmlNamespace,
-                isXmlWrapped);
+        return Objects.hash(openApiType, baseName, complexType, getter, setter, description,
+                dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
+                defaultValueWithParam, baseType, containerType, title, unescapedDescription,
+                maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
+                exclusiveMinimum, exclusiveMaximum, hasMore, required, deprecated, secondaryParam,
+                hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
+                isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
+                isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
+                isListContainer, isMapContainer, isEnum, isReadOnly, isWriteOnly, isNullable,
+                isSelfReference, isCircularReference, _enum, allowableValues, items, mostInnerItems,
+                vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
+                nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
+                xmlNamespace, isXmlWrapped);
     }
 }

@@ -19,8 +19,8 @@ import { CustomQueryEncoderHelper }                          from '../encoder';
 import { Observable }                                        from 'rxjs/Observable';
 import '../rxjs-operators';
 
-import { ApiResponse } from '../model/apiResponse';
-import { Pet } from '../model/pet';
+import { ApiResponse } from '../model/models';
+import { Pet } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -207,6 +207,42 @@ export class PetService implements PetServiceInterface {
     }
 
 
+    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object") {
+            this.addToHttpParamsRecursive(httpParams, value);
+        } else {
+            this.addToHttpParamsRecursive(httpParams, value, key);
+        }
+        return httpParams;
+    }
+
+    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
+        if (value == null) {
+            return httpParams;
+        }
+
+        if (typeof value === "object") {
+            if (Array.isArray(value)) {
+                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+            } else if (value instanceof Date) {
+                if (key != null) {
+                    httpParams.append(key,
+                        (value as Date).toISOString().substr(0, 10));
+                } else {
+                   throw Error("key may not be null if value is Date");
+                }
+            } else {
+                Object.keys(value).forEach( k => this.addToHttpParamsRecursive(
+                    httpParams, value[k], key != null ? `${key}.${k}` : k));
+            }
+        } else if (key != null) {
+            httpParams.append(key, value);
+        } else {
+            throw Error("key may not be null if value is not object or array");
+        }
+        return httpParams;
+    }
+
     /**
      * Add a new pet to the store
      * @param body Pet object that needs to be added to the store
@@ -324,7 +360,8 @@ export class PetService implements PetServiceInterface {
 
         let queryParameters = new URLSearchParams('', this.encoder);
         if (status) {
-            queryParameters.set('status', status.join(COLLECTION_FORMATS['csv']));
+            this.addToHttpParams(queryParameters,
+                status.join(COLLECTION_FORMATS['csv']), 'status');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -378,7 +415,8 @@ export class PetService implements PetServiceInterface {
 
         let queryParameters = new URLSearchParams('', this.encoder);
         if (tags) {
-            queryParameters.set('tags', tags.join(COLLECTION_FORMATS['csv']));
+            this.addToHttpParams(queryParameters,
+                tags.join(COLLECTION_FORMATS['csv']), 'tags');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845

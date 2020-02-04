@@ -7,28 +7,28 @@ abstract class Order implements Built<Order, OrderBuilder> {
 
     
         @nullable
-    @BuiltValueField(wireName: 'id')
+    @BuiltValueField(wireName: r'id')
     int get id;
     
         @nullable
-    @BuiltValueField(wireName: 'petId')
+    @BuiltValueField(wireName: r'petId')
     int get petId;
     
         @nullable
-    @BuiltValueField(wireName: 'quantity')
+    @BuiltValueField(wireName: r'quantity')
     int get quantity;
     
         @nullable
-    @BuiltValueField(wireName: 'shipDate')
+    @BuiltValueField(wireName: r'shipDate')
     DateTime get shipDate;
     /* Order Status */
         @nullable
-    @BuiltValueField(wireName: 'status')
+    @BuiltValueField(wireName: r'status')
     String get status;
         //enum statusEnum {  placed,  approved,  delivered,  };
     
         @nullable
-    @BuiltValueField(wireName: 'complete')
+    @BuiltValueField(wireName: r'complete')
     bool get complete;
 
     // Boilerplate code needed to wire-up generated code

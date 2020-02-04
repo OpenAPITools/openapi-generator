@@ -17,13 +17,19 @@ class _$TagSerializer implements StructuredSerializer<Tag> {
   @override
   Iterable<Object> serialize(Serializers serializers, Tag object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'name',
-      serializers.serialize(object.name, specifiedType: const FullType(String)),
-    ];
-
+    final result = <Object>[];
+    if (object.id != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(object.id,
+            specifiedType: const FullType(int)));
+    }
+    if (object.name != null) {
+      result
+        ..add('name')
+        ..add(serializers.serialize(object.name,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -62,14 +68,7 @@ class _$Tag extends Tag {
   factory _$Tag([void Function(TagBuilder) updates]) =>
       (new TagBuilder()..update(updates)).build();
 
-  _$Tag._({this.id, this.name}) : super._() {
-    if (id == null) {
-      throw new BuiltValueNullFieldError('Tag', 'id');
-    }
-    if (name == null) {
-      throw new BuiltValueNullFieldError('Tag', 'name');
-    }
-  }
+  _$Tag._({this.id, this.name}) : super._();
 
   @override
   Tag rebuild(void Function(TagBuilder) updates) =>

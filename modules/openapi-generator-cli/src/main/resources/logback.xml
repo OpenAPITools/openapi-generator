@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+
+    <!-- Prevent startup messages from Logback -->
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+
+    <!-- For those without color (the default) -->
+    <property name="noColorPattern"
+              value="[%thread] %-5level %logger{36} - %msg%n" />
+    <!-- For those with color (with -Dcolor set) -->
+    <property name="colorPattern"
+              value="[%thread] %highlight(%-5level) %logger{36} - %msg%n" />
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <target>System.out</target>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>[%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>${noColorPattern}</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -14,21 +25,80 @@
     <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
         <target>System.err</target>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>[%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>${noColorPattern}</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
         </filter>
     </appender>
+    <appender name="STDOUT_COLOR" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.out</target>
+        <withJansi>true</withJansi>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${colorPattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+    </appender>
+    <appender name="STDERR_COLOR" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <withJansi>true</withJansi>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${colorPattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+    <appender name="ONCELOGGER_COLOR" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <withJansi>true</withJansi>
+        <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+            <marker>ONCE</marker>
+        </evaluator>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>[%thread] %highlight(%-5level) %logger{36} - %red(%msg)%n</pattern>
+        </encoder>
+    </appender>
+
     <logger name="io.swagger" level="warn">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="STDERR"/>
+        <!-- Colorize by passing -Dcolor -->
+        <if condition='isDefined("color")'>
+            <then>
+                <appender-ref ref="STDOUT_COLOR"/>
+                <appender-ref ref="STDERR_COLOR"/>
+            </then>
+            <else>
+                <appender-ref ref="STDOUT"/>
+                <appender-ref ref="STDERR"/>
+            </else>
+        </if>
     </logger>
     <logger name="org.openapitools" level="${log.level:-info}">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="STDERR"/>
+        <!-- Colorize by passing -Dcolor -->
+        <if condition='isDefined("color")'>
+            <then>
+                <appender-ref ref="STDOUT_COLOR"/>
+                <appender-ref ref="STDERR_COLOR"/>
+            </then>
+            <else>
+                <appender-ref ref="STDOUT"/>
+                <appender-ref ref="STDERR"/>
+            </else>
+        </if>
     </logger>
     <root level="error">
-        <appender-ref ref="STDERR"/>
+        <!-- Colorize by passing -Dcolor -->
+        <if condition='isDefined("color")'>
+            <then>
+                <appender-ref ref="STDERR_COLOR"/>
+            </then>
+            <else>
+                <appender-ref ref="STDERR"/>
+            </else>
+        </if>
     </root>
 </configuration>

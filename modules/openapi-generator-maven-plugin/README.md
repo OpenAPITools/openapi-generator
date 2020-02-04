@@ -12,7 +12,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
     <!-- RELEASE_VERSION -->
-    <version>4.2.3-SNAPSHOT</version>
+    <version>4.2.3</version>
     <!-- /RELEASE_VERSION -->
     <executions>
         <execution>
@@ -48,6 +48,7 @@ mvn clean compile
 | `generatorName` |  `openapi.generator.maven.plugin.generatorName` | target generator name
 | `output` |  `openapi.generator.maven.plugin.output` | target output path (default is `${project.build.directory}/generated-sources/openapi`. Can also be set globally through the `openapi.generator.maven.plugin.output` property)
 | `templateDirectory` |  `openapi.generator.maven.plugin.templateDirectory` | directory with mustache templates
+| `templateResourcePath` |  `openapi.generator.maven.plugin.templateResourcePath` | directory with mustache templates via resource path. This option will overwrite any option defined in `templateDirectory`. 
 | `addCompileSourceRoot` |  `openapi.generator.maven.plugin.addCompileSourceRoot` | add the output directory to the project as a source root (`true` by default)
 | `modelPackage` |  `openapi.generator.maven.plugin.modelPackage` | the package to use for generated model objects/classes
 | `apiPackage` |  `openapi.generator.maven.plugin.apiPackage` | the package to use for generated api objects/classes

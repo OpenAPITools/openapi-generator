@@ -15,7 +15,7 @@ open class JSONEncodingHelper {
 
         // Encode the Encodable object
         if let encodableObj = encodableObj {
-            let encodeResult = CodableHelper.encode(encodableObj, prettyPrint: true)
+            let encodeResult = CodableHelper.encode(encodableObj)
             if encodeResult.error == nil {
                 params = JSONDataEncoding.encodingParameters(jsonData: encodeResult.data)
             }
