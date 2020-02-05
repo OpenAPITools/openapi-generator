@@ -384,8 +384,9 @@ public class DefaultCodegen implements CodegenConfig {
                 for (Object _implmo : models) {
                     Map<String, Object> implmo = (Map<String, Object>) _implmo;
                     CodegenModel implcm = (CodegenModel) implmo.get("model");
-                    if (additionalDataMap.containsKey(implcm.name)) {
-                        additionalDataMap.get(implcm.name).addToImplementor(this, implcm, imports, addOneOfInterfaceImports);
+                    String modelName = toModelName(implcm.name);
+                    if (additionalDataMap.containsKey(modelName)) {
+                        additionalDataMap.get(modelName).addToImplementor(this, implcm, imports, addOneOfInterfaceImports);
                     }
                 }
             }
