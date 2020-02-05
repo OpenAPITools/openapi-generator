@@ -971,14 +971,14 @@ public class ModelUtils {
      *
      * For example, given the following OAS spec, the parent of 'Dog' is Animal
      * because 'Animal' specifies a discriminator.
-     * 
+     *
      * animal:
      *   type: object
      *   discriminator:
      *     propertyName: type
      *   properties:
      *     type: string
-     * 
+     *
      * dog:
      *   allOf:
      *      - $ref: '#/components/schemas/animal'

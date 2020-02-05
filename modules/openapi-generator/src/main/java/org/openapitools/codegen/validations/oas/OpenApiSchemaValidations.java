@@ -14,7 +14,7 @@ import java.util.Locale;
 /**
  * A standalone instance for evaluating rules and recommendations related to OAS {@link Schema}
  */
-class OpenApiSchemaValidations extends GenericValidator<Schema> {
+class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
     OpenApiSchemaValidations(RuleConfiguration ruleConfiguration) {
         super(new ArrayList<>());
         if (ruleConfiguration.isEnableRecommendations()) {
@@ -57,10 +57,11 @@ class OpenApiSchemaValidations extends GenericValidator<Schema> {
      * Because of this ambiguity in the spec about what is non-standard about oneOf support, we'll warn as a recommendation that
      * properties on the schema defining oneOf relationships may not be intentional in the OpenAPI Specification.
      *
-     * @param schema An input schema, regardless of the type of schema
+     * @param schemaWrapper An input schema, regardless of the type of schema
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
      */
-    private static ValidationRule.Result checkOneOfWithProperties(Schema schema) {
+    private static ValidationRule.Result checkOneOfWithProperties(SchemaWrapper schemaWrapper) {
+        Schema schema = schemaWrapper.getSchema();
         ValidationRule.Result result = ValidationRule.Pass.empty();
 
         if (schema instanceof ComposedSchema) {
