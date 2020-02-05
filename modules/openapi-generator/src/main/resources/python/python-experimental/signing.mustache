@@ -260,7 +260,7 @@ class HttpSigningConfiguration(object):
         now = time()
         # Format date per RFC 7231 section-7.1.1.2. An example is:
         # Date: Wed, 21 Oct 2015 07:28:00 GMT
-        cdate = formatdate(timeval = now, localtime = False, usegmt = True)
+        cdate = formatdate(timeval=now, localtime=False, usegmt=True)
         # The '(created)' value MUST be a Unix timestamp integer value.
         # Subsecond precision is not supported.
         created = int(now)
