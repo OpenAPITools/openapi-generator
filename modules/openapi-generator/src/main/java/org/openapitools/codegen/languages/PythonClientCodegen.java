@@ -869,7 +869,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             }
             example +=")";
         } else {
-            LOGGER.warn("Type '" + schema.getType() + "' not handled properly in toExampleValue");
+            LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
         }
 
         if (ModelUtils.isStringSchema(schema)) {
