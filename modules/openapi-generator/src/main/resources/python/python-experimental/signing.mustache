@@ -7,13 +7,12 @@ from Crypto.IO import PEM, PKCS8
 from Crypto.Hash import SHA256, SHA512
 from Crypto.PublicKey import RSA, ECC
 from Crypto.Signature import PKCS1_v1_5, pss, DSS
-from datetime import datetime
 from email.utils import formatdate
 import json
 import os
 import re
 from six.moves.urllib.parse import urlencode, urlparse
-from time import mktime, time
+from time import time
 
 # The constants below define a subset of HTTP headers that can be included in the
 # HTTP signature scheme. Additional headers may be included in the signature.
