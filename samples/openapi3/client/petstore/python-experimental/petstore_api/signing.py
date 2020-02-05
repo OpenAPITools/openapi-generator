@@ -15,7 +15,7 @@ from Crypto.IO import PEM, PKCS8
 from Crypto.Hash import SHA256, SHA512
 from Crypto.PublicKey import RSA, ECC
 from Crypto.Signature import PKCS1_v1_5, pss, DSS
-from datetime import datetime
+from datetime import datetime, timezone
 from email.utils import formatdate
 import json
 import os
@@ -240,7 +240,7 @@ class HttpSigningConfiguration(object):
         """Converts and returns a datetime object to UNIX time, the number of seconds
            elapsed since January 1, 1970 UTC.
         """
-        return (ts - datetime(1970, 1, 1)).total_seconds()
+        return (ts - datetime(1970, 1, 1, tzinfo=timezone.utc)).total_seconds()
 
     def _get_signed_header_info(self, resource_path, method, headers, body, query_params):
         """Build the HTTP headers (name, value) that need to be included in
@@ -271,7 +271,7 @@ class HttpSigningConfiguration(object):
             request_target += "?" + urlencode(query_params)
 
         # Get current time and generate RFC 1123 (HTTP/1.1) date/time string.
-        now = datetime.now()
+        now = datetime.now(tz=timezone.utc)
         stamp = mktime(now.timetuple())
         cdate = formatdate(timeval=stamp, localtime=False, usegmt=True)
         # The '(created)' value MUST be a Unix timestamp integer value.
