@@ -4917,6 +4917,15 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        Content c = body.getContent();
+        String contentType = getContentType(body);
+        Map<String, Encoding> parameterEncoding = null;
+        if (c != null && contentType != null) {
+            MediaType mediaType = c.get(contentType);
+            if (mediaType != null) {
+                parameterEncoding = mediaType.getEncoding();
+            }
+        }
         if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             Map<String, Schema> properties = schema.getProperties();
             for (Map.Entry<String, Schema> entry : properties.entrySet()) {
@@ -4972,6 +4981,13 @@ public class DefaultCodegen implements CodegenConfig {
                 // Set 'required' flag defined in the schema element
                 if (!codegenParameter.required && schema.getRequired() != null) {
                     codegenParameter.required = schema.getRequired().contains(entry.getKey());
+                }
+
+                if (parameterEncoding != null && parameterEncoding.containsKey(entry.getKey())) {
+                    String overrideContentType = parameterEncoding.getOrDefault(entry.getKey(), new Encoding()).getContentType();
+                    if (overrideContentType != null) {
+                        codegenParameter.jsonEncoding = overrideContentType.toLowerCase(Locale.ENGLISH).trim().equals("application/json");
+                    }
                 }
 
                 parameters.add(codegenParameter);
