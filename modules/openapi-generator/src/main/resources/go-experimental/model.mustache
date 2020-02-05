@@ -152,6 +152,12 @@ func (s *{{classname}}) UnmarshalJSON(src []byte) error {
     {{/discriminator}}
 }
 {{/vendorExtensions.x-is-one-of-interface}}
+{{#vendorExtensions.implements}}
+// Convenience method to wrap this instance of {{classname}} in {{{.}}}
+func (s *{{classname}}) As{{{.}}}() {{{.}}} {
+    return {{{.}}}{ {{{.}}}Interface: s }
+}
+{{/vendorExtensions.implements}}
 {{/isEnum}}
 type Nullable{{{classname}}} struct {
 	Value {{{classname}}}
