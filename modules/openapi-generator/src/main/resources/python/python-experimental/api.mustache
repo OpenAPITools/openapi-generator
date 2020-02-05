@@ -45,7 +45,20 @@ class {{classname}}(object):
         self.api_client = api_client
 {{#operation}}
 
-        def __{{operationId}}(self, {{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs):  # noqa: E501
+        def __{{operationId}}(
+            self,
+{{#requiredParams}}
+{{^defaultValue}}
+            {{paramName}},
+{{/defaultValue}}
+{{/requiredParams}}
+{{#requiredParams}}
+{{#defaultValue}}
+            {{paramName}}={{{defaultValue}}},
+{{/defaultValue}}
+{{/requiredParams}}
+            **kwargs
+        ):
             """{{#summary}}{{{.}}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
@@ -53,40 +66,51 @@ class {{classname}}(object):
 {{/notes}}
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
-{{#sortParamsByRequiredFlag}}
-            >>> thread = api.{{operationId}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}async_req=True)
-{{/sortParamsByRequiredFlag}}
-{{^sortParamsByRequiredFlag}}
-            >>> thread = api.{{operationId}}({{#allParams}}{{#required}}{{paramName}}={{paramName}}_value, {{/required}}{{/allParams}}async_req=True)
-{{/sortParamsByRequiredFlag}}
+            >>> thread = api.{{operationId}}({{#requiredParams}}{{^defaultValue}}{{paramName}}, {{/defaultValue}}{{/requiredParams}}{{#requiredParams}}{{#defaultValue}}{{paramName}}={{{defaultValue}}}, {{/defaultValue}}{{/requiredParams}}async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-{{#allParams}}
-            :param {{dataType}} {{paramName}}:{{#description}} {{{description}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
-{{/allParams}}
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
-                If the method is called asynchronously, returns the request
-                thread.
+{{#requiredParams}}
+{{^hasMore}}
+            Args:
+{{/hasMore}}
+{{/requiredParams}}
+{{#requiredParams}}
+{{^defaultValue}}
+                {{paramName}} ({{dataType}}):{{#description}} {{description}}{{/description}}
+{{/defaultValue}}
+{{/requiredParams}}
+{{#requiredParams}}
+{{#defaultValue}}
+                {{paramName}} ({{dataType}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]
+{{/defaultValue}}
+{{/requiredParams}}
+
+            Keyword Args:{{#optionalParams}}
+                {{paramName}} ({{dataType}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}{{/optionalParams}}
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -108,7 +132,8 @@ class {{classname}}(object):
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
 {{#requiredParams}}
-            kwargs['{{paramName}}'] = {{paramName}}
+            kwargs['{{paramName}}'] = \
+                {{paramName}}
 {{/requiredParams}}
             return self.call_with_http_info(**kwargs)
 
@@ -119,7 +144,7 @@ class {{classname}}(object):
 {{#-first}}
                 'auth': [
 {{/-first}}
-                    '{{name}}'{{#hasMore}}, {{/hasMore}}
+                    '{{name}}'{{#hasMore}},{{/hasMore}}
 {{#-last}}
                 ],
 {{/-last}}
@@ -216,7 +241,8 @@ class {{classname}}(object):
                 },
                 'openapi_types': {
 {{#allParams}}
-                    '{{paramName}}': ({{{dataType}}},),
+                    '{{paramName}}':
+                        ({{{dataType}}},),
 {{/allParams}}
                 },
                 'attribute_map': {

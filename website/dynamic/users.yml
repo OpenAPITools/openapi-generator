@@ -119,6 +119,11 @@
   infoLink: "https://www.elementai.com/"
   pinned: false
 -
+  caption: "freee"
+  image: "img/companies/freee.png"
+  infoLink: "https://corp.freee.co.jp/en/"
+  pinned: false
+-
   caption: "Fenergo"
   image: "img/companies/fenergo.png"
   infoLink: "https://www.fenergo.com/"
@@ -187,6 +192,11 @@
   caption: "Kronsoft Development"
   image: "img/companies/kronsoft.png"
   infoLink: "https://www.kronsoft.ro/home/"
+  pinned: false
+-
+  caption: "Kubernetes"
+  image: "img/companies/kubernetes.png"
+  infoLink: "https://kubernetes.io/"
   pinned: false
 -
   caption: "Médiavision"

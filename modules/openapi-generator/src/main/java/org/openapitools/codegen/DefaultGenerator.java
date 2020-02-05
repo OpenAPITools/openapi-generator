@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,6 +42,7 @@ import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.utils.ImplementationVersion;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -185,12 +186,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         if (GlobalSettings.getProperty("debugOpenAPI") != null) {
-            SerializerUtils.toJsonString(openAPI);
+            System.out.println(SerializerUtils.toJsonString(openAPI));
         } else if (GlobalSettings.getProperty("debugSwagger") != null) {
             // This exists for backward compatibility
             // We fall to this block only if debugOpenAPI is null. No need to dump this twice.
             LOGGER.info("Please use system property 'debugOpenAPI' instead of 'debugSwagger'.");
-            SerializerUtils.toJsonString(openAPI);
+            System.out.println(SerializerUtils.toJsonString(openAPI));
         }
 
         config.processOpts();
@@ -850,6 +851,15 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
             if (hasBearerMethods(authMethods)) {
                 bundle.put("hasBearerMethods", true);
+            }
+            if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
+                bundle.put("hasHttpSignatureMethods", true);
+            }
+            if (ProcessUtils.hasHttpBasicMethods(authMethods)) {
+                bundle.put("hasHttpBasicMethods", true);
+            }
+            if (ProcessUtils.hasApiKeyMethods(authMethods)) {
+                bundle.put("hasApiKeyMethods", true);
             }
         }
 

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,12 +25,14 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
@@ -95,6 +97,13 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         modelTestTemplateFiles.remove("model_test.mustache", ".py");
         modelTestTemplateFiles.put("python-experimental/model_test.mustache", ".py");
 
+        // this generator does not use SORT_PARAMS_BY_REQUIRED_FLAG
+        // this generator uses the following order for endpoint paramters and model properties
+        // required params/props with no enum of length one
+        // required params/props with enum of length one (which is used to set a default value as a python named arg value)
+        // optional params/props with **kwargs in python
+        cliOptions.remove(4);
+
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.EXPERIMENTAL)
                 .build();
@@ -115,6 +124,14 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.remove(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__package.mustache", packagePath(), "__init__.py"));
 
+
+        // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
+        Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
+           (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
+        List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
+        if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
+            supportingFiles.add(new SupportingFile("python-experimental/signing.mustache", packagePath(), "signing.py"));
+        }
 
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
@@ -277,7 +294,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // name looks like cat.Cat
         String moduleName = name.split("\\.")[0];
         // https://exceptionshub.com/circular-or-cyclic-imports-in-python.html
-        String modelImport = "try:\n    from " + modelPackage() + " import "+ moduleName+ "\nexcept ImportError:\n    "+moduleName+" = sys.modules['"+modelPackage() + "."+ moduleName+"']";
+        String modelImport = "try:\n    from " + modelPackage() +
+          " import " + moduleName+ "\nexcept ImportError:\n    " +
+          moduleName + " = sys.modules[\n        '" + modelPackage() + "." + moduleName + "']";
         return modelImport;
     }
 
@@ -816,7 +835,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (ModelUtils.isFreeFormObject(p) && ModelUtils.getAdditionalProperties(p) == null) {
             return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
         }
-        if ((ModelUtils.isMapSchema(p) || p.getType() == "object") && ModelUtils.getAdditionalProperties(p) != null) {
+        if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && ModelUtils.getAdditionalProperties(p) != null) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return prefix + "{str: " + getTypeString(inner, "(", ")") + "}" + fullSuffix;
         } else if (ModelUtils.isArraySchema(p)) {

@@ -17,13 +17,19 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
   @override
   Iterable<Object> serialize(Serializers serializers, Category object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'name',
-      serializers.serialize(object.name, specifiedType: const FullType(String)),
-    ];
-
+    final result = <Object>[];
+    if (object.id != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(object.id,
+            specifiedType: const FullType(int)));
+    }
+    if (object.name != null) {
+      result
+        ..add('name')
+        ..add(serializers.serialize(object.name,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -62,14 +68,7 @@ class _$Category extends Category {
   factory _$Category([void Function(CategoryBuilder) updates]) =>
       (new CategoryBuilder()..update(updates)).build();
 
-  _$Category._({this.id, this.name}) : super._() {
-    if (id == null) {
-      throw new BuiltValueNullFieldError('Category', 'id');
-    }
-    if (name == null) {
-      throw new BuiltValueNullFieldError('Category', 'name');
-    }
-  }
+  _$Category._({this.id, this.name}) : super._();
 
   @override
   Category rebuild(void Function(CategoryBuilder) updates) =>

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -386,7 +386,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         operations.put("controllerName", toControllerName((String) operations.get("pathPrefix")));
         operations.put("symfonyService", toSymfonyService((String) operations.get("pathPrefix")));
 
-        HashSet<CodegenSecurity> authMethods = new HashSet<>();
+        List<CodegenSecurity> authMethods = new ArrayList<CodegenSecurity>();
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
         for (CodegenOperation op : operationList) {
@@ -431,7 +431,11 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
             // Add operation's authentication methods to whole interface
             if (op.authMethods != null) {
-                authMethods.addAll(op.authMethods);
+                for (CodegenSecurity am : op.authMethods) {
+                    if (!authMethods.contains(am)) {
+                        authMethods.add(am);
+                    }
+                }
             }
         }
 

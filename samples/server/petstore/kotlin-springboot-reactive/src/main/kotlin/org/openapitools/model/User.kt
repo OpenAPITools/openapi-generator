@@ -22,31 +22,31 @@ import io.swagger.annotations.ApiModelProperty
  * @param phone 
  * @param userStatus User Status
  */
-data class User (
+data class User(
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") val id: kotlin.Long? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @JsonProperty("id") val id: kotlin.Long? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("username") val username: kotlin.String? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @JsonProperty("username") val username: kotlin.String? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("firstName") val firstName: kotlin.String? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @JsonProperty("firstName") val firstName: kotlin.String? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("lastName") val lastName: kotlin.String? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @JsonProperty("lastName") val lastName: kotlin.String? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("email") val email: kotlin.String? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @JsonProperty("email") val email: kotlin.String? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("password") val password: kotlin.String? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @JsonProperty("password") val password: kotlin.String? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("phone") val phone: kotlin.String? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @JsonProperty("phone") val phone: kotlin.String? = null,
 
-        @ApiModelProperty(example = "null", value = "User Status")
-        @JsonProperty("userStatus") val userStatus: kotlin.Int? = null
+    @ApiModelProperty(example = "null", value = "User Status")
+    @JsonProperty("userStatus") val userStatus: kotlin.Int? = null
 ) {
 
 }

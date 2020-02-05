@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -46,9 +46,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
 
+    protected boolean usesOptionals = true;
+
     public AbstractGoCodegen() {
         super();
 
+        supportsInheritance = true;
         hideGenerationTimestamp = Boolean.FALSE;
 
         defaultIncludes = new HashSet<String>(
@@ -330,6 +333,34 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             type = openAPIType;
         return type;
     }
+    
+    /**
+     * Determines the golang instantiation type of the specified schema.
+     * 
+     * This function is called when the input schema is a map, and specifically
+     * when the 'additionalProperties' attribute is present in the OAS specification.
+     * Codegen invokes this function to resolve the "parent" association to
+     * 'additionalProperties'.
+     *
+     * Note the 'parent' attribute in the codegen model is used in the following scenarios:
+     * - Indicate a polymorphic association with some other type (e.g. class inheritance).
+     * - If the specification has a discriminator, cogegen create a “parent” based on the discriminator.
+     * - Use of the 'additionalProperties' attribute in the OAS specification.
+     *   This is the specific scenario when codegen invokes this function. 
+     *
+     * @param property the input schema
+     *
+     * @return the golang instantiation type of the specified property.
+     */
+    @Override
+    public String toInstantiationType(Schema property) {
+        if (ModelUtils.isMapSchema(property)) {
+            return getTypeDeclaration(property);
+        } else if (ModelUtils.isArraySchema(property)) {
+            return getTypeDeclaration(property);
+        }
+        return super.toInstantiationType(property);
+    }
 
     @Override
     public String toOperationId(String operationId) {
@@ -400,7 +431,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
 
                 // import "time" if the operation has a required time parameter.
-                if (param.required) {
+                if (param.required || !usesOptionals) {
                     if (!addedTimeImport && "time.Time".equals(param.dataType)) {
                         imports.add(createMapping("import", "time"));
                         addedTimeImport = true;
@@ -414,7 +445,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
 
                 // import "optionals" package if the parameter is optional
-                if (!param.required) {
+                if (!param.required && usesOptionals) {
                     if (!addedOptionalImport) {
                         imports.add(createMapping("import", "github.com/antihax/optional"));
                         addedOptionalImport = true;

@@ -23,6 +23,7 @@ set(SRCS
     src/apiKey.c
     src/apiClient.c
     external/cJSON.c
+    model/object.c
 {{#models}}
 {{#model}}
     model/{{classname}}.c
@@ -43,6 +44,7 @@ set(HDRS
     include/list.h
     include/keyValuePair.h
     external/cJSON.h
+    model/object.h
 {{#models}}
 {{#model}}
     model/{{classname}}.h

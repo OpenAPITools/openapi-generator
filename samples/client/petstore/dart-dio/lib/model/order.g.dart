@@ -17,25 +17,43 @@ class _$OrderSerializer implements StructuredSerializer<Order> {
   @override
   Iterable<Object> serialize(Serializers serializers, Order object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'petId',
-      serializers.serialize(object.petId, specifiedType: const FullType(int)),
-      'quantity',
-      serializers.serialize(object.quantity,
-          specifiedType: const FullType(int)),
-      'shipDate',
-      serializers.serialize(object.shipDate,
-          specifiedType: const FullType(DateTime)),
-      'status',
-      serializers.serialize(object.status,
-          specifiedType: const FullType(String)),
-      'complete',
-      serializers.serialize(object.complete,
-          specifiedType: const FullType(bool)),
-    ];
-
+    final result = <Object>[];
+    if (object.id != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(object.id,
+            specifiedType: const FullType(int)));
+    }
+    if (object.petId != null) {
+      result
+        ..add('petId')
+        ..add(serializers.serialize(object.petId,
+            specifiedType: const FullType(int)));
+    }
+    if (object.quantity != null) {
+      result
+        ..add('quantity')
+        ..add(serializers.serialize(object.quantity,
+            specifiedType: const FullType(int)));
+    }
+    if (object.shipDate != null) {
+      result
+        ..add('shipDate')
+        ..add(serializers.serialize(object.shipDate,
+            specifiedType: const FullType(DateTime)));
+    }
+    if (object.status != null) {
+      result
+        ..add('status')
+        ..add(serializers.serialize(object.status,
+            specifiedType: const FullType(String)));
+    }
+    if (object.complete != null) {
+      result
+        ..add('complete')
+        ..add(serializers.serialize(object.complete,
+            specifiedType: const FullType(bool)));
+    }
     return result;
   }
 
@@ -105,26 +123,7 @@ class _$Order extends Order {
       this.shipDate,
       this.status,
       this.complete})
-      : super._() {
-    if (id == null) {
-      throw new BuiltValueNullFieldError('Order', 'id');
-    }
-    if (petId == null) {
-      throw new BuiltValueNullFieldError('Order', 'petId');
-    }
-    if (quantity == null) {
-      throw new BuiltValueNullFieldError('Order', 'quantity');
-    }
-    if (shipDate == null) {
-      throw new BuiltValueNullFieldError('Order', 'shipDate');
-    }
-    if (status == null) {
-      throw new BuiltValueNullFieldError('Order', 'status');
-    }
-    if (complete == null) {
-      throw new BuiltValueNullFieldError('Order', 'complete');
-    }
-  }
+      : super._();
 
   @override
   Order rebuild(void Function(OrderBuilder) updates) =>

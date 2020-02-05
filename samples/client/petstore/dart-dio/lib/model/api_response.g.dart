@@ -17,16 +17,25 @@ class _$ApiResponseSerializer implements StructuredSerializer<ApiResponse> {
   @override
   Iterable<Object> serialize(Serializers serializers, ApiResponse object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'code',
-      serializers.serialize(object.code, specifiedType: const FullType(int)),
-      'type',
-      serializers.serialize(object.type, specifiedType: const FullType(String)),
-      'message',
-      serializers.serialize(object.message,
-          specifiedType: const FullType(String)),
-    ];
-
+    final result = <Object>[];
+    if (object.code != null) {
+      result
+        ..add('code')
+        ..add(serializers.serialize(object.code,
+            specifiedType: const FullType(int)));
+    }
+    if (object.type != null) {
+      result
+        ..add('type')
+        ..add(serializers.serialize(object.type,
+            specifiedType: const FullType(String)));
+    }
+    if (object.message != null) {
+      result
+        ..add('message')
+        ..add(serializers.serialize(object.message,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -71,17 +80,7 @@ class _$ApiResponse extends ApiResponse {
   factory _$ApiResponse([void Function(ApiResponseBuilder) updates]) =>
       (new ApiResponseBuilder()..update(updates)).build();
 
-  _$ApiResponse._({this.code, this.type, this.message}) : super._() {
-    if (code == null) {
-      throw new BuiltValueNullFieldError('ApiResponse', 'code');
-    }
-    if (type == null) {
-      throw new BuiltValueNullFieldError('ApiResponse', 'type');
-    }
-    if (message == null) {
-      throw new BuiltValueNullFieldError('ApiResponse', 'message');
-    }
-  }
+  _$ApiResponse._({this.code, this.type, this.message}) : super._();
 
   @override
   ApiResponse rebuild(void Function(ApiResponseBuilder) updates) =>

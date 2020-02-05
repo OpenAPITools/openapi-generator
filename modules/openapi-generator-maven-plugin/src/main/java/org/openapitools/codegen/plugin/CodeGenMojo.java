@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,6 +40,7 @@ import java.util.Set;
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 import io.swagger.v3.parser.util.ClasspathHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -132,6 +133,12 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "templateDirectory", property = "openapi.generator.maven.plugin.templateDirectory")
     private File templateDirectory;
+
+    /**
+     * Resource path containing template files.
+     */
+    @Parameter(name = "templateResourcePath", property = "openapi.generator.maven.plugin.templateResourcePath")
+    private String templateResourcePath;
 
     /**
      * The name of templating engine to use, "mustache" (default) or "handlebars" (beta)
@@ -583,6 +590,13 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setTemplateDir(templateDirectory.getAbsolutePath());
             }
 
+            if (StringUtils.isNotEmpty(templateResourcePath)) {
+                if (null != templateDirectory) {
+                    LOGGER.warn("Both templateDirectory and templateResourcePath were configured. templateResourcePath overwrites templateDirectory.");
+                }
+                configurator.setTemplateDir(templateResourcePath);
+            }
+
             if (null != engine) {
                 configurator.setTemplatingEngineName(engine);
             }
@@ -777,12 +791,13 @@ public class CodeGenMojo extends AbstractMojo {
                     conn.setRequestProperty(auth.getKeyName(), auth.getValue());
                 }
             }
-            ReadableByteChannel readableByteChannel = Channels.newChannel(conn.getInputStream());
-
-            FileOutputStream fileOutputStream = new FileOutputStream(inputSpecTempFile);
-            FileChannel fileChannel = fileOutputStream.getChannel();
-
-            fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+            try (ReadableByteChannel readableByteChannel = Channels.newChannel(conn.getInputStream())) {
+                FileChannel fileChannel;
+                try (FileOutputStream fileOutputStream = new FileOutputStream(inputSpecTempFile)) {
+                    fileChannel = fileOutputStream.getChannel();
+                    fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+                }
+            }
         }
 
         ByteSource inputSpecByteSource =
