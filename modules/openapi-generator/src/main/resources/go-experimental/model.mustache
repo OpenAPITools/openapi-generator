@@ -153,7 +153,7 @@ func (s *{{classname}}) UnmarshalJSON(src []byte) error {
 }
 {{/vendorExtensions.x-is-one-of-interface}}
 {{#vendorExtensions.implements}}
-// Convenience method to wrap this instance of {{classname}} in {{{.}}}
+// As{{{.}}} wraps this instance of {{classname}} in {{{.}}}
 func (s *{{classname}}) As{{{.}}}() {{{.}}} {
     return {{{.}}}{ {{{.}}}Interface: s }
 }
