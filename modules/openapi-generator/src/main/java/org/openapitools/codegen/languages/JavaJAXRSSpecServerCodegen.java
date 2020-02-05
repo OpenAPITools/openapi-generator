@@ -201,8 +201,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             writeOptional(outputFolder, new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml"));
         } else if(KUMULUZEE_LIBRARY.equals(library)) {
             writeOptional(outputFolder, new SupportingFile("config.yaml.mustache", "src/main/resources", "config.yaml"));
-            writeOptional(outputFolder, new SupportingFile("beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
-            writeOptional(outputFolder, new SupportingFile("microprofile-config.properties.mustache", "src/main/resources/META-INF", "microprofile-config.properties"));
         }
     }
 
