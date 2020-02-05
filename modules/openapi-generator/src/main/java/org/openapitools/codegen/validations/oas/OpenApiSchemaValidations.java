@@ -4,6 +4,7 @@ import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.SemVer;
 import org.openapitools.codegen.validation.GenericValidator;
 import org.openapitools.codegen.validation.ValidationRule;
 
@@ -30,11 +31,6 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
                         "Schema defines uses the 'null' type.",
                         "The 'null' type is not supported in OpenAPI 3.0.x. It is supported in OpenAPI 3.1 and above. While our tooling supports this, it may cause issues with other tools.",
                         OpenApiSchemaValidations::checkNullType
-                ));
-                rules.add(ValidationRule.warn(
-                        "Schema defines uses a type array.",
-                        "The type array is not supported in OpenAPI 3.0.x. It is supported in OpenAPI 3.1 and above. While our tooling supports this, it may cause issues with other tools.",
-                        OpenApiSchemaValidations::checkTypeArray
                 ));
             }
             if (ruleConfiguration.isEnableNullableAttributeRecommendation()) {
@@ -87,42 +83,35 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
      * @param schema An input schema, regardless of the type of schema
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
      */
-    private static ValidationRule.Result checkNullType(Schema schema) {
+    private static ValidationRule.Result checkNullType(SchemaWrapper schemaWrapper) {
+        Schema schema = schemaWrapper.getSchema();
         ValidationRule.Result result = ValidationRule.Pass.empty();
-
-        if (ModelUtils.isNullSchema(schema)) {
-            result = new ValidationRule.Fail();
-            result.setDetails(String.format(Locale.ROOT, "Specification is version '%s' %s uses a 'null' type.", "3.0.1", schema.getName()));
-            return result;
-        }
-        if (schema instanceof ComposedSchema) {
-            final ComposedSchema composed = (ComposedSchema) schema;
-            List<Schema> interfaces = ModelUtils.getInterfaces(composed);
-            if (!interfaces.isEmpty()) {
-                for (Schema interfaceSchema : interfaces) {
-                    if (ModelUtils.isNullSchema(interfaceSchema)) {
-                            result = new ValidationRule.Fail();
-                            result.setDetails(String.format(Locale.ROOT, "Specification is version '%s' %s uses a 'null' type.", "3.0.1",
-                                interfaceSchema.getName()));
-                            return result;
+        SemVer version = new SemVer(schemaWrapper.getOpenAPI().getOpenapi());
+        if (version.atLeast("3.0") && version.compareTo(new SemVer("3.1")) < 0) {
+            // OAS spec is 3.0.x
+            if (ModelUtils.isNullSchema(schema)) {
+                result = new ValidationRule.Fail();
+                result.setDetails(String.format(Locale.ROOT,
+                    "%s uses a 'null' type, which is specified in OAS 3.1 and above, but OAS version is %s",
+                    schema.getName(), schemaWrapper.getOpenAPI().getOpenapi()));
+                return result;
+            }
+            if (schema instanceof ComposedSchema) {
+                final ComposedSchema composed = (ComposedSchema) schema;
+                List<Schema> interfaces = ModelUtils.getInterfaces(composed);
+                if (!interfaces.isEmpty()) {
+                    for (Schema interfaceSchema : interfaces) {
+                        if (ModelUtils.isNullSchema(interfaceSchema)) {
+                                result = new ValidationRule.Fail();
+                                result.setDetails(String.format(Locale.ROOT,
+                                    "%s uses a 'null' type, which is specified in OAS 3.1 and above, but OAS version is %s",
+                                    interfaceSchema.getName(), schemaWrapper.getOpenAPI().getOpenapi()));
+                                return result;
+                        }
                     }
                 }
             }
         }
-        return result;
-    }
-
-    /**
-     * JSON Schema uses a type array.
-     * <p>
-     * A type array is supported in OpenAPI Specification 3.1 and above. It is not supported in OpenAPI 3.0.x.
-     * 
-     * @param schema An input schema, regardless of the type of schema
-     * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
-     */
-    private static ValidationRule.Result checkTypeArray(Schema schema) {
-        ValidationRule.Result result = ValidationRule.Pass.empty();
-        // TODO
         return result;
     }
 
@@ -134,9 +123,34 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
      * @param schema An input schema, regardless of the type of schema
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
      */
-    private static ValidationRule.Result checkNullableAttribute(Schema schema) {
+    private static ValidationRule.Result checkNullableAttribute(SchemaWrapper schemaWrapper) {
+        Schema schema = schemaWrapper.getSchema();
         ValidationRule.Result result = ValidationRule.Pass.empty();
-        // TODO
+        SemVer version = new SemVer(schemaWrapper.getOpenAPI().getOpenapi());
+        if (version.atLeast("3.1")) {
+            if (ModelUtils.isNullable(schema)) {
+                result = new ValidationRule.Fail();
+                result.setDetails(String.format(Locale.ROOT,
+                    "OAS specification is version '%s'. %s is 'nullable', which has been deprecated.",
+                    schemaWrapper.getOpenAPI().getOpenapi(), schema.getName()));
+                return result;
+            }
+            if (schema instanceof ComposedSchema) {
+                final ComposedSchema composed = (ComposedSchema) schema;
+                List<Schema> interfaces = ModelUtils.getInterfaces(composed);
+                if (!interfaces.isEmpty()) {
+                    for (Schema interfaceSchema : interfaces) {
+                        if (ModelUtils.isNullable(interfaceSchema)) {
+                                result = new ValidationRule.Fail();
+                                result.setDetails(String.format(Locale.ROOT,
+                                    "OAS specification is version '%s'. %s is 'nullable', which has been deprecated.",
+                                    schemaWrapper.getOpenAPI().getOpenapi(), interfaceSchema.getName()));
+                                return result;
+                        }
+                    }
+                }
+            }
+        }
         return result;
     }
 }
