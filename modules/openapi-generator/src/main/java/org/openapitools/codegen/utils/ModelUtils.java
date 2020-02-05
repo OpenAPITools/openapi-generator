@@ -942,8 +942,28 @@ public class ModelUtils {
     }
 
     /**
-     * Get the parent model name from the schemas (allOf, anyOf, oneOf).
-     * If there are multiple parents, return the first one.
+     * Get the parent model name from the composed schema (allOf, anyOf, oneOf).
+     * It traverses the OAS model (possibly resolving $ref) to determine schemas
+     * that specify a determinator.
+     * If there are multiple elements in the composed schema and it is not clear
+     * which one should be the parent, return null.
+     *
+     * For example, given the following OAS spec, the parent of 'Dog' is Animal
+     * because 'Animal' specifies a discriminator.
+     *
+     * animal:
+     *   type: object
+     *   discriminator:
+     *     propertyName: type
+     *   properties:
+     *     type: string
+     *
+     * dog:
+     *   allOf:
+     *      - $ref: '#/components/schemas/animal'
+     *      - type: object
+     *        properties:
+     *          breed: string
      *
      * @param composedSchema schema (alias or direct reference)
      * @param allSchemas     all schemas
@@ -953,7 +973,6 @@ public class ModelUtils {
         List<Schema> interfaces = getInterfaces(composedSchema);
 
         List<String> refedParentNames = new ArrayList<>();
-
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {
                 // get the actual schema
@@ -980,7 +999,8 @@ public class ModelUtils {
         // parent name only makes sense when there is a single obvious parent
         if (refedParentNames.size() == 1) {
             LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
-                    "and will be removed in a future release. Generating model for {}", composedSchema.getName());
+                "and will be removed in a future release. Generating model for composed schema name: {}. Title: {}",
+                composedSchema.getName(), composedSchema.getTitle());
             return refedParentNames.get(0);
         }
 
