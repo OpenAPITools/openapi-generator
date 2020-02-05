@@ -364,7 +364,6 @@ public class DefaultCodegen implements CodegenConfig {
                     CodegenModel cm = (CodegenModel) mo.get("model");
                     if (cm.oneOf.size() > 0) {
                         cm.vendorExtensions.put("x-is-one-of-interface", true);
-                        System.out.println(cm);
                         for (String one : cm.oneOf) {
                             if (!additionalDataMap.containsKey(one)) {
                                 additionalDataMap.put(one, new OneOfImplementorAdditionalData(one));
@@ -5677,14 +5676,23 @@ public class DefaultCodegen implements CodegenConfig {
     public void addOneOfInterfaceModel(ComposedSchema cs, String type) {
         CodegenModel cm = new CodegenModel();
 
+        cm.discriminator = createDiscriminator("", (Schema) cs);
         for (Schema o : cs.getOneOf()) {
-            // TODO: inline objects
+            if (o.get$ref() == null) {
+                if (cm.discriminator != null && o.get$ref() == null) {
+                    // OpenAPI spec states that inline objects should not be considered when discriminator is used
+                    // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#discriminatorObject
+                    LOGGER.warn("Ignoring inline object in oneOf definition of {}, since discriminator is used", type);
+                } else {
+                    LOGGER.warn("Inline models are not supported in oneOf definition right now");
+                }
+                continue;
+            }
             cm.oneOf.add(toModelName(ModelUtils.getSimpleRef(o.get$ref())));
         }
         cm.name = type;
         cm.classname = type;
         cm.vendorExtensions.put("x-is-one-of-interface", true);
-        cm.discriminator = createDiscriminator("", (Schema) cs);
         cm.interfaceModels = new ArrayList<CodegenModel>();
 
         addOneOfInterfaces.add(cm);
