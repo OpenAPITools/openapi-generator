@@ -1,20 +1,32 @@
 package org.openapitools.codegen.utils;
 
+import com.google.common.base.Ticker;
+import com.google.common.testing.FakeTicker;
 import org.mockito.Mockito;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.mockito.Mockito.*;
 import static org.openapitools.codegen.utils.OnceLogger.*;
 import static org.testng.Assert.*;
 
-@SuppressWarnings("SameParameterValue")
+@SuppressWarnings({"SameParameterValue", "UnstableApiUsage"})
 public class OnceLoggerTest {
     private Logger mockLogger = Mockito.mock(Logger.class);
+    private FakeTicker ticker = new FakeTicker();
+
+    @BeforeTest
+    public void setUp(){
+        OnceLogger.caffeineCache(ticker::read, 1000);
+    }
 
     @AfterMethod
     public void afterEach() {
@@ -28,29 +40,37 @@ public class OnceLoggerTest {
 
     @Test
     public void onceLogsMessagesOnceWithinTimeLimit() throws InterruptedException {
-        String originalSetting = GlobalSettings.getProperty(EXPIRY_PROPERTY);
-        long expiry = Long.parseLong(originalSetting);
         String message = "onceLogsMessagesOnceWithinTimeLimit";
-
         Logger instance = once(mockLogger);
         when(mockLogger.isWarnEnabled()).thenReturn(true);
         when(mockLogger.isWarnEnabled(any(Marker.class))).thenReturn(true);
 
-        assertEquals(expiry, 1000L, "Expected expiry to be set to 1000 in POM's surefire configuration.");
-
-        try {
-            for (int i = 0; i < 50; i++) {
-                instance.warn(message);
-            }
-
-            Thread.sleep(expiry + 150L);
-
-            for (int i = 0; i < 50; i++) {
-                instance.warn(message);
-            }
-        } finally {
-            verify(mockLogger, times(2)).warn(any(Marker.class), same(message));
+        for (int i = 0; i < 50; i++) {
+            instance.warn(message);
         }
+
+        AtomicInteger counter1 = messageCountCache.getIfPresent(message);
+        assertNotNull(counter1);
+        assertEquals(counter1.get(), 50);
+
+        ticker.advance(1100L, TimeUnit.MILLISECONDS);
+
+        AtomicInteger noCounter = messageCountCache.getIfPresent(message);
+        assertNull(noCounter);
+        verify(mockLogger, times(1)).warn(any(Marker.class), same(message));
+
+        for (int i = 0; i < 50; i++) {
+            instance.warn(message);
+        }
+
+        ticker.advance(5, TimeUnit.MILLISECONDS);
+
+        AtomicInteger counter2 = messageCountCache.getIfPresent(message);
+
+        assertNotNull(counter2);
+        assertNotEquals(counter2, counter1);
+        assertEquals(counter2.get(), 50);
+        verify(mockLogger, times(2)).warn(any(Marker.class), same(message));
     }
 
     @Test

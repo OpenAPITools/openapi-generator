@@ -2,6 +2,7 @@ package org.openapitools.codegen.utils;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.Ticker;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -77,11 +78,16 @@ public class OnceLogger extends LoggerWrapper {
     }
 
     static {
+        caffeineCache(Ticker.systemTicker(), expireMillis);
+    }
+
+    static void caffeineCache(Ticker ticker, int expireMillis) {
         // Initializes a cache which holds an atomic counter of log message instances.
         // The intent is to debounce log messages such that they occur at most [maxRepetitions] per [expireMillis].
         messageCountCache = Caffeine.newBuilder()
                 .maximumSize(maxCacheSize)
                 .expireAfterWrite(expireMillis, TimeUnit.MILLISECONDS)
+                .ticker(ticker)
                 .build();
     }
 
