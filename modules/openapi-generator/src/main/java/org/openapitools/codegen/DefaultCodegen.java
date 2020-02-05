@@ -363,7 +363,7 @@ public class DefaultCodegen implements CodegenConfig {
                     Map<String, Object> mo = (Map<String, Object>) _mo;
                     CodegenModel cm = (CodegenModel) mo.get("model");
                     if (cm.oneOf.size() > 0) {
-                        cm.vendorExtensions.put("isOneOfInterface", true);
+                        cm.vendorExtensions.put("x-is-one-of-interface", true);
                         System.out.println(cm);
                         for (String one : cm.oneOf) {
                             if (!additionalDataMap.containsKey(one)) {
@@ -5683,7 +5683,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         cm.name = type;
         cm.classname = type;
-        cm.vendorExtensions.put("isOneOfInterface", true);
+        cm.vendorExtensions.put("x-is-one-of-interface", true);
         cm.discriminator = createDiscriminator("", (Schema) cs);
         cm.interfaceModels = new ArrayList<CodegenModel>();
 

@@ -29,10 +29,10 @@ const (
 {{^isEnum}}
 // {{classname}}{{#description}} {{{description}}}{{/description}}{{^description}} struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
-{{#vendorExtensions.isOneOfInterface}}
+{{#vendorExtensions.x-is-one-of-interface}}
     {{classname}}Interface interface { {{#discriminator}}{{propertyGetter}}() {{propertyType}}{{/discriminator}} }
-{{/vendorExtensions.isOneOfInterface}}
-{{^vendorExtensions.isOneOfInterface}}
+{{/vendorExtensions.x-is-one-of-interface}}
+{{^vendorExtensions.x-is-one-of-interface}}
 {{#parent}}
 {{^isMapModel}}
 	{{{parent}}}
@@ -46,12 +46,12 @@ type {{classname}} struct {
 {{/description}}
 	{{name}} {{^required}}*{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
-{{/vendorExtensions.isOneOfInterface}}
+{{/vendorExtensions.x-is-one-of-interface}}
 }
 {{/isEnum}}
 
 {{^isEnum}}
-{{^vendorExtensions.isOneOfInterface}}
+{{^vendorExtensions.x-is-one-of-interface}}
 {{#vars}}
 {{#required}}
 // Get{{name}} returns the {{name}} field value
@@ -106,8 +106,8 @@ func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
 
 {{/required}}
 {{/vars}}
-{{/vendorExtensions.isOneOfInterface}}
-{{#vendorExtensions.isOneOfInterface}}
+{{/vendorExtensions.x-is-one-of-interface}}
+{{#vendorExtensions.x-is-one-of-interface}}
 func (s *{{classname}}) MarshalJSON() ([]byte, error) {
     return json.Marshal(s.{{classname}}Interface)
 }
@@ -151,7 +151,7 @@ func (s *{{classname}}) UnmarshalJSON(src []byte) error {
     return fmt.Errorf("No oneOf model could be deserialized from payload: %s", string(src))
     {{/discriminator}}
 }
-{{/vendorExtensions.isOneOfInterface}}
+{{/vendorExtensions.x-is-one-of-interface}}
 {{/isEnum}}
 type Nullable{{{classname}}} struct {
 	Value {{{classname}}}
