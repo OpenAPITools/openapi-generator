@@ -1295,7 +1295,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         String example = null;
 
         // If a parameter uses UUIDs, we need to import the UUID package.
-        if (param.dataType.equals(uuidType)) {
+        if (param.dataType == null) {
+            LOGGER.error("Trying to do a .equals on a null dataType :" + param );
+        } else if (param.dataType.equals(uuidType)) {
             additionalProperties.put("apiUsesUuid", true);
         }
 
