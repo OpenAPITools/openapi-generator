@@ -225,14 +225,14 @@ namespace {{packageName}}.{{apiPackage}}
         public {{packageName}}.Client.ApiResponse<{{#returnType}} {{{returnType}}} {{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
             {{#allParams}}
-            {{^isNullable}}
             {{#required}}
+            {{^vendorExtensions.x-csharp-value-type}}
             // verify the required parameter '{{paramName}}' is set
             if ({{paramName}} == null)
                 throw new {{packageName}}.Client.ApiException(400, "Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
 
+            {{/vendorExtensions.x-csharp-value-type}}
             {{/required}}
-            {{/isNullable}}
             {{/allParams}}
             {{packageName}}.Client.RequestOptions localVarRequestOptions = new {{packageName}}.Client.RequestOptions();
 
@@ -256,26 +256,36 @@ namespace {{packageName}}.{{apiPackage}}
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             {{#pathParams}}
+            {{^vendorExtensions.x-csharp-value-type}}
             if ({{paramName}} != null)
                 localVarRequestOptions.PathParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // path parameter
+            {{/vendorExtensions.x-csharp-value-type}}
+            {{#vendorExtensions.x-csharp-value-type}}
+            localVarRequestOptions.PathParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // path parameter
+            {{/vendorExtensions.x-csharp-value-type}}
             {{/pathParams}}
             {{#queryParams}}
+            {{^vendorExtensions.x-csharp-value-type}}
             if ({{paramName}} != null)
             {
-                foreach (var _kvp in {{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}))
-                {
-                    foreach (var _kvpValue in _kvp.Value)
-                    {
-                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
-                    }
-                }
+                localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
             }
+            {{/vendorExtensions.x-csharp-value-type}}
+            {{#vendorExtensions.x-csharp-value-type}}
+            localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
+            {{/vendorExtensions.x-csharp-value-type}}
             {{/queryParams}}
             {{#headerParams}}
+            {{^vendorExtensions.x-csharp-value-type}}
             if ({{paramName}} != null)
                 localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // header parameter
+            {{/vendorExtensions.x-csharp-value-type}}
+            {{#vendorExtensions.x-csharp-value-type}}
+            localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // header parameter
+            {{/vendorExtensions.x-csharp-value-type}}
             {{/headerParams}}
             {{#formParams}}
+            {{^vendorExtensions.x-csharp-value-type}}
             if ({{paramName}} != null)
             {
                 {{#isFile}}
@@ -285,6 +295,15 @@ namespace {{packageName}}.{{apiPackage}}
                 localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
                 {{/isFile}}
             }
+            {{/vendorExtensions.x-csharp-value-type}}
+            {{#vendorExtensions.x-csharp-value-type}}
+            {{#isFile}}
+            localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
+            {{/isFile}}
+            {{^isFile}}
+            localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
+            {{/isFile}}
+            {{/vendorExtensions.x-csharp-value-type}}
             {{/formParams}}
             {{#bodyParam}}
             localVarRequestOptions.Data = {{paramName}};
@@ -302,13 +321,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{#isKeyInQuery}}
             if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
             {
-                foreach (var _kvp in {{packageName}}.Client.ClientUtils.ParameterToMultiMap("", "{{keyParamName}}", this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
-                {
-                    foreach (var _kvpValue in _kvp.Value)
-                    {
-                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
-                    }
-                }
+                localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("", "{{keyParamName}}", this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")));
             }
             {{/isKeyInQuery}}
             {{/isApiKey}}
@@ -363,14 +376,14 @@ namespace {{packageName}}.{{apiPackage}}
         public async System.Threading.Tasks.Task<{{packageName}}.Client.ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}AsyncWithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
             {{#allParams}}
-            {{^isNullable}}
             {{#required}}
+            {{^vendorExtensions.x-csharp-value-type}}
             // verify the required parameter '{{paramName}}' is set
             if ({{paramName}} == null)
                 throw new {{packageName}}.Client.ApiException(400, "Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
 
+            {{/vendorExtensions.x-csharp-value-type}}
             {{/required}}
-            {{/isNullable}}
             {{/allParams}}
 
             {{packageName}}.Client.RequestOptions localVarRequestOptions = new {{packageName}}.Client.RequestOptions();
@@ -395,26 +408,36 @@ namespace {{packageName}}.{{apiPackage}}
                 localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
             {{#pathParams}}
+            {{^vendorExtensions.x-csharp-value-type}}
             if ({{paramName}} != null)
                 localVarRequestOptions.PathParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // path parameter
+            {{/vendorExtensions.x-csharp-value-type}}
+            {{#vendorExtensions.x-csharp-value-type}}
+            localVarRequestOptions.PathParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // path parameter
+            {{/vendorExtensions.x-csharp-value-type}}
             {{/pathParams}}
             {{#queryParams}}
+            {{^vendorExtensions.x-csharp-value-type}}
             if ({{paramName}} != null)
             {
-                foreach (var _kvp in {{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}))
-                {
-                    foreach (var _kvpValue in _kvp.Value)
-                    {
-                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
-                    }
-                }
+                localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
             }
+            {{/vendorExtensions.x-csharp-value-type}}
+            {{#vendorExtensions.x-csharp-value-type}}
+            localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
+            {{/vendorExtensions.x-csharp-value-type}}
             {{/queryParams}}
             {{#headerParams}}
+            {{^vendorExtensions.x-csharp-value-type}}
             if ({{paramName}} != null)
                 localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // header parameter
+            {{/vendorExtensions.x-csharp-value-type}}
+            {{#vendorExtensions.x-csharp-value-type}}
+            localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // header parameter
+            {{/vendorExtensions.x-csharp-value-type}}
             {{/headerParams}}
             {{#formParams}}
+            {{^vendorExtensions.x-csharp-value-type}}
             if ({{paramName}} != null)
             {
                 {{#isFile}}
@@ -424,6 +447,15 @@ namespace {{packageName}}.{{apiPackage}}
                 localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
                 {{/isFile}}
             }
+            {{/vendorExtensions.x-csharp-value-type}}
+            {{#vendorExtensions.x-csharp-value-type}}
+            {{#isFile}}
+            localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
+            {{/isFile}}
+            {{^isFile}}
+            localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
+            {{/isFile}}
+            {{/vendorExtensions.x-csharp-value-type}}
             {{/formParams}}
             {{#bodyParam}}
             localVarRequestOptions.Data = {{paramName}};
@@ -441,13 +473,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{#isKeyInQuery}}
             if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
             {
-                foreach (var _kvp in {{packageName}}.Client.ClientUtils.ParameterToMultiMap("", "{{keyParamName}}", this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
-                {
-                    foreach (var _kvpValue in _kvp.Value)
-                    {
-                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
-                    }
-                }
+                localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("", "{{keyParamName}}", this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")));
             }
             {{/isKeyInQuery}}
             {{/isApiKey}}

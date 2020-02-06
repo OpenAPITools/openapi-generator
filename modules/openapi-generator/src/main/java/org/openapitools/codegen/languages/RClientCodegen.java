@@ -710,11 +710,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (codegenParameter.isMapContainer) { // TODO: map
             return "TODO";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
-            if ("character".equals(codegenParameter.dataType)) {
-                return codegenParameter.example;
-            } else {
-                return codegenParameter.example;
-            }
+            return codegenParameter.example;
         } else { // model
             // look up the model
             if (modelMaps.containsKey(codegenParameter.dataType)) {

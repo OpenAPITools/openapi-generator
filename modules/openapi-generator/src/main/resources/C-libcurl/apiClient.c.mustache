@@ -13,6 +13,7 @@ apiClient_t *apiClient_create() {
     curl_global_init(CURL_GLOBAL_ALL);
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
     apiClient->basePath = strdup("{{{basePath}}}");
+    apiClient->caPath = NULL;
     apiClient->dataReceived = NULL;
     apiClient->response_code = 0;
     {{#hasAuthMethods}}
@@ -34,6 +35,7 @@ apiClient_t *apiClient_create() {
 }
 
 apiClient_t *apiClient_create_with_base_path(const char *basePath
+, const char *caPath
 {{#hasAuthMethods}}
 {{#authMethods}}
 {{#isApiKey}}
@@ -49,6 +51,13 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     }else{
         apiClient->basePath = strdup("{{{basePath}}}");
     }
+
+    if(caPath){
+        apiClient->caPath = strdup(caPath);
+    }else{
+        apiClient->caPath = NULL;
+    }
+
     apiClient->dataReceived = NULL;
     apiClient->response_code = 0;
     {{#hasAuthMethods}}
@@ -82,6 +91,9 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
 void apiClient_free(apiClient_t *apiClient) {
     if(apiClient->basePath) {
         free(apiClient->basePath);
+    }
+    if(apiClient->caPath) {
+        free(apiClient->caPath);
     }
     {{#hasAuthMethods}}
     {{#authMethods}}
@@ -375,6 +387,17 @@ void apiClient_invoke(apiClient_t    *apiClient,
                 free(headerValueToWrite);
             }
         }
+
+        if( strstr(apiClient->basePath, "https") != NULL ){
+            if (apiClient->caPath) {
+                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, true);
+                curl_easy_setopt(handle, CURLOPT_CAINFO, apiClient->caPath);
+            } else {
+                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, false);
+                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, false);
+            }
+        }
+
         {{#hasAuthMethods}}
         {{#authMethods}}
         {{#isApiKey}}

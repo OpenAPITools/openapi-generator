@@ -29,8 +29,8 @@ steps:
 - name: java11-test
   image: openjdk:11.0
   commands:
-  - ./mvnw clean install
-  - ./mvnw --quiet verify -Psamples.droneio
+  - ./mvnw -quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - ./mvnw --quiet verify -Psamples.droneio -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   # test all generators with fake petstore spec (2.0, 3.0)
   - /bin/bash bin/utils/test-fake-petstore-for-all.sh
   # generate test scripts

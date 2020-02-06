@@ -17,17 +17,16 @@
 
 package org.openapitools.codegen.typescript.typescriptangularjs;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptAngularJsClientCodegen;
 import org.openapitools.codegen.options.TypeScriptAngularJsClientOptionsProvider;
 
-public class TypeScriptAngularJsClientOptionsTest extends AbstractOptionsTest {
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-    @Tested
-    private TypeScriptAngularJsClientCodegen clientCodegen;
+public class TypeScriptAngularJsClientOptionsTest extends AbstractOptionsTest {
+    private TypeScriptAngularJsClientCodegen clientCodegen = mock(TypeScriptAngularJsClientCodegen.class, mockSettings);
 
     public TypeScriptAngularJsClientOptionsTest() {
         super(new TypeScriptAngularJsClientOptionsProvider());
@@ -40,16 +39,10 @@ public class TypeScriptAngularJsClientOptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptAngularJsClientOptionsProvider.SORT_PARAMS_VALUE));
-            times = 1;
-            clientCodegen.setModelPropertyNaming(TypeScriptAngularJsClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
-            times = 1;
-            clientCodegen.setSupportsES6(Boolean.valueOf(TypeScriptAngularJsClientOptionsProvider.SUPPORTS_ES6_VALUE));
-            times = 1;
-            clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptAngularJsClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
-            times = 1;
-        }};
+    protected void verifyOptions() {
+        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptAngularJsClientOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen).setModelPropertyNaming(TypeScriptAngularJsClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
+        verify(clientCodegen).setSupportsES6(Boolean.valueOf(TypeScriptAngularJsClientOptionsProvider.SUPPORTS_ES6_VALUE));
+        verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptAngularJsClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
     }
 }

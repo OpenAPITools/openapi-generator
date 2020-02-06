@@ -123,9 +123,6 @@
         "title": "Config Options for csharp-netcore",
         "sidebar_label": "csharp-netcore"
       },
-      "generators/csharp-refactor": {
-        "title": "generators/csharp-refactor"
-      },
       "generators/csharp": {
         "title": "Config Options for csharp",
         "sidebar_label": "csharp"
@@ -186,9 +183,6 @@
         "title": "Config Options for fsharp-giraffe-server",
         "sidebar_label": "fsharp-giraffe-server"
       },
-      "generators/fsharp-giraffe": {
-        "title": "generators/fsharp-giraffe"
-      },
       "generators/go-experimental": {
         "title": "Config Options for go-experimental",
         "sidebar_label": "go-experimental"
@@ -213,15 +207,9 @@
         "title": "Config Options for graphql-schema",
         "sidebar_label": "graphql-schema"
       },
-      "generators/graphql-server": {
-        "title": "generators/graphql-server"
-      },
       "generators/groovy": {
         "title": "Config Options for groovy",
         "sidebar_label": "groovy"
-      },
-      "generators/grpc-schema": {
-        "title": "generators/grpc-schema"
       },
       "generators/haskell-http-client": {
         "title": "Config Options for haskell-http-client",
@@ -258,6 +246,10 @@
       "generators/java-undertow-server": {
         "title": "Config Options for java-undertow-server",
         "sidebar_label": "java-undertow-server"
+      },
+      "generators/java-vertx-web": {
+        "title": "Config Options for java-vertx-web",
+        "sidebar_label": "java-vertx-web"
       },
       "generators/java-vertx": {
         "title": "Config Options for java-vertx",
@@ -335,6 +327,10 @@
         "title": "Config Options for lua",
         "sidebar_label": "lua"
       },
+      "generators/markdown": {
+        "title": "Config Options for markdown",
+        "sidebar_label": "markdown"
+      },
       "generators/mysql-schema": {
         "title": "Config Options for mysql-schema",
         "sidebar_label": "mysql-schema"
@@ -351,15 +347,9 @@
         "title": "Config Options for nodejs-server-deprecated",
         "sidebar_label": "nodejs-server-deprecated"
       },
-      "generators/nodejs-server": {
-        "title": "generators/nodejs-server"
-      },
       "generators/objc": {
         "title": "Config Options for objc",
         "sidebar_label": "objc"
-      },
-      "generators/ocaml-client": {
-        "title": "generators/ocaml-client"
       },
       "generators/ocaml": {
         "title": "Config Options for ocaml",
@@ -389,9 +379,13 @@
         "title": "Config Options for php-silex",
         "sidebar_label": "php-silex"
       },
-      "generators/php-slim": {
-        "title": "Config Options for php-slim",
-        "sidebar_label": "php-slim"
+      "generators/php-slim-deprecated": {
+        "title": "Config Options for php-slim-deprecated",
+        "sidebar_label": "php-slim-deprecated"
+      },
+      "generators/php-slim4": {
+        "title": "Config Options for php-slim4",
+        "sidebar_label": "php-slim4"
       },
       "generators/php-symfony": {
         "title": "Config Options for php-symfony",
@@ -476,15 +470,9 @@
         "title": "Config Options for scala-httpclient-deprecated",
         "sidebar_label": "scala-httpclient-deprecated"
       },
-      "generators/scala-httpclient": {
-        "title": "generators/scala-httpclient"
-      },
       "generators/scala-lagom-server": {
         "title": "Config Options for scala-lagom-server",
         "sidebar_label": "scala-lagom-server"
-      },
-      "generators/scala-play-framework": {
-        "title": "generators/scala-play-framework"
       },
       "generators/scala-play-server": {
         "title": "Config Options for scala-play-server",
@@ -513,6 +501,10 @@
       "generators/swift4": {
         "title": "Config Options for swift4",
         "sidebar_label": "swift4"
+      },
+      "generators/swift5": {
+        "title": "Config Options for swift5",
+        "sidebar_label": "swift5"
       },
       "generators/typescript-angular": {
         "title": "Config Options for typescript-angular",
@@ -545,6 +537,10 @@
       "generators/typescript-node": {
         "title": "Config Options for typescript-node",
         "sidebar_label": "typescript-node"
+      },
+      "generators/typescript-redux-query": {
+        "title": "Config Options for typescript-redux-query",
+        "sidebar_label": "typescript-redux-query"
       },
       "generators/typescript-rxjs": {
         "title": "Config Options for typescript-rxjs",

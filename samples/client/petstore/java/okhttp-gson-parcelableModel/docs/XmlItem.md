@@ -37,4 +37,8 @@ Name | Type | Description | Notes
 **prefixNsWrappedArray** | **List&lt;Integer&gt;** |  |  [optional]
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

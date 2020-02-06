@@ -35,11 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
@@ -248,10 +244,14 @@ public class ModelUtils {
         if (parameters != null) {
             for (Parameter p : parameters) {
                 Parameter parameter = getReferencedParameter(openAPI, p);
-                if (parameter.getSchema() != null) {
-                    visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
+                if (parameter != null) {
+                    if (parameter.getSchema() != null) {
+                        visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
+                    }
+                    visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
+                } else {
+                    LOGGER.warn("Unreferenced parameter found.");
                 }
-                visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
             }
         }
     }
@@ -852,15 +852,36 @@ public class ModelUtils {
         return getSchemaFromContent(response.getContent());
     }
 
+    /**
+     * Return the first Schema from a specified OAS 'content' section.
+     * 
+     * For example, given the following OAS, this method returns the schema
+     * for the 'application/json' content type because it is listed first in the OAS.
+     * 
+     * responses:
+     *   '200':
+     *     content:
+     *       application/json:
+     *         schema:
+     *           $ref: '#/components/schemas/XYZ'
+     *       application/xml:
+     *          ...
+     *   
+     * @param content a 'content' section in the OAS specification. 
+     * @return the Schema.
+     */
     private static Schema getSchemaFromContent(Content content) {
         if (content == null || content.isEmpty()) {
             return null;
         }
+        Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
         if (content.size() > 1) {
-            LOGGER.warn("Multiple schemas found in content, returning only the first one");
+            // Other content types are currently ignored by codegen. If you see this warning,
+            // reorder the OAS spec to put the desired content type first.
+            LOGGER.warn("Multiple schemas found in the OAS 'content' section, returning only the first one ({})",
+                entry.getKey());
         }
-        MediaType mediaType = content.values().iterator().next();
-        return mediaType.getSchema();
+        return entry.getValue().getSchema();
     }
 
     /**
@@ -982,7 +1003,28 @@ public class ModelUtils {
     }
 
     /**
-     * Get the the parent model name from the schemas (allOf, anyOf, oneOf)
+     * Get the parent model name from the composed schema (allOf, anyOf, oneOf).
+     * It traverses the OAS model (possibly resolving $ref) to determine schemas
+     * that specify a determinator.
+     * If there are multiple elements in the composed schema and it is not clear
+     * which one should be the parent, return null.
+     *
+     * For example, given the following OAS spec, the parent of 'Dog' is Animal
+     * because 'Animal' specifies a discriminator.
+     *
+     * animal:
+     *   type: object
+     *   discriminator:
+     *     propertyName: type
+     *   properties:
+     *     type: string
+     *
+     * dog:
+     *   allOf:
+     *      - $ref: '#/components/schemas/animal'
+     *      - type: object
+     *        properties:
+     *          breed: string
      *
      * @param composedSchema schema (alias or direct reference)
      * @param allSchemas     all schemas
@@ -992,7 +1034,6 @@ public class ModelUtils {
         List<Schema> interfaces = getInterfaces(composedSchema);
 
         List<String> refedParentNames = new ArrayList<>();
-
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {
                 // get the actual schema
@@ -1019,13 +1060,22 @@ public class ModelUtils {
         // parent name only makes sense when there is a single obvious parent
         if (refedParentNames.size() == 1) {
             LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
-                    "and will be removed in a future release. Generating model for {}", composedSchema.getName());
+                "and will be removed in a future release. Generating model for composed schema name: {}. Title: {}",
+                composedSchema.getName(), composedSchema.getTitle());
             return refedParentNames.get(0);
         }
 
         return null;
     }
 
+    /**
+     * Get the list of parent model names from the schemas (allOf, anyOf, oneOf).
+     *
+     * @param composedSchema   schema (alias or direct reference)
+     * @param allSchemas       all schemas
+     * @param includeAncestors if true, include the indirect ancestors in the return value. If false, return the direct parents.
+     * @return the name of the parent model
+     */
     public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         List<String> names = new ArrayList<String>();
