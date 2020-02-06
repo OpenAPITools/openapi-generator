@@ -251,9 +251,6 @@ public class CodegenConstants {
     public static final String SUPPORTS_ES6 = "supportsES6";
     public static final String SUPPORTS_ES6_DESC = "Generate code that conforms to ES6.";
 
-    public static final String NULL_SAFE_ADDITIONAL_PROPS = "nullSafeAdditionalProps";
-    public static final String NULL_SAFE_ADDITIONAL_PROPS_DESC = "Set to make additional properties types declare that their indexer may return undefined";
-
     public static final String SUPPORTS_ASYNC = "supportsAsync";
     public static final String SUPPORTS_ASYNC_DESC = "Generate code that supports async operations.";
 

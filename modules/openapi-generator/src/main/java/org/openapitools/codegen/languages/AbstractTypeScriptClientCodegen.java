@@ -55,6 +55,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public static final String ENUM_NAME_SUFFIX_DESC_CUSTOMIZED = CodegenConstants.ENUM_NAME_SUFFIX_DESC
             + " A special '" + ENUM_NAME_SUFFIX_V4_COMPAT + "' value enables the backward-compatible behavior (as pre v4.2.3)";
 
+    public static final String NULL_SAFE_ADDITIONAL_PROPS = "nullSafeAdditionalProps";
+    public static final String NULL_SAFE_ADDITIONAL_PROPS_DESC = "Set to make additional properties types declare that their indexer may return undefined";
 
     // NOTE: SimpleDateFormat is not thread-safe and may not be static unless it is thread-local
     @SuppressWarnings("squid:S5164")
@@ -175,7 +177,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         this.cliOptions.add(CliOption.newBoolean(SNAPSHOT,
                 "When setting this property to true, the version will be suffixed with -SNAPSHOT." + this.SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
                 false));
-        this.cliOptions.add(new CliOption(CodegenConstants.NULL_SAFE_ADDITIONAL_PROPS, CodegenConstants.NULL_SAFE_ADDITIONAL_PROPS_DESC).defaultValue(String.valueOf(this.getNullSafeAdditionalProps())));
+        this.cliOptions.add(new CliOption(NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_DESC).defaultValue(String.valueOf(this.getNullSafeAdditionalProps())));
 
     }
 
@@ -206,8 +208,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             additionalProperties.put("supportsES6", getSupportsES6());
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.NULL_SAFE_ADDITIONAL_PROPS)) {
-            setNullSafeAdditionalProps(Boolean.valueOf(additionalProperties.get(CodegenConstants.NULL_SAFE_ADDITIONAL_PROPS).toString()));
+        if (additionalProperties.containsKey(NULL_SAFE_ADDITIONAL_PROPS)) {
+            setNullSafeAdditionalProps(Boolean.valueOf(additionalProperties.get(NULL_SAFE_ADDITIONAL_PROPS).toString()));
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
