@@ -278,18 +278,19 @@ export class {{classname}} {
 {{#authMethods}}
         // authentication ({{name}}) required
 {{#isApiKey}}
+        if (this.configuration.apiKeys) {
+            {{! Fallback behaviour may be removed for 5.0 release. See #5062 }}
+            const key: string | undefined = this.configuration.apiKeys["{{name}}"] || this.configuration.apiKeys["{{keyParamName}}"];
+            if (key) {
 {{#isKeyInHeader}}
-        if (this.configuration.apiKeys && this.configuration.apiKeys["{{keyParamName}}"]) {
-            {{#useHttpClient}}headers = {{/useHttpClient}}headers.set('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
-        }
-
+                {{#useHttpClient}}headers = {{/useHttpClient}}headers.set('{{keyParamName}}', key);
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
-        if (this.configuration.apiKeys && this.configuration.apiKeys["{{keyParamName}}"]) {
-            {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
+                {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{keyParamName}}', key);
+{{/isKeyInQuery}}
+            }
         }
 
-{{/isKeyInQuery}}
 {{/isApiKey}}
 {{#isBasic}}
     {{#isBasicBasic}}
