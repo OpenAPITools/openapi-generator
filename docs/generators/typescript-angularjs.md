@@ -10,6 +10,7 @@ sidebar_label: typescript-angularjs
 |enumNameSuffix|Suffix that will be appended to all enum names. A special 'v4-compat' value enables the backward-compatible behavior (as pre v4.2.3)| |v4-compat|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |PascalCase|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
+|nullSafeAdditionalProps|Set to make additional properties types declare that their indexer may return undefined| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
