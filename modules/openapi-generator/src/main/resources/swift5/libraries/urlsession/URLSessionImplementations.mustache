@@ -181,7 +181,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
     }
     
     fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
-        
+
         guard let httpResponse = response as? HTTPURLResponse else {
             completion(.failure(ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse)))
             return
@@ -191,12 +191,12 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
             completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode(error))))
             return
         }
-        
+
         if let error = error {
             completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
             return
         }
-        
+
         switch T.self {
         case is String.Type:
             
@@ -313,7 +313,7 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class URLSessionDecodableRequestBuilder<T:Decodable>: URLSessionRequestBuilder<T> {
     override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
-        
+
         guard let httpResponse = response as? HTTPURLResponse else {
             completion(.failure(ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse)))
             return
