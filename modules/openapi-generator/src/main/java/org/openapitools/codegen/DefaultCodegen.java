@@ -1627,8 +1627,8 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Return the name of the allOf schema
-     *
+     * Return the name of the allOf schema.
+     * 
      * @param names          List of names
      * @param composedSchema composed schema
      * @return name of the allOf schema
@@ -1701,6 +1701,9 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Return the OAI type (e.g. integer, long, etc) corresponding to a schema.
      * <pre>$ref</pre> is not taken into account by this method.
+     * 
+     * If the schema is free-form (i.e. 'type: object' with no properties) or inline
+     * schema, the returned OAI type is 'object'.
      *
      * @param schema
      * @return type

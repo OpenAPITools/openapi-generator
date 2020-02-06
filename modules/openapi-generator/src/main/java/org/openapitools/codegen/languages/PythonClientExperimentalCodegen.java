@@ -823,12 +823,24 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return oasType;
     }
 
+    /**
+     * Return a string representation of the Python types for the specified schema.
+     * Primitive types in the OAS specification are implemented in Python using the corresponding
+     * Python primitive types.
+     * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types. 
+     * 
+     * @param p The OAS schema.
+     * @param prefix
+     * @param suffix
+     * @return
+     */
     public String getTypeString(Schema p, String prefix, String suffix) {
         // this is used to set dataType, which defines a python tuple of classes
         String fullSuffix = suffix;
         if (")".equals(suffix)) {
             fullSuffix = "," + suffix;
         }
+        p = ModelUtils.getReferencedSchema(this.openAPI, p);
         if (ModelUtils.isNullable(p)) {
             fullSuffix = ", none_type" + suffix;
         }

@@ -397,27 +397,6 @@ public class ModelUtils {
         return false;
     }
 
-    /**
-     * isNullSchema returns true if the specified schema is the 'null' type.
-     * 
-     * The 'null' type is supported in OAS 3.1 and above. It is not supported
-     * in OAS 2.0 and OAS 3.0.x.
-     * 
-     * For example, the "null" type could be used to specify that a value must
-     * either be null or a specified type:
-     * 
-     * OptionalOrder:
-     *   oneOf:
-     *     - type: 'null'
-     *     - $ref: '#/components/schemas/Order'
-     */
-    public static boolean isNullSchema(Schema schema) {
-        if ("null".equals(schema.getType())) {
-            return true;
-        }
-        return false;
-    }
-
     public static boolean isIntegerSchema(Schema schema) {
         if (schema instanceof IntegerSchema) {
             return true;
@@ -1111,6 +1090,15 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * Return true if the 'nullable' attribute is set to true in the schema, i.e. if the value
+     * of the property can be the null value.
+     * 
+     * The 'nullable' attribute was introduced in OAS 3.0.
+     * The 'nullable' attribute is deprecated in OAS 3.1.
+     * 
+     * @param schema the OAS schema.
+     */
     public static boolean isNullable(Schema schema) {
         if (schema == null) {
             return false;
@@ -1123,7 +1111,60 @@ public class ModelUtils {
         if (schema.getExtensions() != null && schema.getExtensions().get("x-nullable") != null) {
             return Boolean.valueOf(schema.getExtensions().get("x-nullable").toString());
         }
+        // In OAS 3.1, the recommended way to define a nullable property or object is to use oneOf.
+        // In the example below, the 'OptionalOrder' can have the null value because the 'null'
+        // type is one of the elements under 'oneOf'.
+        //
+        // OptionalOrder:
+        //   oneOf:
+        //     - type: 'null'
+        //     - $ref: '#/components/schemas/Order'
+        // 
+        if (schema instanceof ComposedSchema) {
+            return isNullableComposedSchema(((ComposedSchema) schema));
+        }
+        return false;
+    }
 
+    /**
+     * Return true if the specified composed schema is 'oneOf', contains one or two elements,
+     * and at least one of the elements is the 'null' type.
+     * 
+     * The 'null' type is supported in OAS 3.1 and above.
+     * 
+     * @param schema the OAS composed schema.
+     * @return true if the composed schema is nullable.
+     */
+    public static boolean isNullableComposedSchema(ComposedSchema schema) {
+        List<Schema> oneOf = schema.getOneOf();
+        if (oneOf != null && oneOf.size() <= 2) {
+            for (Schema s : oneOf) {
+                if (isNullSchema(s)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }    
+
+    /**
+     * isNullSchema returns true if the specified schema is the 'null' type.
+     * 
+     * The 'null' type is supported in OAS 3.1 and above. It is not supported
+     * in OAS 2.0 and OAS 3.0.x.
+     * 
+     * For example, the "null" type could be used to specify that a value must
+     * either be null or a specified type:
+     * 
+     * OptionalOrder:
+     *   oneOf:
+     *     - type: 'null'
+     *     - $ref: '#/components/schemas/Order'
+     */
+    public static boolean isNullSchema(Schema schema) {
+        if ("null".equals(schema.getType())) {
+            return true;
+        }
         return false;
     }
 
