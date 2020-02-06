@@ -1094,8 +1094,13 @@ public class ModelUtils {
      * Return true if the 'nullable' attribute is set to true in the schema, i.e. if the value
      * of the property can be the null value.
      * 
+     * The caller is responsible for resolving schema references before invoking isNullable.
+     * If the input schema is a $ref and the referenced schema has 'nullable: true', this method
+     * returns false (because the nullable attribute is defined in the referenced schema).
+     * 
      * The 'nullable' attribute was introduced in OAS 3.0.
-     * The 'nullable' attribute is deprecated in OAS 3.1.
+     * The 'nullable' attribute is deprecated in OAS 3.1. In a OAS 3.1 document, the preferred way
+     * to specify nullable properties is to use the 'null' type.
      * 
      * @param schema the OAS schema.
      */
@@ -1112,14 +1117,6 @@ public class ModelUtils {
             return Boolean.valueOf(schema.getExtensions().get("x-nullable").toString());
         }
         // In OAS 3.1, the recommended way to define a nullable property or object is to use oneOf.
-        // In the example below, the 'OptionalOrder' can have the null value because the 'null'
-        // type is one of the elements under 'oneOf'.
-        //
-        // OptionalOrder:
-        //   oneOf:
-        //     - type: 'null'
-        //     - $ref: '#/components/schemas/Order'
-        // 
         if (schema instanceof ComposedSchema) {
             return isNullableComposedSchema(((ComposedSchema) schema));
         }
@@ -1131,6 +1128,13 @@ public class ModelUtils {
      * and at least one of the elements is the 'null' type.
      * 
      * The 'null' type is supported in OAS 3.1 and above.
+     * In the example below, the 'OptionalOrder' can have the null value because the 'null'
+     * type is one of the elements under 'oneOf'.
+     *
+     * OptionalOrder:
+     *   oneOf:
+     *     - type: 'null'
+     *     - $ref: '#/components/schemas/Order'
      * 
      * @param schema the OAS composed schema.
      * @return true if the composed schema is nullable.
