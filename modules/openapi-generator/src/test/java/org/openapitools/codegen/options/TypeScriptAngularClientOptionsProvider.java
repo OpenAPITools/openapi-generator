@@ -25,6 +25,7 @@ import java.util.Map;
 
 public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
     public static final String SUPPORTS_ES6_VALUE = "false";
+    public static final String NULL_SAFE_ADDITIONAL_PROPS_VALUE = "false";
     public static final String ENUM_NAME_SUFFIX = "Enum";
     public static final String STRING_ENUMS_VALUE = "false";
     public static final String SORT_PARAMS_VALUE = "false";
@@ -59,6 +60,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.SUPPORTS_ES6, SUPPORTS_ES6_VALUE)
+                .put(CodegenConstants.NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_VALUE)
                 .put(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX)
                 .put(TypeScriptAngularClientCodegen.STRING_ENUMS, STRING_ENUMS_VALUE)
                 .put(TypeScriptAngularClientCodegen.NPM_NAME, NMP_NAME)

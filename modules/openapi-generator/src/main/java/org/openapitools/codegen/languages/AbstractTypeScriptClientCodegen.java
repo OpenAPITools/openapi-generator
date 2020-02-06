@@ -63,6 +63,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected String modelPropertyNaming = "camelCase";
     protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
     protected Boolean supportsES6 = false;
+    protected Boolean nullSafeAdditionalProps = false;
     protected HashSet<String> languageGenericTypes;
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
@@ -174,6 +175,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         this.cliOptions.add(CliOption.newBoolean(SNAPSHOT,
                 "When setting this property to true, the version will be suffixed with -SNAPSHOT." + this.SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
                 false));
+        this.cliOptions.add(new CliOption(CodegenConstants.NULL_SAFE_ADDITIONAL_PROPS, CodegenConstants.NULL_SAFE_ADDITIONAL_PROPS_DESC).defaultValue(String.valueOf(this.getNullSafeAdditionalProps())));
 
     }
 
@@ -202,6 +204,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ES6)) {
             setSupportsES6(Boolean.valueOf(additionalProperties.get(CodegenConstants.SUPPORTS_ES6).toString()));
             additionalProperties.put("supportsES6", getSupportsES6());
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.NULL_SAFE_ADDITIONAL_PROPS)) {
+            setNullSafeAdditionalProps(Boolean.valueOf(additionalProperties.get(CodegenConstants.NULL_SAFE_ADDITIONAL_PROPS).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_NAME_SUFFIX)) {
+            enumSuffix = additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString();
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
@@ -380,7 +390,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return "{ [key: string]: " + getTypeDeclaration(inner) + "; }";
+            String nullSafeSuffix = getNullSafeAdditionalProps() ? " | undefined" : "";
+            return "{ [key: string]: " + getTypeDeclaration(inner) + nullSafeSuffix + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "any";
         } else if (ModelUtils.isBinarySchema(p)) {
@@ -721,6 +732,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     public Boolean getSupportsES6() {
         return supportsES6;
+    }
+
+    public Boolean getNullSafeAdditionalProps() {
+        return nullSafeAdditionalProps;
+    }
+
+    public void setNullSafeAdditionalProps(Boolean value) {
+        nullSafeAdditionalProps = value;
     }
 
     public String getNpmName() {

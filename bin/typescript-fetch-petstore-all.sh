@@ -7,3 +7,4 @@
 ./bin/typescript-fetch-petstore-multiple-parameters.sh
 ./bin/typescript-fetch-petstore-prefix-parameter-interfaces.sh
 ./bin/typescript-fetch-petstore-typescript-three-plus.sh
+./bin/typescript-fetch-petstore-null-safe-additional-props.sh
