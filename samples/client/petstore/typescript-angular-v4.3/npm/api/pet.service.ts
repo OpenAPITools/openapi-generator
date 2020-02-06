@@ -358,8 +358,11 @@ export class PetService {
         let headers = this.defaultHeaders;
 
         // authentication (api_key) required
-        if (this.configuration.apiKeys && this.configuration.apiKeys["api_key"]) {
-            headers = headers.set('api_key', this.configuration.apiKeys["api_key"]);
+        if (this.configuration.apiKeys) {
+            const key: string | undefined = this.configuration.apiKeys["api_key"] || this.configuration.apiKeys["api_key"];
+            if (key) {
+                headers = headers.set('api_key', key);
+            }
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
