@@ -996,7 +996,7 @@ public class ModelUtils {
                 } else {
                     // not a ref, doing nothing, except counting the number of times the 'null' type
                     // is listed as composed element.
-                    if (ModelUtils.isNullSchema(schema)) {
+                    if (ModelUtils.isNullType(schema)) {
                         // If there are two interfaces, and one of them is the 'null' type,
                         // then the parent is obvious and there is no need to warn about specifying
                         // a determinator.
@@ -1094,6 +1094,10 @@ public class ModelUtils {
      * Return true if the 'nullable' attribute is set to true in the schema, i.e. if the value
      * of the property can be the null value.
      * 
+     * In addition, if the OAS document is 3.1 or above, isNullable returns true if the input
+     * schema is a 'oneOf' composed document with at most two children, and one of the children
+     * is the 'null' type.
+     * 
      * The caller is responsible for resolving schema references before invoking isNullable.
      * If the input schema is a $ref and the referenced schema has 'nullable: true', this method
      * returns false (because the nullable attribute is defined in the referenced schema).
@@ -1143,7 +1147,7 @@ public class ModelUtils {
         List<Schema> oneOf = schema.getOneOf();
         if (oneOf != null && oneOf.size() <= 2) {
             for (Schema s : oneOf) {
-                if (isNullSchema(s)) {
+                if (isNullType(s)) {
                     return true;
                 }
             }
@@ -1152,7 +1156,7 @@ public class ModelUtils {
     }    
 
     /**
-     * isNullSchema returns true if the specified schema is the 'null' type.
+     * isNullType returns true if the input schema is the 'null' type.
      * 
      * The 'null' type is supported in OAS 3.1 and above. It is not supported
      * in OAS 2.0 and OAS 3.0.x.
@@ -1165,7 +1169,7 @@ public class ModelUtils {
      *     - type: 'null'
      *     - $ref: '#/components/schemas/Order'
      */
-    public static boolean isNullSchema(Schema schema) {
+    public static boolean isNullType(Schema schema) {
         if ("null".equals(schema.getType())) {
             return true;
         }

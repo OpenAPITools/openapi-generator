@@ -90,7 +90,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
             SemVer version = new SemVer(schemaWrapper.getOpenAPI().getOpenapi());
             if (version.atLeast("3.0") && version.compareTo(new SemVer("3.1")) < 0) {
                 // OAS spec is 3.0.x
-                if (ModelUtils.isNullSchema(schema)) {
+                if (ModelUtils.isNullType(schema)) {
                     result = new ValidationRule.Fail();
                     result.setDetails(String.format(Locale.ROOT,
                         "%s uses a 'null' type, which is specified in OAS 3.1 and above, but OAS version is %s",
@@ -102,7 +102,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
                     List<Schema> interfaces = ModelUtils.getInterfaces(composed);
                     if (!interfaces.isEmpty()) {
                         for (Schema interfaceSchema : interfaces) {
-                            if (ModelUtils.isNullSchema(interfaceSchema)) {
+                            if (ModelUtils.isNullType(interfaceSchema)) {
                                     result = new ValidationRule.Fail();
                                     result.setDetails(String.format(Locale.ROOT,
                                         "%s uses a 'null' type, which is specified in OAS 3.1 and above, but OAS version is %s",
