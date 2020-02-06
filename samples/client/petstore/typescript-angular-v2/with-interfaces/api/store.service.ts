@@ -120,7 +120,7 @@ export class StoreService implements StoreServiceInterface {
 
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object") {
+        if (typeof value === "object" && value instanceof Date === false) {
             this.addToHttpParamsRecursive(httpParams, value);
         } else {
             this.addToHttpParamsRecursive(httpParams, value, key);
