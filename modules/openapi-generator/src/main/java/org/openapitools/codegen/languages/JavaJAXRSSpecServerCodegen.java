@@ -100,7 +100,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         supportedLibraries.put(THORNTAIL_LIBRARY, "Server using Thorntail");
         supportedLibraries.put(OPEN_LIBERTY_LIBRARY, "Server using Open Liberty");
         supportedLibraries.put(HELIDON_LIBRARY, "Server using Helidon");
-        supportedLibraries.put(KUMULUZEE_LIBRARY, "Server using Kumuluzee");
+        supportedLibraries.put(KUMULUZEE_LIBRARY, "Server using KumuluzEE");
         library.setEnum(supportedLibraries);
 
         cliOptions.add(library);
