@@ -208,7 +208,7 @@ export class PetService implements PetServiceInterface {
 
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object") {
+        if (typeof value === "object" && value instanceof Date === false) {
             this.addToHttpParamsRecursive(httpParams, value);
         } else {
             this.addToHttpParamsRecursive(httpParams, value, key);

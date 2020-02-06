@@ -152,7 +152,7 @@ export class {{classname}} {
 {{/useHttpClient}}
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object") {
+        if (typeof value === "object" && value instanceof Date === false) {
             {{#useHttpClient}}httpParams = {{/useHttpClient}}this.addToHttpParamsRecursive(httpParams, value);
         } else {
             {{#useHttpClient}}httpParams = {{/useHttpClient}}this.addToHttpParamsRecursive(httpParams, value, key);
