@@ -13,24 +13,11 @@ package org.openapitools.client.model
 
 import org.openapitools.client.core.ApiModel
 
-case class Pet (
-  id: Option[Long] = None,
-  category: Option[Category] = None,
-  name: String,
-  photoUrls: Seq[String],
-  tags: Option[Seq[Tag]] = None,
-  /* pet status in the store */
-  status: Option[PetEnums.Status] = None
+case class InlineObject (
+  /* Updated name of the pet */
+  name: Option[String] = None,
+  /* Updated status of the pet */
+  status: Option[String] = None
 ) extends ApiModel
 
-object PetEnums {
-
-  type Status = Status.Value
-  object Status extends Enumeration {
-    val Available = Value("available")
-    val Pending = Value("pending")
-    val Sold = Value("sold")
-  }
-
-}
 
