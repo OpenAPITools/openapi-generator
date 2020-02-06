@@ -186,14 +186,19 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
             completion(.failure(ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse)))
             return
         }
+
+        guard httpResponse.isStatusCodeSuccessful else {
+            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode(error))))
+            return
+        }
+        
+        if let error = error {
+            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
+            return
+        }
         
         switch T.self {
         case is String.Type:
-            
-            if let error = error {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
-                return
-            }
             
             let body = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
             
@@ -236,19 +241,9 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
             
         case is Void.Type:
             
-            if let error = error {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
-                return
-            }
-            
             completion(.success(Response(response: httpResponse, body: nil)))
             
         default:
-            
-            if let error = error {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
-                return
-            }
             
             completion(.success(Response(response: httpResponse, body: data as? T)))
         }
@@ -318,19 +313,24 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class URLSessionDecodableRequestBuilder<T:Decodable>: URLSessionRequestBuilder<T> {
     override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Result<Response<T>, Error>) -> Void) {
-
+        
         guard let httpResponse = response as? HTTPURLResponse else {
             completion(.failure(ErrorResponse.error(-2, nil, DecodableRequestBuilderError.nilHTTPResponse)))
             return
         }
-        
+
+        guard httpResponse.isStatusCodeSuccessful else {
+            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode(error))))
+            return
+        }
+
+        if let error = error {
+            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
+            return
+        }
+
         switch T.self {
         case is String.Type:
-            
-            if let error = error {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
-                return
-            }
             
             let body = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
             
@@ -338,28 +338,13 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
             
         case is Void.Type:
             
-            if let error = error {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
-                return
-            }
-            
             completion(.success(Response(response: httpResponse, body: nil)))
             
         case is Data.Type:
             
-            if let error = error {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
-                return
-            }
-            
             completion(.success(Response(response: httpResponse, body: data as? T)))
             
         default:
-            
-            if let error = error {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
-                return
-            }
             
             guard let data = data, !data.isEmpty else {
                 completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, DecodableRequestBuilderError.emptyDataResponse)))
