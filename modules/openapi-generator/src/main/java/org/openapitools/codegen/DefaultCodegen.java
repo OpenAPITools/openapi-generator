@@ -1641,8 +1641,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (names.size() == 1) {
             return names.get(0);
         } else {
-            LOGGER.warn("allOf with multiple schemas defined. Using only the first one: {}. " +
-                "To fully utilize allOf, please use $ref instead of inline schema definition", names.get(0));
+            LOGGER.warn("allOf with multiple schemas defined. Using only the first one: {}", names.get(0));
             return names.get(0);
         }
     }
