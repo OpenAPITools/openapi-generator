@@ -210,10 +210,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             setNullSafeAdditionalProps(Boolean.valueOf(additionalProperties.get(CodegenConstants.NULL_SAFE_ADDITIONAL_PROPS).toString()));
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.ENUM_NAME_SUFFIX)) {
-            enumSuffix = additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString();
-        }
-
         if (additionalProperties.containsKey(NPM_NAME)) {
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());
         }
