@@ -1072,6 +1072,12 @@ public class DefaultCodegen implements CodegenConfig {
         this.allowUnicodeIdentifiers = allowUnicodeIdentifiers;
     }
 
+    public Boolean getUseOneOfInterfaces() { return useOneOfInterfaces; }
+
+    public void setUseOneOfInterfaces(Boolean useOneOfInterfaces) {
+        this.useOneOfInterfaces = useOneOfInterfaces;
+    }
+
     /**
      * Return the regular expression/JSON schema pattern (http://json-schema.org/latest/json-schema-validation.html#anchor33)
      *

@@ -134,4 +134,14 @@ public class OneOfImplementorAdditionalData {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "OneOfImplementorAdditionalData{" +
+                "implementorName='" + implementorName + '\'' +
+                ", additionalInterfaces=" + additionalInterfaces +
+                ", additionalProps=" + additionalProps +
+                ", additionalImports=" + additionalImports +
+                '}';
+    }
 }
