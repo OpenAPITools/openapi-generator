@@ -11,26 +11,14 @@
  */
 package org.openapitools.client.model
 
+import java.io.File
 import org.openapitools.client.core.ApiModel
 
-case class Pet (
-  id: Option[Long] = None,
-  category: Option[Category] = None,
-  name: String,
-  photoUrls: Seq[String],
-  tags: Option[Seq[Tag]] = None,
-  /* pet status in the store */
-  status: Option[PetEnums.Status] = None
+case class InlineObject1 (
+  /* Additional data to pass to server */
+  additionalMetadata: Option[String] = None,
+  /* file to upload */
+  file: Option[File] = None
 ) extends ApiModel
 
-object PetEnums {
-
-  type Status = Status.Value
-  object Status extends Enumeration {
-    val Available = Value("available")
-    val Pending = Value("pending")
-    val Sold = Value("sold")
-  }
-
-}
 
