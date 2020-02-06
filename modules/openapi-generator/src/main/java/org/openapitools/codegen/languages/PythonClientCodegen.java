@@ -706,6 +706,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         String example = super.toExampleValue(schema);
 
         if (ModelUtils.isNullSchema(schema) && null!=example) {
+            // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
+            // though this tooling supports it.
             return "None";
         }
         // correct "true"s into "True"s, since super.toExampleValue uses "toString()" on Java booleans

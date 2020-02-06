@@ -830,9 +830,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types. 
      * 
      * @param p The OAS schema.
-     * @param prefix
-     * @param suffix
-     * @return
+     * @param prefix prepended to the returned value.
+     * @param suffix appended to the returned value.
+     * @return a string representation of the Python types
      */
     public String getTypeString(Schema p, String prefix, String suffix) {
         // this is used to set dataType, which defines a python tuple of classes
