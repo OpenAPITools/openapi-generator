@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -984,10 +985,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             codegenModel.imports.add("JsonSubTypes");
             codegenModel.imports.add("JsonTypeInfo");
         }
-        if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
+        if (allDefinitions != null && codegenModel.parentSchema != null) {
             final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
-            codegenModel = AbstractJavaCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
+            if (codegenModel.hasEnums) {
+                codegenModel = AbstractJavaCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
+            }
+            Map<String, CodegenProperty> childProps = codegenModel.getAllVars().stream().collect(Collectors.toMap(p -> p.getName(), p -> p));
+            for (CodegenProperty parentProp : parentCodegenModel.getAllVars()) {
+                if (childProps.containsKey(parentProp.getName())) {
+                    CodegenProperty prop = childProps.get(parentProp.getName());
+                    prop.isInherited = true;
+                    codegenModel.getParentVars().add(prop);
+                }
+            }
         }
         if ("BigDecimal".equals(codegenModel.dataType)) {
             codegenModel.imports.add("BigDecimal");
