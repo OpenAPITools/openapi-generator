@@ -11,12 +11,16 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
-public class CppQt5AbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
+import static org.openapitools.codegen.utils.OnceLogger.once;
 
+public class CppQt5AbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CppQt5AbstractCodegen.class);
     protected final String PREFIX = "OAI";
     protected String apiVersion = "1.0.0";
     protected static final String CPP_NAMESPACE = "cppNamespace";
@@ -314,6 +318,10 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
 
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
         Map<String, CodegenModel> codegenModels = new HashMap<String, CodegenModel> ();
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         for(Object moObj : allModels) {
             CodegenModel mo = ((Map<String, CodegenModel>) moObj).get("model");
             if(mo.isEnum) {
@@ -323,7 +331,8 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         for (CodegenOperation operation : operations) {
             if(operation.returnType != null) {
                 if(codegenModels.containsKey(operation.returnType)){
-                    operation.vendorExtensions.put("returnsEnum", true);
+                    operation.vendorExtensions.put("returnsEnum", true); // TODO: 5.0 Remove
+                    operation.vendorExtensions.put("x-returns-enum", true);
                 }
             }
             // Check all return parameter baseType if there is a necessity to include, include it if not

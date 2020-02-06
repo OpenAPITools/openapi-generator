@@ -27,14 +27,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClojureClientCodegen.class);
     private static final String PROJECT_NAME = "projectName";
     private static final String PROJECT_DESCRIPTION = "projectDescription";
     private static final String PROJECT_VERSION = "projectVersion";
@@ -43,7 +47,8 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     private static final String PROJECT_LICENSE_URL = "projectLicenseUrl";
     private static final String BASE_NAMESPACE = "baseNamespace";
 
-    static final String X_BASE_SPEC = "x-baseSpec";
+    static final String X_BASE_SPEC = "x-baseSpec"; // TODO: 5.0 Remove
+    static final String VENDOR_EXTENSION_X_BASE_SPEC = "x-base-spec";
     static final String X_MODELS = "x-models";
 
     protected String projectName;
@@ -198,19 +203,16 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     public CodegenModel fromModel(String name, Schema mod) {
         CodegenModel model = super.fromModel(name, mod);
 
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         // If a var is a base spec we won't need to import it
         for (CodegenProperty var : model.vars) {
-            if (baseSpecs.contains(var.complexType)) {
-                var.vendorExtensions.put(X_BASE_SPEC, true);
-            } else {
-                var.vendorExtensions.put(X_BASE_SPEC, false);
-            }
+            var.vendorExtensions.put(X_BASE_SPEC, baseSpecs.contains(var.complexType)); // TODO: 5.0 Remove
+            var.vendorExtensions.put(VENDOR_EXTENSION_X_BASE_SPEC, baseSpecs.contains(var.complexType));
             if (var.items != null) {
-                if (baseSpecs.contains(var.items.complexType)) {
-                    var.items.vendorExtensions.put(X_BASE_SPEC, true);
-                } else {
-                    var.items.vendorExtensions.put(X_BASE_SPEC, false);
-                }
+                var.items.vendorExtensions.put(X_BASE_SPEC, baseSpecs.contains(var.items.complexType)); // TODO: 5.0 Remove
+                var.items.vendorExtensions.put(VENDOR_EXTENSION_X_BASE_SPEC, baseSpecs.contains(var.items.complexType));
             }
         }
 
