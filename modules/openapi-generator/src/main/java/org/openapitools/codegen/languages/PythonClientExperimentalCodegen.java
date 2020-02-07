@@ -841,8 +841,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             fullSuffix = "," + suffix;
         }
         // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
-        p = ModelUtils.getReferencedSchema(this.openAPI, p);
-        if (ModelUtils.isNullable(p)) {
+        if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
             fullSuffix = ", none_type" + suffix;
         }
         if (ModelUtils.isFreeFormObject(p) && ModelUtils.getAdditionalProperties(p) == null) {
