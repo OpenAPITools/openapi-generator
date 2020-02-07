@@ -652,7 +652,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         } else if (rt.startsWith("Map")) {
             int end = rt.lastIndexOf(">");
             if (end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring("Map<".length(), end).split(",")[1].trim());
+                dataTypeAssigner.setReturnType(rt.substring("Map<".length(), end).split(",", 2)[1].trim());
                 dataTypeAssigner.setReturnContainer("Map");
             }
         } else if (rt.startsWith("Set")) {
