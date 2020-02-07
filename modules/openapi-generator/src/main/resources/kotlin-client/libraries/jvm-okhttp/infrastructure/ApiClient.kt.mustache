@@ -78,10 +78,13 @@ import java.io.File
                 {{#gson}}
                 MediaType.parse(mediaType), Serializer.gson.toJson(content, T::class.java)
                 {{/gson}}
+                {{#jackson}}
+                MediaType.parse(mediaType), Serializer.jackson.toJson(content, T::class.java)
+                {{/jackson}}
             )
             {{/jvm-okhttp3}}
             {{#jvm-okhttp4}}
-            mediaType == JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).toJson(content){{/moshi}}{{#gson}}Serializer.gson.toJson(content, T::class.java){{/gson}}.toRequestBody(
+            mediaType == JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).toJson(content){{/moshi}}{{#gson}}Serializer.gson.toJson(content, T::class.java){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.writeValueAsString(content){{/jackson}}.toRequestBody(
                 mediaType.toMediaTypeOrNull()
             )
             {{/jvm-okhttp4}}
@@ -99,7 +102,7 @@ import java.io.File
             return null
         }
         return when(mediaType) {
-            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, T::class.java){{/gson}}
+            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, T::class.java){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, T::class.java){{/jackson}}
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -146,7 +149,7 @@ import java.io.File
         {{#isBasicBearer}}
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
             accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer " + accessToken
+                requestConfig.headers[Authorization] = "Bearer $accessToken"
             }
         }
         {{/isBasicBearer}}
@@ -154,7 +157,7 @@ import java.io.File
         {{#isOAuth}}
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
             accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer " + accessToken
+                requestConfig.headers[Authorization] = "Bearer $accessToken "
             }
         }
         {{/isOAuth}}
@@ -250,6 +253,7 @@ import java.io.File
         }
     }
 
+    {{^jackson}}
     protected inline fun <reified T: Any> parseDateToQueryString(value : T): String {
         {{#toJson}}
         /*
@@ -269,4 +273,5 @@ import java.io.File
         return value.toString()
         {{/toJson}}
     }
+    {{/jackson}}
 }
