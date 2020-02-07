@@ -85,7 +85,7 @@ internal open class ApiClient(val baseUrl: String) {
         }
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
             accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer " + accessToken
+                requestConfig.headers[Authorization] = "Bearer $accessToken "
             }
         }
     }

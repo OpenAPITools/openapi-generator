@@ -27,9 +27,11 @@ import com.google.gson.annotations.SerializedName
 
 data class Pet (
     @SerializedName("name")
-    val name: kotlin.String,
+    val name: kotlin.String
+,
     @SerializedName("photoUrls")
-    val photoUrls: kotlin.Array<kotlin.String>,
+    val photoUrls: kotlin.Array<kotlin.String>
+,
     @SerializedName("id")
     val id: kotlin.Long? = null
 ,
