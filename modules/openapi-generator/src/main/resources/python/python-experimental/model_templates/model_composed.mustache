@@ -38,17 +38,17 @@ class {{unescapedDescription}}(ModelComposed):
         return {
           'anyOf': [
 {{#anyOf}}
-              {{{.}}},
+              {{unescapedDescription}},
 {{/anyOf}}
           ],
           'allOf': [
 {{#allOf}}
-              {{{.}}},
+              {{unescapedDescription}},
 {{/allOf}}
           ],
           'oneOf': [
 {{#oneOf}}
-              {{{.}}},
+              {{unescapedDescription}},
 {{/oneOf}}
           ],
         }{{#discriminator}}
