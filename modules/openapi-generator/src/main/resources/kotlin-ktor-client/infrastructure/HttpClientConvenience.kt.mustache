@@ -11,10 +11,10 @@ import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.request.request
 import io.ktor.content.TextContent
+import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
-import io.ktor.http.ContentType
-import kotlinx.io.core.use
+import io.ktor.utils.io.core.use
 import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.json.Json
 import {{packageName}}.infrastructure.authentication.AuthProvider
