@@ -11,6 +11,7 @@
 
 typedef struct apiClient_t {
     char *basePath;
+    char *caPath;
     void *dataReceived;
     long response_code;
     {{#hasAuthMethods}}
@@ -38,6 +39,7 @@ typedef struct binary_t
 apiClient_t* apiClient_create();
 
 apiClient_t* apiClient_create_with_base_path(const char *basePath
+, const char *caPath
 {{#hasAuthMethods}}
 {{#authMethods}}
 {{#isApiKey}}

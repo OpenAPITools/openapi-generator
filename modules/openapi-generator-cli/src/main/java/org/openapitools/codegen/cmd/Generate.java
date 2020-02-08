@@ -28,22 +28,17 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.GeneratorNotFoundException;
+
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * User: lanwen Date: 24.03.15 Time: 20:22
- */
-
 @Command(name = "generate", description = "Generate code with the specified generator.")
 public class Generate implements Runnable {
 
-    // private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
+    CodegenConfigurator configurator;
+    Generator generator;
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;
@@ -257,13 +252,18 @@ public class Generate implements Runnable {
                     .ifPresent(FilterAttachable::clearAllFilters);
         }
 
-        // attempt to read from config file
-        CodegenConfigurator configurator = CodegenConfigurator.fromFile(configFile);
-
-        // if a config file wasn't specified or we were unable to read it
+        // this initial check allows for field-level package private injection (for unit testing)
         if (configurator == null) {
-            // createa a fresh configurator
-            configurator = new CodegenConfigurator();
+            if (configFile != null && configFile.length() > 0) {
+                // attempt to load from configFile
+                configurator = CodegenConfigurator.fromFile(configFile);
+            }
+
+            // if a config file wasn't specified, or we were unable to read it
+            if (configurator == null) {
+                // create a fresh configurator
+                configurator = new CodegenConfigurator();
+            }
         }
 
         // now override with any specified parameters
@@ -413,7 +413,14 @@ public class Generate implements Runnable {
 
         try {
             final ClientOptInput clientOptInput = configurator.toClientOptInput();
-            new DefaultGenerator().opts(clientOptInput).generate();
+
+            // this null check allows us to inject for unit testing.
+            if (generator == null) {
+                generator = new DefaultGenerator();
+            }
+
+            generator.opts(clientOptInput);
+            generator.generate();
         } catch (GeneratorNotFoundException e) {
             System.err.println(e.getMessage());
             System.err.println("[error] Check the spelling of the generator's name and try again.");

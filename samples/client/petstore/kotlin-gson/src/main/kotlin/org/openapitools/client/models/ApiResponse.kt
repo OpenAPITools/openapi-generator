@@ -27,7 +27,5 @@ data class ApiResponse (
     val type: kotlin.String? = null,
     @SerializedName("message")
     val message: kotlin.String? = null
-) 
-
-
+)
 

@@ -64,7 +64,8 @@ dd {
 
 #try .blockImage,
 #tryHomebrew .blockImage,
-#tryDocker .blockImage {
+#tryDocker .blockImage,
+#connectOnSlack .blockImage {
     margin-top: auto;
     margin-bottom: auto;
 }

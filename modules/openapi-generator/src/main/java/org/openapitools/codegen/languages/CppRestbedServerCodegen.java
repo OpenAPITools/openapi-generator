@@ -29,6 +29,7 @@ import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
@@ -277,6 +278,10 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         for (CodegenOperation op : operationList) {
             String path = op.path;
 
@@ -298,7 +303,9 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 }
                 op.path += item + "/";
             }
-            op.vendorExtensions.put("x-codegen-resourceName", resourceNameCamelCase);
+            op.vendorExtensions.put("x-codegen-resourceName", resourceNameCamelCase); // TODO: 5.0 Remove
+            op.vendorExtensions.put("x-codegen-resource-name", resourceNameCamelCase);
+
             boolean foundInNewList = false;
             for (CodegenOperation op1 : newOpList) {
                 if (!foundInNewList) {
@@ -310,7 +317,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                         }
                         op.operationIdCamelCase = op1.operationIdCamelCase;
                         currentOtherMethodList.add(op);
-                        op1.vendorExtensions.put("x-codegen-otherMethods", currentOtherMethodList);
+                        op1.vendorExtensions.put("x-codegen-otherMethods", currentOtherMethodList); // TODO: 5.0 Remove
+                        op1.vendorExtensions.put("x-codegen-other-methods", currentOtherMethodList);
                     }
                 }
             }

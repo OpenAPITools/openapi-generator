@@ -8,7 +8,6 @@
 import Foundation
 
 /** Model for testing model name starting with number */
-
 public struct Model200Response: Codable {
 
     public var name: Int?

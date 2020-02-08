@@ -29,7 +29,7 @@ public class ScalaHttpClientOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
-    public static final String MODEL_PROPERTY_NAMING = "modelPropertyNaming";
+    public static final String MODEL_PROPERTY_NAMING = "PascalCase";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
 

@@ -30,12 +30,15 @@
         <!-- Dependencies are automatically installed when the package is installed -->
         <dependencies>
 
-            <dependency id="NewtonSoft.Json" version="12.0.1" />
-            <dependency id="JsonSubTypes" version="1.5.1" />
-            <dependency id="RestSharp" version="106.6.7" />
+            <dependency id="Newtonsoft.Json" version="12.0.1" />
+            <dependency id="RestSharp" version="106.10.1" />
+            {{#useCompareNetObjects}}
             <dependency id="CompareNETObjects" version="4.57.0" />
+            {{/useCompareNetObjects}}
             <dependency id="JsonSubTypes" version="1.5.2" />
+            {{#validatable}}
             <dependency id="System.ComponentModel.Annotations" version="4.5.0" />
+            {{/validatable}}
 
         </dependencies>
     </metadata>

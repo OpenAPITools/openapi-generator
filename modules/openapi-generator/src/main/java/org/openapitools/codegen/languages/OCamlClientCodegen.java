@@ -35,6 +35,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -713,6 +714,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         for (CodegenOperation operation : operations) {
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             //if (CO_HTTP.equals(getLibrary())) {
@@ -723,7 +728,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             }
 
             if ("Yojson.Safe.t".equals(operation.returnBaseType)) {
-                operation.vendorExtensions.put("x-returnFreeFormObject", true);
+                operation.vendorExtensions.put("x-returnFreeFormObject", true); // TODO: 5.0 Remove
+                operation.vendorExtensions.put("x-return-free-form-object", true);
             }
         }
 

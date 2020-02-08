@@ -32,6 +32,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
       observation?.invalidate()
     }
 
+    // swiftlint:disable:next weak_delegate
     fileprivate let sessionDelegate = SessionDelegate()
 
     /**
@@ -371,7 +372,7 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
             case let .success(decodableObj):
                 completion(.success(Response(response: httpResponse, body: decodableObj)))
             case let .failure(error):
-                completion(.failure(error))
+                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
             }
         }
     }
@@ -383,7 +384,7 @@ private class SessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
 
     var taskDidReceiveChallenge: ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))?
 
-    public func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
 
         var disposition: URLSession.AuthChallengeDisposition = .performDefaultHandling
 
