@@ -30,6 +30,8 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Map;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 public class GoClientExperimentalCodegen extends GoClientCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GoClientExperimentalCodegen.class);
@@ -79,6 +81,12 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
             supportingFiles.add(new SupportingFile("signing.mustache", "", "signing.go"));
             supportingFiles.add(new SupportingFile("http_signature_test.mustache", "", "http_signature_test.go"));
         }
+    }
+
+    @Override
+    public String toModelName(String name) {
+        // underscoring would also lowercase the whole name, thus losing acronyms which are in capitals
+        return camelize(toModel(name, false));
     }
 
     @Override
