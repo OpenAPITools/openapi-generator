@@ -20,6 +20,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
     {{/isContainer}}
     {{/isEnum}}
   {{#jackson}}
+  {{#isDiscriminator}}
+  @JsonIgnore
+  {{/isDiscriminator}}
   @JsonProperty("{{baseName}}"){{#withXml}}
   @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}localName = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"){{/withXml}}
   {{/jackson}}
@@ -83,6 +86,11 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
  {{#vendorExtensions.extraAnnotation}}
   {{{vendorExtensions.extraAnnotation}}}
   {{/vendorExtensions.extraAnnotation}}
+  {{#jackson}}
+  {{#isDiscriminator}}
+  @JsonIgnore
+  {{/isDiscriminator}}
+  {{/jackson}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>nullableDataType}} {{getter}}() {
     return {{name}};
