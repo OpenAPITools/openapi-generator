@@ -48,7 +48,8 @@ sidebar_label: python-flask
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Dict</li>
+<ul class="column-ul">
+<li>Dict</li>
 <li>List</li>
 <li>bool</li>
 <li>byte</li>
@@ -64,7 +65,8 @@ sidebar_label: python-flask
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>and</li>
+<ul class="column-ul">
+<li>and</li>
 <li>as</li>
 <li>assert</li>
 <li>break</li>

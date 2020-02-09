@@ -274,8 +274,8 @@ SYNOPSIS
 ```
 
 <details>
-  <summary>generate OPTIONS</summary>
-  
+<summary>generate OPTIONS</summary>
+
 ```bash
 OPTIONS
         -a <authorization>, --auth <authorization>
@@ -488,8 +488,6 @@ openapi-generator generate \
     --type-mappings=DateTime=java.time.LocalDateTime
 ```
 
-<!-- TODO: Document all primitive types here -->
-
 > NOTE: mappings are applied to `DateTime`, as this is the representation of the primitive type. See [DefaultCodegen](https://github.com/OpenAPITools/openapi-generator/blob/7cee999543fcc00b7c1eb9f70f0456b707c7f9e2/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java#L1431).
 
 ### Target External Models
@@ -641,3 +639,4 @@ EOF
 # Generate them
 openapi-generator batch *.yaml
 ```
+

@@ -37,7 +37,8 @@ sidebar_label: typescript-axios
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Array</li>
+<ul class="column-ul">
+<li>Array</li>
 <li>Boolean</li>
 <li>Date</li>
 <li>Double</li>
@@ -58,7 +59,8 @@ sidebar_label: typescript-axios
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
+<ul class="column-ul">
+<li>abstract</li>
 <li>await</li>
 <li>boolean</li>
 <li>break</li>

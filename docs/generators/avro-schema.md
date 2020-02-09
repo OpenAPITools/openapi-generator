@@ -29,7 +29,8 @@ sidebar_label: avro-schema
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>BigDecimal</li>
+<ul class="column-ul">
+<li>BigDecimal</li>
 <li>DateTime</li>
 <li>UUID</li>
 <li>boolean</li>
@@ -47,7 +48,8 @@ sidebar_label: avro-schema
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"></ul>
+<ul class="column-ul">
+</ul>
 
 ## FEATURE SET
 

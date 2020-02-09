@@ -46,7 +46,8 @@ sidebar_label: typescript-angular
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Array</li>
+<ul class="column-ul">
+<li>Array</li>
 <li>Blob</li>
 <li>Boolean</li>
 <li>Date</li>
@@ -68,7 +69,8 @@ sidebar_label: typescript-angular
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
+<ul class="column-ul">
+<li>abstract</li>
 <li>await</li>
 <li>boolean</li>
 <li>break</li>
