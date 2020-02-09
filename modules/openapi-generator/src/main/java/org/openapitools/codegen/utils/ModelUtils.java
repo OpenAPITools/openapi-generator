@@ -39,6 +39,8 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
+
 public class ModelUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelUtils.class);
 
@@ -248,7 +250,7 @@ public class ModelUtils {
                     }
                     visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
                 } else {
-                    LOGGER.warn("Unreferenced parameter found.");
+                    once(LOGGER).warn("Unreferenced parameter(s) found.");
                 }
             }
         }
@@ -329,7 +331,7 @@ public class ModelUtils {
         } else if (ref.startsWith("#/definitions/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else {
-            LOGGER.warn("Failed to get the schema name: {}", ref);
+            once(LOGGER).warn("Failed to get the schema name: {}", ref);
             //throw new RuntimeException("Failed to get the schema: " + ref);
             return null;
 
@@ -561,7 +563,8 @@ public class ModelUtils {
      */
     public static boolean isModel(Schema schema) {
         if (schema == null) {
-            LOGGER.error("Schema cannot be null in isModel check");
+            // TODO: Is this message necessary? A null schema is not a model, so the result is correct.
+            once(LOGGER).error("Schema cannot be null in isModel check");
             return false;
         }
 
@@ -571,11 +574,7 @@ public class ModelUtils {
         }
 
         // composed schema is a model
-        if (schema instanceof ComposedSchema) {
-            return true;
-        }
-
-        return false;
+        return schema instanceof ComposedSchema;
     }
 
     /**
@@ -586,7 +585,8 @@ public class ModelUtils {
      */
     public static boolean isFreeFormObject(Schema schema) {
         if (schema == null) {
-            LOGGER.error("Schema cannot be null in isFreeFormObject check");
+            // TODO: Is this message necessary? A null schema is not a free-form object, so the result is correct.
+            once(LOGGER).error("Schema cannot be null in isFreeFormObject check");
             return false;
         }
 
@@ -841,7 +841,7 @@ public class ModelUtils {
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             Schema ref = allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref()));
             if (ref == null) {
-                LOGGER.warn("{} is not defined", schema.get$ref());
+                once(LOGGER).warn("{} is not defined", schema.get$ref());
                 return schema;
             } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
                 // top-level enum class
