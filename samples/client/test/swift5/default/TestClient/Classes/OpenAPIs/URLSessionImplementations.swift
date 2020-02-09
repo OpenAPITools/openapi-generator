@@ -187,13 +187,18 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
             return
         }
 
+        guard httpResponse.isStatusCodeSuccessful else {
+            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode(error))))
+            return
+        }
+
+        if let error = error {
+            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
+            return
+        }
+
         switch T.self {
         case is String.Type:
-
-            if let error = error {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
-                return
-            }
 
             let body = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
 
@@ -236,19 +241,9 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
         case is Void.Type:
 
-            if let error = error {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
-                return
-            }
-
             completion(.success(Response(response: httpResponse, body: nil)))
 
         default:
-
-            if let error = error {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
-                return
-            }
 
             completion(.success(Response(response: httpResponse, body: data as? T)))
         }
@@ -324,13 +319,18 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
             return
         }
 
+        guard httpResponse.isStatusCodeSuccessful else {
+            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode(error))))
+            return
+        }
+
+        if let error = error {
+            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
+            return
+        }
+
         switch T.self {
         case is String.Type:
-
-            if let error = error {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
-                return
-            }
 
             let body = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
 
@@ -338,28 +338,13 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
 
         case is Void.Type:
 
-            if let error = error {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
-                return
-            }
-
             completion(.success(Response(response: httpResponse, body: nil)))
 
         case is Data.Type:
 
-            if let error = error {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
-                return
-            }
-
             completion(.success(Response(response: httpResponse, body: data as? T)))
 
         default:
-
-            if let error = error {
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, error)))
-                return
-            }
 
             guard let data = data, !data.isEmpty else {
                 completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, DecodableRequestBuilderError.emptyDataResponse)))
@@ -384,7 +369,7 @@ private class SessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
 
     var taskDidReceiveChallenge: ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))?
 
-    public func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
 
         var disposition: URLSession.AuthChallengeDisposition = .performDefaultHandling
 

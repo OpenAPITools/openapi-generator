@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -238,6 +239,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     public String toModel(String name) {
+        return toModel(name, true);
+    }
+
+    public String toModel(String name, boolean doUnderscore) {
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -261,7 +266,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        return underscore(name);
+        if (doUnderscore) {
+            return underscore(name);
+        }
+        return name;
     }
 
     @Override
@@ -388,6 +396,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         for (CodegenOperation operation : operations) {
             // http method verb conversion (e.g. PUT => Put)
             operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
@@ -450,13 +462,16 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         imports.add(createMapping("import", "github.com/antihax/optional"));
                         addedOptionalImport = true;
                     }
+
                     // We need to specially map Time type to the optionals package
                     if ("time.Time".equals(param.dataType)) {
-                        param.vendorExtensions.put("x-optionalDataType", "Time");
+                        param.vendorExtensions.put("x-optionalDataType", "Time"); // TODO: 5.0 Remove
+                        param.vendorExtensions.put("x-optional-data-type", "Time");
                     } else {
                         // Map optional type to dataType
-                        param.vendorExtensions.put("x-optionalDataType",
-                                param.dataType.substring(0, 1).toUpperCase(Locale.ROOT) + param.dataType.substring(1));
+                        String optionalType = param.dataType.substring(0, 1).toUpperCase(Locale.ROOT) + param.dataType.substring(1);
+                        param.vendorExtensions.put("x-optionalDataType", optionalType); // TODO: 5.0 Remove
+                        param.vendorExtensions.put("x-optional-data-type", optionalType);
                     }
                 }
 
@@ -464,12 +479,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 char nameFirstChar = param.paramName.charAt(0);
                 if (Character.isUpperCase(nameFirstChar)) {
                     // First char is already uppercase, just use paramName.
-                    param.vendorExtensions.put("x-exportParamName", param.paramName);
+                    param.vendorExtensions.put("x-exportParamName", param.paramName); // TODO: 5.0 Remove
+                    param.vendorExtensions.put("x-export-param-name", param.paramName);
                 } else {
                     // It's a lowercase first char, let's convert it to uppercase
                     StringBuilder sb = new StringBuilder(param.paramName);
                     sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
-                    param.vendorExtensions.put("x-exportParamName", sb.toString());
+                    param.vendorExtensions.put("x-exportParamName", sb.toString()); // TODO: 5.0 Remove
+                    param.vendorExtensions.put("x-x-export-param-name", sb.toString());
                 }
             }
 
@@ -502,16 +519,22 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     private void setExportParameterName(List<CodegenParameter> codegenParameters) {
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         for (CodegenParameter param : codegenParameters) {
             char nameFirstChar = param.paramName.charAt(0);
             if (Character.isUpperCase(nameFirstChar)) {
                 // First char is already uppercase, just use paramName.
-                param.vendorExtensions.put("x-exportParamName", param.paramName);
+                param.vendorExtensions.put("x-exportParamName", param.paramName); // TODO: 5.0 Remove
+                param.vendorExtensions.put("x-export-param-name", param.paramName);
             } else {
                 // It's a lowercase first char, let's convert it to uppercase
                 StringBuilder sb = new StringBuilder(param.paramName);
                 sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
-                param.vendorExtensions.put("x-exportParamName", sb.toString());
+                param.vendorExtensions.put("x-exportParamName", sb.toString()); // TODO: 5.0 Remove
+                param.vendorExtensions.put("x-export-param-name", sb.toString());
             }
         }
     }

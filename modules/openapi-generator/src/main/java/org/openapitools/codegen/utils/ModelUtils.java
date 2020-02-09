@@ -39,6 +39,8 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
+
 public class ModelUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelUtils.class);
 
@@ -249,7 +251,7 @@ public class ModelUtils {
                     }
                     visitContent(openAPI, parameter.getContent(), visitor, visitedSchemas);
                 } else {
-                    LOGGER.warn("Unreferenced parameter found.");
+                    once(LOGGER).warn("Unreferenced parameter(s) found.");
                 }
             }
         }
@@ -330,7 +332,7 @@ public class ModelUtils {
         } else if (ref.startsWith("#/definitions/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else {
-            LOGGER.warn("Failed to get the schema name: {}", ref);
+            once(LOGGER).warn("Failed to get the schema name: {}", ref);
             //throw new RuntimeException("Failed to get the schema: " + ref);
             return null;
 
@@ -562,7 +564,8 @@ public class ModelUtils {
      */
     public static boolean isModel(Schema schema) {
         if (schema == null) {
-            LOGGER.error("Schema cannot be null in isModel check");
+            // TODO: Is this message necessary? A null schema is not a model, so the result is correct.
+            once(LOGGER).error("Schema cannot be null in isModel check");
             return false;
         }
 
@@ -572,11 +575,7 @@ public class ModelUtils {
         }
 
         // composed schema is a model
-        if (schema instanceof ComposedSchema) {
-            return true;
-        }
-
-        return false;
+        return schema instanceof ComposedSchema;
     }
 
     /**
@@ -587,7 +586,8 @@ public class ModelUtils {
      */
     public static boolean isFreeFormObject(Schema schema) {
         if (schema == null) {
-            LOGGER.error("Schema cannot be null in isFreeFormObject check");
+            // TODO: Is this message necessary? A null schema is not a free-form object, so the result is correct.
+            once(LOGGER).error("Schema cannot be null in isFreeFormObject check");
             return false;
         }
 
@@ -862,7 +862,7 @@ public class ModelUtils {
             }
             Schema ref = allSchemas.get(simpleRef);
             if (ref == null) {
-                LOGGER.warn("{} is not defined", schema.get$ref());
+                once(LOGGER).warn("{} is not defined", schema.get$ref());
                 return schema;
             } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
                 // top-level enum class
@@ -966,8 +966,28 @@ public class ModelUtils {
     }
 
     /**
-     * Get the parent model name from the schemas (allOf, anyOf, oneOf).
-     * If there are multiple parents, return the first one.
+     * Get the parent model name from the composed schema (allOf, anyOf, oneOf).
+     * It traverses the OAS model (possibly resolving $ref) to determine schemas
+     * that specify a determinator.
+     * If there are multiple elements in the composed schema and it is not clear
+     * which one should be the parent, return null.
+     *
+     * For example, given the following OAS spec, the parent of 'Dog' is Animal
+     * because 'Animal' specifies a discriminator.
+     *
+     * animal:
+     *   type: object
+     *   discriminator:
+     *     propertyName: type
+     *   properties:
+     *     type: string
+     *
+     * dog:
+     *   allOf:
+     *      - $ref: '#/components/schemas/animal'
+     *      - type: object
+     *        properties:
+     *          breed: string
      *
      * @param composedSchema schema (alias or direct reference)
      * @param allSchemas     all schemas
@@ -976,7 +996,7 @@ public class ModelUtils {
     public static String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
         List<Schema> interfaces = getInterfaces(composedSchema);
 
-        List<String> refedParentNames = new ArrayList<>();
+        List<String> refedWithoutDiscriminator = new ArrayList<>();
 
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {
@@ -991,9 +1011,8 @@ public class ModelUtils {
                         // discriminator.propertyName is used
                         return parentName;
                     } else {
-                        LOGGER.debug("Not a parent since discriminator.propertyName is not set {}", s.get$ref());
                         // not a parent since discriminator.propertyName is not set
-                        refedParentNames.add(parentName);
+                        refedWithoutDiscriminator.add(parentName);
                     }
                 } else {
                     // not a ref, doing nothing
@@ -1002,10 +1021,11 @@ public class ModelUtils {
         }
 
         // parent name only makes sense when there is a single obvious parent
-        if (refedParentNames.size() == 1) {
+        if (refedWithoutDiscriminator.size() == 1) {
             LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
-                    "and will be removed in a future release. Generating model for {}", composedSchema.getName());
-            return refedParentNames.get(0);
+                "and will be removed in a future release. Generating model for composed schema name: {}. Title: {}",
+                composedSchema.getName(), composedSchema.getTitle());
+            return refedWithoutDiscriminator.get(0);
         }
 
         return null;
@@ -1022,6 +1042,7 @@ public class ModelUtils {
     public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         List<String> names = new ArrayList<String>();
+        List<String> refedWithoutDiscriminator = new ArrayList<>();
 
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {
@@ -1039,13 +1060,19 @@ public class ModelUtils {
                             names.addAll(getAllParentsName((ComposedSchema) s, allSchemas, true));
                         }
                     } else {
-                        LOGGER.debug("Not a parent since discriminator.propertyName is not set {}", s.get$ref());
                         // not a parent since discriminator.propertyName is not set
+                        refedWithoutDiscriminator.add(parentName);
                     }
                 } else {
                     // not a ref, doing nothing
                 }
             }
+        }
+
+        if (names.size() == 0 && refedWithoutDiscriminator.size() == 1) {
+            LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
+                    "and will be removed in a future release. Generating model for {}. Title: {}", composedSchema.getName(), composedSchema.getTitle());
+            return refedWithoutDiscriminator;
         }
 
         return names;

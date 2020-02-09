@@ -342,4 +342,7 @@ public class CodegenConstants {
 
     public static final String PACKAGE_TAGS = "packageTags";
     public static final String PACKAGE_TAGS_DESC = "Tags to identify the package";
+
+    public static final String REMOVE_ENUM_VALUE_PREFIX = "removeEnumValuePrefix";
+    public static final String REMOVE_ENUM_VALUE_PREFIX_DESC = "Remove the common prefix of enum values";
 }

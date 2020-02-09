@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
@@ -855,13 +856,18 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public void addOneOfInterfaceModel(ComposedSchema cs, String type) {
         CodegenModel cm = new CodegenModel();
 
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
+
         for (Schema o : cs.getOneOf()) {
             // TODO: inline objects
             cm.oneOf.add(toModelName(ModelUtils.getSimpleRef(o.get$ref())));
         }
         cm.name = type;
         cm.classname = type;
-        cm.vendorExtensions.put("isOneOfInterface", true);
+        cm.vendorExtensions.put("isOneOfInterface", true); // TODO: 5.0 Remove
+        cm.vendorExtensions.put("x-is-one-of-interface", true);
         cm.discriminator = createDiscriminator("", (Schema) cs);
         cm.interfaceModels = new ArrayList<CodegenModel>();
 
@@ -1011,6 +1017,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         objs = super.postProcessAllModels(objs);
 
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         if (this.useOneOfInterfaces) {
             // First, add newly created oneOf interfaces
             for (CodegenModel cm : addOneOfInterfaces) {
@@ -1052,7 +1061,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     Map<String, Object> mo = (Map<String, Object>) _mo;
                     CodegenModel cm = (CodegenModel) mo.get("model");
                     if (cm.oneOf.size() > 0) {
-                        cm.vendorExtensions.put("isOneOfInterface", true);
+                        cm.vendorExtensions.put("isOneOfInterface", true); // TODO: 5.0 Remove
+                        cm.vendorExtensions.put("x-is-one-of-interface", true);
                         // if this is oneOf interface, make sure we include the necessary jackson imports for it
                         for (String s : Arrays.asList("JsonTypeInfo", "JsonSubTypes")) {
                             Map<String, String> i = new HashMap<String, String>() {{

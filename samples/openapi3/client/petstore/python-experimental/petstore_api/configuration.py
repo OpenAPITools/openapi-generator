@@ -37,11 +37,12 @@ class Configuration(object):
       The dict value is an API key prefix when generating the auth data.
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
-    :param signing_info: Configuration parameters for HTTP signature.
+    :param signing_info: Configuration parameters for the HTTP signature security scheme.
         Must be an instance of petstore_api.signing.HttpSigningConfiguration
 
     :Example:
 
+    API Key Authentication Example.
     Given the following security scheme in the OpenAPI specification:
       components:
         securitySchemes:
@@ -58,11 +59,27 @@ class Configuration(object):
     The following cookie will be added to the HTTP request:
        Cookie: JSESSIONID abc123
 
+    HTTP Basic Authentication Example.
+    Given the following security scheme in the OpenAPI specification:
+      components:
+        securitySchemes:
+          http_basic_auth:
+            type: http
+            scheme: basic
+
     Configure API client with HTTP basic authentication:
       conf = petstore_api.Configuration(
           username='the-user',
           password='the-password',
       )
+
+    HTTP Signature Authentication Example.
+    Given the following security scheme in the OpenAPI specification:
+      components:
+        securitySchemes:
+          http_basic_auth:
+            type: http
+            scheme: signature
 
     Configure API client with HTTP signature authentication. Use the 'hs2019' signature scheme,
     sign the HTTP requests with the RSA-SSA-PSS signature algorithm, and set the expiration time
@@ -89,7 +106,6 @@ class Configuration(object):
                                       signing.HEADER_DATE,
                                       signing.HEADER_DIGEST,
                                       'Content-Type',
-                                      'Content-Length',
                                       'User-Agent'
                                      ],
             signature_max_validity = datetime.timedelta(minutes=5)
@@ -100,7 +116,8 @@ class Configuration(object):
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
                  username=None, password=None,
-                 signing_info=None):
+                 signing_info=None,
+                 ):
         """Constructor
         """
         self.host = host
@@ -134,7 +151,7 @@ class Configuration(object):
         self.signing_info = signing_info
         """The HTTP signing configuration
         """
-        self.access_token = ""
+        self.access_token = None
         """access token for OAuth/Bearer
         """
         self.logger = {}

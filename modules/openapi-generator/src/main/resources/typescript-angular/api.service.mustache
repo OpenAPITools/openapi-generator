@@ -152,7 +152,7 @@ export class {{classname}} {
 {{/useHttpClient}}
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object") {
+        if (typeof value === "object" && value instanceof Date === false) {
             {{#useHttpClient}}httpParams = {{/useHttpClient}}this.addToHttpParamsRecursive(httpParams, value);
         } else {
             {{#useHttpClient}}httpParams = {{/useHttpClient}}this.addToHttpParamsRecursive(httpParams, value, key);
@@ -160,7 +160,11 @@ export class {{classname}} {
         return httpParams;
     }
 
-    private addToHttpParamsRecursive(httpParams: HttpParams, value: any, key?: string): HttpParams {
+    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
+        if (value == null) {
+            return httpParams;
+        }
+
         if (typeof value === "object") {
             if (Array.isArray(value)) {
                 (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
@@ -274,18 +278,19 @@ export class {{classname}} {
 {{#authMethods}}
         // authentication ({{name}}) required
 {{#isApiKey}}
+        if (this.configuration.apiKeys) {
+            {{! Fallback behaviour may be removed for 5.0 release. See #5062 }}
+            const key: string | undefined = this.configuration.apiKeys["{{name}}"] || this.configuration.apiKeys["{{keyParamName}}"];
+            if (key) {
 {{#isKeyInHeader}}
-        if (this.configuration.apiKeys && this.configuration.apiKeys["{{keyParamName}}"]) {
-            {{#useHttpClient}}headers = {{/useHttpClient}}headers.set('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
-        }
-
+                {{#useHttpClient}}headers = {{/useHttpClient}}headers.set('{{keyParamName}}', key);
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
-        if (this.configuration.apiKeys && this.configuration.apiKeys["{{keyParamName}}"]) {
-            {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
+                {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{keyParamName}}', key);
+{{/isKeyInQuery}}
+            }
         }
 
-{{/isKeyInQuery}}
 {{/isApiKey}}
 {{#isBasic}}
     {{#isBasicBasic}}
