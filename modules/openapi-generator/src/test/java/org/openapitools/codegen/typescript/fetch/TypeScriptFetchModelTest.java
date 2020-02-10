@@ -95,7 +95,7 @@ public class TypeScriptFetchModelTest {
         final CodegenProperty property4 = cm.vars.get(3);
         Assert.assertEquals(property4.baseName, "birthDate");
         Assert.assertEquals(property4.complexType, null);
-        Assert.assertEquals(property4.dataType, "Date");
+        Assert.assertEquals(property4.dataType, "string");
         Assert.assertEquals(property4.name, "birthDate");
         Assert.assertEquals(property4.defaultValue, "undefined");
         Assert.assertFalse(property4.hasMore);
