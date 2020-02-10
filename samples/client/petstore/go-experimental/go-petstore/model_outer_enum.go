@@ -24,6 +24,12 @@ const (
 	DELIVERED OuterEnum = "delivered"
 )
 
+// Ptr returns reference to OuterEnum value
+func (v OuterEnum) Ptr() *OuterEnum {
+	return &v
+}
+
+
 type NullableOuterEnum struct {
 	Value OuterEnum
 	ExplicitNull bool

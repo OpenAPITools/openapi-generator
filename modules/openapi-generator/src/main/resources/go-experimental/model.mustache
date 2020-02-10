@@ -25,6 +25,12 @@ const (
 	{{/enumVars}}
 	{{/allowableValues}}
 )
+
+// Ptr returns reference to {{{name}}} value
+func (v {{{classname}}}) Ptr() *{{{classname}}} {
+	return &v
+}
+
 {{/isEnum}}
 {{^isEnum}}
 // {{classname}}{{#description}} {{{description}}}{{/description}}{{^description}} struct for {{{classname}}}{{/description}}
