@@ -56,7 +56,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETSTANDARD_1_5,
             FrameworkStrategy.NETSTANDARD_1_6,
             FrameworkStrategy.NETSTANDARD_2_0,
-            FrameworkStrategy.NETCOREAPP_2_0
+            FrameworkStrategy.NETSTANDARD_2_1,
+            FrameworkStrategy.NETCOREAPP_2_0,
+            FrameworkStrategy.NETCOREAPP_2_1,
+            FrameworkStrategy.NETCOREAPP_3_0,
+            FrameworkStrategy.NETCOREAPP_3_1
     );
     private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
@@ -67,6 +71,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     // Defines TargetFrameworkVersion in csproj files
     protected String targetFramework = defaultFramework.name;
+    protected String testTargetFramework = defaultFramework.testTargetFramework;
 
     // Defines nuget identifiers for target framework
     protected String targetFrameworkNuget = targetFramework;
@@ -418,6 +423,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         postProcessEmitDefaultValue(property.vendorExtensions);
 
         super.postProcessModelProperty(model, property);
+
+        if (!property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
+            property.vendorExtensions.put("x-csharp-value-type", true);
+        }
     }
 
     @Override
@@ -453,8 +462,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         postProcessEmitDefaultValue(parameter.vendorExtensions);
         super.postProcessParameter(parameter);
 
-        if (!parameter.required && nullableType.contains(parameter.dataType)) { //optional
-            parameter.dataType = parameter.dataType + "?";
+        if (nullableType.contains(parameter.dataType)) {
+            if (!parameter.required) { //optional
+                parameter.dataType = parameter.dataType + "?";
+            } else {
+                parameter.vendorExtensions.put("x-csharp-value-type", true);
+            }
         }
     }
 
@@ -548,6 +561,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         setTargetFrameworkNuget(strategy.getNugetFrameworkIdentifier());
         setTargetFramework(strategy.name);
+        setTestTargetFramework(strategy.testTargetFramework);
 
         if (strategy != FrameworkStrategy.NETSTANDARD_2_0) {
             LOGGER.warn("If using built-in templates-RestSharp only supports netstandard 2.0 or later.");
@@ -555,7 +569,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         setSupportsAsync(Boolean.TRUE);
         setNetStandard(strategy.isNetStandard);
-        setNetCoreProjectFileFlag(!strategy.isNetStandard);
+
+        if (!strategy.isNetStandard) {
+            setNetCoreProjectFileFlag(true);
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
             LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is not supported in the .NET Standard generator.");
@@ -571,6 +588,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         syncStringProperty(additionalProperties, CodegenConstants.MODEL_PACKAGE, this::setModelPackage, modelPackage);
         syncStringProperty(additionalProperties, CodegenConstants.OPTIONAL_PROJECT_GUID, this::setPackageGuid, packageGuid);
         syncStringProperty(additionalProperties, "targetFrameworkNuget", this::setTargetFrameworkNuget, this.targetFrameworkNuget);
+        syncStringProperty(additionalProperties, "testTargetFramework", this::setTestTargetFramework, this.testTargetFramework);
 
         syncBooleanProperty(additionalProperties, "netStandard", this::setNetStandard, this.netStandard);
 
@@ -700,6 +718,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             this.targetFramework = dotnetFramework;
         }
         LOGGER.info("Generating code for .NET Framework " + this.targetFramework);
+    }
+
+    public void setTestTargetFramework(String testTargetFramework) {
+        this.testTargetFramework = testTargetFramework;
     }
 
     public void setTargetFrameworkNuget(String targetFrameworkNuget) {
@@ -854,34 +876,41 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // https://docs.microsoft.com/en-us/dotnet/standard/net-standard
     @SuppressWarnings("Duplicates")
     private static abstract class FrameworkStrategy {
-        static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "v4.6.1") {
+        static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "netcoreapp2.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4 compatible", "v4.6.1") {
+        static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4 compatible", "netcoreapp2.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_5 = new FrameworkStrategy("netstandard1.5", ".NET Standard 1.5 compatible", "v4.6.1") {
+        static FrameworkStrategy NETSTANDARD_1_5 = new FrameworkStrategy("netstandard1.5", ".NET Standard 1.5 compatible", "netcoreapp2.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6 compatible", "v4.6.1") {
+        static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6 compatible", "netcoreapp2.0") {
         };
-        static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0 compatible", "v4.6.1") {
+        static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0 compatible", "netcoreapp2.0") {
         };
-        static FrameworkStrategy NETCOREAPP_2_0 = new FrameworkStrategy("netcoreapp2.0", ".NET Core 2.0 compatible", "v4.6.1", Boolean.FALSE) {
-
+        static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1 compatible", "netcoreapp3.0") {
+        };
+        static FrameworkStrategy NETCOREAPP_2_0 = new FrameworkStrategy("netcoreapp2.0", ".NET Core 2.0 compatible", "netcoreapp2.0", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NETCOREAPP_2_1 = new FrameworkStrategy("netcoreapp2.1", ".NET Core 2.1 compatible", "netcoreapp2.1", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NETCOREAPP_3_0 = new FrameworkStrategy("netcoreapp3.0", ".NET Core 3.0 compatible", "netcoreapp3.0", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible", "netcoreapp3.1", Boolean.FALSE) {
         };
         protected String name;
         protected String description;
-        protected String dotNetFrameworkVersion;
+        protected String testTargetFramework;
         private Boolean isNetStandard = Boolean.TRUE;
 
-        FrameworkStrategy(String name, String description, String dotNetFrameworkVersion) {
+        FrameworkStrategy(String name, String description, String testTargetFramework) {
             this.name = name;
             this.description = description;
-            this.dotNetFrameworkVersion = dotNetFrameworkVersion;
+            this.testTargetFramework = testTargetFramework;
         }
 
-        FrameworkStrategy(String name, String description, String dotNetFrameworkVersion, Boolean isNetStandard) {
+        FrameworkStrategy(String name, String description, String testTargetFramework, Boolean isNetStandard) {
             this.name = name;
             this.description = description;
-            this.dotNetFrameworkVersion = dotNetFrameworkVersion;
+            this.testTargetFramework = testTargetFramework;
             this.isNetStandard = isNetStandard;
         }
 

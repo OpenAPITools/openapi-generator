@@ -679,6 +679,22 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testDeprecatedProperty() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/property-deplicated.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Map responseProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("Response").getProperties());
+        final Map requestProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("Response").getProperties());
+
+        Assert.assertTrue(codegen.fromProperty("firstName",(Schema) responseProperties.get("firstName")).deprecated);
+        Assert.assertFalse(codegen.fromProperty("customerCode",(Schema) responseProperties.get("customerCode")).deprecated);
+        Assert.assertTrue(codegen.fromProperty("firstName",(Schema) requestProperties.get("firstName")).deprecated);
+        Assert.assertFalse(codegen.fromProperty("customerCode",(Schema) requestProperties.get("customerCode")).deprecated);
+    }
+
+    @Test
     public void integerSchemaPropertyAndModelTest() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema schema = new IntegerSchema().format("int32");

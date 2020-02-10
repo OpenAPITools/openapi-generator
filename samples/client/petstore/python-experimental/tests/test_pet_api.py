@@ -119,21 +119,26 @@ class PetApiTests(unittest.TestCase):
     def test_config(self):
         config = Configuration(host=HOST)
         self.assertIsNotNone(config.get_host_settings())
-        self.assertEquals(config.get_basic_auth_token(),
+        self.assertEqual(config.get_basic_auth_token(),
                           urllib3.util.make_headers(basic_auth=":").get('authorization'))
-        self.assertEquals(len(config.auth_settings()), 1)
+        # No authentication scheme has been configured at this point, so auth_settings()
+        # should return an empty list.
+        self.assertEqual(len(config.auth_settings()), 0)
+        # Configure OAuth2 access token and verify the auth_settings have OAuth2 parameters.
+        config.access_token = 'MY-ACCESS_TOKEN'
+        self.assertEqual(len(config.auth_settings()), 1)
         self.assertIn("petstore_auth", config.auth_settings().keys())
         config.username = "user"
         config.password = "password"
-        self.assertEquals(
+        self.assertEqual(
             config.get_basic_auth_token(),
             urllib3.util.make_headers(basic_auth="user:password").get('authorization'))
-        self.assertEquals(len(config.auth_settings()), 2)
+        self.assertEqual(len(config.auth_settings()), 2)
         self.assertIn("petstore_auth", config.auth_settings().keys())
         self.assertIn("http_basic_test", config.auth_settings().keys())
         config.username = None
         config.password = None
-        self.assertEquals(len(config.auth_settings()), 1)
+        self.assertEqual(len(config.auth_settings()), 1)
         self.assertIn("petstore_auth", config.auth_settings().keys())
 
     def test_timeout(self):
@@ -193,7 +198,7 @@ class PetApiTests(unittest.TestCase):
         response = thread.get()
         response2 = thread2.get()
 
-        self.assertEquals(response.id, self.pet.id)
+        self.assertEqual(response.id, self.pet.id)
         self.assertIsNotNone(response2.id, self.pet.id)
 
     def test_async_with_http_info(self):
@@ -204,7 +209,7 @@ class PetApiTests(unittest.TestCase):
         data, status, headers = thread.get()
 
         self.assertIsInstance(data, petstore_api.Pet)
-        self.assertEquals(status, 200)
+        self.assertEqual(status, 200)
 
     def test_async_exception(self):
         self.pet_api.add_pet(self.pet)

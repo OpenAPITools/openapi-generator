@@ -39,6 +39,7 @@ class Configuration(object):
 
     :Example:
 
+    API Key Authentication Example.
     Given the following security scheme in the OpenAPI specification:
       components:
         securitySchemes:
@@ -54,11 +55,26 @@ class Configuration(object):
       )
     The following cookie will be added to the HTTP request:
        Cookie: JSESSIONID abc123
+
+    HTTP Basic Authentication Example.
+    Given the following security scheme in the OpenAPI specification:
+      components:
+        securitySchemes:
+          http_basic_auth:
+            type: http
+            scheme: basic
+
+    Configure API client with HTTP basic authentication:
+      conf = petstore_api.Configuration(
+          username='the-user',
+          password='the-password',
+      )
     """
 
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
-                 username=None, password=None):
+                 username=None, password=None,
+                 ):
         """Constructor
         """
         self.host = host
@@ -87,7 +103,7 @@ class Configuration(object):
         self.password = password
         """Password for HTTP basic authentication
         """
-        self.access_token = ""
+        self.access_token = None
         """access token for OAuth/Bearer
         """
         self.logger = {}

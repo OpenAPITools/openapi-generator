@@ -3,10 +3,24 @@ package org.openapitools.codegen.utils;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringUtils {
+    // A cache of camelized words. The camelize() method is invoked many times with the same
+    // arguments, this cache is used to optimized performance.
+    private static Map<Boolean, Map<String, String>> camelizedWords =
+        new HashMap<Boolean, Map<String, String>>();
+
+    // A cache of underscored words, used to optimize the performance of the underscore() method.
+    private static Map<String, String> underscoreWords = new HashMap<String, String>();
+
+    static {
+        camelizedWords.put(false, new HashMap<String, String>());
+        camelizedWords.put(true, new HashMap<String, String>());
+    }
+
     /**
      * Underscore the given word.
      * Copied from Twitter elephant bird
@@ -16,11 +30,15 @@ public class StringUtils {
      * @return The underscored version of the word
      */
     public static String underscore(final String word) {
+        String result = underscoreWords.get(word);
+        if (result != null) {
+            return result;
+        }
         String firstPattern = "([A-Z]+)([A-Z][a-z])";
         String secondPattern = "([a-z\\d])([A-Z])";
         String replacementPattern = "$1_$2";
         // Replace package separator with slash.
-        String result = word.replaceAll("\\.", "/");
+        result = word.replaceAll("\\.", "/");
         // Replace $ with two underscores for inner classes.
         result = result.replaceAll("\\$", "__");
         // Replace capital letter with _ plus lowercase letter.
@@ -30,6 +48,7 @@ public class StringUtils {
         // replace space with underscore
         result = result.replace(' ', '_');
         result = result.toLowerCase(Locale.ROOT);
+        underscoreWords.put(word, result);
         return result;
     }
 
@@ -40,7 +59,7 @@ public class StringUtils {
      * @return The dashized version of the word, e.g. "my-name"
      */
     public static String dashize(String word) {
-        return underscore(word).replaceAll("[_ ]", "-");
+        return underscore(word).replaceAll("[_ ]+", "-");
     }
 
     /**
@@ -55,6 +74,11 @@ public class StringUtils {
         return camelize(word, false);
     }
 
+    private static Pattern camelizeSlashPattern = Pattern.compile("\\/(.?)");
+    private static Pattern camelizeUppercasePattern = Pattern.compile("(\\.?)(\\w)([^\\.]*)$");
+    private static Pattern camelizeUnderscorePattern = Pattern.compile("(_)(.)");
+    private static Pattern camelizeHyphenPattern = Pattern.compile("(-)(.)");
+
     /**
      * Camelize name (parameter, property, method, etc)
      *
@@ -63,12 +87,16 @@ public class StringUtils {
      * @return camelized string
      */
     public static String camelize(String word, boolean lowercaseFirstLetter) {
+        String inputWord = word;
+        String camelized = camelizedWords.get(lowercaseFirstLetter).get(word);
+        if (camelized != null) {
+            return camelized;
+        }
         // Replace all slashes with dots (package separator)
-        Pattern p = Pattern.compile("\\/(.?)");
-        Matcher m = p.matcher(word);
+        Matcher m = camelizeSlashPattern.matcher(word);
         while (m.find()) {
             word = m.replaceFirst("." + m.group(1)/*.toUpperCase()*/); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-            m = p.matcher(word);
+            m = camelizeSlashPattern.matcher(word);
         }
 
         // case out dots
@@ -81,15 +109,14 @@ public class StringUtils {
         }
         word = f.toString();
 
-        m = p.matcher(word);
+        m = camelizeSlashPattern.matcher(word);
         while (m.find()) {
             word = m.replaceFirst("" + Character.toUpperCase(m.group(1).charAt(0)) + m.group(1).substring(1)/*.toUpperCase()*/);
-            m = p.matcher(word);
+            m = camelizeSlashPattern.matcher(word);
         }
 
         // Uppercase the class name.
-        p = Pattern.compile("(\\.?)(\\w)([^\\.]*)$");
-        m = p.matcher(word);
+        m = camelizeUppercasePattern.matcher(word);
         if (m.find()) {
             String rep = m.group(1) + m.group(2).toUpperCase(Locale.ROOT) + m.group(3);
             rep = rep.replaceAll("\\$", "\\\\\\$");
@@ -97,8 +124,7 @@ public class StringUtils {
         }
 
         // Remove all underscores (underscore_case to camelCase)
-        p = Pattern.compile("(_)(.)");
-        m = p.matcher(word);
+        m = camelizeUnderscorePattern.matcher(word);
         while (m.find()) {
             String original = m.group(2);
             String upperCase = original.toUpperCase(Locale.ROOT);
@@ -107,15 +133,14 @@ public class StringUtils {
             } else {
                 word = m.replaceFirst(upperCase);
             }
-            m = p.matcher(word);
+            m = camelizeUnderscorePattern.matcher(word);
         }
 
         // Remove all hyphens (hyphen-case to camelCase)
-        p = Pattern.compile("(-)(.)");
-        m = p.matcher(word);
+        m = camelizeHyphenPattern.matcher(word);
         while (m.find()) {
             word = m.replaceFirst(m.group(2).toUpperCase(Locale.ROOT));
-            m = p.matcher(word);
+            m = camelizeHyphenPattern.matcher(word);
         }
 
         if (lowercaseFirstLetter && word.length() > 0) {
@@ -132,6 +157,8 @@ public class StringUtils {
         // remove all underscore
         word = word.replaceAll("_", "");
 
+        // Add to the cache.
+        camelizedWords.get(lowercaseFirstLetter).put(inputWord, word);
         return word;
     }
 

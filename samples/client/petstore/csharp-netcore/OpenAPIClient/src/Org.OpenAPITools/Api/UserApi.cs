@@ -1100,23 +1100,11 @@ namespace Org.OpenAPITools.Api
 
             if (username != null)
             {
-                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "username", username))
-                {
-                    foreach (var _kvpValue in _kvp.Value)
-                    {
-                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
-                    }
-                }
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "username", username));
             }
             if (password != null)
             {
-                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "password", password))
-                {
-                    foreach (var _kvpValue in _kvp.Value)
-                    {
-                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
-                    }
-                }
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "password", password));
             }
 
 
@@ -1183,23 +1171,11 @@ namespace Org.OpenAPITools.Api
             
             if (username != null)
             {
-                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "username", username))
-                {
-                    foreach (var _kvpValue in _kvp.Value)
-                    {
-                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
-                    }
-                }
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "username", username));
             }
             if (password != null)
             {
-                foreach (var _kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "password", password))
-                {
-                    foreach (var _kvpValue in _kvp.Value)
-                    {
-                        localVarRequestOptions.QueryParameters.Add(_kvp.Key, _kvpValue);
-                    }
-                }
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "password", password));
             }
 
 

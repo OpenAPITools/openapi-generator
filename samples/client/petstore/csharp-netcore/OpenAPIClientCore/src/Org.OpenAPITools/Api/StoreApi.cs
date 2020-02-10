@@ -560,10 +560,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Order</returns>
         public Org.OpenAPITools.Client.ApiResponse< Order > GetOrderByIdWithHttpInfo (long orderId)
         {
-            // verify the required parameter 'orderId' is set
-            if (orderId == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->GetOrderById");
-
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] _contentTypes = new String[] {
@@ -581,8 +577,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (orderId != null)
-                localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
 
 
             // make the HTTP request
@@ -618,10 +613,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse (Order)</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (long orderId)
         {
-            // verify the required parameter 'orderId' is set
-            if (orderId == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->GetOrderById");
-
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -640,8 +631,7 @@ namespace Org.OpenAPITools.Api
             foreach (var _accept in _accepts)
                 localVarRequestOptions.HeaderParameters.Add("Accept", _accept);
             
-            if (orderId != null)
-                localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("order_id", Org.OpenAPITools.Client.ClientUtils.ParameterToString(orderId)); // path parameter
 
 
             // make the HTTP request
