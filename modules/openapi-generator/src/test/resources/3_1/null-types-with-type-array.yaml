@@ -1,5 +1,7 @@
-# OAS document that uses the 'null' type, which is a 3.1 feature.
-openapi: 3.0.2 # This should be 3.1, but the parser does not accept that version yet.
+# OAS document that uses 3.1 features:
+# 'null' type
+# type array
+openapi: 3.1.0
 info:
   version: 1.0.0
   title: Example
@@ -45,10 +47,14 @@ components:
           type: string
         maidenName:
           # A property which can be the 'null' value or a string value.
-          oneOf:
-            - type: string
-              maxLength: 255
-            - type: 'null'
+          # This allows for a concise expression of use cases such as a function that might
+          # return either a string of a certain length or a null value:
+          # The 'maxLength' assertion only constrain values within a certain primitive
+          # type. When the type of the instance is not of the type targeted by
+          # the keyword, the instance is considered to conform to the assertion.
+          # See https://tools.ietf.org/html/draft-handrews-json-schema-02#section-7.6.1
+          type: [ string, 'null']
+          maxLength: 255
         address:
           # An object defined inline instead of by reference. codegen and language generators
           # behave differently when a property is defined inline versus by reference.
@@ -66,6 +72,16 @@ components:
           # An array defined inline instead of by reference. codegen and language generators
           # behave differently when a property is defined inline versus by reference.
           type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+        nullableSkills:
+          # An array defined inline instead of by reference. codegen and language generators
+          # behave differently when a property is defined inline versus by reference.
+          # The value can be 'null'.
+          type: [array, 'null']
           items:
             type: object
             properties:
@@ -95,6 +111,12 @@ components:
             # and would allow the 'null' value, but from a compliance perspective, the null value
             # is not allowed.
             type: array
+            items:
+              $ref: "#/components/schemas/Child"
+          nullableChildren:
+            # Use 'type array' syntax to indicate the value of the property may be the 'null' value or an array.
+            # Type arrays are supported in OAS 3.1 and above.
+            type: [array, 'null']
             items:
               $ref: "#/components/schemas/Child"
           nullableChildrenVariant2:
