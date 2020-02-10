@@ -239,6 +239,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     public String toModel(String name) {
+        return toModel(name, true);
+    }
+
+    public String toModel(String name, boolean doUnderscore) {
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -262,7 +266,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        return underscore(name);
+        if (doUnderscore) {
+            return underscore(name);
+        }
+        return name;
     }
 
     @Override

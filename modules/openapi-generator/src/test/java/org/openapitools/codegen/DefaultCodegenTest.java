@@ -389,6 +389,79 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void updateCodegenPropertyEnumWithPrefixRemoved() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        CodegenProperty enumProperty = codegenProperty(Arrays.asList("animal_dog", "animal_cat"));
+
+        codegen.updateCodegenPropertyEnum(enumProperty);
+
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.getItems().getAllowableValues().get("enumVars");
+        Assert.assertNotNull(enumVars);
+        Assert.assertNotNull(enumVars.get(0));
+        Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "DOG");
+        Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"animal_dog\"");
+        Assert.assertNotNull(enumVars.get(1));
+        Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "CAT");
+        Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"animal_cat\"");
+    }
+
+    @Test
+    public void updateCodegenPropertyEnumWithoutPrefixRemoved() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setRemoveEnumValuePrefix(false);
+
+        CodegenProperty enumProperty = codegenProperty(Arrays.asList("animal_dog", "animal_cat"));
+
+        codegen.updateCodegenPropertyEnum(enumProperty);
+
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.getItems().getAllowableValues().get("enumVars");
+        Assert.assertNotNull(enumVars);
+        Assert.assertNotNull(enumVars.get(0));
+        Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "ANIMAL_DOG");
+        Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"animal_dog\"");
+        Assert.assertNotNull(enumVars.get(1));
+        Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "ANIMAL_CAT");
+        Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"animal_cat\"");
+    }
+
+    @Test
+    public void postProcessModelsEnumWithPrefixRemoved() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        Map<String, Object> objs = codegenModel(Arrays.asList("animal_dog", "animal_cat"));
+        CodegenModel cm = (CodegenModel) ((Map<String, Object>) ((List<Object>) objs.get("models")).get(0)).get("model");
+
+        codegen.postProcessModelsEnum(objs);
+
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cm.getAllowableValues().get("enumVars");
+        Assert.assertNotNull(enumVars);
+        Assert.assertNotNull(enumVars.get(0));
+        Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "DOG");
+        Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"animal_dog\"");
+        Assert.assertNotNull(enumVars.get(1));
+        Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "CAT");
+        Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"animal_cat\"");
+    }
+
+    @Test
+    public void postProcessModelsEnumWithoutPrefixRemoved() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setRemoveEnumValuePrefix(false);
+        Map<String, Object> objs = codegenModel(Arrays.asList("animal_dog", "animal_cat"));
+        CodegenModel cm = (CodegenModel) ((Map<String, Object>) ((List<Object>) objs.get("models")).get(0)).get("model");
+
+        codegen.postProcessModelsEnum(objs);
+
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cm.getAllowableValues().get("enumVars");
+        Assert.assertNotNull(enumVars);
+        Assert.assertNotNull(enumVars.get(0));
+        Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "ANIMAL_DOG");
+        Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"animal_dog\"");
+        Assert.assertNotNull(enumVars.get(1));
+        Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "ANIMAL_CAT");
+        Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"animal_cat\"");
+    }
+
+    @Test
     public void postProcessModelsEnumWithExtention() {
         final DefaultCodegen codegen = new DefaultCodegen();
         Map<String, Object> objs = codegenModelWithXEnumVarName();
@@ -902,6 +975,19 @@ public class DefaultCodegenTest {
         return array;
     }
 
+    private CodegenProperty codegenProperty(List<String> values) {
+        CodegenProperty array = new CodegenProperty();
+        final CodegenProperty items = new CodegenProperty();
+        final HashMap<String, Object> allowableValues = new HashMap<>();
+        allowableValues.put("values", values);
+        items.setAllowableValues(allowableValues);
+        items.dataType = "String";
+        array.items = items;
+        array.mostInnerItems = items;
+        array.dataType = "Array";
+        return array;
+    }
+
     private CodegenProperty codegenPropertyWithXEnumVarName(List<String> values, List<String> aliases) {
         final CodegenProperty var = new CodegenProperty();
         final HashMap<String, Object> allowableValues = new HashMap<>();
@@ -911,6 +997,17 @@ public class DefaultCodegenTest {
         Map<String, Object> extentions = Collections.singletonMap("x-enum-varnames", aliases);
         var.setVendorExtensions(extentions);
         return var;
+    }
+
+    private Map<String, Object> codegenModel(List<String> values) {
+        final CodegenModel cm = new CodegenModel();
+        cm.isEnum = true;
+        final HashMap<String, Object> allowableValues = new HashMap<>();
+        allowableValues.put("values", values);
+        cm.setAllowableValues(allowableValues);
+        cm.dataType = "String";
+        Map<String, Object> objs = Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm)));
+        return objs;
     }
 
     private Map<String, Object> codegenModelWithXEnumVarName() {
