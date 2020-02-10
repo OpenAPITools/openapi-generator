@@ -29,6 +29,10 @@ const (
 {{^isEnum}}
 // {{classname}}{{#description}} {{{description}}}{{/description}}{{^description}} struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
+{{#vendorExtensions.x-is-one-of-interface}}
+    {{classname}}Interface interface { {{#discriminator}}{{propertyGetter}}() {{propertyType}}{{/discriminator}} }
+{{/vendorExtensions.x-is-one-of-interface}}
+{{^vendorExtensions.x-is-one-of-interface}}
 {{#parent}}
 {{^isMapModel}}
 	{{{parent}}}
@@ -42,10 +46,12 @@ type {{classname}} struct {
 {{/description}}
 	{{name}} {{^required}}*{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
+{{/vendorExtensions.x-is-one-of-interface}}
 }
 {{/isEnum}}
 
 {{^isEnum}}
+{{^vendorExtensions.x-is-one-of-interface}}
 {{#vars}}
 {{#required}}
 // Get{{name}} returns the {{name}} field value
@@ -100,6 +106,58 @@ func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
 
 {{/required}}
 {{/vars}}
+{{/vendorExtensions.x-is-one-of-interface}}
+{{#vendorExtensions.x-is-one-of-interface}}
+func (s *{{classname}}) MarshalJSON() ([]byte, error) {
+    return json.Marshal(s.{{classname}}Interface)
+}
+
+func (s *{{classname}}) UnmarshalJSON(src []byte) error {
+    var err error
+    {{#discriminator}}
+    var unmarshaled map[string]interface{}
+    err = json.Unmarshal(src, &unmarshaled)
+    if err != nil {
+        return err
+    }
+    if v, ok := unmarshaled["{{discriminator.propertyBaseName}}"]; ok {
+        switch v {
+        {{#discriminator.mappedModels}}
+            case "{{mappingName}}":
+                var result *{{modelName}} = &{{modelName}}{}
+                err = json.Unmarshal(src, result)
+                if err != nil {
+                    return err
+                }
+                s.{{classname}}Interface = result
+                return nil
+        {{/discriminator.mappedModels}}
+            default:
+                return fmt.Errorf("No oneOf model has '{{discriminator.propertyBaseName}}' equal to %s", v)
+        }
+    } else {
+        return fmt.Errorf("Discriminator property '{{discriminator.propertyBaseName}}' not found in unmarshaled payload: %+v", unmarshaled)
+    }
+    {{/discriminator}}
+    {{^discriminator}}
+    {{#oneOf}}
+    var unmarshaled{{{.}}} *{{{.}}} = &{{{.}}}{}
+    err = json.Unmarshal(src, unmarshaled{{{.}}})
+    if err == nil {
+        s.{{classname}}Interface = unmarshaled{{{.}}}
+        return nil
+    }
+    {{/oneOf}}
+    return fmt.Errorf("No oneOf model could be deserialized from payload: %s", string(src))
+    {{/discriminator}}
+}
+{{/vendorExtensions.x-is-one-of-interface}}
+{{#vendorExtensions.implements}}
+// As{{{.}}} wraps this instance of {{classname}} in {{{.}}}
+func (s *{{classname}}) As{{{.}}}() {{{.}}} {
+    return {{{.}}}{ {{{.}}}Interface: s }
+}
+{{/vendorExtensions.implements}}
 {{/isEnum}}
 type Nullable{{{classname}}} struct {
 	Value {{{classname}}}

@@ -1301,4 +1301,42 @@ public class DefaultCodegenTest {
         Assert.assertTrue(roundCNext.isCircularReference);
         Assert.assertFalse(roundCOut.isCircularReference);
     }
+
+    @Test
+    public void testUseOneOfInterfaces() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/composed-oneof.yaml");
+        final DefaultCodegen cg = new DefaultCodegen();
+        cg.setUseOneOfInterfaces(true);
+        cg.preprocessOpenAPI(openAPI);
+
+        // assert names of the response/request schema oneOf interfaces are as expected
+        Assert.assertEquals(
+                openAPI.getPaths()
+                        .get("/state")
+                        .getPost()
+                        .getRequestBody()
+                        .getContent()
+                        .get("application/json")
+                        .getSchema()
+                        .getExtensions()
+                        .get("x-oneOf-name"),
+                "CreateState"
+        );
+        Assert.assertEquals(
+                openAPI.getPaths()
+                        .get("/state")
+                        .getGet()
+                        .getResponses()
+                        .get("200")
+                        .getContent()
+                        .get("application/json")
+                        .getSchema()
+                        .getExtensions()
+                        .get("x-oneOf-name"),
+                "GetState200"
+        );
+        // for the array schema, assert that a oneOf interface was added to schema map
+        Schema items = ((ArraySchema) openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema")).getItems();
+        Assert.assertEquals(items.getExtensions().get("x-oneOf-name"), "CustomOneOfArraySchemaOneOf");
+    }
 }
