@@ -201,7 +201,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return sanitizeName("_" + name);
+        return sanitizeName("r_" + name);
     }
 
     @Override
