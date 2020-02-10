@@ -25,6 +25,8 @@ components:
           $ref: '#/components/schemas/CrossOne'
         circular:
           $ref: '#/components/schemas/CircularOne'
+        circularArray:
+          $ref: '#/components/schemas/CircularArrayOne'
 
     Self:
       type: object
@@ -59,3 +61,18 @@ components:
         referenced:
           $ref: '#/components/schemas/CircularOne'
 
+    CircularArrayOne:
+      type: object
+      properties:
+        referenced:
+          $ref: '#/components/schemas/CircularArrayTwo'
+    CircularArrayTwo:
+      type: object
+      properties:
+        referenced:
+          $ref: '#/components/schemas/CircularArrayThree'
+    CircularArrayThree:
+      type: object
+      properties:
+        referenced:
+          $ref: '#/components/schemas/CircularArrayOne'

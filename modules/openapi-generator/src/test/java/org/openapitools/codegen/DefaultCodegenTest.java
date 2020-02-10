@@ -1179,6 +1179,9 @@ public class DefaultCodegenTest {
         CodegenModel codegenModelCircularOne = codegen.fromModel("CircularOne", openAPI.getComponents().getSchemas().get("CircularOne"));
         CodegenModel codegenModelCircularTwo = codegen.fromModel("CircularTwo", openAPI.getComponents().getSchemas().get("CircularTwo"));
         CodegenModel codegenModelCircularThree = codegen.fromModel("CircularThree", openAPI.getComponents().getSchemas().get("CircularThree"));
+        CodegenModel codegenModelCircularArrayOne = codegen.fromModel("CircularArrayOne", openAPI.getComponents().getSchemas().get("CircularArrayOne"));
+        CodegenModel codegenModelCircularArrayTwo = codegen.fromModel("CircularArrayTwo", openAPI.getComponents().getSchemas().get("CircularArrayTwo"));
+        CodegenModel codegenModelCircularArrayThree = codegen.fromModel("CircularArrayThree", openAPI.getComponents().getSchemas().get("CircularArrayThree"));
 
         Set<String> assertionSelf = new TreeSet<String>();
         Set<String> assertionCrossOne = new TreeSet<String>();
@@ -1194,6 +1197,15 @@ public class DefaultCodegenTest {
         Set<String> assertionCircularThree = new TreeSet<String>();
         assertionCircularThree.add("CircularOne");
         assertionCircularThree.add("CircularTwo");
+        Set<String> assertionCircularArrayOne = new TreeSet<String>();
+        assertionCircularArrayOne.add("CircularArrayThree");
+        assertionCircularArrayOne.add("CircularArrayTwo");
+        Set<String> assertionCircularArrayTwo = new TreeSet<String>();
+        assertionCircularArrayTwo.add("CircularArrayOne");
+        assertionCircularArrayTwo.add("CircularArrayThree");
+        Set<String> assertionCircularArrayThree = new TreeSet<String>();
+        assertionCircularArrayThree.add("CircularArrayOne");
+        assertionCircularArrayThree.add("CircularArrayTwo");
 
         Assert.assertEquals(codegenModelSelf.getCircularReferences(), assertionSelf);
         Assert.assertEquals(codegenModelCrossOne.getCircularReferences(), assertionCrossOne);
@@ -1201,5 +1213,8 @@ public class DefaultCodegenTest {
         Assert.assertEquals(codegenModelCircularOne.getCircularReferences(), assertionCircularOne);
         Assert.assertEquals(codegenModelCircularTwo.getCircularReferences(), assertionCircularTwo);
         Assert.assertEquals(codegenModelCircularThree.getCircularReferences(), assertionCircularThree);
+        Assert.assertEquals(codegenModelCircularArrayOne.getCircularReferences(), assertionCircularArrayOne);
+        Assert.assertEquals(codegenModelCircularArrayTwo.getCircularReferences(), assertionCircularArrayTwo);
+        Assert.assertEquals(codegenModelCircularArrayThree.getCircularReferences(), assertionCircularArrayThree);
     }
 }

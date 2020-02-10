@@ -674,24 +674,35 @@ public class ModelUtils {
         Map<String, Schema> properties = model.getProperties();
 
         if (properties != null && !properties.isEmpty()) {
-            for (Map.Entry<String, Schema> property : properties.entrySet()) {
-                if (property.getValue().get$ref() != null) {
-                    String ref = ModelUtils.getSimpleRef(property.getValue().get$ref());
-                    // already visited the schema
-                    if (!visited.contains(ref)) {
-                        Schema innerModel = getSchema(openAPI, ref);
-                        if (innerModel != null && isObjectSchema(innerModel)) {
-                            if (name.equals(ref)) {
-                                // starting schema has been found
+            for (Schema property : properties.values()) {
+
+                String ref = null;
+
+                if (isArraySchema(property)) {
+                    ArraySchema as = (ArraySchema)property;
+                    if (as.getItems().get$ref() != null)
+                        ref = ModelUtils.getSimpleRef(as.getItems().get$ref());
+                    
+                }
+                
+                if (property.get$ref() != null) {
+                    ref = ModelUtils.getSimpleRef(property.get$ref());
+                }
+
+                // already visited the schema
+                if (ref != null && !visited.contains(ref)) {
+                    Schema innerModel = getSchema(openAPI, ref);
+                    if (innerModel != null && isObjectSchema(innerModel)) {
+                        if (name.equals(ref)) {
+                            // starting schema has been found
+                            cycleDetected = true;
+                        } else {
+                            visited.add(ref);
+                            if (detectCircularReferences(openAPI, name, innerModel, set, visited)) {
+                                // add the schema to the set and remove it from visited to allow checking for more occurences
+                                set.add(ref);
+                                visited.remove(ref);
                                 cycleDetected = true;
-                            } else {
-                                visited.add(ref);
-                                if (detectCircularReferences(openAPI, name, innerModel, set, visited)) {
-                                    // add the schema to the set and remove it from visited to allow checking for more occurences
-                                    set.add(ref);
-                                    visited.remove(ref);
-                                    cycleDetected = true;
-                                }
                             }
                         }
                     }
