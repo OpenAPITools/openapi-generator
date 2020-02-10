@@ -103,14 +103,15 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
 
     @Override
     public String getTypeDeclaration(Schema p) {
+        String oasType = getSchemaType(p);
         if (ModelUtils.isFileSchema(p)) {
             return "Blob";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "Blob";
         } else if (ModelUtils.isDateSchema(p)) {
-            return "Date";
+            return typeMapping.containsKey("Date") ? typeMapping.get("Date") : "Date";
         } else if (ModelUtils.isDateTimeSchema(p)) {
-            return "Date";
+            return typeMapping.containsKey("Date") ? typeMapping.get("Date") : "Date";
         }
         return super.getTypeDeclaration(p);
     }
