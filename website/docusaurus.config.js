@@ -34,7 +34,7 @@ const docusaurusConfig = {
     sidebarCollapsible: true,
 
     prism: {
-      theme: require('prism-react-renderer/themes/duotoneDark'),
+      theme: require('prism-react-renderer/themes/dracula'),
       defaultLanguage: 'bash',
     },
 
@@ -49,9 +49,8 @@ const docusaurusConfig = {
         {to: 'docs/installation', label: 'Install'},
         {to: 'docs/generators', label: 'Generators'},
         {to: 'docs/roadmap', label: 'Roadmap'},
-        {to: "team", label: "Team" },
         {to: "docs/faq", label: "FAQ" },
-        // {page: 'help', label: 'Help'},
+        {to: "team", label: "Team" },
         {to: "blog", label: 'Blog'},
         {to: 'http://api.openapi-generator.tech', label: 'API'},
       ],
