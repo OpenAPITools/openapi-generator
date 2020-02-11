@@ -25,7 +25,7 @@ then
   mvn -B clean package
 fi
 
-SPEC="modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml"
+SPEC="modules/openapi-generator/src/test/resources/3_0/oneOf.yaml" #petstore-with-fake-endpoints-models-for-testing.yaml"
 GENERATOR="go"
 STUB_DIR="samples/openapi3/client/petstore/go/go-petstore"
 

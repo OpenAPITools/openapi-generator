@@ -1,16 +1,16 @@
 # \DefaultApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**FooGet**](DefaultApi.md#FooGet) | **Get** /foo | 
+[**RootGet**](DefaultApi.md#RootGet) | **Get** / | 
 
 
 
-## FooGet
+## RootGet
 
-> InlineResponseDefault FooGet(ctx, )
+> Fruit RootGet(ctx, )
 
 
 
@@ -20,7 +20,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**InlineResponseDefault**](inline_response_default.md)
+[**Fruit**](fruit.md)
 
 ### Authorization
 
