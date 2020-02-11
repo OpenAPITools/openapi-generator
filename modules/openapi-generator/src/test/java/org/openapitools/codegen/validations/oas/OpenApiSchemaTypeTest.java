@@ -8,14 +8,14 @@ import org.openapitools.codegen.validation.ValidationResult;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class OpenApiSchemaTypeTest {
-    @Test(dataProvider = "oas31RecommendationExpectations", description = "Warn when a 'null' type is present in OAS 3.0 document")
-    public void testOas30DocumentWithNullType(final OpenAPI openAPI) {
-        /*
+    @Test(dataProvider = "oas31RecommendationExpectations", description = "Warn when 3.1 features are present in a OAS 3.0 document")
+    public void testOas30DocumentWithNullType(final OpenAPI openAPI, boolean matches) {
         RuleConfiguration config = new RuleConfiguration();
         config.setEnableRecommendations(true);
         OpenApiEvaluator validator = new OpenApiEvaluator(config);
@@ -23,21 +23,21 @@ public class OpenApiSchemaTypeTest {
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
-                .filter(invalid -> "Schema defines properties alongside oneOf." .equals(invalid.getRule().getDescription()))
+                .filter(invalid -> "Schema uses the 'null' type but OAS document is version 3.0." .equals(invalid.getRule().getDescription()))
                 .collect(Collectors.toList());
 
         Assert.assertNotNull(warnings);
-        */
-    }
-
-    @Test(dataProvider = "oas31RecommendationExpectations", description = "Don't warn when a 'null' type is present in OAS 3.0 document")
-    public void testOas31DocumentWithNullType(Schema schema, boolean matches) {
+        if (matches) {
+            Assert.assertEquals(warnings.size() >= 1, true, "Expected to match recommendation.");
+        } else {
+            Assert.assertEquals(warnings.size(), 0, "Expected not to match recommendation.");
+        }
     }
 
     @DataProvider(name = "oas31RecommendationExpectations")
     public Object[][] oas31RecommendationExpectations() {
         return new Object[][]{
-            //{TestUtils.parseSpec("src/test/resources/3_1/null-types.yaml")},
+            {TestUtils.parseSpec("src/test/resources/3_1/null-types.yaml"), true}
         };
     }
 }

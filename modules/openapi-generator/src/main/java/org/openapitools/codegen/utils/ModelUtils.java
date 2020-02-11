@@ -264,6 +264,18 @@ public class ModelUtils {
         }
     }
 
+    /**
+     * Invoke the specified visitor function for every schema that matches mimeType in the OpenAPI document.
+     * 
+     * To avoid infinite recursion, referenced schemas are visited only once. When a referenced schema is visited,
+     * it is added to visitedSchemas.
+     * 
+     * @param openAPI the OpenAPI document that contains schema objects.
+     * @param schema the root schema object to be visited.
+     * @param mimeType the mime type. TODO: does not seem to be used in a meaningful way.
+     * @param visitedSchemas the list of referenced schemas that have been visited.
+     * @param visitor the visitor function which is invoked for every visited schema.
+     */
     private static void visitSchema(OpenAPI openAPI, Schema schema, String mimeType, List<String> visitedSchemas, OpenAPISchemaVisitor visitor) {
         visitor.visit(schema, mimeType);
         if (schema.get$ref() != null) {
@@ -648,6 +660,14 @@ public class ModelUtils {
         return getSchemas(openAPI).get(name);
     }
 
+    /**
+     * Return a Map of the schemas defined under /components/schemas in the OAS document.
+     * The returned Map only includes the direct children of /components/schemas in the OAS document; the Map
+     * does not include inlined schemas.
+     * 
+     * @param openAPI the OpenAPI document.
+     * @return a map of schemas in the OAS document.
+     */
     public static Map<String, Schema> getSchemas(OpenAPI openAPI) {
         if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getSchemas() != null) {
             return openAPI.getComponents().getSchemas();
@@ -655,6 +675,26 @@ public class ModelUtils {
         return Collections.emptyMap();
     }
 
+    /**
+     * Return the list of all schemas in the 'components/schemas' section of an openAPI specification,
+     * including inlined schemas and children of composed schemas.
+     *
+     * @param openAPI OpenAPI document
+     * @return a list of schemas
+     */
+    public static List<Schema> getAllSchemas(OpenAPI openAPI) {
+        List<Schema> allSchemas = new ArrayList<Schema>();
+        List<String> refSchemas = new ArrayList<String>();
+        getSchemas(openAPI).forEach((key, schema) -> {
+            // Invoke visitSchema to recursively visit all schema objects, included inlined and composed schemas.
+            // Use the OpenAPISchemaVisitor visitor function
+            visitSchema(openAPI, schema, null, refSchemas, (s, mimetype) -> {
+                allSchemas.add(s);
+            });
+        });
+        return allSchemas;
+    }
+    
     /**
      * If a RequestBody contains a reference to an other RequestBody with '$ref', returns the referenced RequestBody if it is found or the actual RequestBody in the other cases.
      *

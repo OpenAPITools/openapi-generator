@@ -28,7 +28,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
             }
             if (ruleConfiguration.isEnableSchemaTypeRecommendation()) {
                 rules.add(ValidationRule.warn(
-                        "Schema defines uses the 'null' type.",
+                        "Schema uses the 'null' type but OAS document is version 3.0.",
                         "The 'null' type is not supported in OpenAPI 3.0.x. It is supported in OpenAPI 3.1 and above. While our tooling supports this, it may cause issues with other tools.",
                         OpenApiSchemaValidations::checkNullType
                 ));
@@ -36,7 +36,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
             if (ruleConfiguration.isEnableNullableAttributeRecommendation()) {
                 rules.add(ValidationRule.warn(
                         "Schema uses the 'nullable' attribute.",
-                        "The 'nullable' attribute is deprecated in OpenAPI 3.1, and may no longer be supported in future releases. Consider migrating to 'null' type.",
+                        "The 'nullable' attribute is deprecated in OpenAPI 3.1, and may no longer be supported in future releases. Consider migrating to the 'null' type.",
                         OpenApiSchemaValidations::checkNullableAttribute
                 ));
             }
@@ -79,8 +79,10 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
      * JSON Schema specifies type: 'null'.
      * <p>
      * 'null' type is supported in OpenAPI Specification 3.1 and above. It is not supported in OpenAPI 3.0.x.
+     * Note: the validator invokes checkNullType() for every top-level schema in the OAS document. The method
+     * is not called for nested schemas that are defined inline.
      * 
-     * @param schema An input schema, regardless of the type of schema
+     * @param schema An input schema, regardless of the type of schema.
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
      */
     private static ValidationRule.Result checkNullType(SchemaWrapper schemaWrapper) {
@@ -92,25 +94,14 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
                 // OAS spec is 3.0.x
                 if (ModelUtils.isNullType(schema)) {
                     result = new ValidationRule.Fail();
-                    result.setDetails(String.format(Locale.ROOT,
-                        "%s uses a 'null' type, which is specified in OAS 3.1 and above, but OAS version is %s",
-                        schema.getName(), schemaWrapper.getOpenAPI().getOpenapi()));
-                    return result;
-                }
-                if (schema instanceof ComposedSchema) {
-                    final ComposedSchema composed = (ComposedSchema) schema;
-                    List<Schema> interfaces = ModelUtils.getInterfaces(composed);
-                    if (!interfaces.isEmpty()) {
-                        for (Schema interfaceSchema : interfaces) {
-                            if (ModelUtils.isNullType(interfaceSchema)) {
-                                    result = new ValidationRule.Fail();
-                                    result.setDetails(String.format(Locale.ROOT,
-                                        "%s uses a 'null' type, which is specified in OAS 3.1 and above, but OAS version is %s",
-                                        interfaceSchema.getName(), schemaWrapper.getOpenAPI().getOpenapi()));
-                                    return result;
-                            }
-                        }
+                    String name = schema.getName();
+                    if (name == null) {
+                        name = schema.getTitle();
                     }
+                    result.setDetails(String.format(Locale.ROOT,
+                        "Schema '%s' uses a 'null' type, which is specified in OAS 3.1 and above, but OAS document is version %s",
+                        name, schemaWrapper.getOpenAPI().getOpenapi()));
+                    return result;
                 }
             }
         }
@@ -133,25 +124,14 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
             if (version.atLeast("3.1")) {
                 if (ModelUtils.isNullable(schema)) {
                     result = new ValidationRule.Fail();
-                    result.setDetails(String.format(Locale.ROOT,
-                        "OAS specification is version '%s'. %s is 'nullable', which has been deprecated.",
-                        schemaWrapper.getOpenAPI().getOpenapi(), schema.getName()));
-                    return result;
-                }
-                if (schema instanceof ComposedSchema) {
-                    final ComposedSchema composed = (ComposedSchema) schema;
-                    List<Schema> interfaces = ModelUtils.getInterfaces(composed);
-                    if (!interfaces.isEmpty()) {
-                        for (Schema interfaceSchema : interfaces) {
-                            if (ModelUtils.isNullable(interfaceSchema)) {
-                                    result = new ValidationRule.Fail();
-                                    result.setDetails(String.format(Locale.ROOT,
-                                        "OAS specification is version '%s'. %s is 'nullable', which has been deprecated.",
-                                        schemaWrapper.getOpenAPI().getOpenapi(), interfaceSchema.getName()));
-                                    return result;
-                            }
-                        }
+                    String name = schema.getName();
+                    if (name == null) {
+                        name = schema.getTitle();
                     }
+                    result.setDetails(String.format(Locale.ROOT,
+                        "OAS document is version '%s'. Schema '%s' uses 'nullable' attribute, which has been deprecated in OAS 3.1.",
+                        schemaWrapper.getOpenAPI().getOpenapi(), name));
+                    return result;
                 }
             }
         }
