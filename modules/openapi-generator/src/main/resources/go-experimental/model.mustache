@@ -48,7 +48,10 @@ type {{classname}} struct {
 {{/vars}}
 {{/vendorExtensions.x-is-one-of-interface}}
 }
+{{/isEnum}}
 
+{{^isEnum}}
+{{^vendorExtensions.x-is-one-of-interface}}
 // New{{classname}} instantiates a new {{classname}} object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
@@ -86,10 +89,7 @@ func New{{classname}}WithDefaults() *{{classname}} {
 {{/vars}}
     return &this
 }
-{{/isEnum}}
 
-{{^isEnum}}
-{{^vendorExtensions.x-is-one-of-interface}}
 {{#vars}}
 {{#required}}
 // Get{{name}} returns the {{name}} field value

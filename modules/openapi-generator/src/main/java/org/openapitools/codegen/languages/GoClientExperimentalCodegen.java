@@ -29,14 +29,7 @@ import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-<<<<<<< HEAD
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-=======
 import java.util.*;
->>>>>>> Fix defaults for enums
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
