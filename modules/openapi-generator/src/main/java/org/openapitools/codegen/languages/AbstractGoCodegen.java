@@ -241,7 +241,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 // $GOARCH
                 "386", "amd64", "arm", "arm64", "mips", "mips64", "mips64le", "mipsle", "ppc64", "ppc64le", "s390x",
                 "wasm"));
-        return name != null && reservedSuffixes.contains(name);
+        return reservedSuffixes.contains(suffix);
     }
 
     @Override
