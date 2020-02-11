@@ -163,7 +163,6 @@ open class ApiClient(val baseUrl: String) {
                     response.headers.toMultimap()
             )
             else -> return ServerError(
-                    null,
                     response.body?.string(),
                     response.code,
                     response.headers.toMultimap()

@@ -62,7 +62,7 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode)
             }
         }
     }
@@ -102,7 +102,7 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode)
             }
         }
     }
@@ -143,7 +143,7 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode)
             }
         }
     }
@@ -184,7 +184,7 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException(localVarError.message ?: "Server error", localVarError.statusCode)
+                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode)
             }
         }
     }

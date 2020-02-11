@@ -33,7 +33,6 @@ class ClientError<T>(
 ) : ApiInfrastructureResponse<T>(ResponseType.ClientError)
 
 class ServerError<T>(
-    val message: String? = null,
     val body: Any? = null,
     override val statusCode: Int = -1,
     override val headers: Map<String, List<String>>
