@@ -50,8 +50,6 @@ import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
-import org.openapitools.client.ServerConfiguration;
-import org.openapitools.client.ServerVariable;
 
 import org.openapitools.client.auth.OAuth;
 

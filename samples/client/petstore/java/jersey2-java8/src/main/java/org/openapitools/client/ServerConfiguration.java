@@ -2,8 +2,6 @@ package org.openapitools.client;
 
 import java.util.Map;
 
-import com.datadog.api.v1.client.ServerVariable;
-
 /**
  * Representing a Server configuration.
  */
