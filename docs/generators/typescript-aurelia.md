@@ -12,6 +12,7 @@ sidebar_label: typescript-aurelia
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
 |npmVersion|The version of your npm package. If not provided, using the version from the OpenAPI specification file.| |1.0.0|
+|nullSafeAdditionalProps|Set to make additional properties types declare that their indexer may return undefined| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
@@ -33,7 +34,8 @@ sidebar_label: typescript-aurelia
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Array</li>
+<ul class="column-ul">
+<li>Array</li>
 <li>Boolean</li>
 <li>Date</li>
 <li>Double</li>
@@ -54,7 +56,8 @@ sidebar_label: typescript-aurelia
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
+<ul class="column-ul">
+<li>abstract</li>
 <li>await</li>
 <li>boolean</li>
 <li>break</li>

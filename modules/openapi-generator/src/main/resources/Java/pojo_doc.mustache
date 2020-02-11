@@ -1,8 +1,8 @@
-# {{#vendorExtensions.isOneOfInterface}}Interface {{/vendorExtensions.isOneOfInterface}}{{classname}}
+# {{#vendorExtensions.x-is-one-of-interface}}Interface {{/vendorExtensions.x-is-one-of-interface}}{{classname}}
 
 {{#description}}{{&description}}
 {{/description}}
-{{^vendorExtensions.isOneOfInterface}}
+{{^vendorExtensions.x-is-one-of-interface}}
 ## Properties
 
 Name | Type | Description | Notes
@@ -26,11 +26,11 @@ Name | Value
 * {{{.}}}
 {{/vendorExtensions.implements}}
 {{/vendorExtensions.implements.0}}
-{{/vendorExtensions.isOneOfInterface}}
-{{#vendorExtensions.isOneOfInterface}}
+{{/vendorExtensions.x-is-one-of-interface}}
+{{#vendorExtensions.x-is-one-of-interface}}
 ## Implementing Classes
 
 {{#oneOf}}
 * {{{.}}}
 {{/oneOf}}
-{{/vendorExtensions.isOneOfInterface}}
+{{/vendorExtensions.x-is-one-of-interface}}

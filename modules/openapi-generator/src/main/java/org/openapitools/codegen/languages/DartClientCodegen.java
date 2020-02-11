@@ -469,25 +469,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         Map<String, Object> allowableValues = cm.allowableValues;
         List<Object> values = (List<Object>) allowableValues.get("values");
-        List<Map<String, String>> enumVars =
-                new ArrayList<Map<String, String>>();
-        String commonPrefix = findCommonPrefixOfVars(values);
-        int truncateIdx = commonPrefix.length();
-        for (Object value : values) {
-            Map<String, String> enumVar = new HashMap<String, String>();
-            String enumName;
-            if (truncateIdx == 0) {
-                enumName = value.toString();
-            } else {
-                enumName = value.toString().substring(truncateIdx);
-                if ("".equals(enumName)) {
-                    enumName = value.toString();
-                }
-            }
-            enumVar.put("name", toEnumVarName(enumName, cm.dataType));
-            enumVar.put("value", toEnumValue(value.toString(), cm.dataType));
-            enumVars.add(enumVar);
-        }
+        List<Map<String, Object>> enumVars = buildEnumVars(values, cm.dataType);
         cm.allowableValues.put("enumVars", enumVars);
         return true;
     }
