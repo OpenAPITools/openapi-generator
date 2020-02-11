@@ -232,7 +232,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         String[] parts = name.split("_");
         String suffix = parts[parts.length - 1];
 
-        reservedSuffixes = new HashSet<String>(Arrays.asList(
+        Set<String> reservedSuffixes = new HashSet<String>(Arrays.asList(
                 // Test
                 "test",
                 // $GOOS
