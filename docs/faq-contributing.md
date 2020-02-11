@@ -1,6 +1,6 @@
 ---
 id: faq-contributing
-title: FAQ: Contributing
+title: "FAQ: Contributing"
 ---
 
 ## Automated checks on my PR have failed. Do you know what's wrong?

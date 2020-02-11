@@ -29,7 +29,8 @@ sidebar_label: cpp-qt5-qhttpengine-server
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>QByteArray</li>
+<ul class="column-ul">
+<li>QByteArray</li>
 <li>QDate</li>
 <li>QDateTime</li>
 <li>QString</li>
@@ -42,7 +43,8 @@ sidebar_label: cpp-qt5-qhttpengine-server
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>alignas</li>
+<ul class="column-ul">
+<li>alignas</li>
 <li>alignof</li>
 <li>and</li>
 <li>and_eq</li>

@@ -16,7 +16,7 @@ sidebar_label: kotlin-spring
 |gradleBuildFile|generate a gradle build file using the Kotlin DSL| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
-|library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dl>|spring-boot|
+|library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd></dl>|spring-boot|
 |modelMutable|Create mutable models| |false|
 |modelPackage|model package for generated code| |org.openapitools.model|
 |packageName|Generated artifact package name.| |org.openapitools|
@@ -61,7 +61,8 @@ sidebar_label: kotlin-spring
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>kotlin.Array</li>
+<ul class="column-ul">
+<li>kotlin.Array</li>
 <li>kotlin.Boolean</li>
 <li>kotlin.Byte</li>
 <li>kotlin.ByteArray</li>
@@ -79,7 +80,8 @@ sidebar_label: kotlin-spring
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>ApiClient</li>
+<ul class="column-ul">
+<li>ApiClient</li>
 <li>ApiException</li>
 <li>ApiResponse</li>
 <li>as</li>
