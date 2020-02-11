@@ -115,7 +115,7 @@ gen{{classname}} :: Int -> Gen {{classname}}
 gen{{classname}} n =
   {{#isAlias}}{{classname}} <$> arbitrary{{/isAlias}}{{^isAlias}}{{^hasVars}}
   pure {{/hasVars}}{{classname}}
-  {{#hasVars}}  <$>{{/hasVars}} {{#vars}}{{#required}}{{#isPrimitiveType}}arbitrary{{/isPrimitiveType}}{{^isPrimitiveType}}arbitraryReduced n{{/isPrimitiveType}}{{/required}}{{^required}}{{^vendorExtensions.x-isMaybeValue}}arbitraryReducedMaybe n{{/vendorExtensions.x-isMaybeValue}}{{#vendorExtensions.x-isMaybeValue}}arbitraryReducedMaybeValue n{{/vendorExtensions.x-isMaybeValue}}{{/required}} -- {{name}} :: {{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}
+  {{#hasVars}}  <$>{{/hasVars}} {{#vars}}{{#required}}{{#isPrimitiveType}}arbitrary{{/isPrimitiveType}}{{^isPrimitiveType}}arbitraryReduced n{{/isPrimitiveType}}{{/required}}{{^required}}{{^vendorExtensions.x-is-maybe-value}}arbitraryReducedMaybe n{{/vendorExtensions.x-is-maybe-value}}{{#vendorExtensions.x-is-maybe-value}}arbitraryReducedMaybeValue n{{/vendorExtensions.x-is-maybe-value}}{{/required}} -- {{name}} :: {{^required}}Maybe {{/required}}{{{vendorExtensions.x-data-type}}}
   {{#hasMore}}  <*> {{/hasMore}}{{/vars}}{{/isAlias}}
 {{/isEnum}}
 {{/model}}

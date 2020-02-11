@@ -720,6 +720,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         objs = super.postProcessModels(objs);
         List<Object> models = (List<Object>) objs.get("models");
 
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON) && !JERSEY1.equals(getLibrary())) {
             List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
             for (Object _mo : models) {
@@ -730,7 +733,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
                     // only add JsonNullable and related imports to optional and nullable values
                     addImports |= isOptionalNullable;
-                    var.getVendorExtensions().put("isJacksonOptionalNullable", isOptionalNullable);
+                    var.getVendorExtensions().put("isJacksonOptionalNullable", isOptionalNullable); // TODO: 5.0 Remove
+                    var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
                 }
                 if (addImports) {
                     Map<String, String> imports2Classnames = new HashMap<String, String>() {{

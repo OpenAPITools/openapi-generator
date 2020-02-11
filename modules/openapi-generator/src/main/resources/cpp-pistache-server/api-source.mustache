@@ -33,7 +33,7 @@ void {{classname}}::setupRoutes() {
 
 {{#operation}}
 void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Request &{{#hasParams}}request{{/hasParams}}, Pistache::Http::ResponseWriter response) {
-    {{#vendorExtensions.x-codegen-pistache-isParsingSupported}}
+    {{#vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     {{#hasPathParams}}
     // Getting the path params
     {{#pathParams}}
@@ -79,11 +79,11 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     {{/bodyParam}}
     {{/hasBodyParam}}
       this->{{operationIdSnakeCase}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}response);
-    {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
-    {{^vendorExtensions.x-codegen-pistache-isParsingSupported}}
+    {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
+    {{^vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     try {
       this->{{operationIdSnakeCase}}(request, response);
-    {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
+    {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
     } catch (nlohmann::detail::exception &e) {
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
