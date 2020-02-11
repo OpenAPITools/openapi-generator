@@ -605,6 +605,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Kronsoft Development](https://www.kronsoft.ro/home/)
 - [Kubernetes](https://kubernetes.io)
 - [Linode](https://www.linode.com/)
+- [Logicdrop](https://www.logicdrop.com)
 - [Médiavision](https://www.mediavision.fr/)
 - [Metaswitch](https://www.metaswitch.com/)
 - [Myworkout](https://myworkout.com)
