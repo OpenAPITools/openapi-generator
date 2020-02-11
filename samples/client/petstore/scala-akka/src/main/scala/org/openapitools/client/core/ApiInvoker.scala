@@ -25,9 +25,6 @@ import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.Source
 import akka.util.{ ByteString, Timeout }
 import de.heikoseeberger.akkahttpjson4s.Json4sSupport
-import org.joda.time.DateTime
-import org.joda.time.format.ISODateTimeFormat
-import org.json4s.JsonAST.JString
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
@@ -39,10 +36,10 @@ import scala.reflect.ClassTag
 object ApiInvoker {
 
   def apply()(implicit system: ActorSystem): ApiInvoker =
-    apply(DefaultFormats + DateTimeSerializer)
+    apply(DefaultFormats ++ DatesSerializers.all)
 
   def apply(serializers: Iterable[Serializer[_]])(implicit system: ActorSystem): ApiInvoker =
-    apply(DefaultFormats + DateTimeSerializer ++ serializers)
+    apply(DefaultFormats ++ DatesSerializers.all ++ serializers)
 
   def apply(formats: Formats)(implicit system: ActorSystem): ApiInvoker = new ApiInvoker(formats)
 
@@ -76,15 +73,6 @@ object ApiInvoker {
   implicit class ApiMethodExtensions(val method: ApiMethod) {
     def toAkkaHttpMethod: HttpMethod = HttpMethods.getForKey(method.value).getOrElse(HttpMethods.GET)
   }
-
-  case object DateTimeSerializer extends CustomSerializer[DateTime](_ => ( {
-    case JString(s) =>
-      ISODateTimeFormat.dateOptionalTimeParser().parseDateTime(s)
-  }, {
-    case d: DateTime =>
-      JString(ISODateTimeFormat.dateTime().print(d))
-  })
-  )
 
 }
 
@@ -128,6 +116,8 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
           req.withHeaders(Authorization(BasicHttpCredentials(login, password)))
         case (req, ApiKeyCredentials(keyValue, keyName, ApiKeyLocations.HEADER)) =>
           req.withHeaders(RawHeader(keyName, keyValue.value))
+        case (req, BearerToken(token)) =>
+            req.withHeaders(RawHeader("Authorization", s"Bearer $token"))
         case (req, _) => req
       }
   }
