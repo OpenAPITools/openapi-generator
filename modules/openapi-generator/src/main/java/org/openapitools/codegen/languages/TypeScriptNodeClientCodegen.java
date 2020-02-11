@@ -55,6 +55,8 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         // at the moment
         importMapping.clear();
 
+        typeMapping.put("DateTime", "Date");
+
         outputFolder = "generated-code/typescript-node";
         embeddedTemplateDir = templateDir = "typescript-node";
         modelTemplateFiles.put("model.mustache", ".ts");
