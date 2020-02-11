@@ -1153,6 +1153,7 @@ public class ModelUtils {
      * to specify nullable properties is to use the 'null' type.
      * 
      * @param schema the OAS schema.
+     * @return true if the schema is nullable.
      */
     public static boolean isNullable(Schema schema) {
         if (schema == null) {
@@ -1214,6 +1215,9 @@ public class ModelUtils {
      *   oneOf:
      *     - type: 'null'
      *     - $ref: '#/components/schemas/Order'
+     * 
+     * @param schema the OpenAPI schema
+     * @return true if the schema is the 'null' type
      */
     public static boolean isNullType(Schema schema) {
         if ("null".equals(schema.getType())) {
