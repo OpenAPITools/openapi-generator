@@ -57,8 +57,6 @@ import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
-import org.openapitools.client.ServerConfiguration;
-import org.openapitools.client.ServerVariable;
 import org.openapitools.client.auth.OAuth;
 
 
@@ -657,9 +655,9 @@ public class ApiClient {
   private String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams) {
     String baseURL;
     if (serverIndex != null) {
-      if (index < 0 || index >= servers.size()) {
+      if (serverIndex < 0 || serverIndex >= servers.size()) {
         throw new ArrayIndexOutOfBoundsException(String.format(
-          "Invalid index %d when selecting the host settings. Must be less than %d", index, servers.size()
+          "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
         ));
       }
       baseURL = servers.get(serverIndex).URL(serverVariables);
