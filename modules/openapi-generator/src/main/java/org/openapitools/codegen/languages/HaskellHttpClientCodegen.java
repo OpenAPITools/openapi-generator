@@ -924,8 +924,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             } else {
                 returnType = "NoContent";
                 // TODO: 5.0 Remove vendor extension usage which is not lower-kebab cased.
-                if (!op.vendorExtensions.containsKey(X_INLINE_ACCEPT)) {
+                if (!op.vendorExtensions.containsKey(X_INLINE_ACCEPT) && !op.vendorExtensions.containsKey(VENDOR_EXTENSION_X_INLINE_ACCEPT)) {
                     SetNoContent(op, X_INLINE_ACCEPT);
+                }
+                if (!op.vendorExtensions.containsKey(VENDOR_EXTENSION_X_INLINE_ACCEPT)) {
+                    SetNoContent(op, VENDOR_EXTENSION_X_INLINE_ACCEPT);
                 }
             }
         }
@@ -938,7 +941,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     private void processProducesConsumes(CodegenOperation op) {
         if (!(Boolean) op.vendorExtensions.get(X_HAS_BODY_OR_FORM_PARAM)) {
-            SetNoContent(op, X_INLINE_CONTENT_TYPE);
+            SetNoContent(op, X_INLINE_CONTENT_TYPE); // TODO: 5.0 Remove
+            SetNoContent(op, VENDOR_EXTENSION_X_INLINE_CONTENT_TYPE);
         }
         if (op.hasConsumes) {
             // deduplicate
