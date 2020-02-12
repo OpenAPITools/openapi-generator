@@ -67,7 +67,7 @@ public class CodegenConstants {
     public static final String PYTHON_PACKAGE_NAME_DESC = "package name for generated python code";
 
     public static final String WITH_GO_CODEGEN_COMMENT = "withGoCodegenComment";
-    public static final String WITH_GO_CODEGEN_COMMENT_DESC = "whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs";
+    public static final String WITH_GO_CODEGEN_COMMENT_DESC = "whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs";
 
     public static final String WITH_AWSV4_SIGNATURE_COMMENT = "withAWSV4Signature";
     public static final String WITH_AWSV4_SIGNATURE_COMMENT_DESC = "whether to include AWS v4 signature support";
