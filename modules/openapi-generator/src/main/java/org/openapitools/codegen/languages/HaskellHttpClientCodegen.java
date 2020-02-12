@@ -924,7 +924,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             } else {
                 returnType = "NoContent";
                 // TODO: 5.0 Remove vendor extension usage which is not lower-kebab cased.
-                if (!op.vendorExtensions.containsKey(X_INLINE_ACCEPT) && !op.vendorExtensions.containsKey(VENDOR_EXTENSION_X_INLINE_ACCEPT)) {
+                if (!op.vendorExtensions.containsKey(X_INLINE_ACCEPT)) {
                     SetNoContent(op, X_INLINE_ACCEPT);
                 }
                 if (!op.vendorExtensions.containsKey(VENDOR_EXTENSION_X_INLINE_ACCEPT)) {
