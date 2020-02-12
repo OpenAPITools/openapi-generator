@@ -11,7 +11,7 @@ public class ServerConfiguration {
     public Map<String, ServerVariable> variables;
 
     /**
-     * @param A URL to the target host.
+     * @param URL A URL to the target host.
      * @param description A describtion of the host designated by the URL.
      * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
      */
