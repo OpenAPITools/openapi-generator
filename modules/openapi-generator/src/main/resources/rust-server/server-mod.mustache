@@ -141,7 +141,7 @@ where
         match &method {
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
             // {{{operationId}}} - {{{httpMethod}}} {{{path}}}
-            &hyper::Method::{{vendorExtensions.x-http-method}} if path.matched(paths::ID_{{vendorExtensions.x-path_ID}}) => {
+            &hyper::Method::{{vendorExtensions.x-http-method}} if path.matched(paths::ID_{{vendorExtensions.x-path-id}}) => {
 {{#hasAuthMethods}}
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
@@ -551,7 +551,7 @@ impl RequestParser for ApiRequestParser {
         match request.method() {
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
             // {{{operationId}}} - {{{httpMethod}}} {{{path}}}
-            &hyper::Method::{{{vendorExtensions.x-http-method}}} if path.matched(paths::ID_{{{vendorExtensions.x-path_ID}}}) => Ok("{{{operationId}}}"),
+            &hyper::Method::{{{vendorExtensions.x-http-method}}} if path.matched(paths::ID_{{{vendorExtensions.x-path-id}}}) => Ok("{{{operationId}}}"),
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}            _ => Err(()),
         }
     }

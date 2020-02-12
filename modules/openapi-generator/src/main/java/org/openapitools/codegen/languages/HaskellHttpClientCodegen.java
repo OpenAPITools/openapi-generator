@@ -87,75 +87,64 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     static final String MIME_NO_CONTENT = "MimeNoContent";
     static final String MIME_ANY = "MimeAny";
 
-    // vendor extensions
-    static final String X_ALL_UNIQUE_PARAMS = "x-allUniqueParams";  // TODO: 5.0 Remove
-    static final String X_ALL_IMPORT_MAPPINGS = "x-allImportMappings";  // TODO: 5.0 Remove
-    static final String X_ALL_UNIQUE_IMPORT_PATHS = "x-allUniqueImportPaths";  // TODO: 5.0 Remove
+    // vendor extensions. These must follow our convention of x- prefixed and lower-kebab cased.
     static final String X_COLLECTION_FORMAT = "x-collectionFormat";  // TODO: 5.0 Remove
     static final String X_HADDOCK_PATH = "x-haddockPath";  // TODO: 5.0 Remove
     static final String X_HAS_BODY_OR_FORM_PARAM = "x-hasBodyOrFormParam";  // TODO: 5.0 Remove
-    static final String X_HAS_ENUM_SECTION = "x-hasEnumSection";  // TODO: 5.0 Remove
-    static final String X_HAS_IMPORT_MAPPINGS = "x-hasImportMappings";  // TODO: 5.0 Remove
     static final String X_HAS_MIME_FORM_URL_ENCODED = "x-hasMimeFormUrlEncoded";  // TODO: 5.0 Remove
     static final String X_HAS_NEW_TAG = "x-hasNewTag";  // TODO: 5.0 Remove
     static final String X_HAS_OPTIONAL_PARAMS = "x-hasOptionalParams";  // TODO: 5.0 Remove
-    static final String X_HAS_UNKNOWN_MIME_TYPES = "x-hasUnknownMimeTypes";  // TODO: 5.0 Remove
     static final String X_HAS_UNKNOWN_RETURN = "x-hasUnknownReturn";  // TODO: 5.0 Remove
     static final String X_INLINE_CONTENT_TYPE = "x-inlineContentType";  // TODO: 5.0 Remove
     static final String X_INLINE_ACCEPT = "x-inlineAccept";  // TODO: 5.0 Remove
     static final String X_IS_BODY_OR_FORM_PARAM = "x-isBodyOrFormParam";  // TODO: 5.0 Remove
-    static final String X_IS_BODY_PARAM = "x-isBodyParam";  // TODO: 5.0 Remove
     static final String X_IS_MAYBE_VALUE = "x-isMaybeValue";  // TODO: 5.0 Remove
-    static final String X_MEDIA_DATA_TYPE = "x-mediaDataType";  // TODO: 5.0 Remove
     static final String X_DATA_TYPE = "x-dataType";  // TODO: 5.0 Remove
-    static final String X_ENUM_VALUES = "x-enumValues";  // TODO: 5.0 Remove
-    static final String X_MEDIA_IS_JSON = "x-mediaIsJson";  // TODO: 5.0 Remove
-    static final String X_MEDIA_IS_WILDCARD = "x-mediaIsWildcard";  // TODO: 5.0 Remove
     static final String X_MIME_TYPES = "x-mimeTypes";  // TODO: 5.0 Remove
     static final String X_OPERATION_TYPE = "x-operationType";  // TODO: 5.0 Remove
     static final String X_PARAM_NAME_TYPE = "x-paramNameType";  // TODO: 5.0 Remove
     static final String X_RETURN_TYPE = "x-returnType";  // TODO: 5.0 Remove
-    static final String X_STRICT_FIELDS = "x-strictFields";  // TODO: 5.0 Remove
     static final String X_UNKNOWN_MIME_TYPES = "x-unknownMimeTypes";  // TODO: 5.0 Remove
-    static final String X_USE_KATIP = "x-useKatip";  // TODO: 5.0 Remove
-    static final String X_ALLOW_NONUNIQUE_OPERATION_IDS = "x-allowNonUniqueOperationIds";  // TODO: 5.0 Remove
 
-    static final String VENDOR_EXTENSION_X_ALL_UNIQUE_PARAMS = "x-all-unique-params";
-    static final String VENDOR_EXTENSION_X_ALL_IMPORT_MAPPINGS = "x-all-import-mappings";
-    static final String VENDOR_EXTENSION_X_ALL_UNIQUE_IMPORT_PATHS = "x-all-unique-import-paths";
     static final String VENDOR_EXTENSION_X_COLLECTION_FORMAT = "x-collection-format";
     static final String VENDOR_EXTENSION_X_HADDOCK_PATH = "x-haddock-path";
     static final String VENDOR_EXTENSION_X_HAS_BODY_OR_FORM_PARAM = "x-has-body-or-form-param";
-    static final String VENDOR_EXTENSION_X_HAS_ENUM_SECTION = "x-has-enum-section";
-    static final String VENDOR_EXTENSION_X_HAS_IMPORT_MAPPINGS = "x-has-import-mappings";
     static final String VENDOR_EXTENSION_X_HAS_MIME_FORM_URL_ENCODED = "x-has-mime-form-url-encoded";
     static final String VENDOR_EXTENSION_X_HAS_NEW_TAG = "x-has-new-tag";
     static final String VENDOR_EXTENSION_X_HAS_OPTIONAL_PARAMS = "x-has-optional-params";
-    static final String VENDOR_EXTENSION_X_HAS_UNKNOWN_MIME_TYPES = "x-has-unknown-mime-types";
     static final String VENDOR_EXTENSION_X_HAS_UNKNOWN_RETURN = "x-has-unknown-return";
     static final String VENDOR_EXTENSION_X_INLINE_CONTENT_TYPE = "x-inline-content-type";
     static final String VENDOR_EXTENSION_X_INLINE_ACCEPT = "x-inline-accept";
     static final String VENDOR_EXTENSION_X_IS_BODY_OR_FORM_PARAM = "x-is-body-or-form-param";
-    static final String VENDOR_EXTENSION_X_IS_BODY_PARAM = "x-is-body-param";
     static final String VENDOR_EXTENSION_X_IS_MAYBE_VALUE = "x-is-maybe-value";
-    static final String VENDOR_EXTENSION_X_MEDIA_DATA_TYPE = "x-media-data-type";
     static final String VENDOR_EXTENSION_X_DATA_TYPE = "x-data-type";
-    static final String VENDOR_EXTENSION_X_ENUM_VALUES = "x-enum-values";
-    static final String VENDOR_EXTENSION_X_MEDIA_IS_JSON = "x-media-is-json";
-    static final String VENDOR_EXTENSION_X_MEDIA_IS_WILDCARD = "x-media-is-wildcard";
     static final String VENDOR_EXTENSION_X_MIME_TYPES = "x-mime-types";
     static final String VENDOR_EXTENSION_X_OPERATION_TYPE = "x-operation-type";
     static final String VENDOR_EXTENSION_X_PARAM_NAME_TYPE = "x-param-name-type";
     static final String VENDOR_EXTENSION_X_RETURN_TYPE = "x-return-type";
-    static final String VENDOR_EXTENSION_X_STRICT_FIELDS = "x-strict-fields";
-    static final String VENDOR_EXTENSION_X_UNKNOWN_MIME_TYPES = "x-unknown-mime-types";
-    static final String VENDOR_EXTENSION_X_USE_KATIP = "x-use-katip";
-    static final String VENDOR_EXTENSION_X_ALLOW_NONUNIQUE_OPERATION_IDS = "x-allow-non-unique-operation-ids";
 
     // note; newtype is a single lowercase word in Haskell (not separated by hyphen)
     static final String X_NEWTYPE = "x-newtype";
     static final String VENDOR_EXTENSION_X_ENUM = "x-enum";
     static final String VENDOR_EXTENSION_X_PATH = "x-path";
+
+
+    // additional properties
+    // FIXME: These appear to be used as vendor extensions in the additional properties collection.
+    static final String X_ALL_UNIQUE_PARAMS = "x-allUniqueParams";
+    static final String X_ALL_IMPORT_MAPPINGS = "x-allImportMappings";
+    static final String X_HAS_ENUM_SECTION = "x-hasEnumSection";
+    static final String X_HAS_IMPORT_MAPPINGS = "x-hasImportMappings";
+    static final String X_HAS_UNKNOWN_MIME_TYPES = "x-hasUnknownMimeTypes";
+    static final String X_IS_BODY_PARAM = "x-isBodyParam";
+    static final String X_MEDIA_DATA_TYPE = "x-mediaDataType";
+    static final String X_ENUM_VALUES = "x-enumValues";
+    static final String X_MEDIA_IS_JSON = "x-mediaIsJson";
+    static final String X_MEDIA_IS_WILDCARD = "x-mediaIsWildcard";
+    static final String X_STRICT_FIELDS = "x-strictFields";
+    static final String X_ALL_UNIQUE_IMPORT_PATHS = "x-allUniqueImportPaths";
+    static final String X_USE_KATIP = "x-useKatip";
+    static final String X_ALLOW_NONUNIQUE_OPERATION_IDS = "x-allowNonUniqueOperationIds";
 
     protected ArrayList<Map<String, String>> unknownMimeTypes = new ArrayList<>();
     protected Map<String, Map<String, Object>> uniqueParamNameTypes = new HashMap<>();
@@ -742,8 +731,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         op.vendorExtensions.put(VENDOR_EXTENSION_X_OPERATION_TYPE, operationType);
         typeNames.add(operationType);
 
-        op.vendorExtensions.put(X_HADDOCK_PATH, String.format(Locale.ROOT, "%s %s", op.httpMethod, op.path.replace("/", "\\/"))); // TODO: 5.0 Remove
-        op.vendorExtensions.put(VENDOR_EXTENSION_X_HADDOCK_PATH, String.format(Locale.ROOT, "%s %s", op.httpMethod, op.path.replace("/", "\\/")));
+        String xHaddockPath = String.format(Locale.ROOT, "%s %s", op.httpMethod, op.path.replace("/", "\\/"));
+        op.vendorExtensions.put(X_HADDOCK_PATH, xHaddockPath); // TODO: 5.0 Remove
+        op.vendorExtensions.put(VENDOR_EXTENSION_X_HADDOCK_PATH, xHaddockPath);
         op.vendorExtensions.put(X_HAS_BODY_OR_FORM_PARAM, op.getHasBodyParam() || op.getHasFormParams()); // TODO: 5.0 Remove
         op.vendorExtensions.put(VENDOR_EXTENSION_X_HAS_BODY_OR_FORM_PARAM, op.getHasBodyParam() || op.getHasFormParams());
 

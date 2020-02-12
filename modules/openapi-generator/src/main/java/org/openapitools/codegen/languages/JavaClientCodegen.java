@@ -756,7 +756,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
-            cm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());
+            cm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());  // TODO: 5.0 Remove
+            cm.getVendorExtensions().putIfAbsent("x-implements", cm.getVendorExtensions().get("implements"));
             List<String> impl = (List<String>) cm.getVendorExtensions().get("implements");
             if (this.parcelableModel) {
                 impl.add("Parcelable");
