@@ -20,6 +20,7 @@ package org.openapitools.codegen.options;
 import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen;
+import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
 
 import java.util.Map;
 
@@ -28,6 +29,9 @@ public class TypeScriptAureliaClientOptionsProvider implements OptionsProvider {
     public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final Boolean SUPPORTS_ES6_VALUE = false;
+    public static final Boolean NULL_SAFE_ADDITIONAL_PROPS_VALUE = false;
+    public static final String ENUM_NAME_SUFFIX = "Enum";
+    public static final String ENUM_PROPERTY_NAMING_VALUE = "PascalCase";
     public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
     private static final String NPM_NAME = "npmName";
     private static final String NPM_VERSION = "1.0.0";
@@ -45,8 +49,11 @@ public class TypeScriptAureliaClientOptionsProvider implements OptionsProvider {
         return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
+                .put(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.SUPPORTS_ES6, String.valueOf(SUPPORTS_ES6_VALUE))
+                .put(AbstractTypeScriptClientCodegen.NULL_SAFE_ADDITIONAL_PROPS, String.valueOf(NULL_SAFE_ADDITIONAL_PROPS_VALUE))
+                .put(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX)
                 .put(TypeScriptAureliaClientCodegen.NPM_NAME, NPM_NAME)
                 .put(TypeScriptAureliaClientCodegen.NPM_VERSION, NPM_VERSION)
                 .put(TypeScriptAureliaClientCodegen.SNAPSHOT, Boolean.FALSE.toString())

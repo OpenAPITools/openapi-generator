@@ -230,7 +230,7 @@ An example bash completion script can be found in the repo at [scripts/openapi-g
 
 ## generate
 
-The `generate` command is the workhorse of the generator toolset. As such, it has _many_ more options and the previous commands. The options are abbreviated below, but you may expand the full descriptions.
+The `generate` command is the workhorse of the generator toolset. As such, it has _many_ more options and the previous commands. The abbreviated options are below, but you may expand the full descriptions.
 
 
 ```bash
@@ -274,8 +274,8 @@ SYNOPSIS
 ```
 
 <details>
-  <summary>generate OPTIONS</summary>
-  
+<summary>generate OPTIONS</summary>
+
 ```bash
 OPTIONS
         -a <authorization>, --auth <authorization>
@@ -444,6 +444,8 @@ At a minimum, `generate` requires:
 * `-o` to specify a meaningful output directory (defaults to the current directory!)
 * `-i` to specify the input OpenAPI document
 
+> **NOTE** You may also pass `-Dcolor` as a system property to colorize terminal outputs.
+
 ### Examples
 
 The following examples use [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml).
@@ -485,8 +487,6 @@ openapi-generator generate \
     --import-mappings=DateTime=java.time.LocalDateTime \
     --type-mappings=DateTime=java.time.LocalDateTime
 ```
-
-<!-- TODO: Document all primitive types here -->
 
 > NOTE: mappings are applied to `DateTime`, as this is the representation of the primitive type. See [DefaultCodegen](https://github.com/OpenAPITools/openapi-generator/blob/7cee999543fcc00b7c1eb9f70f0456b707c7f9e2/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java#L1431).
 
@@ -639,3 +639,4 @@ EOF
 # Generate them
 openapi-generator batch *.yaml
 ```
+

@@ -5,7 +5,7 @@
 {{/vars}}
  */{{#discriminator}}
 {{>typeInfoAnnotation}}{{/discriminator}}
-{{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}data class {{classname}} (
+{{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}data class {{classname}}(
 {{#requiredVars}}
 {{>dataClassReqVar}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},

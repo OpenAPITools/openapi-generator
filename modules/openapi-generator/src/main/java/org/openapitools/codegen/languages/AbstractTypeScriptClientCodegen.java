@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -36,6 +37,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -49,15 +51,28 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public static final String NPM_VERSION = "npmVersion";
     public static final String SNAPSHOT = "snapshot";
 
-    protected static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
+    public static final String ENUM_NAME_SUFFIX_V4_COMPAT = "v4-compat";
+    public static final String ENUM_NAME_SUFFIX_DESC_CUSTOMIZED = CodegenConstants.ENUM_NAME_SUFFIX_DESC
+            + " A special '" + ENUM_NAME_SUFFIX_V4_COMPAT + "' value enables the backward-compatible behavior (as pre v4.2.3)";
+
+    public static final String NULL_SAFE_ADDITIONAL_PROPS = "nullSafeAdditionalProps";
+    public static final String NULL_SAFE_ADDITIONAL_PROPS_DESC = "Set to make additional properties types declare that their indexer may return undefined";
+
+    // NOTE: SimpleDateFormat is not thread-safe and may not be static unless it is thread-local
+    @SuppressWarnings("squid:S5164")
+    protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
 
     protected String modelPropertyNaming = "camelCase";
+    protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
     protected Boolean supportsES6 = false;
+    protected Boolean nullSafeAdditionalProps = false;
     protected HashSet<String> languageGenericTypes;
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
 
-    protected String enumSuffix = "Enum";
+    protected String enumSuffix = ENUM_NAME_SUFFIX_V4_COMPAT;
+    protected Boolean isEnumSuffixV4Compat = false;
+
     protected String classEnumSeparator = ".";
 
     public AbstractTypeScriptClientCodegen() {
@@ -129,7 +144,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping = new HashMap<String, String>();
         typeMapping.put("Array", "Array");
         typeMapping.put("array", "Array");
-        typeMapping.put("List", "Array");
         typeMapping.put("boolean", "boolean");
         typeMapping.put("string", "string");
         typeMapping.put("int", "number");
@@ -147,19 +161,23 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("DateTime", "Date");
         typeMapping.put("binary", "any");
         typeMapping.put("File", "any");
+        typeMapping.put("file", "any");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
         typeMapping.put("Error", "Error");
 
+        cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX_DESC_CUSTOMIZED).defaultValue(this.enumSuffix));
+        cliOptions.add(new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC).defaultValue(this.enumPropertyNaming.name()));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue(this.modelPropertyNaming));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue(String.valueOf(this.getSupportsES6())));
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
                 " Required to generate a full package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. If not provided, using the version from the OpenAPI specification file.").defaultValue(this.getNpmVersion()));
         this.cliOptions.add(CliOption.newBoolean(SNAPSHOT,
-                "When setting this property to true, the version will be suffixed with -SNAPSHOT." + this.SNAPSHOT_SUFFIX_FORMAT.toPattern(),
+                "When setting this property to true, the version will be suffixed with -SNAPSHOT." + this.SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
                 false));
+        this.cliOptions.add(new CliOption(NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_DESC).defaultValue(String.valueOf(this.getNullSafeAdditionalProps())));
 
     }
 
@@ -174,6 +192,13 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             LOGGER.info("Warning: Environment variable 'TS_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_NAME_SUFFIX)) {
+            enumSuffix = additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString();
+        }
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
+            setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
@@ -183,10 +208,18 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             additionalProperties.put("supportsES6", getSupportsES6());
         }
 
+        if (additionalProperties.containsKey(NULL_SAFE_ADDITIONAL_PROPS)) {
+            setNullSafeAdditionalProps(Boolean.valueOf(additionalProperties.get(NULL_SAFE_ADDITIONAL_PROPS).toString()));
+        }
+
         if (additionalProperties.containsKey(NPM_NAME)) {
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());
         }
 
+        if (enumSuffix.equals(ENUM_NAME_SUFFIX_V4_COMPAT)) {
+            isEnumSuffixV4Compat = true;
+            enumSuffix = modelNameSuffix + "Enum";
+        }
     }
 
     @Override
@@ -204,9 +237,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
             if (additionalProperties.containsKey(SNAPSHOT) && Boolean.parseBoolean(additionalProperties.get(SNAPSHOT).toString())) {
                 if (npmVersion.toUpperCase(Locale.ROOT).matches("^.*-SNAPSHOT$")) {
-                    this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+                    this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.get().format(new Date()));
                 } else {
-                    this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+                    this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.get().format(new Date()));
                 }
             }
             additionalProperties.put(NPM_VERSION, npmVersion);
@@ -290,40 +323,55 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toModelName(final String name) {
+        String fullModelName = name;
+        fullModelName = addPrefix(fullModelName, modelNamePrefix);
+        fullModelName = addSuffix(fullModelName, modelNameSuffix);
+        return toTypescriptTypeName(fullModelName, "Model");
+    }
+
+    protected String addPrefix(String name, String prefix) {
+        if (!StringUtils.isEmpty(prefix)) {
+            name = prefix + "_" + name;
+        }
+        return name;
+    }
+
+    protected String addSuffix(String name, String suffix) {
+        if (!StringUtils.isEmpty(suffix)) {
+            name = name + "_" + suffix;
+        }
+
+        return name;
+    }
+
+    protected String toTypescriptTypeName(final String name, String safePrefix) {
         ArrayList<String> exceptions = new ArrayList<String>(Arrays.asList("\\|", " "));
         String sanName = sanitizeName(name, "(?![| ])\\W", exceptions);
 
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
-            sanName = modelNamePrefix + "_" + sanName;
-        }
-
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
-            sanName = sanName + "_" + modelNameSuffix;
-        }
+        sanName = camelize(sanName);
 
         // model name cannot use reserved keyword, e.g. return
+        // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowcase
         if (isReservedWord(sanName)) {
-            String modelName = camelize("model_" + sanName);
+            String modelName = safePrefix + sanName;
             LOGGER.warn(sanName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         // model name starts with number
         if (sanName.matches("^\\d.*")) {
-            String modelName = camelize("model_" + sanName); // e.g. 200Response => Model200Response (after camelize)
+            String modelName = safePrefix + sanName; // e.g. 200Response => Model200Response
             LOGGER.warn(sanName + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         if (languageSpecificPrimitives.contains(sanName)) {
-            String modelName = camelize("model_" + sanName);
+            String modelName = safePrefix + sanName;
             LOGGER.warn(sanName + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
             return modelName;
         }
 
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(sanName);
+        return sanName;
     }
 
     @Override
@@ -340,7 +388,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return "{ [key: string]: " + getTypeDeclaration(inner) + "; }";
+            String nullSafeSuffix = getNullSafeAdditionalProps() ? " | undefined" : "";
+            return "{ [key: string]: " + getTypeDeclaration(inner) + nullSafeSuffix + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "any";
         } else if (ModelUtils.isBinarySchema(p)) {
@@ -542,12 +591,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String toEnumVarName(String name, String datatype) {
         if (name.length() == 0) {
-            return "Empty";
+            return getNameUsingEnumPropertyNaming("empty");
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(getSymbolName(name));
+            return getNameUsingEnumPropertyNaming(getSymbolName(name));
         }
 
         // number
@@ -565,9 +614,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        // camelize the enum variable name
-        // ref: https://basarat.gitbooks.io/typescript/content/docs/enums.html
-        enumName = camelize(enumName);
+        enumName = getNameUsingEnumPropertyNaming(enumName);
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
@@ -578,11 +625,42 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = toModelName(property.name) + enumSuffix;
-        if (enumName.matches("\\d.*")) { // starts with number
-            return "_" + enumName;
-        } else {
-            return enumName;
+        String enumName = property.name;
+        enumName = addSuffix(enumName, enumSuffix);
+        return toTypescriptTypeName(enumName, "_");
+    }
+
+    protected void setEnumPropertyNaming(String naming) {
+        try {
+            enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.valueOf(naming);
+        } catch (IllegalArgumentException e) {
+            String values = Stream.of(ENUM_PROPERTY_NAMING_TYPE.values())
+                    .map(value -> "'" + value.name() + "'")
+                    .collect(Collectors.joining(", "));
+
+            String msg = String.format(Locale.ROOT, "Invalid enum property naming '%s'. Must be one of %s.",naming, values);
+            throw new IllegalArgumentException(msg);
+        }
+    }
+
+    protected ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {
+        return enumPropertyNaming;
+    }
+
+    private String getNameUsingEnumPropertyNaming(String name) {
+        switch (getEnumPropertyNaming()) {
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            case UPPERCASE:
+                return name.toUpperCase(Locale.ROOT);
+            default:
+                throw new IllegalArgumentException("Unsupported enum property naming: '" + name);
         }
     }
 
@@ -652,6 +730,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     public Boolean getSupportsES6() {
         return supportsES6;
+    }
+
+    public Boolean getNullSafeAdditionalProps() {
+        return nullSafeAdditionalProps;
+    }
+
+    public void setNullSafeAdditionalProps(Boolean value) {
+        nullSafeAdditionalProps = value;
     }
 
     public String getNpmName() {

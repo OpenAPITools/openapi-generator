@@ -39,6 +39,7 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig {
@@ -521,6 +522,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        objs = super.postProcessAllModels(objs);
         objs = super.updateAllModels(objs);
 
         if (!additionalModelTypeAnnotations.isEmpty()) {
@@ -998,8 +1000,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         if (serializeBigDecimalAsString) {
             if (property.baseType.equals("BigDecimal")) {
+
+                // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+                once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
                 // we serialize BigDecimal as `string` to avoid precision loss
-                property.vendorExtensions.put("extraAnnotation", "@JsonSerialize(using = ToStringSerializer.class)");
+                property.vendorExtensions.put("extraAnnotation", "@JsonSerialize(using = ToStringSerializer.class)");  // TODO: 5.0 Remove
+                property.vendorExtensions.put("x-extra-annotation", "@JsonSerialize(using = ToStringSerializer.class)");
 
                 // this requires some more imports to be added for this model...
                 model.imports.add("ToStringSerializer");
@@ -1061,6 +1068,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
         if (openAPI == null) {
             return;
         }

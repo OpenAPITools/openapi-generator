@@ -103,14 +103,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema inner;
-        if (ModelUtils.isArraySchema(p)) {
-            inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            inner = ModelUtils.getAdditionalProperties(p);
-            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
-        } else if (ModelUtils.isFileSchema(p)) {
+        if (ModelUtils.isFileSchema(p)) {
             return "Blob";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "Blob";
@@ -255,7 +248,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
         for (CodegenOperation op : operationList) {
-            if(op.returnType == "object") {
+            if("object".equals(op.returnType)) {
                 op.isMapContainer = true;
                 op.returnSimpleType = false;
             }

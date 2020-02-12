@@ -8,7 +8,6 @@
 import Foundation
 
 /** Model for testing model name same as property name */
-
 public struct Name: Codable {
 
     public var name: Int?

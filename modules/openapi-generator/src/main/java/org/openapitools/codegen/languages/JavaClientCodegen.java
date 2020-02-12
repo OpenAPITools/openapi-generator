@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
@@ -490,6 +491,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
         }
 
+        if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
+            useOneOfInterfaces = true;
+            addOneOfInterfaceImports = true;
+        }
+
     }
 
     private boolean usesAnyRetrofitLibrary() {
@@ -714,9 +720,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         objs = super.postProcessModels(objs);
+        List<Object> models = (List<Object>) objs.get("models");
+
         if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON) && !JERSEY1.equals(getLibrary())) {
             List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-            List<Object> models = (List<Object>) objs.get("models");
             for (Object _mo : models) {
                 Map<String, Object> mo = (Map<String, Object>) _mo;
                 CodegenModel cm = (CodegenModel) mo.get("model");
@@ -740,6 +747,20 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                         imports.add(importsItem);
                     }
                 }
+            }
+        }
+
+        // add implements for serializable/parcelable to all models
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            cm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());
+            List<String> impl = (List<String>) cm.getVendorExtensions().get("implements");
+            if (this.parcelableModel) {
+                impl.add("Parcelable");
+            }
+            if (this.serializableModel) {
+                impl.add("Serializable");
             }
         }
 
@@ -856,5 +877,17 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             apiVarName = escapeReservedWord(apiVarName);
         }
         return apiVarName;
+    }
+
+    @Override
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+            Map<String, String> oneImport = new HashMap<String, String>() {{
+                put("import", importMapping.get(i));
+            }};
+            if (!imports.contains(oneImport)) {
+                imports.add(oneImport);
+            }
+        }
     }
 }

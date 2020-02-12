@@ -20,15 +20,17 @@ import time
 import petstore_api
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.DefaultApi()
-
-# example, this endpoint has no required or optional parameters
-try:
-    api_response = api_instance.foo_get()
-    pprint(api_response)
-except petstore_api.ApiException as e:
-    print("Exception when calling DefaultApi->foo_get: %s\n" % e)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.DefaultApi(api_client)
+    
+    # example, this endpoint has no required or optional parameters
+    try:
+        api_response = api_instance.foo_get()
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling DefaultApi->foo_get: %s\n" % e)
 ```
 
 ### Parameters

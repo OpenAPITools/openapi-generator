@@ -11,7 +11,6 @@
 
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Org.OpenAPITools.Client
@@ -19,14 +18,13 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// A dictionary in which one key has many associated values.
     /// </summary>
-    /// <typeparam name="T">The type of the key</typeparam>
+    /// <typeparam name="TKey">The type of the key</typeparam>
     /// <typeparam name="TValue">The type of the value associated with the key.</typeparam>
-    public class Multimap<T, TValue> : IDictionary<T, IList<TValue>>
+    public class Multimap<TKey, TValue> : IDictionary<TKey, IList<TValue>>
     {
         #region Private Fields
 
-        private readonly ConcurrentDictionary<T, IList<TValue>> _dictionary =
-            new ConcurrentDictionary<T, IList<TValue>>();
+        private readonly Dictionary<TKey, IList<TValue>> _dictionary;
 
         #endregion Private Fields
 
@@ -37,15 +35,16 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         public Multimap()
         {
-            _dictionary = new ConcurrentDictionary<T, IList<TValue>>();
+            _dictionary = new Dictionary<TKey, IList<TValue>>();
         }
 
         /// <summary>
         /// Constructor with comparer.
         /// </summary>
         /// <param name="comparer"></param>
-        public Multimap(IEqualityComparer<T> comparer) {
-            _dictionary = new ConcurrentDictionary<T, IList<TValue>>(comparer);
+        public Multimap(IEqualityComparer<TKey> comparer)
+        {
+            _dictionary = new Dictionary<TKey, IList<TValue>>(comparer);
         }
 
         #endregion Constructors
@@ -56,7 +55,7 @@ namespace Org.OpenAPITools.Client
         /// To get the enumerator.
         /// </summary>
         /// <returns>Enumerator</returns>
-        public IEnumerator<KeyValuePair<T, IList<TValue>>> GetEnumerator()
+        public IEnumerator<KeyValuePair<TKey, IList<TValue>>> GetEnumerator()
         {
             return _dictionary.GetEnumerator();
         }
@@ -77,10 +76,23 @@ namespace Org.OpenAPITools.Client
         /// Add values to Multimap
         /// </summary>
         /// <param name="item">Key value pair</param>
-        public void Add(KeyValuePair<T, IList<TValue>> item)
+        public void Add(KeyValuePair<TKey, IList<TValue>> item)
         {
             if (!TryAdd(item.Key, item.Value))
                 throw new InvalidOperationException("Could not add values to Multimap.");
+        }
+
+        /// <summary>
+        /// Add Multimap to Multimap
+        /// </summary>
+        /// <param name="multimap">Multimap</param>
+        public void Add(Multimap<TKey, TValue> multimap)
+        {
+            foreach (var item in multimap)
+            {
+                if (!TryAdd(item.Key, item.Value))
+                    throw new InvalidOperationException("Could not add values to Multimap.");
+            }
         }
 
         /// <summary>
@@ -97,7 +109,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="item">Key value pair</param>
         /// <exception cref="NotImplementedException">Method needs to be implemented</exception>
         /// <returns>true if the Multimap contains the item; otherwise, false.</returns>
-        public bool Contains(KeyValuePair<T, IList<TValue>> item)
+        public bool Contains(KeyValuePair<TKey, IList<TValue>> item)
         {
             throw new NotImplementedException();
         }
@@ -110,7 +122,7 @@ namespace Org.OpenAPITools.Client
         ///     from Multimap. The array must have zero-based indexing.</param>
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
         /// <exception cref="NotImplementedException">Method needs to be implemented</exception>
-        public void CopyTo(KeyValuePair<T, IList<TValue>>[] array, int arrayIndex)
+        public void CopyTo(KeyValuePair<TKey, IList<TValue>>[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
@@ -121,7 +133,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="item">Key value pair</param>
         /// <returns>true if the item is successfully removed; otherwise, false.</returns>
         /// <exception cref="NotImplementedException">Method needs to be implemented</exception>
-        public bool Remove(KeyValuePair<T, IList<TValue>> item)
+        public bool Remove(KeyValuePair<TKey, IList<TValue>> item)
         {
             throw new NotImplementedException();
         }
@@ -129,24 +141,12 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Gets the number of items contained in the Multimap.
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return _dictionary.Count;
-            }
-        }
+        public int Count => _dictionary.Count;
 
         /// <summary>
         /// Gets a value indicating whether the Multimap is read-only.
         /// </summary>
-        public bool IsReadOnly
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool IsReadOnly => false;
 
         /// <summary>
         /// Adds an item with the provided key and value to the Multimap.
@@ -154,12 +154,11 @@ namespace Org.OpenAPITools.Client
         /// <param name="key">The object to use as the key of the item to add.</param>
         /// <param name="value">The object to use as the value of the item to add.</param>
         /// <exception cref="InvalidOperationException">Thrown when couldn't add the value to Multimap.</exception>
-        public void Add(T key, IList<TValue> value)
+        public void Add(TKey key, IList<TValue> value)
         {
             if (value != null && value.Count > 0)
             {
-                IList<TValue> list;
-                if (_dictionary.TryGetValue(key, out list))
+                if (_dictionary.TryGetValue(key, out var list))
                 {
                     foreach (var k in value) list.Add(k);
                 }
@@ -178,7 +177,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="key">The key to locate in the Multimap.</param>
         /// <returns>true if the Multimap contains an item with
         ///     the key; otherwise, false.</returns>
-        public bool ContainsKey(T key)
+        public bool ContainsKey(TKey key)
         {
             return _dictionary.ContainsKey(key);
         }
@@ -188,10 +187,9 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="key">The key to locate in the Multimap.</param>
         /// <returns>true if the item is successfully removed; otherwise, false.</returns>
-        public bool Remove(T key)
+        public bool Remove(TKey key)
         {
-            IList<TValue> list;
-            return TryRemove(key, out list);
+            return TryRemove(key, out var _);
         }
 
         /// <summary>
@@ -203,7 +201,7 @@ namespace Org.OpenAPITools.Client
         ///     This parameter is passed uninitialized.</param>
         /// <returns> true if the object that implements Multimap contains
         ///     an item with the specified key; otherwise, false.</returns>
-        public bool TryGetValue(T key, out IList<TValue> value)
+        public bool TryGetValue(TKey key, out IList<TValue> value)
         {
             return _dictionary.TryGetValue(key, out value);
         }
@@ -213,36 +211,21 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="key">The key of the item to get or set.</param>
         /// <returns>The value of the specified key.</returns>
-        public IList<TValue> this[T key]
+        public IList<TValue> this[TKey key]
         {
-            get
-            {
-              return _dictionary[key];
-            }
-            set { _dictionary[key] = value; }
+            get => _dictionary[key];
+            set => _dictionary[key] = value;
         }
 
         /// <summary>
         /// Gets a System.Collections.Generic.ICollection containing the keys of the Multimap.
         /// </summary>
-        public ICollection<T> Keys
-        {
-            get
-            {
-                return _dictionary.Keys;
-            }
-        }
+        public ICollection<TKey> Keys => _dictionary.Keys;
 
         /// <summary>
         /// Gets a System.Collections.Generic.ICollection containing the values of the Multimap.
         /// </summary>
-        public ICollection<IList<TValue>> Values
-        {
-            get
-            {
-                return _dictionary.Values;
-            }
-        }
+        public ICollection<IList<TValue>> Values => _dictionary.Values;
 
         /// <summary>
         ///  Copy the items of the Multimap to an System.Array,
@@ -253,7 +236,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="index">The zero-based index in array at which copying begins.</param>
         public void CopyTo(Array array, int index)
         {
-            ((ICollection) _dictionary).CopyTo(array, index);
+            ((ICollection)_dictionary).CopyTo(array, index);
         }
 
         /// <summary>
@@ -262,19 +245,17 @@ namespace Org.OpenAPITools.Client
         /// <param name="key">The object to use as the key of the item to add.</param>
         /// <param name="value">The object to use as the value of the item to add.</param>
         /// <exception cref="InvalidOperationException">Thrown when couldn't add value to Multimap.</exception>
-        public void Add(T key, TValue value)
+        public void Add(TKey key, TValue value)
         {
             if (value != null)
             {
-                IList<TValue> list;
-                if (_dictionary.TryGetValue(key, out list))
+                if (_dictionary.TryGetValue(key, out var list))
                 {
                     list.Add(value);
                 }
                 else
                 {
-                    list = new List<TValue>();
-                    list.Add(value);
+                    list = new List<TValue> { value };
                     if (!TryAdd(key, list))
                         throw new InvalidOperationException("Could not add value to Multimap.");
                 }
@@ -288,18 +269,27 @@ namespace Org.OpenAPITools.Client
         /**
          * Helper method to encapsulate generator differences between dictionary types.
          */
-        private bool TryRemove(T key, out IList<TValue> value)
+        private bool TryRemove(TKey key, out IList<TValue> value)
         {
-            return _dictionary.TryRemove(key, out value);
-            
+            _dictionary.TryGetValue(key, out value);
+            return _dictionary.Remove(key);
         }
 
         /**
          * Helper method to encapsulate generator differences between dictionary types.
          */
-        private bool TryAdd(T key, IList<TValue> value)
+        private bool TryAdd(TKey key, IList<TValue> value)
         {
-            return _dictionary.TryAdd(key, value);
+            try
+            {
+                _dictionary.Add(key, value);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+
+            return true;
         }
         #endregion Private Members
     }

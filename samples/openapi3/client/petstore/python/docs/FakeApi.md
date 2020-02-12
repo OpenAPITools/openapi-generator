@@ -34,15 +34,17 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-
-try:
-    # Health check endpoint
-    api_response = api_instance.fake_health_get()
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling FakeApi->fake_health_get: %s\n" % e)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    
+    try:
+        # Health check endpoint
+        api_response = api_instance.fake_health_get()
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling FakeApi->fake_health_get: %s\n" % e)
 ```
 
 ### Parameters
@@ -84,15 +86,17 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-body = True # bool | Input boolean as post body (optional)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    body = True # bool | Input boolean as post body (optional)
 
-try:
-    api_response = api_instance.fake_outer_boolean_serialize(body=body)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling FakeApi->fake_outer_boolean_serialize: %s\n" % e)
+    try:
+        api_response = api_instance.fake_outer_boolean_serialize(body=body)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling FakeApi->fake_outer_boolean_serialize: %s\n" % e)
 ```
 
 ### Parameters
@@ -137,15 +141,17 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-outer_composite = petstore_api.OuterComposite() # OuterComposite | Input composite as post body (optional)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    outer_composite = petstore_api.OuterComposite() # OuterComposite | Input composite as post body (optional)
 
-try:
-    api_response = api_instance.fake_outer_composite_serialize(outer_composite=outer_composite)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling FakeApi->fake_outer_composite_serialize: %s\n" % e)
+    try:
+        api_response = api_instance.fake_outer_composite_serialize(outer_composite=outer_composite)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling FakeApi->fake_outer_composite_serialize: %s\n" % e)
 ```
 
 ### Parameters
@@ -190,15 +196,17 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-body = 3.4 # float | Input number as post body (optional)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    body = 3.4 # float | Input number as post body (optional)
 
-try:
-    api_response = api_instance.fake_outer_number_serialize(body=body)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling FakeApi->fake_outer_number_serialize: %s\n" % e)
+    try:
+        api_response = api_instance.fake_outer_number_serialize(body=body)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling FakeApi->fake_outer_number_serialize: %s\n" % e)
 ```
 
 ### Parameters
@@ -243,15 +251,17 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-body = 'body_example' # str | Input string as post body (optional)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    body = 'body_example' # str | Input string as post body (optional)
 
-try:
-    api_response = api_instance.fake_outer_string_serialize(body=body)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling FakeApi->fake_outer_string_serialize: %s\n" % e)
+    try:
+        api_response = api_instance.fake_outer_string_serialize(body=body)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling FakeApi->fake_outer_string_serialize: %s\n" % e)
 ```
 
 ### Parameters
@@ -296,14 +306,16 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-file_schema_test_class = petstore_api.FileSchemaTestClass() # FileSchemaTestClass | 
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    file_schema_test_class = petstore_api.FileSchemaTestClass() # FileSchemaTestClass | 
 
-try:
-    api_instance.test_body_with_file_schema(file_schema_test_class)
-except ApiException as e:
-    print("Exception when calling FakeApi->test_body_with_file_schema: %s\n" % e)
+    try:
+        api_instance.test_body_with_file_schema(file_schema_test_class)
+    except ApiException as e:
+        print("Exception when calling FakeApi->test_body_with_file_schema: %s\n" % e)
 ```
 
 ### Parameters
@@ -346,15 +358,17 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-query = 'query_example' # str | 
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    query = 'query_example' # str | 
 user = petstore_api.User() # User | 
 
-try:
-    api_instance.test_body_with_query_params(query, user)
-except ApiException as e:
-    print("Exception when calling FakeApi->test_body_with_query_params: %s\n" % e)
+    try:
+        api_instance.test_body_with_query_params(query, user)
+    except ApiException as e:
+        print("Exception when calling FakeApi->test_body_with_query_params: %s\n" % e)
 ```
 
 ### Parameters
@@ -400,16 +414,18 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-client = petstore_api.Client() # Client | client model
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    client = petstore_api.Client() # Client | client model
 
-try:
-    # To test \"client\" model
-    api_response = api_instance.test_client_model(client)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling FakeApi->test_client_model: %s\n" % e)
+    try:
+        # To test \"client\" model
+        api_response = api_instance.test_client_model(client)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling FakeApi->test_client_model: %s\n" % e)
 ```
 
 ### Parameters
@@ -461,9 +477,12 @@ configuration.password = 'YOUR_PASSWORD'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi(petstore_api.ApiClient(configuration))
-number = 3.4 # float | None
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    number = 3.4 # float | None
 double = 3.4 # float | None
 pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
 byte = 'byte_example' # str | None
@@ -478,11 +497,11 @@ date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
 password = 'password_example' # str | None (optional)
 param_callback = 'param_callback_example' # str | None (optional)
 
-try:
-    # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, date=date, date_time=date_time, password=password, param_callback=param_callback)
-except ApiException as e:
-    print("Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e)
+    try:
+        # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+        api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, date=date, date_time=date_time, password=password, param_callback=param_callback)
+    except ApiException as e:
+        print("Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e)
 ```
 
 ### Parameters
@@ -541,9 +560,11 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
 enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (default to '-efg')
 enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Query parameter enum test (string array) (optional)
 enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) (default to '-efg')
@@ -552,11 +573,11 @@ enum_query_double = 3.4 # float | Query parameter enum test (double) (optional)
 enum_form_string_array = '$' # list[str] | Form parameter enum test (string array) (optional) (default to '$')
 enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) (default to '-efg')
 
-try:
-    # To test enum parameters
-    api_instance.test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
-except ApiException as e:
-    print("Exception when calling FakeApi->test_enum_parameters: %s\n" % e)
+    try:
+        # To test enum parameters
+        api_instance.test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
+    except ApiException as e:
+        print("Exception when calling FakeApi->test_enum_parameters: %s\n" % e)
 ```
 
 ### Parameters
@@ -615,20 +636,23 @@ configuration.access_token = 'YOUR_BEARER_TOKEN'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi(petstore_api.ApiClient(configuration))
-required_string_group = 56 # int | Required String in group parameters
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    required_string_group = 56 # int | Required String in group parameters
 required_boolean_group = True # bool | Required Boolean in group parameters
 required_int64_group = 56 # int | Required Integer in group parameters
 string_group = 56 # int | String in group parameters (optional)
 boolean_group = True # bool | Boolean in group parameters (optional)
 int64_group = 56 # int | Integer in group parameters (optional)
 
-try:
-    # Fake endpoint to test group parameters (optional)
-    api_instance.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, string_group=string_group, boolean_group=boolean_group, int64_group=int64_group)
-except ApiException as e:
-    print("Exception when calling FakeApi->test_group_parameters: %s\n" % e)
+    try:
+        # Fake endpoint to test group parameters (optional)
+        api_instance.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, string_group=string_group, boolean_group=boolean_group, int64_group=int64_group)
+    except ApiException as e:
+        print("Exception when calling FakeApi->test_group_parameters: %s\n" % e)
 ```
 
 ### Parameters
@@ -676,15 +700,17 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-request_body = {'key': 'request_body_example'} # dict(str, str) | request body
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    request_body = {'key': 'request_body_example'} # dict(str, str) | request body
 
-try:
-    # test inline additionalProperties
-    api_instance.test_inline_additional_properties(request_body)
-except ApiException as e:
-    print("Exception when calling FakeApi->test_inline_additional_properties: %s\n" % e)
+    try:
+        # test inline additionalProperties
+        api_instance.test_inline_additional_properties(request_body)
+    except ApiException as e:
+        print("Exception when calling FakeApi->test_inline_additional_properties: %s\n" % e)
 ```
 
 ### Parameters
@@ -727,16 +753,18 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-param = 'param_example' # str | field1
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    param = 'param_example' # str | field1
 param2 = 'param2_example' # str | field2
 
-try:
-    # test json serialization of form data
-    api_instance.test_json_form_data(param, param2)
-except ApiException as e:
-    print("Exception when calling FakeApi->test_json_form_data: %s\n" % e)
+    try:
+        # test json serialization of form data
+        api_instance.test_json_form_data(param, param2)
+    except ApiException as e:
+        print("Exception when calling FakeApi->test_json_form_data: %s\n" % e)
 ```
 
 ### Parameters
@@ -782,18 +810,20 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-pipe = ['pipe_example'] # list[str] | 
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    pipe = ['pipe_example'] # list[str] | 
 ioutil = ['ioutil_example'] # list[str] | 
 http = ['http_example'] # list[str] | 
 url = ['url_example'] # list[str] | 
 context = ['context_example'] # list[str] | 
 
-try:
-    api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context)
-except ApiException as e:
-    print("Exception when calling FakeApi->test_query_parameter_collection_format: %s\n" % e)
+    try:
+        api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+    except ApiException as e:
+        print("Exception when calling FakeApi->test_query_parameter_collection_format: %s\n" % e)
 ```
 
 ### Parameters
