@@ -1744,8 +1744,8 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Return the name of the allOf schema
-     *
+     * Return the name of the 'allOf' composed schema.
+     * 
      * @param names          List of names
      * @param composedSchema composed schema
      * @return name of the allOf schema
@@ -1758,8 +1758,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (names.size() == 1) {
             return names.get(0);
         } else {
-            LOGGER.warn("allOf with multiple schemas defined. Using only the first one: {}. " +
-                "To fully utilize allOf, please use $ref instead of inline schema definition", names.get(0));
+            LOGGER.warn("allOf with multiple schemas defined. Using only the first one: {}", names.get(0));
             return names.get(0);
         }
     }
@@ -1818,6 +1817,9 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Return the OAI type (e.g. integer, long, etc) corresponding to a schema.
      * <pre>$ref</pre> is not taken into account by this method.
+     * 
+     * If the schema is free-form (i.e. 'type: object' with no properties) or inline
+     * schema, the returned OAI type is 'object'.
      *
      * @param schema
      * @return type
@@ -1825,6 +1827,10 @@ public class DefaultCodegen implements CodegenConfig {
     private String getPrimitiveType(Schema schema) {
         if (schema == null) {
             throw new RuntimeException("schema cannot be null in getPrimitiveType");
+        } else if (ModelUtils.isNullType(schema)) {
+            // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
+            // though this tooling supports it.
+            return "null";
         } else if (ModelUtils.isStringSchema(schema) && "number".equals(schema.getFormat())) {
             // special handle of type: string, format: number
             return "BigDecimal";
