@@ -34,6 +34,8 @@ public class TypeScriptAngularJsClientCodegen extends AbstractTypeScriptClientCo
         apiPackage = "api";
         modelPackage = "model";
 
+        typeMapping.put("DateTime", "Date");
+
         removeOption(NPM_NAME);
         removeOption(NPM_VERSION);
         removeOption(SNAPSHOT);

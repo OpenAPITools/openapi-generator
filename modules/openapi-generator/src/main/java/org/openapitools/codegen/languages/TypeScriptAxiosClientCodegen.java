@@ -55,6 +55,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         outputFolder = "generated-code/typescript-axios";
         embeddedTemplateDir = templateDir = "typescript-axios";
 
+        typeMapping.put("DateTime", "Date");
+
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url of your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(SEPARATE_MODELS_AND_API, "Put the model and api in separate folders and in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
