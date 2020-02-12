@@ -11,6 +11,9 @@ import org.openapitools.codegen.validation.ValidationRule;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Arrays;
 
 /**
  * A standalone instance for evaluating rules and recommendations related to OAS {@link Schema}
@@ -40,6 +43,13 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
                         OpenApiSchemaValidations::checkNullableAttribute
                 ));
             }
+            if (ruleConfiguration.isEnableInvalidTypeRecommendation()) {
+                rules.add(ValidationRule.warn(
+                        "Schema uses an invalid value for the 'type' attribute.",
+                        "The 'type' attribute must be one of 'null', 'boolean', 'object', 'array', 'number', 'string', or 'integer'.",
+                        OpenApiSchemaValidations::checkInvalidType
+                ));
+            }
         }
     }
 
@@ -51,7 +61,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
      * <p>
      * Where the only examples of oneOf in OpenAPI Specification are used to define either/or type structures rather than validations.
      * Because of this ambiguity in the spec about what is non-standard about oneOf support, we'll warn as a recommendation that
-     * properties on the schema defining oneOf relationships may not be intentional in the OpenAPI Specification.
+ne      * properties on the schema defining oneOf relationships may not be intentional in the OpenAPI Specification.
      *
      * @param schemaWrapper An input schema, regardless of the type of schema
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
@@ -134,6 +144,35 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
                     return result;
                 }
             }
+        }
+        return result;
+    }
+
+    // The set of valid OAS values for the 'type' attribute.
+    private static Set<String> validTypes = new HashSet<String>(
+        Arrays.asList("null", "boolean", "object", "array", "number", "string", "integer"));
+
+    /**
+     * Validate the OAS document uses supported values for the 'type' attribute.
+     * <p>
+     * The type must be one of the following values: null, boolean, object, array, number, string, integer.
+     * 
+     * @param schema An input schema, regardless of the type of schema
+     * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
+     */
+    private static ValidationRule.Result checkInvalidType(SchemaWrapper schemaWrapper) {
+        Schema schema = schemaWrapper.getSchema();
+        ValidationRule.Result result = ValidationRule.Pass.empty();
+        if (schema.getType() != null && !validTypes.contains(schema.getType())) {
+            result = new ValidationRule.Fail();
+            String name = schema.getName();
+            if (name == null) {
+                name = schema.getTitle();
+            }
+            result.setDetails(String.format(Locale.ROOT,
+                "Schema '%s' uses the '%s' type, which is not a valid type.",
+                name, schema.getType()));
+            return result;
         }
         return result;
     }
