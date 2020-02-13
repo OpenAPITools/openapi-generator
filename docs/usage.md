@@ -121,7 +121,7 @@ CONFIG OPTIONS
 	    Go package version. (Default: 1.0.0)
 
 	withGoCodegenComment
-	    whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs (Default: false)
+	    whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs (Default: false)
 
 	withXml
 	    whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML) (Default: false)

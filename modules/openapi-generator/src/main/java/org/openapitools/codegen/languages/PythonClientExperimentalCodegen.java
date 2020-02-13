@@ -529,7 +529,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // When we serialize/deserialize ModelSimple models, validations and enums will be checked.
         Schema responseSchema;
         if (this.openAPI != null && this.openAPI.getComponents() != null) {
-            responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(response));
+            responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(response), importMapping);
         } else { // no model/alias defined
             responseSchema = ModelUtils.getSchemaFromResponse(response);
         }
@@ -582,12 +582,30 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                                      Map<String, Schema> schemas,
                                      CodegenOperation op,
                                      ApiResponse methodResponse) {
+        handleMethodResponse(operation, schemas, op, methodResponse, Collections.<String, String>emptyMap());
+    }
+
+    /**
+     * Set op's returnBaseType, returnType, examples etc.
+     *
+     * @param operation      endpoint Operation
+     * @param schemas        a map of the schemas in the openapi spec
+     * @param op             endpoint CodegenOperation
+     * @param methodResponse the default ApiResponse for the endpoint
+     * @param importMappings mappings of external types to be omitted by unaliasing
+     */
+    @Override
+    protected void handleMethodResponse(Operation operation,
+                                        Map<String, Schema> schemas,
+                                        CodegenOperation op,
+                                        ApiResponse methodResponse,
+                                        Map<String, String> importMappings) {
         // we have a custom version of this method to handle endpoints that return models where
         // type != object the model has validations and/or enums
         // we do this by invoking our custom fromResponse method to create defaultResponse
         // which we then use to set op.returnType and op.returnBaseType
         CodegenResponse defaultResponse = fromResponse("defaultResponse", methodResponse);
-        Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse));
+        Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse), importMappings);
 
         if (responseSchema != null) {
             op.returnBaseType = defaultResponse.baseType;
@@ -805,13 +823,25 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return oasType;
     }
 
+    /**
+     * Return a string representation of the Python types for the specified schema.
+     * Primitive types in the OAS specification are implemented in Python using the corresponding
+     * Python primitive types.
+     * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types. 
+     * 
+     * @param p The OAS schema.
+     * @param prefix prepended to the returned value.
+     * @param suffix appended to the returned value.
+     * @return a string representation of the Python types
+     */
     public String getTypeString(Schema p, String prefix, String suffix) {
         // this is used to set dataType, which defines a python tuple of classes
         String fullSuffix = suffix;
         if (")".equals(suffix)) {
             fullSuffix = "," + suffix;
         }
-        if (ModelUtils.isNullable(p)) {
+        // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
+        if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
             fullSuffix = ", none_type" + suffix;
         }
         if (ModelUtils.isFreeFormObject(p) && ModelUtils.getAdditionalProperties(p) == null) {

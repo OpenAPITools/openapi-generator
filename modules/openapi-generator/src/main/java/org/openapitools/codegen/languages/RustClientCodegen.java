@@ -114,7 +114,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "Self", "self", "sizeof", "static", "struct",
                         "super", "trait", "true", "type", "typeof",
                         "unsafe", "unsized", "use", "virtual", "where",
-                        "while", "yield"
+                        "while", "yield", "async", "await", "dyn", "try"
                 )
         );
 

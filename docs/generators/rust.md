@@ -64,6 +64,8 @@ sidebar_label: rust
 <li>abstract</li>
 <li>alignof</li>
 <li>as</li>
+<li>async</li>
+<li>await</li>
 <li>become</li>
 <li>box</li>
 <li>break</li>
@@ -71,6 +73,7 @@ sidebar_label: rust
 <li>continue</li>
 <li>crate</li>
 <li>do</li>
+<li>dyn</li>
 <li>else</li>
 <li>enum</li>
 <li>extern</li>
@@ -103,6 +106,7 @@ sidebar_label: rust
 <li>super</li>
 <li>trait</li>
 <li>true</li>
+<li>try</li>
 <li>type</li>
 <li>typeof</li>
 <li>unsafe</li>

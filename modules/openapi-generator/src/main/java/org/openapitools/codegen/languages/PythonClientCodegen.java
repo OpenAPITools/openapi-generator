@@ -705,6 +705,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         for (int i=0 ; i< indentation ; i++) indentation_string += "    ";
         String example = super.toExampleValue(schema);
 
+        if (ModelUtils.isNullType(schema) && null != example) {
+            // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
+            // though this tooling supports it.
+            return "None";
+        }
         // correct "true"s into "True"s, since super.toExampleValue uses "toString()" on Java booleans
         if (ModelUtils.isBooleanSchema(schema) && null!=example) {
             if ("false".equalsIgnoreCase(example)) example = "False";
