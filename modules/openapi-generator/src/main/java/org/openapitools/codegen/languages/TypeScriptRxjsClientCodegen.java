@@ -58,7 +58,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
         languageSpecificPrimitives.add("Blob");
         typeMapping.put("file", "Blob");
-        typeMapping.put("DateTime", "Date");
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
