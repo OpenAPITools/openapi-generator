@@ -215,7 +215,7 @@ namespace {{packageName}}.Client
             {{/supportsUWP}}
             {{#supportsUWP}}
             // Using async method to perform sync call (uwp-only)
-            var response = RestClient.ExecuteTaskAsync(request).Result;
+            var response = RestClient.ExecuteAsync(request).Result;
             {{/supportsUWP}}
             {{/netStandard}}
             InterceptResponse(request, response);
@@ -565,6 +565,7 @@ namespace {{packageName}}.Client
         /// Convert params to key/value pairs. 
         /// Use collectionFormat to properly format lists and collections.
         /// </summary>
+        /// <param name="collectionFormat">Collection format.</param>
         /// <param name="name">Key name.</param>
         /// <param name="value">Value object.</param>
         /// <returns>A list of KeyValuePairs</returns>
