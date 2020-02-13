@@ -49,8 +49,10 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
             ModelUtils.getUnusedSchemas(specification).forEach(schemaName -> validationResult.addResult(Validated.invalid(unusedSchema, "Unused model: " + schemaName)));
         }
 
-        Map<String, Schema> schemas = ModelUtils.getSchemas(specification);
-        schemas.forEach((key, schema) -> {
+        // Get list of all schemas under /components/schemas, including nested schemas defined inline and composed schema.
+        // The validators must be able to validate every schema defined in the OAS document.
+        List<Schema> schemas = ModelUtils.getAllSchemas(specification);
+        schemas.forEach(schema -> {
             SchemaWrapper wrapper = new SchemaWrapper(specification, schema);
             validationResult.consume(schemaValidations.validate(wrapper));
         });

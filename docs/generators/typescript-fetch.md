@@ -39,7 +39,8 @@ sidebar_label: typescript-fetch
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Array</li>
+<ul class="column-ul">
+<li>Array</li>
 <li>Boolean</li>
 <li>Date</li>
 <li>Double</li>
@@ -60,7 +61,8 @@ sidebar_label: typescript-fetch
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>ApiResponse</li>
+<ul class="column-ul">
+<li>ApiResponse</li>
 <li>BASE_PATH</li>
 <li>BaseAPI</li>
 <li>BlobApiResponse</li>

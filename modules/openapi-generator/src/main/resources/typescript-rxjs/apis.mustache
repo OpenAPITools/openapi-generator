@@ -108,7 +108,7 @@ export class {{classname}} extends BaseAPI {
             {{/isDateTime}}
             {{^isDateTime}}
             {{#isDate}}
-            '{{baseName}}': ({{> paramNamePartial}} as any).toISOString(),
+            '{{baseName}}': ({{> paramNamePartial}} as any).toISOString().split('T')[0],
             {{/isDate}}
             {{^isDate}}
             '{{baseName}}': {{> paramNamePartial}},
@@ -137,7 +137,7 @@ export class {{classname}} extends BaseAPI {
         {{/isDateTime}}
         {{^isDateTime}}
         {{#isDate}}
-        if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = ({{> paramNamePartial}} as any).toISOString(); }
+        if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = ({{> paramNamePartial}} as any).toISOString().split('T')[0]; }
         {{/isDate}}
         {{^isDate}}
         if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = {{> paramNamePartial}}; }

@@ -46,7 +46,8 @@ sidebar_label: kotlin-vertx
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>kotlin.Array</li>
+<ul class="column-ul">
+<li>kotlin.Array</li>
 <li>kotlin.Boolean</li>
 <li>kotlin.Byte</li>
 <li>kotlin.ByteArray</li>
@@ -64,7 +65,8 @@ sidebar_label: kotlin-vertx
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>as</li>
+<ul class="column-ul">
+<li>as</li>
 <li>break</li>
 <li>class</li>
 <li>continue</li>

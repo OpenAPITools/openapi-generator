@@ -121,7 +121,7 @@ CONFIG OPTIONS
 	    Go package version. (Default: 1.0.0)
 
 	withGoCodegenComment
-	    whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs (Default: false)
+	    whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs (Default: false)
 
 	withXml
 	    whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML) (Default: false)
@@ -274,8 +274,8 @@ SYNOPSIS
 ```
 
 <details>
-  <summary>generate OPTIONS</summary>
-  
+<summary>generate OPTIONS</summary>
+
 ```bash
 OPTIONS
         -a <authorization>, --auth <authorization>
@@ -488,8 +488,6 @@ openapi-generator generate \
     --type-mappings=DateTime=java.time.LocalDateTime
 ```
 
-<!-- TODO: Document all primitive types here -->
-
 > NOTE: mappings are applied to `DateTime`, as this is the representation of the primitive type. See [DefaultCodegen](https://github.com/OpenAPITools/openapi-generator/blob/7cee999543fcc00b7c1eb9f70f0456b707c7f9e2/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java#L1431).
 
 ### Target External Models
@@ -641,3 +639,4 @@ EOF
 # Generate them
 openapi-generator batch *.yaml
 ```
+

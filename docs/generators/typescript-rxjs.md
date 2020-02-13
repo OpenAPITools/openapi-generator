@@ -36,7 +36,8 @@ sidebar_label: typescript-rxjs
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Array</li>
+<ul class="column-ul">
+<li>Array</li>
 <li>Blob</li>
 <li>Boolean</li>
 <li>Date</li>
@@ -58,7 +59,8 @@ sidebar_label: typescript-rxjs
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>AjaxRequest</li>
+<ul class="column-ul">
+<li>AjaxRequest</li>
 <li>AjaxResponse</li>
 <li>BASE_PATH</li>
 <li>BaseAPI</li>

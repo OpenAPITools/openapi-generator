@@ -43,7 +43,8 @@ sidebar_label: php-silex
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>DateTime</li>
+<ul class="column-ul">
+<li>DateTime</li>
 <li>boolean</li>
 <li>double</li>
 <li>float</li>
@@ -57,7 +58,8 @@ sidebar_label: php-silex
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>__halt_compiler</li>
+<ul class="column-ul">
+<li>__halt_compiler</li>
 <li>abstract</li>
 <li>and</li>
 <li>array</li>
