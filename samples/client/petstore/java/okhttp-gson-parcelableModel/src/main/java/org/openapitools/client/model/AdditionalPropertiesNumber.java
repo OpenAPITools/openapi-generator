@@ -41,7 +41,9 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
   public AdditionalPropertiesNumber() {
     super();
   }
+
   public AdditionalPropertiesNumber name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -50,10 +52,13 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
    * Get name
    * @return name
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getName() {
     return name;
   }
+
 
   public void setName(String name) {
     this.name = name;

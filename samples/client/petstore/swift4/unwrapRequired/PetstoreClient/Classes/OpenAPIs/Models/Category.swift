@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 public struct Category: Codable {
 
     public var id: Int64?
@@ -19,6 +17,4 @@ public struct Category: Codable {
         self.name = name
     }
 
-
 }
-

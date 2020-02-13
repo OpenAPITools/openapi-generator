@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,16 +18,21 @@
 package org.openapitools.codegen.scalaakka;
 
 import com.google.common.collect.Sets;
+import com.google.common.io.Resources;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScalaAkkaClientCodegenTest {
 
@@ -207,6 +212,37 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertTrue(property1.isContainer);
     }
 
+    @Test(description = "convert a model with set (unique array) property")
+    public void complexSetPropertyTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("children", new ArraySchema()
+                        .items(new Schema().$ref("#/definitions/Children"))
+                        .uniqueItems(Boolean.TRUE));
+        final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "children");
+        Assert.assertEquals(property1.complexType, "Children");
+        Assert.assertEquals(property1.getter, "getChildren");
+        Assert.assertEquals(property1.setter, "setChildren");
+        Assert.assertEquals(property1.dataType, "Set[Children]");
+        Assert.assertEquals(property1.name, "children");
+        Assert.assertEquals(property1.defaultValue, "Set[Children].empty ");
+        Assert.assertEquals(property1.baseType, "Set");
+        Assert.assertEquals(property1.containerType, "set");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isContainer);
+    }
+
     @Test(description = "convert a model with complex map property")
     public void complexMapPropertyTest() {
         final Schema model = new Schema()
@@ -253,8 +289,31 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "ListBuffer[Children]");
+        Assert.assertEquals(cm.arrayModelType, "Children");
         Assert.assertEquals(cm.imports.size(), 2);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ListBuffer", "Children")).size(), 2);
+    }
+
+    @Test(description = "convert an array model with unique items to set")
+    public void arrayAsSetModelTest() {
+        final Schema schema = new ArraySchema()
+                .items(new Schema().$ref("#/definitions/Children"))
+                .description("a set of Children models");
+        schema.setUniqueItems(true);
+
+        final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a set of Children models");
+        Assert.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.parent, "Set[Children]");
+        Assert.assertEquals(cm.arrayModelType, "Children");
+        Assert.assertEquals(cm.imports.size(), 2);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Set", "Children")).size(), 2);
     }
 
     @Test(description = "convert a map model")
@@ -276,4 +335,32 @@ public class ScalaAkkaClientCodegenTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Map", "Children")).size(), 1);
     }
 
+    @Test(description = "validate codegen output")
+    public void codeGenerationTest() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("mainPackage", "hello.world");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(codegen.getName())
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/scala_reserved_words.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        Map<String, String> generatedFiles = generator.getFiles();
+        Assert.assertEquals(generatedFiles.size(), 13);
+
+        final String someObjFilename = new File(output, "src/main/scala/hello/world/model/SomeObj.scala").getAbsolutePath().replace("\\", "/");
+        Assert.assertEquals(
+                generatedFiles.get(someObjFilename),
+                Resources.toString(Resources.getResource("codegen/scala/SomeObj.scala.txt"), StandardCharsets.UTF_8));
+    }
 }

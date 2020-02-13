@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// AdditionalPropertiesNumber struct for AdditionalPropertiesNumber
 type AdditionalPropertiesNumber struct {
 	Name string `json:"name,omitempty"`
 }

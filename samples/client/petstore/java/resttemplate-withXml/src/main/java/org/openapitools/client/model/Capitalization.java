@@ -15,53 +15,59 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Capitalization
  */
+@JsonPropertyOrder({
+  Capitalization.JSON_PROPERTY_SMALL_CAMEL,
+  Capitalization.JSON_PROPERTY_CAPITAL_CAMEL,
+  Capitalization.JSON_PROPERTY_SMALL_SNAKE,
+  Capitalization.JSON_PROPERTY_CAPITAL_SNAKE,
+  Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
+  Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
+})
 
 @XmlRootElement(name = "Capitalization")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Capitalization")
 public class Capitalization {
-  @JsonProperty("smallCamel")
-  @JacksonXmlProperty(localName = "smallCamel")
+  public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   @XmlElement(name = "smallCamel")
   private String smallCamel;
 
-  @JsonProperty("CapitalCamel")
-  @JacksonXmlProperty(localName = "CapitalCamel")
+  public static final String JSON_PROPERTY_CAPITAL_CAMEL = "CapitalCamel";
   @XmlElement(name = "CapitalCamel")
   private String capitalCamel;
 
-  @JsonProperty("small_Snake")
-  @JacksonXmlProperty(localName = "small_Snake")
+  public static final String JSON_PROPERTY_SMALL_SNAKE = "small_Snake";
   @XmlElement(name = "small_Snake")
   private String smallSnake;
 
-  @JsonProperty("Capital_Snake")
-  @JacksonXmlProperty(localName = "Capital_Snake")
+  public static final String JSON_PROPERTY_CAPITAL_SNAKE = "Capital_Snake";
   @XmlElement(name = "Capital_Snake")
   private String capitalSnake;
 
-  @JsonProperty("SCA_ETH_Flow_Points")
-  @JacksonXmlProperty(localName = "SCA_ETH_Flow_Points")
+  public static final String JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
   @XmlElement(name = "SCA_ETH_Flow_Points")
   private String scAETHFlowPoints;
 
-  @JsonProperty("ATT_NAME")
-  @JacksonXmlProperty(localName = "ATT_NAME")
+  public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
   @XmlElement(name = "ATT_NAME")
   private String ATT_NAME;
 
+
   public Capitalization smallCamel(String smallCamel) {
+    
     this.smallCamel = smallCamel;
     return this;
   }
@@ -70,16 +76,24 @@ public class Capitalization {
    * Get smallCamel
    * @return smallCamel
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "smallCamel")
+
   public String getSmallCamel() {
     return smallCamel;
   }
+
 
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
   }
 
+
   public Capitalization capitalCamel(String capitalCamel) {
+    
     this.capitalCamel = capitalCamel;
     return this;
   }
@@ -88,16 +102,24 @@ public class Capitalization {
    * Get capitalCamel
    * @return capitalCamel
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "CapitalCamel")
+
   public String getCapitalCamel() {
     return capitalCamel;
   }
+
 
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
 
+
   public Capitalization smallSnake(String smallSnake) {
+    
     this.smallSnake = smallSnake;
     return this;
   }
@@ -106,16 +128,24 @@ public class Capitalization {
    * Get smallSnake
    * @return smallSnake
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "small_Snake")
+
   public String getSmallSnake() {
     return smallSnake;
   }
+
 
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
   }
 
+
   public Capitalization capitalSnake(String capitalSnake) {
+    
     this.capitalSnake = capitalSnake;
     return this;
   }
@@ -124,16 +154,24 @@ public class Capitalization {
    * Get capitalSnake
    * @return capitalSnake
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "Capital_Snake")
+
   public String getCapitalSnake() {
     return capitalSnake;
   }
+
 
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
 
+
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
+    
     this.scAETHFlowPoints = scAETHFlowPoints;
     return this;
   }
@@ -142,16 +180,24 @@ public class Capitalization {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "SCA_ETH_Flow_Points")
+
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
+
 
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
+
   public Capitalization ATT_NAME(String ATT_NAME) {
+    
     this.ATT_NAME = ATT_NAME;
     return this;
   }
@@ -160,10 +206,16 @@ public class Capitalization {
    * Name of the pet 
    * @return ATT_NAME
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "Name of the pet ")
+  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "ATT_NAME")
+
   public String getATTNAME() {
     return ATT_NAME;
   }
+
 
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;

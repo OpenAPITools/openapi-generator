@@ -88,7 +88,7 @@ No authorization required
 
 ## GetInventory
 
-> Dictionary&lt;string, int?&gt; GetInventory ()
+> Dictionary&lt;string, int&gt; GetInventory ()
 
 Returns pet inventories by status
 
@@ -120,7 +120,7 @@ namespace Example
             try
             {
                 // Returns pet inventories by status
-                Dictionary<string, int?> result = apiInstance.GetInventory();
+                Dictionary<string, int> result = apiInstance.GetInventory();
                 Debug.WriteLine(result);
             }
             catch (ApiException e)
@@ -140,7 +140,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Dictionary<string, int?>**
+**Dictionary<string, int>**
 
 ### Authorization
 
@@ -164,7 +164,7 @@ This endpoint does not need any parameter.
 
 ## GetOrderById
 
-> Order GetOrderById (long? orderId)
+> Order GetOrderById (long orderId)
 
 Find purchase order by ID
 
@@ -187,7 +187,7 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new StoreApi(Configuration.Default);
-            var orderId = 789;  // long? | ID of pet that needs to be fetched
+            var orderId = 789;  // long | ID of pet that needs to be fetched
 
             try
             {
@@ -211,7 +211,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **long?**| ID of pet that needs to be fetched | 
+ **orderId** | **long**| ID of pet that needs to be fetched | 
 
 ### Return type
 

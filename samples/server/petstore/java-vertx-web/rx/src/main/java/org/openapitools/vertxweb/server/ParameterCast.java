@@ -1,0 +1,88 @@
+package org.openapitools.vertxweb.server;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import io.vertx.core.json.Json;
+
+import java.util.UUID;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class ParameterCast {
+
+    public static Boolean toBoolean(String str) {
+        if (str != null) {
+            return Boolean.parseBoolean(str);
+        } else {
+            return null;
+        }
+    }
+
+    public static UUID toUUID(String str) {
+        if (str != null) {
+            return UUID.fromString(str);
+        } else {
+            return null;
+        }
+    }
+
+    public static Integer toInteger(String str) {
+        if (str != null) {
+            return Integer.parseInt(str);
+        } else {
+            return null;
+        }
+    }
+
+    public static Long toLong(String str) {
+        if (str != null) {
+            return Long.parseLong(str);
+        } else {
+            return null;
+        }
+    }
+
+    public static Double toDouble(String str) {
+        if (str != null){
+            return Double.parseDouble(str);
+        } else {
+            return null;
+        }
+    }
+
+    public static Float toFloat(String str) {
+        if (str != null){
+            return Float.parseFloat(str);
+        } else {
+            return null;
+        }
+    }
+
+    public static OffsetDateTime toOffsetDateTime(String str) {
+        if (str != null) {
+            return OffsetDateTime.parse(str,
+                DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        } else {
+            return null;
+        }
+    }
+
+    public static String toString(String str) {
+        return str;
+    }
+
+    public static  <T> T toObject(String str) {
+        if (str != null) {
+            return Json.decodeValue(str, new TypeReference<T>(){});
+        } else {
+            return null;
+        }
+    }
+
+    public static  <T> T toObject(String str, Class<T> classz) {
+        if (str != null) {
+            return Json.decodeValue(str, classz);
+        } else {
+            return null;
+        }
+    }
+}

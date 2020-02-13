@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// ArrayOfNumberOnly struct for ArrayOfNumberOnly
 type ArrayOfNumberOnly struct {
 	ArrayNumber []float32 `json:"ArrayNumber,omitempty"`
 }

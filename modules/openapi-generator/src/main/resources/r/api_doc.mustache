@@ -46,20 +46,41 @@ api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 {{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}
+{{#returnExceptionOnFailure}}
+{{#useRlangExceptionHandling}}
+result <- tryCatch(
+             api.instance${{{operationId}}}({{#requiredParams}}var.{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var.{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}),
+             ApiException = function(ex) ex 
+          )
+# In case of error, print the error object 
+if(!is.null(result$ApiException)) {
+  cat(result$ApiException$toString())
+ } else {
+{{#returnType}}
+# deserialized response object
+response.object <- result$content
+{{/returnType}}
+# response headers
+response.headers <- result$response$headers
+# response status code
+response.status.code <- result$response$status_code
+}
+{{/useRlangExceptionHandling}}
+{{/returnExceptionOnFailure}}
+{{^useRlangExceptionHandling}}
 {{#returnType}}result <- {{/returnType}}api.instance${{{operationId}}}({{#requiredParams}}var.{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var.{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}})
 {{#returnType}}
 dput(result)
 {{/returnType}}
+{{/useRlangExceptionHandling}}
 ```
 
 ### Parameters
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#requiredParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
-{{/requiredParams}}
-{{#optionalParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
-{{/optionalParams}}
+{{#allParams}} **{{paramName}}** | {{#isEnum}}Enum {{#allowableValues}}{{values}}{{/allowableValues}} {{/isEnum}}{{^isEnum}}{{#isContainer}}{{#isListContainer}}{{#items}}{{#isPrimitiveType}}list( **{{dataType}}** ){{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}list( [**{{dataType}}**]({{baseType}}.md) ){{/isFile}}{{/isPrimitiveType}}{{/items}}{{/isListContainer}}{{#isMapContainer}}{{#isPrimitiveType}}named list( **{{dataType}}** ){{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}named list( [**{{dataType}}**]({{baseType}}.md) ){{/isFile}}{{/isPrimitiveType}}{{/isMapContainer}}{{/isContainer}}{{^isContainer}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}{{/isContainer}}{{/isEnum}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{/allParams}}
 
 ### Return type
 
@@ -74,7 +95,14 @@ Name | Type | Description  | Notes
  - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
  - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
-
+{{#responses.0}}
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+{{#responses}}
+| **{{code}}** | {{message}} | {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} |
+{{/responses}}
+{{/responses.0}}
 
 {{/operation}}
 {{/operations}}

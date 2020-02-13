@@ -1,0 +1,6 @@
+{
+  "!include": "bin/typescript-fetch-petstore-with-npm-version.json",
+  "generatorName": "typescript-fetch",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/client/petstore/typescript-fetch/builds/with-npm-version"
+}

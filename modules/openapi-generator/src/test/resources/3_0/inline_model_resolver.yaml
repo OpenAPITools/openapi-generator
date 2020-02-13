@@ -293,6 +293,40 @@ paths:
       responses:
         '200':
           description: OK
+  /callback:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                callbackUri:
+                  type: string
+      responses:
+        201:
+          headers:
+            Location:
+              description: Contains the URI of the newly created resource
+              schema:
+                type: string
+      callbacks:
+        webhook:
+          '{$request.body#/callbackUri}':
+            post:
+              operationId: webhookNotify
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        notificationId:
+                          type: string
+                        action:
+                          type: string
+                        data:
+                          type: string
 components:
   schemas:
     Users:

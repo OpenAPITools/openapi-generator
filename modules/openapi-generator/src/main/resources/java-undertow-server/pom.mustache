@@ -16,8 +16,8 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.framework>0.1.1</version.framework>
-        <version.jackson>2.9.9</version.jackson>
-        <version.jackson.databind>2.9.9</version.jackson.databind>
+        <version.jackson>2.9.10</version.jackson>
+        <version.jackson.databind>2.9.10.1</version.jackson.databind>
         <version.slf4j>1.7.21</version.slf4j>
         <version.jose4j>0.5.2</version.jose4j>
         <version.antlr4>4.5.3</version.antlr4>
@@ -27,7 +27,7 @@
         <version.encoder>1.2</version.encoder>
         <version.metrics>3.1.2</version.metrics>
         <version.logback>1.1.7</version.logback>
-        <version.junit>4.12</version.junit>
+        <version.junit>4.13</version.junit>
         <version.mockito>2.1.0-beta.124</version.mockito>
         <version.undertow>1.4.0.Final</version.undertow>
         <version.jsonpath>2.2.0</version.jsonpath>
@@ -107,6 +107,12 @@
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${version.swagger}</version>
+        </dependency>
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
         </dependency>
 
         <!-- Test Dependencies -->

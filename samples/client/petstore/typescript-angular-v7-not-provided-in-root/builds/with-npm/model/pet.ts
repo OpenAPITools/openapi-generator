@@ -25,14 +25,13 @@ export interface Pet {
     /**
      * pet status in the store
      */
-    status?: Pet.StatusEnum;
+    status?: PetStatus;
 }
-export namespace Pet {
-    export type StatusEnum = 'available' | 'pending' | 'sold';
-    export const StatusEnum = {
-        Available: 'available' as StatusEnum,
-        Pending: 'pending' as StatusEnum,
-        Sold: 'sold' as StatusEnum
-    };
-}
+export enum PetStatus {
+    Available = 'available',
+    Pending = 'pending',
+    Sold = 'sold'
+};
+
+
 

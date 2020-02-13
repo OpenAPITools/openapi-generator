@@ -14,7 +14,7 @@ Module : {{baseModule}}.Core
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds #-}
+{-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module {{baseModule}}.Core where
 
@@ -425,16 +425,16 @@ instance P.Show DateTime where
 instance MimeRender MimeMultipartFormData DateTime where
   mimeRender _ = mimeRenderDefaultMultipartFormData
 
--- | @{{^dateTimeFormat}}_parseISO8601{{/dateTimeFormat}}{{#dateTimeFormat}}TI.parseTimeM True TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}@
-_readDateTime :: (TI.ParseTime t, Monad m, {{^dateTimeFormat}}Alternative m{{/dateTimeFormat}}) => String -> m t
+-- | @{{#dateTimeParseFormat}}TI.parseTimeM True TI.defaultTimeLocale "{{{dateTimeParseFormat}}}"{{/dateTimeParseFormat}}{{^dateTimeParseFormat}}{{#dateTimeFormat}}TI.parseTimeM True TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}{{^dateTimeFormat}}_parseISO8601{{/dateTimeFormat}}{{/dateTimeParseFormat}}@
+_readDateTime :: (TI.ParseTime t, Monad m{{^dateTimeFormat}}, Alternative m{{/dateTimeFormat}}) => String -> m t
 _readDateTime =
-  {{^dateTimeFormat}}_parseISO8601{{/dateTimeFormat}}{{#dateTimeFormat}}TI.parseTimeM True TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}
+  {{#dateTimeParseFormat}}TI.parseTimeM True TI.defaultTimeLocale "{{{dateTimeParseFormat}}}"{{/dateTimeParseFormat}}{{^dateTimeParseFormat}}{{#dateTimeFormat}}TI.parseTimeM True TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}{{^dateTimeFormat}}_parseISO8601{{/dateTimeFormat}}{{/dateTimeParseFormat}}
 {-# INLINE _readDateTime #-}
 
 -- | @{{^dateTimeFormat}}TI.formatISO8601Millis{{/dateTimeFormat}}{{#dateTimeFormat}}TI.formatTime TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}@
 _showDateTime :: ({{^dateTimeFormat}}t ~ TI.UTCTime, {{/dateTimeFormat}}TI.FormatTime t) => t -> String
 _showDateTime =
-  {{^dateTimeFormat}}TI.formatISO8601Millis{{/dateTimeFormat}}{{#dateTimeFormat}}TI.formatTime TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}
+  {{#dateTimeFormat}}TI.formatTime TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}{{^dateTimeFormat}}TI.formatISO8601Millis{{/dateTimeFormat}}
 {-# INLINE _showDateTime #-}
 
 -- | parse an ISO8601 date-time string

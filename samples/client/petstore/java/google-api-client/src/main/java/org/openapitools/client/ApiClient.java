@@ -4,6 +4,7 @@ import org.openapitools.client.api.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 import org.threeten.bp.*;
 import com.google.api.client.googleapis.util.Utils;
@@ -35,6 +36,8 @@ public class ApiClient {
         module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
         module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
         objectMapper.registerModule(module);
+        JsonNullableModule jnm = new JsonNullableModule();
+        objectMapper.registerModule(jnm);
         return objectMapper;
     }
 

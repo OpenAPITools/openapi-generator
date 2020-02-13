@@ -1,0 +1,10 @@
+{
+  "!include": "bin/ruby-petstore.json",
+  "generatorName": "ruby",
+  "inputSpec": "modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml",
+  "outputDir": "samples/openapi3/client/petstore/ruby",
+  "templateDir": "modules/openapi-generator/src/main/resources/ruby-client",
+  "additionalProperties": {
+    "skipFormModel": true
+  }
+}

@@ -13,12 +13,12 @@
 
 #include "OAIUser.h"
 
-#include "OAIHelpers.h"
-
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
+
+#include "OAIHelpers.h"
 
 namespace OpenAPI {
 
@@ -111,28 +111,28 @@ OAIUser::asJson () const {
 QJsonObject
 OAIUser::asJsonObject() const {
     QJsonObject obj;
-	if(m_id_isSet){
+    if(m_id_isSet){
         obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
     }
-	if(m_username_isSet){
+    if(m_username_isSet){
         obj.insert(QString("username"), ::OpenAPI::toJsonValue(username));
     }
-	if(m_first_name_isSet){
+    if(m_first_name_isSet){
         obj.insert(QString("firstName"), ::OpenAPI::toJsonValue(first_name));
     }
-	if(m_last_name_isSet){
+    if(m_last_name_isSet){
         obj.insert(QString("lastName"), ::OpenAPI::toJsonValue(last_name));
     }
-	if(m_email_isSet){
+    if(m_email_isSet){
         obj.insert(QString("email"), ::OpenAPI::toJsonValue(email));
     }
-	if(m_password_isSet){
+    if(m_password_isSet){
         obj.insert(QString("password"), ::OpenAPI::toJsonValue(password));
     }
-	if(m_phone_isSet){
+    if(m_phone_isSet){
         obj.insert(QString("phone"), ::OpenAPI::toJsonValue(phone));
     }
-	if(m_user_status_isSet){
+    if(m_user_status_isSet){
         obj.insert(QString("userStatus"), ::OpenAPI::toJsonValue(user_status));
     }
     return obj;

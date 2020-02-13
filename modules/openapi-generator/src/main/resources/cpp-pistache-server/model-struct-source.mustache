@@ -1,0 +1,59 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}
+
+#include "{{classname}}.h"
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+nlohmann::json {{classname}}::to_json() const
+{
+    nlohmann::json j;
+    {{#modelNamespaceDeclarations}}::{{this}}{{/modelNamespaceDeclarations}}::to_json(j, *this);
+    return j;
+}
+
+{{classname}} {{classname}}::from_json(const nlohmann::json& j)
+{
+    {{classname}} o{};
+    {{#modelNamespaceDeclarations}}::{{this}}{{/modelNamespaceDeclarations}}::from_json(j, o);
+    return o;
+}
+
+bool {{classname}}::operator==(const {{classname}}& other) const
+{
+    return {{#vars}}{{baseName}} == other.{{baseName}}{{#hasMore}} && {{/hasMore}}{{/vars}};
+}
+
+bool {{classname}}::operator!=(const {{classname}}& other) const
+{
+    return !(*this == other);
+}
+
+void to_json(nlohmann::json& j, const {{classname}}& o)
+{
+    {{#vars}}
+    {{^required}}if (!o.{{baseName}}.isEmpty()){{/required}}
+        j["{{baseName}}"] = o.{{baseName}}{{^required}}.get(){{/required}};
+    {{/vars}}
+}
+
+void from_json(const nlohmann::json& j, {{classname}}& o)
+{
+    {{#vars}}
+    {{#required}}j.at("{{baseName}}").get_to(o.{{baseName}});{{/required}}
+    {{^required}}if (j.find("{{baseName}}") != j.end()) {
+        {{{dataType}}} temporary_{{baseName}};
+        j.at("{{baseName}}").get_to(temporary_{{baseName}});
+        o.{{baseName}} = Pistache::Some(temporary_{{baseName}});
+    }{{/required}}
+    {{/vars}}
+}
+
+{{#modelNamespaceDeclarations}}
+} // {{this}}
+{{/modelNamespaceDeclarations}}
+
+{{/model}}
+{{/models}}

@@ -36,11 +36,13 @@ import android.os.Parcel;
 public class ArrayOfArrayOfNumberOnly implements Parcelable {
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_NUMBER)
-  private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<List<BigDecimal>>();
+  private List<List<BigDecimal>> arrayArrayNumber = null;
 
   public ArrayOfArrayOfNumberOnly() {
   }
+
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+    
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
@@ -57,10 +59,13 @@ public class ArrayOfArrayOfNumberOnly implements Parcelable {
    * Get arrayArrayNumber
    * @return arrayArrayNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
+
 
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;

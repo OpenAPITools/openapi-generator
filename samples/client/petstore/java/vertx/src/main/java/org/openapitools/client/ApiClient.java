@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.file.AsyncFile;
@@ -46,6 +47,7 @@ public class ApiClient {
     private final String identifier;
 
     private MultiMap defaultHeaders = MultiMap.caseInsensitiveMultiMap();
+    private MultiMap defaultCookies = MultiMap.caseInsensitiveMultiMap();
     private Map<String, Authentication> authentications;
     private String basePath = "http://petstore.swagger.io:80/v2";
     private DateFormat dateFormat;
@@ -75,6 +77,8 @@ public class ApiClient {
         this.objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.setDateFormat(dateFormat);
+        JsonNullableModule jnm = new JsonNullableModule();
+        this.objectMapper.registerModule(jnm);
 
         // Setup authentications (key: authentication name, value: authentication).
         this.authentications = new HashMap<>();
@@ -139,6 +143,15 @@ public class ApiClient {
 
     public ApiClient addDefaultHeader(String key, String value) {
         defaultHeaders.add(key, value);
+        return this;
+    }
+
+    public MultiMap getDefaultCookies() {
+        return defaultHeaders;
+    }
+
+    public ApiClient addDefaultCookie(String key, String value) {
+        defaultCookies.add(key, value);
         return this;
     }
 
@@ -424,6 +437,7 @@ public class ApiClient {
      * @param queryParams The query parameters
      * @param body The request body object
      * @param headerParams The header parameters
+     * @param cookieParams The cookie parameters
      * @param formParams The form parameters
      * @param accepts The request's Accept headers
      * @param contentTypes The request's Content-Type headers
@@ -432,12 +446,12 @@ public class ApiClient {
      * @param resultHandler The asynchronous response handler
      */
     public <T> void invokeAPI(String path, String method, List<Pair> queryParams, Object body, MultiMap headerParams,
-                              Map<String, Object> formParams, String[] accepts, String[] contentTypes, String[] authNames,
+                              MultiMap cookieParams, Map<String, Object> formParams, String[] accepts, String[] contentTypes, String[] authNames,
                               TypeReference<T> returnType, Handler<AsyncResult<T>> resultHandler) {
 
-        updateParamsForAuth(authNames, queryParams, headerParams);
+        updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
-        if (accepts != null) {
+        if (accepts != null && accepts.length > 0) {
             headerParams.add(HttpHeaders.ACCEPT, selectHeaderAccept(accepts));
         }
 
@@ -470,6 +484,9 @@ public class ApiClient {
             }
         });
 
+        final MultiMap cookies = MultiMap.caseInsensitiveMultiMap().addAll(cookieParams).addAll(defaultCookies);
+        request.putHeader("Cookie", buildCookieHeader(cookies));
+
         Handler<AsyncResult<HttpResponse<Buffer>>> responseHandler = buildResponseHandler(returnType, resultHandler);
         if (body != null) {
             sendBody(request, responseHandler, body);
@@ -480,6 +497,18 @@ public class ApiClient {
         } else {
             request.send(responseHandler);
         }
+    }
+
+    private String buildCookieHeader(MultiMap cookies) {
+      final StringBuilder cookieValue = new StringBuilder();
+      String delimiter = "";
+      for (final Map.Entry<String, String> entry : cookies.entries()) {
+          if (entry.getValue() != null) {
+              cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), entry.getValue()));
+              delimiter = "; ";
+          }
+      }
+      return cookieValue.toString();
     }
 
     /**
@@ -572,7 +601,7 @@ public class ApiClient {
                             return;
                         } else {
                             try {
-                                resultContent = Json.mapper.readValue(httpResponse.bodyAsString(), returnType);
+                                resultContent = this.objectMapper.readValue(httpResponse.bodyAsString(), returnType);
                                 result = Future.succeededFuture(resultContent);
                             } catch (Exception e) {
                                 result =  ApiException.fail(new DecodeException("Failed to decode:" + e.getMessage(), e));
@@ -612,11 +641,11 @@ public class ApiClient {
      *
      * @param authNames The authentications to apply
      */
-    protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, MultiMap headerParams) {
+    protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, MultiMap headerParams, MultiMap cookieParams) {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
-            auth.applyToParams(queryParams, headerParams);
+            auth.applyToParams(queryParams, headerParams, cookieParams);
         }
     }
 }

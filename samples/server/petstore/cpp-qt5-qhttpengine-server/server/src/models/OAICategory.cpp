@@ -13,12 +13,12 @@
 
 #include "OAICategory.h"
 
-#include "OAIHelpers.h"
-
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QObject>
 #include <QDebug>
+
+#include "OAIHelpers.h"
 
 namespace OpenAPI {
 
@@ -75,10 +75,10 @@ OAICategory::asJson () const {
 QJsonObject
 OAICategory::asJsonObject() const {
     QJsonObject obj;
-	if(m_id_isSet){
+    if(m_id_isSet){
         obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
     }
-	if(m_name_isSet){
+    if(m_name_isSet){
         obj.insert(QString("name"), ::OpenAPI::toJsonValue(name));
     }
     return obj;

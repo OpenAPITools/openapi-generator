@@ -37,37 +37,34 @@ namespace Org.OpenAPITools.Client
     internal class CustomJsonCodec : RestSharp.Serializers.ISerializer, RestSharp.Deserializers.IDeserializer
     {
         private readonly IReadableConfiguration _configuration;
-        private readonly JsonSerializer _serializer;
-        private string _contentType = "application/json";
+        private static readonly string _contentType = "application/json";
         private readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
             // OpenAPI generated types generally hide default constructors.
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
-                ContractResolver = new DefaultContractResolver
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy
                 {
-                    NamingStrategy = new CamelCaseNamingStrategy()
-                    {
-                        OverrideSpecifiedNames = true
-                    }
+                    OverrideSpecifiedNames = true
                 }
+            }
         };
 
         public CustomJsonCodec(IReadableConfiguration configuration)
         {
             _configuration = configuration;
-            _serializer = JsonSerializer.Create(_serializerSettings);
         }
 
         public CustomJsonCodec(JsonSerializerSettings serializerSettings, IReadableConfiguration configuration)
         {
             _serializerSettings = serializerSettings;
-            _serializer = JsonSerializer.Create(_serializerSettings);
             _configuration = configuration;
         }
 
         public string Serialize(object obj)
         {
-            String result = JsonConvert.SerializeObject(obj, _serializerSettings);
+            var result = JsonConvert.SerializeObject(obj, _serializerSettings);
             return result;
         }
 
@@ -122,7 +119,7 @@ namespace Org.OpenAPITools.Client
 
             if (type == typeof(String) || type.Name.StartsWith("System.Nullable")) // return primitive type
             {
-                return ClientUtils.ConvertType(response.Content, type);
+                return Convert.ChangeType(response.Content, type);
             }
 
             // at this point, it must be a model (json)
@@ -182,7 +179,7 @@ namespace Org.OpenAPITools.Client
         /// <exception cref="ArgumentException"></exception>
         public ApiClient(String basePath)
         {
-           if (String.IsNullOrEmpty(basePath))
+            if (string.IsNullOrEmpty(basePath))
                 throw new ArgumentException("basePath cannot be empty");
 
             _baseUrl = basePath;
@@ -239,7 +236,7 @@ namespace Org.OpenAPITools.Client
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <returns>[private] A new RestRequest instance.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        private RestRequest newRequest(
+        private RestRequest NewRequest(
             HttpMethod method,
             String path,
             RequestOptions options,
@@ -271,6 +268,14 @@ namespace Org.OpenAPITools.Client
                     {
                         request.AddQueryParameter(queryParam.Key, value);
                     }
+                }
+            }
+
+            if (configuration.DefaultHeaders != null)
+            {
+                foreach (var headerParam in configuration.DefaultHeaders)
+                {
+                    request.AddHeader(headerParam.Key, headerParam.Value);
                 }
             }
 
@@ -313,7 +318,7 @@ namespace Org.OpenAPITools.Client
                     request.RequestFormat = DataFormat.Json;
                 }
 
-                request.AddBody(options.Data);
+                request.AddJsonBody(options.Data);
             }
 
             if (options.FileParameters != null)
@@ -323,9 +328,9 @@ namespace Org.OpenAPITools.Client
                     var bytes = ClientUtils.ReadAsBytes(fileParam.Value);
                     var fileStream = fileParam.Value as FileStream;
                     if (fileStream != null)
-                        FileParameter.Create(fileParam.Key, bytes, System.IO.Path.GetFileName(fileStream.Name));
+                        request.Files.Add(FileParameter.Create(fileParam.Key, bytes, System.IO.Path.GetFileName(fileStream.Name)));
                     else
-                        FileParameter.Create(fileParam.Key, bytes, "no_file_name_provided");
+                        request.Files.Add(FileParameter.Create(fileParam.Key, bytes, "no_file_name_provided"));
                 }
             }
 
@@ -340,10 +345,12 @@ namespace Org.OpenAPITools.Client
             return request;
         }
 
-        private ApiResponse<T> toApiResponse<T>(IRestResponse<T> response)
+        private ApiResponse<T> ToApiResponse<T>(IRestResponse<T> response)
         {
             T result = response.Data;
-            var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>(), result)
+            string rawContent = response.Content;
+
+            var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>(), result, rawContent)
             {
                 ErrorText = response.ErrorMessage,
                 Cookies = new List<Cookie>()
@@ -374,7 +381,7 @@ namespace Org.OpenAPITools.Client
             return transformed;
         }
 
-        private async Task<ApiResponse<T>> Exec<T>(RestRequest req, IReadableConfiguration configuration)
+        private ApiResponse<T> Exec<T>(RestRequest req, IReadableConfiguration configuration)
         {
             RestClient client = new RestClient(_baseUrl);
 
@@ -382,15 +389,14 @@ namespace Org.OpenAPITools.Client
             var existingDeserializer = req.JsonSerializer as IDeserializer;
             if (existingDeserializer != null)
             {
-                client.AddHandler(existingDeserializer, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+                client.AddHandler(() => existingDeserializer, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
             }
             else
             {
-                var codec = new CustomJsonCodec(configuration);
-                client.AddHandler(codec, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+                client.AddHandler(() => new CustomJsonCodec(configuration), "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
             }
 
-            client.AddHandler(new XmlDeserializer(), "application/xml", "text/xml", "*+xml", "*");
+            client.AddHandler(() => new XmlDeserializer(), "application/xml", "text/xml", "*+xml", "*");
 
             client.Timeout = configuration.Timeout;
 
@@ -400,10 +406,12 @@ namespace Org.OpenAPITools.Client
             }
 
             InterceptRequest(req);
-            var response = await client.ExecuteTaskAsync<T>(req);
+
+            var response = client.Execute<T>(req);
+
             InterceptResponse(req, response);
 
-            var result = toApiResponse(response);
+            var result = ToApiResponse(response);
             if (response.ErrorMessage != null)
             {
                 result.ErrorText = response.ErrorMessage;
@@ -431,13 +439,78 @@ namespace Org.OpenAPITools.Client
                         Secure = restResponseCookie.Secure,
                         Version = restResponseCookie.Version
                     };
-                    
+
                     result.Cookies.Add(cookie);
                 }
             }
             return result;
         }
-        
+
+        private async Task<ApiResponse<T>> ExecAsync<T>(RestRequest req, IReadableConfiguration configuration)
+        {
+            RestClient client = new RestClient(_baseUrl);
+
+            client.ClearHandlers();
+            var existingDeserializer = req.JsonSerializer as IDeserializer;
+            if (existingDeserializer != null)
+            {
+                client.AddHandler(() => existingDeserializer, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+            }
+            else
+            {
+                client.AddHandler(() => new CustomJsonCodec(configuration), "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+            }
+
+            client.AddHandler(() => new XmlDeserializer(), "application/xml", "text/xml", "*+xml", "*");
+
+            client.Timeout = configuration.Timeout;
+
+            if (configuration.UserAgent != null)
+            {
+                client.UserAgent = configuration.UserAgent;
+            }
+
+            InterceptRequest(req);
+
+            var response = await client.ExecuteAsync<T>(req);
+
+            InterceptResponse(req, response);
+
+            var result = ToApiResponse(response);
+            if (response.ErrorMessage != null)
+            {
+                result.ErrorText = response.ErrorMessage;
+            }
+
+            if (response.Cookies != null && response.Cookies.Count > 0)
+            {
+                if(result.Cookies == null) result.Cookies = new List<Cookie>();
+                foreach (var restResponseCookie in response.Cookies)
+                {
+                    var cookie = new Cookie(
+                        restResponseCookie.Name,
+                        restResponseCookie.Value,
+                        restResponseCookie.Path,
+                        restResponseCookie.Domain
+                    )
+                    {
+                        Comment = restResponseCookie.Comment,
+                        CommentUri = restResponseCookie.CommentUri,
+                        Discard = restResponseCookie.Discard,
+                        Expired = restResponseCookie.Expired,
+                        Expires = restResponseCookie.Expires,
+                        HttpOnly = restResponseCookie.HttpOnly,
+                        Port = restResponseCookie.Port,
+                        Secure = restResponseCookie.Secure,
+                        Version = restResponseCookie.Version
+                    };
+
+                    result.Cookies.Add(cookie);
+                }
+            }
+            return result;
+        }
+
         #region IAsynchronousClient
         /// <summary>
         /// Make a HTTP GET request (async).
@@ -447,10 +520,10 @@ namespace Org.OpenAPITools.Client
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public async Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
+        public Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return await Exec<T>(newRequest(HttpMethod.Get, path, options, config), config);
+            return ExecAsync<T>(NewRequest(HttpMethod.Get, path, options, config), config);
         }
 
         /// <summary>
@@ -461,10 +534,10 @@ namespace Org.OpenAPITools.Client
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public async Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
+        public Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return await Exec<T>(newRequest(HttpMethod.Post, path, options, config), config);
+            return ExecAsync<T>(NewRequest(HttpMethod.Post, path, options, config), config);
         }
 
         /// <summary>
@@ -475,10 +548,10 @@ namespace Org.OpenAPITools.Client
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public async Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
+        public Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return await Exec<T>(newRequest(HttpMethod.Put, path, options, config), config);
+            return ExecAsync<T>(NewRequest(HttpMethod.Put, path, options, config), config);
         }
 
         /// <summary>
@@ -489,10 +562,10 @@ namespace Org.OpenAPITools.Client
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public async Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
+        public Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return await Exec<T>(newRequest(HttpMethod.Delete, path, options, config), config);
+            return ExecAsync<T>(NewRequest(HttpMethod.Delete, path, options, config), config);
         }
 
         /// <summary>
@@ -503,10 +576,10 @@ namespace Org.OpenAPITools.Client
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public async Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
+        public Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return await Exec<T>(newRequest(HttpMethod.Head, path, options, config), config);
+            return ExecAsync<T>(NewRequest(HttpMethod.Head, path, options, config), config);
         }
 
         /// <summary>
@@ -517,10 +590,10 @@ namespace Org.OpenAPITools.Client
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public async Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
+        public Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return await Exec<T>(newRequest(HttpMethod.Options, path, options, config), config);
+            return ExecAsync<T>(NewRequest(HttpMethod.Options, path, options, config), config);
         }
 
         /// <summary>
@@ -531,10 +604,10 @@ namespace Org.OpenAPITools.Client
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public async Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
+        public Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return await Exec<T>(newRequest(HttpMethod.Patch, path, options, config), config);
+            return ExecAsync<T>(NewRequest(HttpMethod.Patch, path, options, config), config);
         }
         #endregion IAsynchronousClient
 
@@ -549,7 +622,8 @@ namespace Org.OpenAPITools.Client
         /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Get<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
-            return GetAsync<T>(path, options, configuration).Result;
+            var config = configuration ?? GlobalConfiguration.Instance;
+            return Exec<T>(NewRequest(HttpMethod.Get, path, options, config), config);
         }
 
         /// <summary>
@@ -562,7 +636,8 @@ namespace Org.OpenAPITools.Client
         /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Post<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
-            return PostAsync<T>(path, options, configuration).Result;
+            var config = configuration ?? GlobalConfiguration.Instance;
+            return Exec<T>(NewRequest(HttpMethod.Post, path, options, config), config);
         }
 
         /// <summary>
@@ -575,7 +650,8 @@ namespace Org.OpenAPITools.Client
         /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Put<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
-            return PutAsync<T>(path, options, configuration).Result;
+            var config = configuration ?? GlobalConfiguration.Instance;
+            return Exec<T>(NewRequest(HttpMethod.Put, path, options, config), config);
         }
 
         /// <summary>
@@ -588,7 +664,8 @@ namespace Org.OpenAPITools.Client
         /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Delete<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
-            return DeleteAsync<T>(path, options, configuration).Result;
+            var config = configuration ?? GlobalConfiguration.Instance;
+            return Exec<T>(NewRequest(HttpMethod.Delete, path, options, config), config);
         }
 
         /// <summary>
@@ -601,7 +678,8 @@ namespace Org.OpenAPITools.Client
         /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Head<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
-            return HeadAsync<T>(path, options, configuration).Result;
+            var config = configuration ?? GlobalConfiguration.Instance;
+            return Exec<T>(NewRequest(HttpMethod.Head, path, options, config), config);
         }
 
         /// <summary>
@@ -614,7 +692,8 @@ namespace Org.OpenAPITools.Client
         /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Options<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
-            return OptionsAsync<T>(path, options, configuration).Result;
+            var config = configuration ?? GlobalConfiguration.Instance;
+            return Exec<T>(NewRequest(HttpMethod.Options, path, options, config), config);
         }
 
         /// <summary>
@@ -627,7 +706,8 @@ namespace Org.OpenAPITools.Client
         /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Patch<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
-            return PatchAsync<T>(path, options, configuration).Result;
+            var config = configuration ?? GlobalConfiguration.Instance;
+            return Exec<T>(NewRequest(HttpMethod.Patch, path, options, config), config);
         }
         #endregion ISynchronousClient
     }

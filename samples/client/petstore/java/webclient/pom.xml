@@ -17,7 +17,7 @@
     <licenses>
         <license>
             <name>Unlicense</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.html</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -65,6 +65,13 @@
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
+        
+        <!-- @Nullable annotation -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
 
         <dependency>
             <groupId>io.projectreactor</groupId>
@@ -91,6 +98,11 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable-version}</version>
+        </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -109,10 +121,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
-        <spring-web-version>5.0.7.RELEASE</spring-web-version>
-        <jackson-version>2.9.9</jackson-version>
-        <jackson-databind-version>2.9.9</jackson-databind-version>
-        <junit-version>4.12</junit-version>
+        <spring-web-version>5.0.16.RELEASE</spring-web-version>
+        <jackson-version>2.10.1</jackson-version>
+        <jackson-databind-version>2.10.1</jackson-databind-version>
+        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        <junit-version>4.13</junit-version>
         <reactor-version>3.1.8.RELEASE</reactor-version>
         <reactor-netty-version>0.7.8.RELEASE</reactor-netty-version>
     </properties>

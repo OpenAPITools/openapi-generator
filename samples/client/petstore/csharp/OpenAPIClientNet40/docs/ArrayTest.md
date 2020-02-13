@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ArrayOfString** | **List&lt;string&gt;** |  | [optional] 
-**ArrayArrayOfInteger** | **List&lt;List&lt;long?&gt;&gt;** |  | [optional] 
+**ArrayArrayOfInteger** | **List&lt;List&lt;long&gt;&gt;** |  | [optional] 
 **ArrayArrayOfModel** | **List&lt;List&lt;ReadOnlyFirst&gt;&gt;** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models)

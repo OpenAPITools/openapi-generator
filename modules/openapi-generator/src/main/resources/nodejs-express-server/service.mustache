@@ -1,0 +1,45 @@
+/* eslint-disable no-unused-vars */
+const Service = require('./Service');
+
+class {{{classname}}}Service {
+
+{{#operations}}
+{{#operation}}
+  /**
+   {{#summary}}
+   * {{{summary}}}
+   {{/summary}}
+   {{#notes}}
+   * {{{notes}}}
+   {{/notes}}
+   *
+  {{#allParams}}
+   * {{paramName}} {{{dataType}}} {{{description}}}{{^required}} (optional){{/required}}
+  {{/allParams}}
+  {{^returnType}}
+   * no response value expected for this operation
+  {{/returnType}}
+  {{#returnType}}
+   * returns {{{returnType}}}
+  {{/returnType}}
+   **/
+  static {{{operationId}}}({{#allParams}}{{#-first}}{ {{/-first}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{#-last}} }{{/-last}}{{/allParams}}) {
+    return new Promise(
+      async (resolve) => {
+        try {
+          resolve(Service.successResponse(''));
+        } catch (e) {
+          resolve(Service.rejectResponse(
+            e.message || 'Invalid input',
+            e.status || 405,
+          ));
+        }
+      },
+    );
+  }
+
+{{/operation}}
+}
+
+module.exports = {{{classname}}}Service;
+{{/operations}}

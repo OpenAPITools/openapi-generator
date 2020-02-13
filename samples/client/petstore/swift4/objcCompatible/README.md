@@ -26,7 +26,6 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeAPI* | [**call123testSpecialTags**](docs/AnotherFakeAPI.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
-*FakeAPI* | [**createXmlItem**](docs/FakeAPI.md#createxmlitem) | **POST** /fake/create_xml_item | creates an XmlItem
 *FakeAPI* | [**fakeOuterBooleanSerialize**](docs/FakeAPI.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeAPI* | [**fakeOuterCompositeSerialize**](docs/FakeAPI.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeAPI* | [**fakeOuterNumberSerialize**](docs/FakeAPI.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -65,25 +64,21 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
- - [AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
- - [AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
- - [AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
- - [AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
- - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
- - [AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [Animal](docs/Animal.md)
+ - [AnimalFarm](docs/AnimalFarm.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
+ - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [Dog](docs/Dog.md)
+ - [DogAllOf](docs/DogAllOf.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
@@ -104,11 +99,11 @@ Class | Method | HTTP request | Description
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Return](docs/Return.md)
  - [SpecialModelName](docs/SpecialModelName.md)
+ - [StringBooleanMap](docs/StringBooleanMap.md)
  - [Tag](docs/Tag.md)
  - [TypeHolderDefault](docs/TypeHolderDefault.md)
  - [TypeHolderExample](docs/TypeHolderExample.md)
  - [User](docs/User.md)
- - [XmlItem](docs/XmlItem.md)
 
 
 ## Documentation For Authorization

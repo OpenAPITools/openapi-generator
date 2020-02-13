@@ -128,11 +128,12 @@ Class | Method | HTTP request | Description
 *AbstractFakeApi* | **testBodyWithFileSchema** | **PUT** /fake/body-with-file-schema | 
 *AbstractFakeApi* | **testBodyWithQueryParams** | **PUT** /fake/body-with-query-params | 
 *AbstractFakeApi* | **testClientModel** | **PATCH** /fake | To test \"client\" model
-*AbstractFakeApi* | **testEndpointParameters** | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+*AbstractFakeApi* | **testEndpointParameters** | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 *AbstractFakeApi* | **testEnumParameters** | **GET** /fake | To test enum parameters
 *AbstractFakeApi* | **testGroupParameters** | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *AbstractFakeApi* | **testInlineAdditionalProperties** | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *AbstractFakeApi* | **testJsonFormData** | **GET** /fake/jsonFormData | test json serialization of form data
+*AbstractFakeApi* | **testQueryParameterCollectionFormat** | **PUT** /fake/test-query-paramters | 
 *AbstractFakeClassnameTags123Api* | **testClassname** | **PATCH** /fake_classname_test | To test class name in snake case
 *AbstractPetApi* | **addPet** | **POST** /pet | Add a new pet to the store
 *AbstractPetApi* | **findPetsByStatus** | **GET** /pet/findByStatus | Finds Pets by status
@@ -172,6 +173,8 @@ Class | Method | HTTP request | Description
 * OpenAPIServer\Model\ArrayOfArrayOfNumberOnly
 * OpenAPIServer\Model\ArrayOfNumberOnly
 * OpenAPIServer\Model\ArrayTest
+* OpenAPIServer\Model\BigCat
+* OpenAPIServer\Model\BigCatAllOf
 * OpenAPIServer\Model\Capitalization
 * OpenAPIServer\Model\Cat
 * OpenAPIServer\Model\CatAllOf

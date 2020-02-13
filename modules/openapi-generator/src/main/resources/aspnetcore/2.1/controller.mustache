@@ -33,16 +33,27 @@ namespace {{apiPackage}}
         /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
         [{{httpMethod}}]
-        [Route("{{{basePathWithoutHost}}}{{{path}}}")]{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}
-        [Authorize(Policy = "{{name}}")]{{/isApiKey}}{{#isBasicBearer}}
-        [Authorize{{#hasScopes}}(Roles = "{{#scopes}}{{scope}}{{#hasMore}},{{/hasMore}}{{/scopes}}"){{/hasScopes}}]{{/isBasicBearer}}{{/authMethods}}{{/hasAuthMethods}}
+        [Route("{{{basePathWithoutHost}}}{{{path}}}")]
+{{#authMethods}}
+{{#isApiKey}}
+        [Authorize(Policy = "{{name}}")]
+{{/isApiKey}}
+{{#isBasicBearer}}
+        [Authorize{{#scopes}}{{#-first}}(Roles = "{{/-first}}{{scope}}{{^-last}},{{/-last}}{{#-last}}"){{/-last}}{{/scopes}}]
+{{/isBasicBearer}}
+{{/authMethods}}
         [ValidateModelState]{{#useSwashbuckle}}
         [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
         [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}{{^useSwashbuckle}}{{#responses}}{{#dataType}}
         [ProducesResponseType(statusCode: {{code}}, type: typeof({{&dataType}}))]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}
-        public {{operationModifier}} {{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{^generateBody}};{{/generateBody}}
+        public {{operationModifier}} {{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}{{^isCookieParam}}, {{/isCookieParam}}{{/hasMore}}{{/allParams}}){{^generateBody}};{{/generateBody}}
         {{#generateBody}}
-        { {{#responses}}
+        { 
+	    {{#cookieParams}} 
+            var {{paramName}} = Request.Cookies["{{paramName}}"];
+            {{/cookieParams}}
+
+{{#responses}}
 {{#dataType}}
             //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode({{code}}, default({{&dataType}}));
@@ -50,7 +61,8 @@ namespace {{apiPackage}}
 {{^dataType}}
             //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode({{code}});
-{{/dataType}}{{/responses}}
+{{/dataType}}
+{{/responses}}
 {{#returnType}}
             string exampleJson = null;
             {{#examples}}

@@ -71,18 +71,29 @@ class SlimRouter
                 {{#hasAuthMethods}}
                 {{#authMethods}}
                 // {{type}} security schema named '{{name}}'
-                {{#isBasic}}
+                {{#isBasicBasic}}
                 [
                     'type' => '{{type}}',
                     'isBasic' => true,
+                    'isBearer' => false,
                     'isApiKey' => false,
                     'isOAuth' => false,
                 ],
-                {{/isBasic}}
+                {{/isBasicBasic}}
+                {{#isBasicBearer}}
+                [
+                    'type' => '{{type}}',
+                    'isBasic' => true,
+                    'isBearer' => true,
+                    'isApiKey' => false,
+                    'isOAuth' => false,
+                ],
+                {{/isBasicBearer}}
                 {{#isApiKey}}
                 [
                     'type' => '{{type}}',
                     'isBasic' => false,
+                    'isBearer' => false,
                     'isApiKey' => true,
                     'isOAuth' => false,
                     'keyParamName' => '{{keyParamName}}',
@@ -95,6 +106,7 @@ class SlimRouter
                 [
                     'type' => '{{type}}',
                     'isBasic' => false,
+                    'isBearer' => false,
                     'isApiKey' => false,
                     'isOAuth' => true,
                     'scopes' => [
@@ -167,7 +179,7 @@ class SlimRouter
 
                         $middlewares[] = new TokenAuthentication($this->getTokenAuthenticationOptions([
                             'authenticator' => $basicAuthenticator,
-                            'regex' => '/Basic\s+(.*)$/i',
+                            'regex' => $authMethod['isBearer'] ? '/Bearer\s+(.*)$/i' : '/Basic\s+(.*)$/i',
                             'header' => 'Authorization',
                             'parameter' => null,
                             'cookie' => null,

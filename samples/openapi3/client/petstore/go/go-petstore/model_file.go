@@ -8,8 +8,7 @@
  */
 
 package petstore
-
-// Must be named `File` for test.
+// File Must be named `File` for test.
 type File struct {
 	// Test capitalization
 	SourceURI string `json:"sourceURI,omitempty"`

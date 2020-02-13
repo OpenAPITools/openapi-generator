@@ -18,13 +18,11 @@
  */
 export interface Tag {
     /**
-     * 
      * @type {number}
      * @memberof Tag
      */
     id?: number;
     /**
-     * 
      * @type {string}
      * @memberof Tag
      */

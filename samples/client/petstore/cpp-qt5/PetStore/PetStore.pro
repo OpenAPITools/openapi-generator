@@ -16,13 +16,16 @@ CONFIG   += c++11
 
 TEMPLATE = app
 
-include(../client/client.pri)
+include(../client/PFXclient.pri)
 
 SOURCES += main.cpp \
-	PetApiTests.cpp \
-        StoreApiTests.cpp \
-        UserApiTests.cpp
+           PetApiTests.cpp \
+           StoreApiTests.cpp \
+           UserApiTests.cpp
 
 HEADERS += PetApiTests.h \
            StoreApiTests.h \
            UserApiTests.h
+
+# Disable optimisation for better valgrind report
+QMAKE_CXXFLAGS_DEBUG += -O0

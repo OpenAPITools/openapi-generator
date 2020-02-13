@@ -31,7 +31,7 @@ namespace Org.OpenAPITools.Model
     /// </summary>
     [DataContract]
     [ImplementPropertyChanged]
-    public partial class AdditionalPropertiesNumber : Dictionary<String, decimal?>,  IEquatable<AdditionalPropertiesNumber>, IValidatableObject
+    public partial class AdditionalPropertiesNumber : Dictionary<String, decimal>,  IEquatable<AdditionalPropertiesNumber>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AdditionalPropertiesNumber" /> class.
@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name="name", EmitDefaultValue=true)]
         public string Name { get; set; }
 
         /// <summary>

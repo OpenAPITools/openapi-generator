@@ -1,6 +1,7 @@
 package apimodels;
 
 import apimodels.Animal;
+import apimodels.DogAllOf;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
@@ -13,7 +14,7 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Dog extends Animal  {
   @JsonProperty("breed")
-  private String breed = null;
+  private String breed;
 
   public Dog breed(String breed) {
     this.breed = breed;

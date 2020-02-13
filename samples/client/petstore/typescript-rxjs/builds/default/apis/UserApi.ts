@@ -12,7 +12,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { BaseAPI, throwIfRequired, HttpHeaders, HttpQuery, COLLECTION_FORMATS } from '../runtime';
+import { BaseAPI, HttpHeaders, HttpQuery, throwIfNullOrUndefined, encodeURI } from '../runtime';
 import {
     User,
 } from '../models';
@@ -56,174 +56,129 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Create user
      */
-    createUser = (requestParameters: CreateUserRequest): Observable<void> => {
-        throwIfRequired(requestParameters, 'body', 'createUser');
+    createUser = ({ body }: CreateUserRequest): Observable<void> => {
+        throwIfNullOrUndefined(body, 'createUser');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
         };
 
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/user`,
+            path: '/user',
             method: 'POST',
             headers,
-            query,
-            body: requestParameters.body,
+            body: body,
         });
-    }
+    };
 
     /**
      * Creates list of users with given input array
      */
-    createUsersWithArrayInput = (requestParameters: CreateUsersWithArrayInputRequest): Observable<void> => {
-        throwIfRequired(requestParameters, 'body', 'createUsersWithArrayInput');
+    createUsersWithArrayInput = ({ body }: CreateUsersWithArrayInputRequest): Observable<void> => {
+        throwIfNullOrUndefined(body, 'createUsersWithArrayInput');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
         };
 
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/user/createWithArray`,
+            path: '/user/createWithArray',
             method: 'POST',
             headers,
-            query,
-            body: requestParameters.body,
+            body: body,
         });
-    }
+    };
 
     /**
      * Creates list of users with given input array
      */
-    createUsersWithListInput = (requestParameters: CreateUsersWithListInputRequest): Observable<void> => {
-        throwIfRequired(requestParameters, 'body', 'createUsersWithListInput');
+    createUsersWithListInput = ({ body }: CreateUsersWithListInputRequest): Observable<void> => {
+        throwIfNullOrUndefined(body, 'createUsersWithListInput');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
         };
 
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/user/createWithList`,
+            path: '/user/createWithList',
             method: 'POST',
             headers,
-            query,
-            body: requestParameters.body,
+            body: body,
         });
-    }
+    };
 
     /**
      * This can only be done by the logged in user.
      * Delete user
      */
-    deleteUser = (requestParameters: DeleteUserRequest): Observable<void> => {
-        throwIfRequired(requestParameters, 'username', 'deleteUser');
-
-        const headers: HttpHeaders = {
-        };
-
-        const query: HttpQuery = {
-        };
+    deleteUser = ({ username }: DeleteUserRequest): Observable<void> => {
+        throwIfNullOrUndefined(username, 'deleteUser');
 
         return this.request<void>({
-            path: `/user/{username}`.replace(`{username}`, encodeURIComponent(String(requestParameters.username))),
+            path: '/user/{username}'.replace('{username}', encodeURI(username)),
             method: 'DELETE',
-            headers,
-            query,
         });
-    }
+    };
 
     /**
      * Get user by user name
      */
-    getUserByName = (requestParameters: GetUserByNameRequest): Observable<User> => {
-        throwIfRequired(requestParameters, 'username', 'getUserByName');
-
-        const headers: HttpHeaders = {
-        };
-
-        const query: HttpQuery = {
-        };
+    getUserByName = ({ username }: GetUserByNameRequest): Observable<User> => {
+        throwIfNullOrUndefined(username, 'getUserByName');
 
         return this.request<User>({
-            path: `/user/{username}`.replace(`{username}`, encodeURIComponent(String(requestParameters.username))),
+            path: '/user/{username}'.replace('{username}', encodeURI(username)),
             method: 'GET',
-            headers,
-            query,
         });
-    }
+    };
 
     /**
      * Logs user into the system
      */
-    loginUser = (requestParameters: LoginUserRequest): Observable<string> => {
-        throwIfRequired(requestParameters, 'username', 'loginUser');
-        throwIfRequired(requestParameters, 'password', 'loginUser');
+    loginUser = ({ username, password }: LoginUserRequest): Observable<string> => {
+        throwIfNullOrUndefined(username, 'loginUser');
+        throwIfNullOrUndefined(password, 'loginUser');
 
-        const headers: HttpHeaders = {
-        };
-
-        const query: HttpQuery = {
-            ...(requestParameters.username && { 'username': requestParameters.username }),
-            ...(requestParameters.password && { 'password': requestParameters.password }),
+        const query: HttpQuery = { // required parameters are used directly since they are already checked by throwIfNullOrUndefined
+            'username': username,
+            'password': password,
         };
 
         return this.request<string>({
-            path: `/user/login`,
+            path: '/user/login',
             method: 'GET',
-            headers,
             query,
         });
-    }
+    };
 
     /**
      * Logs out current logged in user session
      */
     logoutUser = (): Observable<void> => {
-
-        const headers: HttpHeaders = {
-        };
-
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/user/logout`,
+            path: '/user/logout',
             method: 'GET',
-            headers,
-            query,
         });
-    }
+    };
 
     /**
      * This can only be done by the logged in user.
      * Updated user
      */
-    updateUser = (requestParameters: UpdateUserRequest): Observable<void> => {
-        throwIfRequired(requestParameters, 'username', 'updateUser');
-        throwIfRequired(requestParameters, 'body', 'updateUser');
+    updateUser = ({ username, body }: UpdateUserRequest): Observable<void> => {
+        throwIfNullOrUndefined(username, 'updateUser');
+        throwIfNullOrUndefined(body, 'updateUser');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
         };
 
-        const query: HttpQuery = {
-        };
-
         return this.request<void>({
-            path: `/user/{username}`.replace(`{username}`, encodeURIComponent(String(requestParameters.username))),
+            path: '/user/{username}'.replace('{username}', encodeURI(username)),
             method: 'PUT',
             headers,
-            query,
-            body: requestParameters.body,
+            body: body,
         });
-    }
+    };
 
 }

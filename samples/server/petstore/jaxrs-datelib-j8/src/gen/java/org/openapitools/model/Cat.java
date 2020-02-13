@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
 import org.openapitools.model.CatAllOf;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -27,9 +28,13 @@ import javax.validation.Valid;
 /**
  * Cat
  */
+@JsonPropertyOrder({
+  Cat.JSON_PROPERTY_DECLAWED
+})
 
 public class Cat extends Animal implements Serializable {
-  @JsonProperty("declawed")
+  public static final String JSON_PROPERTY_DECLAWED = "declawed";
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
   private Boolean declawed;
 
   public Cat declawed(Boolean declawed) {

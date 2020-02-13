@@ -1,11 +1,22 @@
 type {{classname}}
-{{#mappedModels}}
+{{^discriminator}}{{#oneOf}}
+    {{#-first}}={{/-first}}{{^-first}}|{{/-first}} {{{.}}}Type {{{.}}}
+{{/oneOf}}{{/discriminator}}
+{{#discriminator}}{{#mappedModels}}
     {{#-first}}={{/-first}}{{^-first}}|{{/-first}} {{modelName}}Type {{modelName}}
-{{/mappedModels}}
+{{/mappedModels}}{{/discriminator}}
 
 
 decoder : Decoder {{classname}}
 decoder =
+{{^discriminator}}
+    Decode.oneOf
+{{#oneOf}}
+        {{#-first}}[{{/-first}}{{^-first}},{{/-first}} Decode.map {{{.}}}Type {{{.}}}.decoder
+{{/oneOf}}
+        ]
+{{/discriminator}}
+{{#discriminator}}
     Decode.field "{{{discriminator.propertyName}}}" Decode.string
         |> Decode.andThen {{classVarName}}Decoder
 
@@ -19,14 +30,27 @@ decoder =
 
 {{/mappedModels}}
         _ ->
-            Decode.fail <| "Trying to decode {{classname}}, but {{{discriminatorName}}} " ++ tag ++ " is not supported."
+            Decode.fail <| "Trying to decode {{classname}}, but {{{discriminatorName}}} '" ++ tag ++ "' is not supported."
+{{/discriminator}}
 
 
 encode : {{classname}} -> Encode.Value
 encode model =
     case model of
+{{^discriminator}}{{#oneOf}}
+        {{{.}}}Type subModel ->
+            {{{.}}}.encode subModel
+
+{{/oneOf}}{{/discriminator}}
+{{#discriminator}}
 {{#mappedModels}}
         {{modelName}}Type subModel ->
-            {{modelName}}.encode "{{mappingName}}" subModel
+            {{modelName}}.encodeWithTag ("{{discriminatorName}}", "{{mappingName}}") subModel
 
 {{/mappedModels}}
+{{/discriminator}}
+
+
+toString : {{classname}} -> String
+toString =
+    Encode.encode 0 << encode

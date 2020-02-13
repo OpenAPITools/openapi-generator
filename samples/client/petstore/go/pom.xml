@@ -1,11 +1,11 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>Goswagger</artifactId>
+    <artifactId>GoPetstore</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <name>Go Petstore Client</name>
- <build>
+    <build>
         <plugins>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>

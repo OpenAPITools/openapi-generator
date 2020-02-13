@@ -1,5 +1,5 @@
 # for CI with appveyor.yml
-# Ref: http://www.yegor256.com/2015/01/10/windows-appveyor-maven.html
+# Ref: https://www.yegor256.com/2015/01/10/windows-appveyor-maven.html
 version: '{branch}-{build}'
 image: Visual Studio 2017
 hosts:
@@ -48,7 +48,7 @@ build_script:
   - nuget restore samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln
   - msbuild samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   # install openapi-generator locally
-  - mvn clean install --quiet
+  - mvn clean install --quiet -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   # run the locally installed openapi-generator-gradle-plugin
   - gradle -b modules\openapi-generator-gradle-plugin\samples\local-spec\build.gradle buildGoSdk --info
 test_script:

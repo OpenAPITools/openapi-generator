@@ -1,0 +1,48 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "A User who is purchasing from the pet store",
+  "name": "User",
+  "fields": [
+    {
+      "name": "id",
+      "type": ["null", "long"],
+      "doc": ""
+    },
+    {
+      "name": "username",
+      "type": ["null", "string"],
+      "doc": ""
+    },
+    {
+      "name": "firstName",
+      "type": ["null", "string"],
+      "doc": ""
+    },
+    {
+      "name": "lastName",
+      "type": ["null", "string"],
+      "doc": ""
+    },
+    {
+      "name": "email",
+      "type": ["null", "string"],
+      "doc": ""
+    },
+    {
+      "name": "password",
+      "type": ["null", "string"],
+      "doc": ""
+    },
+    {
+      "name": "phone",
+      "type": ["null", "string"],
+      "doc": ""
+    },
+    {
+      "name": "userStatus",
+      "type": ["null", "int"],
+      "doc": "User Status"
+    }
+  ]
+}

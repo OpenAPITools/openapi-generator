@@ -35,22 +35,43 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.openapitools.client.JSON;
-
 import static io.restassured.http.Method.*;
 
 @Api(value = "Pet")
 public class PetApi {
 
-    private RequestSpecBuilder reqSpec;
+    private Supplier<RequestSpecBuilder> reqSpecSupplier;
+    private Consumer<RequestSpecBuilder> reqSpecCustomizer;
 
-    private PetApi(RequestSpecBuilder reqSpec) {
-        this.reqSpec = reqSpec;
+    private PetApi(Supplier<RequestSpecBuilder> reqSpecSupplier) {
+        this.reqSpecSupplier = reqSpecSupplier;
     }
 
-    public static PetApi pet(RequestSpecBuilder reqSpec) {
-        return new PetApi(reqSpec);
+    public static PetApi pet(Supplier<RequestSpecBuilder> reqSpecSupplier) {
+        return new PetApi(reqSpecSupplier);
     }
 
+    private RequestSpecBuilder createReqSpec() {
+        RequestSpecBuilder reqSpec = reqSpecSupplier.get();
+        if(reqSpecCustomizer != null) {
+            reqSpecCustomizer.accept(reqSpec);
+        }
+        return reqSpec;
+    }
+
+    public List<Oper> getAllOperations() {
+        return Arrays.asList(
+                addPet(),
+                deletePet(),
+                findPetsByStatus(),
+                findPetsByTags(),
+                getPetById(),
+                updatePet(),
+                updatePetWithForm(),
+                uploadFile(),
+                uploadFileWithRequiredFile()
+        );
+    }
 
     @ApiOperation(value = "Add a new pet to the store",
             notes = "",
@@ -60,7 +81,7 @@ public class PetApi {
             @ApiResponse(code = 200, message = "successful operation") ,
             @ApiResponse(code = 405, message = "Invalid input")  })
     public AddPetOper addPet() {
-        return new AddPetOper(reqSpec);
+        return new AddPetOper(createReqSpec());
     }
 
     @ApiOperation(value = "Deletes a pet",
@@ -71,7 +92,7 @@ public class PetApi {
             @ApiResponse(code = 200, message = "successful operation") ,
             @ApiResponse(code = 400, message = "Invalid pet value")  })
     public DeletePetOper deletePet() {
-        return new DeletePetOper(reqSpec);
+        return new DeletePetOper(createReqSpec());
     }
 
     @ApiOperation(value = "Finds Pets by status",
@@ -82,7 +103,7 @@ public class PetApi {
             @ApiResponse(code = 200, message = "successful operation") ,
             @ApiResponse(code = 400, message = "Invalid status value")  })
     public FindPetsByStatusOper findPetsByStatus() {
-        return new FindPetsByStatusOper(reqSpec);
+        return new FindPetsByStatusOper(createReqSpec());
     }
 
     @ApiOperation(value = "Finds Pets by tags",
@@ -94,7 +115,7 @@ public class PetApi {
             @ApiResponse(code = 400, message = "Invalid tag value")  })
     @Deprecated
     public FindPetsByTagsOper findPetsByTags() {
-        return new FindPetsByTagsOper(reqSpec);
+        return new FindPetsByTagsOper(createReqSpec());
     }
 
     @ApiOperation(value = "Find pet by ID",
@@ -106,7 +127,7 @@ public class PetApi {
             @ApiResponse(code = 400, message = "Invalid ID supplied") ,
             @ApiResponse(code = 404, message = "Pet not found")  })
     public GetPetByIdOper getPetById() {
-        return new GetPetByIdOper(reqSpec);
+        return new GetPetByIdOper(createReqSpec());
     }
 
     @ApiOperation(value = "Update an existing pet",
@@ -119,7 +140,7 @@ public class PetApi {
             @ApiResponse(code = 404, message = "Pet not found") ,
             @ApiResponse(code = 405, message = "Validation exception")  })
     public UpdatePetOper updatePet() {
-        return new UpdatePetOper(reqSpec);
+        return new UpdatePetOper(createReqSpec());
     }
 
     @ApiOperation(value = "Updates a pet in the store with form data",
@@ -129,7 +150,7 @@ public class PetApi {
     @ApiResponses(value = { 
             @ApiResponse(code = 405, message = "Invalid input")  })
     public UpdatePetWithFormOper updatePetWithForm() {
-        return new UpdatePetWithFormOper(reqSpec);
+        return new UpdatePetWithFormOper(createReqSpec());
     }
 
     @ApiOperation(value = "uploads an image",
@@ -139,7 +160,7 @@ public class PetApi {
     @ApiResponses(value = { 
             @ApiResponse(code = 200, message = "successful operation")  })
     public UploadFileOper uploadFile() {
-        return new UploadFileOper(reqSpec);
+        return new UploadFileOper(createReqSpec());
     }
 
     @ApiOperation(value = "uploads an image (required)",
@@ -149,16 +170,16 @@ public class PetApi {
     @ApiResponses(value = { 
             @ApiResponse(code = 200, message = "successful operation")  })
     public UploadFileWithRequiredFileOper uploadFileWithRequiredFile() {
-        return new UploadFileWithRequiredFileOper(reqSpec);
+        return new UploadFileWithRequiredFileOper(createReqSpec());
     }
 
     /**
-     * Customise request specification
-     * @param consumer consumer
+     * Customize request specification
+     * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
      * @return api
      */
-    public PetApi reqSpec(Consumer<RequestSpecBuilder> consumer) {
-        consumer.accept(reqSpec);
+    public PetApi reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+        this.reqSpecCustomizer = reqSpecCustomizer;
         return this;
     }
 
@@ -168,7 +189,7 @@ public class PetApi {
      *
      * @see #body Pet object that needs to be added to the store (required)
      */
-    public static class AddPetOper {
+    public static class AddPetOper implements Oper {
 
         public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/pet";
@@ -189,6 +210,7 @@ public class PetApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -203,22 +225,22 @@ public class PetApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public AddPetOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public AddPetOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public AddPetOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public AddPetOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -229,7 +251,7 @@ public class PetApi {
      * @see #petIdPath Pet id to delete (required)
      * @see #apiKeyHeader  (optional)
      */
-    public static class DeletePetOper {
+    public static class DeletePetOper implements Oper {
 
         public static final Method REQ_METHOD = DELETE;
         public static final String REQ_URI = "/pet/{petId}";
@@ -249,6 +271,7 @@ public class PetApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -276,22 +299,22 @@ public class PetApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public DeletePetOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public DeletePetOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public DeletePetOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public DeletePetOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -302,7 +325,7 @@ public class PetApi {
      * @see #statusQuery Status values that need to be considered for filter (required)
      * return List&lt;Pet&gt;
      */
-    public static class FindPetsByStatusOper {
+    public static class FindPetsByStatusOper implements Oper {
 
         public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/pet/findByStatus";
@@ -322,6 +345,7 @@ public class PetApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -348,22 +372,22 @@ public class PetApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public FindPetsByStatusOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public FindPetsByStatusOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public FindPetsByStatusOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public FindPetsByStatusOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -376,7 +400,7 @@ public class PetApi {
      * @deprecated
      */
     @Deprecated
-    public static class FindPetsByTagsOper {
+    public static class FindPetsByTagsOper implements Oper {
 
         public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/pet/findByTags";
@@ -396,6 +420,7 @@ public class PetApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -422,22 +447,22 @@ public class PetApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public FindPetsByTagsOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public FindPetsByTagsOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public FindPetsByTagsOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public FindPetsByTagsOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -448,7 +473,7 @@ public class PetApi {
      * @see #petIdPath ID of pet to return (required)
      * return Pet
      */
-    public static class GetPetByIdOper {
+    public static class GetPetByIdOper implements Oper {
 
         public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/pet/{petId}";
@@ -468,6 +493,7 @@ public class PetApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -494,22 +520,22 @@ public class PetApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public GetPetByIdOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public GetPetByIdOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public GetPetByIdOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public GetPetByIdOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -519,7 +545,7 @@ public class PetApi {
      *
      * @see #body Pet object that needs to be added to the store (required)
      */
-    public static class UpdatePetOper {
+    public static class UpdatePetOper implements Oper {
 
         public static final Method REQ_METHOD = PUT;
         public static final String REQ_URI = "/pet";
@@ -540,6 +566,7 @@ public class PetApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -554,22 +581,22 @@ public class PetApi {
         }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public UpdatePetOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public UpdatePetOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public UpdatePetOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public UpdatePetOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -581,7 +608,7 @@ public class PetApi {
      * @see #nameForm Updated name of the pet (optional)
      * @see #statusForm Updated status of the pet (optional)
      */
-    public static class UpdatePetWithFormOper {
+    public static class UpdatePetWithFormOper implements Oper {
 
         public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/pet/{petId}";
@@ -602,6 +629,7 @@ public class PetApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -640,22 +668,22 @@ public class PetApi {
          }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public UpdatePetWithFormOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public UpdatePetWithFormOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public UpdatePetWithFormOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public UpdatePetWithFormOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -668,7 +696,7 @@ public class PetApi {
      * @see #fileMultiPart file to upload (optional)
      * return ModelApiResponse
      */
-    public static class UploadFileOper {
+    public static class UploadFileOper implements Oper {
 
         public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/pet/{petId}/uploadImage";
@@ -689,6 +717,7 @@ public class PetApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -737,22 +766,22 @@ public class PetApi {
          }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public UploadFileOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public UploadFileOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public UploadFileOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public UploadFileOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }
@@ -765,7 +794,7 @@ public class PetApi {
      * @see #additionalMetadataForm Additional data to pass to server (optional)
      * return ModelApiResponse
      */
-    public static class UploadFileWithRequiredFileOper {
+    public static class UploadFileWithRequiredFileOper implements Oper {
 
         public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/fake/{petId}/uploadImageWithRequiredFile";
@@ -786,6 +815,7 @@ public class PetApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -834,22 +864,22 @@ public class PetApi {
          }
 
         /**
-         * Customise request specification
-         * @param consumer consumer
+         * Customize request specification
+         * @param reqSpecCustomizer consumer to modify the RequestSpecBuilder
          * @return operation
          */
-        public UploadFileWithRequiredFileOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
+        public UploadFileWithRequiredFileOper reqSpec(Consumer<RequestSpecBuilder> reqSpecCustomizer) {
+            reqSpecCustomizer.accept(reqSpec);
             return this;
         }
 
         /**
-         * Customise response specification
-         * @param consumer consumer
+         * Customize response specification
+         * @param respSpecCustomizer consumer to modify the ResponseSpecBuilder
          * @return operation
          */
-        public UploadFileWithRequiredFileOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
+        public UploadFileWithRequiredFileOper respSpec(Consumer<ResponseSpecBuilder> respSpecCustomizer) {
+            respSpecCustomizer.accept(respSpec);
             return this;
         }
     }

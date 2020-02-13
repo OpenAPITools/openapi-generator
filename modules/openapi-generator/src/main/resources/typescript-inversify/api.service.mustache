@@ -60,7 +60,7 @@ export class {{classname}} {
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe: any = 'body', headers: Headers = {}): {{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<any> {
 {{#allParams}}
 {{#required}}
-        if (!{{paramName}}){
+        if ({{paramName}} === null || {{paramName}} === undefined){
             throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
         }
 
@@ -139,7 +139,7 @@ export class {{classname}} {
         headers['Accept'] = 'application/json';
         {{/produces}}
         {{#produces.0}}
-        headers['Accept'] = '{{{mediaType}}}';
+        headers['Accept'] = '{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}';
         {{/produces.0}}
 {{#bodyParam}}
         {{^consumes}}
@@ -152,7 +152,12 @@ export class {{classname}} {
 
 {{#hasFormParams}}
         let formData: FormData = new FormData();
+        {{#isMultipart}}
+        headers['Content-Type'] = 'multipart/form-data';
+        {{/isMultipart}}
+        {{^isMultipart}}
         headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+        {{/isMultipart}}
 {{#formParams}}
         {{#isListContainer}}
         if ({{paramName}}) {
@@ -174,7 +179,7 @@ export class {{classname}} {
 {{/formParams}}
 
 {{/hasFormParams}}
-        const response: Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>> = this.httpClient.{{httpMethod}}(`${this.basePath}{{{path}}}{{#hasQueryParams}}?${queryParameters.join('&')}{{/hasQueryParams}}`{{#bodyParam}}, {{paramName}} {{/bodyParam}}{{#hasFormParams}}, body{{/hasFormParams}}, headers);
+        const response: Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>> = this.httpClient.{{httpMethod}}(`${this.basePath}{{{path}}}{{#hasQueryParams}}?${queryParameters.join('&')}{{/hasQueryParams}}`{{#bodyParam}}, {{paramName}} {{/bodyParam}}{{#hasFormParams}}, formData{{/hasFormParams}}, headers);
         if (observe == 'body') {
                return response.pipe(
                    map(httpResponse => <{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>(httpResponse.response))

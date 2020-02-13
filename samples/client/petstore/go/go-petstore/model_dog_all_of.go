@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// DogAllOf struct for DogAllOf
 type DogAllOf struct {
 	Breed string `json:"breed,omitempty"`
 }

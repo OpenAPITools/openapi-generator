@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class Pet  implements Serializable {
   
   private @Valid Long id;
-  private @Valid Category category = null;
+  private @Valid Category category;
   private @Valid String name;
   private @Valid List<String> photoUrls = new ArrayList<String>();
   private @Valid List<Tag> tags = new ArrayList<Tag>();

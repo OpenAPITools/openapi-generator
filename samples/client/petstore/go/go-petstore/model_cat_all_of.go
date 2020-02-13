@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// CatAllOf struct for CatAllOf
 type CatAllOf struct {
 	Declawed bool `json:"declawed,omitempty"`
 }

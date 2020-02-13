@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.URLPathUtils;
 
 import java.io.File;
@@ -42,6 +43,10 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
 
     public CppQt5QHttpEngineServerCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
 
         // set the output folder here
         outputFolder = "generated-code/cpp-qt5-qhttpengine-server";
@@ -76,7 +81,7 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
         apiTemplateFiles.put(
                 "apirequest.h.mustache",   // the template to use
                 ".h");       // the extension for each file to write
-    
+
         apiTemplateFiles.put(
                 "apirequest.cpp.mustache",   // the template to use
                 ".cpp");       // the extension for each file to write
@@ -86,11 +91,13 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
          * will use the resource stream to attempt to read the templates.
          */
         embeddedTemplateDir = templateDir = "cpp-qt5-qhttpengine-server";
-      
+
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.cpp"));
-        supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, PREFIX + "Object.h"));        
+        supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, PREFIX + "Object.h"));
         supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder + MODEL_DIR, PREFIX + "Enum.h"));
+        supportingFiles.add(new SupportingFile("HttpFileElement.h.mustache", sourceFolder + MODEL_DIR, PREFIX + "HttpFileElement.h"));
+        supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder + MODEL_DIR, PREFIX + "HttpFileElement.cpp"));
         supportingFiles.add(new SupportingFile("apirouter.h.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "ApiRouter.h"));
         supportingFiles.add(new SupportingFile("apirouter.cpp.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "ApiRouter.cpp"));
 
@@ -102,6 +109,8 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", sourceFolder, "Dockerfile"));
         supportingFiles.add(new SupportingFile("LICENSE.txt.mustache", sourceFolder, "LICENSE.txt"));
+        typeMapping.put("file", PREFIX + "HttpFileElement");
+        importMapping.put(PREFIX + "HttpFileElement", "#include \"" + PREFIX + "HttpFileElement.h\"");
 
     }
 
@@ -115,9 +124,12 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
             supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Helpers.cpp"));
             supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Object.h"));
             supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Enum.h"));
+            supportingFiles.add(new SupportingFile("HttpFileElement.h.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "HttpFileElement.h"));
+            supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "HttpFileElement.cpp"));
             supportingFiles.add(new SupportingFile("apirouter.h.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "ApiRouter.h"));
-            supportingFiles.add(new SupportingFile("apirouter.cpp.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "ApiRouter.cpp"));            
-                      
+            supportingFiles.add(new SupportingFile("apirouter.cpp.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "ApiRouter.cpp"));
+
+
             supportingFiles.add(new SupportingFile("main.cpp.mustache", sourceFolder + SRC_DIR, "main.cpp"));
             supportingFiles.add(new SupportingFile("src-CMakeLists.txt.mustache", sourceFolder + SRC_DIR, "CMakeLists.txt"));
             supportingFiles.add(new SupportingFile("README.md.mustache", sourceFolder, "README.MD"));
@@ -125,6 +137,8 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
             supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
             supportingFiles.add(new SupportingFile("Dockerfile.mustache", sourceFolder, "Dockerfile"));
             supportingFiles.add(new SupportingFile("LICENSE.txt.mustache", sourceFolder, "LICENSE.txt"));
+            typeMapping.put("file", modelNamePrefix + "HttpFileElement");
+            importMapping.put(modelNamePrefix + "HttpFileElement", "#include \"" + modelNamePrefix + "HttpFileElement.h\"");
         }
     }
 
@@ -160,7 +174,7 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
     public String getHelp() {
         return "Generates a Qt5 C++ Server using the QHTTPEngine HTTP Library.";
     }
-   
+
     /**
      * Location to write model files.  You can use the modelPackage() as defined when the class is
      * instantiated
@@ -182,7 +196,7 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
     private String requestFileFolder() {
         return outputFolder + "/" + sourceFolder + APIREQUEST_DIR + "/" + apiPackage().replace("::", File.separator);
     }
-    
+
     @Override
     public String apiFilename(String templateName, String tag) {
         String result = super.apiFilename(templateName, tag);
@@ -193,7 +207,7 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
         }
         return result;
     }
-    
+
     @Override
     public String toApiFilename(String name) {
         return modelNamePrefix + sanitizeName(camelize(name)) + "ApiHandler";

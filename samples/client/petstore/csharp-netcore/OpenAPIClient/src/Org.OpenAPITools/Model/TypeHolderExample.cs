@@ -42,61 +42,20 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="stringItem">stringItem (required).</param>
         /// <param name="numberItem">numberItem (required).</param>
+        /// <param name="floatItem">floatItem (required).</param>
         /// <param name="integerItem">integerItem (required).</param>
         /// <param name="boolItem">boolItem (required).</param>
         /// <param name="arrayItem">arrayItem (required).</param>
-        public TypeHolderExample(string stringItem = default(string), decimal numberItem = default(decimal), int integerItem = default(int), bool boolItem = default(bool), List<int> arrayItem = default(List<int>))
+        public TypeHolderExample(string stringItem = default(string), decimal numberItem = default(decimal), float floatItem = default(float), int integerItem = default(int), bool boolItem = default(bool), List<int> arrayItem = default(List<int>))
         {
             // to ensure "stringItem" is required (not null)
-            if (stringItem == null)
-            {
-                throw new InvalidDataException("stringItem is a required property for TypeHolderExample and cannot be null");
-            }
-            else
-            {
-                this.StringItem = stringItem;
-            }
-
-            // to ensure "numberItem" is required (not null)
-            if (numberItem == null)
-            {
-                throw new InvalidDataException("numberItem is a required property for TypeHolderExample and cannot be null");
-            }
-            else
-            {
-                this.NumberItem = numberItem;
-            }
-
-            // to ensure "integerItem" is required (not null)
-            if (integerItem == null)
-            {
-                throw new InvalidDataException("integerItem is a required property for TypeHolderExample and cannot be null");
-            }
-            else
-            {
-                this.IntegerItem = integerItem;
-            }
-
-            // to ensure "boolItem" is required (not null)
-            if (boolItem == null)
-            {
-                throw new InvalidDataException("boolItem is a required property for TypeHolderExample and cannot be null");
-            }
-            else
-            {
-                this.BoolItem = boolItem;
-            }
-
+            this.StringItem = stringItem ?? throw new ArgumentNullException("stringItem is a required property for TypeHolderExample and cannot be null");;
+            this.NumberItem = numberItem;
+            this.FloatItem = floatItem;
+            this.IntegerItem = integerItem;
+            this.BoolItem = boolItem;
             // to ensure "arrayItem" is required (not null)
-            if (arrayItem == null)
-            {
-                throw new InvalidDataException("arrayItem is a required property for TypeHolderExample and cannot be null");
-            }
-            else
-            {
-                this.ArrayItem = arrayItem;
-            }
-
+            this.ArrayItem = arrayItem ?? throw new ArgumentNullException("arrayItem is a required property for TypeHolderExample and cannot be null");;
         }
         
         /// <summary>
@@ -110,6 +69,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name="number_item", EmitDefaultValue=false)]
         public decimal NumberItem { get; set; }
+
+        /// <summary>
+        /// Gets or Sets FloatItem
+        /// </summary>
+        [DataMember(Name="float_item", EmitDefaultValue=false)]
+        public float FloatItem { get; set; }
 
         /// <summary>
         /// Gets or Sets IntegerItem
@@ -139,6 +104,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class TypeHolderExample {\n");
             sb.Append("  StringItem: ").Append(StringItem).Append("\n");
             sb.Append("  NumberItem: ").Append(NumberItem).Append("\n");
+            sb.Append("  FloatItem: ").Append(FloatItem).Append("\n");
             sb.Append("  IntegerItem: ").Append(IntegerItem).Append("\n");
             sb.Append("  BoolItem: ").Append(BoolItem).Append("\n");
             sb.Append("  ArrayItem: ").Append(ArrayItem).Append("\n");
@@ -187,6 +153,7 @@ namespace Org.OpenAPITools.Model
                 if (this.StringItem != null)
                     hashCode = hashCode * 59 + this.StringItem.GetHashCode();
                 hashCode = hashCode * 59 + this.NumberItem.GetHashCode();
+                hashCode = hashCode * 59 + this.FloatItem.GetHashCode();
                 hashCode = hashCode * 59 + this.IntegerItem.GetHashCode();
                 hashCode = hashCode * 59 + this.BoolItem.GetHashCode();
                 if (this.ArrayItem != null)

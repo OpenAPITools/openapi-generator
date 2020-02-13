@@ -3,6 +3,10 @@ import {
     {{#imports}}
     {{{.}}},
     {{/imports}}
+    {{#oneOf}}
+    {{{.}}}FromJSONTyped,
+    {{{.}}}ToJSON,
+    {{/oneOf}}
 } from './';
 
 {{/hasImports}}
@@ -11,4 +15,49 @@ import {
  * {{{description}}}{{/description}}
  * @export
  */
-export type {{classname}} = {{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}};
+export type {{classname}} = {{#discriminator}}{{#mappedModels}}{ {{discriminator.propertyName}}: '{{mappingName}}' } & {{modelName}}{{^-last}} | {{/-last}}{{/mappedModels}}{{/discriminator}}{{^discriminator}}{{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}}{{/discriminator}};
+
+export function {{classname}}FromJSON(json: any): {{classname}} {
+    return {{classname}}FromJSONTyped(json, false);
+}
+
+export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{classname}} {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+{{#discriminator}}
+    switch (json['{{discriminator.propertyName}}']) {
+{{#discriminator.mappedModels}}
+        case '{{mappingName}}':
+            return {...{{modelName}}FromJSONTyped(json, true), {{discriminator.propertyName}}: '{{mappingName}}'};
+{{/discriminator.mappedModels}}
+        default:
+            throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${json['{{discriminator.propertyName}}']}'`);
+    }
+{{/discriminator}}
+{{^discriminator}}
+    return { {{#oneOf}}...{{{.}}}FromJSONTyped(json, true){{^-last}}, {{/-last}}{{/oneOf}} };
+{{/discriminator}}
+}
+
+export function {{classname}}ToJSON(value?: {{classname}} | null): any {
+    if (value === undefined) {
+        return undefined;
+    }
+    if (value === null) {
+        return null;
+    }
+{{#discriminator}}
+    switch (value['{{discriminator.propertyName}}']) {
+{{#discriminator.mappedModels}}
+        case '{{mappingName}}':
+            return {{modelName}}ToJSON(value);
+{{/discriminator.mappedModels}}
+        default:
+            throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${value['{{discriminator.propertyName}}']}'`);
+    }
+{{/discriminator}}
+{{^discriminator}}
+    return { {{#oneOf}}...{{{.}}}ToJSON(value){{^-last}}, {{/-last}}{{/oneOf}} };
+{{/discriminator}}
+}

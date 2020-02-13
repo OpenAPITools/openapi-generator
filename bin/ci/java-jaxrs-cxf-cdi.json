@@ -1,0 +1,9 @@
+{
+  "generatorName": "jaxrs-cxf-cdi",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/server/petstore/jaxrs-cxf-cdi",
+  "templateDir": "modules/openapi-generator/src/main/resources/JavaJaxRS/cxf-cdi",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true
+  }
+}

@@ -35,8 +35,8 @@ $router->patch('/v2/another-fake/dummy', 'AnotherFakeApi@call123TestSpecialTags'
 $router->patch('/v2/fake', 'FakeApi@testClientModel');
 /**
  * post testEndpointParameters
- * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
- * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+ * Summary: Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+ * Notes: Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
  */
 $router->post('/v2/fake', 'FakeApi@testEndpointParameters');
 /**
@@ -105,6 +105,12 @@ $router->post('/v2/fake/outer/number', 'FakeApi@fakeOuterNumberSerialize');
  * Notes: Test serialization of outer string types
  */
 $router->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
+/**
+ * put testQueryParameterCollectionFormat
+ * Summary: 
+ * Notes: To test the collection format in query parameters
+ */
+$router->put('/v2/fake/test-query-paramters', 'FakeApi@testQueryParameterCollectionFormat');
 /**
  * patch testClassname
  * Summary: To test class name in snake case

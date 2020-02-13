@@ -1,0 +1,10 @@
+{
+  "generatorName": "java-play-framework",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/server/petstore/java-play-framework-api-package-override",
+  "templateDir": "modules/openapi-generator/src/main/resources/JavaPlayFramework",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true,
+    "apiPackage": "com.puppies.store.apis"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "!include": "bin/jaxrs-resteasy-eap-joda-petstore-server.json",
+  "artifactId": "jaxrs-resteasy-eap-joda-server",
+  "generatorName": "jaxrs-resteasy-eap",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/server/petstore/jaxrs-resteasy/eap-joda",
+  "templateDir": "modules/openapi-generator/src/main/resources/JavaJaxRS/resteasy/eap",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true
+  }
+}

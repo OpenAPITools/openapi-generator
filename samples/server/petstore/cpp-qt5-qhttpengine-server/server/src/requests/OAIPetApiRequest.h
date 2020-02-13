@@ -21,8 +21,8 @@
 
 #include <qhttpengine/socket.h>
 #include "OAIApiResponse.h"
+#include "OAIHttpFileElement.h"
 #include "OAIPet.h"
-#include <QIODevice>
 #include <QString>
 #include "OAIPetApiHandler.h"
 
@@ -84,7 +84,7 @@ signals:
     void getPetById(qint64 pet_id);
     void updatePet(OAIPet body);
     void updatePetWithForm(qint64 pet_id, QString name, QString status);
-    void uploadFile(qint64 pet_id, QString additional_metadata, QIODevice* file);
+    void uploadFile(qint64 pet_id, QString additional_metadata, OAIHttpFileElement file);
     
 
 private:

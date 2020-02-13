@@ -38,9 +38,15 @@ NAME
         openapi-generator-cli list - Lists the available generators
 
 SYNOPSIS
-        openapi-generator-cli list [(-s | --short)]
+        openapi-generator-cli list [(-i <include> | --include <include>)]
+                [(-s | --short)]
 
 OPTIONS
+        -i <include>, --include <include>
+            comma-separated list of stability indexes to include (value:
+            all,beta,stable,experimental,deprecated). Excludes deprecated by
+            default.
+
         -s, --short
             shortened output (suitable for scripting)
 
@@ -115,7 +121,7 @@ CONFIG OPTIONS
 	    Go package version. (Default: 1.0.0)
 
 	withGoCodegenComment
-	    whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs (Default: false)
+	    whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs (Default: false)
 
 	withXml
 	    whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML) (Default: false)
@@ -210,20 +216,21 @@ This command takes one or more parameters representing the args list you would o
 
 ```bash
 openapi-generator completion config-help
---named-header
 -o
 --output
+--named-header
 -g
 --generator-name
--l
---lang
+-f
+--format
+--markdown-header
 ```
 
 An example bash completion script can be found in the repo at [scripts/openapi-generator-cli-completion.bash](https://github.com/OpenAPITools/openapi-generator/blob/master/scripts/openapi-generator-cli-completion.bash).
 
 ## generate
 
-The `generate` command is the workhorse of the generator toolset. As such, it has _many_ more options and the previous commands. The options are abbreviated below, but you may expand the full descriptions.
+The `generate` command is the workhorse of the generator toolset. As such, it has _many_ more options and the previous commands. The abbreviated options are below, but you may expand the full descriptions.
 
 
 ```bash
@@ -235,7 +242,6 @@ NAME
 SYNOPSIS
         openapi-generator-cli generate
                 [(-a <authorization> | --auth <authorization>)]
-                [--additional-properties <additional properties>...]
                 [--api-package <api package>] [--artifact-id <artifact id>]
                 [--artifact-version <artifact version>]
                 [(-c <configuration file> | --config <configuration file>)]
@@ -256,20 +262,20 @@ SYNOPSIS
                 [--model-name-prefix <model name prefix>]
                 [--model-name-suffix <model name suffix>]
                 [--model-package <model package>]
-                [(-o <output directory> | --output <output directory>)]
+                [(-o <output directory> | --output <output directory>)] 
+                [(-p <additional properties> | --additional-properties <additional properties>)...]
                 [--package-name <package name>] [--release-note <release note>]
                 [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
-                [(-s | --skip-overwrite)] [--skip-validate-spec]
-                [--strict-spec <true/false strict behavior>]
+                [(-s | --skip-overwrite)] [--server-variables <server variables>...]
+                [--skip-validate-spec] [--strict-spec <true/false strict behavior>]
                 [(-t <template directory> | --template-dir <template directory>)]
                 [--type-mappings <type mappings>...] [(-v | --verbose)]
-
 ```
 
 <details>
-  <summary>generate OPTIONS</summary>
-  
+<summary>generate OPTIONS</summary>
+
 ```bash
 OPTIONS
         -a <authorization>, --auth <authorization>
@@ -277,19 +283,16 @@ OPTIONS
             remotely. Pass in a URL-encoded string of name:header with a comma
             separating multiple values
 
-        --additional-properties <additional properties>
-            sets additional properties that can be referenced by the mustache
-            templates in the format of name=value,name=value. You can also have
-            multiple occurrences of this option.
-
         --api-package <api package>
             package for generated api classes
 
         --artifact-id <artifact id>
-            artifactId in generated pom.xml
+            artifactId in generated pom.xml. This also becomes part of the
+            generated library's filename
 
         --artifact-version <artifact version>
-            artifact version in generated pom.xml
+            artifact version in generated pom.xml. This also becomes part of the
+            generated library's filename
 
         -c <configuration file>, --config <configuration file>
             Path to configuration file configuration file. It can be json or
@@ -382,6 +385,12 @@ OPTIONS
         -o <output directory>, --output <output directory>
             where to write the generated files (current dir by default)
 
+        -p <additional properties>, --additional-properties <additional
+        properties>
+            sets additional properties that can be referenced by the mustache
+            templates in the format of name=value,name=value. You can also have
+            multiple occurrences of this option.
+
         --package-name <package name>
             package for generated classes (where supported)
 
@@ -399,6 +408,10 @@ OPTIONS
         -s, --skip-overwrite
             specifies if the existing files should be overwritten during the
             generation.
+
+        --server-variables <server variables>
+            sets server variables for spec documents which support variable
+            templating of servers.
 
         --skip-validate-spec
             Skips the default behavior of validating an input specification.
@@ -430,6 +443,8 @@ At a minimum, `generate` requires:
 * `-g` to specify the generator
 * `-o` to specify a meaningful output directory (defaults to the current directory!)
 * `-i` to specify the input OpenAPI document
+
+> **NOTE** You may also pass `-Dcolor` as a system property to colorize terminal outputs.
 
 ### Examples
 
@@ -472,8 +487,6 @@ openapi-generator generate \
     --import-mappings=DateTime=java.time.LocalDateTime \
     --type-mappings=DateTime=java.time.LocalDateTime
 ```
-
-<!-- TODO: Document all primitive types here -->
 
 > NOTE: mappings are applied to `DateTime`, as this is the representation of the primitive type. See [DefaultCodegen](https://github.com/OpenAPITools/openapi-generator/blob/7cee999543fcc00b7c1eb9f70f0456b707c7f9e2/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java#L1431).
 
@@ -544,3 +557,86 @@ The name of the file should be `config.yml` or `config.yaml` (in our example it 
 openapi-generator generate -i petstore.yaml -g typescript-fetch -o out \
     -c config.yaml
 ```
+
+
+## batch
+
+The `batch` command allows you to move all CLI arguments supported by the `generate` command into a YAML or JSON file.
+
+*NOTE*: This command supports an additional `!include` property which may point to another "shared" file, the base path to which can be
+modified by `--includes-base-dir`.
+
+```bash
+openapi-generator help batch
+NAME
+        openapi-generator-cli batch - Generate code in batch via external
+        configs.
+
+SYNOPSIS
+        openapi-generator-cli batch [--fail-fast]
+                [--includes-base-dir <includes>] [(-r <threads> | --threads <threads>)]
+                [--root-dir <root>] [--timeout <timeout>] [(-v | --verbose)] [--]
+                <configs>...
+
+OPTIONS
+        --fail-fast
+            fail fast on any errors
+
+        --includes-base-dir <includes>
+            base directory used for includes
+
+        -r <threads>, --threads <threads>
+            thread count
+
+        --root-dir <root>
+            root directory used output/includes (includes can be overridden)
+
+        --timeout <timeout>
+            execution timeout (minutes)
+
+        -v, --verbose
+            verbose mode
+
+        --
+            This option can be used to separate command-line options from the
+            list of argument, (useful when arguments might be mistaken for
+            command-line options
+
+        <configs>
+            Generator configuration files.
+```
+
+Example:
+
+```bash
+# create "shared" config
+mkdir shared && cat > shared/common.yaml <<EOF
+inputSpec: https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+additionalProperties:
+    x-ext-name: "Your Name"
+EOF
+
+# create "standard" configs
+cat > kotlin.yaml <<EOF
+'!include': 'shared/common.yaml'
+outputDir: out/kotlin
+generatorName: kotlin
+artifactId: kotlin-petstore-string
+additionalProperties:
+  dateLibrary: string
+  serializableModel: "true"
+EOF
+
+cat > csharp.yaml <<EOF
+'!include': 'shared/common.yaml'
+outputDir: out/csharp-netcore
+generatorName: csharp-netcore
+additionalProperties:
+  packageGuid: "{321C8C3F-0156-40C1-AE42-D59761FB9B6C}"
+  useCompareNetObjects: "true"
+EOF
+
+# Generate them
+openapi-generator batch *.yaml
+```
+

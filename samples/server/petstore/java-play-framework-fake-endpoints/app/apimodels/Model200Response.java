@@ -12,10 +12,10 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Model200Response   {
   @JsonProperty("name")
-  private Integer name = null;
+  private Integer name;
 
   @JsonProperty("class")
-  private String propertyClass = null;
+  private String propertyClass;
 
   public Model200Response name(Integer name) {
     this.name = name;

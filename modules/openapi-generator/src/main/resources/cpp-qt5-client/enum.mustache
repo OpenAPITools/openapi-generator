@@ -2,27 +2,23 @@
 #ifndef {{prefix}}_ENUM_H
 #define {{prefix}}_ENUM_H
 
-#include <QString>
 #include <QJsonValue>
 #include <QMetaType>
+#include <QString>
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
 class {{prefix}}Enum {
-  public:
-    {{prefix}}Enum() {
+public:
+    {{prefix}}Enum() {}
 
-    }
-    
     {{prefix}}Enum(QString jsonString) {
         fromJson(jsonString);
     }
 
-    virtual ~{{prefix}}Enum(){
-
-    }
+    virtual ~{{prefix}}Enum() {}
 
     virtual QJsonValue asJsonValue() const {
         return QJsonValue(jstr);
@@ -47,12 +43,13 @@ class {{prefix}}Enum {
     virtual bool isValid() const {
         return true;
     }
-private :
-    QString jstr; 
+
+private:
+    QString jstr;
 };
 
 {{#cppNamespaceDeclarations}}
-}
+} // namespace {{this}}
 {{/cppNamespaceDeclarations}}
 
 Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{prefix}}Enum)

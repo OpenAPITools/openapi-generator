@@ -27,6 +27,7 @@
 #include "OAIObject.h"
 #include "OAIEnum.h"
 
+
 namespace OpenAPI {
 
 class OAICategory: public OAIObject {
@@ -49,7 +50,7 @@ public:
     void setName(const QString &name);
 
     
-    
+
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 

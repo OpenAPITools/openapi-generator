@@ -223,6 +223,25 @@ genArrayTest n =
     <*> arbitraryReducedMaybe n -- arrayTestArrayArrayOfInteger :: Maybe [[Integer]]
     <*> arbitraryReducedMaybe n -- arrayTestArrayArrayOfModel :: Maybe [[ReadOnlyFirst]]
   
+instance Arbitrary BigCat where
+  arbitrary = sized genBigCat
+
+genBigCat :: Int -> Gen BigCat
+genBigCat n =
+  BigCat
+    <$> arbitrary -- bigCatClassName :: Text
+    <*> arbitraryReducedMaybe n -- bigCatColor :: Maybe Text
+    <*> arbitraryReducedMaybe n -- bigCatDeclawed :: Maybe Bool
+    <*> arbitraryReducedMaybe n -- bigCatKind :: Maybe E'Kind
+  
+instance Arbitrary BigCatAllOf where
+  arbitrary = sized genBigCatAllOf
+
+genBigCatAllOf :: Int -> Gen BigCatAllOf
+genBigCatAllOf n =
+  BigCatAllOf
+    <$> arbitraryReducedMaybe n -- bigCatAllOfKind :: Maybe E'Kind
+  
 instance Arbitrary Capitalization where
   arbitrary = sized genCapitalization
 
@@ -354,6 +373,7 @@ genFormatTest n =
     <*> arbitraryReducedMaybe n -- formatTestDateTime :: Maybe DateTime
     <*> arbitraryReducedMaybe n -- formatTestUuid :: Maybe Text
     <*> arbitrary -- formatTestPassword :: Text
+    <*> arbitraryReducedMaybe n -- formatTestBigDecimal :: Maybe Double
   
 instance Arbitrary HasOnlyReadOnly where
   arbitrary = sized genHasOnlyReadOnly
@@ -511,6 +531,7 @@ genTypeHolderExample n =
   TypeHolderExample
     <$> arbitrary -- typeHolderExampleStringItem :: Text
     <*> arbitrary -- typeHolderExampleNumberItem :: Double
+    <*> arbitrary -- typeHolderExampleFloatItem :: Float
     <*> arbitrary -- typeHolderExampleIntegerItem :: Int
     <*> arbitrary -- typeHolderExampleBoolItem :: Bool
     <*> arbitrary -- typeHolderExampleArrayItem :: [Int]
@@ -594,6 +615,9 @@ instance Arbitrary E'Inner where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary E'JustSymbol where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'Kind where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary E'Status where

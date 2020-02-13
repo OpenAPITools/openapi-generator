@@ -95,7 +95,7 @@ void OAIPetApiHandler::updatePetWithForm(qint64 pet_id, QString name, QString st
         reqObj->updatePetWithFormResponse();
     }    
 }
-void OAIPetApiHandler::uploadFile(qint64 pet_id, QString additional_metadata, QIODevice* file) {
+void OAIPetApiHandler::uploadFile(qint64 pet_id, QString additional_metadata, OAIHttpFileElement file) {
     Q_UNUSED(pet_id);
     Q_UNUSED(additional_metadata);
     Q_UNUSED(file);

@@ -9,17 +9,17 @@ class {{classname}} {
   {{classname}}([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
   {{#operation}}
-  /// {{summary}}
+  /// {{summary}} with HTTP info returned
   ///
   /// {{notes}}
-  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  {{#returnType}}Future<Response> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     Object postBody{{#bodyParam}} = {{paramName}}{{/bodyParam}};
 
     // verify required params are set
     {{#allParams}}
       {{#required}}
     if({{paramName}} == null) {
-     throw new ApiException(400, "Missing required param: {{paramName}}");
+     throw ApiException(400, "Missing required param: {{paramName}}");
     }
       {{/required}}
     {{/allParams}}
@@ -51,7 +51,7 @@ class {{classname}} {
 
     if(contentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
+      MultipartRequest mp = MultipartRequest(null, null);
       {{#formParams}}
       {{^isFile}}
       if ({{paramName}} != null) {
@@ -87,9 +87,16 @@ class {{classname}} {
                                              formParams,
                                              contentType,
                                              authNames);
+    return response;
+  }
 
+  /// {{summary}}
+  ///
+  /// {{notes}}
+  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+    Response response = await {{nickname}}WithHttpInfo({{#allParams}}{{#required}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       {{#isListContainer}}
         {{#returnType}}
@@ -99,7 +106,7 @@ class {{classname}} {
       {{^isListContainer}}
         {{#isMapContainer}}
           {{#returnType}}
-      return new {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
+      return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
           {{/returnType}};
         {{/isMapContainer}}
         {{^isMapContainer}}
@@ -112,6 +119,7 @@ class {{classname}} {
       return{{#returnType}} null{{/returnType}};
     }
   }
+
   {{/operation}}
 }
 {{/operations}}

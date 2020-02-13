@@ -1,0 +1,27 @@
+openapi: 3.0.2
+info:
+  title: info
+  description: info
+  version: 0.1.0
+
+paths:
+  /example/api:
+    get:
+      summary: summary
+      description: description
+      parameters:
+        - name: start
+          in: query
+          schema:
+            type: string
+            format: date-time
+          required: true
+          description: The start time.
+      responses:
+        200:
+          description: response
+          content:
+            application/json:
+              schema:
+                type: string
+

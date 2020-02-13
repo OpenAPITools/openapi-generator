@@ -21,7 +21,7 @@ public class Bootstrap extends HttpServlet {
         .email("apiteam@swagger.io"))
       .license(new License()
         .name("Apache-2.0")
-        .url("http://www.apache.org/licenses/LICENSE-2.0.html"));
+        .url("https://www.apache.org/licenses/LICENSE-2.0.html"));
 
     ServletContext context = config.getServletContext();
     Swagger swagger = new Swagger().info(info);

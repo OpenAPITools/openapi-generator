@@ -1,7 +1,13 @@
 package org.openapitools.codegen;
 
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
 
+import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -65,9 +71,61 @@ public class TestUtils {
         File file = new File(root, filename);
         String absoluteFilename = file.getAbsolutePath().replace("\\", "/");
         if (!generatedFiles.containsKey(absoluteFilename)) {
-            Assert.fail("Could not find '" + absoluteFilename + "' file in list:\n" +
+            fail("Could not find '" + absoluteFilename + "' file in list:\n" +
                     generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
         }
-        assertTrue(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was not fould in the list of generated files");
+        assertTrue(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was not found in the list of generated files");
+    }
+
+    public static void ensureDoesNotContainsFile(Map<String, String> generatedFiles, File root, String filename) {
+        File file = new File(root, filename);
+        String absoluteFilename = file.getAbsolutePath().replace("\\", "/");
+        if (generatedFiles.containsKey(absoluteFilename)) {
+            fail("File '" + absoluteFilename + "' exists in file in list:\n" +
+                    generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
+        }
+        assertFalse(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was found in the list of generated files");
+    }
+
+    public static void validateJavaSourceFiles(Map<String, String> fileMap) {
+        fileMap.forEach( (fileName, fileContents) -> {
+                if (fileName.endsWith(".java")) {
+                    assertValidJavaSourceCode(fileContents, fileName);
+                }
+            }
+        );
+    }
+
+    public static void assertValidJavaSourceCode(String javaSourceCode, String filename) {
+        try {
+            CompilationUnit compilation = StaticJavaParser.parse(javaSourceCode);
+            assertTrue(compilation.getTypes().size() > 0, "File: " + filename);
+        }
+        catch (ParseProblemException ex) {
+            fail("Java parse problem: " + filename, ex);
+        }
+    }
+
+
+    public static void assertFileContains(MockDefaultGenerator generator, String path, String... lines) {
+        final String generatedFile = generator.getFiles().get(path);
+        if (null == generatedFile) {
+            fail("File " + path +  " not found in " + generator.getFiles().keySet());
+        }
+        String file = linearize(generatedFile);
+        assertNotNull(file);
+        for (String line : lines)
+            assertTrue(file.contains(linearize(line)));
+    }
+
+    private static String linearize(String target) {
+        return target.replaceAll("\r?\n", "").replaceAll("\\s+", "\\s");
+    }
+
+    public static void assertFileNotContains(MockDefaultGenerator generator, String path, String... lines) {
+        String file = linearize(generator.getFiles().get(path));
+        assertNotNull(file);
+        for (String line : lines)
+            assertFalse(file.contains(linearize(line)));
     }
 }

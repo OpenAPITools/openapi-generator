@@ -8,7 +8,7 @@
  */
 
 package petstore
-
+// HasOnlyReadOnly struct for HasOnlyReadOnly
 type HasOnlyReadOnly struct {
 	Bar string `json:"bar,omitempty"`
 	Foo string `json:"foo,omitempty"`

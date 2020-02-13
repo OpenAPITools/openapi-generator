@@ -5,7 +5,7 @@ info:
   title: OpenAPI Petstore
   license:
     name: Apache-2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 host: petstore.swagger.io:80
 basePath: /v2
 tags:
@@ -695,16 +695,14 @@ paths:
     post:
       tags:
         - fake
-      summary: |
-        Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
-      description: |
-        Fake endpoint for testing various parameters
-        假端點
-        偽のエンドポイント
-        가짜 엔드 포인트
+      summary: "Fake endpoint for testing various parameters\n
+        假端點\n
+        偽のエンドポイント\n
+        가짜 엔드 포인트"
+      description: "Fake endpoint for testing various parameters\n
+        假端點\n
+        偽のエンドポイント\n
+        가짜 엔드 포인트"
       operationId: testEndpointParameters
       consumes:
         - application/x-www-form-urlencoded
@@ -1041,6 +1039,53 @@ paths:
       responses:
         '200':
           description: Success
+  /fake/test-query-paramters:
+    put:
+      tags:
+        - fake
+      description: 'To test the collection format in query parameters'
+      operationId: testQueryParameterCollectionFormat
+      parameters:
+        - name: pipe
+          in: query
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: pipe
+        - name: ioutil
+          in: query
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: tsv
+        - name: http
+          in: query
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: ssv
+        - name: url
+          in: query
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: csv
+        - name: context
+          in: query
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: Success
   '/fake/{petId}/uploadImageWithRequiredFile':
     post:
       tags:
@@ -1283,6 +1328,14 @@ definitions:
         properties:
           declawed:
             type: boolean
+  BigCat:
+    allOf:
+      - $ref: '#/definitions/Cat'
+      - type: object
+        properties:
+          kind:
+            type: string
+            enum: [lions, tigers, leopards, jaguars]
   Animal:
     type: object
     discriminator: className
@@ -1356,6 +1409,9 @@ definitions:
         format: password
         maxLength: 64
         minLength: 10
+      BigDecimal:
+        type: string
+        format: number
   EnumClass:
     type: string
     default: '-efg'
@@ -1736,6 +1792,7 @@ definitions:
     required:
       - string_item
       - number_item
+      - float_item
       - integer_item
       - bool_item
       - array_item
@@ -1746,6 +1803,10 @@ definitions:
       number_item:
         type: number
         example: 1.234
+      float_item:
+        type: number
+        example: 1.234
+        format: float
       integer_item:
         type: integer
         example: -2

@@ -20,15 +20,20 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
 import org.openapitools.model.DogAllOf;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * Dog
  */
+@JsonPropertyOrder({
+  Dog.JSON_PROPERTY_BREED
+})
 
 public class Dog extends Animal  {
-  @JsonProperty("breed")
+  public static final String JSON_PROPERTY_BREED = "breed";
+  @JsonProperty(JSON_PROPERTY_BREED)
   private String breed;
 
   public Dog breed(String breed) {

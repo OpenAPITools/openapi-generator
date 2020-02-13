@@ -51,7 +51,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="dateTime">dateTime.</param>
         /// <param name="uuid">uuid.</param>
         /// <param name="password">password (required).</param>
-        public FormatTest(int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), decimal? number = default(decimal?), float? _float = default(float?), double? _double = default(double?), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), Guid? uuid = default(Guid?), string password = default(string))
+        /// <param name="bigDecimal">bigDecimal.</param>
+        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), decimal bigDecimal = default(decimal))
         {
             // to ensure "number" is required (not null)
             if (number == null)
@@ -102,43 +103,44 @@ namespace Org.OpenAPITools.Model
             this.Binary = binary;
             this.DateTime = dateTime;
             this.Uuid = uuid;
+            this.BigDecimal = bigDecimal;
         }
         
         /// <summary>
         /// Gets or Sets Integer
         /// </summary>
         [DataMember(Name="integer", EmitDefaultValue=false)]
-        public int? Integer { get; set; }
+        public int Integer { get; set; }
 
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
         [DataMember(Name="int32", EmitDefaultValue=false)]
-        public int? Int32 { get; set; }
+        public int Int32 { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [DataMember(Name="int64", EmitDefaultValue=false)]
-        public long? Int64 { get; set; }
+        public long Int64 { get; set; }
 
         /// <summary>
         /// Gets or Sets Number
         /// </summary>
         [DataMember(Name="number", EmitDefaultValue=false)]
-        public decimal? Number { get; set; }
+        public decimal Number { get; set; }
 
         /// <summary>
         /// Gets or Sets Float
         /// </summary>
         [DataMember(Name="float", EmitDefaultValue=false)]
-        public float? Float { get; set; }
+        public float Float { get; set; }
 
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
         [DataMember(Name="double", EmitDefaultValue=false)]
-        public double? Double { get; set; }
+        public double Double { get; set; }
 
         /// <summary>
         /// Gets or Sets String
@@ -163,25 +165,31 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name="date", EmitDefaultValue=false)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
-        public DateTime? Date { get; set; }
+        public DateTime Date { get; set; }
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name="dateTime", EmitDefaultValue=false)]
-        public DateTime? DateTime { get; set; }
+        public DateTime DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name="uuid", EmitDefaultValue=false)]
-        public Guid? Uuid { get; set; }
+        public Guid Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name="password", EmitDefaultValue=false)]
         public string Password { get; set; }
+
+        /// <summary>
+        /// Gets or Sets BigDecimal
+        /// </summary>
+        [DataMember(Name="BigDecimal", EmitDefaultValue=false)]
+        public decimal BigDecimal { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -204,6 +212,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
+            sb.Append("  BigDecimal: ").Append(BigDecimal).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -302,6 +311,11 @@ namespace Org.OpenAPITools.Model
                     this.Password == input.Password ||
                     (this.Password != null &&
                     this.Password.Equals(input.Password))
+                ) && 
+                (
+                    this.BigDecimal == input.BigDecimal ||
+                    (this.BigDecimal != null &&
+                    this.BigDecimal.Equals(input.BigDecimal))
                 );
         }
 
@@ -340,6 +354,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Uuid.GetHashCode();
                 if (this.Password != null)
                     hashCode = hashCode * 59 + this.Password.GetHashCode();
+                if (this.BigDecimal != null)
+                    hashCode = hashCode * 59 + this.BigDecimal.GetHashCode();
                 return hashCode;
             }
         }
@@ -351,62 +367,62 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            // Integer (int?) maximum
-            if(this.Integer > (int?)100)
+            // Integer (int) maximum
+            if(this.Integer > (int)100)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
             }
 
-            // Integer (int?) minimum
-            if(this.Integer < (int?)10)
+            // Integer (int) minimum
+            if(this.Integer < (int)10)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
             }
 
-            // Int32 (int?) maximum
-            if(this.Int32 > (int?)200)
+            // Int32 (int) maximum
+            if(this.Int32 > (int)200)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
             }
 
-            // Int32 (int?) minimum
-            if(this.Int32 < (int?)20)
+            // Int32 (int) minimum
+            if(this.Int32 < (int)20)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
             }
 
-            // Number (decimal?) maximum
-            if(this.Number > (decimal?)543.2)
+            // Number (decimal) maximum
+            if(this.Number > (decimal)543.2)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
             }
 
-            // Number (decimal?) minimum
-            if(this.Number < (decimal?)32.1)
+            // Number (decimal) minimum
+            if(this.Number < (decimal)32.1)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
-            // Float (float?) maximum
-            if(this.Float > (float?)987.6)
+            // Float (float) maximum
+            if(this.Float > (float)987.6)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value less than or equal to 987.6.", new [] { "Float" });
             }
 
-            // Float (float?) minimum
-            if(this.Float < (float?)54.3)
+            // Float (float) minimum
+            if(this.Float < (float)54.3)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
             }
 
-            // Double (double?) maximum
-            if(this.Double > (double?)123.4)
+            // Double (double) maximum
+            if(this.Double > (double)123.4)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value less than or equal to 123.4.", new [] { "Double" });
             }
 
-            // Double (double?) minimum
-            if(this.Double < (double?)67.8)
+            // Double (double) minimum
+            if(this.Double < (double)67.8)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
             }

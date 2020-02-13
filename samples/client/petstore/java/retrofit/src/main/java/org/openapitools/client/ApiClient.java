@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
@@ -133,7 +134,7 @@ public class ApiClient {
 
     public <S> S createService(Class<S> serviceClass) {
         return adapterBuilder.build().create(serviceClass);
-        
+
     }
 
     /**
@@ -224,7 +225,7 @@ public class ApiClient {
             }
         }
     }
-    
+
     /**
      * Helper method to configure the oauth accessCode/implicit flow parameters
      * @param clientId Client ID
@@ -246,7 +247,7 @@ public class ApiClient {
             }
         }
     }
-    
+
     /**
      * Configures a listener which is notified when a new access token is received.
      * @param accessTokenListener Access token listener
@@ -293,7 +294,7 @@ public class ApiClient {
     public OkHttpClient getOkClient() {
         return okClient;
     }
-    
+
     public void addAuthsToOkClient(OkHttpClient okClient) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
             okClient.interceptors().add(apiAuthorization);

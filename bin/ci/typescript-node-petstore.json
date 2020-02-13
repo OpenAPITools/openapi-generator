@@ -1,0 +1,6 @@
+{
+  "!include": "bin/typescript-node-petstore-npm.json",
+  "generatorName": "typescript-node",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/client/petstore/typescript-node/npm"
+}

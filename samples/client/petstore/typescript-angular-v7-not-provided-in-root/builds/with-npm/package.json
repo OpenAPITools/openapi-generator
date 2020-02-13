@@ -13,7 +13,6 @@
   },
   "peerDependencies": {
     "@angular/core": "^7.0.0",
-    "@angular/http": "^7.0.0",
     "@angular/common": "^7.0.0",
     "@angular/compiler": "^7.0.0",
     "core-js": "^2.4.0",
@@ -25,7 +24,6 @@
     "@angular/compiler": "^7.0.0",
     "@angular/compiler-cli": "^7.0.0",
     "@angular/core": "^7.0.0",
-    "@angular/http": "^7.0.0",
     "@angular/platform-browser": "^7.0.0",
     "ng-packagr": "^5.1.0",
     "reflect-metadata": "^0.1.3",

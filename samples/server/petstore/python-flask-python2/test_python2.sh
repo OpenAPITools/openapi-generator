@@ -1,7 +1,7 @@
 #!/bin/bash
 
-REQUIREMENTS_FILE=test-requirements.txt
-REQUIREMENTS_OUT=test-requirements.txt.log
+REQUIREMENTS_FILE=dev-requirements.txt
+REQUIREMENTS_OUT=dev-requirements.txt.log
 SETUP_OUT=*.egg-info
 VENV=.venv
 DEACTIVE=false
@@ -18,15 +18,14 @@ fi
 
 ### install dependencies
 pip install -r $REQUIREMENTS_FILE | tee -a $REQUIREMENTS_OUT
-python setup.py develop
 
 ### run tests
-tox || exit 1
+tox -e py27 || exit 1
 
 ### static analysis of code
 flake8 --show-source petstore_api/
 
 ### deactivate virtualenv
-#if [ $DEACTIVE == true ]; then
-#    deactivate
-#fi
+# if [ $DEACTIVE == true ]; then
+#     deactivate
+# fi

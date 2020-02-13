@@ -11,7 +11,7 @@ package petstore
 import (
 	"time"
 )
-
+// NullableClass struct for NullableClass
 type NullableClass struct {
 	IntegerProp *int32 `json:"integer_prop,omitempty"`
 	NumberProp *float32 `json:"number_prop,omitempty"`

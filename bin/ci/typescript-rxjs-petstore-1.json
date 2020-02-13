@@ -1,0 +1,6 @@
+{
+  "!include": "bin/typescript-rxjs-petstore-with-npm-version.json",
+  "generatorName": "typescript-rxjs",
+  "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore.yaml",
+  "outputDir": "samples/client/petstore/typescript-rxjs/builds/with-npm-version"
+}

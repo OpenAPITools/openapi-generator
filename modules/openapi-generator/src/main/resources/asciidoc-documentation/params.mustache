@@ -1,0 +1,66 @@
+===== Parameters
+
+{{#hasPathParams}}
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+{{#pathParams}}
+{{>param}}
+{{/pathParams}}
+|===         
+{{/hasPathParams}}
+
+{{#hasBodyParam}}
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+{{#bodyParams}}
+{{>param}}
+{{/bodyParams}}
+|===         
+{{/hasBodyParam}}
+
+{{#hasFormParams}}
+===== Form Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+{{#formParams}}
+{{>param}}
+{{/formParams}}
+|===         
+{{/hasFormParams}}
+
+{{#hasHeaderParams}}
+====== Header Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+{{#headerParams}}
+{{>param}}
+{{/headerParams}}
+|===         
+{{/hasHeaderParams}}
+
+{{#hasQueryParams}}
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+{{#queryParams}}
+{{>param}}
+{{/queryParams}}
+|===         
+{{/hasQueryParams}}

@@ -8,8 +8,7 @@
  */
 
 package petstore
-
-// Model for testing model name starting with number
+// Model200Response Model for testing model name starting with number
 type Model200Response struct {
 	Name int32 `json:"name,omitempty"`
 	Class string `json:"class,omitempty"`

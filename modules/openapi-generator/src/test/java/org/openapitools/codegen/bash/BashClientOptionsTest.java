@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,17 +17,16 @@
 
 package org.openapitools.codegen.bash;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.BashClientCodegen;
 import org.openapitools.codegen.options.BashClientOptionsProvider;
 
-public class BashClientOptionsTest extends AbstractOptionsTest {
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-    @Tested
-    private BashClientCodegen clientCodegen;
+public class BashClientOptionsTest extends AbstractOptionsTest {
+    private BashClientCodegen clientCodegen = mock(BashClientCodegen.class, mockSettings);
 
     public BashClientOptionsTest() {
         super(new BashClientOptionsProvider());
@@ -40,36 +39,25 @@ public class BashClientOptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setCurlOptions(
+    protected void verifyOptions() {
+        verify(clientCodegen).setCurlOptions(
                 BashClientOptionsProvider.CURL_OPTIONS);
-            times = 1;
-            clientCodegen.setProcessMarkdown(
+        verify(clientCodegen).setProcessMarkdown(
                 Boolean.parseBoolean(
-                    BashClientOptionsProvider.PROCESS_MARKDOWN));
-            times = 1;
-            clientCodegen.setScriptName(
+                        BashClientOptionsProvider.PROCESS_MARKDOWN));
+        verify(clientCodegen).setScriptName(
                 BashClientOptionsProvider.SCRIPT_NAME);
-            times = 1;
-            clientCodegen.setGenerateBashCompletion(
+        verify(clientCodegen).setGenerateBashCompletion(
                 Boolean.parseBoolean(
-                    BashClientOptionsProvider.GENERATE_BASH_COMPLETION));
-            times = 1;
-            clientCodegen.setGenerateZshCompletion(
+                        BashClientOptionsProvider.GENERATE_BASH_COMPLETION));
+        verify(clientCodegen).setGenerateZshCompletion(
                 Boolean.parseBoolean(
-                    BashClientOptionsProvider.GENERATE_ZSH_COMPLETION));
-            times = 1;           
-            clientCodegen.setHostEnvironmentVariable(
+                        BashClientOptionsProvider.GENERATE_ZSH_COMPLETION));
+        verify(clientCodegen).setHostEnvironmentVariable(
                 BashClientOptionsProvider.HOST_ENVIRONMENT_VARIABLE_NAME);
-            times = 1;            
-            clientCodegen.setApiKeyAuthEnvironmentVariable(
+        verify(clientCodegen).setApiKeyAuthEnvironmentVariable(
                 BashClientOptionsProvider.APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME);
-            times = 1;
-            clientCodegen.setAllowUnicodeIdentifiers(Boolean.valueOf(BashClientOptionsProvider.ALLOW_UNICODE_IDENTIFIERS_VALUE));
-            times = 1;
-
-        }};
+        verify(clientCodegen).setAllowUnicodeIdentifiers(Boolean.valueOf(BashClientOptionsProvider.ALLOW_UNICODE_IDENTIFIERS_VALUE));
     }
 }
 

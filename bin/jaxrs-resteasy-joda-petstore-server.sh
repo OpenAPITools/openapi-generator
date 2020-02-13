@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate --artifact-id jaxrs-resteasy-joda-server -t modules/openapi-generator/src/main/resources/JavaJaxRS/resteasy -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g jaxrs-resteasy -o samples/server/petstore/jaxrs-resteasy/joda -DhideGenerationTimestamp=true -c ./bin/jaxrs-resteasy-joda-petstore-server.json $@"
+ags="generate --artifact-id jaxrs-resteasy-joda-server -t modules/openapi-generator/src/main/resources/JavaJaxRS/resteasy -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g jaxrs-resteasy -o samples/server/petstore/jaxrs-resteasy/joda --additional-properties hideGenerationTimestamp=true -c ./bin/jaxrs-resteasy-joda-petstore-server.json $@"
 
 java $JAVA_OPTS -jar $executable $ags

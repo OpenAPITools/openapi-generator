@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,7 +21,8 @@ import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.GeneratorProperties;
+import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,14 +41,18 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
     public JavaInflectorServerCodegen() {
         super();
 
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
+
         sourceFolder = "src/gen/java";
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaInflector";
         invokerPackage = "org.openapitools.controllers";
         artifactId = "openapi-inflector-server";
         dateLibrary = "legacy"; //TODO: add joda support
-        apiPackage = GeneratorProperties.getProperty("swagger.codegen.inflector.apipackage", "org.openapitools.controllers");
-        modelPackage = GeneratorProperties.getProperty("swagger.codegen.inflector.modelpackage", "org.openapitools.model");
+        apiPackage = GlobalSettings.getProperty("swagger.codegen.inflector.apipackage", "org.openapitools.controllers");
+        modelPackage = GlobalSettings.getProperty("swagger.codegen.inflector.modelpackage", "org.openapitools.model");
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment

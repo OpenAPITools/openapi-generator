@@ -17,6 +17,7 @@
 #include "{{prefix}}Object.h"
 #include "{{prefix}}Enum.h"
 
+
 {{#models}}
 {{#model}}
 {{#cppNamespaceDeclarations}}
@@ -53,7 +54,7 @@ public:
 
     {{classname}}::e{{classname}} getValue() const;
     void setValue(const {{classname}}::e{{classname}}& value);{{/isEnum}}
-    
+
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 

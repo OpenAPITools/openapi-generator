@@ -4,8 +4,8 @@ package {{package}};
 {{/imports}}
 
 {{#rxInterface}}
-import rx.Completable;
-import rx.Single;
+import {{#rxVersion2}}io.reactivex{{/rxVersion2}}{{^rxVersion2}}rx{{/rxVersion2}}.Completable;
+import {{#rxVersion2}}io.reactivex{{/rxVersion2}}{{^rxVersion2}}rx{{/rxVersion2}}.Single;
 {{/rxInterface}}
 {{^rxInterface}}
 import io.vertx.core.AsyncResult;

@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// AdditionalPropertiesBoolean
     /// </summary>
     [DataContract]
-    public partial class AdditionalPropertiesBoolean : Dictionary<String, bool?>,  IEquatable<AdditionalPropertiesBoolean>, IValidatableObject
+    public partial class AdditionalPropertiesBoolean : Dictionary<String, bool>,  IEquatable<AdditionalPropertiesBoolean>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AdditionalPropertiesBoolean" /> class.

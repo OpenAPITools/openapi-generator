@@ -23,6 +23,7 @@ set(SRCS
     src/apiKey.c
     src/apiClient.c
     external/cJSON.c
+    model/object.c
 {{#models}}
 {{#model}}
     model/{{classname}}.c
@@ -43,6 +44,7 @@ set(HDRS
     include/list.h
     include/keyValuePair.h
     external/cJSON.h
+    model/object.h
 {{#models}}
 {{#model}}
     model/{{classname}}.h
@@ -73,11 +75,14 @@ set(HDRS "")
 ## This section shows how to use the above compiled libary to compile the source files
 ## set source files
 #set(SRCS
-#    unit-tests/manual-PetAPI.c
-#    unit-tests/manual-StoreAPI.c
-#    unit-tests/manual-UserAPI.c
-#    unit-tests/manual-order.c
-#    unit-tests/manual-user.c)
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+#    unit-tests/manual-{{classname}}.c
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+#)
 
 ##set header files
 #set(HDRS

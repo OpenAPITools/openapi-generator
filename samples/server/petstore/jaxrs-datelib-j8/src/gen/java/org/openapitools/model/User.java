@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -25,30 +26,48 @@ import javax.validation.Valid;
 /**
  * User
  */
+@JsonPropertyOrder({
+  User.JSON_PROPERTY_ID,
+  User.JSON_PROPERTY_USERNAME,
+  User.JSON_PROPERTY_FIRST_NAME,
+  User.JSON_PROPERTY_LAST_NAME,
+  User.JSON_PROPERTY_EMAIL,
+  User.JSON_PROPERTY_PASSWORD,
+  User.JSON_PROPERTY_PHONE,
+  User.JSON_PROPERTY_USER_STATUS
+})
 
 public class User  implements Serializable {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
+  @JsonProperty(JSON_PROPERTY_ID)
   private Long id;
 
-  @JsonProperty("username")
+  public static final String JSON_PROPERTY_USERNAME = "username";
+  @JsonProperty(JSON_PROPERTY_USERNAME)
   private String username;
 
-  @JsonProperty("firstName")
+  public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
+  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   private String firstName;
 
-  @JsonProperty("lastName")
+  public static final String JSON_PROPERTY_LAST_NAME = "lastName";
+  @JsonProperty(JSON_PROPERTY_LAST_NAME)
   private String lastName;
 
-  @JsonProperty("email")
+  public static final String JSON_PROPERTY_EMAIL = "email";
+  @JsonProperty(JSON_PROPERTY_EMAIL)
   private String email;
 
-  @JsonProperty("password")
+  public static final String JSON_PROPERTY_PASSWORD = "password";
+  @JsonProperty(JSON_PROPERTY_PASSWORD)
   private String password;
 
-  @JsonProperty("phone")
+  public static final String JSON_PROPERTY_PHONE = "phone";
+  @JsonProperty(JSON_PROPERTY_PHONE)
   private String phone;
 
-  @JsonProperty("userStatus")
+  public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
+  @JsonProperty(JSON_PROPERTY_USER_STATUS)
   private Integer userStatus;
 
   public User id(Long id) {

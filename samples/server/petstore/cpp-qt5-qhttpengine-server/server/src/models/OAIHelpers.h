@@ -22,8 +22,10 @@
 #include <QByteArray>
 #include <QDate>
 #include <QVariant>
+
 #include "OAIObject.h"
 #include "OAIEnum.h"
+#include "OAIHttpFileElement.h"
 
 namespace OpenAPI {
 
@@ -36,7 +38,9 @@ namespace OpenAPI {
     QString toStringValue(const bool &value);
     QString toStringValue(const float &value);
     QString toStringValue(const double &value);
-    QString toStringValue(const OAIEnum &value);
+    QString toStringValue(const OAIObject &value);
+    QString toStringValue(const OAIEnum &value);    
+    QString toStringValue(const OAIHttpFileElement &value);    
 
     template <typename T>
     QString toStringValue(const QList<T> &val) {
@@ -61,6 +65,7 @@ namespace OpenAPI {
     QJsonValue toJsonValue(const double &value);
     QJsonValue toJsonValue(const OAIObject &value);
     QJsonValue toJsonValue(const OAIEnum &value);
+    QJsonValue toJsonValue(const OAIHttpFileElement &value);    
 
     template <typename T>
     QJsonValue toJsonValue(const QList<T> &val) {
@@ -89,7 +94,9 @@ namespace OpenAPI {
     bool fromStringValue(const QString &inStr, bool &value);
     bool fromStringValue(const QString &inStr, float &value);
     bool fromStringValue(const QString &inStr, double &value);
-    bool fromStringValue(const QString &inStr, OAIEnum &value);
+    bool fromStringValue(const QString &inStr, OAIObject &value);
+    bool fromStringValue(const QString &inStr, OAIEnum &value);    
+    bool fromStringValue(const QString &inStr, OAIHttpFileElement &value);    
 
     template <typename T>
     bool fromStringValue(const QList<QString> &inStr, QList<T> &val) {
@@ -124,6 +131,7 @@ namespace OpenAPI {
     bool fromJsonValue(double &value, const QJsonValue &jval);
     bool fromJsonValue(OAIObject &value, const QJsonValue &jval);
     bool fromJsonValue(OAIEnum &value, const QJsonValue &jval);
+    bool fromJsonValue(OAIHttpFileElement &value, const QJsonValue &jval);    
 
     template <typename T>
     bool fromJsonValue(QList<T> &val, const QJsonValue &jval) {
@@ -138,7 +146,7 @@ namespace OpenAPI {
             ok = false;
         }
         return ok;
-    } 
+    }
 
     template <typename T>
     bool fromJsonValue(QMap<QString, T> &val, const QJsonValue &jval) {

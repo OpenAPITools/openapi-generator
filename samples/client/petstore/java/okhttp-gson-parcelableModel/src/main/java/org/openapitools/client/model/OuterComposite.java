@@ -46,7 +46,9 @@ public class OuterComposite implements Parcelable {
 
   public OuterComposite() {
   }
+
   public OuterComposite myNumber(BigDecimal myNumber) {
+    
     this.myNumber = myNumber;
     return this;
   }
@@ -55,16 +57,21 @@ public class OuterComposite implements Parcelable {
    * Get myNumber
    * @return myNumber
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public BigDecimal getMyNumber() {
     return myNumber;
   }
+
 
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
+
   public OuterComposite myString(String myString) {
+    
     this.myString = myString;
     return this;
   }
@@ -73,16 +80,21 @@ public class OuterComposite implements Parcelable {
    * Get myString
    * @return myString
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getMyString() {
     return myString;
   }
+
 
   public void setMyString(String myString) {
     this.myString = myString;
   }
 
+
   public OuterComposite myBoolean(Boolean myBoolean) {
+    
     this.myBoolean = myBoolean;
     return this;
   }
@@ -91,10 +103,13 @@ public class OuterComposite implements Parcelable {
    * Get myBoolean
    * @return myBoolean
   **/
+  @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Boolean getMyBoolean() {
     return myBoolean;
   }
+
 
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;

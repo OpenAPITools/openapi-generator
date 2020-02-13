@@ -52,8 +52,8 @@ namespace Org.OpenAPITools.Api
         /// Returns a map of status codes to quantities
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Dictionary&lt;string, int?&gt;</returns>
-        Dictionary<string, int?> GetInventory ();
+        /// <returns>Dictionary&lt;string, int&gt;</returns>
+        Dictionary<string, int> GetInventory ();
 
         /// <summary>
         /// Returns pet inventories by status
@@ -62,8 +62,8 @@ namespace Org.OpenAPITools.Api
         /// Returns a map of status codes to quantities
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
-        ApiResponse<Dictionary<string, int?>> GetInventoryWithHttpInfo ();
+        /// <returns>ApiResponse of Dictionary&lt;string, int&gt;</returns>
+        ApiResponse<Dictionary<string, int>> GetInventoryWithHttpInfo ();
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
@@ -73,7 +73,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
-        Order GetOrderById (long? orderId);
+        Order GetOrderById (long orderId);
 
         /// <summary>
         /// Find purchase order by ID
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of Order</returns>
-        ApiResponse<Order> GetOrderByIdWithHttpInfo (long? orderId);
+        ApiResponse<Order> GetOrderByIdWithHttpInfo (long orderId);
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -285,10 +285,10 @@ namespace Org.OpenAPITools.Api
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Dictionary&lt;string, int?&gt;</returns>
-        public Dictionary<string, int?> GetInventory ()
+        /// <returns>Dictionary&lt;string, int&gt;</returns>
+        public Dictionary<string, int> GetInventory ()
         {
-             ApiResponse<Dictionary<string, int?>> localVarResponse = GetInventoryWithHttpInfo();
+             ApiResponse<Dictionary<string, int>> localVarResponse = GetInventoryWithHttpInfo();
              return localVarResponse.Data;
         }
 
@@ -296,8 +296,8 @@ namespace Org.OpenAPITools.Api
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
-        public ApiResponse< Dictionary<string, int?> > GetInventoryWithHttpInfo ()
+        /// <returns>ApiResponse of Dictionary&lt;string, int&gt;</returns>
+        public ApiResponse<Dictionary<string, int>> GetInventoryWithHttpInfo ()
         {
 
             var localVarPath = "/store/inventory";
@@ -341,9 +341,9 @@ namespace Org.OpenAPITools.Api
                 if (exception != null) throw exception;
             }
 
-            return new ApiResponse<Dictionary<string, int?>>(localVarStatusCode,
+            return new ApiResponse<Dictionary<string, int>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Dictionary<string, int?>) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Dictionary<string, int?>)));
+                (Dictionary<string, int>) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Dictionary<string, int>)));
         }
 
         /// <summary>
@@ -352,7 +352,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
-        public Order GetOrderById (long? orderId)
+        public Order GetOrderById (long orderId)
         {
              ApiResponse<Order> localVarResponse = GetOrderByIdWithHttpInfo(orderId);
              return localVarResponse.Data;
@@ -364,7 +364,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of Order</returns>
-        public ApiResponse< Order > GetOrderByIdWithHttpInfo (long? orderId)
+        public ApiResponse<Order> GetOrderByIdWithHttpInfo (long orderId)
         {
             // verify the required parameter 'orderId' is set
             if (orderId == null)
@@ -431,7 +431,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>ApiResponse of Order</returns>
-        public ApiResponse< Order > PlaceOrderWithHttpInfo (Order body)
+        public ApiResponse<Order> PlaceOrderWithHttpInfo (Order body)
         {
             // verify the required parameter 'body' is set
             if (body == null)

@@ -27,7 +27,7 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/java-msf4j-server -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g java-msf4j -o samples/server/petstore/java-msf4j/ -DhideGenerationTimestamp=true --additional-properties artifactId=java-msf4j-server $@"
+ags="generate -t modules/openapi-generator/src/main/resources/java-msf4j-server -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g java-msf4j -o samples/server/petstore/java-msf4j/ --additional-properties hideGenerationTimestamp=true --additional-properties artifactId=java-msf4j-server $@"
 
 echo "Removing files and folders under samples/server/petstore/java-msf4j/src/main"
 rm -rf samples/server/petstore/java-msf4j/src/main

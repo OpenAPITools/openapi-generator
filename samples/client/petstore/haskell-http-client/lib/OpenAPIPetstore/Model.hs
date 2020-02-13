@@ -93,6 +93,9 @@ newtype Byte = Byte { unByte :: ByteArray } deriving (P.Eq, P.Show)
 -- ** Callback
 newtype Callback = Callback { unCallback :: Text } deriving (P.Eq, P.Show)
 
+-- ** Context
+newtype Context = Context { unContext :: [Text] } deriving (P.Eq, P.Show)
+
 -- ** EnumFormString
 newtype EnumFormString = EnumFormString { unEnumFormString :: E'EnumFormString } deriving (P.Eq, P.Show)
 
@@ -120,6 +123,9 @@ newtype EnumQueryStringArray = EnumQueryStringArray { unEnumQueryStringArray :: 
 -- ** File2
 newtype File2 = File2 { unFile2 :: FilePath } deriving (P.Eq, P.Show)
 
+-- ** Http
+newtype Http = Http { unHttp :: [Text] } deriving (P.Eq, P.Show)
+
 -- ** Int32
 newtype Int32 = Int32 { unInt32 :: Int } deriving (P.Eq, P.Show)
 
@@ -128,6 +134,9 @@ newtype Int64 = Int64 { unInt64 :: Integer } deriving (P.Eq, P.Show)
 
 -- ** Int64Group
 newtype Int64Group = Int64Group { unInt64Group :: Integer } deriving (P.Eq, P.Show)
+
+-- ** Ioutil
+newtype Ioutil = Ioutil { unIoutil :: [Text] } deriving (P.Eq, P.Show)
 
 -- ** Name2
 newtype Name2 = Name2 { unName2 :: Text } deriving (P.Eq, P.Show)
@@ -180,6 +189,9 @@ newtype PatternWithoutDelimiter = PatternWithoutDelimiter { unPatternWithoutDeli
 -- ** PetId
 newtype PetId = PetId { unPetId :: Integer } deriving (P.Eq, P.Show)
 
+-- ** Pipe
+newtype Pipe = Pipe { unPipe :: [Text] } deriving (P.Eq, P.Show)
+
 -- ** Query
 newtype Query = Query { unQuery :: Text } deriving (P.Eq, P.Show)
 
@@ -206,6 +218,9 @@ newtype StringGroup = StringGroup { unStringGroup :: Int } deriving (P.Eq, P.Sho
 
 -- ** Tags
 newtype Tags = Tags { unTags :: [Text] } deriving (P.Eq, P.Show)
+
+-- ** Url
+newtype Url = Url { unUrl :: [Text] } deriving (P.Eq, P.Show)
 
 -- ** Username
 newtype Username = Username { unUsername :: Text } deriving (P.Eq, P.Show)
@@ -638,6 +653,75 @@ mkArrayTest =
   , arrayTestArrayArrayOfModel = Nothing
   }
 
+-- ** BigCat
+-- | BigCat
+data BigCat = BigCat
+  { bigCatClassName :: !(Text) -- ^ /Required/ "className"
+  , bigCatColor :: !(Maybe Text) -- ^ "color"
+  , bigCatDeclawed :: !(Maybe Bool) -- ^ "declawed"
+  , bigCatKind :: !(Maybe E'Kind) -- ^ "kind"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON BigCat
+instance A.FromJSON BigCat where
+  parseJSON = A.withObject "BigCat" $ \o ->
+    BigCat
+      <$> (o .:  "className")
+      <*> (o .:? "color")
+      <*> (o .:? "declawed")
+      <*> (o .:? "kind")
+
+-- | ToJSON BigCat
+instance A.ToJSON BigCat where
+  toJSON BigCat {..} =
+   _omitNulls
+      [ "className" .= bigCatClassName
+      , "color" .= bigCatColor
+      , "declawed" .= bigCatDeclawed
+      , "kind" .= bigCatKind
+      ]
+
+
+-- | Construct a value of type 'BigCat' (by applying it's required fields, if any)
+mkBigCat
+  :: Text -- ^ 'bigCatClassName' 
+  -> BigCat
+mkBigCat bigCatClassName =
+  BigCat
+  { bigCatClassName
+  , bigCatColor = Nothing
+  , bigCatDeclawed = Nothing
+  , bigCatKind = Nothing
+  }
+
+-- ** BigCatAllOf
+-- | BigCatAllOf
+data BigCatAllOf = BigCatAllOf
+  { bigCatAllOfKind :: !(Maybe E'Kind) -- ^ "kind"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON BigCatAllOf
+instance A.FromJSON BigCatAllOf where
+  parseJSON = A.withObject "BigCatAllOf" $ \o ->
+    BigCatAllOf
+      <$> (o .:? "kind")
+
+-- | ToJSON BigCatAllOf
+instance A.ToJSON BigCatAllOf where
+  toJSON BigCatAllOf {..} =
+   _omitNulls
+      [ "kind" .= bigCatAllOfKind
+      ]
+
+
+-- | Construct a value of type 'BigCatAllOf' (by applying it's required fields, if any)
+mkBigCatAllOf
+  :: BigCatAllOf
+mkBigCatAllOf =
+  BigCatAllOf
+  { bigCatAllOfKind = Nothing
+  }
+
 -- ** Capitalization
 -- | Capitalization
 data Capitalization = Capitalization
@@ -1060,6 +1144,7 @@ data FormatTest = FormatTest
   , formatTestDateTime :: !(Maybe DateTime) -- ^ "dateTime"
   , formatTestUuid :: !(Maybe Text) -- ^ "uuid"
   , formatTestPassword :: !(Text) -- ^ /Required/ "password"
+  , formatTestBigDecimal :: !(Maybe Double) -- ^ "BigDecimal"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON FormatTest
@@ -1079,6 +1164,7 @@ instance A.FromJSON FormatTest where
       <*> (o .:? "dateTime")
       <*> (o .:? "uuid")
       <*> (o .:  "password")
+      <*> (o .:? "BigDecimal")
 
 -- | ToJSON FormatTest
 instance A.ToJSON FormatTest where
@@ -1097,6 +1183,7 @@ instance A.ToJSON FormatTest where
       , "dateTime" .= formatTestDateTime
       , "uuid" .= formatTestUuid
       , "password" .= formatTestPassword
+      , "BigDecimal" .= formatTestBigDecimal
       ]
 
 
@@ -1122,13 +1209,14 @@ mkFormatTest formatTestNumber formatTestByte formatTestDate formatTestPassword =
   , formatTestDateTime = Nothing
   , formatTestUuid = Nothing
   , formatTestPassword
+  , formatTestBigDecimal = Nothing
   }
 
 -- ** HasOnlyReadOnly
 -- | HasOnlyReadOnly
 data HasOnlyReadOnly = HasOnlyReadOnly
-  { hasOnlyReadOnlyBar :: !(Maybe Text) -- ^ "bar"
-  , hasOnlyReadOnlyFoo :: !(Maybe Text) -- ^ "foo"
+  { hasOnlyReadOnlyBar :: !(Maybe Text) -- ^ /ReadOnly/ "bar"
+  , hasOnlyReadOnlyFoo :: !(Maybe Text) -- ^ /ReadOnly/ "foo"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON HasOnlyReadOnly
@@ -1327,9 +1415,9 @@ mkModelReturn =
 -- Model for testing model name same as property name
 data Name = Name
   { nameName :: !(Int) -- ^ /Required/ "name"
-  , nameSnakeCase :: !(Maybe Int) -- ^ "snake_case"
+  , nameSnakeCase :: !(Maybe Int) -- ^ /ReadOnly/ "snake_case"
   , nameProperty :: !(Maybe Text) -- ^ "property"
-  , name123number :: !(Maybe Int) -- ^ "123Number"
+  , name123number :: !(Maybe Int) -- ^ /ReadOnly/ "123Number"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Name
@@ -1529,7 +1617,7 @@ mkPet petName petPhotoUrls =
 -- ** ReadOnlyFirst
 -- | ReadOnlyFirst
 data ReadOnlyFirst = ReadOnlyFirst
-  { readOnlyFirstBar :: !(Maybe Text) -- ^ "bar"
+  { readOnlyFirstBar :: !(Maybe Text) -- ^ /ReadOnly/ "bar"
   , readOnlyFirstBaz :: !(Maybe Text) -- ^ "baz"
   } deriving (P.Show, P.Eq, P.Typeable)
 
@@ -1672,6 +1760,7 @@ mkTypeHolderDefault typeHolderDefaultStringItem typeHolderDefaultNumberItem type
 data TypeHolderExample = TypeHolderExample
   { typeHolderExampleStringItem :: !(Text) -- ^ /Required/ "string_item"
   , typeHolderExampleNumberItem :: !(Double) -- ^ /Required/ "number_item"
+  , typeHolderExampleFloatItem :: !(Float) -- ^ /Required/ "float_item"
   , typeHolderExampleIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
   , typeHolderExampleBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
   , typeHolderExampleArrayItem :: !([Int]) -- ^ /Required/ "array_item"
@@ -1683,6 +1772,7 @@ instance A.FromJSON TypeHolderExample where
     TypeHolderExample
       <$> (o .:  "string_item")
       <*> (o .:  "number_item")
+      <*> (o .:  "float_item")
       <*> (o .:  "integer_item")
       <*> (o .:  "bool_item")
       <*> (o .:  "array_item")
@@ -1693,6 +1783,7 @@ instance A.ToJSON TypeHolderExample where
    _omitNulls
       [ "string_item" .= typeHolderExampleStringItem
       , "number_item" .= typeHolderExampleNumberItem
+      , "float_item" .= typeHolderExampleFloatItem
       , "integer_item" .= typeHolderExampleIntegerItem
       , "bool_item" .= typeHolderExampleBoolItem
       , "array_item" .= typeHolderExampleArrayItem
@@ -1703,14 +1794,16 @@ instance A.ToJSON TypeHolderExample where
 mkTypeHolderExample
   :: Text -- ^ 'typeHolderExampleStringItem' 
   -> Double -- ^ 'typeHolderExampleNumberItem' 
+  -> Float -- ^ 'typeHolderExampleFloatItem' 
   -> Int -- ^ 'typeHolderExampleIntegerItem' 
   -> Bool -- ^ 'typeHolderExampleBoolItem' 
   -> [Int] -- ^ 'typeHolderExampleArrayItem' 
   -> TypeHolderExample
-mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem typeHolderExampleIntegerItem typeHolderExampleBoolItem typeHolderExampleArrayItem =
+mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem typeHolderExampleFloatItem typeHolderExampleIntegerItem typeHolderExampleBoolItem typeHolderExampleArrayItem =
   TypeHolderExample
   { typeHolderExampleStringItem
   , typeHolderExampleNumberItem
+  , typeHolderExampleFloatItem
   , typeHolderExampleIntegerItem
   , typeHolderExampleBoolItem
   , typeHolderExampleArrayItem
@@ -2173,6 +2266,40 @@ toE'JustSymbol = \case
   ">=" -> P.Right E'JustSymbol'Greater_Than_Or_Equal_To
   "$" -> P.Right E'JustSymbol'Dollar
   s -> P.Left $ "toE'JustSymbol: enum parse failure: " P.++ P.show s
+
+
+-- ** E'Kind
+
+-- | Enum of 'Text'
+data E'Kind
+  = E'Kind'Lions -- ^ @"lions"@
+  | E'Kind'Tigers -- ^ @"tigers"@
+  | E'Kind'Leopards -- ^ @"leopards"@
+  | E'Kind'Jaguars -- ^ @"jaguars"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'Kind where toJSON = A.toJSON . fromE'Kind
+instance A.FromJSON E'Kind where parseJSON o = P.either P.fail (pure . P.id) . toE'Kind =<< A.parseJSON o
+instance WH.ToHttpApiData E'Kind where toQueryParam = WH.toQueryParam . fromE'Kind
+instance WH.FromHttpApiData E'Kind where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'Kind
+instance MimeRender MimeMultipartFormData E'Kind where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'Kind' enum
+fromE'Kind :: E'Kind -> Text
+fromE'Kind = \case
+  E'Kind'Lions -> "lions"
+  E'Kind'Tigers -> "tigers"
+  E'Kind'Leopards -> "leopards"
+  E'Kind'Jaguars -> "jaguars"
+
+-- | parse 'E'Kind' enum
+toE'Kind :: Text -> P.Either String E'Kind
+toE'Kind = \case
+  "lions" -> P.Right E'Kind'Lions
+  "tigers" -> P.Right E'Kind'Tigers
+  "leopards" -> P.Right E'Kind'Leopards
+  "jaguars" -> P.Right E'Kind'Jaguars
+  s -> P.Left $ "toE'Kind: enum parse failure: " P.++ P.show s
 
 
 -- ** E'Status

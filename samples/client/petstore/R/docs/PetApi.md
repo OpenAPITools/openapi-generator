@@ -51,7 +51,10 @@ void (empty response body)
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **405** | Invalid input |  -  |
 
 # **DeletePet**
 > DeletePet(pet.id, api.key=var.api.key)
@@ -92,7 +95,10 @@ void (empty response body)
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Invalid pet value |  -  |
 
 # **FindPetsByStatus**
 > array[Pet] FindPetsByStatus(status)
@@ -119,7 +125,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**array[character]**](character.md)| Status values that need to be considered for filter | 
+ **status** | Enum [available, pending, sold] | Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -134,7 +140,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+| **400** | Invalid status value |  -  |
 
 # **FindPetsByTags**
 > array[Pet] FindPetsByTags(tags)
@@ -161,7 +171,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**array[character]**](character.md)| Tags to filter by | 
+ **tags** | list( **character** )| Tags to filter by | 
 
 ### Return type
 
@@ -176,7 +186,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+| **400** | Invalid tag value |  -  |
 
 # **GetPetById**
 > Pet GetPetById(pet.id)
@@ -218,7 +232,12 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+| **400** | Invalid ID supplied |  -  |
+| **404** | Pet not found |  -  |
 
 # **UpdatePet**
 > UpdatePet(body)
@@ -257,7 +276,12 @@ void (empty response body)
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Invalid ID supplied |  -  |
+| **404** | Pet not found |  -  |
+| **405** | Validation exception |  -  |
 
 # **UpdatePetWithForm**
 > UpdatePetWithForm(pet.id, name=var.name, status=var.status)
@@ -300,7 +324,10 @@ void (empty response body)
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **405** | Invalid input |  -  |
 
 # **UploadFile**
 > ModelApiResponse UploadFile(pet.id, additional.metadata=var.additional.metadata, file=var.file)
@@ -344,5 +371,8 @@ Name | Type | Description  | Notes
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
-
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 

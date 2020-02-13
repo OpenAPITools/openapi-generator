@@ -8,11 +8,12 @@
  */
 
 package petstore
+// OuterEnumInteger the model 'OuterEnumInteger'
 type OuterEnumInteger int32
 
 // List of OuterEnumInteger
 const (
-	_0 OuterEnumInteger = "0"
-	_1 OuterEnumInteger = "1"
-	_2 OuterEnumInteger = "2"
+	OUTERENUMINTEGER__0 OuterEnumInteger = 0
+	OUTERENUMINTEGER__1 OuterEnumInteger = 1
+	OUTERENUMINTEGER__2 OuterEnumInteger = 2
 )

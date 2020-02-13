@@ -24,7 +24,7 @@ public class Pet   {
   private Long id;
 
   @JsonProperty("category")
-  private Category category = null;
+  private Category category;
 
   @JsonProperty("name")
   private String name;
@@ -53,8 +53,12 @@ public class Pet   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
