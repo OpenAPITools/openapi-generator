@@ -4,7 +4,9 @@ package {{packageName}}.infrastructure
     Success, Informational, Redirection, ClientError, ServerError
 }
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}abstract class ApiInfrastructureResponse<T>(val responseType: ResponseType) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}interface Response
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}abstract class ApiInfrastructureResponse<T>(val responseType: ResponseType): Response {
     abstract val statusCode: Int
     abstract val headers: Map<String,List<String>>
 }

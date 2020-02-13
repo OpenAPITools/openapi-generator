@@ -59,11 +59,11 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode)
+                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -100,11 +100,11 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode)
+                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -144,11 +144,11 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode)
+                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -188,11 +188,11 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode)
+                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -229,11 +229,11 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode)
+                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -269,11 +269,11 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode)
+                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -311,11 +311,11 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode)
+                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -354,11 +354,11 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
                 val localVarError = localVarResponse as ClientError<*>
-                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode)
+                throw ClientException(localVarError.body as? String ?: "Client error", localVarError.statusCode, localVarResponse)
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode)
+                throw ServerException(localVarError.body as? String ?: "Server error", localVarError.statusCode, localVarResponse)
             }
         }
     }
