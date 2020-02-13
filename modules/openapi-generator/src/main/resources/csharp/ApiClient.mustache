@@ -153,12 +153,12 @@ namespace {{packageName}}.Client
                 {{/netStandard}}
                 {{^netStandard}}
                 {{^supportsUWP}}
-                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
+                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentLength, param.Value.ContentType);
                 {{/supportsUWP}}
                 {{#supportsUWP}}
                 byte[] paramWriter = null;
                 param.Value.Writer = delegate (Stream stream) { paramWriter = ToByteArray(stream); };
-                request.AddFile(param.Value.Name, paramWriter, param.Value.FileName, param.Value.ContentType);
+                request.AddFile(param.Value.Name, paramWriter, param.Value.FileName, param.Value.ContentLength, param.Value.ContentType);
                 {{/supportsUWP}}
                 {{/netStandard}}
             }
