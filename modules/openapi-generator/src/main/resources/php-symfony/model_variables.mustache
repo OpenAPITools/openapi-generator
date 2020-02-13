@@ -27,7 +27,7 @@
     {{/items}}
      * })
      {{#items}}
-     * @Type("array<{{dataType}}>")
+     * @Type("array<{{#isMapContainer}}string, {{/isMapContainer}}{{dataType}}>")
      {{/items}}
 {{/isContainer}}
 {{^isContainer}}
