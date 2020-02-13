@@ -101,7 +101,16 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     @Override
     protected void handleMethodResponse(Operation operation, Map<String, Schema> schemas, CodegenOperation op,
                                         ApiResponse methodResponse) {
-        super.handleMethodResponse(operation, schemas, op, methodResponse);
+        handleMethodResponse(operation, schemas, op, methodResponse, Collections.<String, String>emptyMap());
+    }
+
+    @Override
+    protected void handleMethodResponse(Operation operation,
+                                        Map<String, Schema> schemas,
+                                        CodegenOperation op,
+                                        ApiResponse methodResponse,
+                                        Map<String, String> importMappings) {
+        super.handleMethodResponse(operation, schemas, op, methodResponse, importMappings);
 
         // see comment in getTypeDeclaration
         if (op.isResponseFile) {
