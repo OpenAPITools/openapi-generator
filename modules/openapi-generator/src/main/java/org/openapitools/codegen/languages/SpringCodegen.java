@@ -52,6 +52,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String USE_SPRING_JPA = "useSpringJpa";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String VIRTUAL_SERVICE = "virtualService";
@@ -98,6 +99,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
+    protected boolean useSpringJpa = false;
 
     public SpringCodegen() {
         super();
@@ -171,6 +173,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
         cliOptions.add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING, "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).", unhandledException));
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_JPA, "use spring jpa annotations and include persistance library", useSpringJpa));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -331,6 +334,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setReturnSuccessCode(Boolean.valueOf(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
         }
 
+        if (additionalProperties.containsKey(USE_SPRING_JPA)) {
+            this.setUseSpringJpa(Boolean.valueOf(additionalProperties.get(USE_SPRING_JPA).toString()));
+        }
+
         if (additionalProperties.containsKey(UNHANDLED_EXCEPTION_HANDLING)) {
             this.setUnhandledException(Boolean.valueOf(additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING).toString()));
         }
@@ -338,6 +345,12 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         typeMapping.put("file", "Resource");
         importMapping.put("Resource", "org.springframework.core.io.Resource");
+
+        // Add conditional support for JPA
+        importMapping.put("Persistence", "javax.persistence.*");
+        if (this.useSpringJpa) {
+            additionalProperties.put(USE_SPRING_JPA, true);
+        }
 
         if (useOptional) {
             writePropertyBack(USE_OPTIONAL, useOptional);
@@ -764,6 +777,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.interfaceOnly = interfaceOnly;
     }
 
+    public void setUseSpringJpa(boolean useSpringJpa) {
+        this.useSpringJpa = useSpringJpa;
+    }
+
     public void setDelegatePattern(boolean delegatePattern) {
         this.delegatePattern = delegatePattern;
     }
@@ -841,6 +858,25 @@ public class SpringCodegen extends AbstractJavaCodegen
                 model.imports.add("JsonCreator");
             }
         }
+
+        // Add JPA Persistence attributes
+        if (this.useSpringJpa) {
+            if (Boolean.TRUE.equals(model.vendorExtensions.getOrDefault("x-java-jpa-entity", Boolean.FALSE))) {
+                model.isJpaEntity = true;
+
+                model.imports.add("Persistence");
+
+                model.additionalAnnotations.add("@Entity");
+                if (model.vendorExtensions.containsKey("x-java-jpa-table")) {
+                    model.additionalAnnotations.add("@Table(name = \"" + model.vendorExtensions.get("x-java-jpa-table") + "\")");
+                } else {
+                    model.additionalAnnotations.add("@Table");
+                }
+            }
+            if (property.vendorExtensions.containsKey("x-java-jpa-annotations")) {
+                property.additionalAnnotations.addAll((List<String>) property.vendorExtensions.get("x-java-jpa-annotations"));
+            }
+        }
     }
 
     @Override
@@ -897,5 +933,4 @@ public class SpringCodegen extends AbstractJavaCodegen
             p.defaultValue = p.defaultValue.substring(0, p.defaultValue.length()-1);
         }
     }
-
 }
