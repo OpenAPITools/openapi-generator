@@ -1356,7 +1356,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
 
         // If a parameter uses UUIDs, we need to import the UUID package.
-        if (param.dataType.equals(uuidType)) {
+        if (uuidType.equals(param.dataType)) {
             additionalProperties.put("apiUsesUuid", true);
         }
 
