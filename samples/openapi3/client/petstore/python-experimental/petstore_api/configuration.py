@@ -12,6 +12,7 @@
 
 from __future__ import absolute_import
 
+import copy
 import logging
 import multiprocessing
 import sys
@@ -112,6 +113,8 @@ class Configuration(object):
         )
       )
     """
+
+    _default = None
 
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
@@ -215,6 +218,31 @@ class Configuration(object):
         """
         # Disable client side validation
         self.client_side_validation = True
+
+    @classmethod
+    def set_default(cls, default):
+        """Set default instance of configuration.
+
+        It stores default configuration, which can be
+        returned by get_instance method.
+
+        :param default: object of Configuration
+        """
+        cls._default = copy.copy(default)
+
+    @classmethod
+    def get_instance(cls):
+        """Return new instance of configuration.
+
+        This method returns newly created, based on default constructor,
+        object of Configuration class or returns a copy of default
+        configuration passed by the set_default method.
+
+        :return: The configuration object.
+        """
+        if cls._default is not None:
+            return copy.copy(cls._default)
+        return Configuration()
 
     @property
     def logger_file(self):

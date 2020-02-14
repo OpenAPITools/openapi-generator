@@ -22,14 +22,25 @@ class TestConfiguration(unittest.TestCase):
         pass
 
     def tearDown(self):
-        pass
+        # reset Configuration
+        petstore_api.Configuration.set_default(None)
 
     def testConfiguration(self):
         # check that different instances use different dictionaries
         c1 = petstore_api.Configuration()
         c2 = petstore_api.Configuration()
-        assert id(c1.api_key) != id(c2.api_key)
-        assert id(c1.api_key_prefix) != id(c2.api_key_prefix)
+        self.assertNotEqual(id(c1.api_key), id(c2.api_key))
+        self.assertNotEqual(id(c1.api_key_prefix), id(c2.api_key_prefix))
+
+    def testDefaultConfiguration(self):
+
+        # prepare default configuration
+        c1 = petstore_api.Configuration(host="example.com")
+        petstore_api.Configuration.set_default(c1)
+
+        # get default configuration
+        c2 = petstore_api.Configuration.get_instance()
+        self.assertEqual(c2.host, "example.com")
 
 
 if __name__ == '__main__':
