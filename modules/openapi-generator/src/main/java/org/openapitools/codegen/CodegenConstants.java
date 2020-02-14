@@ -326,7 +326,9 @@ public class CodegenConstants {
     public static final String OPEN_API_SPEC_NAME = "openAPISpecName";
 
     public static final String GENERATE_ALIAS_AS_MODEL = "generateAliasAsModel";
-    public static final String GENERATE_ALIAS_AS_MODEL_DESC = "Generate alias to map, array as models";
+    public static final String GENERATE_ALIAS_AS_MODEL_DESC = "Generate model implementation for aliases to map and array schemas. " +
+        "A 'map' schema is an extensible object (i.e. 'type: object' in a OAS document) that can have additional properties. " +
+        "An 'array' schema is a list of sub schemas in a OAS document";
 
     public static final String USE_COMPARE_NET_OBJECTS = "useCompareNetObjects";
     public static final String USE_COMPARE_NET_OBJECTS_DESC = "Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.";
