@@ -151,8 +151,8 @@ public class ApiClient {
             builder.addInterceptor(interceptor);
         }
         {{#useGzipFeature}}
-            // Enable gzip request compression
-            builder.addInterceptor(new GzipRequestInterceptor());
+        // Enable gzip request compression
+        builder.addInterceptor(new GzipRequestInterceptor());
         {{/useGzipFeature}}
 
         httpClient = builder.build();
