@@ -29,6 +29,7 @@ class Redirection<T>(
 ) : ApiInfrastructureResponse<T>(ResponseType.Redirection)
 
 class ClientError<T>(
+    val message: String? = null,
     val body: Any? = null,
     override val statusCode: Int = -1,
     override val headers: Map<String, List<String>> = mapOf()
