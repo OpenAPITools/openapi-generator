@@ -24,14 +24,17 @@ import { Configuration }                                     from '../configurat
 
 
 export interface DeleteOrderRequestParams {
+    /** ID of the order that needs to be deleted */
     orderId: string;
 }
 
 export interface GetOrderByIdRequestParams {
+    /** ID of pet that needs to be fetched */
     orderId: number;
 }
 
 export interface PlaceOrderRequestParams {
+    /** order placed for purchasing the pet */
     body: Order;
 }
 
