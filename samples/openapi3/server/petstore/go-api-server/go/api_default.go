@@ -10,11 +10,42 @@
 package petstoreserver
 
 import (
+	"encoding/json"
 	"net/http"
+	"strings"
+
+	"github.com/gorilla/mux"
 )
 
+// A DefaultApiController binds http requests to an api service and writes the service results to the http response
+type DefaultApiController struct {
+	service DefaultApiServicer
+}
+
+// NewDefaultApiController creates a default api controller
+func NewDefaultApiController(s DefaultApiServicer) Router {
+	return &DefaultApiController{ service: s }
+}
+
+// Routes returns all of the api route for the DefaultApiController
+func (c *DefaultApiController) Routes() Routes {
+	return Routes{ 
+		{
+			"FooGet",
+			strings.ToUpper("Get"),
+			"/v2/foo",
+			c.FooGet,
+		},
+	}
+}
+
 // FooGet - 
-func FooGet(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+func (c *DefaultApiController) FooGet(w http.ResponseWriter, r *http.Request) { 
+	result, err := c.service.FooGet()
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	EncodeJSONResponse(result, nil, w)
 }

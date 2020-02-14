@@ -10,18 +10,24 @@ Method | HTTP request | Description
 
 ## Call123TestSpecialTags
 
-> Client Call123TestSpecialTags(ctx, client)
+> Client Call123TestSpecialTags(ctx).Client(client).Execute()
+
 To test special tags
 
-To test special tags and operation ID starting with number
 
-### Required Parameters
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCall123TestSpecialTagsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**client** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md) | client model | 
 
 ### Return type
 

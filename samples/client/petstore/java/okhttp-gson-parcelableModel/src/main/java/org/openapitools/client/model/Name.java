@@ -68,7 +68,6 @@ public class Name implements Parcelable {
   }
 
 
-
   public void setName(Integer name) {
     this.name = name;
   }
@@ -104,7 +103,6 @@ public class Name implements Parcelable {
   public String getProperty() {
     return property;
   }
-
 
 
   public void setProperty(String property) {

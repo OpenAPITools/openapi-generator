@@ -84,7 +84,6 @@ public class User implements Parcelable {
   }
 
 
-
   public void setId(Long id) {
     this.id = id;
   }
@@ -106,7 +105,6 @@ public class User implements Parcelable {
   public String getUsername() {
     return username;
   }
-
 
 
   public void setUsername(String username) {
@@ -132,7 +130,6 @@ public class User implements Parcelable {
   }
 
 
-
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
@@ -154,7 +151,6 @@ public class User implements Parcelable {
   public String getLastName() {
     return lastName;
   }
-
 
 
   public void setLastName(String lastName) {
@@ -180,7 +176,6 @@ public class User implements Parcelable {
   }
 
 
-
   public void setEmail(String email) {
     this.email = email;
   }
@@ -202,7 +197,6 @@ public class User implements Parcelable {
   public String getPassword() {
     return password;
   }
-
 
 
   public void setPassword(String password) {
@@ -228,7 +222,6 @@ public class User implements Parcelable {
   }
 
 
-
   public void setPhone(String phone) {
     this.phone = phone;
   }
@@ -250,7 +243,6 @@ public class User implements Parcelable {
   public Integer getUserStatus() {
     return userStatus;
   }
-
 
 
   public void setUserStatus(Integer userStatus) {

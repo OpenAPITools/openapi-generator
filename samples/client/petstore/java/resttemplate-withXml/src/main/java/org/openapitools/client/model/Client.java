@@ -62,7 +62,6 @@ public class Client {
   }
 
 
-
   public void setClient(String client) {
     this.client = client;
   }

@@ -1,0 +1,70 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import {{invokerPackage}}.ParameterCast;
+import {{invokerPackage}}.ApiException;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import io.vertx.core.json.Json;
+import io.vertx.core.Handler;
+import io.vertx.core.http.HttpServerResponse;
+import io.vertx.ext.web.RoutingContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.reactivex.Single;
+
+import java.util.List;
+import java.util.Map;
+
+public class {{classname}}Handler {
+
+    private static final Logger logger = LoggerFactory.getLogger({{classname}}Handler.class);
+    private {{classname}} apiImpl = new {{classname}}Impl();
+
+    public {{classname}}Handler(Map<String, Handler<RoutingContext>> operationHandlers) {
+{{#operations}}
+{{#operation}}
+        operationHandlers.put("{{operationId}}", this::{{operationId}});
+{{/operation}}
+{{/operations}}
+    }
+{{#operations}}
+{{#operation}}
+
+    private void {{operationId}}(RoutingContext routingContext) {
+        logger.info("{{operationId}}()");
+        HttpServerResponse response = routingContext.response();
+
+        {{#returnType}}Single{{/returnType}}{{^returnType}}Completable{{/returnType}}.defer( () -> {
+{{#allParams}}{{^isBodyParam}}{{>headerParams}}{{>pathParams}}{{>queryParams}}{{>formParams}}{{/isBodyParam}}{{/allParams}}
+{{#allParams}}
+{{#isBodyParam}}
+            String jsonString = routingContext.getBodyAsString();
+            {{{dataType}}} {{paramName}} = jsonString == null ? null : Json.decodeValue(jsonString, new TypeReference<{{{dataType}}}>(){});
+{{/isBodyParam}}
+{{/allParams}}
+{{#allParams}}
+            logger.info("Parameter {{paramName}} is {}", {{paramName}});
+{{/allParams}}
+            return apiImpl.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        })
+        .subscribe(
+            apiResponse -> {
+                response.setStatusCode(apiResponse.getStatusCode())
+                        .end(Json.encodePrettily(apiResponse.getData()));
+            }, error -> {
+                if (error instanceof ApiException) {
+                    ApiException apiException = (ApiException) error;
+                    response.setStatusCode(apiException.getStatusCode()).end(apiException.getMessage());
+                } else {
+                    response.setStatusCode(500).end(error.getMessage());
+                }
+            }).dispose();
+    }
+
+{{/operation}}
+{{/operations}}
+}

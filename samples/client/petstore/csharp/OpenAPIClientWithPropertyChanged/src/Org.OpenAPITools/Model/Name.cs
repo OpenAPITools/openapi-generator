@@ -61,25 +61,25 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets _Name
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name="name", EmitDefaultValue=true)]
         public int _Name { get; set; }
 
         /// <summary>
         /// Gets or Sets SnakeCase
         /// </summary>
-        [DataMember(Name="snake_case", EmitDefaultValue=false)]
+        [DataMember(Name="snake_case", EmitDefaultValue=true)]
         public int SnakeCase { get; private set; }
 
         /// <summary>
         /// Gets or Sets Property
         /// </summary>
-        [DataMember(Name="property", EmitDefaultValue=false)]
+        [DataMember(Name="property", EmitDefaultValue=true)]
         public string Property { get; set; }
 
         /// <summary>
         /// Gets or Sets _123Number
         /// </summary>
-        [DataMember(Name="123Number", EmitDefaultValue=false)]
+        [DataMember(Name="123Number", EmitDefaultValue=true)]
         public int _123Number { get; private set; }
 
         /// <summary>

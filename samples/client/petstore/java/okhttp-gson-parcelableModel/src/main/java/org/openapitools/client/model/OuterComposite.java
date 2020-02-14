@@ -65,7 +65,6 @@ public class OuterComposite implements Parcelable {
   }
 
 
-
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
@@ -89,7 +88,6 @@ public class OuterComposite implements Parcelable {
   }
 
 
-
   public void setMyString(String myString) {
     this.myString = myString;
   }
@@ -111,7 +109,6 @@ public class OuterComposite implements Parcelable {
   public Boolean getMyBoolean() {
     return myBoolean;
   }
-
 
 
   public void setMyBoolean(Boolean myBoolean) {

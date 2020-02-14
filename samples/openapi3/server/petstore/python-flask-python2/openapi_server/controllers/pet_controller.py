@@ -49,15 +49,13 @@ def find_pets_by_status(status):  # noqa: E501
     return 'do some magic!'
 
 
-def find_pets_by_tags(tags, max_count=None):  # noqa: E501
+def find_pets_by_tags(tags):  # noqa: E501
     """Finds Pets by tags
 
     Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. # noqa: E501
 
     :param tags: Tags to filter by
     :type tags: List[str]
-    :param max_count: Maximum number of items to return
-    :type max_count: int
 
     :rtype: List[Pet]
     """

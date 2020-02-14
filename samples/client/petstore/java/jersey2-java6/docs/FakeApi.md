@@ -12,7 +12,7 @@ Method | HTTP request | Description
 [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
@@ -351,7 +351,7 @@ No authorization required
 
 
 
-For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+For this test, the body for this request much reference a schema named `File`.
 
 ### Example
 
@@ -479,7 +479,7 @@ No authorization required
 
 To test \&quot;client\&quot; model
 
-To test \&quot;client\&quot; model
+To test "client" model
 
 ### Example
 
@@ -542,9 +542,12 @@ No authorization required
 
 > testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters
+ 假端點
+ 偽のエンドポイント
+ 가짜 엔드 포인트
 
 ### Example
 
@@ -716,7 +719,7 @@ No authorization required
 
 ## testGroupParameters
 
-> testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group)
+> testGroupParameters().requiredStringGroup(requiredStringGroup).requiredBooleanGroup(requiredBooleanGroup).requiredInt64Group(requiredInt64Group).stringGroup(stringGroup).booleanGroup(booleanGroup).int64Group(int64Group).execute();
 
 Fake endpoint to test group parameters (optional)
 
@@ -745,7 +748,14 @@ public class Example {
         Boolean booleanGroup = true; // Boolean | Boolean in group parameters
         Long int64Group = 56L; // Long | Integer in group parameters
         try {
-            apiInstance.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+            api.testGroupParameters()
+                .requiredStringGroup(requiredStringGroup)
+                .requiredBooleanGroup(requiredBooleanGroup)
+                .requiredInt64Group(requiredInt64Group)
+                .stringGroup(stringGroup)
+                .booleanGroup(booleanGroup)
+                .int64Group(int64Group)
+                .execute();
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testGroupParameters");
             System.err.println("Status code: " + e.getCode());

@@ -35,7 +35,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class FormatTest (
     @SerialName(value = "number") @Required val number: kotlin.Double,
-    @SerialName(value = "byte") @Required val byte: kotlin.ByteArray,
+    @SerialName(value = "byte") @Required val byte: org.openapitools.client.infrastructure.Base64ByteArray,
     @SerialName(value = "date") @Required val date: kotlin.String,
     @SerialName(value = "password") @Required val password: kotlin.String,
     @SerialName(value = "integer") val integer: kotlin.Int? = null,
@@ -44,12 +44,14 @@ data class FormatTest (
     @SerialName(value = "float") val float: kotlin.Float? = null,
     @SerialName(value = "double") val double: kotlin.Double? = null,
     @SerialName(value = "string") val string: kotlin.String? = null,
-    @SerialName(value = "binary") val binary: io.ktor.client.request.forms.InputProvider? = null,
+    @SerialName(value = "binary") val binary: org.openapitools.client.infrastructure.OctetByteArray? = null,
     @SerialName(value = "dateTime") val dateTime: kotlin.String? = null,
     @SerialName(value = "uuid") val uuid: kotlin.String? = null,
     /* A string that is a 10 digit number. Can have leading zeros. */
-    @SerialName(value = "patternWithDigits") val patternWithDigits: kotlin.String? = null,
+    @SerialName(value = "pattern_with_digits") val patternWithDigits: kotlin.String? = null,
     /* A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01. */
-    @SerialName(value = "patternWithDigitsAndDelimiter") val patternWithDigitsAndDelimiter: kotlin.String? = null
-)
+    @SerialName(value = "pattern_with_digits_and_delimiter") val patternWithDigitsAndDelimiter: kotlin.String? = null
+) 
+
+
 

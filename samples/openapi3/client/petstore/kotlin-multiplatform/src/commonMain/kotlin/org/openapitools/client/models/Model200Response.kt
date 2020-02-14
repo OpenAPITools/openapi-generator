@@ -22,6 +22,8 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class Model200Response (
     @SerialName(value = "name") val name: kotlin.Int? = null,
-    @SerialName(value = "propertyClass") val propertyClass: kotlin.String? = null
-)
+    @SerialName(value = "class") val propertyClass: kotlin.String? = null
+) 
+
+
 

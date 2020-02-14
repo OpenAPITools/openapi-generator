@@ -19,6 +19,7 @@ public class SerializerUtils {
         SimpleModule module = createModule();
         try {
             return Yaml.mapper()
+                    .copy()
                     .registerModule(module)
                     .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
                     .writeValueAsString(openAPI)

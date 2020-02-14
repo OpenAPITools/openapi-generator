@@ -59,7 +59,6 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
   }
 
 
-
   public void setName(String name) {
     this.name = name;
   }

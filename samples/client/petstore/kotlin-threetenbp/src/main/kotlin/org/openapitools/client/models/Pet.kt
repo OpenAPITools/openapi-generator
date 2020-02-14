@@ -17,10 +17,10 @@ import org.openapitools.client.models.Tag
 import com.squareup.moshi.Json
 /**
  * A pet for sale in the pet store
- * @param id 
- * @param category 
  * @param name 
  * @param photoUrls 
+ * @param id 
+ * @param category 
  * @param tags 
  * @param status pet status in the store
  */
@@ -39,10 +39,8 @@ data class Pet (
     /* pet status in the store */
     @Json(name = "status")
     val status: Pet.Status? = null
-) 
+) {
 
-
-{
     /**
     * pet status in the store
     * Values: available,pending,sold

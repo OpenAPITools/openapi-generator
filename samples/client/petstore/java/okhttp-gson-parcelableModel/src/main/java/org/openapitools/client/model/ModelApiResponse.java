@@ -64,7 +64,6 @@ public class ModelApiResponse implements Parcelable {
   }
 
 
-
   public void setCode(Integer code) {
     this.code = code;
   }
@@ -88,7 +87,6 @@ public class ModelApiResponse implements Parcelable {
   }
 
 
-
   public void setType(String type) {
     this.type = type;
   }
@@ -110,7 +108,6 @@ public class ModelApiResponse implements Parcelable {
   public String getMessage() {
     return message;
   }
-
 
 
   public void setMessage(String message) {

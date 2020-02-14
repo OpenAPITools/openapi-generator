@@ -20,6 +20,8 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  */
 @Serializable
 data class SpecialModelname (
-    @SerialName(value = "dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket") val dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket: kotlin.Long? = null
-)
+    @SerialName(value = "\$special[property.name]") val dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket: kotlin.Long? = null
+) 
+
+
 

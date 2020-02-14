@@ -24,16 +24,35 @@ import '../rxjs-operators';
 {{/useHttpClient}}
 
 {{#imports}}
-import { {{classname}} } from '../{{filename}}';
+import { {{classname}} } from '../model/models';
 {{/imports}}
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 {{#withInterfaces}}
-import { {{classname}}Interface }                            from './{{classFilename}}Interface';
+import {
+    {{classname}}Interface{{#useSingleRequestParameter}}{{#operations}}{{#operation}}{{#allParams.0}},
+    {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams{{/allParams.0}}{{/operation}}{{/operations}}{{/useSingleRequestParameter}}
+} from './{{classFilename}}Interface';
 {{/withInterfaces}}
 
 {{#operations}}
+
+{{^withInterfaces}}
+{{#useSingleRequestParameter}}
+{{#operation}}
+{{#allParams.0}}
+export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams {
+{{#allParams}}
+    {{#description}}/** {{description}} */
+    {{/description}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#isNullable}} | null{{/isNullable}};
+{{/allParams}}
+}
+
+{{/allParams.0}}
+{{/operation}}
+{{/useSingleRequestParameter}}
+{{/withInterfaces}}
 
 {{#description}}
 /**
@@ -108,11 +127,14 @@ export class {{classname}} {
      {{#summary}}
      * @summary {{&summary}}
      {{/summary}}
-     {{#allParams}}* @param {{paramName}} {{description}}
-     {{/allParams}}*/
+     {{^useSingleRequestParameter}}{{#allParams}}
+     * @param {{paramName}} {{description}}{{/allParams}}{{/useSingleRequestParameter}}
+     {{#useSingleRequestParameter}}{{#allParams.0}}
+     * @param requestParameters
+     {{/allParams.0}}{{/useSingleRequestParameter}}*/
     {{! if you change this method signature, also change the version below }}
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{^useHttpClient}}{{#hasParams}}, {{/hasParams}}extraHttpRequestParams?: RequestOptionsArgs{{/useHttpClient}}): Observable<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
-        return this.{{nickname}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}extraHttpRequestParams)
+    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams{{/allParams.0}}{{/useSingleRequestParameter}}{{^useHttpClient}}{{#hasParams}}, {{/hasParams}}extraHttpRequestParams?: RequestOptionsArgs{{/useHttpClient}}): Observable<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+        return this.{{nickname}}WithHttpInfo({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters, {{/allParams.0}}{{/useSingleRequestParameter}}extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -130,6 +152,42 @@ export class {{classname}} {
 {{/operation}}
 {{/useHttpClient}}
 
+    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object" && value instanceof Date === false) {
+            {{#useHttpClient}}httpParams = {{/useHttpClient}}this.addToHttpParamsRecursive(httpParams, value);
+        } else {
+            {{#useHttpClient}}httpParams = {{/useHttpClient}}this.addToHttpParamsRecursive(httpParams, value, key);
+        }
+        return httpParams;
+    }
+
+    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
+        if (value == null) {
+            return httpParams;
+        }
+
+        if (typeof value === "object") {
+            if (Array.isArray(value)) {
+                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+            } else if (value instanceof Date) {
+                if (key != null) {
+                    {{#useHttpClient}}httpParams = {{/useHttpClient}}httpParams.append(key,
+                        (value as Date).toISOString(){{^isDateTime}}.substr(0, 10)){{/isDateTime}};
+                } else {
+                   throw Error("key may not be null if value is Date");
+                }
+            } else {
+                Object.keys(value).forEach( k => {{#useHttpClient}}httpParams = {{/useHttpClient}}this.addToHttpParamsRecursive(
+                    httpParams, value[k], key != null ? `${key}.${k}` : k));
+            }
+        } else if (key != null) {
+            {{#useHttpClient}}httpParams = {{/useHttpClient}}httpParams.append(key, value);
+        } else {
+            throw Error("key may not be null if value is not object or array");
+        }
+        return httpParams;
+    }
+
 {{#operation}}
     /**
 {{#summary}}
@@ -138,20 +196,34 @@ export class {{classname}} {
 {{#notes}}
      * {{notes}}
 {{/notes}}
-     {{#allParams}}* @param {{paramName}} {{description}}
-     {{/allParams}}{{#useHttpClient}}* @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.{{/useHttpClient}}
+     {{^useSingleRequestParameter}}
+     {{#allParams}}
+     * @param {{paramName}} {{description}}
+     {{/allParams}}
+     {{/useSingleRequestParameter}}
+     {{#useSingleRequestParameter}}
+     {{#allParams.0}}
+     * @param requestParameters
+     {{/allParams.0}}
+     {{/useSingleRequestParameter}}
+     {{#useHttpClient}}
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     {{/useHttpClient}}
      */
     {{#useHttpClient}}
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe?: 'body', reportProgress?: boolean): Observable<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>;
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{#hasMore}} | {{/hasMore}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>;
+    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{#hasMore}} | {{/hasMore}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{#hasMore}} | {{/hasMore}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<HttpEvent<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{#hasMore}} | {{/hasMore}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<any> {
     {{/useHttpClient}}
     {{^useHttpClient}}
-    public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public {{nickname}}WithHttpInfo({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{#hasMore}} | {{/hasMore}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<Response> {
     {{/useHttpClient}}
 {{#allParams}}
+{{#useSingleRequestParameter}}
+        const {{paramName}} = requestParameters.{{paramName}};
+{{/useSingleRequestParameter}}
 {{#required}}
         if ({{paramName}} === null || {{paramName}} === undefined) {
             throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
@@ -171,22 +243,20 @@ export class {{classname}} {
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
-                {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.append('{{baseName}}', <any>element);
+                {{#useHttpClient}}queryParameters = {{/useHttpClient}}this.addToHttpParams(queryParameters,
+                  <any>element, '{{baseName}}');
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            {{#useHttpClient}}queryParameters = {{/useHttpClient}}this.addToHttpParams(queryParameters,
+                {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']), '{{baseName}}');
         {{/isCollectionFormatMulti}}
         }
         {{/isListContainer}}
         {{^isListContainer}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
-        {{#isDateTime}}
-            {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{baseName}}', <any>{{paramName}}.toISOString());
-        {{/isDateTime}}
-        {{^isDateTime}}
-            {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{baseName}}', <any>{{paramName}});
-        {{/isDateTime}}
+          {{#useHttpClient}}queryParameters = {{/useHttpClient}}this.addToHttpParams(queryParameters,
+            <any>{{paramName}}, '{{baseName}}');
         }
         {{/isListContainer}}
 {{/queryParams}}
@@ -209,25 +279,26 @@ export class {{classname}} {
 {{#authMethods}}
         // authentication ({{name}}) required
 {{#isApiKey}}
+        if (this.configuration.apiKeys) {
+            {{! Fallback behaviour may be removed for 5.0 release. See #5062 }}
+            const key: string | undefined = this.configuration.apiKeys["{{name}}"] || this.configuration.apiKeys["{{keyParamName}}"];
+            if (key) {
 {{#isKeyInHeader}}
-        if (this.configuration.apiKeys && this.configuration.apiKeys["{{keyParamName}}"]) {
-            {{#useHttpClient}}headers = {{/useHttpClient}}headers.set('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
-        }
-
+                {{#useHttpClient}}headers = {{/useHttpClient}}headers.set('{{keyParamName}}', key);
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
-        if (this.configuration.apiKeys && this.configuration.apiKeys["{{keyParamName}}"]) {
-            {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
+                {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{keyParamName}}', key);
+{{/isKeyInQuery}}
+            }
         }
 
-{{/isKeyInQuery}}
 {{/isApiKey}}
 {{#isBasic}}
-    {{^isBasicBearer}}
+    {{#isBasicBasic}}
         if (this.configuration.username || this.configuration.password) {
             {{#useHttpClient}}headers = {{/useHttpClient}}headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
         }
-    {{/isBasicBearer}}
+    {{/isBasicBasic}}
     {{#isBasicBearer}}
         if (this.configuration.accessToken) {
             const accessToken = typeof this.configuration.accessToken === 'function'
@@ -247,13 +318,16 @@ export class {{classname}} {
 
 {{/isOAuth}}
 {{/authMethods}}
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            {{#produces}}
-            '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
-            {{/produces}}
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                {{#produces}}
+                '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
+                {{/produces}}
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
 {{^useHttpClient}}
             headers.set('Accept', httpHeaderAcceptSelected);
@@ -350,15 +424,25 @@ export class {{classname}} {
 
 {{/hasFormParams}}
 {{#useHttpClient}}
+    {{^isResponseFile}}
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+    {{/isResponseFile}}
         return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.configuration.basePath}{{{path}}}`,{{#isBodyAllowed}}
             {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
             {
-{{#hasQueryParams}}
+    {{#hasQueryParams}}
                 params: queryParameters,
-{{/hasQueryParams}}
-{{#isResponseFile}}
+    {{/hasQueryParams}}
+    {{#isResponseFile}}
                 responseType: "blob",
-{{/isResponseFile}}
+    {{/isResponseFile}}
+    {{^isResponseFile}}
+                responseType: <any>responseType,
+    {{/isResponseFile}}
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -378,6 +462,9 @@ export class {{classname}} {
 {{/hasFormParams}}
 {{#isResponseFile}}
             responseType: ResponseContentType.Blob,
+{{/isResponseFile}}
+{{^isResponseFile}}
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
 {{/isResponseFile}}
 {{#hasQueryParams}}
             search: queryParameters,

@@ -1,5 +1,6 @@
 # petstore::User
 
+A User who is purchasing from the pet store
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

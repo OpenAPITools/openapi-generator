@@ -152,7 +152,12 @@ export class {{classname}} {
 
 {{#hasFormParams}}
         let formData: FormData = new FormData();
+        {{#isMultipart}}
+        headers['Content-Type'] = 'multipart/form-data';
+        {{/isMultipart}}
+        {{^isMultipart}}
         headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+        {{/isMultipart}}
 {{#formParams}}
         {{#isListContainer}}
         if ({{paramName}}) {
@@ -174,7 +179,7 @@ export class {{classname}} {
 {{/formParams}}
 
 {{/hasFormParams}}
-        const response: Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>> = this.httpClient.{{httpMethod}}(`${this.basePath}{{{path}}}{{#hasQueryParams}}?${queryParameters.join('&')}{{/hasQueryParams}}`{{#bodyParam}}, {{paramName}} {{/bodyParam}}{{#hasFormParams}}, body{{/hasFormParams}}, headers);
+        const response: Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>> = this.httpClient.{{httpMethod}}(`${this.basePath}{{{path}}}{{#hasQueryParams}}?${queryParameters.join('&')}{{/hasQueryParams}}`{{#bodyParam}}, {{paramName}} {{/bodyParam}}{{#hasFormParams}}, formData{{/hasFormParams}}, headers);
         if (observe == 'body') {
                return response.pipe(
                    map(httpResponse => <{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>(httpResponse.response))

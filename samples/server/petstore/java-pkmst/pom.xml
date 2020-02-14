@@ -47,7 +47,7 @@
          <id>central</id>
          <name>Maven Repository Switchboard</name>
          <layout>default</layout>
-         <url>http://repo1.maven.org/maven2</url>
+         <url>https://repo1.maven.org/maven2</url>
          <snapshots>
             <enabled>false</enabled>
          </snapshots>
@@ -232,7 +232,7 @@
       <dependency>
             <groupId>org.threeten</groupId>
             <artifactId>threetenbp</artifactId>
-            <version>1.3.6</version>
+            <version>1.4.0</version>
       </dependency>
    </dependencies>
    <dependencyManagement>
@@ -268,7 +268,7 @@
                      </excludes>
                   </configuration>
                </plugin>
-               
+
                <plugin>
                   <groupId>net.alchim31.maven</groupId>
                   <artifactId>scala-maven-plugin</artifactId>
@@ -284,7 +284,7 @@
                             <runMultipleSimulations>true</runMultipleSimulations>
                             <includes>
                                 <simulationClass>testapi</simulationClass>
-                                
+
                             </includes>
                         </configuration>
                         <executions>

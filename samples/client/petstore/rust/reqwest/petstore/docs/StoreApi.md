@@ -23,7 +23,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**order_id** | **String** | ID of the order that needs to be deleted | Required | 
+**order_id** | **String** | ID of the order that needs to be deleted | [required] |
 
 ### Return type
 
@@ -80,7 +80,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**order_id** | **i64** | ID of pet that needs to be fetched | Required | 
+**order_id** | **i64** | ID of pet that needs to be fetched | [required] |
 
 ### Return type
 
@@ -108,7 +108,7 @@ Place an order for a pet
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**Order**](Order.md) | order placed for purchasing the pet | Required | 
+**body** | [**Order**](Order.md) | order placed for purchasing the pet | [required] |
 
 ### Return type
 

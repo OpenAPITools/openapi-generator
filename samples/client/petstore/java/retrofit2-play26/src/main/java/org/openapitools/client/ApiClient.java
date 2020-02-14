@@ -74,17 +74,18 @@ public class ApiClient {
         }
 
         Map<String, String> extraHeaders = new HashMap<>();
+        Map<String, String> extraCookies = new HashMap<>();
         List<Pair> extraQueryParams = new ArrayList<>();
 
         for (String authName : authentications.keySet()) {
             Authentication auth = authentications.get(authName);
             if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
 
-            auth.applyToParams(extraQueryParams, extraHeaders);
+            auth.applyToParams(extraQueryParams, extraHeaders, extraCookies);
         }
 
         if (callFactory == null) {
-            callFactory = new Play26CallFactory(wsClient, extraHeaders, extraQueryParams);
+            callFactory = new Play26CallFactory(wsClient, extraHeaders, extraCookies, extraQueryParams);
         }
         if (callAdapterFactory == null) {
             callAdapterFactory = new Play26CallAdapterFactory();

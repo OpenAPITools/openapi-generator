@@ -134,7 +134,6 @@ public class MapTest {
   }
 
 
-
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
@@ -166,7 +165,6 @@ public class MapTest {
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
-
 
 
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
@@ -202,7 +200,6 @@ public class MapTest {
   }
 
 
-
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
@@ -234,7 +231,6 @@ public class MapTest {
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
-
 
 
   public void setIndirectMap(Map<String, Boolean> indirectMap) {

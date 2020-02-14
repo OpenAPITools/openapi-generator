@@ -17,6 +17,9 @@ import unittest
 import petstore_api
 from petstore_api.models.additional_properties_array import AdditionalPropertiesArray  # noqa: E501
 from petstore_api.rest import ApiException
+from petstore_api.exceptions import ApiTypeError
+
+import datetime
 
 
 class TestAdditionalPropertiesArray(unittest.TestCase):
@@ -30,9 +33,20 @@ class TestAdditionalPropertiesArray(unittest.TestCase):
 
     def testAdditionalPropertiesArray(self):
         """Test AdditionalPropertiesArray"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.models.additional_properties_array.AdditionalPropertiesArray()  # noqa: E501
-        pass
+        # can make model without additional properties
+        model = AdditionalPropertiesArray()
+
+        # can make one with additional properties
+        some_val = []
+        model = AdditionalPropertiesArray(some_key=some_val)
+        assert model['some_key'] == some_val
+        some_val = [True, datetime.date(1970,1,1), datetime.datetime(1970,1,1), {}, 3.1, 1, [], 'hello']
+        model = AdditionalPropertiesArray(some_key=some_val)
+        assert model['some_key'] == some_val
+
+        # type checking works on additional properties
+        with self.assertRaises(ApiTypeError) as exc:
+            model = AdditionalPropertiesArray(some_key='some string')
 
 
 if __name__ == '__main__':

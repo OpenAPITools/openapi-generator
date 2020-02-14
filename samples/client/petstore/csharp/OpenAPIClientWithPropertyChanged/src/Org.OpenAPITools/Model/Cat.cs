@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Declawed
         /// </summary>
-        [DataMember(Name="declawed", EmitDefaultValue=false)]
+        [DataMember(Name="declawed", EmitDefaultValue=true)]
         public bool Declawed { get; set; }
 
         /// <summary>
@@ -145,6 +145,16 @@ namespace Org.OpenAPITools.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             foreach(var x in base.BaseValidate(validationContext)) yield return x;
             yield break;

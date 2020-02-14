@@ -61,6 +61,9 @@ cargo run --example server
 To run a client, follow one of the following simple steps:
 
 ```
+cargo run --example client MultigetGet
+cargo run --example client MultipleAuthSchemeGet
+cargo run --example client ReadonlyAuthSchemeGet
 cargo run --example client RequiredOctetStreamPut
 cargo run --example client ResponsesWithHeadersGet
 cargo run --example client UuidGet
@@ -102,6 +105,9 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
+[****](docs/default_api.md#) | **GET** /multiple_auth_scheme | 
+[****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
 [****](docs/default_api.md#) | **PUT** /required_octet_stream | 
 [****](docs/default_api.md#) | **GET** /responses_with_headers | 
 [****](docs/default_api.md#) | **GET** /uuid | 
@@ -118,6 +124,7 @@ Method | HTTP request | Description
  - [AnotherXmlInner](docs/AnotherXmlInner.md)
  - [AnotherXmlObject](docs/AnotherXmlObject.md)
  - [DuplicateXmlObject](docs/DuplicateXmlObject.md)
+ - [InlineResponse201](docs/InlineResponse201.md)
  - [UuidObject](docs/UuidObject.md)
  - [XmlArray](docs/XmlArray.md)
  - [XmlInner](docs/XmlInner.md)
@@ -125,8 +132,22 @@ Method | HTTP request | Description
 
 
 ## Documentation For Authorization
- Endpoints do not require authorization.
 
+## authScheme
+- **Type**: OAuth
+- **Flow**: accessCode
+- **Authorization URL**: http://example.org
+- **Scopes**: 
+ - **test.read**: Allowed to read state.
+ - **test.write**: Allowed to change state.
+
+Example
+```
+```
+
+Or via OAuth2 module to automatically refresh tokens and perform user authentication.
+```
+```
 
 ## Author
 

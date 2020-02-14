@@ -7,6 +7,7 @@
 ./bin/java-petstore-jersey1.sh
 ./bin/java-petstore-jersey2-java6.sh
 ./bin/java-petstore-jersey2.sh
+./bin/java-petstore-microprofile.sh
 ./bin/java-petstore-native.sh
 ./bin/java-petstore-okhttp-gson-parcelable.sh
 ./bin/java-petstore-okhttp-gson.sh

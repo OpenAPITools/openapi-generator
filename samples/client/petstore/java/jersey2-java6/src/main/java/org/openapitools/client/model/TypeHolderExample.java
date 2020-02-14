@@ -76,7 +76,6 @@ public class TypeHolderExample {
   }
 
 
-
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
@@ -99,7 +98,6 @@ public class TypeHolderExample {
   public BigDecimal getNumberItem() {
     return numberItem;
   }
-
 
 
   public void setNumberItem(BigDecimal numberItem) {
@@ -126,7 +124,6 @@ public class TypeHolderExample {
   }
 
 
-
   public void setFloatItem(Float floatItem) {
     this.floatItem = floatItem;
   }
@@ -151,7 +148,6 @@ public class TypeHolderExample {
   }
 
 
-
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
@@ -174,7 +170,6 @@ public class TypeHolderExample {
   public Boolean isBoolItem() {
     return boolItem;
   }
-
 
 
   public void setBoolItem(Boolean boolItem) {
@@ -204,7 +199,6 @@ public class TypeHolderExample {
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
-
 
 
   public void setArrayItem(List<Integer> arrayItem) {

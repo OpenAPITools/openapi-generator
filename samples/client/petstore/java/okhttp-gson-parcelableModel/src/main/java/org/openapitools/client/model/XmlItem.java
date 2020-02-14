@@ -171,7 +171,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setAttributeString(String attributeString) {
     this.attributeString = attributeString;
   }
@@ -193,7 +192,6 @@ public class XmlItem implements Parcelable {
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
-
 
 
   public void setAttributeNumber(BigDecimal attributeNumber) {
@@ -219,7 +217,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setAttributeInteger(Integer attributeInteger) {
     this.attributeInteger = attributeInteger;
   }
@@ -241,7 +238,6 @@ public class XmlItem implements Parcelable {
   public Boolean getAttributeBoolean() {
     return attributeBoolean;
   }
-
 
 
   public void setAttributeBoolean(Boolean attributeBoolean) {
@@ -275,7 +271,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setWrappedArray(List<Integer> wrappedArray) {
     this.wrappedArray = wrappedArray;
   }
@@ -297,7 +292,6 @@ public class XmlItem implements Parcelable {
   public String getNameString() {
     return nameString;
   }
-
 
 
   public void setNameString(String nameString) {
@@ -323,7 +317,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNameNumber(BigDecimal nameNumber) {
     this.nameNumber = nameNumber;
   }
@@ -347,7 +340,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNameInteger(Integer nameInteger) {
     this.nameInteger = nameInteger;
   }
@@ -369,7 +361,6 @@ public class XmlItem implements Parcelable {
   public Boolean getNameBoolean() {
     return nameBoolean;
   }
-
 
 
   public void setNameBoolean(Boolean nameBoolean) {
@@ -403,7 +394,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNameArray(List<Integer> nameArray) {
     this.nameArray = nameArray;
   }
@@ -435,7 +425,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNameWrappedArray(List<Integer> nameWrappedArray) {
     this.nameWrappedArray = nameWrappedArray;
   }
@@ -457,7 +446,6 @@ public class XmlItem implements Parcelable {
   public String getPrefixString() {
     return prefixString;
   }
-
 
 
   public void setPrefixString(String prefixString) {
@@ -483,7 +471,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixNumber(BigDecimal prefixNumber) {
     this.prefixNumber = prefixNumber;
   }
@@ -507,7 +494,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixInteger(Integer prefixInteger) {
     this.prefixInteger = prefixInteger;
   }
@@ -529,7 +515,6 @@ public class XmlItem implements Parcelable {
   public Boolean getPrefixBoolean() {
     return prefixBoolean;
   }
-
 
 
   public void setPrefixBoolean(Boolean prefixBoolean) {
@@ -563,7 +548,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixArray(List<Integer> prefixArray) {
     this.prefixArray = prefixArray;
   }
@@ -595,7 +579,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixWrappedArray(List<Integer> prefixWrappedArray) {
     this.prefixWrappedArray = prefixWrappedArray;
   }
@@ -617,7 +600,6 @@ public class XmlItem implements Parcelable {
   public String getNamespaceString() {
     return namespaceString;
   }
-
 
 
   public void setNamespaceString(String namespaceString) {
@@ -643,7 +625,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNamespaceNumber(BigDecimal namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }
@@ -667,7 +648,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNamespaceInteger(Integer namespaceInteger) {
     this.namespaceInteger = namespaceInteger;
   }
@@ -689,7 +669,6 @@ public class XmlItem implements Parcelable {
   public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
   }
-
 
 
   public void setNamespaceBoolean(Boolean namespaceBoolean) {
@@ -723,7 +702,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNamespaceArray(List<Integer> namespaceArray) {
     this.namespaceArray = namespaceArray;
   }
@@ -755,7 +733,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setNamespaceWrappedArray(List<Integer> namespaceWrappedArray) {
     this.namespaceWrappedArray = namespaceWrappedArray;
   }
@@ -777,7 +754,6 @@ public class XmlItem implements Parcelable {
   public String getPrefixNsString() {
     return prefixNsString;
   }
-
 
 
   public void setPrefixNsString(String prefixNsString) {
@@ -803,7 +779,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }
@@ -827,7 +802,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixNsInteger(Integer prefixNsInteger) {
     this.prefixNsInteger = prefixNsInteger;
   }
@@ -849,7 +823,6 @@ public class XmlItem implements Parcelable {
   public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
   }
-
 
 
   public void setPrefixNsBoolean(Boolean prefixNsBoolean) {
@@ -883,7 +856,6 @@ public class XmlItem implements Parcelable {
   }
 
 
-
   public void setPrefixNsArray(List<Integer> prefixNsArray) {
     this.prefixNsArray = prefixNsArray;
   }
@@ -913,7 +885,6 @@ public class XmlItem implements Parcelable {
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
   }
-
 
 
   public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {

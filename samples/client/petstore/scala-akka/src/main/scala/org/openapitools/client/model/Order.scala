@@ -11,9 +11,8 @@
  */
 package org.openapitools.client.model
 
-import org.openapitools.client.core.ApiModel
 import org.joda.time.DateTime
-import java.util.UUID
+import org.openapitools.client.core.ApiModel
 
 case class Order (
   id: Option[Long] = None,

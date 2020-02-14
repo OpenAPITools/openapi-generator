@@ -1,5 +1,6 @@
 {{>licenseInfo}}
 #include <QDebug>
+#include <QJsonParseError>
 #include "{{prefix}}Helpers.h"
 
 
@@ -222,13 +223,25 @@ fromStringValue(const QString &inStr, double &value){
 }
 
 bool
+fromStringValue(const QString &inStr, {{prefix}}Object &value)
+{
+    QJsonParseError err;
+    QJsonDocument::fromJson(inStr.toUtf8(),&err);
+    if ( err.error == QJsonParseError::NoError ){
+        value.fromJson(inStr);
+        return true;
+    }
+    return false;
+}
+
+bool
 fromStringValue(const QString &inStr, {{prefix}}Enum &value){
     value.fromJson(inStr);
     return true;
 }
 
 bool
-fromStringValue(const QString &inStr, OAIHttpFileElement &value){
+fromStringValue(const QString &inStr, {{prefix}}HttpFileElement &value){
     return value.fromStringValue(inStr);
 }
 

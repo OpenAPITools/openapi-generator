@@ -44,7 +44,7 @@ public class ApiClient {
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<{{#supportJava6}}String, Authentication{{/supportJava6}}>();{{#authMethods}}{{#isBasic}}
         // authentications.put("{{name}}", new HttpBasicAuth());{{/isBasic}}{{#isApiKey}}
-        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
+        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"query"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         // authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
@@ -60,13 +60,14 @@ public class ApiClient {
         }
 
         Map<String, String> extraHeaders = new HashMap<{{#supportJava6}}String, String{{/supportJava6}}>();
+        Map<String, String> extraCookies = new HashMap<{{#supportJava6}}String, String{{/supportJava6}}>();
         List<Pair> extraQueryParams = new ArrayList<{{#supportJava6}}Pair{{/supportJava6}}>();
 
         for (String authName : authentications.keySet()) {
             Authentication auth = authentications.get(authName);
             if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
 
-            auth.applyToParams(extraQueryParams, extraHeaders);
+            auth.applyToParams(extraQueryParams, extraHeaders, extraCookies);
         }
 
         ObjectMapper mapper = Json.mapper();
@@ -77,7 +78,7 @@ public class ApiClient {
                        .baseUrl(basePath)
                        .addConverterFactory(ScalarsConverterFactory.create())
                        .addConverterFactory(JacksonConverterFactory.create(mapper))
-                       .callFactory(new Play25CallFactory(wsClient, extraHeaders, extraQueryParams))
+                       .callFactory(new Play25CallFactory(wsClient, extraHeaders, extraCookies, extraQueryParams))
                        .addCallAdapterFactory(new Play25CallAdapterFactory())
                        .build()
                        .create(serviceClass);
@@ -138,5 +139,3 @@ public class ApiClient {
 
 
 }
-
-

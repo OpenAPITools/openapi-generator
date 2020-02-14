@@ -1,0 +1,25 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import {{invokerPackage}}.ApiResponse;
+import {{invokerPackage}}.ApiException;
+
+import io.reactivex.Single;
+
+import java.util.List;
+import java.util.Map;
+
+// Implement this class
+
+public class {{classname}}Impl implements {{classname}} {
+{{#operations}}
+{{#operation}}
+    public Single<ApiResponse<{{{returnType}}}>> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
+        return Single.error(new ApiException("Not Implemented").setStatusCode(501));
+    }
+
+{{/operation}}
+{{/operations}}
+}

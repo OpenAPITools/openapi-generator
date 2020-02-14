@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   DogAllOf.JSON_PROPERTY_BREED
 })
+@javax.annotation.concurrent.Immutable
 
 public class DogAllOf {
   public static final String JSON_PROPERTY_BREED = "breed";
@@ -53,7 +54,6 @@ public class DogAllOf {
   public String getBreed() {
     return breed;
   }
-
 
 
   public void setBreed(String breed) {

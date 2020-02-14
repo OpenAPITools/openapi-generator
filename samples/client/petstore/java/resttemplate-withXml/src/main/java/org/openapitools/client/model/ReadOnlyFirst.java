@@ -84,7 +84,6 @@ public class ReadOnlyFirst {
   }
 
 
-
   public void setBaz(String baz) {
     this.baz = baz;
   }

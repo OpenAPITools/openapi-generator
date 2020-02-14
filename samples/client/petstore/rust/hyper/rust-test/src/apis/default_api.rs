@@ -10,6 +10,8 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+#[allow(unused_imports)]
+use std::option::Option;
 
 use hyper;
 use serde_json;
@@ -34,12 +36,13 @@ pub trait DefaultApi {
     fn dummy_get(&self, ) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>>;
 }
 
-
 impl<C: hyper::client::Connect>DefaultApi for DefaultApiClient<C> {
     fn dummy_get(&self, ) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
-        __internal_request::Request::new(hyper::Method::Get, "/dummy".to_string())
-            .returns_nothing()
-            .execute(self.configuration.borrow())
+        let mut req = __internal_request::Request::new(hyper::Method::Get, "/dummy".to_string())
+        ;
+        req = req.returns_nothing();
+
+        req.execute(self.configuration.borrow())
     }
 
 }

@@ -1,5 +1,4 @@
 // tslint:disable
-/// <reference path="./custom.d.ts" />
 {{>licenseInfo}}
 
 {{^withSeparateModelsAndApi}}
@@ -17,6 +16,6 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 {{>apiInner}}
 {{/apis}}{{/apiInfo}}
 {{/withSeparateModelsAndApi}}{{#withSeparateModelsAndApi}}
-{{#apiInfo}}{{#apis}}{{#operations}}export * from './{{apiPackage}}/{{classFilename}}';
+{{#apiInfo}}{{#apis}}{{#operations}}export * from './{{tsApiPackage}}/{{classFilename}}';
 {{/operations}}{{/apis}}{{/apiInfo}}
 {{/withSeparateModelsAndApi}}

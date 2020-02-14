@@ -156,7 +156,6 @@ public class EnumArrays implements Parcelable {
   }
 
 
-
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
@@ -186,7 +185,6 @@ public class EnumArrays implements Parcelable {
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
-
 
 
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {

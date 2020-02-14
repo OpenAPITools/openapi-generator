@@ -10,12 +10,18 @@ Method | HTTP request | Description
 
 ## FooGet
 
-> InlineResponseDefault FooGet(ctx, )
+> InlineResponseDefault FooGet(ctx).Execute()
 
 
-### Required Parameters
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFooGetRequest struct via the builder pattern
+
 
 ### Return type
 

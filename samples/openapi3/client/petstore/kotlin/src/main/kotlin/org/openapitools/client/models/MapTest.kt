@@ -38,21 +38,14 @@ data class MapTest (
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
-
-
     /**
     * 
     * Values: uPPER,lower
     */
     
     enum class MapOfEnumString(val value: kotlin.collections.Map<kotlin.String, kotlin.String>){
-    
         @Json(name = "UPPER") uPPER("UPPER"),
-    
         @Json(name = "lower") lower("lower");
-    
-
     }
-
 }
 

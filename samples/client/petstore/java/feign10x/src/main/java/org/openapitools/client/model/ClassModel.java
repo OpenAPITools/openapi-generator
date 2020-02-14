@@ -56,7 +56,6 @@ public class ClassModel {
   }
 
 
-
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }

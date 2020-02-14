@@ -121,7 +121,7 @@ CONFIG OPTIONS
 	    Go package version. (Default: 1.0.0)
 
 	withGoCodegenComment
-	    whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs (Default: false)
+	    whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs (Default: false)
 
 	withXml
 	    whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML) (Default: false)
@@ -230,7 +230,7 @@ An example bash completion script can be found in the repo at [scripts/openapi-g
 
 ## generate
 
-The `generate` command is the workhorse of the generator toolset. As such, it has _many_ more options and the previous commands. The options are abbreviated below, but you may expand the full descriptions.
+The `generate` command is the workhorse of the generator toolset. As such, it has _many_ more options and the previous commands. The abbreviated options are below, but you may expand the full descriptions.
 
 
 ```bash
@@ -274,8 +274,8 @@ SYNOPSIS
 ```
 
 <details>
-  <summary>generate OPTIONS</summary>
-  
+<summary>generate OPTIONS</summary>
+
 ```bash
 OPTIONS
         -a <authorization>, --auth <authorization>
@@ -444,6 +444,8 @@ At a minimum, `generate` requires:
 * `-o` to specify a meaningful output directory (defaults to the current directory!)
 * `-i` to specify the input OpenAPI document
 
+> **NOTE** You may also pass `-Dcolor` as a system property to colorize terminal outputs.
+
 ### Examples
 
 The following examples use [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml).
@@ -485,8 +487,6 @@ openapi-generator generate \
     --import-mappings=DateTime=java.time.LocalDateTime \
     --type-mappings=DateTime=java.time.LocalDateTime
 ```
-
-<!-- TODO: Document all primitive types here -->
 
 > NOTE: mappings are applied to `DateTime`, as this is the representation of the primitive type. See [DefaultCodegen](https://github.com/OpenAPITools/openapi-generator/blob/7cee999543fcc00b7c1eb9f70f0456b707c7f9e2/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java#L1431).
 
@@ -557,3 +557,86 @@ The name of the file should be `config.yml` or `config.yaml` (in our example it 
 openapi-generator generate -i petstore.yaml -g typescript-fetch -o out \
     -c config.yaml
 ```
+
+
+## batch
+
+The `batch` command allows you to move all CLI arguments supported by the `generate` command into a YAML or JSON file.
+
+*NOTE*: This command supports an additional `!include` property which may point to another "shared" file, the base path to which can be
+modified by `--includes-base-dir`.
+
+```bash
+openapi-generator help batch
+NAME
+        openapi-generator-cli batch - Generate code in batch via external
+        configs.
+
+SYNOPSIS
+        openapi-generator-cli batch [--fail-fast]
+                [--includes-base-dir <includes>] [(-r <threads> | --threads <threads>)]
+                [--root-dir <root>] [--timeout <timeout>] [(-v | --verbose)] [--]
+                <configs>...
+
+OPTIONS
+        --fail-fast
+            fail fast on any errors
+
+        --includes-base-dir <includes>
+            base directory used for includes
+
+        -r <threads>, --threads <threads>
+            thread count
+
+        --root-dir <root>
+            root directory used output/includes (includes can be overridden)
+
+        --timeout <timeout>
+            execution timeout (minutes)
+
+        -v, --verbose
+            verbose mode
+
+        --
+            This option can be used to separate command-line options from the
+            list of argument, (useful when arguments might be mistaken for
+            command-line options
+
+        <configs>
+            Generator configuration files.
+```
+
+Example:
+
+```bash
+# create "shared" config
+mkdir shared && cat > shared/common.yaml <<EOF
+inputSpec: https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+additionalProperties:
+    x-ext-name: "Your Name"
+EOF
+
+# create "standard" configs
+cat > kotlin.yaml <<EOF
+'!include': 'shared/common.yaml'
+outputDir: out/kotlin
+generatorName: kotlin
+artifactId: kotlin-petstore-string
+additionalProperties:
+  dateLibrary: string
+  serializableModel: "true"
+EOF
+
+cat > csharp.yaml <<EOF
+'!include': 'shared/common.yaml'
+outputDir: out/csharp-netcore
+generatorName: csharp-netcore
+additionalProperties:
+  packageGuid: "{321C8C3F-0156-40C1-AE42-D59761FB9B6C}"
+  useCompareNetObjects: "true"
+EOF
+
+# Generate them
+openapi-generator batch *.yaml
+```
+

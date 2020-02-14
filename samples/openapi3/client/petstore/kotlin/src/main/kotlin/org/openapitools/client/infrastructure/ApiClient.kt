@@ -92,13 +92,21 @@ open class ApiClient(val baseUrl: String) {
             }
         }
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            requestConfig.headers[Authorization] = "Bearer " + accessToken
+            accessToken?.let { accessToken ->
+                requestConfig.headers[Authorization] = "Bearer " + accessToken
+            }
         }
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            requestConfig.headers[Authorization] = Credentials.basic(username, password)
+            username?.let { username ->
+                password?.let { password ->
+                    requestConfig.headers[Authorization] = Credentials.basic(username, password)
+                }
+            }
         }
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            requestConfig.headers[Authorization] = "Bearer " + accessToken
+            accessToken?.let { accessToken ->
+                requestConfig.headers[Authorization] = "Bearer " + accessToken
+            }
         }
     }
 
@@ -139,7 +147,7 @@ open class ApiClient(val baseUrl: String) {
         val contentType = (headers[ContentType] as String).substringBefore(";").toLowerCase()
 
         val request = when (requestConfig.method) {
-            RequestMethod.DELETE -> Request.Builder().url(url).delete()
+            RequestMethod.DELETE -> Request.Builder().url(url).delete(requestBody(body, contentType))
             RequestMethod.GET -> Request.Builder().url(url)
             RequestMethod.HEAD -> Request.Builder().url(url).head()
             RequestMethod.PATCH -> Request.Builder().url(url).patch(requestBody(body, contentType))

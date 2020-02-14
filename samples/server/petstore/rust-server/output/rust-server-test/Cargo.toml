@@ -15,8 +15,8 @@ conversion = ["frunk", "frunk_derives", "frunk_core", "frunk-enum-core", "frunk-
 # Common
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.1"
-swagger = "2"
-lazy_static = "0.2"
+swagger = "2.2"
+lazy_static = "1.4"
 log = "0.3.0"
 mime = "0.2.6"
 multipart = "0.13.3"

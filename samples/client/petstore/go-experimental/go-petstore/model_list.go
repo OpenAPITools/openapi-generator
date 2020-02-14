@@ -8,16 +8,18 @@
  */
 
 package petstore
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // List struct for List
 type List struct {
 	Var123List *string `json:"123-list,omitempty"`
-
 }
 
-// GetVar123List returns the Var123List field if non-nil, zero value otherwise.
+// GetVar123List returns the Var123List field value if set, zero value otherwise.
 func (o *List) GetVar123List() string {
 	if o == nil || o.Var123List == nil {
 		var ret string
@@ -26,7 +28,7 @@ func (o *List) GetVar123List() string {
 	return *o.Var123List
 }
 
-// GetVar123ListOk returns a tuple with the Var123List field if it's non-nil, zero value otherwise
+// GetVar123ListOk returns a tuple with the Var123List field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *List) GetVar123ListOk() (string, bool) {
 	if o == nil || o.Var123List == nil {
@@ -50,14 +52,25 @@ func (o *List) SetVar123List(v string) {
 	o.Var123List = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o List) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Var123List != nil {
-		toSerialize["123-list"] = o.Var123List
-	}
-	return json.Marshal(toSerialize)
+type NullableList struct {
+	Value List
+	ExplicitNull bool
 }
 
+func (v NullableList) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
+}
 
+func (v *NullableList) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}

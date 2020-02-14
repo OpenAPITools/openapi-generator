@@ -67,7 +67,6 @@ public class ArrayOfArrayOfNumberOnly implements Parcelable {
   }
 
 
-
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }

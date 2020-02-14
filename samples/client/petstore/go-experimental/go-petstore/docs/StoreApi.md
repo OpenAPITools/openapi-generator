@@ -13,18 +13,28 @@ Method | HTTP request | Description
 
 ## DeleteOrder
 
-> DeleteOrder(ctx, orderId)
+> DeleteOrder(ctx, orderId).Execute()
+
 Delete purchase order by ID
 
-For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-### Required Parameters
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**orderId** | **string**| ID of the order that needs to be deleted | 
+**orderId** | **string** | ID of the order that needs to be deleted | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteOrderRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -46,14 +56,20 @@ No authorization required
 
 ## GetInventory
 
-> map[string]int32 GetInventory(ctx, )
+> map[string]int32 GetInventory(ctx).Execute()
+
 Returns pet inventories by status
 
-Returns a map of status codes to quantities
 
-### Required Parameters
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetInventoryRequest struct via the builder pattern
+
 
 ### Return type
 
@@ -75,18 +91,28 @@ This endpoint does not need any parameter.
 
 ## GetOrderById
 
-> Order GetOrderById(ctx, orderId)
+> Order GetOrderById(ctx, orderId).Execute()
+
 Find purchase order by ID
 
-For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
-### Required Parameters
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**orderId** | **int64**| ID of pet that needs to be fetched | 
+**orderId** | **int64** | ID of pet that needs to be fetched | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetOrderByIdRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -108,16 +134,22 @@ No authorization required
 
 ## PlaceOrder
 
-> Order PlaceOrder(ctx, body)
+> Order PlaceOrder(ctx).Body(body).Execute()
+
 Place an order for a pet
 
-### Required Parameters
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPlaceOrderRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md) | order placed for purchasing the pet | 
 
 ### Return type
 

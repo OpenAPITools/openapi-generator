@@ -9,26 +9,53 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
-public class CppQt5AbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
+import static org.openapitools.codegen.utils.OnceLogger.once;
 
+public class CppQt5AbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CppQt5AbstractCodegen.class);
     protected final String PREFIX = "OAI";
     protected String apiVersion = "1.0.0";
     protected static final String CPP_NAMESPACE = "cppNamespace";
     protected static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
+    protected static final String CONTENT_COMPRESSION_ENABLED = "contentCompression";
+    protected static final String CONTENT_COMPRESSION_ENABLED_DESC = "Enable Compressed Content Encoding for requests and responses";
     protected Set<String> foundationClasses = new HashSet<String>();
     protected String cppNamespace = "OpenAPI";
     protected Map<String, String> namespaces = new HashMap<String, String>();
     protected Set<String> systemIncludes = new HashSet<String>();
+    protected boolean isContentCompressionEnabled = false;
 
     protected Set<String> nonFrameworkPrimitives = new HashSet<String>();
 
     public CppQt5AbstractCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .excludeWireFormatFeatures(WireFormatFeature.PROTOBUF)
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling,
+                        GlobalFeature.MultiServer
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .includeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .build();
+
         // set modelNamePrefix as default for QHttpEngine Server
         if (StringUtils.isEmpty(modelNamePrefix)) {
             modelNamePrefix = PREFIX;
@@ -36,6 +63,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         // CLI options
         addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
         addOption(CodegenConstants.MODEL_NAME_PREFIX, CodegenConstants.MODEL_NAME_PREFIX_DESC, this.modelNamePrefix);
+        addSwitch(CONTENT_COMPRESSION_ENABLED, CONTENT_COMPRESSION_ENABLED_DESC, this.isContentCompressionEnabled);
 
         /*
          * Additional Properties.  These values can be passed to the templates and
@@ -116,6 +144,11 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
             modelNamePrefix = (String) additionalProperties.get("modelNamePrefix");
             typeMapping.put("object", modelNamePrefix + "Object");
             additionalProperties().put("prefix", modelNamePrefix);
+        }
+        if (additionalProperties.containsKey(CONTENT_COMPRESSION_ENABLED)) {
+            setContentCompressionEnabled(convertPropertyToBooleanAndWriteBack(CONTENT_COMPRESSION_ENABLED));
+        } else {
+            additionalProperties.put(CONTENT_COMPRESSION_ENABLED, isContentCompressionEnabled);
         }
     }
 
@@ -285,6 +318,10 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
 
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
         Map<String, CodegenModel> codegenModels = new HashMap<String, CodegenModel> ();
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         for(Object moObj : allModels) {
             CodegenModel mo = ((Map<String, CodegenModel>) moObj).get("model");
             if(mo.isEnum) {
@@ -294,7 +331,8 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         for (CodegenOperation operation : operations) {
             if(operation.returnType != null) {
                 if(codegenModels.containsKey(operation.returnType)){
-                    operation.vendorExtensions.put("returnsEnum", true);
+                    operation.vendorExtensions.put("returnsEnum", true); // TODO: 5.0 Remove
+                    operation.vendorExtensions.put("x-returns-enum", true);
                 }
             }
             // Check all return parameter baseType if there is a necessity to include, include it if not
@@ -358,5 +396,9 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
             }
         }
         return included;
+    }
+    
+    public void setContentCompressionEnabled(boolean flag) {
+        this.isContentCompressionEnabled = flag;
     }
 }

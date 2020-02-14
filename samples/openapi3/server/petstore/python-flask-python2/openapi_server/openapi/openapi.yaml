@@ -4,7 +4,7 @@ info:
     the api key `special-key` to test the authorization filters.
   license:
     name: Apache-2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: OpenAPI Petstore
   version: 1.0.0
 externalDocs:
@@ -26,7 +26,7 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
-        405:
+        "405":
           description: Invalid input
       security:
       - petstore_auth:
@@ -41,11 +41,11 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Pet not found
-        405:
+        "405":
           description: Validation exception
       security:
       - petstore_auth:
@@ -76,7 +76,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -89,7 +89,7 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           description: Invalid status value
       security:
       - petstore_auth:
@@ -115,17 +115,8 @@ paths:
             type: string
           type: array
         style: form
-      - description: Maximum number of items to return
-        explode: true
-        in: query
-        name: maxCount
-        required: false
-        schema:
-          format: int32
-          type: integer
-        style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -138,7 +129,7 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           description: Invalid tag value
       security:
       - petstore_auth:
@@ -168,7 +159,7 @@ paths:
           type: integer
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid pet value
       security:
       - petstore_auth:
@@ -192,7 +183,7 @@ paths:
           type: integer
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -201,9 +192,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
           description: successful operation
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Pet not found
       security:
       - api_key: []
@@ -237,7 +228,7 @@ paths:
                   type: string
               type: object
       responses:
-        405:
+        "405":
           description: Invalid input
       security:
       - petstore_auth:
@@ -275,7 +266,7 @@ paths:
                   type: string
               type: object
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -294,7 +285,7 @@ paths:
       description: Returns a map of status codes to quantities
       operationId: get_inventory
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -320,7 +311,7 @@ paths:
         description: order placed for purchasing the pet
         required: true
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -329,7 +320,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           description: Invalid Order
       summary: Place an order for a pet
       tags:
@@ -350,9 +341,9 @@ paths:
           type: string
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Order not found
       summary: Delete purchase order by ID
       tags:
@@ -375,7 +366,7 @@ paths:
           type: integer
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -384,9 +375,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Order not found
       summary: Find purchase order by ID
       tags:
@@ -462,7 +453,7 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -494,7 +485,7 @@ paths:
                 format: date-time
                 type: string
               style: simple
-        400:
+        "400":
           description: Invalid username/password supplied
       summary: Logs user into the system
       tags:
@@ -526,9 +517,9 @@ paths:
           type: string
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid username supplied
-        404:
+        "404":
           description: User not found
       security:
       - auth_cookie: []
@@ -548,7 +539,7 @@ paths:
           type: string
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -557,9 +548,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: successful operation
-        400:
+        "400":
           description: Invalid username supplied
-        404:
+        "404":
           description: User not found
       summary: Get user by user name
       tags:
@@ -585,9 +576,9 @@ paths:
         description: Updated user object
         required: true
       responses:
-        400:
+        "400":
           description: Invalid user supplied
-        404:
+        "404":
           description: User not found
       security:
       - auth_cookie: []

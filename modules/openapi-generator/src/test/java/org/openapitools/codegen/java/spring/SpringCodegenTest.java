@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,13 +19,12 @@ package org.openapitools.codegen.java.spring;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.MockDefaultGenerator;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
@@ -34,15 +33,14 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
-
-import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
-import static org.testng.Assert.assertTrue;
 
 public class SpringCodegenTest {
 
@@ -248,6 +246,74 @@ public class SpringCodegenTest {
                 "@RequestParam(value = \"start\"");
     }
 
+    // Helper function, intended to reduce boilerplate
+    private Map<String, String> generateFiles(SpringCodegen codegen, String filePath) throws IOException {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        final ClientOptInput input = new ClientOptInput();
+        final OpenAPI openAPI = new OpenAPIParser().readLocation(filePath, null, new ParseOptions()).getOpenAPI();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        final MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        return generator.getFiles().entrySet().stream().collect(Collectors.toMap(e -> e.getKey().replace(outputPath, ""), Map.Entry::getValue));
+    }
+
+    @Test
+    public void testMultipartBoot() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-boot");
+        codegen.setDelegatePattern(true);
+
+        final Map<String, String> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
+
+        // Check that the delegate handles the array
+        final String multipartArrayApiDelegate = files.get("/src/main/java/org/openapitools/api/MultipartArrayApiDelegate.java");
+        Assert.assertTrue(multipartArrayApiDelegate.contains("List<MultipartFile> files"));
+
+        // Check that the api handles the array
+        final String multipartArrayApi = files.get("/src/main/java/org/openapitools/api/MultipartArrayApi.java");
+        Assert.assertTrue(multipartArrayApi.contains("List<MultipartFile> files"));
+        Assert.assertTrue(multipartArrayApi.contains("@ApiParam(value = \"Many files\")"));
+        Assert.assertTrue(multipartArrayApi.contains("@RequestPart(value = \"files\")"));
+
+        // Check that the delegate handles the single file
+        final String multipartSingleApiDelegate = files.get("/src/main/java/org/openapitools/api/MultipartSingleApiDelegate.java");
+        Assert.assertTrue(multipartSingleApiDelegate.contains("MultipartFile file"));
+
+        // Check that the api handles the single file
+        final String multipartSingleApi = files.get("/src/main/java/org/openapitools/api/MultipartSingleApi.java");
+        Assert.assertTrue(multipartSingleApi.contains("MultipartFile file"));
+        Assert.assertTrue(multipartSingleApi.contains("@ApiParam(value = \"One file\")"));
+        Assert.assertTrue(multipartSingleApi.contains("@RequestPart(value = \"file\")"));
+    }
+
+    @Test
+    public void testMultipartCloud() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-cloud");
+        codegen.setDelegatePattern(true);
+
+        final Map<String, String> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
+
+        // Check that the delegate handles the array and the file
+        final String multipartApiDelegate = files.get("/src/main/java/org/openapitools/api/MultipartApiDelegate.java");
+        Assert.assertTrue(multipartApiDelegate.contains("List<MultipartFile> files"));
+        Assert.assertTrue(multipartApiDelegate.contains("MultipartFile file"));
+
+        // Check that the api handles the array and the file
+        final String multipartApi = files.get("/src/main/java/org/openapitools/api/MultipartApi.java");
+        Assert.assertTrue(multipartApi.contains("List<MultipartFile> files"));
+        Assert.assertTrue(multipartApi.contains("MultipartFile file"));
+    }
+
     @Test
     public void doGenerateRequestParamForSimpleParam() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -348,5 +414,109 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(SpringCodegen.REACTIVE, true);
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
         codegen.processOpts();
+    }
+
+    @Test
+    public void testDoGenerateRequestBodyRequiredAttribute_3134_Regression() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/3134-regression.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java",
+                "@RequestBody(required = false");
+    }
+
+    @Test
+    public void useBeanValidationTruePerformBeanValidationTrueJava8FalseForFormatEmail() throws IOException {
+        beanValidationForFormatEmail(true, true, false, "@org.hibernate.validator.constraints.Email", "@javax.validation.constraints.Email");
+    }
+
+    @Test
+    public void useBeanValidationTruePerformBeanValidationFalseJava8TrueForFormatEmail() throws IOException {
+      beanValidationForFormatEmail(true, false, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+    }
+
+    @Test
+    public void useBeanValidationTruePerformBeanValidationTrueJava8TrueForFormatEmail() throws IOException {
+      beanValidationForFormatEmail(true, true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+    }
+
+    private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, boolean java8, String contains, String notContains) throws IOException {
+      File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+      output.deleteOnExit();
+      String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+      OpenAPI openAPI = new OpenAPIParser()
+              .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
+
+      SpringCodegen codegen = new SpringCodegen();
+      codegen.setOutputDir(output.getAbsolutePath());
+      codegen.setUseBeanValidation(useBeanValidation);
+      codegen.setPerformBeanValidation(performBeanValidation);
+      codegen.setJava8(java8);
+
+      ClientOptInput input = new ClientOptInput();
+      input.openAPI(openAPI);
+      input.config(codegen);
+
+      MockDefaultGenerator generator = new MockDefaultGenerator();
+      generator.opts(input).generate();
+
+      checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", contains);
+      checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", notContains);
+    }
+
+    @Test
+    public void testDefaultValuesFixed() {
+        // we had an issue where int64, float, and double values were having single character string suffixes
+        // included in their defaultValues
+        // This test verifies that those characters are no longer present
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/issue1226.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String int64Val = "9223372036854775807l";
+        String floatVal = "3.14159f";
+        String doubleVal = "3.14159d";
+
+        // make sure that the model properties include character suffixes
+        String modelName = "NumberHolder";
+        Schema nhSchema = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, nhSchema);
+        CodegenProperty int64Prop = cm.vars.get(0);
+        CodegenProperty floatProp = cm.vars.get(1);
+        CodegenProperty doubleProp = cm.vars.get(2);
+        Assert.assertEquals(int64Prop.defaultValue, int64Val);
+        Assert.assertEquals(floatProp.defaultValue, floatVal);
+        Assert.assertEquals(doubleProp.defaultValue, doubleVal);
+
+        int64Val = "9223372036854775807";
+        floatVal = "3.14159";
+        doubleVal = "3.14159";
+
+        // make sure that the operation parameters omit character suffixes
+        String route = "/numericqueryparams";
+        Operation op = openAPI.getPaths().get(route).getGet();
+        CodegenOperation co = codegen.fromOperation(route, "GET", op, null);
+        CodegenParameter int64Param = co.queryParams.get(0);
+        CodegenParameter floatParam = co.queryParams.get(1);
+        CodegenParameter doubleParam = co.queryParams.get(2);
+        Assert.assertEquals(int64Param.defaultValue, int64Val);
+        Assert.assertEquals(floatParam.defaultValue, floatVal);
+        Assert.assertEquals(doubleParam.defaultValue, doubleVal);
     }
 }

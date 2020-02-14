@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Bar** | Pointer to **string** |  | [optional] 
+**Bar** | Pointer to **string** |  | [optional] [readonly] 
 **Baz** | Pointer to **string** |  | [optional] 
 
 ## Methods

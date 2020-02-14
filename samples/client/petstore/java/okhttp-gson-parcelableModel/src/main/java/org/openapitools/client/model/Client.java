@@ -56,7 +56,6 @@ public class Client implements Parcelable {
   }
 
 
-
   public void setClient(String client) {
     this.client = client;
   }

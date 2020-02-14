@@ -25,5 +25,7 @@ data class Dog (
     @SerialName(value = "className") @Required val className: kotlin.String,
     @SerialName(value = "breed") val breed: kotlin.String? = null,
     @SerialName(value = "color") val color: kotlin.String? = null
-)
+) 
+
+
 

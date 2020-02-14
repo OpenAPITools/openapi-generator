@@ -1,5 +1,6 @@
 package org.openapitools.client.infrastructure
 
+import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -83,7 +84,9 @@ internal open class ApiClient(val baseUrl: String) {
             }
         }
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            requestConfig.headers[Authorization] = "Bearer " + accessToken
+            accessToken?.let { accessToken ->
+                requestConfig.headers[Authorization] = "Bearer " + accessToken
+            }
         }
     }
 
@@ -166,5 +169,15 @@ internal open class ApiClient(val baseUrl: String) {
                     response.headers.toMultimap()
             )
         }
+    }
+
+    protected inline fun <reified T: Any> parseDateToQueryString(value : T): String {
+        /*
+        .replace("\"", "") converts the json object string to an actual string for the query parameter.
+        The moshi or gson adapter allows a more generic solution instead of trying to use a native
+        formatter. It also easily allows to provide a simple way to define a custom date format pattern
+        inside a gson/moshi adapter.
+        */
+        return Serializer.moshi.adapter(T::class.java).toJson(value).replace("\"", "")
     }
 }

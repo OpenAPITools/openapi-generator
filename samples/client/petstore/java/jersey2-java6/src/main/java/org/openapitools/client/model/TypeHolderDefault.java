@@ -72,7 +72,6 @@ public class TypeHolderDefault {
   }
 
 
-
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
@@ -95,7 +94,6 @@ public class TypeHolderDefault {
   public BigDecimal getNumberItem() {
     return numberItem;
   }
-
 
 
   public void setNumberItem(BigDecimal numberItem) {
@@ -122,7 +120,6 @@ public class TypeHolderDefault {
   }
 
 
-
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
@@ -145,7 +142,6 @@ public class TypeHolderDefault {
   public Boolean isBoolItem() {
     return boolItem;
   }
-
 
 
   public void setBoolItem(Boolean boolItem) {
@@ -175,7 +171,6 @@ public class TypeHolderDefault {
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
-
 
 
   public void setArrayItem(List<Integer> arrayItem) {

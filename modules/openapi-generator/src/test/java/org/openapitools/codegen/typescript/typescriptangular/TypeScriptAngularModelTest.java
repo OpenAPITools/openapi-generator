@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,7 @@ import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
@@ -196,6 +197,69 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(cm.vars.size(), 0);
     }
 
+    @Test(description = "convert an array oneof model")
+    public void arrayOneOfModelTest() {
+        final Schema schema = new ArraySchema()
+                .items(new ComposedSchema()
+                        .addOneOfItem(new StringSchema())
+                        .addOneOfItem(new IntegerSchema().format("int64")))
+                .description("an array oneof model");
+        final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "an array oneof model");
+        Assert.assertEquals(cm.arrayModelType, "string | number");
+        Assert.assertEquals(cm.vars.size(), 0);
+    }
+
+    @Test(description = "convert an any of with array oneof model")
+    public void objectPropertyAnyOfWithArrayOneOfModelTest() {
+        final Schema schema = new ObjectSchema().addProperties("value",
+                new ComposedSchema().addAnyOfItem(new StringSchema()).addAnyOfItem(new ArraySchema()
+                        .items(new ComposedSchema()
+                                .addOneOfItem(new StringSchema())
+                                .addOneOfItem(new IntegerSchema().format("int64")))))
+                .description("an any of with array oneof model");
+        final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        String s = codegen.getSchemaType((Schema)schema.getProperties().get("value"));
+
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "an any of with array oneof model");
+        Assert.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(s, "string | Array<string | number>");
+    }
+
+    @Test(description = "import a typemapping")
+    public void importTypeMappingModelTest() {
+        final Schema schema = new ArraySchema()
+                .items(new Schema().$ref("Children"))
+                .description("a typemapping array model");
+        final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        codegen.typeMapping().put("Children", "Test");
+        codegen.importMapping().put("Test", "@myTest/package");
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a typemapping array model");
+        Assert.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Test")).size(), 1);
+    }
+
     @Test(description = "convert a map model")
     public void mapModelTest() {
         final Schema schema = new Schema()
@@ -241,4 +305,23 @@ public class TypeScriptAngularModelTest {
         Assert.assertFalse(property.isContainer);
     }
 
+    @Test(description = "convert an inline model that originally had a name prefixed with an underscore")
+    public void inlineModelWithUnderscoreNameTest() {
+        // Originally parent model "FooResponse" with inline model called "_links". The InlineModelResolver resolves
+        // that to "FooResponse__links" (double underscore)
+        final Schema schema = new Schema()
+            .description("an inline model with name previously prefixed with underscore")
+            .addRequiredItem("self")
+            .addProperties("self", new StringSchema());
+
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.FILE_NAMING, "kebab-case");
+        codegen.processOpts();
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+
+        final CodegenModel cm = codegen.fromModel("FooResponse__links", schema);
+        Assert.assertEquals(cm.getClassFilename(), "./foo-response-links", "The generated filename should not have a double hyphen.");
+    }
 }

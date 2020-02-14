@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets SpecialPropertyName
         /// </summary>
-        [DataMember(Name="$special[property.name]", EmitDefaultValue=false)]
+        [DataMember(Name="$special[property.name]", EmitDefaultValue=true)]
         public long SpecialPropertyName { get; set; }
 
         /// <summary>

@@ -61,6 +61,7 @@ public class PetApiTest {
         ApiClient oldClient = api.getApiClient();
 
         ApiClient newClient = new ApiClient();
+        newClient.setVerifyingSsl(true);
         newClient.setBasePath("http://example.com");
         newClient.setDebugging(true);
 
@@ -127,8 +128,6 @@ public class PetApiTest {
                 //empty
             }
         });
-        // the API call should be executed asynchronously, so result should be empty at the moment
-        assertTrue(result.isEmpty());
 
         // wait for the asynchronous call to finish (at most 10 seconds)
         final int maxTry = 10;
@@ -145,6 +144,14 @@ public class PetApiTest {
             }
         } while (result.isEmpty());
         assertPetMatches(pet, fetched);
+    }
+
+    @Test
+    public void testCreateAndGetPetAsyncInvalidID() throws Exception {
+        Pet pet = createPet();
+        api.addPet(pet);
+        // to store returned Pet or error message/exception
+        final Map<String, Object> result = new HashMap<String, Object>();
 
         // test getting a nonexistent pet
         result.clear();
@@ -171,8 +178,11 @@ public class PetApiTest {
         });
 
         // wait for the asynchronous call to finish (at most 10 seconds)
-        tryCount = 1;
+        final int maxTry = 10;
+        int tryCount = 1;
+        Pet fetched = null;
         ApiException exception = null;
+
         do {
             if (tryCount > maxTry) fail("have not got result of getPetByIdAsync after 10 seconds");
             Thread.sleep(1000);
@@ -413,16 +423,16 @@ public class PetApiTest {
         assertEquals(expected.getId(), actual.getId());
         assertNotNull(actual.getCategory());
         assertEquals(expected.getCategory().getName(),
-                     actual.getCategory().getName());
+                actual.getCategory().getName());
     }
 
     /**
      * Assert that the given upload/download progress list satisfies the
      * following constraints:
-     *
-     *     - List is not empty
-     *     - Byte count should be nondecreasing
-     *     - The last element, and only the last element, should have done=true
+     * <p>
+     * - List is not empty
+     * - Byte count should be nondecreasing
+     * - The last element, and only the last element, should have done=true
      */
     private void assertValidProgress(List<Progress> progressList) {
         assertFalse(progressList.isEmpty());
@@ -433,7 +443,7 @@ public class PetApiTest {
             if (prev != null) {
                 if (prev.done || prev.bytes > progress.bytes) {
                     fail("Progress list out of order at index " + index
-                         + ": " + progressList);
+                            + ": " + progressList);
                 }
             }
             prev = progress;
@@ -449,9 +459,9 @@ public class PetApiTest {
 
         private final CountDownLatch latch;
         private final ConcurrentLinkedQueue<Progress> uploadProgress =
-            new ConcurrentLinkedQueue<Progress>();
+                new ConcurrentLinkedQueue<Progress>();
         private final ConcurrentLinkedQueue<Progress> downloadProgress =
-            new ConcurrentLinkedQueue<Progress>();
+                new ConcurrentLinkedQueue<Progress>();
 
         private boolean done;
         private boolean success;

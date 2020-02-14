@@ -23,5 +23,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 data class Category (
     @SerialName(value = "name") @Required val name: kotlin.String,
     @SerialName(value = "id") val id: kotlin.Long? = null
-)
+) 
+
+
 

@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**IntegerProp** | Pointer to **int32** |  | [optional] 
-**NumberProp** | Pointer to **float32** |  | [optional] 
-**BooleanProp** | Pointer to **bool** |  | [optional] 
-**StringProp** | Pointer to **string** |  | [optional] 
-**DateProp** | Pointer to **string** |  | [optional] 
-**DatetimeProp** | Pointer to [**time.Time**](time.Time.md) |  | [optional] 
+**IntegerProp** | Pointer to **NullableInt32** |  | [optional] 
+**NumberProp** | Pointer to **NullableFloat32** |  | [optional] 
+**BooleanProp** | Pointer to **NullableBool** |  | [optional] 
+**StringProp** | Pointer to **NullableString** |  | [optional] 
+**DateProp** | Pointer to **NullableString** |  | [optional] 
+**DatetimeProp** | Pointer to [**NullableTime**](time.Time.md) |  | [optional] 
 **ArrayNullableProp** | Pointer to [**[]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
 **ArrayAndItemsNullableProp** | Pointer to [**[]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
 **ArrayItemsNullable** | Pointer to [**[]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
@@ -21,13 +21,13 @@ Name | Type | Description | Notes
 
 ### GetIntegerProp
 
-`func (o *NullableClass) GetIntegerProp() int32`
+`func (o *NullableClass) GetIntegerProp() NullableInt32`
 
 GetIntegerProp returns the IntegerProp field if non-nil, zero value otherwise.
 
 ### GetIntegerPropOk
 
-`func (o *NullableClass) GetIntegerPropOk() (int32, bool)`
+`func (o *NullableClass) GetIntegerPropOk() (NullableInt32, bool)`
 
 GetIntegerPropOk returns a tuple with the IntegerProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -40,9 +40,9 @@ HasIntegerProp returns a boolean if a field has been set.
 
 ### SetIntegerProp
 
-`func (o *NullableClass) SetIntegerProp(v int32)`
+`func (o *NullableClass) SetIntegerProp(v NullableInt32)`
 
-SetIntegerProp gets a reference to the given int32 and assigns it to the IntegerProp field.
+SetIntegerProp gets a reference to the given NullableInt32 and assigns it to the IntegerProp field.
 
 ### SetIntegerPropExplicitNull
 
@@ -53,13 +53,13 @@ when serializing to JSON (pass true as argument to set this, false to unset)
 The IntegerProp value is set to nil even if false is passed
 ### GetNumberProp
 
-`func (o *NullableClass) GetNumberProp() float32`
+`func (o *NullableClass) GetNumberProp() NullableFloat32`
 
 GetNumberProp returns the NumberProp field if non-nil, zero value otherwise.
 
 ### GetNumberPropOk
 
-`func (o *NullableClass) GetNumberPropOk() (float32, bool)`
+`func (o *NullableClass) GetNumberPropOk() (NullableFloat32, bool)`
 
 GetNumberPropOk returns a tuple with the NumberProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -72,9 +72,9 @@ HasNumberProp returns a boolean if a field has been set.
 
 ### SetNumberProp
 
-`func (o *NullableClass) SetNumberProp(v float32)`
+`func (o *NullableClass) SetNumberProp(v NullableFloat32)`
 
-SetNumberProp gets a reference to the given float32 and assigns it to the NumberProp field.
+SetNumberProp gets a reference to the given NullableFloat32 and assigns it to the NumberProp field.
 
 ### SetNumberPropExplicitNull
 
@@ -85,13 +85,13 @@ when serializing to JSON (pass true as argument to set this, false to unset)
 The NumberProp value is set to nil even if false is passed
 ### GetBooleanProp
 
-`func (o *NullableClass) GetBooleanProp() bool`
+`func (o *NullableClass) GetBooleanProp() NullableBool`
 
 GetBooleanProp returns the BooleanProp field if non-nil, zero value otherwise.
 
 ### GetBooleanPropOk
 
-`func (o *NullableClass) GetBooleanPropOk() (bool, bool)`
+`func (o *NullableClass) GetBooleanPropOk() (NullableBool, bool)`
 
 GetBooleanPropOk returns a tuple with the BooleanProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -104,9 +104,9 @@ HasBooleanProp returns a boolean if a field has been set.
 
 ### SetBooleanProp
 
-`func (o *NullableClass) SetBooleanProp(v bool)`
+`func (o *NullableClass) SetBooleanProp(v NullableBool)`
 
-SetBooleanProp gets a reference to the given bool and assigns it to the BooleanProp field.
+SetBooleanProp gets a reference to the given NullableBool and assigns it to the BooleanProp field.
 
 ### SetBooleanPropExplicitNull
 
@@ -117,13 +117,13 @@ when serializing to JSON (pass true as argument to set this, false to unset)
 The BooleanProp value is set to nil even if false is passed
 ### GetStringProp
 
-`func (o *NullableClass) GetStringProp() string`
+`func (o *NullableClass) GetStringProp() NullableString`
 
 GetStringProp returns the StringProp field if non-nil, zero value otherwise.
 
 ### GetStringPropOk
 
-`func (o *NullableClass) GetStringPropOk() (string, bool)`
+`func (o *NullableClass) GetStringPropOk() (NullableString, bool)`
 
 GetStringPropOk returns a tuple with the StringProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -136,9 +136,9 @@ HasStringProp returns a boolean if a field has been set.
 
 ### SetStringProp
 
-`func (o *NullableClass) SetStringProp(v string)`
+`func (o *NullableClass) SetStringProp(v NullableString)`
 
-SetStringProp gets a reference to the given string and assigns it to the StringProp field.
+SetStringProp gets a reference to the given NullableString and assigns it to the StringProp field.
 
 ### SetStringPropExplicitNull
 
@@ -149,13 +149,13 @@ when serializing to JSON (pass true as argument to set this, false to unset)
 The StringProp value is set to nil even if false is passed
 ### GetDateProp
 
-`func (o *NullableClass) GetDateProp() string`
+`func (o *NullableClass) GetDateProp() NullableString`
 
 GetDateProp returns the DateProp field if non-nil, zero value otherwise.
 
 ### GetDatePropOk
 
-`func (o *NullableClass) GetDatePropOk() (string, bool)`
+`func (o *NullableClass) GetDatePropOk() (NullableString, bool)`
 
 GetDatePropOk returns a tuple with the DateProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -168,9 +168,9 @@ HasDateProp returns a boolean if a field has been set.
 
 ### SetDateProp
 
-`func (o *NullableClass) SetDateProp(v string)`
+`func (o *NullableClass) SetDateProp(v NullableString)`
 
-SetDateProp gets a reference to the given string and assigns it to the DateProp field.
+SetDateProp gets a reference to the given NullableString and assigns it to the DateProp field.
 
 ### SetDatePropExplicitNull
 
@@ -181,13 +181,13 @@ when serializing to JSON (pass true as argument to set this, false to unset)
 The DateProp value is set to nil even if false is passed
 ### GetDatetimeProp
 
-`func (o *NullableClass) GetDatetimeProp() time.Time`
+`func (o *NullableClass) GetDatetimeProp() NullableTime`
 
 GetDatetimeProp returns the DatetimeProp field if non-nil, zero value otherwise.
 
 ### GetDatetimePropOk
 
-`func (o *NullableClass) GetDatetimePropOk() (time.Time, bool)`
+`func (o *NullableClass) GetDatetimePropOk() (NullableTime, bool)`
 
 GetDatetimePropOk returns a tuple with the DatetimeProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -200,9 +200,9 @@ HasDatetimeProp returns a boolean if a field has been set.
 
 ### SetDatetimeProp
 
-`func (o *NullableClass) SetDatetimeProp(v time.Time)`
+`func (o *NullableClass) SetDatetimeProp(v NullableTime)`
 
-SetDatetimeProp gets a reference to the given time.Time and assigns it to the DatetimeProp field.
+SetDatetimeProp gets a reference to the given NullableTime and assigns it to the DatetimeProp field.
 
 ### SetDatetimePropExplicitNull
 

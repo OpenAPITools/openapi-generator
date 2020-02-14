@@ -11,6 +11,8 @@ $ nosetests -v
 
 import os
 import time
+import atexit
+import weakref
 import unittest
 from dateutil.parser import parse
 
@@ -44,7 +46,7 @@ class ApiClientTests(unittest.TestCase):
         self.assertEqual('PREFIX', client.configuration.api_key_prefix['api_key'])
 
         # update parameters based on auth setting
-        client.update_params_for_auth(header_params, query_params, auth_settings)
+        client.update_params_for_auth(header_params, query_params, auth_settings, resource_path=None, method=None, body=None)
 
         # test api key auth
         self.assertEqual(header_params['test1'], 'value1')
@@ -54,6 +56,29 @@ class ApiClientTests(unittest.TestCase):
         # test basic auth
         self.assertEqual('test_username', client.configuration.username)
         self.assertEqual('test_password', client.configuration.password)
+
+        # test api key without prefix
+        config.api_key['api_key'] = '123456'
+        config.api_key_prefix['api_key'] = None
+        # update parameters based on auth setting
+        client.update_params_for_auth(header_params, query_params, auth_settings, resource_path=None, method=None, body=None)
+        self.assertEqual(header_params['api_key'], '123456')
+
+        # test api key with empty prefix
+        config.api_key['api_key'] = '123456'
+        config.api_key_prefix['api_key'] = ''
+        # update parameters based on auth setting
+        client.update_params_for_auth(header_params, query_params, auth_settings, resource_path=None, method=None, body=None)
+        self.assertEqual(header_params['api_key'], '123456')
+
+        # test api key with prefix specified in the api_key, useful when the prefix
+        # must include '=' sign followed by the API key secret without space.
+        config.api_key['api_key'] = 'PREFIX=123456'
+        config.api_key_prefix['api_key'] = None
+        # update parameters based on auth setting
+        client.update_params_for_auth(header_params, query_params, auth_settings, resource_path=None, method=None, body=None)
+        self.assertEqual(header_params['api_key'], 'PREFIX=123456')
+
 
     def test_select_header_accept(self):
         accepts = ['APPLICATION/JSON', 'APPLICATION/XML']
@@ -141,8 +166,8 @@ class ApiClientTests(unittest.TestCase):
         # model
         pet_dict = {"id": 1, "name": "monkey",
                     "category": {"id": 1, "name": "test category"},
-                    "tags": [{"id": 1, "name": "test tag1"},
-                             {"id": 2, "name": "test tag2"}],
+                    "tags": [{"id": 1, "fullName": "test tag1"},
+                             {"id": 2, "fullName": "test tag2"}],
                     "status": "available",
                     "photoUrls": ["http://foo.bar.com/3",
                                   "http://foo.bar.com/4"]}
@@ -154,10 +179,10 @@ class ApiClientTests(unittest.TestCase):
         pet.category = cate
         tag1 = petstore_api.Tag()
         tag1.id = pet_dict["tags"][0]["id"]
-        tag1.name = pet_dict["tags"][0]["name"]
+        tag1.full_name = pet_dict["tags"][0]["fullName"]
         tag2 = petstore_api.Tag()
         tag2.id = pet_dict["tags"][1]["id"]
-        tag2.name = pet_dict["tags"][1]["name"]
+        tag2.full_name = pet_dict["tags"][1]["fullName"]
         pet.tags = [tag1, tag2]
         pet.status = pet_dict["status"]
 
@@ -170,3 +195,23 @@ class ApiClientTests(unittest.TestCase):
         data = [pet]
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, list_of_pet_dict)
+
+        # model with additional proerties
+        model_dict = {'some_key': True}
+        model = petstore_api.StringBooleanMap(**model_dict)
+        result = self.api_client.sanitize_for_serialization(model)
+        self.assertEqual(result, model_dict)
+
+    def test_context_manager_closes_threadpool(self):
+        with petstore_api.ApiClient() as client:
+            self.assertIsNotNone(client.pool)
+            pool_ref = weakref.ref(client._pool)
+            self.assertIsNotNone(pool_ref())
+        self.assertIsNone(pool_ref())
+
+    def test_atexit_closes_threadpool(self):
+        client = petstore_api.ApiClient()
+        self.assertIsNotNone(client.pool)
+        self.assertIsNotNone(client._pool)
+        atexit._run_exitfuncs()
+        self.assertIsNone(client._pool)

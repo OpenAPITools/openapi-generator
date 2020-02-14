@@ -46,6 +46,8 @@ class FakeClassnameTags123Api @UseExperimental(UnstableDefault::class) construct
     @Suppress("UNCHECKED_CAST")
     suspend fun testClassname(client: Client) : HttpResponse<Client> {
 
+        val localVariableAuthNames = listOf<String>("api_key_query")
+
         val localVariableBody = client
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
@@ -61,7 +63,8 @@ class FakeClassnameTags123Api @UseExperimental(UnstableDefault::class) construct
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 

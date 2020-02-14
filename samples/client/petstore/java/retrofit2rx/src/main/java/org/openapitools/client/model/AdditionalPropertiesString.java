@@ -54,7 +54,6 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
   }
 
 
-
   public void setName(String name) {
     this.name = name;
   }

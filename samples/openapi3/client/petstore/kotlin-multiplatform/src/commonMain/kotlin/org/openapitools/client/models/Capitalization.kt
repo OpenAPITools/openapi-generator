@@ -26,11 +26,13 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class Capitalization (
     @SerialName(value = "smallCamel") val smallCamel: kotlin.String? = null,
-    @SerialName(value = "capitalCamel") val capitalCamel: kotlin.String? = null,
-    @SerialName(value = "smallSnake") val smallSnake: kotlin.String? = null,
-    @SerialName(value = "capitalSnake") val capitalSnake: kotlin.String? = null,
-    @SerialName(value = "scAETHFlowPoints") val scAETHFlowPoints: kotlin.String? = null,
+    @SerialName(value = "CapitalCamel") val capitalCamel: kotlin.String? = null,
+    @SerialName(value = "small_Snake") val smallSnake: kotlin.String? = null,
+    @SerialName(value = "Capital_Snake") val capitalSnake: kotlin.String? = null,
+    @SerialName(value = "SCA_ETH_Flow_Points") val scAETHFlowPoints: kotlin.String? = null,
     /* Name of the pet  */
     @SerialName(value = "ATT_NAME") val ATT_NAME: kotlin.String? = null
-)
+) 
+
+
 

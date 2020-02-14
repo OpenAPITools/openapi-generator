@@ -28,13 +28,15 @@ setup(
     name=NAME,
     version=VERSION,
     description="{{appName}}",
-    author_email="{{infoEmail}}",
+    author="{{#infoName}}{{infoName}}{{/infoName}}{{^infoName}}OpenAPI Generator community{{/infoName}}",
+    author_email="{{#infoEmail}}{{infoEmail}}{{/infoEmail}}{{^infoEmail}}team@openapitools.org{{/infoEmail}}",
     url="{{packageUrl}}",
     keywords=["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"],
     install_requires=REQUIRES,
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
-    long_description="""\
+    {{#licenseInfo}}license="{{licenseInfo}}",
+    {{/licenseInfo}}long_description="""\
     {{appDescription}}  # noqa: E501
     """
 )

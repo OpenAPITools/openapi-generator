@@ -36,5 +36,7 @@ data class User (
     @SerialName(value = "phone") val phone: kotlin.String? = null,
     /* User Status */
     @SerialName(value = "userStatus") val userStatus: kotlin.Int? = null
-)
+) 
+
+
 

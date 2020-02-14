@@ -34,37 +34,24 @@ data class InlineObject2 (
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
-
-
     /**
     * Form parameter enum test (string array)
     * Values: greaterThan,dollar
     */
     
     enum class EnumFormStringArray(val value: kotlin.String){
-    
         @Json(name = ">") greaterThan(">"),
-    
         @Json(name = "$") dollar("$");
-    
-
     }
-
     /**
     * Form parameter enum test (string)
     * Values: abc,minusEfg,leftParenthesisXyzRightParenthesis
     */
     
     enum class EnumFormString(val value: kotlin.String){
-    
         @Json(name = "_abc") abc("_abc"),
-    
         @Json(name = "-efg") minusEfg("-efg"),
-    
         @Json(name = "(xyz)") leftParenthesisXyzRightParenthesis("(xyz)");
-    
-
     }
-
 }
 

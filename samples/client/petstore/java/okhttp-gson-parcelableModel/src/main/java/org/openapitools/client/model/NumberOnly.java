@@ -57,7 +57,6 @@ public class NumberOnly implements Parcelable {
   }
 
 
-
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }

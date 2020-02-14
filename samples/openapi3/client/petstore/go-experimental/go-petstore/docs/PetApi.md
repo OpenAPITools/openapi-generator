@@ -18,16 +18,22 @@ Method | HTTP request | Description
 
 ## AddPet
 
-> AddPet(ctx, pet)
+> AddPet(ctx).Pet(pet).Execute()
+
 Add a new pet to the store
 
-### Required Parameters
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAddPetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -35,7 +41,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -49,27 +55,27 @@ Name | Type | Description  | Notes
 
 ## DeletePet
 
-> DeletePet(ctx, petId, optional)
+> DeletePet(ctx, petId).ApiKey(apiKey).Execute()
+
 Deletes a pet
 
-### Required Parameters
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**petId** | **int64**| Pet id to delete | 
- **optional** | ***DeletePetOpts** | optional parameters | nil if no parameters
+**petId** | **int64** | Pet id to delete | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a DeletePetOpts struct
+Other parameters are passed through a pointer to a apiDeletePetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **apiKey** | **optional.String**|  | 
+ **apiKey** | **string** |  | 
 
 ### Return type
 
@@ -91,18 +97,24 @@ Name | Type | Description  | Notes
 
 ## FindPetsByStatus
 
-> []Pet FindPetsByStatus(ctx, status)
+> []Pet FindPetsByStatus(ctx).Status(status).Execute()
+
 Finds Pets by status
 
-Multiple status values can be provided with comma separated strings
 
-### Required Parameters
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFindPetsByStatusRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**status** | [**[]string**](string.md)| Status values that need to be considered for filter | 
+ **status** | [**[]string**](string.md) | Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -110,7 +122,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -124,18 +136,24 @@ Name | Type | Description  | Notes
 
 ## FindPetsByTags
 
-> []Pet FindPetsByTags(ctx, tags)
+> []Pet FindPetsByTags(ctx).Tags(tags).Execute()
+
 Finds Pets by tags
 
-Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
-### Required Parameters
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFindPetsByTagsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**tags** | [**[]string**](string.md)| Tags to filter by | 
+ **tags** | [**[]string**](string.md) | Tags to filter by | 
 
 ### Return type
 
@@ -143,7 +161,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -157,18 +175,28 @@ Name | Type | Description  | Notes
 
 ## GetPetById
 
-> Pet GetPetById(ctx, petId)
+> Pet GetPetById(ctx, petId).Execute()
+
 Find pet by ID
 
-Returns a single pet
 
-### Required Parameters
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**petId** | **int64**| ID of pet to return | 
+**petId** | **int64** | ID of pet to return | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetPetByIdRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -190,16 +218,22 @@ Name | Type | Description  | Notes
 
 ## UpdatePet
 
-> UpdatePet(ctx, pet)
+> UpdatePet(ctx).Pet(pet).Execute()
+
 Update an existing pet
 
-### Required Parameters
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdatePetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -207,7 +241,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -221,28 +255,28 @@ Name | Type | Description  | Notes
 
 ## UpdatePetWithForm
 
-> UpdatePetWithForm(ctx, petId, optional)
+> UpdatePetWithForm(ctx, petId).Name(name).Status(status).Execute()
+
 Updates a pet in the store with form data
 
-### Required Parameters
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**petId** | **int64**| ID of pet that needs to be updated | 
- **optional** | ***UpdatePetWithFormOpts** | optional parameters | nil if no parameters
+**petId** | **int64** | ID of pet that needs to be updated | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a UpdatePetWithFormOpts struct
+Other parameters are passed through a pointer to a apiUpdatePetWithFormRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **name** | **optional.String**| Updated name of the pet | 
- **status** | **optional.String**| Updated status of the pet | 
+ **name** | **string** | Updated name of the pet | 
+ **status** | **string** | Updated status of the pet | 
 
 ### Return type
 
@@ -264,28 +298,28 @@ Name | Type | Description  | Notes
 
 ## UploadFile
 
-> ApiResponse UploadFile(ctx, petId, optional)
+> ApiResponse UploadFile(ctx, petId).AdditionalMetadata(additionalMetadata).File(file).Execute()
+
 uploads an image
 
-### Required Parameters
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**petId** | **int64**| ID of pet to update | 
- **optional** | ***UploadFileOpts** | optional parameters | nil if no parameters
+**petId** | **int64** | ID of pet to update | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a UploadFileOpts struct
+Other parameters are passed through a pointer to a apiUploadFileRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **additionalMetadata** | **optional.String**| Additional data to pass to server | 
- **file** | **optional.Interface of *os.File****optional.*os.File**| file to upload | 
+ **additionalMetadata** | **string** | Additional data to pass to server | 
+ **file** | ***os.File** | file to upload | 
 
 ### Return type
 
@@ -307,29 +341,28 @@ Name | Type | Description  | Notes
 
 ## UploadFileWithRequiredFile
 
-> ApiResponse UploadFileWithRequiredFile(ctx, petId, requiredFile, optional)
+> ApiResponse UploadFileWithRequiredFile(ctx, petId).RequiredFile(requiredFile).AdditionalMetadata(additionalMetadata).Execute()
+
 uploads an image (required)
 
-### Required Parameters
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**petId** | **int64**| ID of pet to update | 
-**requiredFile** | ***os.File*****os.File**| file to upload | 
- **optional** | ***UploadFileWithRequiredFileOpts** | optional parameters | nil if no parameters
+**petId** | **int64** | ID of pet to update | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a UploadFileWithRequiredFileOpts struct
+Other parameters are passed through a pointer to a apiUploadFileWithRequiredFileRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
-
- **additionalMetadata** | **optional.String**| Additional data to pass to server | 
+ **requiredFile** | ***os.File** | file to upload | 
+ **additionalMetadata** | **string** | Additional data to pass to server | 
 
 ### Return type
 

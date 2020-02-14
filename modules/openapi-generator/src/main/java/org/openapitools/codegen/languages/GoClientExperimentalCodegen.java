@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,16 +16,23 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class GoClientExperimentalCodegen extends GoClientCodegen {
 
@@ -36,14 +43,15 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         outputFolder = "generated-code/go-experimental";
         embeddedTemplateDir = templateDir = "go-experimental";
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.EXPERIMENTAL)
-                .build();
+        usesOptionals = false;
+        useOneOfInterfaces = true;
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the
+     * generator to select the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -52,8 +60,13 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         return "go-experimental";
     }
 
+    @Override
+    public String toGetter(String name) {
+        return "Get" + getterAndSetterCapitalize(name);
+    }
+
     /**
-     * Returns human-friendly help for the generator.  Provide the consumer with help
+     * Returns human-friendly help for the generator. Provide the consumer with help
      * tips, parameters here
      *
      * @return A string value for the help message
@@ -67,31 +80,69 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
     public void processOpts() {
         super.processOpts();
         supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
+
+        // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
+        Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
+           (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
+        List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
+        if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
+            supportingFiles.add(new SupportingFile("signing.mustache", "", "signing.go"));
+            supportingFiles.add(new SupportingFile("http_signature_test.mustache", "", "http_signature_test.go"));
+        }
     }
 
     @Override
-     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        objs = super.postProcessModels(objs);
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+    public String toModelName(String name) {
+        // underscoring would also lowercase the whole name, thus losing acronyms which are in capitals
+        return camelize(toModel(name, false));
+    }
 
-        boolean addedErrorsImport = false;
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+
         List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
         for (Map<String, Object> m : models) {
             Object v = m.get("model");
             if (v instanceof CodegenModel) {
                 CodegenModel model = (CodegenModel) v;
-                if (!model.isEnum) {
-                    imports.add(createMapping("import", "encoding/json"));
+                if (model.isEnum) {
+                    continue;
                 }
+
                 for (CodegenProperty param : model.vars) {
-                    if (!addedErrorsImport && param.required) {
-                        imports.add(createMapping("import", "errors"));
-                        addedErrorsImport = true;
+                    if (!param.isNullable || param.isMapContainer || param.isListContainer) {
+                        continue;
+                    }
+                    if (param.isDateTime) {
+                        // Note this could have been done by adding the following line in processOpts(),
+                        // however, we only want to represent the DateTime object as NullableTime if
+                        // it's marked as nullable in the spec.
+                        //    typeMapping.put("DateTime", "NullableTime");
+                        param.dataType = "NullableTime";
+                    } else {
+                        param.dataType = "Nullable" + Character.toUpperCase(param.dataType.charAt(0))
+                            + param.dataType.substring(1);
                     }
                 }
             }
         }
 
+        // The superclass determines the list of required golang imports. The actual list of imports
+        // depends on which types are used, which is done in the code above. So super.postProcessModels
+        // must be invoked at the end of this method.
+        objs = super.postProcessModels(objs);
         return objs;
+    }
+
+    @Override
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        for (String i : Arrays.asList("fmt")) {
+            Map<String, String> oneImport = new HashMap<String, String>() {{
+                put("import", i);
+            }};
+            if (!imports.contains(oneImport)) {
+                imports.add(oneImport);
+            }
+        }
     }
 }

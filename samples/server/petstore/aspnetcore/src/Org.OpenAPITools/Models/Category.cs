@@ -25,7 +25,7 @@ namespace Org.OpenAPITools.Models
     /// </summary>
     [DataContract]
     public partial class Category : IEquatable<Category>
-    { 
+    {
         /// <summary>
         /// Gets or Sets Id
         /// </summary>

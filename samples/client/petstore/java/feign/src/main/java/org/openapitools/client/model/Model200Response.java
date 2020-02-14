@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Model200Response.JSON_PROPERTY_NAME,
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
+@javax.annotation.concurrent.Immutable
 
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";
@@ -60,7 +61,6 @@ public class Model200Response {
   }
 
 
-
   public void setName(Integer name) {
     this.name = name;
   }
@@ -84,7 +84,6 @@ public class Model200Response {
   public String getPropertyClass() {
     return propertyClass;
   }
-
 
 
   public void setPropertyClass(String propertyClass) {

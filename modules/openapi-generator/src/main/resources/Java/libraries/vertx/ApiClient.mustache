@@ -49,6 +49,7 @@ public class ApiClient {
     private final String identifier;
 
     private MultiMap defaultHeaders = MultiMap.caseInsensitiveMultiMap();
+    private MultiMap defaultCookies = MultiMap.caseInsensitiveMultiMap();
     private Map<String, Authentication> authentications;
     private String basePath = "{{{basePath}}}";
     private DateFormat dateFormat;
@@ -85,7 +86,7 @@ public class ApiClient {
         this.authentications = new HashMap<>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
         authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
-        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
+        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
         // Prevent the authentications from being modified.
         this.authentications = Collections.unmodifiableMap(authentications);
@@ -144,6 +145,15 @@ public class ApiClient {
 
     public ApiClient addDefaultHeader(String key, String value) {
         defaultHeaders.add(key, value);
+        return this;
+    }
+
+    public MultiMap getDefaultCookies() {
+        return defaultHeaders;
+    }
+
+    public ApiClient addDefaultCookie(String key, String value) {
+        defaultCookies.add(key, value);
         return this;
     }
 
@@ -431,6 +441,7 @@ public class ApiClient {
      * @param queryParams The query parameters
      * @param body The request body object
      * @param headerParams The header parameters
+     * @param cookieParams The cookie parameters
      * @param formParams The form parameters
      * @param accepts The request's Accept headers
      * @param contentTypes The request's Content-Type headers
@@ -439,10 +450,10 @@ public class ApiClient {
      * @param resultHandler The asynchronous response handler
      */
     public <T> void invokeAPI(String path, String method, List<Pair> queryParams, Object body, MultiMap headerParams,
-                              Map<String, Object> formParams, String[] accepts, String[] contentTypes, String[] authNames,
+                              MultiMap cookieParams, Map<String, Object> formParams, String[] accepts, String[] contentTypes, String[] authNames,
                               TypeReference<T> returnType, Handler<AsyncResult<T>> resultHandler) {
 
-        updateParamsForAuth(authNames, queryParams, headerParams);
+        updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
         if (accepts != null && accepts.length > 0) {
             headerParams.add(HttpHeaders.ACCEPT, selectHeaderAccept(accepts));
@@ -477,6 +488,9 @@ public class ApiClient {
             }
         });
 
+        final MultiMap cookies = MultiMap.caseInsensitiveMultiMap().addAll(cookieParams).addAll(defaultCookies);
+        request.putHeader("Cookie", buildCookieHeader(cookies));
+
         Handler<AsyncResult<HttpResponse<Buffer>>> responseHandler = buildResponseHandler(returnType, resultHandler);
         if (body != null) {
             sendBody(request, responseHandler, body);
@@ -487,6 +501,18 @@ public class ApiClient {
         } else {
             request.send(responseHandler);
         }
+    }
+
+    private String buildCookieHeader(MultiMap cookies) {
+      final StringBuilder cookieValue = new StringBuilder();
+      String delimiter = "";
+      for (final Map.Entry<String, String> entry : cookies.entries()) {
+          if (entry.getValue() != null) {
+              cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), entry.getValue()));
+              delimiter = "; ";
+          }
+      }
+      return cookieValue.toString();
     }
 
     /**
@@ -619,11 +645,11 @@ public class ApiClient {
      *
      * @param authNames The authentications to apply
      */
-    protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, MultiMap headerParams) {
+    protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, MultiMap headerParams, MultiMap cookieParams) {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
-            auth.applyToParams(queryParams, headerParams);
+            auth.applyToParams(queryParams, headerParams, cookieParams);
         }
     }
 }

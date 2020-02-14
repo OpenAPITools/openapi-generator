@@ -25,5 +25,7 @@ data class InlineObject4 (
     @SerialName(value = "param") @Required val param: kotlin.String,
     /* field2 */
     @SerialName(value = "param2") @Required val param2: kotlin.String
-)
+) 
+
+
 

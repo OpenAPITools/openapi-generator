@@ -75,7 +75,6 @@ public class ArrayTest implements Parcelable {
   }
 
 
-
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
@@ -107,7 +106,6 @@ public class ArrayTest implements Parcelable {
   }
 
 
-
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
@@ -137,7 +135,6 @@ public class ArrayTest implements Parcelable {
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
-
 
 
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {

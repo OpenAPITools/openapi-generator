@@ -8,19 +8,19 @@
  */
 
 package petstore
+
 import (
+	"bytes"
 	"encoding/json"
-	"errors"
 )
+
 // Category struct for Category
 type Category struct {
 	Id *int64 `json:"id,omitempty"`
-
-	Name *string `json:"name,omitempty"`
-
+	Name string `json:"name"`
 }
 
-// GetId returns the Id field if non-nil, zero value otherwise.
+// GetId returns the Id field value if set, zero value otherwise.
 func (o *Category) GetId() int64 {
 	if o == nil || o.Id == nil {
 		var ret int64
@@ -29,7 +29,7 @@ func (o *Category) GetId() int64 {
 	return *o.Id
 }
 
-// GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+// GetIdOk returns a tuple with the Id field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *Category) GetIdOk() (int64, bool) {
 	if o == nil || o.Id == nil {
@@ -53,53 +53,40 @@ func (o *Category) SetId(v int64) {
 	o.Id = &v
 }
 
-// GetName returns the Name field if non-nil, zero value otherwise.
+// GetName returns the Name field value
 func (o *Category) GetName() string {
-	if o == nil || o.Name == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+
+	return o.Name
 }
 
-// GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
-// and a boolean to check if the value has been set.
-func (o *Category) GetNameOk() (string, bool) {
-	if o == nil || o.Name == nil {
-		var ret string
-		return ret, false
-	}
-	return *o.Name, true
-}
-
-// HasName returns a boolean if a field has been set.
-func (o *Category) HasName() bool {
-	if o != nil && o.Name != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName sets field value
 func (o *Category) SetName(v string) {
-	o.Name = &v
+	o.Name = v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o Category) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
-	if o.Name == nil {
-		return nil, errors.New("Name is required and not nullable, but was not set on Category")
-	}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	return json.Marshal(toSerialize)
+type NullableCategory struct {
+	Value Category
+	ExplicitNull bool
 }
 
+func (v NullableCategory) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
+}
 
+func (v *NullableCategory) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}

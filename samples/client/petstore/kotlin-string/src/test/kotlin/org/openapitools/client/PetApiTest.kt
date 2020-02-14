@@ -90,7 +90,7 @@ class PetApiTest : ShouldSpec() {
         }
 
         should("delete a pet") {
-            api.deletePet(petId, "apiKey")
+            api.deletePet("apiKey", petId)
 
             // verify updated Pet
             val exception = shouldThrow<ClientException> {

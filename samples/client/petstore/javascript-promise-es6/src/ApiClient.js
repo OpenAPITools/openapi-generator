@@ -355,7 +355,7 @@ class ApiClient {
     * @param {Array.<String>} accepts An array of acceptable response MIME types.
     * @param {(String|Array|ObjectFunction)} returnType The required type to return; can be a string for simple types or the
     * constructor for a complex type.
-    * @param {String} apiBasePath base path defined in the operation/path level to override the default one 
+    * @param {String} apiBasePath base path defined in the operation/path level to override the default one
     * @returns {Promise} A {@link https://www.promisejs.org/|Promise} object.
     */
     callApi(path, httpMethod, pathParams,
@@ -447,10 +447,12 @@ class ApiClient {
             request.end((error, response) => {
                 if (error) {
                     var err = {};
-                    err.status = response.status;
-                    err.statusText = response.statusText;
-                    err.body = response.body;
-                    err.response = response;
+                    if (response) {
+                        err.status = response.status;
+                        err.statusText = response.statusText;
+                        err.body = response.body;
+                        err.response = response;
+                    }
                     err.error = error;
 
                     reject(err);

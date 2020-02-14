@@ -45,6 +45,8 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
     */
     suspend fun deleteOrder(orderId: kotlin.String) : HttpResponse<Unit> {
 
+        val localVariableAuthNames = listOf<String>()
+
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
 
@@ -61,7 +63,8 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -73,6 +76,8 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
     */
     @Suppress("UNCHECKED_CAST")
     suspend fun getInventory() : HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
+
+        val localVariableAuthNames = listOf<String>("api_key")
 
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
@@ -90,7 +95,8 @@ class StoreApi @UseExperimental(UnstableDefault::class) constructor(
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap<GetInventoryResponse>().map { value }
     }
 
@@ -114,6 +120,8 @@ private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
     @Suppress("UNCHECKED_CAST")
     suspend fun getOrderById(orderId: kotlin.Long) : HttpResponse<Order> {
 
+        val localVariableAuthNames = listOf<String>()
+
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
 
@@ -130,7 +138,8 @@ private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -143,6 +152,8 @@ private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
     */
     @Suppress("UNCHECKED_CAST")
     suspend fun placeOrder(order: Order) : HttpResponse<Order> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = order
 
@@ -159,7 +170,8 @@ private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 

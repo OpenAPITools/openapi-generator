@@ -38,9 +38,9 @@ data class InlineObject3 (
     /* None */
     @SerialName(value = "double") @Required val double: kotlin.Double,
     /* None */
-    @SerialName(value = "patternWithoutDelimiter") @Required val patternWithoutDelimiter: kotlin.String,
+    @SerialName(value = "pattern_without_delimiter") @Required val patternWithoutDelimiter: kotlin.String,
     /* None */
-    @SerialName(value = "byte") @Required val byte: kotlin.ByteArray,
+    @SerialName(value = "byte") @Required val byte: org.openapitools.client.infrastructure.Base64ByteArray,
     /* None */
     @SerialName(value = "integer") val integer: kotlin.Int? = null,
     /* None */
@@ -52,7 +52,7 @@ data class InlineObject3 (
     /* None */
     @SerialName(value = "string") val string: kotlin.String? = null,
     /* None */
-    @SerialName(value = "binary") val binary: io.ktor.client.request.forms.InputProvider? = null,
+    @SerialName(value = "binary") val binary: org.openapitools.client.infrastructure.OctetByteArray? = null,
     /* None */
     @SerialName(value = "date") val date: kotlin.String? = null,
     /* None */
@@ -61,5 +61,7 @@ data class InlineObject3 (
     @SerialName(value = "password") val password: kotlin.String? = null,
     /* None */
     @SerialName(value = "callback") val callback: kotlin.String? = null
-)
+) 
+
+
 

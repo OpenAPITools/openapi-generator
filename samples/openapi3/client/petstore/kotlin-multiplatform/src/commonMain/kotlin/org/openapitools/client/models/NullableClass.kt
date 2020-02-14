@@ -31,17 +31,19 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  */
 @Serializable
 data class NullableClass (
-    @SerialName(value = "integerProp") val integerProp: kotlin.Int? = null,
-    @SerialName(value = "numberProp") val numberProp: kotlin.Double? = null,
-    @SerialName(value = "booleanProp") val booleanProp: kotlin.Boolean? = null,
-    @SerialName(value = "stringProp") val stringProp: kotlin.String? = null,
-    @SerialName(value = "dateProp") val dateProp: kotlin.String? = null,
-    @SerialName(value = "datetimeProp") val datetimeProp: kotlin.String? = null,
-    @SerialName(value = "arrayNullableProp") val arrayNullableProp: kotlin.Array<kotlin.Any>? = null,
-    @SerialName(value = "arrayAndItemsNullableProp") val arrayAndItemsNullableProp: kotlin.Array<kotlin.Any>? = null,
-    @SerialName(value = "arrayItemsNullable") val arrayItemsNullable: kotlin.Array<kotlin.Any>? = null,
-    @SerialName(value = "objectNullableProp") val objectNullableProp: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null,
-    @SerialName(value = "objectAndItemsNullableProp") val objectAndItemsNullableProp: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null,
-    @SerialName(value = "objectItemsNullable") val objectItemsNullable: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null
-)
+    @SerialName(value = "integer_prop") val integerProp: kotlin.Int? = null,
+    @SerialName(value = "number_prop") val numberProp: kotlin.Double? = null,
+    @SerialName(value = "boolean_prop") val booleanProp: kotlin.Boolean? = null,
+    @SerialName(value = "string_prop") val stringProp: kotlin.String? = null,
+    @SerialName(value = "date_prop") val dateProp: kotlin.String? = null,
+    @SerialName(value = "datetime_prop") val datetimeProp: kotlin.String? = null,
+    @SerialName(value = "array_nullable_prop") val arrayNullableProp: kotlin.Array<kotlin.String>? = null,
+    @SerialName(value = "array_and_items_nullable_prop") val arrayAndItemsNullableProp: kotlin.Array<kotlin.String>? = null,
+    @SerialName(value = "array_items_nullable") val arrayItemsNullable: kotlin.Array<kotlin.String>? = null,
+    @SerialName(value = "object_nullable_prop") val objectNullableProp: kotlin.collections.Map<kotlin.String, kotlin.String>? = null,
+    @SerialName(value = "object_and_items_nullable_prop") val objectAndItemsNullableProp: kotlin.collections.Map<kotlin.String, kotlin.String>? = null,
+    @SerialName(value = "object_items_nullable") val objectItemsNullable: kotlin.collections.Map<kotlin.String, kotlin.String>? = null
+) 
+
+
 

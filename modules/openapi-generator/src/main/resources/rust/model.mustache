@@ -8,7 +8,7 @@
 {{!-- for enum schemas --}}
 {{#isEnum}}
 /// {{{description}}}
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum {{classname}} {
 {{#allowableValues}}
 {{#enumVars}}
@@ -20,7 +20,7 @@ pub enum {{classname}} {
 
 {{!-- for schemas that have a discriminator --}}
 {{#discriminator}}
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "{{{vendorExtensions.tagName}}}")]
 pub enum {{classname}} {
 {{#vendorExtensions}}
@@ -44,7 +44,7 @@ pub enum {{classname}} {
 {{!-- for non-enum schemas --}}
 {{^isEnum}}
 {{^discriminator}}
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct {{{classname}}} {
 {{#vars}}
     {{#description}}
@@ -74,7 +74,7 @@ impl {{{classname}}} {
 {{#vars}}
 {{#isEnum}}
 /// {{{description}}}
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum {{enumName}} {
 {{#allowableValues}}
 {{#enumVars}}

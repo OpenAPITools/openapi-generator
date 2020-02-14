@@ -17,7 +17,7 @@
     <licenses>
         <license>
             <name>Unlicense</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.html</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -270,10 +270,10 @@
         <okhttp-version>3.14.2</okhttp-version>
         <gson-version>2.8.5</gson-version>
         <commons-lang3-version>3.9</commons-lang3-version>
-        <threetenbp-version>1.3.8</threetenbp-version>
+        <threetenbp-version>1.4.0</threetenbp-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <javax-annotation-version>1.0</javax-annotation-version>
-        <junit-version>4.12</junit-version>
+        <junit-version>4.13</junit-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 </project>

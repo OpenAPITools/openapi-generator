@@ -8,16 +8,18 @@
  */
 
 package petstore
+
 import (
+	"bytes"
 	"encoding/json"
 )
+
 // AdditionalPropertiesBoolean struct for AdditionalPropertiesBoolean
 type AdditionalPropertiesBoolean struct {
 	Name *string `json:"name,omitempty"`
-
 }
 
-// GetName returns the Name field if non-nil, zero value otherwise.
+// GetName returns the Name field value if set, zero value otherwise.
 func (o *AdditionalPropertiesBoolean) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
@@ -26,7 +28,7 @@ func (o *AdditionalPropertiesBoolean) GetName() string {
 	return *o.Name
 }
 
-// GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+// GetNameOk returns a tuple with the Name field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesBoolean) GetNameOk() (string, bool) {
 	if o == nil || o.Name == nil {
@@ -50,14 +52,25 @@ func (o *AdditionalPropertiesBoolean) SetName(v string) {
 	o.Name = &v
 }
 
-
-// MarshalJSON returns the JSON representation of the model.
-func (o AdditionalPropertiesBoolean) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	return json.Marshal(toSerialize)
+type NullableAdditionalPropertiesBoolean struct {
+	Value AdditionalPropertiesBoolean
+	ExplicitNull bool
 }
 
+func (v NullableAdditionalPropertiesBoolean) MarshalJSON() ([]byte, error) {
+    switch {
+    case v.ExplicitNull:
+        return []byte("null"), nil
+    default:
+		return json.Marshal(v.Value)
+	}
+}
 
+func (v *NullableAdditionalPropertiesBoolean) UnmarshalJSON(src []byte) error {
+	if bytes.Equal(src, []byte("null")) {
+		v.ExplicitNull = true
+		return nil
+	}
+
+	return json.Unmarshal(src, &v.Value)
+}

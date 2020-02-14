@@ -9,7 +9,6 @@ These map almost fully 1:1 with the options you'd pass to the CLI or Maven plugi
 
 Tasks are listed under the "OpenAPI Tools" tasks heading.
 
-
 .OpenAPI Tools Tasks
 |===
 |task name |description
@@ -38,6 +37,30 @@ compileJava.dependsOn tasks.openApiGenerate
 ```
 ====
 
+All extensions can be rewritten as tasks. Where you can have only a single extension defined in your gradle file, you may have multiple tasks.
+
+.One Extension, multiple tasks
+[source,groovy]
+----
+// Validating a single specification
+openApiValidate {
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+}
+
+// Define a task for validating one specification
+task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+}
+
+// Define a task for validating another specification
+task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+}
+
+// Define a task for batch validations
+task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])
+----
+
 == Plugin Setup
 
 //# RELEASE_VERSION
@@ -45,7 +68,7 @@ compileJava.dependsOn tasks.openApiGenerate
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "4.1.1"
+  id "org.openapi.generator" version "4.2.3"
 }
 ----
 
@@ -56,12 +79,12 @@ Using https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_appl
 buildscript {
   repositories {
     mavenLocal()
-    mavenCentral()
+    maven { url "https://repo1.maven.org/maven2" }
     // or, via Gradle Plugin Portal:
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:4.1.1"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:4.2.3"
   }
 }
 
@@ -354,6 +377,11 @@ openApiGenerate {
 |None
 |The input specification to validate. Supports all formats supported by the Parser.
 
+|recommend
+|Boolean
+|true
+|Whether or not to offer recommendations related to the validated specification document.
+
 |===
 
 === openApiMeta
@@ -498,6 +526,7 @@ BUILD SUCCESSFUL in 0s
 ----
 openApiValidate {
    inputSpec = "/src/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
+   recommend = true
 }
 ----
 
@@ -626,7 +655,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:4.1.1') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:4.2.3') {
             exclude group: 'com.google.guava'
         }
     }

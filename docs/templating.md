@@ -5,6 +5,8 @@ title: Using Templates
 
 It's easy to work with templates for codegen!
 
+For maybe 90% of use cases, you will only need to modify the mustache template files to create your own custom generated code. If you need to include additional files in your generated output, manipulate the OpenAPI document inputs, or implement your own vendor extensions or other logic, you'll want to read [customization](./customization.md) after you read this document. Be sure to start here first, because templating is the easier concept and you'll need it for more advanced use cases.
+
 The generator workflow has [transforming logic](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages) as well as templates for each generation of code.
 
 Each generator will create a data structure from the OpenAPI document; OpenAPI 2.0 and OpenAPI 3.x documents are normalized into the same API model within the generator. This model is then applied to the templates.  While generators do not need to perform transformations, it's often necessary in order to add more advanced support for your language or framework. You may need to refer to the generator implementation to understand some of the logic while creating or customizing templates (see [ScalaFinchServerCodegen.java](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/ScalaFinchServerCodegen.java) for an advanced example).
@@ -23,6 +25,30 @@ Built-in templates are written in Mustache and processed by [jmustache](https://
 OpenAPI Generator supports user-defined templates. This approach is often the easiest when creating a custom template. Our generators implement a combination of language and framework features, and it's fully possible to use an existing generator to implement a custom template for a different framework. Suppose you have internal utilities which you'd like to incorporate into generated code (e.g. logging, monitoring, fault-handling)... this is easy to add via custom templates.
 
 > **Note:** You cannot use this approach to create new templates, only override existing ones. If you'd like to create a new generator to contribute back to the project, see `new.sh` in the repository root. If you'd like to create a private generator for more templating control, see the [customization](./customization.md) docs.
+
+OpenAPI Generator not only supports local files for templating, but also templates defined on the classpath. This is a great option if you want to reuse templates across multiple projects. To load a template via classpath, you'll need to generate a little differently. For example, if you've created an artifact called `template-classpath-example` which contains extended templates for the `htmlDocs` generator with the following structure:
+
+```
+└── src
+    ├── main
+    │   ├── java
+    │   └── resources
+    │       └── templates
+    │           └── htmlDocs
+    │               ├── index.mustache
+    │               └── style.css.mustache
+``` 
+
+You can define your classpath to contain your JAR and the openapi-generator-cli _fat jar_, then invoke main class `org.openapitools.codegen.OpenAPIGenerator`. For instance,
+
+```bash
+java -cp /path/totemplate-classpath-example-1.0-SNAPSHOT.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
+    org.openapitools.codegen.OpenAPIGenerator generate \
+    -i https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml \
+    -g html -o template-example -t templates/htmlDocs
+```
+
+Note that our template directory is relative to the resource directory of the JAR defined on the classpath.
 
 ### Custom Logic
 
@@ -148,7 +174,7 @@ index 04a9d55..7a93c50 100644
 @@ -140,9 +142,18 @@ ext {
      jersey_version = "1.19.4"
      jodatime_version = "2.9.9"
-     junit_version = "4.12"
+     junit_version = "4.13"
 +    aspectjVersion = '1.9.0'
  }
 
@@ -500,7 +526,7 @@ apiTemplateFiles.put("api.mustache", ".java");
 
 For C-like languages which also require header files, you may create two files per operation.
 
-```objc
+```objectivec
 // create a header and implementation for each operation group:
 apiTemplateFiles.put("api-header.mustache", ".h");
 apiTemplateFiles.put("api-body.mustache", ".m");

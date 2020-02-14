@@ -33,6 +33,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
+@javax.annotation.concurrent.Immutable
 
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
@@ -65,7 +66,6 @@ public class Name {
   public Integer getName() {
     return name;
   }
-
 
 
   public void setName(Integer name) {
@@ -107,7 +107,6 @@ public class Name {
   public String getProperty() {
     return property;
   }
-
 
 
   public void setProperty(String property) {

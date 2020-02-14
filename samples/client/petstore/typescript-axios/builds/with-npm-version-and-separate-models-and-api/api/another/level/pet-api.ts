@@ -1,5 +1,4 @@
 // tslint:disable
-/// <reference path="../../../custom.d.ts" />
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -566,7 +565,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(body: Pet, options?: any) {
+        addPet(body: Pet, options?: any): AxiosPromise<void> {
             return PetApiFp(configuration).addPet(body, options)(axios, basePath);
         },
         /**
@@ -577,7 +576,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePet(petId: number, apiKey?: string, options?: any) {
+        deletePet(petId: number, apiKey?: string, options?: any): AxiosPromise<void> {
             return PetApiFp(configuration).deletePet(petId, apiKey, options)(axios, basePath);
         },
         /**
@@ -587,7 +586,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: any) {
+        findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: any): AxiosPromise<Array<Pet>> {
             return PetApiFp(configuration).findPetsByStatus(status, options)(axios, basePath);
         },
         /**
@@ -597,7 +596,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByTags(tags: Array<string>, options?: any) {
+        findPetsByTags(tags: Array<string>, options?: any): AxiosPromise<Array<Pet>> {
             return PetApiFp(configuration).findPetsByTags(tags, options)(axios, basePath);
         },
         /**
@@ -607,7 +606,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPetById(petId: number, options?: any) {
+        getPetById(petId: number, options?: any): AxiosPromise<Pet> {
             return PetApiFp(configuration).getPetById(petId, options)(axios, basePath);
         },
         /**
@@ -617,7 +616,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(body: Pet, options?: any) {
+        updatePet(body: Pet, options?: any): AxiosPromise<void> {
             return PetApiFp(configuration).updatePet(body, options)(axios, basePath);
         },
         /**
@@ -629,7 +628,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePetWithForm(petId: number, name?: string, status?: string, options?: any) {
+        updatePetWithForm(petId: number, name?: string, status?: string, options?: any): AxiosPromise<void> {
             return PetApiFp(configuration).updatePetWithForm(petId, name, status, options)(axios, basePath);
         },
         /**
@@ -641,7 +640,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any) {
+        uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any): AxiosPromise<ApiResponse> {
             return PetApiFp(configuration).uploadFile(petId, additionalMetadata, file, options)(axios, basePath);
         },
     };

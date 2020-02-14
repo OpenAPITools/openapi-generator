@@ -60,7 +60,6 @@ public class FileSchemaTestClass {
   }
 
 
-
   public void setFile(java.io.File file) {
     this.file = file;
   }
@@ -92,7 +91,6 @@ public class FileSchemaTestClass {
   public List<java.io.File> getFiles() {
     return files;
   }
-
 
 
   public void setFiles(List<java.io.File> files) {

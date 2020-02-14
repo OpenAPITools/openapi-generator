@@ -56,7 +56,6 @@ public class CatAllOf implements Parcelable {
   }
 
 
-
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }

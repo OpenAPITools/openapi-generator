@@ -41,7 +41,6 @@ func (a *DefaultApiService) FooGet(ctx _context.Context) (InlineResponseDefault,
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/foo"
-
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -84,7 +83,6 @@ func (a *DefaultApiService) FooGet(ctx _context.Context) (InlineResponseDefault,
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 0 {
 			var v InlineResponseDefault
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -92,8 +90,6 @@ func (a *DefaultApiService) FooGet(ctx _context.Context) (InlineResponseDefault,
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 

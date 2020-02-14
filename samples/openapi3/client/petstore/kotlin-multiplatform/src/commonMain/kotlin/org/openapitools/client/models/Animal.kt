@@ -23,5 +23,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 data class Animal (
     @SerialName(value = "className") @Required val className: kotlin.String,
     @SerialName(value = "color") val color: kotlin.String? = null
-)
+) 
+
+
 

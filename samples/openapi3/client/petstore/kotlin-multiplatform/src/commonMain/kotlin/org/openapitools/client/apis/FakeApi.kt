@@ -49,6 +49,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     @Suppress("UNCHECKED_CAST")
     suspend fun fakeHealthGet() : HttpResponse<HealthCheckResult> {
 
+        val localVariableAuthNames = listOf<String>()
+
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
 
@@ -65,7 +67,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -78,6 +81,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     */
     @Suppress("UNCHECKED_CAST")
     suspend fun fakeOuterBooleanSerialize(body: kotlin.Boolean?) : HttpResponse<kotlin.Boolean> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = body
 
@@ -94,7 +99,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -108,6 +114,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     */
     @Suppress("UNCHECKED_CAST")
     suspend fun fakeOuterCompositeSerialize(outerComposite: OuterComposite?) : HttpResponse<OuterComposite> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = outerComposite
 
@@ -124,7 +132,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -138,6 +147,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     */
     @Suppress("UNCHECKED_CAST")
     suspend fun fakeOuterNumberSerialize(body: kotlin.Double?) : HttpResponse<kotlin.Double> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = body
 
@@ -154,7 +165,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -168,6 +180,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     */
     @Suppress("UNCHECKED_CAST")
     suspend fun fakeOuterStringSerialize(body: kotlin.String?) : HttpResponse<kotlin.String> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = body
 
@@ -184,7 +198,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -197,6 +212,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     * @return void
     */
     suspend fun testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass) : HttpResponse<Unit> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = fileSchemaTestClass
 
@@ -213,7 +230,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -227,6 +245,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     * @return void
     */
     suspend fun testBodyWithQueryParams(query: kotlin.String, user: User) : HttpResponse<Unit> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = user
 
@@ -244,7 +264,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -258,6 +279,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     */
     @Suppress("UNCHECKED_CAST")
     suspend fun testClientModel(client: Client) : HttpResponse<Client> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = client
 
@@ -274,7 +297,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -299,7 +323,9 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     * @param paramCallback None (optional)
     * @return void
     */
-    suspend fun testEndpointParameters(number: kotlin.Double, double: kotlin.Double, patternWithoutDelimiter: kotlin.String, byte: kotlin.ByteArray, integer: kotlin.Int?, int32: kotlin.Int?, int64: kotlin.Long?, float: kotlin.Float?, string: kotlin.String?, binary: io.ktor.client.request.forms.InputProvider?, date: kotlin.String?, dateTime: kotlin.String?, password: kotlin.String?, paramCallback: kotlin.String?) : HttpResponse<Unit> {
+    suspend fun testEndpointParameters(number: kotlin.Double, double: kotlin.Double, patternWithoutDelimiter: kotlin.String, byte: org.openapitools.client.infrastructure.Base64ByteArray, integer: kotlin.Int?, int32: kotlin.Int?, int64: kotlin.Long?, float: kotlin.Float?, string: kotlin.String?, binary: io.ktor.client.request.forms.InputProvider?, date: kotlin.String?, dateTime: kotlin.String?, password: kotlin.String?, paramCallback: kotlin.String?) : HttpResponse<Unit> {
+
+        val localVariableAuthNames = listOf<String>("http_basic_test")
 
         val localVariableBody = 
             ParametersBuilder().also {
@@ -332,7 +358,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
 
         return urlEncodedFormRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -351,6 +378,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     * @return void
     */
     suspend fun testEnumParameters(enumHeaderStringArray: kotlin.Array<kotlin.String>?, enumHeaderString: kotlin.String?, enumQueryStringArray: kotlin.Array<kotlin.String>?, enumQueryString: kotlin.String?, enumQueryInteger: kotlin.Int?, enumQueryDouble: kotlin.Double?, enumFormStringArray: kotlin.Array<kotlin.String>?, enumFormString: kotlin.String?) : HttpResponse<Unit> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = 
             ParametersBuilder().also {
@@ -377,7 +406,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
 
         return urlEncodedFormRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -394,6 +424,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     * @return void
     */
     suspend fun testGroupParameters(requiredStringGroup: kotlin.Int, requiredBooleanGroup: kotlin.Boolean, requiredInt64Group: kotlin.Long, stringGroup: kotlin.Int?, booleanGroup: kotlin.Boolean?, int64Group: kotlin.Long?) : HttpResponse<Unit> {
+
+        val localVariableAuthNames = listOf<String>("bearer_test")
 
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
@@ -417,7 +449,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -429,6 +462,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     * @return void
     */
     suspend fun testInlineAdditionalProperties(requestBody: kotlin.collections.Map<kotlin.String, kotlin.String>) : HttpResponse<Unit> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = TestInlineAdditionalPropertiesRequest(requestBody)
 
@@ -445,7 +480,8 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -469,6 +505,8 @@ private class TestInlineAdditionalPropertiesRequest(val value: Map<kotlin.String
     */
     suspend fun testJsonFormData(param: kotlin.String, param2: kotlin.String) : HttpResponse<Unit> {
 
+        val localVariableAuthNames = listOf<String>()
+
         val localVariableBody = 
             ParametersBuilder().also {
                 param?.apply { it.append("param", param.toString()) }
@@ -488,7 +526,8 @@ private class TestInlineAdditionalPropertiesRequest(val value: Map<kotlin.String
 
         return urlEncodedFormRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -504,6 +543,8 @@ private class TestInlineAdditionalPropertiesRequest(val value: Map<kotlin.String
     * @return void
     */
     suspend fun testQueryParameterCollectionFormat(pipe: kotlin.Array<kotlin.String>, ioutil: kotlin.Array<kotlin.String>, http: kotlin.Array<kotlin.String>, url: kotlin.Array<kotlin.String>, context: kotlin.Array<kotlin.String>) : HttpResponse<Unit> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
@@ -526,7 +567,8 @@ private class TestInlineAdditionalPropertiesRequest(val value: Map<kotlin.String
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 

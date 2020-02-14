@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **additionalMetadata** | **kotlin.String** | Additional data to pass to server |  [optional]
-**requiredFile** | [**io.ktor.client.request.forms.InputProvider**](io.ktor.client.request.forms.InputProvider.md) | file to upload | 
+**requiredFile** | [**org.openapitools.client.infrastructure.OctetByteArray**](org.openapitools.client.infrastructure.OctetByteArray.md) | file to upload | 
 
 
 

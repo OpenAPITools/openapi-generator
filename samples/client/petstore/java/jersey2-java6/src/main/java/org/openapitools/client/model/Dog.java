@@ -56,7 +56,6 @@ public class Dog extends Animal {
   }
 
 
-
   public void setBreed(String breed) {
     this.breed = breed;
   }

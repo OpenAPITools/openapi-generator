@@ -5,19 +5,19 @@
     "osx": "10.11",
     "tvos": "9.0"
   },
-  "version": "0.0.1",
+  "version": "1.0",
   "source": {
-    "git": "git@github.com:swagger-api/swagger-mustache.git",
-    "tag": "v1.0.0"
+    "git": "git@github.com:OpenAPITools/openapi-generator.git",
+    "tag": "v1.0"
   },
   "authors": "",
   "license": "Proprietary",
-  "homepage": "https://github.com/swagger-api/swagger-codegen",
+  "homepage": "https://github.com/openapitools/openapi-generator",
   "summary": "TestClient",
   "source_files": "TestClient/Classes/**/*.swift",
   "dependencies": {
     "Alamofire": [
-      "~> 4.5.0"
+      "~> 4.9.0"
     ]
   }
 }

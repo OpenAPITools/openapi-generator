@@ -2,6 +2,7 @@
 
 # Name
 
+Model for testing model name same as property name
 ## Properties
 
 Name | Type | Description | Notes
@@ -11,5 +12,9 @@ Name | Type | Description | Notes
 **property** | **String** |  |  [optional]
 **_123number** | **Integer** |  |  [optional] [readonly]
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

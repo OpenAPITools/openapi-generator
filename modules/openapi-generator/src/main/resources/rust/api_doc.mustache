@@ -25,7 +25,7 @@ Method | HTTP request | Description
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
 {{#allParams}}
-**{{{paramName}}}** | {{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{{baseType}}}.md){{/isPrimitiveType}} | {{{description}}} | {{#required}}Required{{/required}} | {{#defaultValue}}[default to {{{defaultValue}}}]{{/defaultValue}}
+**{{{paramName}}}** | {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{{baseType}}}.md){{/isPrimitiveType}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}} | {{{description}}} | {{#required}}[required]{{/required}} |{{#defaultValue}}[default to {{{defaultValue}}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type

@@ -1,3 +1,5 @@
+.mvn/.gradle-enterprise/
+.scannerwork/
 .vscode
 *.iml
 out/
@@ -28,6 +30,8 @@ packages/
 .vagrant/
 .vscode/
 **/.vs
+bin
+.factorypath
 
 .settings
 

@@ -45,6 +45,8 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
     */
     suspend fun createUser(user: User) : HttpResponse<Unit> {
 
+        val localVariableAuthNames = listOf<String>()
+
         val localVariableBody = user
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
@@ -60,7 +62,8 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -73,6 +76,8 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
     * @return void
     */
     suspend fun createUsersWithArrayInput(user: kotlin.Array<User>) : HttpResponse<Unit> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = CreateUsersWithArrayInputRequest(user.asList())
 
@@ -89,7 +94,8 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -112,6 +118,8 @@ private class CreateUsersWithArrayInputRequest(val value: List<User>) {
     */
     suspend fun createUsersWithListInput(user: kotlin.Array<User>) : HttpResponse<Unit> {
 
+        val localVariableAuthNames = listOf<String>()
+
         val localVariableBody = CreateUsersWithListInputRequest(user.asList())
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
@@ -127,7 +135,8 @@ private class CreateUsersWithArrayInputRequest(val value: List<User>) {
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -150,6 +159,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
     */
     suspend fun deleteUser(username: kotlin.String) : HttpResponse<Unit> {
 
+        val localVariableAuthNames = listOf<String>()
+
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
 
@@ -166,7 +177,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -179,6 +191,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
     */
     @Suppress("UNCHECKED_CAST")
     suspend fun getUserByName(username: kotlin.String) : HttpResponse<User> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
@@ -196,7 +210,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -210,6 +225,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
     */
     @Suppress("UNCHECKED_CAST")
     suspend fun loginUser(username: kotlin.String, password: kotlin.String) : HttpResponse<kotlin.String> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
@@ -229,7 +246,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -240,6 +258,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
     * @return void
     */
     suspend fun logoutUser() : HttpResponse<Unit> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = 
             io.ktor.client.utils.EmptyContent
@@ -257,7 +277,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
 
         return request(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 
@@ -270,6 +291,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
     * @return void
     */
     suspend fun updateUser(username: kotlin.String, user: User) : HttpResponse<Unit> {
+
+        val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = user
 
@@ -286,7 +309,8 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
 
         return jsonRequest(
             localVariableConfig,
-            localVariableBody
+            localVariableBody,
+            localVariableAuthNames
         ).wrap()
     }
 

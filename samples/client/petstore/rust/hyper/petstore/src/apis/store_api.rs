@@ -10,6 +10,8 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+#[allow(unused_imports)]
+use std::option::Option;
 
 use hyper;
 use serde_json;
@@ -37,35 +39,42 @@ pub trait StoreApi {
     fn place_order(&self, body: crate::models::Order) -> Box<dyn Future<Item = crate::models::Order, Error = Error<serde_json::Value>>>;
 }
 
-
 impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
     fn delete_order(&self, order_id: &str) -> Box<dyn Future<Item = (), Error = Error<serde_json::Value>>> {
-        __internal_request::Request::new(hyper::Method::Delete, "/store/order/{orderId}".to_string())
-            .with_path_param("orderId".to_string(), order_id.to_string())
-            .returns_nothing()
-            .execute(self.configuration.borrow())
+        let mut req = __internal_request::Request::new(hyper::Method::Delete, "/store/order/{orderId}".to_string())
+        ;
+        req = req.with_path_param("orderId".to_string(), order_id.to_string());
+        req = req.returns_nothing();
+
+        req.execute(self.configuration.borrow())
     }
 
     fn get_inventory(&self, ) -> Box<dyn Future<Item = ::std::collections::HashMap<String, i32>, Error = Error<serde_json::Value>>> {
-        __internal_request::Request::new(hyper::Method::Get, "/store/inventory".to_string())
+        let mut req = __internal_request::Request::new(hyper::Method::Get, "/store/inventory".to_string())
             .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
                 in_header: true,
                 in_query: false,
                 param_name: "api_key".to_owned(),
             }))
-            .execute(self.configuration.borrow())
+        ;
+
+        req.execute(self.configuration.borrow())
     }
 
     fn get_order_by_id(&self, order_id: i64) -> Box<dyn Future<Item = crate::models::Order, Error = Error<serde_json::Value>>> {
-        __internal_request::Request::new(hyper::Method::Get, "/store/order/{orderId}".to_string())
-            .with_path_param("orderId".to_string(), order_id.to_string())
-            .execute(self.configuration.borrow())
+        let mut req = __internal_request::Request::new(hyper::Method::Get, "/store/order/{orderId}".to_string())
+        ;
+        req = req.with_path_param("orderId".to_string(), order_id.to_string());
+
+        req.execute(self.configuration.borrow())
     }
 
     fn place_order(&self, body: crate::models::Order) -> Box<dyn Future<Item = crate::models::Order, Error = Error<serde_json::Value>>> {
-        __internal_request::Request::new(hyper::Method::Post, "/store/order".to_string())
-            .with_body_param(body)
-            .execute(self.configuration.borrow())
+        let mut req = __internal_request::Request::new(hyper::Method::Post, "/store/order".to_string())
+        ;
+        req = req.with_body_param(body);
+
+        req.execute(self.configuration.borrow())
     }
 
 }
