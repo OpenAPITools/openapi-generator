@@ -648,7 +648,12 @@ public class ModelUtils {
     }
 
     /**
-     * Check to see if the schema is a free form object
+     * Check to see if the schema is a free form object.
+     * 
+     * A free form object is an object (i.e. 'type: object' in a OAS document) that:
+     * 1) Does not define properties, and
+     * 2) Is not a composed schema (no anyOf, oneOf, allOf), and
+     * 3) additionalproperties is not defined, or additionalproperties: true, or additionalproperties: {}.
      *
      * @param schema potentially containing a '$ref'
      * @return true if it's a free-form object
