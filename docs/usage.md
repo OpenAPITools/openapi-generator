@@ -318,8 +318,10 @@ OPTIONS
 
         --generate-alias-as-model
             Generate model implementation for aliases to map and array schemas.
-            A 'map' schema is an extensible object (i.e. 'type: object' in
-            a OAS document) that can have additional properties.
+            An 'alias' is an array, map, or list which is defined inline in a 
+            OpenAPI document and becomes a model in the generated code.
+            A 'map' schema is an object that can have undeclared properties,
+            i.e. the 'additionalproperties' attribute is set on that object.
             An 'array' schema is a list of sub schemas in a OAS document.
 
         --git-repo-id <git repo id>

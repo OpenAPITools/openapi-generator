@@ -407,24 +407,34 @@ public class ModelUtils {
 
     /**
      * Return true if the specified 'schema' is an object that can be extended with additional properties.
-     * 
+     * Additional properties means a Schema should support all explicitly defined properties plus any
+     * undeclared properties.
+     *
      * A MapSchema differs from an ObjectSchema in the following way:
      * - An ObjectSchema is not extensible, i.e. it has a fixed number of properties.
      * - A MapSchema is an object that can be extended with an arbitrary set of properties.
      *   The payload may include dynamic properties.
-     * 
+     *
+     * Note that isMapSchema returns true for a composed schema (allOf, anyOf, oneOf) that also defines
+     * additionalproperties.
+     *
      * For example, an OpenAPI schema is considered a MapSchema in the following scenarios:
-     * 
+     *
      *   type: object
-     *     additionalProperties: true
-     * 
+     *   additionalProperties: true
+     *
      *   type: object
-     *     additionalProperties:
-     *       type: object
-     *       properties:
-     *         code:
-     *           type: integer
-     * 
+     *   additionalProperties:
+     *     type: object
+     *     properties:
+     *       code:
+     *         type: integer
+     *
+     *   allOf:
+     *     - $ref: '#/components/schemas/Class1'
+     *     - $ref: '#/components/schemas/Class2'
+     *   additionalProperties: true
+     *
      * @param schema the OAS schema
      * @return true if the specified schema is a Map schema.
      */
