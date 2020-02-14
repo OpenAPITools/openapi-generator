@@ -27,3 +27,18 @@ components:
       type: string
       minLength: 1
       maxLength: 50
+    BaseModel:
+      type: object
+      discriminator: className
+      required:
+        - className
+      properties:
+        className:
+          type: string
+    ComposedModel:
+      allOf:
+        - $ref: '#/components/schemas/BaseModel'
+        - type: object
+          properties:
+            testProperty:
+              type: string

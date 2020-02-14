@@ -4221,6 +4221,7 @@ public class DefaultCodegen implements CodegenConfig {
         return (!ModelUtils.isObjectSchema(schema)
                 && !ModelUtils.isArraySchema(schema)
                 && !ModelUtils.isMapSchema(schema)
+                && !ModelUtils.isComposedSchema(schema)
                 && schema.getEnum() == null);
     }
 

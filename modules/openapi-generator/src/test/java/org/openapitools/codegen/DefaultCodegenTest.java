@@ -958,13 +958,18 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        CodegenModel model = codegen.fromModel(
+        CodegenModel typeAliasModel = codegen.fromModel(
                 "MyParameterTextField",
                 openAPI.getComponents().getSchemas().get("MyParameterTextField")
         );
+        Assert.assertTrue(typeAliasModel.isAlias);
+        Assert.assertEquals("string", typeAliasModel.dataType);
 
-        Assert.assertTrue(model.isAlias);
-        Assert.assertEquals("string", model.dataType);
+        CodegenModel composedModel = codegen.fromModel(
+                "ComposedModel",
+                openAPI.getComponents().getSchemas().get("ComposedModel")
+        );
+        Assert.assertFalse(composedModel.isAlias);
     }
 
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
