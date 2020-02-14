@@ -11,6 +11,7 @@
  */
 
 #include <QDebug>
+#include <QJsonParseError>
 #include "OAIHelpers.h"
 
 
@@ -228,6 +229,18 @@ fromStringValue(const QString &inStr, double &value){
     bool ok = false;
     value = QVariant(inStr).toDouble(&ok);
     return ok;
+}
+
+bool
+fromStringValue(const QString &inStr, OAIObject &value)
+{
+    QJsonParseError err;
+    QJsonDocument::fromJson(inStr.toUtf8(),&err);
+    if ( err.error == QJsonParseError::NoError ){
+        value.fromJson(inStr);
+        return true;
+    }
+    return false;
 }
 
 bool
