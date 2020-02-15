@@ -404,6 +404,11 @@ namespace Org.OpenAPITools.Client
                 client.UserAgent = configuration.UserAgent;
             }
 
+            if (configuration.ClientCertificates != null)
+            {
+                client.ClientCertificates = configuration.ClientCertificates;
+            }
+
             InterceptRequest(req);
 
             var response = client.Execute<T>(req);
@@ -467,6 +472,11 @@ namespace Org.OpenAPITools.Client
             if (configuration.UserAgent != null)
             {
                 client.UserAgent = configuration.UserAgent;
+            }
+
+            if (configuration.ClientCertificates != null)
+            {
+                client.ClientCertificates = configuration.ClientCertificates;
             }
 
             InterceptRequest(req);
