@@ -873,7 +873,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                     model.additionalAnnotations.add("@Table");
                 }
             }
-            if (property.vendorExtensions.containsKey("x-java-jpa-annotations")) {
+
+            if (model.isJpaEntity && property.vendorExtensions.containsKey("x-java-jpa-annotations")) {
                 property.additionalAnnotations.addAll((List<String>) property.vendorExtensions.get("x-java-jpa-annotations"));
             }
         }
