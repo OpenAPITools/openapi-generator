@@ -52,6 +52,7 @@ public class EnumArrays   {
     }
   }
 
+    
   @JsonProperty("just_symbol")
   private JustSymbolEnum justSymbol;
 
@@ -90,6 +91,7 @@ public class EnumArrays   {
     }
   }
 
+    
   @JsonProperty("array_enum")
   @Valid
   private List<ArrayEnumEnum> arrayEnum = null;

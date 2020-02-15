@@ -14,8 +14,10 @@ import javax.validation.constraints.*;
  */
 
 public class HasOnlyReadOnly   {
+
   @JsonProperty("bar")
   private String bar;
+
 
   @JsonProperty("foo")
   private String foo;

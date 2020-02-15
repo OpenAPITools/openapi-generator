@@ -17,6 +17,7 @@ import javax.validation.constraints.*;
  */
 
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
+
   @JsonProperty("name")
   private String name;
 

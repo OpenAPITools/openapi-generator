@@ -14,6 +14,7 @@ import javax.validation.constraints.*;
  */
 
 public class DogAllOf   {
+
   @JsonProperty("breed")
   private String breed;
 

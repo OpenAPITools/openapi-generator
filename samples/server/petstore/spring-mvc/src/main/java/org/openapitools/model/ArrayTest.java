@@ -17,13 +17,16 @@ import javax.validation.constraints.*;
  */
 
 public class ArrayTest   {
+
   @JsonProperty("array_of_string")
   @Valid
   private List<String> arrayOfString = null;
 
+
   @JsonProperty("array_array_of_integer")
   @Valid
   private List<List<Long>> arrayArrayOfInteger = null;
+
 
   @JsonProperty("array_array_of_model")
   @Valid

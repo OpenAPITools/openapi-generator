@@ -14,6 +14,7 @@ import javax.validation.constraints.*;
  */
 
 public class CatAllOf   {
+
   @JsonProperty("declawed")
   private Boolean declawed;
 

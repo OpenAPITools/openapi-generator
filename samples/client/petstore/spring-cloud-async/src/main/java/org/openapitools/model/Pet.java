@@ -20,18 +20,23 @@ import javax.validation.constraints.*;
 @ApiModel(description = "A pet for sale in the pet store")
 
 public class Pet   {
+
   @JsonProperty("id")
   private Long id;
+
 
   @JsonProperty("category")
   private Category category;
 
+
   @JsonProperty("name")
   private String name;
+
 
   @JsonProperty("photoUrls")
   @Valid
   private List<String> photoUrls = new ArrayList<>();
+
 
   @JsonProperty("tags")
   @Valid
@@ -74,6 +79,7 @@ public class Pet   {
     }
   }
 
+    
   @JsonProperty("status")
   private StatusEnum status;
 

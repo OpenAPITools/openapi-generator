@@ -17,14 +17,18 @@ import javax.validation.constraints.*;
 @ApiModel(description = "An order for a pets from the pet store")
 
 public class Order   {
+
   @JsonProperty("id")
   private Long id;
+
 
   @JsonProperty("petId")
   private Long petId;
 
+
   @JsonProperty("quantity")
   private Integer quantity;
+
 
   @JsonProperty("shipDate")
   private OffsetDateTime shipDate;
@@ -66,8 +70,10 @@ public class Order   {
     }
   }
 
+    
   @JsonProperty("status")
   private StatusEnum status;
+
 
   @JsonProperty("complete")
   private Boolean complete = false;

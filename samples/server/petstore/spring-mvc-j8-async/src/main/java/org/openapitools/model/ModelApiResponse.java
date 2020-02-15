@@ -14,11 +14,14 @@ import javax.validation.constraints.*;
  */
 
 public class ModelApiResponse   {
+
   @JsonProperty("code")
   private Integer code;
 
+
   @JsonProperty("type")
   private String type;
+
 
   @JsonProperty("message")
   private String message;

@@ -15,11 +15,14 @@ import javax.validation.constraints.*;
  */
 
 public class OuterComposite   {
+
   @JsonProperty("my_number")
   private BigDecimal myNumber;
 
+
   @JsonProperty("my_string")
   private String myString;
+
 
   @JsonProperty("my_boolean")
   private Boolean myBoolean;

@@ -14,6 +14,7 @@ import javax.validation.constraints.*;
  */
 
 public class Client   {
+
   @JsonProperty("client")
   private String client;
 

@@ -17,97 +17,126 @@ import javax.validation.constraints.*;
  */
 
 public class XmlItem   {
+
   @JsonProperty("attribute_string")
   private String attributeString;
+
 
   @JsonProperty("attribute_number")
   private BigDecimal attributeNumber;
 
+
   @JsonProperty("attribute_integer")
   private Integer attributeInteger;
 
+
   @JsonProperty("attribute_boolean")
   private Boolean attributeBoolean;
+
 
   @JsonProperty("wrapped_array")
   @Valid
   private List<Integer> wrappedArray = null;
 
+
   @JsonProperty("name_string")
   private String nameString;
+
 
   @JsonProperty("name_number")
   private BigDecimal nameNumber;
 
+
   @JsonProperty("name_integer")
   private Integer nameInteger;
 
+
   @JsonProperty("name_boolean")
   private Boolean nameBoolean;
+
 
   @JsonProperty("name_array")
   @Valid
   private List<Integer> nameArray = null;
 
+
   @JsonProperty("name_wrapped_array")
   @Valid
   private List<Integer> nameWrappedArray = null;
 
+
   @JsonProperty("prefix_string")
   private String prefixString;
+
 
   @JsonProperty("prefix_number")
   private BigDecimal prefixNumber;
 
+
   @JsonProperty("prefix_integer")
   private Integer prefixInteger;
 
+
   @JsonProperty("prefix_boolean")
   private Boolean prefixBoolean;
+
 
   @JsonProperty("prefix_array")
   @Valid
   private List<Integer> prefixArray = null;
 
+
   @JsonProperty("prefix_wrapped_array")
   @Valid
   private List<Integer> prefixWrappedArray = null;
 
+
   @JsonProperty("namespace_string")
   private String namespaceString;
+
 
   @JsonProperty("namespace_number")
   private BigDecimal namespaceNumber;
 
+
   @JsonProperty("namespace_integer")
   private Integer namespaceInteger;
 
+
   @JsonProperty("namespace_boolean")
   private Boolean namespaceBoolean;
+
 
   @JsonProperty("namespace_array")
   @Valid
   private List<Integer> namespaceArray = null;
 
+
   @JsonProperty("namespace_wrapped_array")
   @Valid
   private List<Integer> namespaceWrappedArray = null;
 
+
   @JsonProperty("prefix_ns_string")
   private String prefixNsString;
+
 
   @JsonProperty("prefix_ns_number")
   private BigDecimal prefixNsNumber;
 
+
   @JsonProperty("prefix_ns_integer")
   private Integer prefixNsInteger;
+
 
   @JsonProperty("prefix_ns_boolean")
   private Boolean prefixNsBoolean;
 
+
   @JsonProperty("prefix_ns_array")
   @Valid
   private List<Integer> prefixNsArray = null;
+
 
   @JsonProperty("prefix_ns_wrapped_array")
   @Valid

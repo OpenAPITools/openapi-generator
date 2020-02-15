@@ -61,6 +61,7 @@ sidebar_label: spring
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useOptional|Use Optional container for optional parameters| |false|
+|useSpringJpa|use spring jpa annotations and include persistance library| |false|
 |useTags|use tags for creating interface and controller classnames| |false|
 |virtualService|Generates the virtual service. For more details refer - https://github.com/elan-venture/virtualan/wiki| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|

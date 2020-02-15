@@ -15,11 +15,14 @@ import javax.validation.constraints.*;
 @ApiModel(description = "Describes the result of uploading an image resource")
 
 public class ModelApiResponse   {
+
   @JsonProperty("code")
   private Integer code;
 
+
   @JsonProperty("type")
   private String type;
+
 
   @JsonProperty("message")
   private String message;
