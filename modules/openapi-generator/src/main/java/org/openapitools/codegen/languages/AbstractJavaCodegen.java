@@ -831,7 +831,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return null;
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                String _default = (String) p.getDefault();
+                String _default;
+                if (p.getDefault() instanceof Date){
+                    String stringBuilder = "LocalDate.parse(\"" +
+                            p.getDefault() +
+                            "\")";
+                    return String.format(Locale.ROOT, stringBuilder, "");
+                }
+                else{
+                    _default = (String) p.getDefault();
+                }
                 if (p.getEnum() == null) {
                     return "\"" + escapeText(_default) + "\"";
                 } else {
@@ -1493,7 +1502,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * @return SNAPSHOT version
      */
     private String buildSnapshotVersion(String version) {
-        if(version.endsWith("-SNAPSHOT")) {
+        if (version.endsWith("-SNAPSHOT")) {
             return version;
         }
         return version + "-SNAPSHOT";
