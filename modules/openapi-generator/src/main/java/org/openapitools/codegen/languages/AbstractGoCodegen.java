@@ -486,7 +486,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     StringBuilder sb = new StringBuilder(param.paramName);
                     sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
                     param.vendorExtensions.put("x-exportParamName", sb.toString()); // TODO: 5.0 Remove
-                    param.vendorExtensions.put("x-x-export-param-name", sb.toString());
+                    param.vendorExtensions.put("x-export-param-name", sb.toString());
                 }
             }
 
