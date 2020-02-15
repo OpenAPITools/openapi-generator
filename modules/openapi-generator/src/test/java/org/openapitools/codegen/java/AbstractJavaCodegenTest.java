@@ -21,6 +21,10 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.TestUtils;
@@ -411,6 +415,13 @@ public class AbstractJavaCodegenTest {
         Schema<?> schema = createObjectSchemaWithMinItems();
         String defaultValue = codegen.toDefaultValue(schema);
         Assert.assertNull(defaultValue);
+        DateSchema dateSchema = new DateSchema();
+        LocalDate defaultLocalDate = LocalDate.of(2019,2,15);
+        Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        dateSchema.setDefault(date);
+        defaultValue = codegen.toDefaultValue(dateSchema);
+        Assert.assertTrue(defaultValue.contains(defaultLocalDate.getYear()+""));
+        Assert.assertTrue(defaultValue.contains(defaultLocalDate.getDayOfMonth()+""));
     }
 
     @Test
