@@ -172,6 +172,7 @@ public class JavaModelEnumTest {
         codegen.setOpenAPI(openAPI);
 
         Schema enumTest = openAPI.getComponents().getSchemas().get("Enum_Test");
+        Assert.assertNotNull(enumTest);
         CodegenModel cm = codegen.fromModel("Enum_Test", enumTest);
 
         Assert.assertEquals(cm.getVars().size(), 8);
