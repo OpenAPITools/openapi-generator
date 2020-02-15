@@ -1,0 +1,11 @@
+kumuluzee:
+    server:
+        http:
+            port: 8081
+
+    rest-client:
+        registrations:
+            {{#apiClassFiles}}
+            - class: {{.}}
+              url: http://localhost:8080/v2
+            {{/apiClassFiles}}
