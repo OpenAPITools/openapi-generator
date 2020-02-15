@@ -1,5 +1,4 @@
 {
     "library": "feign",
-    "artifactId": "petstore-feign-10x",
-    "feignVersion": "10.x"
+    "artifactId": "petstore-feign-10x"
 }

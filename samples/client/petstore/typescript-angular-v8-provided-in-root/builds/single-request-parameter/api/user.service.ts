@@ -24,32 +24,41 @@ import { Configuration }                                     from '../configurat
 
 
 export interface CreateUserRequestParams {
+    /** Created user object */
     body: User;
 }
 
 export interface CreateUsersWithArrayInputRequestParams {
+    /** List of user object */
     body: Array<User>;
 }
 
 export interface CreateUsersWithListInputRequestParams {
+    /** List of user object */
     body: Array<User>;
 }
 
 export interface DeleteUserRequestParams {
+    /** The name that needs to be deleted */
     username: string;
 }
 
 export interface GetUserByNameRequestParams {
+    /** The name that needs to be fetched. Use user1 for testing. */
     username: string;
 }
 
 export interface LoginUserRequestParams {
+    /** The user name for login */
     username: string;
+    /** The password for login in clear text */
     password: string;
 }
 
 export interface UpdateUserRequestParams {
+    /** name that need to be deleted */
     username: string;
+    /** Updated user object */
     body: User;
 }
 
