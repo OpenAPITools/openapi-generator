@@ -242,16 +242,16 @@ NAME
 SYNOPSIS
         openapi-generator-cli generate
                 [(-a <authorization> | --auth <authorization>)]
-                [--api-package <api package>] [--artifact-id <artifact id>]
-                [--artifact-version <artifact version>]
+                [--api-name-suffix <api name suffix>] [--api-package <api package>]
+                [--artifact-id <artifact id>] [--artifact-version <artifact version>]
                 [(-c <configuration file> | --config <configuration file>)]
-                [-D <system properties>...]
+                [-D <system properties>...] [--dry-run]
                 [(-e <templating engine> | --engine <templating engine>)]
                 [--enable-post-process-file]
                 [(-g <generator name> | --generator-name <generator name>)]
-                [--generate-alias-as-model] [--git-repo-id <git repo id>]
-                [--git-user-id <git user id>] [--group-id <group id>]
-                [--http-user-agent <http user agent>]
+                [--generate-alias-as-model] [--git-host <git host>]
+                [--git-repo-id <git repo id>] [--git-user-id <git user id>]
+                [--group-id <group id>] [--http-user-agent <http user agent>]
                 (-i <spec file> | --input-spec <spec file>)
                 [--ignore-file-override <ignore file override location>]
                 [--import-mappings <import mappings>...]
@@ -283,6 +283,11 @@ OPTIONS
             remotely. Pass in a URL-encoded string of name:header with a comma
             separating multiple values
 
+        --api-name-suffix <api name suffix>
+            Suffix that will be appended to all API names ('tags'). Default:
+            Api. e.g. Pet => PetApi. Note: Only ruby, python, jaxrs generators
+            suppport this feature at the moment.
+
         --api-package <api package>
             package for generated api classes
 
@@ -295,29 +300,35 @@ OPTIONS
             generated library's filename
 
         -c <configuration file>, --config <configuration file>
-            Path to configuration file configuration file. It can be json or
-            yaml.If file is json, the content should have the format
-            {"optionKey":"optionValue", "optionKey1":"optionValue1"...}.If file
-            is yaml, the content should have the format optionKey:
-            optionValueSupported options can be different for each language. Run
-            config-help -g {generator name} command for language specific config
-            options.
+            Path to configuration file. It can be JSON or YAML. If file is JSON,
+            the content should have the format {"optionKey":"optionValue",
+            "optionKey1":"optionValue1"...}. If file is YAML, the content should
+            have the format optionKey: optionValue. Supported options can be
+            different for each language. Run config-help -g {generator name}
+            command for language-specific config options.
 
         -D <system properties>
             sets specified system properties in the format of
             name=value,name=value (or multiple options, each with name=value)
 
+        --dry-run
+            Try things out and report on potential changes (without actually
+            making changes).
+
         -e <templating engine>, --engine <templating engine>
             templating engine: "mustache" (default) or "handlebars" (beta)
 
         --enable-post-process-file
-            enablePostProcessFile
+            Enable post-processing file using environment variables.
 
         -g <generator name>, --generator-name <generator name>
             generator to use (see list command for list)
 
         --generate-alias-as-model
             Generate alias to map, array as models
+
+        --git-host <git host>
+            Git host, e.g. gitlab.com.
 
         --git-repo-id <git repo id>
             Git repo ID, e.g. openapi-generator.
@@ -372,12 +383,10 @@ OPTIONS
             Only write output files that have changed.
 
         --model-name-prefix <model name prefix>
-            Prefix that will be prepended to all model names. Default is the
-            empty string.
+            Prefix that will be prepended to all model names.
 
         --model-name-suffix <model name suffix>
-            Suffix that will be appended to all model names. Default is the
-            empty string.
+            Suffix that will be appended to all model names.
 
         --model-package <model package>
             package for generated models
@@ -410,8 +419,8 @@ OPTIONS
             generation.
 
         --server-variables <server variables>
-            sets server variables for spec documents which support variable
-            templating of servers.
+            sets server variables overrides for spec documents which support
+            variable templating of servers.
 
         --skip-validate-spec
             Skips the default behavior of validating an input specification.
