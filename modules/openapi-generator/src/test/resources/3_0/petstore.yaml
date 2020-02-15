@@ -703,10 +703,6 @@ components:
         name:
           type: string
           example: doggie
-        birthday:
-          type: string
-          format: date
-          default: '2020-01-22'
         photoUrls:
           type: array
           xml:
