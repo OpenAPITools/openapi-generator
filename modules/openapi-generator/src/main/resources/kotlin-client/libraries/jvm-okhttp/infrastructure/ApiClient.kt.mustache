@@ -237,12 +237,13 @@ import java.io.File
                     response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
             )
             response.isClientError -> return ClientError(
+                    response.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
                     response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}?.string(),
                     response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
                     response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
             )
             else -> return ServerError(
-                    null,
+                    response.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
                     response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}?.string(),
                     response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
                     response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
