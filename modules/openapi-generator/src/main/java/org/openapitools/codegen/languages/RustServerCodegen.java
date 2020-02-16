@@ -354,7 +354,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return "_" + name; // add an underscore to the name
+        return name + "_"; // add an underscore _suffix_ to the name - a prefix implies unused
     }
 
     /**
@@ -398,9 +398,13 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toVarName(String name) {
         String sanitizedName = super.sanitizeName(name);
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(sanitizedName) || sanitizedName.matches("^\\d.*")) {
+        // for reserved word, append _
+        if (isReservedWord(sanitizedName)) {
             sanitizedName = escapeReservedWord(sanitizedName);
+        }
+        // for word starting with number, prepend "param_"
+        else if (sanitizedName.matches("^\\d.*")) {
+            sanitizedName = "param_" + sanitizedName;
         }
 
         return underscore(sanitizedName);
