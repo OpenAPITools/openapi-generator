@@ -192,8 +192,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("ByteArray", bytesType);
         typeMapping.put("binary", bytesType);
         typeMapping.put("boolean", "bool");
-        typeMapping.put("date", "chrono::DateTime<chrono::Utc>");
-        typeMapping.put("DateTime", "chrono::DateTime<chrono::Utc>");
+        typeMapping.put("date", "chrono::DateTime::<chrono::Utc>");
+        typeMapping.put("DateTime", "chrono::DateTime::<chrono::Utc>");
         typeMapping.put("password", "String");
         typeMapping.put("File", bytesType);
         typeMapping.put("file", bytesType);
