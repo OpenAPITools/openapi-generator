@@ -68,6 +68,7 @@ use {Api,
 
 use mimetypes;
 use models;
+use header;
 
 define_encode_set! {
     /// This encode set is used for object IDs

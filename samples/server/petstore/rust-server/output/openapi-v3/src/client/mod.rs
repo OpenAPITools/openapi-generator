@@ -29,6 +29,7 @@ use uuid;
 use serde_xml_rs;
 
 use {Api,
+     MandatoryRequestHeaderGetResponse,
      MultigetGetResponse,
      MultipleAuthSchemeGetResponse,
      ReadonlyAuthSchemeGetResponse,
@@ -44,6 +45,7 @@ use {Api,
 
 use mimetypes;
 use models;
+use header;
 
 define_encode_set! {
     /// This encode set is used for object IDs
@@ -204,6 +206,82 @@ impl<C, F> Api<C> for Client<F> where
     C: Has<XSpanIdString> + Has<Option<AuthData>>,
     F: Future<Item=Response<Body>, Error=hyper::Error> + Send + 'static
 {
+
+    fn mandatory_request_header_get(&self, param_x_header: String, context: &C) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send> {
+        let mut uri = format!(
+            "{}/mandatory-request-header",
+            self.base_path
+        );
+
+        // Query parameters
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(future::err(ApiError(format!("Unable to build URI: {}", err)))),
+        };
+
+        let mut request = match hyper::Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
+        };
+
+
+        let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
+        });
+
+
+        // Header parameters
+        request.headers_mut().append(
+            HeaderName::from_static("x-header"),
+            header::IntoHeaderValue(param_x_header.clone()).into());
+
+        Box::new(self.client_service.request(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    let body = response.into_body();
+                    Box::new(
+                        future::ok(
+                            MandatoryRequestHeaderGetResponse::Success
+                        )
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.into_body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                }
+            }
+        }))
+
+    }
 
     fn multiget_get(&self, context: &C) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError> + Send> {
         let mut uri = format!(
@@ -701,6 +779,10 @@ impl<C, F> Api<C> for Client<F> where
                         Some(response_success_info) => response_success_info.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header Success-Info for response 200 was not found.")))) as Box<dyn Future<Item=_, Error=_> + Send>,
                     };
+                    let response_object_header = match response.headers().get(HeaderName::from_static("object-header")) {
+                        Some(response_object_header) => response_object_header.clone(),
+                        None => return Box::new(future::err(ApiError(String::from("Required response header Object-Header for response 200 was not found.")))) as Box<dyn Future<Item=_, Error=_> + Send>,
+                    };
                     let body = response.into_body();
                     Box::new(
                         body
@@ -718,7 +800,8 @@ impl<C, F> Api<C> for Client<F> where
                             ResponsesWithHeadersGetResponse::Success
                             {
                                body: body,
-                               success_info: (*Into::<swagger::IntoHeaderValue<String>>::into(response_success_info)).clone(),
+                               success_info: (*Into::<header::IntoHeaderValue<String>>::into(response_success_info)).clone(),
+                               object_header: (*Into::<header::IntoHeaderValue<models::ObjectHeader>>::into(response_object_header)).clone(),
                             }
                         })
                     ) as Box<dyn Future<Item=_, Error=_> + Send>
@@ -737,8 +820,8 @@ impl<C, F> Api<C> for Client<F> where
                         future::ok(
                             ResponsesWithHeadersGetResponse::PreconditionFailed
                             {
-                              further_info: (*Into::<swagger::IntoHeaderValue<String>>::into(response_further_info)).clone(),
-                              failure_info: (*Into::<swagger::IntoHeaderValue<String>>::into(response_failure_info)).clone(),
+                              further_info: (*Into::<header::IntoHeaderValue<String>>::into(response_further_info)).clone(),
+                              failure_info: (*Into::<header::IntoHeaderValue<String>>::into(response_failure_info)).clone(),
                             }
                         )
                     ) as Box<dyn Future<Item=_, Error=_> + Send>

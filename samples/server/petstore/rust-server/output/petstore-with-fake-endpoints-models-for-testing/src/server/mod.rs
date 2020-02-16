@@ -60,6 +60,7 @@ use {Api,
 
 #[allow(unused_imports)]
 use models;
+use header;
 
 pub mod context;
 
@@ -1028,12 +1029,12 @@ Some("callback_example".to_string());
                 let param_enum_header_string_array = headers.get(HeaderName::from_static("enum_header_string_array"));
 
                 let param_enum_header_string_array = param_enum_header_string_array.map(|p| {
-                        swagger::IntoHeaderValue::<Vec<String>>::from((*p).clone()).0
+                        header::IntoHeaderValue::<Vec<String>>::from((*p).clone()).0
                 });
                 let param_enum_header_string = headers.get(HeaderName::from_static("enum_header_string"));
 
                 let param_enum_header_string = param_enum_header_string.map(|p| {
-                        swagger::IntoHeaderValue::<String>::from((*p).clone()).0
+                        header::IntoHeaderValue::<String>::from((*p).clone()).0
                 });
 
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
@@ -1517,7 +1518,7 @@ Some("enum_form_string_example".to_string());
                 let param_api_key = headers.get(HeaderName::from_static("api_key"));
 
                 let param_api_key = param_api_key.map(|p| {
-                        swagger::IntoHeaderValue::<String>::from((*p).clone()).0
+                        header::IntoHeaderValue::<String>::from((*p).clone()).0
                 });
                 Box::new({
                         {{
@@ -3025,11 +3026,11 @@ Some("status_example".to_string());
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("x-rate-limit"),
-                                                        swagger::IntoHeaderValue(x_rate_limit).into()
+                                                        header::IntoHeaderValue(x_rate_limit).into()
                                                     );
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("x-expires-after"),
-                                                        swagger::IntoHeaderValue(x_expires_after).into()
+                                                        header::IntoHeaderValue(x_expires_after).into()
                                                     );
 
                                                     response.headers_mut().insert(
