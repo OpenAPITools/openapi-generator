@@ -26,6 +26,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -833,9 +835,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (schema.getDefault() != null) {
                 String _default;
                 if (schema.getDefault() instanceof Date){
-                    String stringBuilder = "LocalDate.parse(\"" +
-                            schema.getDefault() +"\")";
-                    return String.format(Locale.ROOT, stringBuilder, "");
+                    Date date = (Date) schema.getDefault();
+                    LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    return String.format(Locale.ROOT, localDate.toString(), "");
                 }
                 else{
                     _default = (String) schema.getDefault();

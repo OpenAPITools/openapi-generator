@@ -420,8 +420,7 @@ public class AbstractJavaCodegenTest {
         Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         dateSchema.setDefault(date);
         defaultValue = codegen.toDefaultValue(dateSchema);
-        Assert.assertTrue(defaultValue.contains(defaultLocalDate.getYear()+""));
-        Assert.assertTrue(defaultValue.contains(defaultLocalDate.getDayOfMonth()+""));
+        Assert.assertEquals(defaultLocalDate, LocalDate.parse(defaultValue));
     }
 
     @Test
