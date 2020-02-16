@@ -30,6 +30,41 @@ paths:
           description: OK
         "400":
           description: Bad Request
+  /paramget:
+    get:
+      parameters:
+      - description: The stuff to get
+        explode: false
+        in: query
+        name: uuid
+        required: false
+        schema:
+          $ref: '#/components/schemas/UuidObject'
+        style: form
+      - description: Some object to pass as query parameter
+        explode: false
+        in: query
+        name: someObject
+        required: false
+        schema:
+          $ref: '#/components/schemas/ObjectParam'
+        style: form
+      - description: Some list to pass as query parameter
+        explode: false
+        in: query
+        name: someList
+        required: false
+        schema:
+          $ref: '#/components/schemas/MyIDList'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/anotherXmlObject'
+          description: JSON rsp
+      summary: Get some stuff with parameters.
   /multiget:
     get:
       responses:
@@ -264,6 +299,15 @@ components:
       type: array
     MyID:
       type: integer
+    ObjectParam:
+      properties:
+        requiredParam:
+          type: boolean
+        optionalParam:
+          type: integer
+      required:
+      - requiredParam
+      type: object
     inline_response_201:
       properties:
         foo:

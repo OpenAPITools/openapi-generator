@@ -23,6 +23,7 @@ pub use swagger::auth::Authorization;
 use {Api,
      MultigetGetResponse,
      MultipleAuthSchemeGetResponse,
+     ParamgetGetResponse,
      ReadonlyAuthSchemeGetResponse,
      RequiredOctetStreamPutResponse,
      ResponsesWithHeadersGetResponse,
@@ -46,6 +47,7 @@ mod paths {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
             r"^/multiget$",
             r"^/multiple_auth_scheme$",
+            r"^/paramget$",
             r"^/readonly_auth_scheme$",
             r"^/required_octet_stream$",
             r"^/responses_with_headers$",
@@ -58,13 +60,14 @@ mod paths {
     }
     pub static ID_MULTIGET: usize = 0;
     pub static ID_MULTIPLE_AUTH_SCHEME: usize = 1;
-    pub static ID_READONLY_AUTH_SCHEME: usize = 2;
-    pub static ID_REQUIRED_OCTET_STREAM: usize = 3;
-    pub static ID_RESPONSES_WITH_HEADERS: usize = 4;
-    pub static ID_UUID: usize = 5;
-    pub static ID_XML: usize = 6;
-    pub static ID_XML_EXTRA: usize = 7;
-    pub static ID_XML_OTHER: usize = 8;
+    pub static ID_PARAMGET: usize = 2;
+    pub static ID_READONLY_AUTH_SCHEME: usize = 3;
+    pub static ID_REQUIRED_OCTET_STREAM: usize = 4;
+    pub static ID_RESPONSES_WITH_HEADERS: usize = 5;
+    pub static ID_UUID: usize = 6;
+    pub static ID_XML: usize = 7;
+    pub static ID_XML_EXTRA: usize = 8;
+    pub static ID_XML_OTHER: usize = 9;
 }
 
 pub struct MakeService<T, RC> {
@@ -340,6 +343,73 @@ where
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
 
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Self::Future
+            },
+
+            // ParamgetGet - GET /paramget
+            &hyper::Method::GET if path.matched(paths::ID_PARAMGET) => {
+
+                // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
+                let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
+                let param_uuid = query_params.iter().filter(|e| e.0 == "uuid").map(|e| e.1.to_owned())
+                    .nth(0);
+
+                let param_uuid = param_uuid.and_then(|param_uuid| param_uuid.parse::<>().ok());
+                let param_some_object = query_params.iter().filter(|e| e.0 == "someObject").map(|e| e.1.to_owned())
+                    .nth(0);
+
+                let param_some_object = param_some_object.and_then(|param_some_object| param_some_object.parse::<>().ok());
+                let param_some_list = query_params.iter().filter(|e| e.0 == "someList").map(|e| e.1.to_owned())
+                    .nth(0);
+
+                let param_some_list = param_some_list.and_then(|param_some_list| param_some_list.parse::<>().ok());
+                Box::new({
+                        {{
+                                Box::new(
+                                    api_impl.paramget_get(
+                                            param_uuid,
+                                            param_some_object,
+                                            param_some_list,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                ParamgetGetResponse::JSONRsp
+
+                                                    (body)
+
+
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::PARAMGET_GET_JSON_RSP)
+                                                            .expect("Unable to create Content-Type header for PARAMGET_GET_JSON_RSP"));
+
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
                                                 },
                                             },
                                             Err(_) => {
@@ -1040,6 +1110,9 @@ impl<T> RequestParser<T> for ApiRequestParser {
 
             // MultipleAuthSchemeGet - GET /multiple_auth_scheme
             &hyper::Method::GET if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => Ok("MultipleAuthSchemeGet"),
+
+            // ParamgetGet - GET /paramget
+            &hyper::Method::GET if path.matched(paths::ID_PARAMGET) => Ok("ParamgetGet"),
 
             // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
             &hyper::Method::GET if path.matched(paths::ID_READONLY_AUTH_SCHEME) => Ok("ReadonlyAuthSchemeGet"),

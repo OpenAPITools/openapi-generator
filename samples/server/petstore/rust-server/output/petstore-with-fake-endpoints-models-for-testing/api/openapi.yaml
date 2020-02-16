@@ -1364,6 +1364,15 @@ components:
             $ref: '#/components/schemas/Animal'
           type: object
       type: object
+    ObjectContainingObjectWithOnlyAdditionalProperties:
+      properties:
+        inner:
+          $ref: '#/components/schemas/ObjectWithOnlyAdditionalProperties'
+      type: object
+    ObjectWithOnlyAdditionalProperties:
+      additionalProperties:
+        type: string
+      type: object
     List:
       properties:
         "123-list":

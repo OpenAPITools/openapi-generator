@@ -63,6 +63,7 @@ To run a client, follow one of the following simple steps:
 ```
 cargo run --example client MultigetGet
 cargo run --example client MultipleAuthSchemeGet
+cargo run --example client ParamgetGet
 cargo run --example client ReadonlyAuthSchemeGet
 cargo run --example client RequiredOctetStreamPut
 cargo run --example client ResponsesWithHeadersGet
@@ -107,6 +108,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
 [****](docs/default_api.md#) | **GET** /multiple_auth_scheme | 
+[****](docs/default_api.md#) | **GET** /paramget | Get some stuff with parameters.
 [****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
 [****](docs/default_api.md#) | **PUT** /required_octet_stream | 
 [****](docs/default_api.md#) | **GET** /responses_with_headers | 
@@ -128,6 +130,7 @@ Method | HTTP request | Description
  - [InlineResponse201](docs/InlineResponse201.md)
  - [MyId](docs/MyId.md)
  - [MyIdList](docs/MyIdList.md)
+ - [ObjectParam](docs/ObjectParam.md)
  - [ObjectWithArrayOfObjects](docs/ObjectWithArrayOfObjects.md)
  - [StringObject](docs/StringObject.md)
  - [UuidObject](docs/UuidObject.md)

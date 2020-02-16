@@ -8,6 +8,7 @@ use swagger;
 use std::string::ParseError;
 
 
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct ANullableContainer {
@@ -30,6 +31,75 @@ impl ANullableContainer {
         }
     }
 }
+
+/// Converts the ANullableContainer value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for ANullableContainer {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+
+        if let Some(ref nullable_thing) = self.nullable_thing {
+            params.push("NullableThing".to_string());
+            params.push(nullable_thing.as_ref().map_or("null".to_string(), |x| x.to_string()));
+        }
+
+
+        params.push("RequiredNullableThing".to_string());
+        params.push(self.required_nullable_thing.as_ref().map_or("null".to_string(), |x| x.to_string()));
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a ANullableContainer value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for ANullableContainer {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub nullable_thing: Vec<String>,
+            pub required_nullable_thing: Vec<String>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return Err(())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    "NullableThing" => return Err(()), // Parsing a nullable type in this style is not supported yet
+                    
+                    "RequiredNullableThing" => return Err(()), // Parsing a nullable type in this style is not supported yet
+                    
+                    _ => return Err(()) // Parse error - unexpected key
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        Ok(ANullableContainer {
+            nullable_thing: Err(())?,
+            required_nullable_thing: Err(())?,
+        })
+    }
+}
+
 
 
 /// An additionalPropertiesObject
@@ -63,6 +133,28 @@ impl ::std::ops::DerefMut for AdditionalPropertiesObject {
     }
 }
 
+/// Converts the AdditionalPropertiesObject value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for AdditionalPropertiesObject {
+    fn to_string(&self) -> String {
+        // Skipping additionalProperties in query parameter serialization
+        "".to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a AdditionalPropertiesObject value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for AdditionalPropertiesObject {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        // Parsing additionalProperties in this style is not supported yet
+        Err(())
+    }
+}
+
 
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -86,8 +178,80 @@ impl InlineObject {
     }
 }
 
+/// Converts the InlineObject value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for InlineObject {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+
+        params.push("id".to_string());
+        params.push(self.id.to_string());
+
+
+        if let Some(ref password) = self.password {
+            params.push("password".to_string());
+            params.push(password.to_string());
+        }
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a InlineObject value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for InlineObject {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub id: Vec<String>,
+            pub password: Vec<String>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return Err(())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    
+                    "id" => intermediate_rep.id.push(String::from_str(val).map_err(|x| ())?),
+                    
+                    
+                    "password" => intermediate_rep.password.push(String::from_str(val).map_err(|x| ())?),
+                    
+                    _ => return Err(()) // Parse error - unexpected key
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        Ok(InlineObject {
+            id: intermediate_rep.id.into_iter().next().ok_or(())?,
+            password: intermediate_rep.password.into_iter().next(),
+        })
+    }
+}
+
+
 
 /// An object of objects
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct ObjectOfObjects {
@@ -104,6 +268,65 @@ impl ObjectOfObjects {
         }
     }
 }
+
+/// Converts the ObjectOfObjects value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for ObjectOfObjects {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+        // Skipping inner in query parameter serialization
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a ObjectOfObjects value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for ObjectOfObjects {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub inner: Vec<models::ObjectOfObjectsInner>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return Err(())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    
+                    "inner" => intermediate_rep.inner.push(models::ObjectOfObjectsInner::from_str(val).map_err(|x| ())?),
+                    
+                    _ => return Err(()) // Parse error - unexpected key
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        Ok(ObjectOfObjects {
+            inner: intermediate_rep.inner.into_iter().next(),
+        })
+    }
+}
+
+
 
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -126,4 +349,75 @@ impl ObjectOfObjectsInner {
         }
     }
 }
+
+/// Converts the ObjectOfObjectsInner value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for ObjectOfObjectsInner {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+
+        params.push("required_thing".to_string());
+        params.push(self.required_thing.to_string());
+
+
+        if let Some(ref optional_thing) = self.optional_thing {
+            params.push("optional_thing".to_string());
+            params.push(optional_thing.to_string());
+        }
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a ObjectOfObjectsInner value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for ObjectOfObjectsInner {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub required_thing: Vec<String>,
+            pub optional_thing: Vec<isize>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return Err(())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    
+                    "required_thing" => intermediate_rep.required_thing.push(String::from_str(val).map_err(|x| ())?),
+                    
+                    
+                    "optional_thing" => intermediate_rep.optional_thing.push(isize::from_str(val).map_err(|x| ())?),
+                    
+                    _ => return Err(()) // Parse error - unexpected key
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        Ok(ObjectOfObjectsInner {
+            required_thing: intermediate_rep.required_thing.into_iter().next().ok_or(())?,
+            optional_thing: intermediate_rep.optional_thing.into_iter().next(),
+        })
+    }
+}
+
 

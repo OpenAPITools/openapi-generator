@@ -265,8 +265,8 @@ Name | Type | Description  | Notes
  **float** | **f32**| None | 
  **string** | **String**| None | 
  **binary** | **swagger::ByteArray**| None | 
- **date** | **chrono::DateTime<chrono::Utc>**| None | 
- **date_time** | **chrono::DateTime<chrono::Utc>**| None | 
+ **date** | **chrono::DateTime::<chrono::Utc>**| None | 
+ **date_time** | **chrono::DateTime::<chrono::Utc>**| None | 
  **password** | **String**| None | 
  **callback** | **String**| None | 
 

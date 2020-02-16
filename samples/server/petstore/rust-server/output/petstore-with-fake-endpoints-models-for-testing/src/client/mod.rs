@@ -945,7 +945,7 @@ impl<C, F> Api<C> for Client<F> where
 
     }
 
-    fn test_endpoint_parameters(&self, param_number: f64, param_double: f64, param_pattern_without_delimiter: String, param_byte: swagger::ByteArray, param_integer: Option<i32>, param_int32: Option<i32>, param_int64: Option<i64>, param_float: Option<f32>, param_string: Option<String>, param_binary: Option<swagger::ByteArray>, param_date: Option<chrono::DateTime<chrono::Utc>>, param_date_time: Option<chrono::DateTime<chrono::Utc>>, param_password: Option<String>, param_callback: Option<String>, context: &C) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send> {
+    fn test_endpoint_parameters(&self, param_number: f64, param_double: f64, param_pattern_without_delimiter: String, param_byte: swagger::ByteArray, param_integer: Option<i32>, param_int32: Option<i32>, param_int64: Option<i64>, param_float: Option<f32>, param_string: Option<String>, param_binary: Option<swagger::ByteArray>, param_date: Option<chrono::DateTime::<chrono::Utc>>, param_date_time: Option<chrono::DateTime::<chrono::Utc>>, param_password: Option<String>, param_callback: Option<String>, context: &C) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send> {
         let mut uri = format!(
             "{}/v2/fake",
             self.base_path
@@ -3182,7 +3182,7 @@ impl<C, F> Api<C> for Client<F> where
                             {
                                body: body,
                                x_rate_limit: (*Into::<swagger::IntoHeaderValue<i32>>::into(response_x_rate_limit)).clone(),
-                               x_expires_after: (*Into::<swagger::IntoHeaderValue<chrono::DateTime<chrono::Utc>>>::into(response_x_expires_after)).clone(),
+                               x_expires_after: (*Into::<swagger::IntoHeaderValue<chrono::DateTime::<chrono::Utc>>>::into(response_x_expires_after)).clone(),
                             }
                         })
                     ) as Box<dyn Future<Item=_, Error=_> + Send>
