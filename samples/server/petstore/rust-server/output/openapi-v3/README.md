@@ -66,6 +66,7 @@ cargo run --example client MultipleAuthSchemeGet
 cargo run --example client ReadonlyAuthSchemeGet
 cargo run --example client RequiredOctetStreamPut
 cargo run --example client ResponsesWithHeadersGet
+cargo run --example client UntypedPropertyGet
 cargo run --example client UuidGet
 cargo run --example client XmlExtraPost
 cargo run --example client XmlOtherPost
@@ -110,6 +111,7 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
 [****](docs/default_api.md#) | **PUT** /required_octet_stream | 
 [****](docs/default_api.md#) | **GET** /responses_with_headers | 
+[****](docs/default_api.md#) | **GET** /untyped_property | 
 [****](docs/default_api.md#) | **GET** /uuid | 
 [****](docs/default_api.md#) | **POST** /xml_extra | 
 [****](docs/default_api.md#) | **POST** /xml_other | 
@@ -128,8 +130,12 @@ Method | HTTP request | Description
  - [InlineResponse201](docs/InlineResponse201.md)
  - [MyId](docs/MyId.md)
  - [MyIdList](docs/MyIdList.md)
+<<<<<<< HEAD
  - [ObjectWithArrayOfObjects](docs/ObjectWithArrayOfObjects.md)
  - [StringObject](docs/StringObject.md)
+=======
+ - [ObjectUntypedProps](docs/ObjectUntypedProps.md)
+>>>>>>> 2a2499e197... Merge branch 'add_support_for_untyped_properties' into 'rust-openapi'
  - [UuidObject](docs/UuidObject.md)
  - [XmlArray](docs/XmlArray.md)
  - [XmlInner](docs/XmlInner.md)

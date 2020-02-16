@@ -37,6 +37,9 @@ pub mod requests {
     /// Create &str objects for the request content types for RequiredOctetStreamPut
     pub static REQUIRED_OCTET_STREAM_PUT: &str = "application/octet-stream";
 
+    /// Create &str objects for the request content types for UntypedPropertyGet
+    pub static UNTYPED_PROPERTY_GET: &str = "application/json";
+
     /// Create &str objects for the request content types for XmlExtraPost
     pub static XML_EXTRA_POST: &str = "application/xml";
 

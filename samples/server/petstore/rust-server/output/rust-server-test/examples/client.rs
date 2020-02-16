@@ -17,8 +17,11 @@ use rust_server_test::{Api, ApiNoContext, Client, ContextWrapperExt,
                       DummyGetResponse,
                       DummyPutResponse,
                       FileResponseGetResponse,
+                      GetStructuredYamlResponse,
                       HtmlPostResponse,
-                      RawJsonGetResponse
+                      PostYamlResponse,
+                      RawJsonGetResponse,
+                      SoloObjectPostResponse
                      };
 use clap::{App, Arg};
 
@@ -32,7 +35,11 @@ fn main() {
 
                 "FileResponseGet",
 
+                "GetStructuredYaml",
+
                 "HtmlPost",
+
+                "PostYaml",
 
                 "RawJsonGet",
 
@@ -104,10 +111,25 @@ fn main() {
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
 
+        Some("GetStructuredYaml") => {
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.get_structured_yaml(
+            ));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+
         Some("HtmlPost") => {
             let mut rt = tokio::runtime::Runtime::new().unwrap();
             let result = rt.block_on(client.html_post(
                   "body_example".to_string()
+            ));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+
+        Some("PostYaml") => {
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.post_yaml(
+                  "value_example".to_string()
             ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
@@ -118,6 +140,16 @@ fn main() {
             ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+
+        /* Disabled because there's no example.
+        Some("SoloObjectPost") => {
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.solo_object_post(
+                  ???
+            ));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        */
 
         _ => {
             panic!("Invalid operation provided")

@@ -65,6 +65,26 @@ impl ::std::ops::DerefMut for AdditionalPropertiesObject {
 
 
 
+/// structured response
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct GetYamlResponse {
+    /// Inner string
+    #[serde(rename = "value")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub value: Option<String>,
+
+}
+
+impl GetYamlResponse {
+    pub fn new() -> GetYamlResponse {
+        GetYamlResponse {
+            value: None,
+        }
+    }
+}
+
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct InlineObject {

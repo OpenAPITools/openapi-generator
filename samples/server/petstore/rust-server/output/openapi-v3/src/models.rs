@@ -405,6 +405,45 @@ impl MyIdList {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct ObjectUntypedProps {
+    #[serde(rename = "required_untyped")]
+    pub required_untyped: serde_json::Value,
+
+    #[serde(rename = "required_untyped_nullable")]
+    pub required_untyped_nullable: serde_json::Value,
+
+    #[serde(rename = "not_required_untyped")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub not_required_untyped: Option<serde_json::Value>,
+
+    #[serde(rename = "not_required_untyped_nullable")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub not_required_untyped_nullable: Option<serde_json::Value>,
+
+}
+
+impl ObjectUntypedProps {
+    pub fn new(required_untyped: serde_json::Value, required_untyped_nullable: serde_json::Value, ) -> ObjectUntypedProps {
+        ObjectUntypedProps {
+            required_untyped: required_untyped,
+            required_untyped_nullable: required_untyped_nullable,
+            not_required_untyped: None,
+            not_required_untyped_nullable: None,
+        }
+    }
+}
+
+impl ObjectUntypedProps {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct ObjectWithArrayOfObjects {
     #[serde(rename = "objectArray")]
     #[serde(skip_serializing_if="Option::is_none")]
