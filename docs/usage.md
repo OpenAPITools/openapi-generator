@@ -317,7 +317,12 @@ OPTIONS
             generator to use (see list command for list)
 
         --generate-alias-as-model
-            Generate alias to map, array as models
+            Generate model implementation for aliases to map and array schemas.
+            An 'alias' is an array, map, or list which is defined inline in a 
+            OpenAPI document and becomes a model in the generated code.
+            A 'map' schema is an object that can have undeclared properties,
+            i.e. the 'additionalproperties' attribute is set on that object.
+            An 'array' schema is a list of sub schemas in a OAS document.
 
         --git-repo-id <git repo id>
             Git repo ID, e.g. openapi-generator.

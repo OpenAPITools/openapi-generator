@@ -27,7 +27,7 @@ type api{{operationId}}Request struct {
 }
 
 {{#allParams}}{{^isPathParam}}
-func (r api{{operationId}}Request) {{vendorExtensions.x-exportParamName}}({{paramName}} {{{dataType}}}) api{{operationId}}Request {
+func (r api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) api{{operationId}}Request {
 	r.{{paramName}} = &{{paramName}}
 	return r
 }
