@@ -52,7 +52,7 @@ The generated models use commonly use Swagger v2 annotations like `@ApiModelProp
 </dependency>
 ```
 
-But this will not work. This depedency does not contains the package neither the classes needed. The resulting code it will fail to compile.
+But this will not work. This dependency is not binary compatible with Swagger v2 annotations. The resulting code will fail to compile.
 
 As alternative instead use the following dependency:
 
