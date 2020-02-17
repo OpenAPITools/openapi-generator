@@ -27,8 +27,12 @@ import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class GoClientExperimentalCodegen extends GoClientCodegen {
 
@@ -40,6 +44,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         embeddedTemplateDir = templateDir = "go-experimental";
 
         usesOptionals = false;
+        useOneOfInterfaces = true;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
     }
@@ -53,6 +58,11 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
     @Override
     public String getName() {
         return "go-experimental";
+    }
+
+    @Override
+    public String toGetter(String name) {
+        return "Get" + getterAndSetterCapitalize(name);
     }
 
     /**
@@ -79,6 +89,12 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
             supportingFiles.add(new SupportingFile("signing.mustache", "", "signing.go"));
             supportingFiles.add(new SupportingFile("http_signature_test.mustache", "", "http_signature_test.go"));
         }
+    }
+
+    @Override
+    public String toModelName(String name) {
+        // underscoring would also lowercase the whole name, thus losing acronyms which are in capitals
+        return camelize(toModel(name, false));
     }
 
     @Override
@@ -116,5 +132,17 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         // must be invoked at the end of this method.
         objs = super.postProcessModels(objs);
         return objs;
+    }
+
+    @Override
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        for (String i : Arrays.asList("fmt")) {
+            Map<String, String> oneImport = new HashMap<String, String>() {{
+                put("import", i);
+            }};
+            if (!imports.contains(oneImport)) {
+                imports.add(oneImport);
+            }
+        }
     }
 }

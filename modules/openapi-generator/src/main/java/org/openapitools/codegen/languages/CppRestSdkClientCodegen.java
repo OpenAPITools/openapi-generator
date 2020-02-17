@@ -261,11 +261,11 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
             if (methodResponse != null) {
                 Schema response = ModelUtils.getSchemaFromResponse(methodResponse);
-                response = ModelUtils.unaliasSchema(this.openAPI, response);
+                response = ModelUtils.unaliasSchema(this.openAPI, response, importMapping);
                 if (response != null) {
                     CodegenProperty cm = fromProperty("response", response);
                     op.vendorExtensions.put("x-codegen-response", cm);
-                   if ("std::shared_ptr<HttpContent>".equals(cm.dataType)) {
+                    if ("std::shared_ptr<HttpContent>".equals(cm.dataType)) {
                         op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
                     }
                 }
@@ -385,7 +385,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         } else if (ModelUtils.isFreeFormObject(p)) {
             return "new Object()";
         }
-        
+
         return "nullptr";
     }
 

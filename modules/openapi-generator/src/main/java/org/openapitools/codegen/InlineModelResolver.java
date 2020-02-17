@@ -157,6 +157,7 @@ public class InlineModelResolver {
                 ObjectSchema op = (ObjectSchema) inner;
                 if (op.getProperties() != null && op.getProperties().size() > 0) {
                     flattenProperties(op.getProperties(), pathname);
+                    // Generate a unique model name based on the title.
                     String modelName = resolveModelName(op.getTitle(), null);
                     Schema innerModel = modelFromProperty(op, modelName);
                     String existing = matchGenerated(innerModel);
@@ -327,6 +328,33 @@ public class InlineModelResolver {
         }
     }
 
+    /**
+     * Flattens properties of inline object schemas that belong to a composed schema into a
+     * single flat list of properties. This is useful to generate a single or multiple
+     * inheritance model.
+     * 
+     * In the example below, codegen may generate a 'Dog' class that extends from the
+     * generated 'Animal' class. 'Dog' has additional properties 'name', 'age' and 'breed' that
+     * are flattened as a single list of properties.
+     * 
+     * Dog:
+     *   allOf:
+     *     - $ref: '#/components/schemas/Animal'
+     *     - type: object
+     *       properties:
+     *         name:
+     *           type: string
+     *         age:
+     *           type: string
+     *     - type: object
+     *       properties:
+     *         breed:
+     *           type: string
+     * 
+     * @param openAPI the OpenAPI document
+     * @param key a unique name ofr the composed schema.
+     * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
+     */
     private void flattenComposedChildren(OpenAPI openAPI, String key, List<Schema> children) {
         if (children == null || children.isEmpty()) {
             return;
@@ -337,6 +365,13 @@ public class InlineModelResolver {
             if (component instanceof ObjectSchema) {
                 ObjectSchema op = (ObjectSchema) component;
                 if (op.get$ref() == null && op.getProperties() != null && op.getProperties().size() > 0) {
+                    // Note: the call to op.getTitle() can lead to totally unexpected results and should not be
+                    // used to generate the innerModelName.
+                    // If the value of the 'title' attribute happens to match a schema defined elsewhere in
+                    // the specification, 'innerModelName' will be the same as that other schema.
+                    // The 'title' attribute is supposed to be for human consumption, not for code generation.
+                    // OAS authors should not be expected to set a 'title' value that will control the
+                    // code generation logic.
                     String innerModelName = resolveModelName(op.getTitle(), key);
                     Schema innerModel = modelFromProperty(op, innerModelName);
                     String existing = matchGenerated(innerModel);

@@ -80,10 +80,10 @@ public class Generate implements Runnable {
     @Option(
             name = {"-c", "--config"},
             title = "configuration file",
-            description = "Path to configuration file configuration file. It can be json or yaml."
-                    + "If file is json, the content should have the format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...}."
-                    + "If file is yaml, the content should have the format optionKey: optionValue"
-                    + "Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.")
+            description = "Path to configuration file. It can be JSON or YAML. "
+                    + "If file is JSON, the content should have the format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...}. "
+                    + "If file is YAML, the content should have the format optionKey: optionValue. "
+                    + "Supported options can be different for each language. Run config-help -g {generator name} command for language-specific config options.")
     private String configFile;
 
     @Option(name = {"-s", "--skip-overwrite"}, title = "skip overwrite",
@@ -229,7 +229,7 @@ public class Generate implements Runnable {
                     + " Useful for piping the JSON output of debug options (e.g. `-DdebugOperations`) to an external parser directly while testing a generator.")
     private Boolean logToStderr;
 
-    @Option(name = {"--enable-post-process-file"}, title = "enable post-process file", description = CodegenConstants.ENABLE_POST_PROCESS_FILE)
+    @Option(name = {"--enable-post-process-file"}, title = "enable post-process file", description = CodegenConstants.ENABLE_POST_PROCESS_FILE_DESC)
     private Boolean enablePostProcessFile;
 
     @Option(name = {"--generate-alias-as-model"}, title = "generate alias (array, map) as model", description = CodegenConstants.GENERATE_ALIAS_AS_MODEL_DESC)

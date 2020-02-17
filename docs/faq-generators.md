@@ -1,6 +1,6 @@
 ---
 id: faq-generators
-title: FAQ: Generators
+title: "FAQ: Generators"
 ---
 
 ### What are some server generator use cases?

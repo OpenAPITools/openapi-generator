@@ -4,12 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+{{#vendorExtensions.x-is-one-of-interface}}
+**{{classname}}Interface** | **interface { {{#discriminator}}{{propertyGetter}}() {{propertyType}}{{/discriminator}} }** | An interface that can hold any of the proper implementing types |
+{{/vendorExtensions.x-is-one-of-interface}}
+{{^vendorExtensions.x-is-one-of-interface}}
 {{#vars}}**{{name}}** | Pointer to {{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
 {{/vars}}
+{{/vendorExtensions.x-is-one-of-interface}}
 
 {{^isEnum}}
 ## Methods
 
+{{^vendorExtensions.x-is-one-of-interface}}
 {{#vars}}
 ### Get{{name}}
 
@@ -46,6 +52,15 @@ when serializing to JSON (pass true as argument to set this, false to unset)
 The {{name}} value is set to nil even if false is passed
 {{/isNullable}}
 {{/vars}}
+{{#vendorExtensions.x-implements}}
+
+### As{{{.}}}
+
+`func (s *{{classname}}) As{{{.}}}() {{{.}}}`
+
+Convenience method to wrap this instance of {{classname}} in {{{.}}}
+{{/vendorExtensions.x-implements}}
+{{/vendorExtensions.x-is-one-of-interface}}
 {{/isEnum}}
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

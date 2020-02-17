@@ -3,10 +3,9 @@ id: customization
 title: Customization
 ---
 
-<a id="creating-a-new-template"></a><!-- maintain old link ref name.-->
 ## Custom Generator (and Template)
-
-If none of the built-in generators suit your needs and you need to do more than just modify the mustache templates to tweak generated code, you can create a brand new generator and its associated templates. OpenAPI Generator can help with this, using the `meta` command:
+ 
+<a id="creating-a-new-template"></a> If none of the built-in generators suit your needs and you need to do more than just modify the mustache templates to tweak generated code, you can create a brand new generator and its associated templates. OpenAPI Generator can help with this, using the `meta` command:
 
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar meta \

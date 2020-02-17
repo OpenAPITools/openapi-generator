@@ -7,7 +7,7 @@ sidebar_label: dart-dio
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |browserClient|Is the client browser based (for Dart 1.x only)| |null|
-|dateLibrary|Option. Date library to use|<dl><dt>**core**</dt><dd>Dart core library (DateTime)</dd><dt>**timemachine**</dt><dd>Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.</dd><dl>|core|
+|dateLibrary|Option. Date library to use|<dl><dt>**core**</dt><dd>Dart core library (DateTime)</dd><dt>**timemachine**</dt><dd>Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.</dd></dl>|core|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |nullableFields|Is the null fields should be in the JSON payload| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
@@ -43,7 +43,8 @@ sidebar_label: dart-dio
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>String</li>
+<ul class="column-ul">
+<li>String</li>
 <li>bool</li>
 <li>double</li>
 <li>int</li>
@@ -52,7 +53,8 @@ sidebar_label: dart-dio
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
+<ul class="column-ul">
+<li>abstract</li>
 <li>as</li>
 <li>assert</li>
 <li>async</li>
