@@ -52,7 +52,7 @@ const docusaurusConfig = {
         {to: "docs/faq", label: "FAQ" },
         {to: "team", label: "Team" },
         {to: "blog", label: 'Blog'},
-        {to: 'http://api.openapi-generator.tech', label: 'API'},
+        {to: 'https://api.openapi-generator.tech', label: 'API'},
       ],
     },
 
