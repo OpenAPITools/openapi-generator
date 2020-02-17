@@ -43,7 +43,7 @@ For full details of all options, see the [plugin README](https://github.com/Open
 
 ### Dependencies
 
-The models generated use annotations like `@ApiModelProperty` the dependency commonly used is:
+The generated models use commonly use Swagger v2 annotations like `@ApiModelProperty`. A user may add Swagger v3 annotations:
 
 ```xml
 <dependency>
