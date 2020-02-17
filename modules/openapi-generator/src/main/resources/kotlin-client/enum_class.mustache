@@ -46,7 +46,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 	In cases the var name and value are different, the client would send incorrect enums to the server.
 	**/
 	override fun toString(): String {
-        return value
+        return value{{^isString}}.toString(){{/isString}}
     }
 
 {{#multiplatform}}
