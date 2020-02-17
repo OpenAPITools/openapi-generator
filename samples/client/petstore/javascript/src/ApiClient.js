@@ -458,8 +458,6 @@
       if(contentType != 'multipart/form-data') {
         request.type(contentType);
       }
-    } else if (!request.header['Content-Type']) {
-      request.type('application/json');
     }
 
     if (contentType === 'application/x-www-form-urlencoded') {
@@ -477,6 +475,9 @@
         }
       }
     } else if (bodyParam !== null && bodyParam !== undefined) {
+      if (!request.header['Content-Type']) {
+          request.type('application/json');
+      }
       request.send(bodyParam);
     }
 
