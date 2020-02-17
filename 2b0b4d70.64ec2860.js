@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[30],{156:function(n,t,e){"use strict";e.r(t);var r=e(0),u=e.n(r),c=e(307);t.default=function(){return u.a.createElement(c.a,{to:"/users"})}},307:function(n,t,e){"use strict";var r=e(34);e.d(t,"a",(function(){return r.c})),e.d(t,"b",(function(){return r.d}))}}]);
