@@ -86,8 +86,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         apiPackage = "api";
         modelPackage = "model";
 
-        typeMapping.put("DateTime", "Date");
-
         this.cliOptions.add(new CliOption(NPM_REPOSITORY,
                 "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,

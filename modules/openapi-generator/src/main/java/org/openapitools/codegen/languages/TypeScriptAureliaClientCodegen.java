@@ -36,8 +36,6 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
         outputFolder = "generated-code/typescript-aurelia";
         embeddedTemplateDir = templateDir = "typescript-aurelia";
-
-        typeMapping.put("DateTime", "Date");
     }
 
     @Override

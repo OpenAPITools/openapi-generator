@@ -53,8 +53,6 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         outputFolder = "generated-code/typescript-jquery";
         embeddedTemplateDir = templateDir = "typescript-jquery";
 
-        typeMapping.put("DateTime", "Date");
-
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(JQUERY_ALREADY_IMPORTED,
                 "When using this in legacy app using mix of typescript and javascript, this will only declare jquery and not import it",
