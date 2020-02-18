@@ -8,8 +8,7 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 import io.swagger.v3.oas.annotations.*;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -114,7 +113,7 @@ public interface {{classname}} {
     @Operation(summary = "{{{summary}}}", description = "{{{notes}}}",
      tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} },
     responses  = { {{#responses}}
-            @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = @Content(schema = @Schema(implementation = {{{baseType}}}.class{{/baseType}}{{#containerType}})), responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}})),{{/hasMore}}{{/responses}} })
+            @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}" {{#baseType}}, content = { @Content( {{#containerType}}schema = @Schema(implementation = {{{baseType}}}.class){{/containerType}}{{^containerType}} array = @ArraySchema(schema = @Schema(implementation = {{{baseType}}}.class)) {{/containerType}} )} {{/baseType}} ){{#hasMore}} ,{{/hasMore}} {{/responses}} })
     {{#implicitHeaders}}}
     @ApiImplicitParams({
     {{#headerParams}}
