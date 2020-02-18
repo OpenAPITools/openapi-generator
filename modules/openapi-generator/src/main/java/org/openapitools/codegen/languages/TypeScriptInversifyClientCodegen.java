@@ -58,8 +58,6 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         apiPackage = "api";
         modelPackage = "model";
 
-        typeMapping.put("DateTime", "Date");
-
         this.reservedWords.add("map");
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY,
