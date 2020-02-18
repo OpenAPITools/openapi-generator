@@ -8,12 +8,6 @@
 
 {{> python-experimental/model_templates/method_init_shared }}
 
-        self._data_store = {}
-        self._check_type = _check_type
-        self._from_server = _from_server
-        self._path_to_item = _path_to_item
-        self._configuration = _configuration
-
 {{#requiredVars}}
         self.{{name}} = {{name}}
 {{/requiredVars}}
