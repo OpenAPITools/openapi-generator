@@ -39,11 +39,15 @@ class Configuration(object):
     :param password: Password for HTTP basic authentication
     :param discard_unknown_keys: Boolean value indicating whether to discard
       unknown properties. A server may send a response that includes additional
-      properties not known by the client in the following scenarios:
+      properties that are not known by the client in the following scenarios:
       1. The OpenAPI document is incomplete, i.e. it does not match the server
          implementation.
       2. The client was generated using an older version of the OpenAPI document
          and the server has been upgraded since then.
+      If a schema in the OpenAPI document defines the additionalProperties attribute,
+      then all undeclared properties received by the server are injected into the
+      additional properties map. In that case, there are undeclared properties, but
+      no unknown properties.
 
     :Example:
 
