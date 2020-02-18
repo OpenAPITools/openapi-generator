@@ -16,7 +16,10 @@
 
 package org.openapitools.codegen.api;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -50,4 +53,45 @@ public interface TemplatingEngineAdapter{
    * @return string array of the valid file extensions for this templating engine
    */
   String[] getFileExtensions();
+
+  /**
+   * Determines whether the template file with supported extensions exists. This may be on the filesystem,
+   * external filesystem, or classpath (implementation is up to TemplatingGenerator).
+   *
+   * @param generator The generator holding details about file resolution
+   * @param templateFile The original target filename
+   * @return True if the template is available in the template search path, false if it can not be found
+   */
+  default boolean templateExists(TemplatingGenerator generator, String templateFile) {
+    return Arrays.stream(getFileExtensions()).anyMatch(ext -> {
+      int idx = templateFile.lastIndexOf(".");
+      String baseName;
+      if (idx > 0 && idx < templateFile.length() - 1) {
+        baseName = templateFile.substring(0, idx);
+      } else {
+        baseName = templateFile;
+      }
+
+      Path path = generator.getFullTemplatePath(String.format(Locale.ROOT, "%s.%s", baseName, ext));
+
+      InputStream is = null;
+      try {
+        is = this.getClass().getClassLoader().getResourceAsStream(path.toString());
+        if (is == null) {
+          is = new FileInputStream(path.toFile());
+        }
+
+        return is.available() > 0;
+      } catch (IOException e) {
+        // ignore
+      } finally {
+        try {
+          if (is != null) is.close();
+        } catch (IOException e) {
+          // ignore
+        }
+      }
+      return false;
+    });
+  }
 }
