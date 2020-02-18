@@ -36,7 +36,7 @@ class Configuration(object):
       properties not known by the client in the following scenarios:
       1. The OpenAPI document is incomplete, i.e. it does not match the server
          implementation.
-      1. The client was generated using an older version of the OpenAPI document
+      2. The client was generated using an older version of the OpenAPI document
          and the server has been upgraded since then.
 {{#hasHttpSignatureMethods}}
     :param signing_info: Configuration parameters for the HTTP signature security scheme.
