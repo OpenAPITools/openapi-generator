@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -256,6 +257,51 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         }
 
         return camelizedName;
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        return super.postProcessModels(objs);
+    }
+
+    private CodegenModel codegenModel(Object o) {
+        return ((Map<String, List<Map<String, CodegenModel>>>)o).get("models").get(0).get("model");
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(final Map<String, Object> objs) {
+
+        for(Object value : objs.values()) {
+            if(value instanceof Map) {
+                CodegenModel m = ((Map<String, List<Map<String, CodegenModel>>>)value).get("models").get(0).get("model");
+                // for oneOf schemas
+                if(!m.oneOf.isEmpty() && m.getDiscriminator() != null) {
+                    // add it as a parent to every single model and removed unnecessary discriminator prop
+                    m.oneOf.forEach(
+                        subclassName -> {
+                            CodegenModel cm = codegenModel(objs.get(subclassName));
+                            cm.setParent(m.classname);
+                            if(!cm.getVars().isEmpty()) {
+                                cm.setVars(
+                                    cm.getVars().stream().filter(v -> !v.getName().equals(m.getDiscriminator().getPropertyName())).collect(Collectors.toList())
+                                );
+                            }
+                        }
+                    );
+                    // retain only discriminator prop
+                    if(!m.getVars().isEmpty()) {
+                        m.setVars(
+                            m.getVars().stream().filter(v -> v.getName().equals(m.getDiscriminator().getPropertyName())).collect(Collectors.toList())
+                        );
+                    }
+//                    m.imports.add("julienrf.json.derived");
+                }
+            }
+        }
+
+//        CodegenModel m = ((Map<String, List<Map<String, CodegenModel>>>)objs.get("CartPaymentExec")).get("models").get(0).get("model");
+
+        return objs;
     }
 
     @Override

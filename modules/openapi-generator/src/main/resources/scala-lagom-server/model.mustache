@@ -2,37 +2,59 @@
 package {{package}}
 import play.api.libs.json._
 {{#imports}}
-import {{import}}
+  import {{import}}
 {{/imports}}
 
 {{#models}}
-{{#model}}
-case class {{classname}} (
-{{#vars}}
+  {{#model}}
+
     {{#isEnum}}
-                  {{{name}}}:  Option[{{classname}}{{datatypeWithEnum}}.{{classname}}{{datatypeWithEnum}}]{{#hasMore}},{{/hasMore}}
+      {{classname}}{{datatypeWithEnum}} extends Enumeration {
+      val {{#allowableValues}}  {{#values}}{{.}}{{^-last}}, {{/-last}}{{/values}} = Value{{/allowableValues}}
+      type {{classname}}{{datatypeWithEnum}} = Value
+      implicit val format: Format[Value] = Format(Reads.enumNameReads(this), Writes.enumNameWrites[{{classname}}{{datatypeWithEnum}}.type])
+      }
     {{/isEnum}}
     {{^isEnum}}
-        {{#description}}
+      {{#discriminator}}
+      trait {{classname}} (
+      {{/discriminator}}
+      {{^discriminator}}
+      final case class {{classname}} {{#parent}}extends{{/parent}} {{parent}} (
+      {{/discriminator}}
+      {{#vars}}
+        {{#isEnum}}
+          {{{name}}}:  Option[{{classname}}{{datatypeWithEnum}}.{{classname}}{{datatypeWithEnum}}]{{#hasMore}},{{/hasMore}}
+        {{/isEnum}}
+        {{^isEnum}}
+          {{#description}}
             /* {{{description}}} */
-        {{/description}}
-                  {{{name}}}: {{^required}}Option[{{/required}}{{dataType}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}
+          {{/description}}
+          {{{name}}}: {{^required}}Option[{{/required}}{{dataType}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}
+        {{/isEnum}}
+      {{/vars}}
+      )
+
+      {{^parent}}
+        object {{classname}} {
+        {{#discriminator}}
+          implicit val format: OFormat[{{classname}}] = derived.flat.oformat((__ \ "{{discriminator.propertyBaseName}}").format[String])
+        {{/discriminator}}
+        {{^discriminator}}
+          implicit val format: Format[{{classname}}] = Json.format
+        {{/discriminator}}
+        }
+      {{/parent}}
+
+      {{#vars}}
+        {{#isEnum}}
+          object {{classname}}{{datatypeWithEnum}} extends Enumeration {
+          }
+        {{/isEnum}}
+      {{/vars}}
+
     {{/isEnum}}
-{{/vars}}
-)
 
-object {{classname}} {
-implicit val format: Format[{{classname}}] = Json.format
-}
 
-{{#vars}}
-  {{#isEnum}}
-object {{classname}}{{datatypeWithEnum}} extends Enumeration {
-  val {{#allowableValues}}  {{#values}}{{.}}{{^-last}}, {{/-last}}{{/values}} = Value{{/allowableValues}}
-  type {{classname}}{{datatypeWithEnum}} = Value
-  implicit val format: Format[Value] = Format(Reads.enumNameReads(this), Writes.enumNameWrites[{{classname}}{{datatypeWithEnum}}.type])
-}
- {{/isEnum}}
-{{/vars}}
-{{/model}}
+  {{/model}}
 {{/models}}
