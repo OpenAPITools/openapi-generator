@@ -126,6 +126,7 @@ class Configuration(object):
     def __init__(self, host="{{{basePath}}}",
                  api_key=None, api_key_prefix=None,
                  username=None, password=None,
+                 discard_unknown_keys=False,
 {{#hasHttpSignatureMethods}}
                  signing_info=None,
 {{/hasHttpSignatureMethods}}
@@ -158,6 +159,7 @@ class Configuration(object):
         self.password = password
         """Password for HTTP basic authentication
         """
+        self.discard_unknown_keys = discard_unknown_keys
 {{#hasHttpSignatureMethods}}
         if signing_info is not None:
             signing_info.host = host
