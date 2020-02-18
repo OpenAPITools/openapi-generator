@@ -31,6 +31,12 @@ class Configuration(object):
       The dict value is an API key prefix when generating the auth data.
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
+    :param discard_unknown_keys: Boolean value indicating whether to discard
+      unknown properties. A server may send a response that includes additional
+      properties not known by the client in the following scenarios:
+      1. The OpenAPI document is incomplete.
+      1. The client was generated using an older version of the OpenAPI document
+         and the server has been upgraded since then.
 {{#hasHttpSignatureMethods}}
     :param signing_info: Configuration parameters for the HTTP signature security scheme.
         Must be an instance of {{{packageName}}}.signing.HttpSigningConfiguration
