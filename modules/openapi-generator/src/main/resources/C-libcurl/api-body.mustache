@@ -432,11 +432,11 @@ end:
     }
     {{/isString}}
     {{#isString}}
-    if(){
+    if(keyQuery_{{{paramName}}}){
         free(keyQuery_{{{paramName}}});
         keyQuery_{{{paramName}}} = NULL;
     }
-    if(){
+    if(keyPairQuery_{{{paramName}}}){
         keyValuePair_free(keyPairQuery_{{{paramName}}});
         keyPairQuery_{{{paramName}}} = NULL;
     }
