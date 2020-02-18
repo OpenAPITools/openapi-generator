@@ -151,9 +151,14 @@ class ChildCat(ModelComposed):
         self._composed_instances = composed_info[0]
         self._var_name_to_model_instances = composed_info[1]
         self._additional_properties_model_instances = composed_info[2]
+        unused_args = composed_info[3]
 
         self.pet_type = pet_type
         for var_name, var_value in six.iteritems(kwargs):
+            if var_name in unused_args and self._configuration is not None and \
+                            self._configuration.discard_unknown_keys:
+                # discard variable.
+                pass
             setattr(self, var_name, var_value)
 
     @staticmethod

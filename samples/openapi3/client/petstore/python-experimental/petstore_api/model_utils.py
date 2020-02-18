@@ -1373,14 +1373,21 @@ def validate_get_composed_info(constant_args, model_args, self):
     unused_args = get_unused_args(self, composed_instances, model_args)
     if len(unused_args) > 0:
         if len(additional_properties_model_instances) == 0:
-            raise ApiValueError(
-                "Invalid input arguments input when making an instance of "
-                "class %s. Not all inputs were used. The unused input data "
-                "is %s" % (self.__class__.__name__, unused_args)
-            )
-        for var_name, var_value in six.iteritems(unused_args):
-            for instance in additional_properties_model_instances:
-                setattr(instance, var_name, var_value)
+            if self._configuration is None or not self._configuration.discard_unknown_keys:
+                raise ApiValueError(
+                    "Invalid input arguments input when making an instance of "
+                    "class %s. Not all inputs were used. The unused input data "
+                    "is %s" % (self.__class__.__name__, unused_args)
+                )
+        else:
+            # The unused properties are inserted into the additionalproperties map.
+            for var_name, var_value in six.iteritems(unused_args):
+                for instance in additional_properties_model_instances:
+                    setattr(instance, var_name, var_value)
+            # The unused_args are consumed by additionalproperties, so return an
+            # empty dict.
+            unused_args = {}
+
     # no need to add additional_properties to var_name_to_model_instances here
     # because additional_properties_model_instances will direct us to that
     # instance when we use getattr or setattr
@@ -1389,5 +1396,6 @@ def validate_get_composed_info(constant_args, model_args, self):
     return [
       composed_instances,
       var_name_to_model_instances,
-      additional_properties_model_instances
+      additional_properties_model_instances,
+      unused_args
     ]
