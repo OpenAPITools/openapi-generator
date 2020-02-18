@@ -202,4 +202,9 @@ class InlineObject3(ModelNormal):
         self.pattern_without_delimiter = pattern_without_delimiter
         self.byte = byte
         for var_name, var_value in six.iteritems(kwargs):
+            if var_name not in self.attribute_map and self._configuration is not None and \
+                            self._configuration.discard_unknown_keys and \
+                            self.additional_properties_type is None:
+                # discard variable.
+                pass
             setattr(self, var_name, var_value)
