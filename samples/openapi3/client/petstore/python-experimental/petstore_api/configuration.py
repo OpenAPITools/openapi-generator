@@ -46,8 +46,8 @@ class Configuration(object):
          and the server has been upgraded since then.
       If a schema in the OpenAPI document defines the additionalProperties attribute,
       then all undeclared properties received by the server are injected into the
-      additional properties map. In that case, there are undeclared properties, but
-      no unknown properties.
+      additional properties map. In that case, there are undeclared properties, and
+      nothing to discard.
     :param signing_info: Configuration parameters for the HTTP signature security scheme.
         Must be an instance of petstore_api.signing.HttpSigningConfiguration
 
