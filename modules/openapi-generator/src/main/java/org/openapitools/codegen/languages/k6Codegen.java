@@ -334,7 +334,7 @@ public class k6Codegen extends DefaultCodegen implements CodegenConfig {
                                     "http.file(open(\"/path/to/file.bin\", \"b\"), \"test.bin\")");
                         } else {
                             k6Parameter = new Parameter(parameter.paramName, !reference.isEmpty() ? reference
-                                    : getDoubleQuotedString(parameter.dataType.toLowerCase()));
+                                    : getDoubleQuotedString(parameter.dataType.toLowerCase(Locale.ROOT)));
                         }
 
                         bodyOrFormParams.add(k6Parameter);
@@ -349,13 +349,13 @@ public class k6Codegen extends DefaultCodegen implements CodegenConfig {
                         switch (parameter.getIn()) {
                             case "header":
                                 httpParams.add(new Parameter(parameter.getName(), getTemplateString(parameter.getName())));
-                                extraParameters.add(new Parameter(parameter.getName(), parameter.getName().toUpperCase()));
+                                extraParameters.add(new Parameter(parameter.getName(), parameter.getName().toUpperCase(Locale.ROOT)));
                                 break;
                             case "path":
                             case "query":
                                 if (parameter.getIn().equals("query"))
                                     queryParams.add(new Parameter(parameter.getName(), getVariable(parameter.getName())));
-                                variables.add(new Parameter(parameter.getName(), parameter.getName().toUpperCase()));
+                                variables.add(new Parameter(parameter.getName(), parameter.getName().toUpperCase(Locale.ROOT)));
                                 break;
                             default:
                                 break;
@@ -371,7 +371,7 @@ public class k6Codegen extends DefaultCodegen implements CodegenConfig {
                         responseType.length() > 0 ? responseType : null);
 
                 assert params.headers != null;
-                requests.add(new HTTPRequest(method.toString().toLowerCase(), path,
+                requests.add(new HTTPRequest(method.toString().toLowerCase(Locale.ROOT), path,
                         queryParams.size() > 0 ? queryParams : null,
                         bodyOrFormParams.size() > 0 ? new HTTPBody(bodyOrFormParams) : null,
                         params.headers.size() > 0 ? params : null, k6Checks.size() > 0 ? k6Checks : null));
@@ -407,7 +407,7 @@ public class k6Codegen extends DefaultCodegen implements CodegenConfig {
         StringBuilder reference = new StringBuilder();
         int modelEntrySetSize = model.getAllVars().size();
         for (CodegenProperty property : model.getAllVars()) {
-            reference.append(getDoubleQuotedString(property.name)).append(": ").append(getDoubleQuotedString(property.dataType.toLowerCase()));
+            reference.append(getDoubleQuotedString(property.name)).append(": ").append(getDoubleQuotedString(property.dataType.toLowerCase(Locale.ROOT)));
             if (modelEntrySetSize > 1)
                 reference.append(", ");
         }
