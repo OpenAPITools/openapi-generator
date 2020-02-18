@@ -1125,11 +1125,9 @@ def validate_get_composed_info(constant_args, model_args, self):
                     "class %s. Not all inputs were used. The unused input data "
                     "is %s" % (self.__class__.__name__, unused_args)
                 )
-        else:
-            for var_name, var_value in six.iteritems(unused_args):
-                for instance in additional_properties_model_instances:
-                    setattr(instance, var_name, var_value)
-            unused_args = {}
+        for var_name, var_value in six.iteritems(unused_args):
+            for instance in additional_properties_model_instances:
+                setattr(instance, var_name, var_value)
 
     # no need to add additional_properties to var_name_to_model_instances here
     # because additional_properties_model_instances will direct us to that
