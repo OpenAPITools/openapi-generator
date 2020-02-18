@@ -152,11 +152,12 @@ class Parent(ModelComposed):
         unused_args = composed_info[3]
 
         for var_name, var_value in six.iteritems(kwargs):
-            if var_name in unused_args and self._configuration is not None and \
-                            self._configuration.discard_unknown_keys and \
-                            not self._additional_properties_model_instances:
+            if var_name in unused_args and \
+                        self._configuration is not None and \
+                        self._configuration.discard_unknown_keys and \
+                        not self._additional_properties_model_instances:
                 # discard variable.
-                pass
+                continue
             setattr(self, var_name, var_value)
 
     @staticmethod
