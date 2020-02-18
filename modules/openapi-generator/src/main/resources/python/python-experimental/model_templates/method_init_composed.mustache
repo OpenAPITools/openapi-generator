@@ -17,6 +17,11 @@
         self._path_to_item = _path_to_item
         self._configuration = _configuration
 
+        if self._configuration.discard_unknown_keys:
+            for property_name in list(kwargs.keys()):
+                if property_name not in self.attribute_map:
+                    del kwargs[property_name]
+
         constant_args = {
             '_check_type': _check_type,
             '_path_to_item': _path_to_item,
