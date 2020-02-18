@@ -134,7 +134,7 @@ namespace Org.OpenAPITools.Client
             // add file parameter, if any
             foreach(var param in fileParams)
             {
-                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
+                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentLength, param.Value.ContentType);
             }
 
             if (postBody != null) // http body (model or byte[]) parameter
@@ -500,6 +500,7 @@ namespace Org.OpenAPITools.Client
         /// Convert params to key/value pairs. 
         /// Use collectionFormat to properly format lists and collections.
         /// </summary>
+        /// <param name="collectionFormat">Collection format.</param>
         /// <param name="name">Key name.</param>
         /// <param name="value">Value object.</param>
         /// <returns>A list of KeyValuePairs</returns>
