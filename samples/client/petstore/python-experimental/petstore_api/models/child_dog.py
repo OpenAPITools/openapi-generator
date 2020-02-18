@@ -156,7 +156,8 @@ class ChildDog(ModelComposed):
         self.pet_type = pet_type
         for var_name, var_value in six.iteritems(kwargs):
             if var_name in unused_args and self._configuration is not None and \
-                            self._configuration.discard_unknown_keys:
+                            self._configuration.discard_unknown_keys and \
+                            not self._additional_properties_model_instances:
                 # discard variable.
                 pass
             setattr(self, var_name, var_value)
