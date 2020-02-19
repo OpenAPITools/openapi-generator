@@ -267,7 +267,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 34);
+        Assert.assertEquals(generatedFiles.size(), 36);
         TestUtils.ensureContainsFile(generatedFiles, output, ".gitignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
@@ -340,7 +340,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 37);
+        Assert.assertEquals(generatedFiles.size(), 39);
         TestUtils.ensureContainsFile(generatedFiles, output, ".gitignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
@@ -410,7 +410,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 23);
+        Assert.assertEquals(generatedFiles.size(), 25);
         validateJavaSourceFiles(generatedFiles);
 
         String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/DefaultApi.java").getAbsolutePath().replace("\\", "/");
