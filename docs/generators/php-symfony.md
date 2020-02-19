@@ -5,24 +5,24 @@ sidebar_label: php-symfony
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
-|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
-|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|modelPackage|package for generated models| |null|
 |apiPackage|package for generated api classes| |null|
-|variableNamingConvention|naming convention of variable name, e.g. camelCase.| |snake_case|
-|invokerPackage|The main namespace to use for all classes. e.g. Yay\Pets| |null|
-|packageName|The main package name for classes. e.g. GeneratedPetstore| |null|
-|srcBasePath|The directory to serve as source root.| |null|
 |artifactVersion|The version to use in the composer package version field. e.g. 1.2.3| |null|
-|composerVendorName|The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets| |null|
-|bundleName|The name of the Symfony bundle. The template uses {{bundleName}}| |null|
 |bundleAlias|The alias of the Symfony bundle. The template uses {{aliasName}}| |null|
+|bundleName|The name of the Symfony bundle. The template uses {{bundleName}}| |null|
 |composerProjectName|The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client| |null|
+|composerVendorName|The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets| |null|
+|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|invokerPackage|The main namespace to use for all classes. e.g. Yay\Pets| |null|
+|modelPackage|package for generated models| |null|
+|packageName|The main package name for classes. e.g. GeneratedPetstore| |null|
 |phpLegacySupport|Should the generated code be compatible with PHP 5.x?| |true|
+|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
+|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|srcBasePath|The directory to serve as source root.| |null|
+|variableNamingConvention|naming convention of variable name, e.g. camelCase.| |snake_case|
 
 ## IMPORT MAPPING
 
@@ -40,91 +40,201 @@ sidebar_label: php-symfony
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>number</li>
-<li>void</li>
-<li>bool</li>
-<li>string</li>
+<ul class="column-ul">
 <li>array</li>
-<li>double</li>
+<li>bool</li>
 <li>byte</li>
-<li>mixed</li>
+<li>double</li>
 <li>float</li>
 <li>int</li>
+<li>mixed</li>
+<li>number</li>
 <li>object</li>
+<li>string</li>
+<li>void</li>
 </ul>
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>die</li>
+<ul class="column-ul">
+<li>__halt_compiler</li>
+<li>_header_accept</li>
+<li>_tempbody</li>
+<li>abstract</li>
+<li>and</li>
+<li>array</li>
+<li>as</li>
+<li>break</li>
 <li>callable</li>
-<li>declare</li>
-<li>isset</li>
-<li>use</li>
-<li>queryparams</li>
-<li>echo</li>
-<li>do</li>
-<li>while</li>
-<li>unset</li>
-<li>empty</li>
-<li>resourcepath</li>
-<li>endwhile</li>
-<li>protected</li>
+<li>case</li>
+<li>catch</li>
+<li>class</li>
+<li>clone</li>
+<li>const</li>
 <li>continue</li>
+<li>declare</li>
+<li>default</li>
+<li>die</li>
+<li>do</li>
+<li>echo</li>
 <li>else</li>
 <li>elseif</li>
-<li>function</li>
+<li>empty</li>
+<li>enddeclare</li>
 <li>endfor</li>
-<li>trait</li>
-<li>catch</li>
-<li>if</li>
-<li>case</li>
-<li>new</li>
-<li>static</li>
-<li>var</li>
-<li>require</li>
-<li>require_once</li>
-<li>list</li>
-<li>formparams</li>
-<li>headerparams</li>
-<li>_header_accept</li>
-<li>include_once</li>
-<li>exit</li>
-<li>as</li>
+<li>endforeach</li>
+<li>endif</li>
+<li>endswitch</li>
+<li>endwhile</li>
 <li>eval</li>
+<li>exit</li>
 <li>extends</li>
 <li>final</li>
-<li>try</li>
-<li>httpbody</li>
-<li>implements</li>
-<li>private</li>
-<li>const</li>
 <li>for</li>
-<li>global</li>
-<li>interface</li>
-<li>__halt_compiler</li>
-<li>_tempbody</li>
-<li>switch</li>
 <li>foreach</li>
-<li>default</li>
+<li>formparams</li>
+<li>function</li>
+<li>global</li>
 <li>goto</li>
-<li>public</li>
-<li>array</li>
-<li>and</li>
-<li>xor</li>
-<li>class</li>
+<li>headerparams</li>
+<li>httpbody</li>
+<li>if</li>
+<li>implements</li>
 <li>include</li>
-<li>or</li>
-<li>endswitch</li>
-<li>break</li>
-<li>enddeclare</li>
-<li>abstract</li>
+<li>include_once</li>
 <li>instanceof</li>
-<li>print</li>
-<li>throw</li>
 <li>insteadof</li>
-<li>clone</li>
+<li>interface</li>
+<li>isset</li>
+<li>list</li>
 <li>namespace</li>
-<li>endif</li>
-<li>endforeach</li>
+<li>new</li>
+<li>or</li>
+<li>print</li>
+<li>private</li>
+<li>protected</li>
+<li>public</li>
+<li>queryparams</li>
+<li>require</li>
+<li>require_once</li>
+<li>resourcepath</li>
 <li>return</li>
+<li>static</li>
+<li>switch</li>
+<li>throw</li>
+<li>trait</li>
+<li>try</li>
+<li>unset</li>
+<li>use</li>
+<li>var</li>
+<li>while</li>
+<li>xor</li>
 </ul>
+
+## FEATURE SET
+
+
+### Client Modification Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|BasePath|✗|ToolingExtension
+|Authorizations|✗|ToolingExtension
+|UserAgent|✗|ToolingExtension
+
+### Data Type Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Custom|✗|OAS2,OAS3
+|Int32|✓|OAS2,OAS3
+|Int64|✓|OAS2,OAS3
+|Float|✓|OAS2,OAS3
+|Double|✓|OAS2,OAS3
+|Decimal|✓|ToolingExtension
+|String|✓|OAS2,OAS3
+|Byte|✓|OAS2,OAS3
+|Binary|✓|OAS2,OAS3
+|Boolean|✓|OAS2,OAS3
+|Date|✓|OAS2,OAS3
+|DateTime|✓|OAS2,OAS3
+|Password|✓|OAS2,OAS3
+|File|✓|OAS2
+|Array|✓|OAS2,OAS3
+|Maps|✓|ToolingExtension
+|CollectionFormat|✓|OAS2
+|CollectionFormatMulti|✓|OAS2
+|Enum|✓|OAS2,OAS3
+|ArrayOfEnum|✓|ToolingExtension
+|ArrayOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfPrimitives|✓|ToolingExtension
+|ArrayOfCollectionOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfEnum|✓|ToolingExtension
+|MapOfEnum|✓|ToolingExtension
+|MapOfModel|✓|ToolingExtension
+|MapOfCollectionOfPrimitives|✓|ToolingExtension
+|MapOfCollectionOfModel|✓|ToolingExtension
+|MapOfCollectionOfEnum|✓|ToolingExtension
+
+### Documentation Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Readme|✓|ToolingExtension
+|Model|✓|ToolingExtension
+|Api|✓|ToolingExtension
+
+### Global Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Host|✓|OAS2,OAS3
+|BasePath|✓|OAS2,OAS3
+|Info|✓|OAS2,OAS3
+|Schemes|✗|OAS2,OAS3
+|PartialSchemes|✓|OAS2,OAS3
+|Consumes|✓|OAS2
+|Produces|✓|OAS2
+|ExternalDocumentation|✓|OAS2,OAS3
+|Examples|✓|OAS2,OAS3
+|XMLStructureDefinitions|✗|OAS2,OAS3
+|MultiServer|✗|OAS3
+|ParameterizedServer|✗|OAS3
+|ParameterStyling|✗|OAS3
+|Callbacks|✗|OAS3
+|LinkObjects|✗|OAS3
+
+### Parameter Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Path|✓|OAS2,OAS3
+|Query|✓|OAS2,OAS3
+|Header|✓|OAS2,OAS3
+|Body|✓|OAS2
+|FormUnencoded|✓|OAS2
+|FormMultipart|✓|OAS2
+|Cookie|✓|OAS3
+
+### Schema Support Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Simple|✓|OAS2,OAS3
+|Composite|✓|OAS2,OAS3
+|Polymorphism|✗|OAS2,OAS3
+|Union|✗|OAS3
+
+### Security Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|BasicAuth|✗|OAS2,OAS3
+|ApiKey|✗|OAS2,OAS3
+|OpenIDConnect|✗|OAS3
+|BearerToken|✗|OAS3
+|OAuth2_Implicit|✗|OAS2,OAS3
+|OAuth2_Password|✗|OAS2,OAS3
+|OAuth2_ClientCredentials|✗|OAS2,OAS3
+|OAuth2_AuthorizationCode|✗|OAS2,OAS3
+
+### Wire Format Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|JSON|✓|OAS2,OAS3
+|XML|✓|OAS2,OAS3
+|PROTOBUF|✗|ToolingExtension
+|Custom|✗|OAS2,OAS3

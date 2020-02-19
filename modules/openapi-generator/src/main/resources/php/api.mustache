@@ -579,12 +579,12 @@ use {{invokerPackage}}\ObjectSerializer;
         }
         {{/isApiKey}}
         {{#isBasic}}
-        {{^isBasicBearer}}
+        {{#isBasicBasic}}
         // this endpoint requires HTTP basic authentication
         if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
             $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
         }
-        {{/isBasicBearer}}
+        {{/isBasicBasic}}
         {{#isBasicBearer}}
         // this endpoint requires Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} authentication (access token)
         if ($this->config->getAccessToken() !== null) {

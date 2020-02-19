@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,7 @@ import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
@@ -75,9 +76,9 @@ public class TypeScriptAngularModelTest {
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.complexType, null);
-        Assert.assertEquals(property3.dataType, "Date");
+        Assert.assertEquals(property3.dataType, "string");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.baseType, "Date");
+        Assert.assertEquals(property3.baseType, "string");
         Assert.assertEquals(property3.defaultValue, "undefined");
         Assert.assertTrue(property3.hasMore);
         Assert.assertFalse(property3.required);
@@ -304,4 +305,23 @@ public class TypeScriptAngularModelTest {
         Assert.assertFalse(property.isContainer);
     }
 
+    @Test(description = "convert an inline model that originally had a name prefixed with an underscore")
+    public void inlineModelWithUnderscoreNameTest() {
+        // Originally parent model "FooResponse" with inline model called "_links". The InlineModelResolver resolves
+        // that to "FooResponse__links" (double underscore)
+        final Schema schema = new Schema()
+            .description("an inline model with name previously prefixed with underscore")
+            .addRequiredItem("self")
+            .addProperties("self", new StringSchema());
+
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.FILE_NAMING, "kebab-case");
+        codegen.processOpts();
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+
+        final CodegenModel cm = codegen.fromModel("FooResponse__links", schema);
+        Assert.assertEquals(cm.getClassFilename(), "./foo-response-links", "The generated filename should not have a double hyphen.");
+    }
 }

@@ -1,0 +1,141 @@
+/* your custom css */
+/*
+Colorbox http://j.mp/379NNiV
+Docusaurus 1.x values where:
+primaryColor: '#76c513',
+secondaryColor: '#464446',
+*/
+:root {
+    --openapi-generator-base-color: #76c513;
+    /*--ifm-background-color: */
+    /*--ifm-background-surface-color: #00C310;*/
+    /*--ifm-color-primary-darker: #00B6B2;*/
+    /*--ifm-color-primary-darkest: #0075AF;*/
+    /*--ifm-color-primary-light: #7BD23C;*/
+    /*--ifm-color-primary-lighter:#8ADE6B;*/
+    /*--ifm-color-primary-lightest: #96E98F;*/
+    --ifm-color-primary: var(--openapi-generator-base-color);
+    --ifm-color-primary-dark: #6ab111;
+    --ifm-color-primary-darker: #64a710;
+    --ifm-color-primary-darkest: #538a0d;
+    --ifm-color-primary-light: #82d915;
+    --ifm-color-primary-lighter: #88e316;
+    --ifm-color-primary-lightest: #97eb2e;
+    --button-margin: 0.25rem;
+    --ifm-code-font-size: 90%;
+}
+
+html[data-theme='light'] {
+    --ifm-color-feedback-background: #f0f8ff;
+}
+
+html[data-theme=''] .button.button--secondary.button--outline:not(.button--active):not(:hover) {
+    --ifm-button-color: var(--ifm-color-secondary);
+    color: var(--ifm-button-color);
+}
+
+html[data-theme=''] .navbar__logo {
+    opacity: 0.9;
+    filter: invert(.9);
+}
+
+.avatar__photo-link.bronze-sponsor {
+    display: flex;
+    margin-left: var(--button-margin);
+}
+
+.navbar .navbar__brand {
+    width: 12rem;
+}
+
+.column-ul {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+}
+
+dd {
+    margin-bottom: 0.5em;
+}
+dd {
+    margin-inline-start: 2em;
+}
+
+.blockImage {
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.edit-this-page p.link {
+    float: right;
+    position: relative;
+    top: -3.5em;
+}
+
+.member-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: baseline;
+}
+.member-container .member {
+    width: 160px;
+    margin: 0.5em;
+    text-align: center;
+}
+
+.member-container .member .member-info {
+    order: 2
+}
+
+.nav-footer .attribution {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto 1em;
+}
+
+.footer .footer__logo {
+    max-width: 3rem;
+}
+
+.splashLogo {
+    display: block;
+    margin: 0;
+    min-height: 100px;
+    height: auto;
+}
+
+.splashLogo img {
+    height: 100px;
+    max-height: 150px;
+}
+
+#try .blockImage,
+#tryHomebrew .blockImage,
+#tryDocker .blockImage,
+#connectOnSlack .blockImage {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+}
+
+@media only screen and (min-width: 1024px) {
+}
+
+@media only screen and (min-width: 1200px) {
+
+}
+
+@media only screen and (max-width: 1023px) {
+}
+
+@media only screen and (min-width: 1400px) {
+}
+
+@media only screen and (min-width: 1500px) {
+}

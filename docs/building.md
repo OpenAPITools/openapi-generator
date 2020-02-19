@@ -7,9 +7,9 @@ title: Building the code
 
 To build from source, you need the following installed and available in your `$PATH:`
 
-* [Java 8](http://java.oracle.com)
+* [Java 8](https://java.oracle.com)
 
-* [Apache maven 3.3.4 or greater](http://maven.apache.org/)
+* [Apache maven 3.3.4 or greater](https://maven.apache.org/)
 
 After cloning the project, you can build it from source with this command:
 
@@ -53,7 +53,7 @@ Once built, `run-in-docker.sh` will act as an executable for openapi-generator-c
 Prerequisite: install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
 
 ```bash
-git clone http://github.com/openapitools/openapi-generator.git
+git clone https://github.com/openapitools/openapi-generator.git
 cd openapi-generator
 vagrant up
 vagrant ssh

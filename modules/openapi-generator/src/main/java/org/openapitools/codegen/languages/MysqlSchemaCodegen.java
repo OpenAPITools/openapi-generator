@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,7 +30,8 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(MysqlSchemaCodegen.class);
 
-    public static final String CODEGEN_VENDOR_EXTENSION_KEY = "x-mysqlSchema";
+    public static final String CODEGEN_VENDOR_EXTENSION_KEY = "x-mysqlSchema"; // TODO: 5.0 Remove
+    public static final String VENDOR_EXTENSION_MYSQL_SCHEMA = "x-mysql-schema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
     public static final String JSON_DATA_TYPE_ENABLED = "jsonDataTypeEnabled";
     public static final String IDENTIFIER_NAMING_CONVENTION = "identifierNamingConvention";
@@ -338,7 +339,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
+        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema); // TODO: 5.0 Remove
+        vendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
 
@@ -425,7 +427,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
+        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema); // TODO: 5.0 Remove
+        vendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
 
@@ -503,7 +506,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
+        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema); // TODO: 5.0 Remove
+        vendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
         columnDefinition.put("colDataType", "TINYINT");
@@ -561,7 +565,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
+        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema); // TODO: 5.0 Remove
+        vendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
 
@@ -635,7 +640,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
+        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema); // TODO: 5.0 Remove
+        vendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
         columnDefinition.put("colDataType", dataType);
@@ -686,7 +692,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
+        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema); // TODO: 5.0 Remove
+        vendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
         columnDefinition.put("colDataType", dataType);
@@ -740,7 +747,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema);
+        vendorExtensions.put(CODEGEN_VENDOR_EXTENSION_KEY, mysqlSchema); // TODO: 5.0 Remove
+        vendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
         columnDefinition.put("colDataType", "TEXT");

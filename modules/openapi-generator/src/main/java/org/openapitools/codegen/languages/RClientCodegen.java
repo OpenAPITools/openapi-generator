@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -710,11 +710,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (codegenParameter.isMapContainer) { // TODO: map
             return "TODO";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
-            if ("character".equals(codegenParameter.dataType)) {
-                return codegenParameter.example;
-            } else {
-                return codegenParameter.example;
-            }
+            return codegenParameter.example;
         } else { // model
             // look up the model
             if (modelMaps.containsKey(codegenParameter.dataType)) {

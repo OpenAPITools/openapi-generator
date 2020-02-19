@@ -24,7 +24,5 @@ data class Tag (
     val id: kotlin.Long? = null,
     @SerializedName("name")
     val name: kotlin.String? = null
-) 
-
-
+)
 

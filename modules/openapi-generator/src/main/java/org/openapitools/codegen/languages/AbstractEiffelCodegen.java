@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -234,16 +235,20 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         char firstChar = parameter.paramName.charAt(0);
 
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         if (Character.isUpperCase(firstChar)) {
             // First char is already uppercase, just use paramName.
-            parameter.vendorExtensions.put("x-exportParamName", parameter.paramName);
-
+            parameter.vendorExtensions.put("x-exportParamName", parameter.paramName);  // TODO: 5.0 Remove
+            parameter.vendorExtensions.put("x-export-param-name", parameter.paramName);
         }
 
         // It's a lowercase first char, let's convert it to uppercase
         StringBuilder sb = new StringBuilder(parameter.paramName);
         sb.setCharAt(0, Character.toUpperCase(firstChar));
-        parameter.vendorExtensions.put("x-exportParamName", sb.toString());
+        parameter.vendorExtensions.put("x-exportParamName", sb.toString());  // TODO: 5.0 Remove
+        parameter.vendorExtensions.put("x-export-param-name", sb.toString());
     }
 
     @Override

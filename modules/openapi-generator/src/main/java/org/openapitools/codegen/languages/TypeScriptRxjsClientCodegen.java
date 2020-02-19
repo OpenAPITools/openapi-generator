@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,19 +23,22 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.TreeSet;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
+
+import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
 
     protected String npmRepository = null;
+    protected Set<String> reservedParamNames = new HashSet<>();
 
     public TypeScriptRxjsClientCodegen() {
         super();
@@ -58,6 +61,11 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+
+        // these are used in the api template for more efficient destructuring
+        this.reservedParamNames.add("headers");
+        this.reservedParamNames.add("query");
+        this.reservedParamNames.add("formData");
     }
 
     @Override
@@ -101,21 +109,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema inner;
-        if (ModelUtils.isArraySchema(p)) {
-            inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            inner = ModelUtils.getAdditionalProperties(p);
-            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
-        } else if (ModelUtils.isFileSchema(p)) {
+        if (ModelUtils.isBinarySchema(p)) {
             return "Blob";
-        } else if (ModelUtils.isBinarySchema(p)) {
-            return "Blob";
-        } else if (ModelUtils.isDateSchema(p)) {
-            return "Date";
-        } else if (ModelUtils.isDateTimeSchema(p)) {
-            return "Date";
         }
         return super.getTypeDeclaration(p);
     }
@@ -252,12 +247,23 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         operations.put("hasEnums", hasEnums);
     }
 
+    private void setParamNameAlternative(CodegenParameter param, String paramName, String paramNameAlternative) {
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
+        if (param.paramName.equals(paramName)) {
+            param.vendorExtensions.put("paramNameAlternative", paramNameAlternative); // TODO: 5.0 Remove
+            param.vendorExtensions.put("x-param-name-alternative", paramNameAlternative);
+        }
+    }
+
     private void addConditionalImportInformation(Map<String, Object> operations) {
         // This method will determine if there are required parameters and if there are list containers
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
         List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
         
-        boolean hasRequiredParameters = false;
+        boolean hasRequiredParams = false;
         boolean hasListContainers = false;
         boolean hasHttpHeaders = false;
         boolean hasQueryParams = false;
@@ -265,25 +271,46 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
         for (ExtendedCodegenOperation op : operationList) {
             if (op.getHasRequiredParams()) {
-                hasRequiredParameters = true;
+                hasRequiredParams = true;
             }
-            
-            for (CodegenParameter param : op.headerParams) {
-                if (param.isListContainer) {
-                    hasListContainers = true;
-                    break;
+
+            for (CodegenParameter p: op.allParams) {
+                String paramNameAlternative = null;
+
+                if(this.reservedParamNames.contains(p.paramName)){
+                    paramNameAlternative = p.paramName + "Alias";
+                    LOGGER.info("param: "+p.paramName+" isReserved ––> "+paramNameAlternative);
                 }
-            }
-            for (CodegenParameter param : op.queryParams) {
-                if (param.isListContainer && !param.isCollectionFormatMulti) {
-                    hasListContainers = true;
-                    break;
+                setParamNameAlternative(p, p.paramName, paramNameAlternative);
+
+                for (CodegenParameter param : op.headerParams) {
+                    if (param.isListContainer) {
+                        hasListContainers = true;
+                    }
+                    setParamNameAlternative(param, p.paramName, paramNameAlternative);
                 }
-            }
-            for (CodegenParameter param : op.formParams) {
-                if (param.isListContainer && !param.isCollectionFormatMulti) {
-                    hasListContainers = true;
-                    break;
+
+                for (CodegenParameter param : op.queryParams) {
+                    if (param.isListContainer && !param.isCollectionFormatMulti) {
+                        hasListContainers = true;
+                    }
+                    if (param.required) {
+                        op.hasRequiredQueryParams = true;
+                    } else {
+                        op.hasOptionalQueryParams = true;
+                    }
+                    setParamNameAlternative(param, p.paramName, paramNameAlternative);
+                }
+
+                for (CodegenParameter param : op.formParams) {
+                    if (param.isListContainer && !param.isCollectionFormatMulti) {
+                        hasListContainers = true;
+                    }
+                    setParamNameAlternative(param, p.paramName, paramNameAlternative);
+                }
+
+                for (CodegenParameter param : op.pathParams) {
+                    setParamNameAlternative(param, p.paramName, paramNameAlternative);
                 }
             }
 
@@ -296,13 +323,9 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             if (op.getHasPathParams()) {
                 hasPathParams = true;
             }
-
-            if(hasRequiredParameters && hasListContainers && hasHttpHeaders && hasQueryParams && hasPathParams){
-                break;
-            }
         }
 
-        operations.put("hasRequiredParameters", hasRequiredParameters);
+        operations.put("hasRequiredParams", hasRequiredParams);
         operations.put("hasListContainers", hasListContainers);
         operations.put("hasHttpHeaders", hasHttpHeaders);
         operations.put("hasQueryParams", hasQueryParams);
@@ -312,7 +335,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     private void addExtraReservedWords() {
         this.reservedWords.add("BASE_PATH");
         this.reservedWords.add("BaseAPI");
-        this.reservedWords.add("RequiredError");
         this.reservedWords.add("COLLECTION_FORMATS");
         this.reservedWords.add("ConfigurationParameters");
         this.reservedWords.add("Configuration");
@@ -320,11 +342,9 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         this.reservedWords.add("HttpHeaders");
         this.reservedWords.add("HttpQuery");
         this.reservedWords.add("HttpBody");
-        this.reservedWords.add("ModelPropertyNaming");
         this.reservedWords.add("RequestArgs");
         this.reservedWords.add("RequestOpts");
         this.reservedWords.add("ResponseArgs");
-        this.reservedWords.add("exists");
         this.reservedWords.add("Middleware");
         this.reservedWords.add("AjaxRequest");
         this.reservedWords.add("AjaxResponse");
@@ -332,6 +352,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     class ExtendedCodegenOperation extends CodegenOperation {
         public boolean hasHttpHeaders;
+        public boolean hasRequiredQueryParams;
+        public boolean hasOptionalQueryParams;
 
         public ExtendedCodegenOperation(CodegenOperation o) {
             super();
@@ -405,6 +427,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
             // new fields
             this.hasHttpHeaders = o.getHasHeaderParams() || o.getHasBodyParam() || o.hasAuthMethods;
+            this.hasRequiredQueryParams = false; // will be updated within addConditionalImportInformation
+            this.hasOptionalQueryParams = false; // will be updated within addConditionalImportInformation
         }
     }
 }

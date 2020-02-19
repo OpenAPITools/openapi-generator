@@ -23,17 +23,17 @@ class {{classname}} {
         /// {{notes}}
         Future<Response{{#returnType}}<{{{returnType}}}>{{/returnType}}>{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}CancelToken cancelToken, Map<String, String> headers,}) async {
 
-            String path = "{{{path}}}"{{#pathParams}}.replaceAll("{" + "{{baseName}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
+        String _path = "{{{path}}}"{{#pathParams}}.replaceAll("{" r'{{baseName}}' "}", {{{paramName}}}.toString()){{/pathParams}};
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         {{#headerParams}}
-                headerParams["{{baseName}}"] = {{paramName}};
+                headerParams[r'{{baseName}}'] = {{paramName}};
         {{/headerParams}}
         {{#queryParams}}
-                queryParams["{{baseName}}"] = {{paramName}};
+                queryParams[r'{{baseName}}'] = {{paramName}};
         {{/queryParams}}
         queryParams.removeWhere((key, value) => value == null);
         headerParams.removeWhere((key, value) => value == null);
@@ -46,12 +46,12 @@ class {{classname}} {
         {{#isMultipart}}
             {{^isFile}}
                 if ({{paramName}} != null) {
-                    formData['{{baseName}}'] = parameterToString({{paramName}});
+                    formData[r'{{baseName}}'] = parameterToString(_serializers, {{paramName}});
                 }
             {{/isFile}}
             {{#isFile}}
                 if ({{paramName}} != null) {
-                    formData['{{baseName}}'] = MultipartFile.fromBytes({{paramName}}, filename: "{{baseName}}");
+                    formData[r'{{baseName}}'] = MultipartFile.fromBytes({{paramName}}, filename: r'{{baseName}}');
                 }
             {{/isFile}}
         {{/isMultipart}}
@@ -72,7 +72,7 @@ class {{classname}} {
         {{/bodyParam}}
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(

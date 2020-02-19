@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,11 @@ package org.openapitools.codegen;
 
 import java.util.*;
 
+/**
+ * Describes a single operation parameter in the OAS specification.
+ * A unique parameter is defined by a combination of a name and location.
+ * Parameters may be located in a path, query, header or cookie.
+ */
 public class CodegenParameter implements IJsonSchemaValidationProperties {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
@@ -454,6 +459,16 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     @Override
     public void setMaxProperties(Integer maxProperties) {
         this.maxProperties = maxProperties;
+    }
+
+    @Override
+    public Number getMultipleOf() {
+        return multipleOf;
+    }
+
+    @Override
+    public void setMultipleOf(Number multipleOf) {
+        this.multipleOf = multipleOf;
     }
 
 }

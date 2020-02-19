@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -56,7 +56,7 @@ public class OpenAPIDocumentationConfig {
             .title("OpenAPI Generator Online")
             .description("This is an online openapi generator server.  You can find out more at https://github.com/OpenAPITools/openapi-generator.")
             .license("Apache 2.0")
-            .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
+            .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0.html")
             .termsOfServiceUrl("")
             .version(version)
             .contact(new Contact("","", ""))

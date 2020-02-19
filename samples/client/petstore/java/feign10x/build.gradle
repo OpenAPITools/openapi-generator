@@ -6,7 +6,7 @@ version = '1.0.0'
 
 buildscript {
     repositories {
-        mavenCentral()
+        maven { url "https://repo1.maven.org/maven2" }
         jcenter()
     }
     dependencies {
@@ -100,8 +100,8 @@ ext {
     jackson_databind_version = "2.10.1"
     jackson_databind_nullable_version = "0.2.1"
     jackson_threetenbp_version = "2.9.10"
-    feign_version = "10.2.3"
-    feign_form_version = "2.1.0"
+    feign_version = "10.7.4"
+    feign_form_version = "3.8.0"
     junit_version = "4.13"
     oltu_version = "1.0.1"
 }

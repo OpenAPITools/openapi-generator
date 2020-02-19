@@ -22,9 +22,9 @@ Method | HTTP request | Description
 {{#hasAuthMethods}}
 {{#authMethods}}
 {{#isBasic}}
-{{^isBasicBearer}}
+{{#isBasicBasic}}
 * Basic Authentication ({{name}}):
-{{/isBasicBearer}}
+{{/isBasicBasic}}
 {{#isBasicBearer}}
 * Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} Authentication ({{name}}):
 {{/isBasicBearer}}
