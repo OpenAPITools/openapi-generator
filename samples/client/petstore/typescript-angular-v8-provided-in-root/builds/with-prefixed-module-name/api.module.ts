@@ -11,23 +11,20 @@ import { UserService } from './api/user.service';
   imports:      [],
   declarations: [],
   exports:      [],
-  providers: [
-    PetService,
-    StoreService,
-    UserService ]
+  providers: []
 })
-export class ApiModule {
-    public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders {
+export class PetStoreApiModule {
+    public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders{
         return {
-            ngModule: ApiModule,
+            ngModule: PetStoreApiModule,
             providers: [ { provide: Configuration, useFactory: configurationFactory } ]
         };
     }
 
-    constructor( @Optional() @SkipSelf() parentModule: ApiModule,
+    constructor( @Optional() @SkipSelf() parentModule: PetStoreApiModule,
                  @Optional() http: HttpClient) {
         if (parentModule) {
-            throw new Error('ApiModule is already loaded. Import in your base AppModule only.');
+            throw new Error('PetStoreApiModule is already loaded. Import in your base AppModule only.');
         }
         if (!http) {
             throw new Error('You need to import the HttpClientModule in your AppModule! \n' +
