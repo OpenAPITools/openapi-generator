@@ -1,5 +1,3 @@
-import { QueryEncoder } from '@angular/http';
-
 export interface ConfigurationParameters {
     apiKeys?: {[ key: string ]: string};
     username?: string;
@@ -7,7 +5,6 @@ export interface ConfigurationParameters {
     accessToken?: string | (() => string);
     basePath?: string;
     withCredentials?: boolean;
-    encoder?: QueryEncoder;
 }
 
 export class Configuration {
@@ -17,7 +14,6 @@ export class Configuration {
     accessToken?: string | (() => string);
     basePath?: string;
     withCredentials?: boolean;
-    encoder?: QueryEncoder;
 
     constructor(configurationParameters: ConfigurationParameters = {}) {
         this.apiKeys = configurationParameters.apiKeys;
@@ -26,7 +22,6 @@ export class Configuration {
         this.accessToken = configurationParameters.accessToken;
         this.basePath = configurationParameters.basePath;
         this.withCredentials = configurationParameters.withCredentials;
-        this.encoder = configurationParameters.encoder;
     }
 
     /**
@@ -41,7 +36,7 @@ export class Configuration {
             return undefined;
         }
 
-        const type = contentTypes.find((x: string) => this.isJsonMime(x));
+        let type = contentTypes.find(x => this.isJsonMime(x));
         if (type === undefined) {
             return contentTypes[0];
         }
@@ -60,7 +55,7 @@ export class Configuration {
             return undefined;
         }
 
-        const type = accepts.find((x: string) => this.isJsonMime(x));
+        let type = accepts.find(x => this.isJsonMime(x));
         if (type === undefined) {
             return accepts[0];
         }

@@ -11,7 +11,10 @@ import { UserService } from './api/user.service';
   imports:      [],
   declarations: [],
   exports:      [],
-  providers: []
+  providers: [
+    PetService,
+    StoreService,
+    UserService ]
 })
 export class ApiModule {
     public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders {
