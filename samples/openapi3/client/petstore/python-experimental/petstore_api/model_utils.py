@@ -933,7 +933,7 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
         # of this for us
         if configuration is None or not configuration.discard_unknown_keys:
             raise get_type_error(input_value, path_to_item, valid_classes,
-                                key_type=key_type)
+                                    key_type=key_type)
     for valid_class in valid_classes_coercible:
         try:
             if issubclass(valid_class, OpenApiModel):
@@ -1373,9 +1373,9 @@ def validate_get_composed_info(constant_args, model_args, self):
     # set any remaining values
     unused_args = get_unused_args(self, composed_instances, model_args)
     if len(unused_args) > 0 and \
-                len(additional_properties_model_instances) == 0 and \
-                (self._configuration is None or \
-                not self._configuration.discard_unknown_keys):
+            len(additional_properties_model_instances) == 0 and \
+            (self._configuration is None or
+            not self._configuration.discard_unknown_keys):
         raise ApiValueError(
             "Invalid input arguments input when making an instance of "
             "class %s. Not all inputs were used. The unused input data "
