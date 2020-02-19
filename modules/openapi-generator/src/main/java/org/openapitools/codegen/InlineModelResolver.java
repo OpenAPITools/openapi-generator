@@ -365,13 +365,16 @@ public class InlineModelResolver {
             if (component instanceof ObjectSchema) {
                 ObjectSchema op = (ObjectSchema) component;
                 if (op.get$ref() == null && op.getProperties() != null && op.getProperties().size() > 0) {
-                    // Note: the call to op.getTitle() can lead to totally unexpected results and should not be
-                    // used to generate the innerModelName.
-                    // If the value of the 'title' attribute happens to match a schema defined elsewhere in
-                    // the specification, 'innerModelName' will be the same as that other schema.
-                    // The 'title' attribute is supposed to be for human consumption, not for code generation.
-                    // OAS authors should not be expected to set a 'title' value that will control the
-                    // code generation logic.
+                    // If a `title` attribute is defined in the inline schema, codegen uses it to name the
+                    // inline schema. Otherwise, we'll use the default naming such as InlineObject1, etc.
+                    // We know that this is not the best way to name the model.
+                    //
+                    // Such naming strategy may result in issues. If the value of the 'title' attribute
+                    // happens to match a schema defined elsewhere in the specification, 'innerModelName'
+                    // will be the same as that other schema.
+                    //
+                    // To have complete control of the model naming, one can define the model separately
+                    // instead of inline.
                     String innerModelName = resolveModelName(op.getTitle(), key);
                     Schema innerModel = modelFromProperty(op, innerModelName);
                     String existing = matchGenerated(innerModel);
