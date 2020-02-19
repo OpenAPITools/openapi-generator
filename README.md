@@ -871,6 +871,7 @@ Here is a list of template creators:
    * Confluence Wiki: @jhitchcock
  * Configuration
    * Apache2: @stkrwork
+   * k6: @mostafa 
  * Schema
    * Avro: @sgadouar
    * GraphQL: @wing328 [:heart:](https://www.patreon.com/wing328)
