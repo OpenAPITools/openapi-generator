@@ -679,7 +679,7 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
         # of this for us
         if configuration is None or not configuration.discard_unknown_keys:
             raise get_type_error(input_value, path_to_item, valid_classes,
-                            key_type=key_type)
+                                key_type=key_type)
     for valid_class in valid_classes_coercible:
         try:
             if issubclass(valid_class, OpenApiModel):
