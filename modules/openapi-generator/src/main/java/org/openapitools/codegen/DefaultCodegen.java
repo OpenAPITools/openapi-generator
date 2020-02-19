@@ -3027,14 +3027,6 @@ public class DefaultCodegen implements CodegenConfig {
             property.isNullable = p.getNullable();
         }
 
-        if (p.getXml() != null) {
-            if (p.getXml().getAttribute() != null) {
-                property.isXmlAttribute = p.getXml().getAttribute();
-            }
-            property.xmlPrefix = p.getXml().getPrefix();
-            property.xmlName = p.getXml().getName();
-            property.xmlNamespace = p.getXml().getNamespace();
-        }
         if (p.getExtensions() != null && !p.getExtensions().isEmpty()) {
             property.getVendorExtensions().putAll(p.getExtensions());
         }
@@ -3199,6 +3191,32 @@ public class DefaultCodegen implements CodegenConfig {
             property.isNullable = referencedSchema.getNullable();
         }
 
+        final XML referencedSchemaXml = referencedSchema.getXml();
+
+        if (referencedSchemaXml != null) {
+            property.xmlName = referencedSchemaXml.getName();
+            property.xmlNamespace = referencedSchemaXml.getNamespace();
+            property.xmlPrefix = referencedSchemaXml.getPrefix();
+            if (referencedSchemaXml.getAttribute() != null) {
+                property.isXmlAttribute = referencedSchemaXml.getAttribute();
+            }
+            if (referencedSchemaXml.getWrapped() != null) {
+                property.isXmlWrapped = referencedSchemaXml.getWrapped();
+            }
+        }
+
+        if (p.getXml() != null) {
+            if (p.getXml().getAttribute() != null) {
+                property.isXmlAttribute = p.getXml().getAttribute();
+            }
+            if (p.getXml().getWrapped() != null) {
+                property.isXmlWrapped = p.getXml().getWrapped();
+            }
+            property.xmlPrefix = p.getXml().getPrefix();
+            property.xmlName = p.getXml().getName();
+            property.xmlNamespace = p.getXml().getNamespace();
+        }
+
         property.dataType = getTypeDeclaration(p);
         property.dataFormat = p.getFormat();
         property.baseType = getSchemaType(p);
@@ -3220,12 +3238,6 @@ public class DefaultCodegen implements CodegenConfig {
                 property.containerType = "array";
             }
             property.baseType = getSchemaType(p);
-            if (p.getXml() != null) {
-                property.isXmlWrapped = p.getXml().getWrapped() == null ? false : p.getXml().getWrapped();
-                property.xmlPrefix = p.getXml().getPrefix();
-                property.xmlNamespace = p.getXml().getNamespace();
-                property.xmlName = p.getXml().getName();
-            }
 
             // handle inner property
             property.maxItems = p.getMaxItems();
