@@ -14,7 +14,7 @@ import { UserService } from './api/user.service';
   providers: []
 })
 export class PetStoreApiModule {
-    public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders{
+    public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders {
         return {
             ngModule: PetStoreApiModule,
             providers: [ { provide: Configuration, useFactory: configurationFactory } ]
