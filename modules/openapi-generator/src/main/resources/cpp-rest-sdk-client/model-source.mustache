@@ -265,7 +265,7 @@ void {{classname}}::fromJson(const web::json::value& val)
             }
             else
             {
-                {{{items.datatype}}} newItem({{{items.defaultValue}}});
+                auto newItem = std::make_shared<{{{items.datatype}}}::element_type>();
                 newItem->fromJson(item);
                 m_{{name}}.push_back( newItem );
             }
@@ -309,7 +309,7 @@ void {{classname}}::fromJson(const web::json::value& val)
                 }
                 else
                 {
-                    {{{items.datatype}}} newItem({{{items.defaultValue}}});
+                    auto newItem = std::make_shared<{{{items.datatype}}}::element_type>();
                     newItem->fromJson(item.at(utility::conversions::to_string_t("value")));
                     m_{{name}}.insert(std::pair<utility::string_t,{{{items.datatype}}}>( key, newItem ));
                 }
@@ -344,7 +344,7 @@ void {{classname}}::fromJson(const web::json::value& val)
             {{/isDateTime}}
             {{^isDateTime}}
             {{^isByteArray}}
-            {{{dataType}}} newItem({{{defaultValue}}});
+            auto newItem = std::make_shared<{{{datatype}}}::element_type>();
             newItem->fromJson(fieldValue);
             {{setter}}( newItem );
             {{/isByteArray}}
@@ -371,7 +371,7 @@ void {{classname}}::fromJson(const web::json::value& val)
     {{setter}}(ModelBase::fileFromJson(val.at(utility::conversions::to_string_t("{{baseName}}"))));
     {{/vendorExtensions.x-codegen-file}}
     {{^vendorExtensions.x-codegen-file}}
-    {{{dataType}}} new{{name}}({{{defaultValue}}});
+    auto new{{name}} = std::make_shared<{{{dataType}}}::element_type>();
     new{{name}}->fromJson(val.at(utility::conversions::to_string_t("{{baseName}}")));
     {{setter}}( new{{name}} );
     {{/vendorExtensions.x-codegen-file}}
@@ -553,7 +553,7 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
             }
             else
             {
-                {{{items.datatype}}} newItem({{{items.defaultValue}}});
+                auto newItem = std::make_shared<{{{items.datatype}}}::element_type>();
                 newItem->fromJson(item);
                 m_{{name}}.push_back( newItem );
             }
@@ -600,7 +600,7 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
             }
             else
             {
-                {{{items.datatype}}} newItem({{{items.defaultValue}}});
+                auto newItem = std::make_shared<{{{items.datatype}}}::element_type>();
                 newItem->fromJson(item[utility::conversions::to_string_t("value")]);
                 m_{{name}}.insert(std::pair<utility::string_t,{{{items.datatype}}}>( key, newItem ));
             }
@@ -633,7 +633,7 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         {{^isDateTime}}
         if(multipart->hasContent(utility::conversions::to_string_t("{{baseName}}")))
         {
-            {{{dataType}}} newItem({{{defaultValue}}});
+            auto newItem = std::make_shared<{{{datatype}}}::element_type>();
             newItem->fromMultiPart(multipart, utility::conversions::to_string_t("{{baseName}}."));
             {{setter}}( newItem );
         }
@@ -659,7 +659,7 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
     {{setter}}(multipart->getContent(utility::conversions::to_string_t("{{baseName}}")));
     {{/vendorExtensions.x-codegen-file}}
     {{^vendorExtensions.x-codegen-file}}
-    {{{dataType}}} new{{name}}({{{defaultValue}}});
+    auto new{{name}} = std::make_shared<{{{dataType}}}::element_type>();
     new{{name}}->fromMultiPart(multipart, utility::conversions::to_string_t("{{baseName}}."));
     {{setter}}( new{{name}} );
     {{/vendorExtensions.x-codegen-file}}

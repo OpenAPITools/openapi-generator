@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,17 +17,16 @@
 
 package org.openapitools.codegen.rubysinatra;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.RubySinatraServerCodegen;
 import org.openapitools.codegen.options.RubySinatraServerOptionsProvider;
 
-public class RubySinatraServerOptionsTest extends AbstractOptionsTest {
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-    @Tested
-    private RubySinatraServerCodegen clientCodegen;
+public class RubySinatraServerOptionsTest extends AbstractOptionsTest {
+    private RubySinatraServerCodegen clientCodegen = mock(RubySinatraServerCodegen.class, mockSettings);
 
     public RubySinatraServerOptionsTest() {
         super(new RubySinatraServerOptionsProvider());
@@ -40,8 +39,7 @@ public class RubySinatraServerOptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-        }};
+    protected void verifyOptions() {
+        // TODO verify ruby sinatra opts
     }
 }

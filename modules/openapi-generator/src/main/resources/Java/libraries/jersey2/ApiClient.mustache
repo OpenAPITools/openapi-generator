@@ -597,7 +597,7 @@ public class ApiClient {
       entity = Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE);
     } else {
       // We let jersey handle the serialization
-      entity = Entity.entity(obj, contentType);
+      entity = Entity.entity(obj == null ? Entity.text("") : obj, contentType);
     }
     return entity;
   }
@@ -718,7 +718,7 @@ public class ApiClient {
     if (queryParams != null) {
       for (Pair queryParam : queryParams) {
         if (queryParam.getValue() != null) {
-          target = target.queryParam(queryParam.getName(), queryParam.getValue());
+          target = target.queryParam(queryParam.getName(), escapeString(queryParam.getValue()));
         }
       }
     }
@@ -756,7 +756,7 @@ public class ApiClient {
       }
     }
 
-    Entity<?> entity = (body == null) ? Entity.json("") : serialize(body, formParams, contentType);
+    Entity<?> entity = serialize(body, formParams, contentType);
 
     Response response = null;
 

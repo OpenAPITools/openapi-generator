@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class CppPistacheServerCodegen extends AbstractCppCodegen {
@@ -245,6 +246,9 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         operations.put("classnameSnakeUpperCase", underscore(classname).toUpperCase(Locale.ROOT));
         operations.put("classnameSnakeLowerCase", underscore(classname).toLowerCase(Locale.ROOT));
 
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
             boolean consumeJson = false;
@@ -254,7 +258,9 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
                     op.bodyParam.vendorExtensions = new HashMap<>();
                 }
 
-                op.bodyParam.vendorExtensions.put("x-codegen-pistache-isStringOrDate", op.bodyParam.isString || op.bodyParam.isDate);
+                boolean isStringOrDate = op.bodyParam.isString || op.bodyParam.isDate;
+                op.bodyParam.vendorExtensions.put("x-codegen-pistache-isStringOrDate", isStringOrDate); // TODO: 5.0 Remove
+                op.bodyParam.vendorExtensions.put("x-codegen-pistache-is-string-or-date", isStringOrDate);
             }
             if (op.consumes != null) {
                 for (Map<String, String> consume : op.consumes) {
@@ -288,8 +294,10 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             if (op.vendorExtensions == null) {
                 op.vendorExtensions = new HashMap<>();
             }
-            op.vendorExtensions.put("x-codegen-pistache-consumesJson", consumeJson);
-            op.vendorExtensions.put("x-codegen-pistache-isParsingSupported", isParsingSupported);
+            op.vendorExtensions.put("x-codegen-pistache-consumesJson", consumeJson); // TODO: 5.0 Remove
+            op.vendorExtensions.put("x-codegen-pistache-consumes-json", consumeJson);
+            op.vendorExtensions.put("x-codegen-pistache-isParsingSupported", isParsingSupported); // TODO: 5.0 Remove
+            op.vendorExtensions.put("x-codegen-pistache-is-parsing-supported", isParsingSupported);
             
             // Check if any one of the operations needs a model, then at API file level, at least one model has to be included.
             for(String hdr : op.imports) {

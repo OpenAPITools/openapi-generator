@@ -10,4 +10,8 @@ Name | Type | Description | Notes
 **files** | [**List&lt;java.io.File&gt;**](java.io.File.md) |  |  [optional]
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

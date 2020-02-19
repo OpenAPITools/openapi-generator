@@ -5,69 +5,69 @@ sidebar_label: jaxrs-resteasy
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
-|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
-|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|modelPackage|package for generated models| |org.openapitools.model|
 |apiPackage|package for generated api classes| |org.openapitools.api|
-|invokerPackage|root package for generated code| |org.openapitools.api|
-|groupId|groupId in generated pom.xml| |org.openapitools|
-|artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-jaxrs-resteasy-server|
-|artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
-|artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
+|artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-jaxrs-resteasy-server|
+|artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
+|artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
+|bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
+|booleanGetterPrefix|Set booleanGetterPrefix| |get|
+|dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date (if you really have a good reason not to use threetenbp</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+) - note: this also sets &quot;java8&quot; to true</dd><dt>**threetenbp**</dt><dd>Backport of JSR310 (preferred for jdk &lt; 1.8)</dd></dl>|legacy|
+|developerEmail|developer email in generated pom.xml| |team@openapitools.org|
+|developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
+|developerOrganization|developer organization in generated pom.xml| |OpenAPITools.org|
+|developerOrganizationUrl|developer organization URL in generated pom.xml| |http://openapitools.org|
+|disableHtmlEscaping|Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)| |false|
+|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
+|generateJbossDeploymentDescriptor|Generate Jboss Deployment Descriptor| |false|
+|groupId|groupId in generated pom.xml| |org.openapitools|
+|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
+|implFolder|folder for generated implementation code| |src/main/java|
+|invokerPackage|root package for generated code| |org.openapitools.api|
+|java8|Option. Use Java8 classes instead of third party equivalents|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd></dl>|false|
+|licenseName|The name of the license| |Unlicense|
+|licenseUrl|The URL of the license| |http://unlicense.org|
+|modelPackage|package for generated models| |org.openapitools.model|
+|parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
+|parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
+|parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
+|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmUrl|SCM URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
-|developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
-|developerEmail|developer email in generated pom.xml| |team@openapitools.org|
-|developerOrganization|developer organization in generated pom.xml| |OpenAPITools.org|
-|developerOrganizationUrl|developer organization URL in generated pom.xml| |http://openapitools.org|
-|licenseName|The name of the license| |Unlicense|
-|licenseUrl|The URL of the license| |http://unlicense.org|
-|sourceFolder|source folder for generated code| |src/main/java|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|
-|bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
-|fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
-|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
-|withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
-|dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date (if you really have a good reason not to use threetenbp</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+) - note: this also sets &quot;java8&quot; to true</dd><dt>**threetenbp**</dt><dd>Backport of JSR310 (preferred for jdk &lt; 1.8)</dd><dl>|legacy|
-|java8|Option. Use Java8 classes instead of third party equivalents|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd><dl>|false|
-|disableHtmlEscaping|Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)| |false|
-|booleanGetterPrefix|Set booleanGetterPrefix| |get|
-|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations)| |null|
-|parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
-|parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
-|parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
-|snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd><dl>|null|
-|implFolder|folder for generated implementation code| |src/main/java|
+|serverPort|The port on which the server should be started| |8080|
+|snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd></dl>|null|
+|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
+|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|sourceFolder|source folder for generated code| |src/main/java|
 |title|a title describing the application| |OpenAPI Server|
 |useBeanValidation|Use BeanValidation API annotations| |true|
-|serverPort|The port on which the server should be started| |8080|
-|generateJbossDeploymentDescriptor|Generate Jboss Deployment Descriptor| |false|
+|withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 
 ## IMPORT MAPPING
 
 | Type/Alias | Imports |
 | ---------- | ------- |
-|LocalDateTime|org.joda.time.*|
-|Set|java.util.*|
-|LocalTime|org.joda.time.*|
-|HashMap|java.util.HashMap|
+|Array|java.util.List|
 |ArrayList|java.util.ArrayList|
-|URI|java.net.URI|
-|Timestamp|java.sql.Timestamp|
-|LocalDate|org.joda.time.*|
 |BigDecimal|java.math.BigDecimal|
 |Date|java.util.Date|
 |DateTime|org.joda.time.*|
-|Array|java.util.List|
-|List|java.util.*|
-|UUID|java.util.UUID|
 |File|java.io.File|
+|HashMap|java.util.HashMap|
+|List|java.util.*|
+|LocalDate|org.joda.time.*|
+|LocalDateTime|org.joda.time.*|
+|LocalTime|org.joda.time.*|
 |Map|java.util.Map|
+|Set|java.util.*|
+|Timestamp|java.sql.Timestamp|
+|URI|java.net.URI|
+|UUID|java.util.UUID|
 
 
 ## INSTANTIATION TYPES
@@ -80,87 +80,197 @@ sidebar_label: jaxrs-resteasy
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Integer</li>
-<li>byte[]</li>
+<ul class="column-ul">
+<li>Boolean</li>
+<li>Double</li>
 <li>Float</li>
-<li>boolean</li>
+<li>Integer</li>
 <li>Long</li>
 <li>Object</li>
 <li>String</li>
-<li>Boolean</li>
-<li>Double</li>
+<li>boolean</li>
+<li>byte[]</li>
 </ul>
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>localvaraccepts</li>
-<li>synchronized</li>
-<li>do</li>
-<li>float</li>
-<li>while</li>
-<li>localvarpath</li>
-<li>protected</li>
-<li>continue</li>
-<li>else</li>
+<ul class="column-ul">
+<li>abstract</li>
 <li>apiclient</li>
-<li>localvarqueryparams</li>
-<li>catch</li>
-<li>if</li>
-<li>case</li>
-<li>new</li>
-<li>package</li>
-<li>static</li>
-<li>void</li>
-<li>localvaraccept</li>
-<li>double</li>
+<li>apiexception</li>
+<li>apiresponse</li>
+<li>assert</li>
+<li>boolean</li>
+<li>break</li>
 <li>byte</li>
-<li>finally</li>
-<li>this</li>
-<li>strictfp</li>
-<li>throws</li>
+<li>case</li>
+<li>catch</li>
+<li>char</li>
+<li>class</li>
+<li>configuration</li>
+<li>const</li>
+<li>continue</li>
+<li>default</li>
+<li>do</li>
+<li>double</li>
+<li>else</li>
 <li>enum</li>
 <li>extends</li>
-<li>null</li>
-<li>transient</li>
-<li>apiexception</li>
 <li>final</li>
-<li>try</li>
-<li>object</li>
-<li>localvarcontenttypes</li>
-<li>implements</li>
-<li>private</li>
-<li>import</li>
-<li>const</li>
-<li>configuration</li>
+<li>finally</li>
+<li>float</li>
 <li>for</li>
-<li>apiresponse</li>
-<li>interface</li>
-<li>long</li>
-<li>switch</li>
-<li>default</li>
 <li>goto</li>
-<li>public</li>
-<li>localvarheaderparams</li>
-<li>native</li>
-<li>localvarcontenttype</li>
-<li>assert</li>
-<li>stringutil</li>
-<li>class</li>
-<li>localvarcollectionqueryparams</li>
-<li>localvarcookieparams</li>
-<li>localreturntype</li>
-<li>localvarformparams</li>
-<li>break</li>
-<li>volatile</li>
-<li>localvarauthnames</li>
-<li>abstract</li>
-<li>int</li>
+<li>if</li>
+<li>implements</li>
+<li>import</li>
 <li>instanceof</li>
-<li>super</li>
-<li>boolean</li>
-<li>throw</li>
+<li>int</li>
+<li>interface</li>
+<li>localreturntype</li>
+<li>localvaraccept</li>
+<li>localvaraccepts</li>
+<li>localvarauthnames</li>
+<li>localvarcollectionqueryparams</li>
+<li>localvarcontenttype</li>
+<li>localvarcontenttypes</li>
+<li>localvarcookieparams</li>
+<li>localvarformparams</li>
+<li>localvarheaderparams</li>
+<li>localvarpath</li>
 <li>localvarpostbody</li>
-<li>char</li>
-<li>short</li>
+<li>localvarqueryparams</li>
+<li>long</li>
+<li>native</li>
+<li>new</li>
+<li>null</li>
+<li>object</li>
+<li>package</li>
+<li>private</li>
+<li>protected</li>
+<li>public</li>
 <li>return</li>
+<li>short</li>
+<li>static</li>
+<li>strictfp</li>
+<li>stringutil</li>
+<li>super</li>
+<li>switch</li>
+<li>synchronized</li>
+<li>this</li>
+<li>throw</li>
+<li>throws</li>
+<li>transient</li>
+<li>try</li>
+<li>void</li>
+<li>volatile</li>
+<li>while</li>
 </ul>
+
+## FEATURE SET
+
+
+### Client Modification Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|BasePath|✓|ToolingExtension
+|Authorizations|✗|ToolingExtension
+|UserAgent|✗|ToolingExtension
+
+### Data Type Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Custom|✗|OAS2,OAS3
+|Int32|✓|OAS2,OAS3
+|Int64|✓|OAS2,OAS3
+|Float|✓|OAS2,OAS3
+|Double|✓|OAS2,OAS3
+|Decimal|✓|ToolingExtension
+|String|✓|OAS2,OAS3
+|Byte|✓|OAS2,OAS3
+|Binary|✓|OAS2,OAS3
+|Boolean|✓|OAS2,OAS3
+|Date|✓|OAS2,OAS3
+|DateTime|✓|OAS2,OAS3
+|Password|✓|OAS2,OAS3
+|File|✓|OAS2
+|Array|✓|OAS2,OAS3
+|Maps|✓|ToolingExtension
+|CollectionFormat|✓|OAS2
+|CollectionFormatMulti|✓|OAS2
+|Enum|✓|OAS2,OAS3
+|ArrayOfEnum|✓|ToolingExtension
+|ArrayOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfPrimitives|✓|ToolingExtension
+|ArrayOfCollectionOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfEnum|✓|ToolingExtension
+|MapOfEnum|✓|ToolingExtension
+|MapOfModel|✓|ToolingExtension
+|MapOfCollectionOfPrimitives|✓|ToolingExtension
+|MapOfCollectionOfModel|✓|ToolingExtension
+|MapOfCollectionOfEnum|✓|ToolingExtension
+
+### Documentation Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Readme|✓|ToolingExtension
+|Model|✓|ToolingExtension
+|Api|✓|ToolingExtension
+
+### Global Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Host|✓|OAS2,OAS3
+|BasePath|✓|OAS2,OAS3
+|Info|✓|OAS2,OAS3
+|Schemes|✗|OAS2,OAS3
+|PartialSchemes|✓|OAS2,OAS3
+|Consumes|✓|OAS2
+|Produces|✓|OAS2
+|ExternalDocumentation|✓|OAS2,OAS3
+|Examples|✓|OAS2,OAS3
+|XMLStructureDefinitions|✗|OAS2,OAS3
+|MultiServer|✗|OAS3
+|ParameterizedServer|✗|OAS3
+|ParameterStyling|✗|OAS3
+|Callbacks|✗|OAS3
+|LinkObjects|✗|OAS3
+
+### Parameter Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Path|✓|OAS2,OAS3
+|Query|✓|OAS2,OAS3
+|Header|✓|OAS2,OAS3
+|Body|✓|OAS2
+|FormUnencoded|✓|OAS2
+|FormMultipart|✓|OAS2
+|Cookie|✓|OAS3
+
+### Schema Support Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Simple|✓|OAS2,OAS3
+|Composite|✓|OAS2,OAS3
+|Polymorphism|✗|OAS2,OAS3
+|Union|✗|OAS3
+
+### Security Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|BasicAuth|✗|OAS2,OAS3
+|ApiKey|✗|OAS2,OAS3
+|OpenIDConnect|✗|OAS3
+|BearerToken|✗|OAS3
+|OAuth2_Implicit|✗|OAS2,OAS3
+|OAuth2_Password|✗|OAS2,OAS3
+|OAuth2_ClientCredentials|✗|OAS2,OAS3
+|OAuth2_AuthorizationCode|✗|OAS2,OAS3
+
+### Wire Format Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|JSON|✓|OAS2,OAS3
+|XML|✓|OAS2,OAS3
+|PROTOBUF|✗|ToolingExtension
+|Custom|✗|OAS2,OAS3

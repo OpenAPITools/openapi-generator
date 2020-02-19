@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,12 +19,18 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
+
+import static org.openapitools.codegen.utils.OnceLogger.once;
 
 
 public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String USER_INFO_PATH = "userInfoPath";
+    private static final Logger LOGGER = LoggerFactory.getLogger(Apache2ConfigCodegen.class);
+
     protected String userInfoPath = "/var/www/html/";
 
     @Override
@@ -89,6 +95,10 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         for (CodegenOperation op : operationList) {
             String path = op.path;
 
@@ -101,7 +111,8 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
                 splitPath.add(item);
                 op.path += item + "/";
             }
-            op.vendorExtensions.put("x-codegen-userInfoPath", userInfoPath);
+            op.vendorExtensions.put("x-codegen-userInfoPath", userInfoPath); // TODO: 5.0 Remove
+            op.vendorExtensions.put("x-codegen-user-info-path", userInfoPath);
             boolean foundInNewList = false;
             for (CodegenOperation op1 : newOpList) {
                 if (!foundInNewList) {
@@ -113,7 +124,8 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
                         }
                         op.operationIdCamelCase = op1.operationIdCamelCase;
                         currentOtherMethodList.add(op);
-                        op1.vendorExtensions.put("x-codegen-otherMethods", currentOtherMethodList);
+                        op1.vendorExtensions.put("x-codegen-otherMethods", currentOtherMethodList); // TODO: 5.0 Remove
+                        op1.vendorExtensions.put("x-codegen-other-methods", currentOtherMethodList);
                     }
                 }
             }

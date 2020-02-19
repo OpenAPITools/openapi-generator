@@ -5,19 +5,19 @@ sidebar_label: fsharp-functions
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
-|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
-|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|licenseUrl|The URL of the license| |http://localhost|
+|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |licenseName|The name of the license| |NoLicense|
-|packageCopyright|Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |No Copyright|
+|licenseUrl|The URL of the license| |http://localhost|
 |packageAuthors|Specifies Authors property in the .NET Core project file.| |OpenAPI|
-|packageTitle|Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |OpenAPI Library|
-|packageName|F# module name (convention: Title.Case).| |OpenAPI|
-|packageVersion|F# package version.| |1.0.0|
+|packageCopyright|Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |No Copyright|
 |packageGuid|The GUID that will be associated with the C# project| |null|
+|packageName|F# module name (convention: Title.Case).| |OpenAPI|
+|packageTitle|Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |OpenAPI Library|
+|packageVersion|F# package version.| |1.0.0|
+|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
+|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |OpenAPI/src|
 
 ## IMPORT MAPPING
@@ -38,150 +38,260 @@ sidebar_label: fsharp-functions
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Dictionary</li>
-<li>string</li>
-<li>bool</li>
+<ul class="column-ul">
+<li>Collection</li>
+<li>DataTimeOffset</li>
+<li>DateTime</li>
+<li>Dictionary</li>
+<li>Double</li>
+<li>ICollection</li>
+<li>Int32</li>
+<li>Int64</li>
+<li>List</li>
 <li>String</li>
 <li>System.IO.Stream</li>
-<li>float</li>
-<li>DateTime</li>
-<li>int64</li>
-<li>Int32</li>
-<li>DataTimeOffset</li>
+<li>bool</li>
+<li>byte[]</li>
+<li>char</li>
+<li>decimal</li>
 <li>dict</li>
-<li>List</li>
-<li>unativeint</li>
-<li>uint32</li>
-<li>uint16</li>
-<li>seq</li>
-<li>nativeint</li>
 <li>double</li>
+<li>float</li>
 <li>float32</li>
-<li>list</li>
-<li>Double</li>
 <li>int</li>
 <li>int16</li>
-<li>byte[]</li>
-<li>single</li>
-<li>Int64</li>
+<li>int64</li>
+<li>list</li>
+<li>nativeint</li>
 <li>obj</li>
-<li>char</li>
-<li>ICollection</li>
-<li>Collection</li>
+<li>seq</li>
+<li>single</li>
+<li>string</li>
+<li>uint16</li>
+<li>uint32</li>
 <li>uint64</li>
-<li>decimal</li>
+<li>unativeint</li>
 </ul>
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>exception</li>
-<li>struct</li>
-<li>select</li>
-<li>type</li>
-<li>when</li>
-<li>localVarQueryParams</li>
-<li>else</li>
-<li>mutable</li>
-<li>lock</li>
-<li>let</li>
-<li>localVarPathParams</li>
-<li>catch</li>
-<li>if</li>
-<li>case</li>
-<li>val</li>
-<li>localVarHttpHeaderAccepts</li>
-<li>localVarPostBody</li>
-<li>in</li>
-<li>byte</li>
-<li>double</li>
-<li>module</li>
-<li>is</li>
-<li>elif</li>
-<li>then</li>
-<li>params</li>
-<li>enum</li>
-<li>explicit</li>
-<li>as</li>
-<li>begin</li>
-<li>internal</li>
-<li>yield!</li>
-<li>lazy</li>
-<li>localVarHttpHeaderAccept</li>
-<li>use!</li>
-<li>delegate</li>
-<li>default</li>
-<li>localVarHttpContentTypes</li>
-<li>localVarHttpContentType</li>
-<li>let!</li>
-<li>assert</li>
-<li>yield</li>
-<li>member</li>
-<li>override</li>
-<li>event</li>
-<li>break</li>
-<li>downto</li>
+<ul class="column-ul">
 <li>abstract</li>
-<li>match!</li>
-<li>char</li>
-<li>localVarFileParams</li>
-<li>to</li>
-<li>fun</li>
-<li>open</li>
-<li>return</li>
-<li>use</li>
-<li>return!</li>
-<li>extern</li>
-<li>do</li>
-<li>float</li>
-<li>while</li>
-<li>rec</li>
-<li>continue</li>
-<li>function</li>
-<li>raise</li>
-<li>checked</li>
-<li>dynamic</li>
-<li>new</li>
-<li>static</li>
-<li>void</li>
-<li>upcast</li>
-<li>localVarResponse</li>
-<li>sealed</li>
-<li>finally</li>
-<li>done</li>
-<li>null</li>
-<li>localVarPath</li>
-<li>true</li>
-<li>fixed</li>
-<li>try</li>
-<li>decimal</li>
-<li>option</li>
-<li>private</li>
-<li>bool</li>
-<li>const</li>
-<li>string</li>
-<li>for</li>
-<li>interface</li>
-<li>foreach</li>
-<li>not</li>
-<li>public</li>
-<li>localVarStatusCode</li>
 <li>and</li>
-<li>of</li>
-<li>await</li>
-<li>end</li>
-<li>class</li>
-<li>localVarFormParams</li>
-<li>or</li>
-<li>false</li>
-<li>match</li>
-<li>volatile</li>
-<li>int</li>
+<li>as</li>
+<li>assert</li>
 <li>async</li>
-<li>with</li>
-<li>localVarHeaderParams</li>
-<li>inline</li>
-<li>downcast</li>
-<li>inherit</li>
-<li>namespace</li>
+<li>await</li>
 <li>base</li>
+<li>begin</li>
+<li>bool</li>
+<li>break</li>
+<li>byte</li>
+<li>case</li>
+<li>catch</li>
+<li>char</li>
+<li>checked</li>
+<li>class</li>
+<li>const</li>
+<li>continue</li>
+<li>decimal</li>
+<li>default</li>
+<li>delegate</li>
+<li>do</li>
+<li>done</li>
+<li>double</li>
+<li>downcast</li>
+<li>downto</li>
+<li>dynamic</li>
+<li>elif</li>
+<li>else</li>
+<li>end</li>
+<li>enum</li>
+<li>event</li>
+<li>exception</li>
+<li>explicit</li>
+<li>extern</li>
+<li>false</li>
+<li>finally</li>
+<li>fixed</li>
+<li>float</li>
+<li>for</li>
+<li>foreach</li>
+<li>fun</li>
+<li>function</li>
+<li>if</li>
+<li>in</li>
+<li>inherit</li>
+<li>inline</li>
+<li>int</li>
+<li>interface</li>
+<li>internal</li>
+<li>is</li>
+<li>lazy</li>
+<li>let</li>
+<li>let!</li>
+<li>localVarFileParams</li>
+<li>localVarFormParams</li>
+<li>localVarHeaderParams</li>
+<li>localVarHttpContentType</li>
+<li>localVarHttpContentTypes</li>
+<li>localVarHttpHeaderAccept</li>
+<li>localVarHttpHeaderAccepts</li>
+<li>localVarPath</li>
+<li>localVarPathParams</li>
+<li>localVarPostBody</li>
+<li>localVarQueryParams</li>
+<li>localVarResponse</li>
+<li>localVarStatusCode</li>
+<li>lock</li>
+<li>match</li>
+<li>match!</li>
+<li>member</li>
+<li>module</li>
+<li>mutable</li>
+<li>namespace</li>
+<li>new</li>
+<li>not</li>
+<li>null</li>
+<li>of</li>
+<li>open</li>
+<li>option</li>
+<li>or</li>
+<li>override</li>
+<li>params</li>
+<li>private</li>
+<li>public</li>
+<li>raise</li>
+<li>rec</li>
+<li>return</li>
+<li>return!</li>
+<li>sealed</li>
+<li>select</li>
+<li>static</li>
+<li>string</li>
+<li>struct</li>
+<li>then</li>
+<li>to</li>
+<li>true</li>
+<li>try</li>
+<li>type</li>
+<li>upcast</li>
+<li>use</li>
+<li>use!</li>
+<li>val</li>
+<li>void</li>
+<li>volatile</li>
+<li>when</li>
+<li>while</li>
+<li>with</li>
+<li>yield</li>
+<li>yield!</li>
 </ul>
+
+## FEATURE SET
+
+
+### Client Modification Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|BasePath|✗|ToolingExtension
+|Authorizations|✗|ToolingExtension
+|UserAgent|✗|ToolingExtension
+
+### Data Type Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Custom|✗|OAS2,OAS3
+|Int32|✓|OAS2,OAS3
+|Int64|✓|OAS2,OAS3
+|Float|✓|OAS2,OAS3
+|Double|✓|OAS2,OAS3
+|Decimal|✓|ToolingExtension
+|String|✓|OAS2,OAS3
+|Byte|✓|OAS2,OAS3
+|Binary|✓|OAS2,OAS3
+|Boolean|✓|OAS2,OAS3
+|Date|✓|OAS2,OAS3
+|DateTime|✓|OAS2,OAS3
+|Password|✓|OAS2,OAS3
+|File|✓|OAS2
+|Array|✓|OAS2,OAS3
+|Maps|✓|ToolingExtension
+|CollectionFormat|✓|OAS2
+|CollectionFormatMulti|✓|OAS2
+|Enum|✓|OAS2,OAS3
+|ArrayOfEnum|✓|ToolingExtension
+|ArrayOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfPrimitives|✓|ToolingExtension
+|ArrayOfCollectionOfModel|✓|ToolingExtension
+|ArrayOfCollectionOfEnum|✓|ToolingExtension
+|MapOfEnum|✓|ToolingExtension
+|MapOfModel|✓|ToolingExtension
+|MapOfCollectionOfPrimitives|✓|ToolingExtension
+|MapOfCollectionOfModel|✓|ToolingExtension
+|MapOfCollectionOfEnum|✓|ToolingExtension
+
+### Documentation Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Readme|✗|ToolingExtension
+|Model|✓|ToolingExtension
+|Api|✓|ToolingExtension
+
+### Global Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Host|✗|OAS2,OAS3
+|BasePath|✗|OAS2,OAS3
+|Info|✓|OAS2,OAS3
+|Schemes|✗|OAS2,OAS3
+|PartialSchemes|✓|OAS2,OAS3
+|Consumes|✓|OAS2
+|Produces|✓|OAS2
+|ExternalDocumentation|✓|OAS2,OAS3
+|Examples|✓|OAS2,OAS3
+|XMLStructureDefinitions|✗|OAS2,OAS3
+|MultiServer|✗|OAS3
+|ParameterizedServer|✗|OAS3
+|ParameterStyling|✗|OAS3
+|Callbacks|✗|OAS3
+|LinkObjects|✗|OAS3
+
+### Parameter Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Path|✓|OAS2,OAS3
+|Query|✓|OAS2,OAS3
+|Header|✓|OAS2,OAS3
+|Body|✓|OAS2
+|FormUnencoded|✓|OAS2
+|FormMultipart|✓|OAS2
+|Cookie|✓|OAS3
+
+### Schema Support Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|Simple|✓|OAS2,OAS3
+|Composite|✓|OAS2,OAS3
+|Polymorphism|✗|OAS2,OAS3
+|Union|✗|OAS3
+
+### Security Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|BasicAuth|✗|OAS2,OAS3
+|ApiKey|✗|OAS2,OAS3
+|OpenIDConnect|✗|OAS3
+|BearerToken|✗|OAS3
+|OAuth2_Implicit|✗|OAS2,OAS3
+|OAuth2_Password|✗|OAS2,OAS3
+|OAuth2_ClientCredentials|✗|OAS2,OAS3
+|OAuth2_AuthorizationCode|✗|OAS2,OAS3
+
+### Wire Format Feature
+| Name | Supported | Defined By |
+| ---- | --------- | ---------- |
+|JSON|✓|OAS2,OAS3
+|XML|✗|OAS2,OAS3
+|PROTOBUF|✗|ToolingExtension
+|Custom|✗|OAS2,OAS3

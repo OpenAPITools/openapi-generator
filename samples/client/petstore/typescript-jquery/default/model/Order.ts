@@ -22,7 +22,7 @@ export interface Order {
 
     quantity?: number;
 
-    shipDate?: Date;
+    shipDate?: string;
 
     /**
      * Order Status

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,17 +17,16 @@
 
 package org.openapitools.codegen.swift4;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.Swift4Codegen;
 import org.openapitools.codegen.options.Swift4OptionsProvider;
 
-public class Swift4OptionsTest extends AbstractOptionsTest {
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-    @Tested
-    private Swift4Codegen clientCodegen;
+public class Swift4OptionsTest extends AbstractOptionsTest {
+    private Swift4Codegen clientCodegen = mock(Swift4Codegen.class, mockSettings);
 
     public Swift4OptionsTest() {
         super(new Swift4OptionsProvider());
@@ -40,24 +39,14 @@ public class Swift4OptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(Swift4OptionsProvider.SORT_PARAMS_VALUE));
-            times = 1;
-            clientCodegen.setProjectName(Swift4OptionsProvider.PROJECT_NAME_VALUE);
-            times = 1;
-            clientCodegen.setResponseAs(Swift4OptionsProvider.RESPONSE_AS_VALUE.split(","));
-            times = 1;
-            clientCodegen.setNonPublicApi(Boolean.valueOf(Swift4OptionsProvider.NON_PUBLIC_API_REQUIRED_VALUE));
-            times = 1;
-            clientCodegen.setUnwrapRequired(Boolean.valueOf(Swift4OptionsProvider.UNWRAP_REQUIRED_VALUE));
-            times = 1;
-            clientCodegen.setObjcCompatible(Boolean.valueOf(Swift4OptionsProvider.OBJC_COMPATIBLE_VALUE));
-            times = 1;
-            clientCodegen.setLenientTypeCast(Boolean.valueOf(Swift4OptionsProvider.LENIENT_TYPE_CAST_VALUE));
-            times = 1;
-            clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(Swift4OptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
-            times = 1;
-        }};
+    protected void verifyOptions() {
+        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(Swift4OptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen).setProjectName(Swift4OptionsProvider.PROJECT_NAME_VALUE);
+        verify(clientCodegen).setResponseAs(Swift4OptionsProvider.RESPONSE_AS_VALUE.split(","));
+        verify(clientCodegen).setNonPublicApi(Boolean.parseBoolean(Swift4OptionsProvider.NON_PUBLIC_API_REQUIRED_VALUE));
+        verify(clientCodegen).setUnwrapRequired(Boolean.parseBoolean(Swift4OptionsProvider.UNWRAP_REQUIRED_VALUE));
+        verify(clientCodegen).setObjcCompatible(Boolean.parseBoolean(Swift4OptionsProvider.OBJC_COMPATIBLE_VALUE));
+        verify(clientCodegen).setLenientTypeCast(Boolean.parseBoolean(Swift4OptionsProvider.LENIENT_TYPE_CAST_VALUE));
+        verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(Swift4OptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
     }
 }

@@ -1,7 +1,7 @@
 // tslint:disable
 {{>licenseInfo}}
 import { Observable } from 'rxjs';
-import { BaseAPI{{#hasHttpHeaders}}, HttpHeaders{{/hasHttpHeaders}}{{#hasQueryParams}}, HttpQuery{{/hasQueryParams}}{{#hasRequiredParameters}}, throwIfRequired{{/hasRequiredParameters}}{{#hasPathParams}}, encodeURI{{/hasPathParams}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}} } from '../runtime';
+import { BaseAPI{{#hasHttpHeaders}}, HttpHeaders{{/hasHttpHeaders}}{{#hasQueryParams}}, HttpQuery{{/hasQueryParams}}{{#hasRequiredParams}}, throwIfNullOrUndefined{{/hasRequiredParams}}{{#hasPathParams}}, encodeURI{{/hasPathParams}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}} } from '../runtime';
 {{#imports.0}}
 import {
     {{#imports}}
@@ -37,11 +37,11 @@ export class {{classname}} extends BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
-    {{nickname}} = ({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> => {
+    {{nickname}} = ({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> => {
         {{#hasParams}}
         {{#allParams}}
         {{#required}}
-        throwIfRequired(requestParameters, '{{paramName}}', '{{nickname}}');
+        throwIfNullOrUndefined({{> paramNamePartial}}, '{{nickname}}');
         {{/required}}
         {{/allParams}}
 
@@ -58,15 +58,15 @@ export class {{classname}} extends BaseAPI {
             {{/bodyParam}}
             {{#headerParams}}
             {{#isListContainer}}
-            ...(requestParameters.{{paramName}} && { '{{baseName}}': requestParameters.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) }),
+            ...({{> paramNamePartial}} != null ? { '{{baseName}}': {{> paramNamePartial}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) } : undefined),
             {{/isListContainer}}
             {{^isListContainer}}
-            ...(requestParameters.{{paramName}} && { '{{baseName}}': String(requestParameters.{{paramName}}) }),
+            ...({{> paramNamePartial}} != null ? { '{{baseName}}': String({{> paramNamePartial}}) } : undefined),
             {{/isListContainer}}
             {{/headerParams}}
             {{#authMethods}}
             {{#isBasic}}
-            ...(this.configuration.username && this.configuration.password && { Authorization: `Basic ${btoa(this.configuration.username + ':' + this.configuration.password)}` }),
+            ...(this.configuration.username != null && this.configuration.password != null ? { Authorization: `Basic ${btoa(this.configuration.username + ':' + this.configuration.password)}` } : undefined),
             {{/isBasic}}
             {{#isApiKey}}
             {{#isKeyInHeader}}
@@ -75,77 +75,109 @@ export class {{classname}} extends BaseAPI {
             {{/isApiKey}}
             {{#isOAuth}}
             // oauth required
-            ...(this.configuration.accessToken && {
-                Authorization: this.configuration.accessToken && (typeof this.configuration.accessToken === 'function'
+            ...(this.configuration.accessToken != null
+                ? { Authorization: typeof this.configuration.accessToken === 'function'
                     ? this.configuration.accessToken('{{name}}', [{{#scopes}}'{{{scope}}}'{{^-last}}, {{/-last}}{{/scopes}}])
-                    : this.configuration.accessToken)
-            }),
+                    : this.configuration.accessToken }
+                : undefined
+            ),
             {{/isOAuth}}
             {{/authMethods}}
         };
 
         {{/hasHttpHeaders}}
         {{#hasQueryParams}}
-        const query: HttpQuery = {
+        {{^hasRequiredQueryParams}}
+        const query: HttpQuery = {};
+        {{/hasRequiredQueryParams}}
+        {{#hasRequiredQueryParams}}
+        const query: HttpQuery = { // required parameters are used directly since they are already checked by throwIfNullOrUndefined
             {{#queryParams}}
+            {{#required}}
             {{#isListContainer}}
             {{#isCollectionFormatMulti}}
-            ...(requestParameters.{{paramName}} && { '{{baseName}}': requestParameters.{{paramName}} }),
+            '{{baseName}}': {{> paramNamePartial}},
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            ...(requestParameters.{{paramName}} && { '{{baseName}}': requestParameters.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']) }),
+            '{{baseName}}': {{> paramNamePartial}}.join(COLLECTION_FORMATS['{{collectionFormat}}']),
             {{/isCollectionFormatMulti}}
             {{/isListContainer}}
             {{^isListContainer}}
             {{#isDateTime}}
-            ...(requestParameters.{{paramName}} && { '{{baseName}}': (requestParameters.{{paramName}} as any).toISOString() }),
+            '{{baseName}}': ({{> paramNamePartial}} as any).toISOString(),
             {{/isDateTime}}
             {{^isDateTime}}
             {{#isDate}}
-            ...(requestParameters.{{paramName}} && { '{{baseName}}': (requestParameters.{{paramName}} as any).toISOString() }),
+            '{{baseName}}': ({{> paramNamePartial}} as any).toISOString().split('T')[0],
             {{/isDate}}
             {{^isDate}}
-            ...(requestParameters.{{paramName}} && { '{{baseName}}': requestParameters.{{paramName}} }),
+            '{{baseName}}': {{> paramNamePartial}},
             {{/isDate}}
             {{/isDateTime}}
             {{/isListContainer}}
+            {{/required}}
             {{/queryParams}}
-            {{#authMethods}}
-            {{#isApiKey}}
-            {{#isKeyInQuery}}
-            ...(this.configuration.apiKey && { '{{keyParamName}}': this.configuration.apiKey && this.configuration.apiKey('{{keyParamName}}') }), // {{name}} authentication
-            {{/isKeyInQuery}}
-            {{/isApiKey}}
-            {{/authMethods}}
         };
+        {{/hasRequiredQueryParams}}
+        {{#hasOptionalQueryParams}}
+
+        {{#queryParams}}
+        {{^required}}
+        {{#isListContainer}}
+        {{#isCollectionFormatMulti}}
+        if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = {{> paramNamePartial}}; }
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+        if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = {{> paramNamePartial}}.join(COLLECTION_FORMATS['{{collectionFormat}}']); }
+        {{/isCollectionFormatMulti}}
+        {{/isListContainer}}
+        {{^isListContainer}}
+        {{#isDateTime}}
+        if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = ({{> paramNamePartial}} as any).toISOString(); }
+        {{/isDateTime}}
+        {{^isDateTime}}
+        {{#isDate}}
+        if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = ({{> paramNamePartial}} as any).toISOString().split('T')[0]; }
+        {{/isDate}}
+        {{^isDate}}
+        if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = {{> paramNamePartial}}; }
+        {{/isDate}}
+        {{/isDateTime}}
+        {{/isListContainer}}
+        {{/required}}
+        {{/queryParams}}
+        {{/hasOptionalQueryParams}}
+        {{#authMethods}}
+        {{#isApiKey}}
+        {{#isKeyInQuery}}
+        if (this.configuration.apiKey != null) { query['{{keyParamName}}'] = this.configuration.apiKey('{{keyParamName}}'); } // {{name}} authentication
+        {{/isKeyInQuery}}
+        {{/isApiKey}}
+        {{/authMethods}}
 
         {{/hasQueryParams}}
         {{#hasFormParams}}
         const formData = new FormData();
-        {{/hasFormParams}}
         {{#formParams}}
         {{#isListContainer}}
-        if (requestParameters.{{paramName}}) {
+        if ({{> paramNamePartial}} !== undefined) {
             {{#isCollectionFormatMulti}}
-            requestParameters.{{paramName}}.forEach((element) => {
-                formData.append('{{baseName}}', element as any);
-            })
+            {{> paramNamePartial}}.forEach((element) => formData.append('{{baseName}}', element as any))
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            formData.append('{{baseName}}', requestParameters.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            formData.append('{{baseName}}', {{> paramNamePartial}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
             {{/isCollectionFormatMulti}}
         }
 
         {{/isListContainer}}
         {{^isListContainer}}
-        if (requestParameters.{{paramName}} !== undefined) {
-            formData.append('{{baseName}}', requestParameters.{{paramName}} as any);
-        }
-
+        if ({{> paramNamePartial}} !== undefined) { formData.append('{{baseName}}', {{> paramNamePartial}} as any); }
         {{/isListContainer}}
         {{/formParams}}
+
+        {{/hasFormParams}}
         return this.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>({
-            path: '{{{path}}}'{{#pathParams}}.replace({{=<% %>=}}'{<%baseName%>}'<%={{ }}=%>, encodeURI(requestParameters.{{paramName}})){{/pathParams}},
+            path: '{{{path}}}'{{#pathParams}}.replace({{=<% %>=}}'{<%baseName%>}'<%={{ }}=%>, encodeURI({{> paramNamePartial}})){{/pathParams}},
             method: '{{httpMethod}}',
             {{#hasHttpHeaders}}
             headers,
@@ -156,14 +188,14 @@ export class {{classname}} extends BaseAPI {
             {{#hasBodyParam}}
             {{#bodyParam}}
             {{#isContainer}}
-            body: requestParameters.{{paramName}},
+            body: {{paramName}},
             {{/isContainer}}
             {{^isContainer}}
             {{^isPrimitiveType}}
-            body: requestParameters.{{paramName}},
+            body: {{paramName}},
             {{/isPrimitiveType}}
             {{#isPrimitiveType}}
-            body: requestParameters.{{paramName}} as any,
+            body: {{paramName}} as any,
             {{/isPrimitiveType}}
             {{/isContainer}}
             {{/bodyParam}}

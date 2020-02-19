@@ -134,7 +134,7 @@ import java.io.File
         }
         {{/isApiKey}}
         {{#isBasic}}
-        {{^isBasicBearer}}
+        {{#isBasicBasic}}
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
             username?.let { username ->
                 password?.let { password ->
@@ -142,7 +142,7 @@ import java.io.File
                 }
             }
         }
-        {{/isBasicBearer}}
+        {{/isBasicBasic}}
         {{#isBasicBearer}}
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
             accessToken?.let { accessToken ->
@@ -237,12 +237,13 @@ import java.io.File
                     response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
             )
             response.isClientError -> return ClientError(
+                    response.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
                     response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}?.string(),
                     response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
                     response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
             )
             else -> return ServerError(
-                    null,
+                    response.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
                     response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}?.string(),
                     response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
                     response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -205,7 +205,20 @@ public class ModelUtilsTest {
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("SomeComposedSchema", composedSchema);
 
-        Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(openAPI, refToComposedSchema));
+        Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(openAPI, refToComposedSchema, new HashMap<>()));
+    }
+
+    @Test
+    public void testAliasedTypeIsNotUnaliasedIfUsedForImportMapping(){
+        Schema emailSchema = new Schema().$ref("#/components/schemas/Email").type("string");
+        StringSchema stringSchema = new StringSchema();
+        HashMap<String, String> importMappings = new HashMap<>();
+        importMappings.put("Email","foo.bar.Email");
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Email", stringSchema);
+
+        Assert.assertEquals(emailSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, importMappings));
+        Assert.assertEquals(stringSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, new HashMap<>()));
     }
 
     /**
