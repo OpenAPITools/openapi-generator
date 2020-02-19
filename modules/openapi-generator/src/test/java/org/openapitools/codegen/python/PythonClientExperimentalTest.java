@@ -294,13 +294,4 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("children.Children")).size(), 1);
     }
 
-    @Test(description = "Test discard unknown properties")
-    public void discardUnknownPropertiesTest() {
-      final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
-      OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/all_of_with_additional_properties.yaml");
-      codegen.setOpenAPI(openAPI);
-
-      openAPI = TestUtils.parseSpec("src/test/resources/3_0/all_of_without_additional_properties.yaml");
-      codegen.setOpenAPI(openAPI);
-    }
 }
