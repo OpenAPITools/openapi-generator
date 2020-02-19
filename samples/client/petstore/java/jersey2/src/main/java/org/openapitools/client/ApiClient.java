@@ -178,10 +178,7 @@ public class ApiClient {
   }
 
   /**
-   * Helper method to configure authentications.
-   *
-   * NOTE: This method respects API key aliases using "x-auth-id-alias" property
-   *       from OpenAPI specification.
+   * Helper method to configure authentications which respects aliases of API keys.
    *
    * @param secrets Hash map from authentication name to its secret.
    */

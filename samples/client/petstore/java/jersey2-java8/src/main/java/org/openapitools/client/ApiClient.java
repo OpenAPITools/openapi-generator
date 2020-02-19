@@ -65,6 +65,7 @@ public class ApiClient {
   protected String tempFolderPath = null;
 
   protected Map<String, Authentication> authentications;
+  protected Map<String, String> authenticationLookup;
 
   protected DateFormat dateFormat;
 
@@ -85,6 +86,9 @@ public class ApiClient {
     authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
+
+    // Setup authentication lookup (key: authentication alias, value: authentication name)
+    authenticationLookup = new HashMap<String, String>();
   }
 
   /**
@@ -171,6 +175,25 @@ public class ApiClient {
       }
     }
     throw new RuntimeException("No API key authentication configured!");
+  }
+
+  /**
+   * Helper method to configure authentications which respects aliases of API keys.
+   *
+   * @param secrets Hash map from authentication name to its secret.
+   */
+  public void configureApiKeys(HashMap<String, String> secrets) {
+    for (Map.Entry<String, Authentication> authEntry : authentications.entrySet()) {
+      Authentication auth = authEntry.getValue();
+      if (auth instanceof ApiKeyAuth) {
+        String name = authEntry.getKey();
+        // respect x-auth-id-alias property
+        name = authenticationLookup.getOrDefault(name, name);
+        if (secrets.containsKey(name)) {
+          ((ApiKeyAuth) auth).setApiKey(secrets.get(name));
+        }
+      }
+    }
   }
 
   /**
