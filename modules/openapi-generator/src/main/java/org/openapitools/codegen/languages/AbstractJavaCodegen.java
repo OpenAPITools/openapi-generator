@@ -443,8 +443,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
 
         // imports for pojos
-        importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
-        importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
@@ -1022,11 +1020,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        if (!BooleanUtils.toBoolean(model.isEnum)) {
-            // needed by all pojos, but not enums
-            model.imports.add("ApiModelProperty");
-            model.imports.add("ApiModel");
-        }
     }
 
     @Override
