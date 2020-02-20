@@ -4,7 +4,8 @@ use hyper;
 use hyper::client::HttpConnector;
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use hyper::{Body, Uri, Response};
-use hyper_tls::HttpsConnector;
+#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+use hyper_openssl::HttpsConnector;
 use serde_json;
 use std::borrow::Cow;
 #[allow(unused_imports)]
@@ -18,9 +19,7 @@ use std::str;
 use std::str::FromStr;
 use std::string::ToString;
 use swagger;
-use swagger::client::Service;
-use swagger::connector;
-use swagger::{ApiError, XSpanIdString, Has, AuthData};
+use swagger::{ApiError, Connector, client::Service, XSpanIdString, Has, AuthData};
 use url::form_urlencoded;
 use url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
 {{#apiUsesMultipartFormData}}
