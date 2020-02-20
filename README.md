@@ -602,6 +602,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Here](https://developer.here.com/)
 - [IBM](https://www.ibm.com/)
 - [JustStar](https://www.juststarinfo.com)
+- [k6.io](https://k6.io/)
 - [Klarna](https://www.klarna.com/)
 - [Kronsoft Development](https://www.kronsoft.ro/home/)
 - [Kubernetes](https://kubernetes.io)
