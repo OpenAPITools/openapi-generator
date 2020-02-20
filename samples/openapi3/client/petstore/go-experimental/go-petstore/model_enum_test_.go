@@ -26,6 +26,32 @@ type EnumTest struct {
 	OuterEnumIntegerDefaultValue *OuterEnumIntegerDefaultValue `json:"outerEnumIntegerDefaultValue,omitempty"`
 }
 
+// NewEnumTest instantiates a new EnumTest object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewEnumTest(enumStringRequired string, ) *EnumTest {
+    this := EnumTest{}
+    this.EnumStringRequired = enumStringRequired
+    var outerEnumDefaultValue OuterEnumDefaultValue = "placed"
+    this.OuterEnumDefaultValue = &outerEnumDefaultValue
+    var outerEnumIntegerDefaultValue OuterEnumIntegerDefaultValue = OUTERENUMINTEGERDEFAULTVALUE__0
+    this.OuterEnumIntegerDefaultValue = &outerEnumIntegerDefaultValue
+    return &this
+}
+
+// NewEnumTestWithDefaults instantiates a new EnumTest object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewEnumTestWithDefaults() *EnumTest {
+    this := EnumTest{}
+    var outerEnumDefaultValue OuterEnumDefaultValue = "placed"
+    this.OuterEnumDefaultValue = &outerEnumDefaultValue
+    var outerEnumIntegerDefaultValue OuterEnumIntegerDefaultValue = OUTERENUMINTEGERDEFAULTVALUE__0
+    this.OuterEnumIntegerDefaultValue = &outerEnumIntegerDefaultValue
+    return &this
+}
+
 // GetEnumString returns the EnumString field value if set, zero value otherwise.
 func (o *EnumTest) GetEnumString() string {
 	if o == nil || o.EnumString == nil {

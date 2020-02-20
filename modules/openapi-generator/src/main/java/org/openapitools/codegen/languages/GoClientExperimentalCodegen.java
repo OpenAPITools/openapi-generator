@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
@@ -23,14 +24,12 @@ import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -95,6 +94,59 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
     public String toModelName(String name) {
         // underscoring would also lowercase the whole name, thus losing acronyms which are in capitals
         return camelize(toModel(name, false));
+    }
+
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return name + '_';
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        String prefix = "";
+        if (enumClassPrefix) {
+            prefix = datatype.toUpperCase(Locale.ROOT) + "_";
+        }
+        return prefix + value;
+    }
+
+    @Override
+    public void updateCodegenPropertyEnum(CodegenProperty var) {
+        // make sure the inline enums have plain defaults (e.g. string, int, float)
+        String enumDefault = null;
+        if (var.isEnum && var.defaultValue != null) {
+            enumDefault = var.defaultValue;
+        }
+        super.updateCodegenPropertyEnum(var);
+        if (var.isEnum && enumDefault != null) {
+            var.defaultValue = enumDefault;
+        }
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        p = ModelUtils.getReferencedSchema(this.openAPI, p);
+        if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "\"" + escapeText((String) p.getDefault()) + "\"";
+            }
+            return null;
+        }
+
+        return super.toDefaultValue(p);
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p) {
+        CodegenProperty prop = super.fromProperty(name, p);
+        String cc = camelize(prop.name, true);
+        if (isReservedWord(cc)) {
+            cc = escapeReservedWord(cc);
+        }
+        prop.nameInCamelCase = cc;
+        return prop;
     }
 
     @Override
