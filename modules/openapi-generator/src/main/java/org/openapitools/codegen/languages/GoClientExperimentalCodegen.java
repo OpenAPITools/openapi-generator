@@ -162,7 +162,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 }
 
                 for (CodegenProperty param : model.vars) {
-                    if (!param.isNullable || param.isMapContainer || param.isListContainer) {
+                    if (!param.isNullable || param.isMapContainer || param.isListContainer || param.isFreeFormObject) {
                         continue;
                     }
                     if (param.isDateTime) {

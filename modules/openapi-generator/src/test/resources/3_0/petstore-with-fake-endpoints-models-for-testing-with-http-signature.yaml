@@ -1250,6 +1250,10 @@ components:
           type: integer
           format: int32
           description: User Status
+        stuff:
+            # Defined to test code generation for free-form objects.
+            type: object
+            nullable: true
       xml:
         name: User
     Tag:

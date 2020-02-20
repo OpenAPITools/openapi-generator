@@ -116,6 +116,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("file", "*os.File");
         typeMapping.put("binary", "*os.File");
         typeMapping.put("ByteArray", "string");
+        // A 'type: object' OAS schema without any declared property is
+        // (per JSON schema specification) "an unordered set of properties
+        // mapping a string to an instance".
+        // So technically using map[string]interface{} is the proper
+        // implementation in golang. However, other code generators are
+        // more lenient and accept any valid JSON value, such as arrays,
+        // primitive types and the 'null' value.
+        // See issue #5387 for more details.
         typeMapping.put("object", "map[string]interface{}");
 
         numberTypes = new HashSet<String>(
