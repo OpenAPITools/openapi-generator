@@ -1303,6 +1303,7 @@ components:
         id: 0
         email: email
         username: username
+        stuff: '{}'
       properties:
         id:
           format: int64
@@ -1324,6 +1325,9 @@ components:
           description: User Status
           format: int32
           type: integer
+        stuff:
+          nullable: true
+          type: object
       type: object
       xml:
         name: User

@@ -25,6 +25,7 @@ type User struct {
 	Phone *string `json:"phone,omitempty"`
 	// User Status
 	UserStatus *int32 `json:"userStatus,omitempty"`
+	Stuff *map[string]interface{} `json:"stuff,omitempty"`
 }
 
 // NewUser instantiates a new User object
@@ -306,6 +307,39 @@ func (o *User) HasUserStatus() bool {
 // SetUserStatus gets a reference to the given int32 and assigns it to the UserStatus field.
 func (o *User) SetUserStatus(v int32) {
 	o.UserStatus = &v
+}
+
+// GetStuff returns the Stuff field value if set, zero value otherwise.
+func (o *User) GetStuff() map[string]interface{} {
+	if o == nil || o.Stuff == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return *o.Stuff
+}
+
+// GetStuffOk returns a tuple with the Stuff field value if set, zero value otherwise
+// and a boolean to check if the value has been set.
+func (o *User) GetStuffOk() (map[string]interface{}, bool) {
+	if o == nil || o.Stuff == nil {
+		var ret map[string]interface{}
+		return ret, false
+	}
+	return *o.Stuff, true
+}
+
+// HasStuff returns a boolean if a field has been set.
+func (o *User) HasStuff() bool {
+	if o != nil && o.Stuff != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetStuff gets a reference to the given map[string]interface{} and assigns it to the Stuff field.
+func (o *User) SetStuff(v map[string]interface{}) {
+	o.Stuff = &v
 }
 
 type NullableUser struct {

@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **Password** | Pointer to **string** |  | [optional] 
 **Phone** | Pointer to **string** |  | [optional] 
 **UserStatus** | Pointer to **int32** | User Status | [optional] 
+**Stuff** | Pointer to [**map[string]interface{}**](.md) |  | [optional] 
 
 ## Methods
 
@@ -232,6 +233,38 @@ HasUserStatus returns a boolean if a field has been set.
 
 SetUserStatus gets a reference to the given int32 and assigns it to the UserStatus field.
 
+### GetStuff
+
+`func (o *User) GetStuff() map[string]interface{}`
+
+GetStuff returns the Stuff field if non-nil, zero value otherwise.
+
+### GetStuffOk
+
+`func (o *User) GetStuffOk() (map[string]interface{}, bool)`
+
+GetStuffOk returns a tuple with the Stuff field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### HasStuff
+
+`func (o *User) HasStuff() bool`
+
+HasStuff returns a boolean if a field has been set.
+
+### SetStuff
+
+`func (o *User) SetStuff(v map[string]interface{})`
+
+SetStuff gets a reference to the given map[string]interface{} and assigns it to the Stuff field.
+
+### SetStuffExplicitNull
+
+`func (o *User) SetStuffExplicitNull(b bool)`
+
+SetStuffExplicitNull (un)sets Stuff to be considered as explicit "null" value
+when serializing to JSON (pass true as argument to set this, false to unset)
+The Stuff value is set to nil even if false is passed
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
