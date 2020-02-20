@@ -1,14 +1,34 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
-import org.openapitools.codegen.*;
-import io.swagger.v3.oas.models.*;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +39,16 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
-public class k6Codegen extends DefaultCodegen implements CodegenConfig {
+public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
+
+    public K6ClientCodegen() {
+        super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
+
+    }
 
     static class Parameter {
         String key;
@@ -75,9 +104,9 @@ public class k6Codegen extends DefaultCodegen implements CodegenConfig {
         String responseType;
 
         public HTTPParameters(@Nullable String auth, @Nullable List<Parameter> cookies,
-                @Nullable List<Parameter> headers, @Nullable List<Parameter> jar, @Nullable Integer redirects,
-                @Nullable List<Parameter> tags, @Nullable Integer timeout, @Nullable String compression,
-                @Nullable String responseType) {
+                              @Nullable List<Parameter> headers, @Nullable List<Parameter> jar, @Nullable Integer redirects,
+                              @Nullable List<Parameter> tags, @Nullable Integer timeout, @Nullable String compression,
+                              @Nullable String responseType) {
             this.auth = auth;
             this.cookies = cookies;
             this.headers = headers;
@@ -113,7 +142,7 @@ public class k6Codegen extends DefaultCodegen implements CodegenConfig {
         List<k6Check> k6Checks;
 
         public HTTPRequest(String method, String path, @Nullable List<Parameter> query, @Nullable HTTPBody body,
-                @Nullable HTTPParameters params, @Nullable List<k6Check> k6Checks) {
+                           @Nullable HTTPParameters params, @Nullable List<k6Check> k6Checks) {
             this.method = method;
             this.path = path;
             this.query = query;
@@ -144,8 +173,8 @@ public class k6Codegen extends DefaultCodegen implements CodegenConfig {
     public static final String BASE_URL = "baseURL";
     public static final String PRESERVE_LEADING_PARAM_CHAR = "preserveLeadingParamChar";
     static final Collection<String> INVOKER_PKG_SUPPORTING_FILES = Arrays.asList("script.mustache", "README.mustache");
-    static final String[][] JAVASCRIPT_SUPPORTING_FILES = new String[][] {
-            new String[] { "script.mustache", "script.js" }, new String[] { "README.mustache", "README.md" } };
+    static final String[][] JAVASCRIPT_SUPPORTING_FILES = new String[][]{
+            new String[]{"script.mustache", "script.js"}, new String[]{"README.mustache", "README.md"}};
 
     protected String projectName;
     protected String moduleName;
@@ -171,7 +200,7 @@ public class k6Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getHelp() {
-        return "Generates k6 script.";
+        return "Generates a k6 script (beta).";
     }
 
     @Override
@@ -402,7 +431,8 @@ public class k6Codegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile(templateFile, folder, supportingTemplateFile[1]));
         }
     }
-//
+
+    //
     private String generateNestedModelTemplate(CodegenModel model) {
         StringBuilder reference = new StringBuilder();
         int modelEntrySetSize = model.getAllVars().size();
@@ -430,13 +460,13 @@ public class k6Codegen extends DefaultCodegen implements CodegenConfig {
 
     /**
      * Concatenates an array of path segments into a path string.
-     * 
+     *
      * @param segments The path segments to concatenate. A segment may contain
      *                 either of the file separator characters '\' or '/'. A segment
      *                 is ignored if it is <code>null</code>, empty or
      *                 &quot;.&quot;.
      * @return A path string using the correct platform-specific file separator
-     *         character.
+     * character.
      */
     private String createPath(String... segments) {
         StringBuilder buf = new StringBuilder();

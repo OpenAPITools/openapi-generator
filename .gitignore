@@ -30,7 +30,6 @@ packages/
 .vagrant/
 .vscode/
 **/.vs
-bin
 .factorypath
 
 .settings
