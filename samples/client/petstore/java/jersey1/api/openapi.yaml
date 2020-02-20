@@ -1386,17 +1386,18 @@ components:
         photoUrls:
           items:
             type: string
+            xml:
+              name: photoUrl
           type: array
           uniqueItems: true
           xml:
-            name: photoUrl
             wrapped: true
         tags:
           items:
             $ref: '#/components/schemas/Tag'
           type: array
           xml:
-            name: tag
+            name: tags
             wrapped: true
         status:
           description: pet status in the store

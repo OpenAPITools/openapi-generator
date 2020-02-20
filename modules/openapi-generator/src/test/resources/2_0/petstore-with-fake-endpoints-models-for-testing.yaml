@@ -1238,14 +1238,15 @@ definitions:
         type: array
         uniqueItems: true
         xml:
-          name: photoUrl
           wrapped: true
         items:
           type: string
+          xml:
+            name: photoUrl
       tags:
         type: array
         xml:
-          name: tag
+          name: tags
           wrapped: true
         items:
           $ref: '#/definitions/Tag'

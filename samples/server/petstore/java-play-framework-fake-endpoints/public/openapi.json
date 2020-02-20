@@ -1797,12 +1797,14 @@
           },
           "photoUrls" : {
             "items" : {
-              "type" : "string"
+              "type" : "string",
+              "xml" : {
+                "name" : "photoUrl"
+              }
             },
             "type" : "array",
             "uniqueItems" : true,
             "xml" : {
-              "name" : "photoUrl",
               "wrapped" : true
             }
           },
@@ -1812,7 +1814,7 @@
             },
             "type" : "array",
             "xml" : {
-              "name" : "tag",
+              "name" : "tags",
               "wrapped" : true
             }
           },

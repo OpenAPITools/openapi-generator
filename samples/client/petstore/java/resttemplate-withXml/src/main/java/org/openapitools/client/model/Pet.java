@@ -54,7 +54,7 @@ public class Pet {
   private Long id;
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
-  @XmlElement(name = "category")
+  @XmlElement(name = "Category")
   private Category category;
 
   public static final String JSON_PROPERTY_NAME = "name";
@@ -63,18 +63,18 @@ public class Pet {
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   // Is a container wrapped=true
-  // items.name=photoUrls items.baseName=photoUrls items.xmlName= items.xmlNamespace=
+  // items.name=photoUrls items.baseName=photoUrls items.xmlName=photoUrl items.xmlNamespace=
   // items.example= items.type=String
-  @XmlElement(name = "photoUrls")
-  @XmlElementWrapper(name = "photoUrl")
+  @XmlElement(name = "photoUrl")
+  @XmlElementWrapper(name = "photoUrls")
   private Set<String> photoUrls = new LinkedHashSet<String>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   // Is a container wrapped=true
-  // items.name=tags items.baseName=tags items.xmlName= items.xmlNamespace=
+  // items.name=tags items.baseName=tags items.xmlName=Tag items.xmlNamespace=
   // items.example= items.type=Tag
-  @XmlElement(name = "tags")
-  @XmlElementWrapper(name = "tag")
+  @XmlElement(name = "Tag")
+  @XmlElementWrapper(name = "tags")
   private List<Tag> tags = null;
 
   /**
@@ -159,7 +159,7 @@ public class Pet {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  @JacksonXmlProperty(localName = "category")
+  @JacksonXmlProperty(localName = "Category")
 
   public Category getCategory() {
     return category;
@@ -214,7 +214,8 @@ public class Pet {
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  // items.xmlName=
+  // items.xmlName=photoUrl
+  @JacksonXmlProperty(localName = "photoUrl")
   @JacksonXmlElementWrapper(useWrapping = true, localName = "photoUrls")
 
   public Set<String> getPhotoUrls() {
@@ -249,7 +250,8 @@ public class Pet {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // items.xmlName=
+  // items.xmlName=Tag
+  @JacksonXmlProperty(localName = "Tag")
   @JacksonXmlElementWrapper(useWrapping = true, localName = "tags")
 
   public List<Tag> getTags() {

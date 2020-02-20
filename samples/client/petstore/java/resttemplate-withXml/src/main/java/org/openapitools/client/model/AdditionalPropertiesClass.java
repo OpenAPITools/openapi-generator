@@ -143,6 +143,9 @@ public class AdditionalPropertiesClass {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "map_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, String> getMapString() {
     return mapString;
@@ -176,6 +179,9 @@ public class AdditionalPropertiesClass {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "map_number")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
@@ -209,6 +215,9 @@ public class AdditionalPropertiesClass {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "map_integer")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
@@ -242,6 +251,9 @@ public class AdditionalPropertiesClass {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "map_boolean")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
@@ -275,6 +287,9 @@ public class AdditionalPropertiesClass {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "map_array_integer")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
@@ -308,6 +323,9 @@ public class AdditionalPropertiesClass {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "map_array_anytype")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
@@ -341,6 +359,9 @@ public class AdditionalPropertiesClass {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "map_map_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
@@ -374,6 +395,9 @@ public class AdditionalPropertiesClass {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "map_map_anytype")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;

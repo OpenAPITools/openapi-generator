@@ -12,7 +12,7 @@
     {{/isContainer}}
     {{#isContainer}}
   // items.xmlName={{items.xmlName}}
-  @JacksonXmlProperty({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}localName = "{{#items.xmlName}}{{items.xmlName}}{{/items.xmlName}}{{^items.xmlName}}{{items.baseName}}{{/items.xmlName}}")
+  @JacksonXmlProperty({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}localName = "{{#items.xmlName}}{{items.xmlName}}{{/items.xmlName}}{{^items.xmlName}}{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}")
   @JacksonXmlElementWrapper(useWrapping = {{isXmlWrapped}}{{#xmlNamespace}}, namespace="{{xmlNamespace}}"{{/xmlNamespace}}{{#isXmlWrapped}}, localName = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{/isXmlWrapped}})
     {{/isContainer}}
   {{/withXml}}

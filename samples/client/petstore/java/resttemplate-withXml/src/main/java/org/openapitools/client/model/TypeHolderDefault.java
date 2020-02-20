@@ -187,6 +187,9 @@ public class TypeHolderDefault {
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "array_item")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<Integer> getArrayItem() {
     return arrayItem;

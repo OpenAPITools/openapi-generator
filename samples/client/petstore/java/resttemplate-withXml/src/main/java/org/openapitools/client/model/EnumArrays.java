@@ -171,6 +171,9 @@ public class EnumArrays {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "array_enum")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
