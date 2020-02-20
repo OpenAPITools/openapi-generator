@@ -52,6 +52,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit
                 ))
+                .includeGlobalFeatures(
+                        GlobalFeature.ParameterizedServer
+                )
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
