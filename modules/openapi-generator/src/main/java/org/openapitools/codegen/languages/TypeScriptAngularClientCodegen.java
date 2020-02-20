@@ -46,7 +46,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
     public static final String PROVIDED_IN_ROOT = "providedInRoot";
-    public static final String MODULE_WITH_PROVIDERS = "moduleWithProviders";
+    public static final String ENFORCE_GENERIC_MODULE_WITH_PROVIDERS = "enforceGenericModuleWithProviders";
     public static final String API_MODULE_PREFIX = "apiModulePrefix";
     public static final String SERVICE_SUFFIX = "serviceSuffix";
     public static final String SERVICE_FILE_SUFFIX = "serviceFileSuffix";
@@ -194,9 +194,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         if (ngVersion.atLeast("9.0.0")) {                
-            additionalProperties.put(MODULE_WITH_PROVIDERS, true);
+            additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, true);
         } else {
-            additionalProperties.put(MODULE_WITH_PROVIDERS, false);
+            additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, false);
         }
 
         additionalProperties.put(NG_VERSION, ngVersion);
