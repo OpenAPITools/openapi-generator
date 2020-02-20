@@ -27,21 +27,22 @@ import java.io.Serializable
  */
 
 data class Pet (
-    @Json(name = "name")
-    val name: kotlin.String
-,
-    @Json(name = "photoUrls")
-    val photoUrls: kotlin.Array<kotlin.String>
-,
+  
     @Json(name = "id")
-    val id: kotlin.Long? = null
-,
+    val id: kotlin.Long? = null,
+  
     @Json(name = "category")
-    val category: Category? = null
-,
+    val category: Category? = null,
+  
+    @Json(name = "name")
+    val name: kotlin.String,
+  
+    @Json(name = "photoUrls")
+    val photoUrls: kotlin.Array<kotlin.String>,
+
     @Json(name = "tags")
-    val tags: kotlin.Array<Tag>? = null
-,
+    val tags: kotlin.Array<Tag>? = null,
+  
     /* pet status in the store */
     @Json(name = "status")
     val status: Pet.Status? = null

@@ -46,6 +46,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
     public static final String PROVIDED_IN_ROOT = "providedInRoot";
+    public static final String ENFORCE_GENERIC_MODULE_WITH_PROVIDERS = "enforceGenericModuleWithProviders";
     public static final String API_MODULE_PREFIX = "apiModulePrefix";
     public static final String SERVICE_SUFFIX = "serviceSuffix";
     public static final String SERVICE_FILE_SUFFIX = "serviceFileSuffix";
@@ -55,7 +56,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
 
-    protected String ngVersion = "8.0.0";
+    protected String ngVersion = "9.0.0";
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
@@ -123,7 +124,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular (2.x - 7.x) client library.";
+        return "Generates a TypeScript Angular (2.x - 9.x) client library.";
     }
 
     @Override
@@ -192,6 +193,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put(PROVIDED_IN_ROOT, false);
         }
 
+        if (ngVersion.atLeast("9.0.0")) {                
+            additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, true);
+        } else {
+            additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, false);
+        }
+
         additionalProperties.put(NG_VERSION, ngVersion);
         additionalProperties.put("injectionToken", ngVersion.atLeast("4.0.0") ? "InjectionToken" : "OpaqueToken");
         additionalProperties.put("injectionTokenTyped", ngVersion.atLeast("4.0.0"));
@@ -253,7 +260,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the typescript version compatible to the Angular version
-        if (ngVersion.atLeast("8.0.0")) {
+        if (ngVersion.atLeast("9.0.0")) {
+            additionalProperties.put("tsVersion", ">=3.6.0 <3.8.0");
+        } else if (ngVersion.atLeast("8.0.0")) {
             additionalProperties.put("tsVersion", ">=3.4.0 <3.6.0");
         } else if (ngVersion.atLeast("7.0.0")) {
             additionalProperties.put("tsVersion", ">=3.1.1 <3.2.0");
@@ -267,7 +276,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the rxJS version compatible to the Angular version
-        if (ngVersion.atLeast("8.0.0")) {
+        if (ngVersion.atLeast("9.0.0")) {
+            additionalProperties.put("rxjsVersion", "6.5.3");
+        } else if (ngVersion.atLeast("8.0.0")) {
             additionalProperties.put("rxjsVersion", "6.5.0");
         } else if (ngVersion.atLeast("7.0.0")) {
             additionalProperties.put("rxjsVersion", "6.3.0");
@@ -297,7 +308,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         additionalProperties.put("useOldNgPackagr", !ngVersion.atLeast("5.0.0"));
 
         // Specific ng-packagr configuration
-        if (ngVersion.atLeast("8.0.0")) {
+        if (ngVersion.atLeast("9.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "9.0.1");
+            additionalProperties.put("tsickleVersion", "0.38.0");
+        } else if (ngVersion.atLeast("8.0.0")) {
             additionalProperties.put("ngPackagrVersion", "5.4.0");
             additionalProperties.put("tsickleVersion", "0.35.0");
         } else if (ngVersion.atLeast("7.0.0")) {
@@ -319,6 +333,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         // set zone.js version
         if (ngVersion.atLeast("8.0.0")) {
+            additionalProperties.put("zonejsVersion", "0.10.2");
+        } else if (ngVersion.atLeast("8.0.0")) {
             additionalProperties.put("zonejsVersion", "0.9.1");
         } else if (ngVersion.atLeast("5.0.0")) {
             // compatible versions to Angular 5+

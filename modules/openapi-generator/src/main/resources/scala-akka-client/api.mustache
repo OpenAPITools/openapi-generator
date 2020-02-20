@@ -23,8 +23,7 @@ class {{classname}}(baseUrl: String) {
   def {{operationId}}({{>methodParameters}}): ApiRequest[{{>operationReturnType}}] =
     ApiRequest[{{>operationReturnType}}](ApiMethods.{{httpMethod.toUpperCase}}, baseUrl, "{{{path}}}", {{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}})
       {{#authMethods}}{{#isApiKey}}.withApiKey(apiKey, "{{keyParamName}}", {{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInCookie}}COOKIE{{/isKeyInCookie}})
-      {{/isApiKey}}{{#isBasic}}.withCredentials(basicAuth)
-      {{/isBasic}}{{/authMethods}}{{#bodyParam}}.withBody({{paramName}})
+      {{/isApiKey}}{{#isBasic}}{{#isBasicBasic}}.withCredentials(basicAuth){{/isBasicBasic}}{{#isBasicBearer}}.withCredentials(bearerToken){{/isBasicBearer}}{{/isBasic}}{{/authMethods}}{{#bodyParam}}.withBody({{paramName}})
       {{/bodyParam}}{{#formParams}}.withFormParam({{>paramCreation}})
       {{/formParams}}{{#queryParams}}.withQueryParam({{>paramCreation}})
       {{/queryParams}}{{#pathParams}}.withPathParam({{>paramCreation}})

@@ -196,7 +196,7 @@ public class ConfigHelp implements Runnable {
                     sb.append("<dd>").append(escapeHtml4(entry.getValue())).append("</dd>");
                 }
 
-                sb.append("<dl>");
+                sb.append("</dl>");
             } else {
                 sb.append(" ");
             }
@@ -246,7 +246,7 @@ public class ConfigHelp implements Runnable {
         if (Boolean.TRUE.equals(languageSpecificPrimitives)) {
             sb.append(newline).append("## LANGUAGE PRIMITIVES").append(newline).append(newline);
 
-            sb.append("<ul data-columns=\"2\" style=\"list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto\">");
+            sb.append("<ul class=\"column-ul\">").append(newline);
             config.languageSpecificPrimitives()
                     .stream()
                     .sorted(String::compareTo)
@@ -257,7 +257,7 @@ public class ConfigHelp implements Runnable {
         if (Boolean.TRUE.equals(reservedWords)) {
             sb.append(newline).append("## RESERVED WORDS").append(newline).append(newline);
 
-            sb.append("<ul data-columns=\"2\" style=\"list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto\">");
+            sb.append("<ul class=\"column-ul\">").append(newline);
             config.reservedWords()
                     .stream()
                     .sorted(String::compareTo)

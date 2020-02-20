@@ -10,10 +10,27 @@ Name | Type | Description | Notes
 **EnumNumber** | Pointer to **float64** |  | [optional] 
 **OuterEnum** | Pointer to [**NullableOuterEnum**](OuterEnum.md) |  | [optional] 
 **OuterEnumInteger** | Pointer to [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] 
-**OuterEnumDefaultValue** | Pointer to [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] 
-**OuterEnumIntegerDefaultValue** | Pointer to [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] 
+**OuterEnumDefaultValue** | Pointer to [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] [default to "placed"]
+**OuterEnumIntegerDefaultValue** | Pointer to [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] [default to OUTERENUMINTEGERDEFAULTVALUE__0]
 
 ## Methods
+
+### NewEnumTest
+
+`func NewEnumTest(enumStringRequired string, ) *EnumTest`
+
+NewEnumTest instantiates a new EnumTest object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewEnumTestWithDefaults
+
+`func NewEnumTestWithDefaults() *EnumTest`
+
+NewEnumTestWithDefaults instantiates a new EnumTest object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
 
 ### GetEnumString
 

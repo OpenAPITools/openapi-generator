@@ -60,7 +60,7 @@ let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}
     Request.handle_unit_response resp
 {{/returnType}}
 {{#returnType}}
-    Request.read_json_body{{#returnContainer}}{{#isListContainer}}_as_list{{/isListContainer}}{{#isMapContainer}}_as_map{{/isMapContainer}}{{#returnBaseType}}{{^vendorExtensions.x-returnFreeFormObject}}_of{{/vendorExtensions.x-returnFreeFormObject}}{{/returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{#returnBaseType}}{{^vendorExtensions.x-returnFreeFormObject}}_as{{/vendorExtensions.x-returnFreeFormObject}}{{/returnBaseType}}{{/returnContainer}} {{#returnType}}{{^vendorExtensions.x-returnFreeFormObject}}({{> of_json}}){{/vendorExtensions.x-returnFreeFormObject}}{{/returnType}} resp body
+    Request.read_json_body{{#returnContainer}}{{#isListContainer}}_as_list{{/isListContainer}}{{#isMapContainer}}_as_map{{/isMapContainer}}{{#returnBaseType}}{{^vendorExtensions.x-return-free-form-object}}_of{{/vendorExtensions.x-return-free-form-object}}{{/returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{#returnBaseType}}{{^vendorExtensions.x-return-free-form-object}}_as{{/vendorExtensions.x-return-free-form-object}}{{/returnBaseType}}{{/returnContainer}} {{#returnType}}{{^vendorExtensions.x-return-free-form-object}}({{> of_json}}){{/vendorExtensions.x-return-free-form-object}}{{/returnType}} resp body
 {{/returnType}}
 
 {{/operation}}

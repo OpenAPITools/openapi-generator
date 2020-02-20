@@ -1225,7 +1225,8 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/python-aiohttp</module>
+                <!-- comment out below due to https://github.com/OpenAPITools/openapi-generator/issues/5235
+                <module>samples/server/petstore/python-aiohttp</module> -->
                 <!-- clients -->
                 <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/c</module>
@@ -1267,7 +1268,8 @@
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
                 <module>samples/server/petstore/rust-server</module>
-                <module>samples/server/petstore/python-flask</module>
+                <!-- comment out below due to https://github.com/OpenAPITools/openapi-generator/issues/5235
+                <module>samples/server/petstore/python-flask</module> -->
                 <!--<module>samples/server/petstore/python-flask-python2</module>-->
             </modules>
         </profile>

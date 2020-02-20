@@ -25,39 +25,51 @@ import { Configuration }                                     from '../configurat
 
 
 export interface AddPetRequestParams {
+    /** Pet object that needs to be added to the store */
     body: Pet;
 }
 
 export interface DeletePetRequestParams {
+    /** Pet id to delete */
     petId: number;
     apiKey?: string;
 }
 
 export interface FindPetsByStatusRequestParams {
+    /** Status values that need to be considered for filter */
     status: Array<'available' | 'pending' | 'sold'>;
 }
 
 export interface FindPetsByTagsRequestParams {
+    /** Tags to filter by */
     tags: Array<string>;
 }
 
 export interface GetPetByIdRequestParams {
+    /** ID of pet to return */
     petId: number;
 }
 
 export interface UpdatePetRequestParams {
+    /** Pet object that needs to be added to the store */
     body: Pet;
 }
 
 export interface UpdatePetWithFormRequestParams {
+    /** ID of pet that needs to be updated */
     petId: number;
+    /** Updated name of the pet */
     name?: string;
+    /** Updated status of the pet */
     status?: string;
 }
 
 export interface UploadFileRequestParams {
+    /** ID of pet to update */
     petId: number;
+    /** Additional data to pass to server */
     additionalMetadata?: string;
+    /** file to upload */
     file?: Blob;
 }
 

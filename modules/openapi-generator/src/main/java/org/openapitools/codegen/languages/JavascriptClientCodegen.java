@@ -887,8 +887,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 String itemType = getSchemaType(ModelUtils.getAdditionalProperties(model));
                 codegenModel.vendorExtensions.put("x-isMap", true); // TODO: 5.0 Remove
                 codegenModel.vendorExtensions.put("x-is-map", true);
-                codegenModel.vendorExtensions.put("x-itemType",itemType); // TODO: 5.0 Remove
-                codegenModel.vendorExtensions.put("x-item-type",itemType);
+                codegenModel.vendorExtensions.put("x-itemType", itemType); // TODO: 5.0 Remove
+                codegenModel.vendorExtensions.put("x-item-type", itemType);
             } else {
                 String type = model.getType();
                 if (codegenModel != null && isPrimitiveType(type)) {

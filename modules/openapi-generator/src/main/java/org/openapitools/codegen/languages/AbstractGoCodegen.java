@@ -239,6 +239,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     public String toModel(String name) {
+        return toModel(name, true);
+    }
+
+    public String toModel(String name, boolean doUnderscore) {
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -262,7 +266,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        return underscore(name);
+        if (doUnderscore) {
+            return underscore(name);
+        }
+        return name;
     }
 
     @Override
@@ -479,7 +486,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     StringBuilder sb = new StringBuilder(param.paramName);
                     sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
                     param.vendorExtensions.put("x-exportParamName", sb.toString()); // TODO: 5.0 Remove
-                    param.vendorExtensions.put("x-x-export-param-name", sb.toString());
+                    param.vendorExtensions.put("x-export-param-name", sb.toString());
                 }
             }
 

@@ -144,7 +144,7 @@ export class Configuration {
     constructor(private configuration: ConfigurationParameters = {}) {}
 
     get basePath(): string {
-        return this.configuration.basePath || BASE_PATH;
+        return this.configuration.basePath != null ? this.configuration.basePath : BASE_PATH;
     }
 
     get fetchApi(): FetchAPI {

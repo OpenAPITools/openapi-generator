@@ -30,7 +30,8 @@ sidebar_label: objc
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>BOOL</li>
+<ul class="column-ul">
+<li>BOOL</li>
 <li>NSData</li>
 <li>NSDate</li>
 <li>NSNumber</li>
@@ -42,7 +43,8 @@ sidebar_label: objc
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>_packed</li>
+<ul class="column-ul">
+<li>_packed</li>
 <li>authsettings</li>
 <li>auto</li>
 <li>bodyparam</li>

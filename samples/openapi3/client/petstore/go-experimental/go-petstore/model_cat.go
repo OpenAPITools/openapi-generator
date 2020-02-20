@@ -20,6 +20,23 @@ type Cat struct {
 	Declawed *bool `json:"declawed,omitempty"`
 }
 
+// NewCat instantiates a new Cat object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewCat() *Cat {
+    this := Cat{}
+    return &this
+}
+
+// NewCatWithDefaults instantiates a new Cat object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewCatWithDefaults() *Cat {
+    this := Cat{}
+    return &this
+}
+
 // GetDeclawed returns the Declawed field value if set, zero value otherwise.
 func (o *Cat) GetDeclawed() bool {
 	if o == nil || o.Declawed == nil {
