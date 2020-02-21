@@ -245,18 +245,27 @@ class Configuration(object):
         self.client_side_validation = True
 
     @classmethod
+    def copy(cls, source):
+        if source is None:
+            return None
+        ret = copy.copy(source)
+        ret.api_key = copy.copy(source.api_key)
+        ret.api_key_prefix = copy.copy(source.api_key_prefix)
+        return ret
+
+    @classmethod
     def set_default(cls, default):
         """Set default instance of configuration.
 
         It stores default configuration, which can be
-        returned by get_instance method.
+        returned by new_instance method.
 
         :param default: object of Configuration
         """
-        cls._default = copy.copy(default)
+        cls._default = Configuration.copy(default)
 
     @classmethod
-    def get_instance(cls):
+    def new_instance(cls):
         """Return new instance of configuration.
 
         This method returns newly created, based on default constructor,
@@ -266,7 +275,7 @@ class Configuration(object):
         :return: The configuration object.
         """
         if cls._default is not None:
-            return copy.copy(cls._default)
+            return Configuration.copy(cls._default)
         return Configuration()
 
     @property
