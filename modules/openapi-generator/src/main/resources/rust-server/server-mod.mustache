@@ -19,6 +19,9 @@ pub mod callbacks;
     {{/operations}}
   {{/apis}}
 {{/apiInfo}}
+{{#pathSet}}
+            _ if path.matched(paths::ID_{{PATH_ID}}) => method_not_allowed(),
+{{/pathSet}}
 {{>server-service-footer}}
 /// Request parser for `Api`.
 pub struct ApiRequestParser;

@@ -38,6 +38,11 @@ use {{{operationId}}}Response;
     {{/operations}}
   {{/apis}}
 {{/apiInfo}}
+{{#callbacks}}
+  {{#pathSet}}
+            _ if path.matched(paths::ID_{{PATH_ID}}) => method_not_allowed(),
+  {{/pathSet}}
+{{/callbacks}}
 {{>server-service-footer}}
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
