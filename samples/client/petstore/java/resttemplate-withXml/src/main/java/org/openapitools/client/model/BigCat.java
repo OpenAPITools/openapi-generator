@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -91,7 +92,7 @@ public class BigCat extends Cat {
    * @return kind
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_KIND)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "kind")

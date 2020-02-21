@@ -43,7 +43,7 @@ public class SpecialModelName {
    * @return $specialPropertyName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;

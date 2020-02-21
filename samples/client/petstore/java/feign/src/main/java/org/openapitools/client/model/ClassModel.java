@@ -19,13 +19,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.openapitools.client.model.ApiModel;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-@ApiModel(description = "Model for testing model with \"_class\" property")
+@Schema(description = "Model for testing model with \"_class\" property")
 @JsonPropertyOrder({
   ClassModel.JSON_PROPERTY_PROPERTY_CLASS
 })
@@ -47,7 +47,7 @@ public class ClassModel {
    * @return propertyClass
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

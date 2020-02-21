@@ -19,13 +19,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.openapitools.client.model.ApiModel;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Model for testing reserved words
  */
-@ApiModel(description = "Model for testing reserved words")
+@Schema(description = "Model for testing reserved words")
 @JsonPropertyOrder({
   ModelReturn.JSON_PROPERTY_RETURN
 })
@@ -46,7 +46,7 @@ public class ModelReturn {
    * @return _return
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_RETURN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

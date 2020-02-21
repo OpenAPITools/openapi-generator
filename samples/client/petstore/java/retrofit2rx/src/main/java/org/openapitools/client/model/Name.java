@@ -21,12 +21,11 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.openapitools.client.model.ApiModel;
 
 /**
  * Model for testing model name same as property name
  */
-@ApiModel(description = "Model for testing model name same as property name")
+@Schema(description = "Model for testing model name same as property name")
 
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
@@ -56,7 +55,7 @@ public class Name {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
 
   public Integer getName() {
     return name;
@@ -73,7 +72,7 @@ public class Name {
    * @return snakeCase
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public Integer getSnakeCase() {
     return snakeCase;
@@ -93,7 +92,7 @@ public class Name {
    * @return property
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getProperty() {
     return property;
@@ -110,7 +109,7 @@ public class Name {
    * @return _123number
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public Integer get123number() {
     return _123number;

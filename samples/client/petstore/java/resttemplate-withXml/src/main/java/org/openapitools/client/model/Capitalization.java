@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -75,7 +76,7 @@ public class Capitalization {
    * @return smallCamel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "smallCamel")
@@ -101,7 +102,7 @@ public class Capitalization {
    * @return capitalCamel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "CapitalCamel")
@@ -127,7 +128,7 @@ public class Capitalization {
    * @return smallSnake
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "small_Snake")
@@ -153,7 +154,7 @@ public class Capitalization {
    * @return capitalSnake
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "Capital_Snake")
@@ -179,7 +180,7 @@ public class Capitalization {
    * @return scAETHFlowPoints
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "SCA_ETH_Flow_Points")
@@ -205,7 +206,7 @@ public class Capitalization {
    * @return ATT_NAME
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Name of the pet ")
+  @Schema(description = "Name of the pet ")
   @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "ATT_NAME")

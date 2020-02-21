@@ -47,7 +47,7 @@ public class DogAllOf implements Parcelable {
    * @return breed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getBreed() {
     return breed;

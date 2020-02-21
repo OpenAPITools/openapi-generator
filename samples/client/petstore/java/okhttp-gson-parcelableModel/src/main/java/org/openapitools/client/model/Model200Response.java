@@ -21,14 +21,13 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.openapitools.client.model.ApiModel;
 import android.os.Parcelable;
 import android.os.Parcel;
 
 /**
  * Model for testing model name starting with number
  */
-@ApiModel(description = "Model for testing model name starting with number")
+@Schema(description = "Model for testing model name starting with number")
 
 public class Model200Response implements Parcelable {
   public static final String SERIALIZED_NAME_NAME = "name";
@@ -53,7 +52,7 @@ public class Model200Response implements Parcelable {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public Integer getName() {
     return name;
@@ -76,7 +75,7 @@ public class Model200Response implements Parcelable {
    * @return propertyClass
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getPropertyClass() {
     return propertyClass;

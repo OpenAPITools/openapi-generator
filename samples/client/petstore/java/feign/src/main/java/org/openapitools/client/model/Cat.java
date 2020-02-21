@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.CatAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Cat
@@ -47,7 +48,7 @@ public class Cat extends Animal {
    * @return declawed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_DECLAWED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

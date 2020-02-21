@@ -43,7 +43,7 @@ public class DogAllOf {
    * @return breed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getBreed() {
     return breed;

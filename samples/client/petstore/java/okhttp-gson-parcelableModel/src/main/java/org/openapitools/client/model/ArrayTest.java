@@ -66,7 +66,7 @@ public class ArrayTest implements Parcelable {
    * @return arrayOfString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public List<String> getArrayOfString() {
     return arrayOfString;
@@ -97,7 +97,7 @@ public class ArrayTest implements Parcelable {
    * @return arrayArrayOfInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -128,7 +128,7 @@ public class ArrayTest implements Parcelable {
    * @return arrayArrayOfModel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;

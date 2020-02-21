@@ -47,7 +47,7 @@ public class Client implements Parcelable {
    * @return client
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getClient() {
     return client;

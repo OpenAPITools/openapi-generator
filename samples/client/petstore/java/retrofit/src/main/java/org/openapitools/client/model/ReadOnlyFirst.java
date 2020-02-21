@@ -41,7 +41,7 @@ public class ReadOnlyFirst {
    * @return bar
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getBar() {
     return bar;
@@ -61,7 +61,7 @@ public class ReadOnlyFirst {
    * @return baz
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getBaz() {
     return baz;

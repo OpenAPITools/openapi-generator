@@ -24,6 +24,7 @@ import java.util.UUID;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * FormatTest
@@ -102,7 +103,7 @@ public class FormatTest {
    * @return integer
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -129,7 +130,7 @@ public class FormatTest {
    * @return int32
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_INT32)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -154,7 +155,7 @@ public class FormatTest {
    * @return int64
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_INT64)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -180,7 +181,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -207,7 +208,7 @@ public class FormatTest {
    * @return _float
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -234,7 +235,7 @@ public class FormatTest {
    * @return _double
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -259,7 +260,7 @@ public class FormatTest {
    * @return string
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -283,7 +284,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @JsonProperty(JSON_PROPERTY_BYTE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -308,7 +309,7 @@ public class FormatTest {
    * @return binary
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_BINARY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -332,7 +333,7 @@ public class FormatTest {
    * Get date
    * @return date
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -357,7 +358,7 @@ public class FormatTest {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -382,7 +383,7 @@ public class FormatTest {
    * @return uuid
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+  @Schema(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", description = "")
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -406,7 +407,7 @@ public class FormatTest {
    * Get password
    * @return password
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -431,7 +432,7 @@ public class FormatTest {
    * @return bigDecimal
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -57,7 +57,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return uuid
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public UUID getUuid() {
     return uuid;
@@ -80,7 +80,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -111,7 +111,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return map
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public Map<String, Animal> getMap() {
     return map;

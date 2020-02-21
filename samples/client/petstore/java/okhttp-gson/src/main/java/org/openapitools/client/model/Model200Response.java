@@ -21,12 +21,11 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.openapitools.client.model.ApiModel;
 
 /**
  * Model for testing model name starting with number
  */
-@ApiModel(description = "Model for testing model name starting with number")
+@Schema(description = "Model for testing model name starting with number")
 
 public class Model200Response {
   public static final String SERIALIZED_NAME_NAME = "name";
@@ -49,7 +48,7 @@ public class Model200Response {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public Integer getName() {
     return name;
@@ -72,7 +71,7 @@ public class Model200Response {
    * @return propertyClass
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getPropertyClass() {
     return propertyClass;

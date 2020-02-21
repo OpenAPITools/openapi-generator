@@ -24,6 +24,7 @@ import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -107,7 +108,7 @@ public class Pet {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -133,7 +134,7 @@ public class Pet {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -158,7 +159,7 @@ public class Pet {
    * @return name
   **/
   @NotNull
-  @ApiModelProperty(example = "doggie", required = true, value = "")
+  @Schema(example = "doggie", required = true, description = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -188,7 +189,7 @@ public class Pet {
    * @return photoUrls
   **/
   @NotNull
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -222,7 +223,7 @@ public class Pet {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -247,7 +248,7 @@ public class Pet {
    * @return status
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "pet status in the store")
+  @Schema(description = "pet status in the store")
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

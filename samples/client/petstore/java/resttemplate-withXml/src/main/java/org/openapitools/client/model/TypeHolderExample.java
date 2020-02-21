@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -80,7 +81,7 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
   **/
-  @ApiModelProperty(example = "what", required = true, value = "")
+  @Schema(example = "what", required = true, description = "")
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "string_item")
@@ -105,7 +106,7 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
   **/
-  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @Schema(example = "1.234", required = true, description = "")
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "number_item")
@@ -130,7 +131,7 @@ public class TypeHolderExample {
    * Get floatItem
    * @return floatItem
   **/
-  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @Schema(example = "1.234", required = true, description = "")
   @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "float_item")
@@ -155,7 +156,7 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
   **/
-  @ApiModelProperty(example = "-2", required = true, value = "")
+  @Schema(example = "-2", required = true, description = "")
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "integer_item")
@@ -180,7 +181,7 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
   **/
-  @ApiModelProperty(example = "true", required = true, value = "")
+  @Schema(example = "true", required = true, description = "")
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "bool_item")
@@ -210,7 +211,7 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
   **/
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
+  @Schema(example = "[0, 1, 2, 3]", required = true, description = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

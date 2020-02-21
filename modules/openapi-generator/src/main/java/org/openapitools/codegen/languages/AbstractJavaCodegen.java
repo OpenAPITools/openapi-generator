@@ -976,9 +976,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public CodegenModel fromModel(String name, Schema model) {
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel codegenModel = super.fromModel(name, model);
-        if (codegenModel.description != null) {
-            codegenModel.imports.add("ApiModel");
-        }
         if (codegenModel.discriminator != null && additionalProperties.containsKey("jackson")) {
             codegenModel.imports.add("JsonSubTypes");
             codegenModel.imports.add("JsonTypeInfo");

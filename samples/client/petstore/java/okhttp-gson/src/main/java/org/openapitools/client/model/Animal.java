@@ -50,7 +50,7 @@ public class Animal {
    * Get className
    * @return className
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
 
   public String getClassName() {
     return className;
@@ -73,7 +73,7 @@ public class Animal {
    * @return color
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getColor() {
     return color;

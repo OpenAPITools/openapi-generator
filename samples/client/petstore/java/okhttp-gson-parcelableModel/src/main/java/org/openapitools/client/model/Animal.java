@@ -52,7 +52,7 @@ public class Animal implements Parcelable {
    * Get className
    * @return className
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
 
   public String getClassName() {
     return className;
@@ -75,7 +75,7 @@ public class Animal implements Parcelable {
    * @return color
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getColor() {
     return color;

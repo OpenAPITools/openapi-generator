@@ -116,7 +116,7 @@ public class Pet {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public Long getId() {
     return id;
@@ -139,7 +139,7 @@ public class Pet {
    * @return category
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public Category getCategory() {
     return category;
@@ -161,7 +161,7 @@ public class Pet {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(example = "doggie", required = true, value = "")
+  @Schema(example = "doggie", required = true, description = "")
 
   public String getName() {
     return name;
@@ -188,7 +188,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
 
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -219,7 +219,7 @@ public class Pet {
    * @return tags
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public List<Tag> getTags() {
     return tags;
@@ -242,7 +242,7 @@ public class Pet {
    * @return status
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "pet status in the store")
+  @Schema(description = "pet status in the store")
 
   public StatusEnum getStatus() {
     return status;

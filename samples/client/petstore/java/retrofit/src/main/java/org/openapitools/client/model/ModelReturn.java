@@ -21,12 +21,11 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.openapitools.client.model.ApiModel;
 
 /**
  * Model for testing reserved words
  */
-@ApiModel(description = "Model for testing reserved words")
+@Schema(description = "Model for testing reserved words")
 
 public class ModelReturn {
   public static final String SERIALIZED_NAME_RETURN = "return";
@@ -45,7 +44,7 @@ public class ModelReturn {
    * @return _return
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public Integer getReturn() {
     return _return;

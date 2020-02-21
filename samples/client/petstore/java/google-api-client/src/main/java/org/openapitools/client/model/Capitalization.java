@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Capitalization
@@ -64,7 +65,7 @@ public class Capitalization {
    * @return smallCamel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -89,7 +90,7 @@ public class Capitalization {
    * @return capitalCamel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -114,7 +115,7 @@ public class Capitalization {
    * @return smallSnake
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -139,7 +140,7 @@ public class Capitalization {
    * @return capitalSnake
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -164,7 +165,7 @@ public class Capitalization {
    * @return scAETHFlowPoints
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -189,7 +190,7 @@ public class Capitalization {
    * @return ATT_NAME
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Name of the pet ")
+  @Schema(description = "Name of the pet ")
   @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

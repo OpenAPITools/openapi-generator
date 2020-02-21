@@ -19,15 +19,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.openapitools.client.model.ApiModel;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * Model for testing model name same as property name
  */
-@ApiModel(description = "Model for testing model name same as property name")
+@Schema(description = "Model for testing model name same as property name")
 @JsonPropertyOrder({
   Name.JSON_PROPERTY_NAME,
   Name.JSON_PROPERTY_SNAKE_CASE,
@@ -60,7 +60,7 @@ public class Name {
    * @return name
   **/
   @NotNull
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -79,7 +79,7 @@ public class Name {
    * @return snakeCase
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -101,7 +101,7 @@ public class Name {
    * @return property
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -120,7 +120,7 @@ public class Name {
    * @return _123number
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_123NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.DogAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -52,7 +53,7 @@ public class Dog extends Animal {
    * @return breed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_BREED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "breed")

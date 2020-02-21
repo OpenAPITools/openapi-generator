@@ -45,7 +45,7 @@ public class HasOnlyReadOnly implements Parcelable {
    * @return bar
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getBar() {
     return bar;
@@ -59,7 +59,7 @@ public class HasOnlyReadOnly implements Parcelable {
    * @return foo
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getFoo() {
     return foo;

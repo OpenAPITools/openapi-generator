@@ -50,7 +50,7 @@ public class AdditionalPropertiesString extends HashMap<String, String> implemen
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getName() {
     return name;

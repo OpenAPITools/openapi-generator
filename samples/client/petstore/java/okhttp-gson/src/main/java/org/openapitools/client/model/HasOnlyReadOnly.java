@@ -41,7 +41,7 @@ public class HasOnlyReadOnly {
    * @return bar
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getBar() {
     return bar;
@@ -55,7 +55,7 @@ public class HasOnlyReadOnly {
    * @return foo
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getFoo() {
     return foo;

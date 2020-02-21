@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * AdditionalPropertiesClass
@@ -95,7 +96,7 @@ public class AdditionalPropertiesClass {
    * @return mapString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -128,7 +129,7 @@ public class AdditionalPropertiesClass {
    * @return mapNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -161,7 +162,7 @@ public class AdditionalPropertiesClass {
    * @return mapInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -194,7 +195,7 @@ public class AdditionalPropertiesClass {
    * @return mapBoolean
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -227,7 +228,7 @@ public class AdditionalPropertiesClass {
    * @return mapArrayInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -260,7 +261,7 @@ public class AdditionalPropertiesClass {
    * @return mapArrayAnytype
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -293,7 +294,7 @@ public class AdditionalPropertiesClass {
    * @return mapMapString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -326,7 +327,7 @@ public class AdditionalPropertiesClass {
    * @return mapMapAnytype
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -351,7 +352,7 @@ public class AdditionalPropertiesClass {
    * @return anytype1
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_ANYTYPE1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -376,7 +377,7 @@ public class AdditionalPropertiesClass {
    * @return anytype2
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_ANYTYPE2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -401,7 +402,7 @@ public class AdditionalPropertiesClass {
    * @return anytype3
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
   @JsonProperty(JSON_PROPERTY_ANYTYPE3)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

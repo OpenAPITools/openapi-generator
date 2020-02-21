@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -69,7 +70,7 @@ public class TypeHolderExample {
    * @return stringItem
   **/
   @NotNull
-  @ApiModelProperty(example = "what", required = true, value = "")
+  @Schema(example = "what", required = true, description = "")
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -95,7 +96,7 @@ public class TypeHolderExample {
   **/
   @NotNull
   @Valid
-  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @Schema(example = "1.234", required = true, description = "")
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -120,7 +121,7 @@ public class TypeHolderExample {
    * @return floatItem
   **/
   @NotNull
-  @ApiModelProperty(example = "1.234", required = true, value = "")
+  @Schema(example = "1.234", required = true, description = "")
   @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -145,7 +146,7 @@ public class TypeHolderExample {
    * @return integerItem
   **/
   @NotNull
-  @ApiModelProperty(example = "-2", required = true, value = "")
+  @Schema(example = "-2", required = true, description = "")
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -170,7 +171,7 @@ public class TypeHolderExample {
    * @return boolItem
   **/
   @NotNull
-  @ApiModelProperty(example = "true", required = true, value = "")
+  @Schema(example = "true", required = true, description = "")
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -200,7 +201,7 @@ public class TypeHolderExample {
    * @return arrayItem
   **/
   @NotNull
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
+  @Schema(example = "[0, 1, 2, 3]", required = true, description = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

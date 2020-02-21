@@ -21,12 +21,11 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.openapitools.client.model.ApiModel;
 
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-@ApiModel(description = "Model for testing model with \"_class\" property")
+@Schema(description = "Model for testing model with \"_class\" property")
 
 public class ClassModel {
   public static final String SERIALIZED_NAME_PROPERTY_CLASS = "_class";
@@ -45,7 +44,7 @@ public class ClassModel {
    * @return propertyClass
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getPropertyClass() {
     return propertyClass;

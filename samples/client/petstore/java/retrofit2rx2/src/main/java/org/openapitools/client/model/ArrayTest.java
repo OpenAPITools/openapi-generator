@@ -62,7 +62,7 @@ public class ArrayTest {
    * @return arrayOfString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public List<String> getArrayOfString() {
     return arrayOfString;
@@ -93,7 +93,7 @@ public class ArrayTest {
    * @return arrayArrayOfInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -124,7 +124,7 @@ public class ArrayTest {
    * @return arrayArrayOfModel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;

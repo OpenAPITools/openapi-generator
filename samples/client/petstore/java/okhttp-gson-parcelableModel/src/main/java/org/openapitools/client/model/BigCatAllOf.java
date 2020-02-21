@@ -98,7 +98,7 @@ public class BigCatAllOf implements Parcelable {
    * @return kind
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public KindEnum getKind() {
     return kind;

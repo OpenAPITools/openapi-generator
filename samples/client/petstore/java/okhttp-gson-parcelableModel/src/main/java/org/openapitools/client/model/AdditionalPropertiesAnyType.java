@@ -50,7 +50,7 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> impleme
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getName() {
     return name;

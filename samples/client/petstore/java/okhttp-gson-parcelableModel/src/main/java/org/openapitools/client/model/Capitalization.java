@@ -67,7 +67,7 @@ public class Capitalization implements Parcelable {
    * @return smallCamel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getSmallCamel() {
     return smallCamel;
@@ -90,7 +90,7 @@ public class Capitalization implements Parcelable {
    * @return capitalCamel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getCapitalCamel() {
     return capitalCamel;
@@ -113,7 +113,7 @@ public class Capitalization implements Parcelable {
    * @return smallSnake
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getSmallSnake() {
     return smallSnake;
@@ -136,7 +136,7 @@ public class Capitalization implements Parcelable {
    * @return capitalSnake
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getCapitalSnake() {
     return capitalSnake;
@@ -159,7 +159,7 @@ public class Capitalization implements Parcelable {
    * @return scAETHFlowPoints
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -182,7 +182,7 @@ public class Capitalization implements Parcelable {
    * @return ATT_NAME
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Name of the pet ")
+  @Schema(description = "Name of the pet ")
 
   public String getATTNAME() {
     return ATT_NAME;

@@ -44,7 +44,7 @@ public class NumberOnly {
    * @return justNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public BigDecimal getJustNumber() {
     return justNumber;

@@ -96,7 +96,7 @@ public class BigCat extends Cat {
    * @return kind
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public KindEnum getKind() {
     return kind;

@@ -58,7 +58,7 @@ public class ArrayOfNumberOnly implements Parcelable {
    * @return arrayNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;

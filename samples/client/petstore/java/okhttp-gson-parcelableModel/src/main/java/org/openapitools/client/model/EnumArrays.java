@@ -147,7 +147,7 @@ public class EnumArrays implements Parcelable {
    * @return justSymbol
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -178,7 +178,7 @@ public class EnumArrays implements Parcelable {
    * @return arrayEnum
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;

@@ -51,7 +51,7 @@ public class Category implements Parcelable {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public Long getId() {
     return id;
@@ -73,7 +73,7 @@ public class Category implements Parcelable {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
 
   public String getName() {
     return name;

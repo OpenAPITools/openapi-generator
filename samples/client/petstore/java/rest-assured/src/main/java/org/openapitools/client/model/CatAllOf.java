@@ -43,7 +43,7 @@ public class CatAllOf {
    * @return declawed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   public Boolean isDeclawed() {
     return declawed;
