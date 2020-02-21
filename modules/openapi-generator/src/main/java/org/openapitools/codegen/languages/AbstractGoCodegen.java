@@ -91,7 +91,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         "complex64",
                         "complex128",
                         "rune",
-                        "byte")
+                        "byte",
+                        "map[string]interface{}",
+                        "interface{}"
+                        )
         );
 
         instantiationTypes.clear();
@@ -126,6 +129,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // in golang as interface{}.
         // See issue #5387 for more details.
         typeMapping.put("object", "map[string]interface{}");
+        typeMapping.put("interface{}", "interface{}");
 
         numberTypes = new HashSet<String>(
                 Arrays.asList(
@@ -295,6 +299,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return name;
     }
 
+    /**
+     * Return the golang implementation type for the specified property.
+     * 
+     * @param the OAS property.
+     * @return the golang implementation type.
+     */
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
@@ -334,6 +344,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return toModelName(openAPIType);
     }
 
+    /**
+     * Return the OpenAPI type for the property.
+     * 
+     * @param p the OAS property.
+     * @return the OpenAPI type.
+     */
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
