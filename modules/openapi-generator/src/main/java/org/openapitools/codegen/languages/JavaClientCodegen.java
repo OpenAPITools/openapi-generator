@@ -107,6 +107,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public JavaClientCodegen() {
         super();
 
+        // TODO: Move GlobalFeature.ParameterizedServer to library: jersey after moving featureSet to generatorMetadata
         featureSet = getFeatureSet().modify()
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
@@ -290,8 +291,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
-        supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", invokerFolder, "ServerConfiguration.java"));
-        supportingFiles.add(new SupportingFile("ServerVariable.mustache", invokerFolder, "ServerVariable.java"));
+
         if (!(RESTTEMPLATE.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
         }
@@ -366,6 +366,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (JERSEY2.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
+
+            supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", invokerFolder, "ServerConfiguration.java"));
+            supportingFiles.add(new SupportingFile("ServerVariable.mustache", invokerFolder, "ServerVariable.java"));
+
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (NATIVE.equals(getLibrary())) {
             setJava8Mode(true);
