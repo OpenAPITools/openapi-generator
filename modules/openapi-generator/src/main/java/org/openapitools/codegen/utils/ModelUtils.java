@@ -658,13 +658,31 @@ public class ModelUtils {
     }
 
     /**
-     * Check to see if the schema is a free form object.
+     * Check to see if the schema is a free-form object.
      * 
      * A free form object is an object (i.e. 'type: object' in a OAS document) that:
      * 1) Does not define properties, and
      * 2) Is not a composed schema (no anyOf, oneOf, allOf), and
      * 3) additionalproperties is not defined, or additionalproperties: true, or additionalproperties: {}.
      *
+     * Examples:
+     * 
+     * components:
+     *   schemas:
+     *     arbitraryObject:
+     *       type: object
+     *       description: This is a free-form object.
+     *         The value must be a map of strings to values. The value cannot be 'null'.
+     *         It cannot be array, string, integer, number.
+     *     arbitraryNullableObject:
+     *       type: object
+     *       description: This is a free-form object.
+     *         The value must be a map of strings to values. The value can be 'null',
+     *         It cannot be array, string, integer, number.
+     *     arbitraryTypeValue:
+     *       description: This is NOT a free-form object.
+     *         The value can be any type except the 'null' value.
+     * 
      * @param schema potentially containing a '$ref'
      * @return true if it's a free-form object
      */
