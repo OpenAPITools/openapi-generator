@@ -1300,10 +1300,13 @@ components:
         password: password
         userStatus: 6
         phone: phone
+        arbitraryType: ""
         id: 0
+        arbitraryObject: '{}'
+        arbitraryNullableType: ""
         email: email
+        arbitraryNullableObject: '{}'
         username: username
-        stuff: '{}'
       properties:
         id:
           format: int64
@@ -1325,9 +1328,21 @@ components:
           description: User Status
           format: int32
           type: integer
-        stuff:
+        arbitraryObject:
+          description: test code generation for objects, i.e. maps of strings to values.
+          type: object
+        arbitraryNullableObject:
+          description: test code generation for nullable objects, i.e. maps of strings
+            to values or the 'null' value.
           nullable: true
           type: object
+        arbitraryType:
+          description: test code generation for any type, can be any value - string,
+            number, boolean, array or object.
+        arbitraryNullableType:
+          description: test code generation for any type, can be any value - string,
+            number, boolean, array or object.
+          nullable: true
       type: object
       xml:
         name: User

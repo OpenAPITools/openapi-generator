@@ -12,7 +12,10 @@ Name | Type | Description | Notes
 **Password** | Pointer to **string** |  | [optional] 
 **Phone** | Pointer to **string** |  | [optional] 
 **UserStatus** | Pointer to **int32** | User Status | [optional] 
-**Stuff** | Pointer to [**map[string]interface{}**](.md) |  | [optional] 
+**ArbitraryObject** | Pointer to [**map[string]interface{}**](.md) | test code generation for objects, i.e. maps of strings to values. | [optional] 
+**ArbitraryNullableObject** | Pointer to [**map[string]interface{}**](.md) | test code generation for nullable objects, i.e. maps of strings to values or the &#39;null&#39; value. | [optional] 
+**ArbitraryType** | Pointer to [**map[string]interface{}**](map[string]interface{}.md) | test code generation for any type, can be any value - string, number, boolean, array or object. | [optional] 
+**ArbitraryNullableType** | Pointer to [**NullableMap[string]interface{}**](map[string]interface{}.md) | test code generation for any type, can be any value - string, number, boolean, array or object. | [optional] 
 
 ## Methods
 
@@ -233,38 +236,120 @@ HasUserStatus returns a boolean if a field has been set.
 
 SetUserStatus gets a reference to the given int32 and assigns it to the UserStatus field.
 
-### GetStuff
+### GetArbitraryObject
 
-`func (o *User) GetStuff() map[string]interface{}`
+`func (o *User) GetArbitraryObject() map[string]interface{}`
 
-GetStuff returns the Stuff field if non-nil, zero value otherwise.
+GetArbitraryObject returns the ArbitraryObject field if non-nil, zero value otherwise.
 
-### GetStuffOk
+### GetArbitraryObjectOk
 
-`func (o *User) GetStuffOk() (map[string]interface{}, bool)`
+`func (o *User) GetArbitraryObjectOk() (map[string]interface{}, bool)`
 
-GetStuffOk returns a tuple with the Stuff field if it's non-nil, zero value otherwise
+GetArbitraryObjectOk returns a tuple with the ArbitraryObject field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### HasStuff
+### HasArbitraryObject
 
-`func (o *User) HasStuff() bool`
+`func (o *User) HasArbitraryObject() bool`
 
-HasStuff returns a boolean if a field has been set.
+HasArbitraryObject returns a boolean if a field has been set.
 
-### SetStuff
+### SetArbitraryObject
 
-`func (o *User) SetStuff(v map[string]interface{})`
+`func (o *User) SetArbitraryObject(v map[string]interface{})`
 
-SetStuff gets a reference to the given map[string]interface{} and assigns it to the Stuff field.
+SetArbitraryObject gets a reference to the given map[string]interface{} and assigns it to the ArbitraryObject field.
 
-### SetStuffExplicitNull
+### GetArbitraryNullableObject
 
-`func (o *User) SetStuffExplicitNull(b bool)`
+`func (o *User) GetArbitraryNullableObject() map[string]interface{}`
 
-SetStuffExplicitNull (un)sets Stuff to be considered as explicit "null" value
+GetArbitraryNullableObject returns the ArbitraryNullableObject field if non-nil, zero value otherwise.
+
+### GetArbitraryNullableObjectOk
+
+`func (o *User) GetArbitraryNullableObjectOk() (map[string]interface{}, bool)`
+
+GetArbitraryNullableObjectOk returns a tuple with the ArbitraryNullableObject field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### HasArbitraryNullableObject
+
+`func (o *User) HasArbitraryNullableObject() bool`
+
+HasArbitraryNullableObject returns a boolean if a field has been set.
+
+### SetArbitraryNullableObject
+
+`func (o *User) SetArbitraryNullableObject(v map[string]interface{})`
+
+SetArbitraryNullableObject gets a reference to the given map[string]interface{} and assigns it to the ArbitraryNullableObject field.
+
+### SetArbitraryNullableObjectExplicitNull
+
+`func (o *User) SetArbitraryNullableObjectExplicitNull(b bool)`
+
+SetArbitraryNullableObjectExplicitNull (un)sets ArbitraryNullableObject to be considered as explicit "null" value
 when serializing to JSON (pass true as argument to set this, false to unset)
-The Stuff value is set to nil even if false is passed
+The ArbitraryNullableObject value is set to nil even if false is passed
+### GetArbitraryType
+
+`func (o *User) GetArbitraryType() map[string]interface{}`
+
+GetArbitraryType returns the ArbitraryType field if non-nil, zero value otherwise.
+
+### GetArbitraryTypeOk
+
+`func (o *User) GetArbitraryTypeOk() (map[string]interface{}, bool)`
+
+GetArbitraryTypeOk returns a tuple with the ArbitraryType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### HasArbitraryType
+
+`func (o *User) HasArbitraryType() bool`
+
+HasArbitraryType returns a boolean if a field has been set.
+
+### SetArbitraryType
+
+`func (o *User) SetArbitraryType(v map[string]interface{})`
+
+SetArbitraryType gets a reference to the given map[string]interface{} and assigns it to the ArbitraryType field.
+
+### GetArbitraryNullableType
+
+`func (o *User) GetArbitraryNullableType() NullableMap[string]interface{}`
+
+GetArbitraryNullableType returns the ArbitraryNullableType field if non-nil, zero value otherwise.
+
+### GetArbitraryNullableTypeOk
+
+`func (o *User) GetArbitraryNullableTypeOk() (NullableMap[string]interface{}, bool)`
+
+GetArbitraryNullableTypeOk returns a tuple with the ArbitraryNullableType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### HasArbitraryNullableType
+
+`func (o *User) HasArbitraryNullableType() bool`
+
+HasArbitraryNullableType returns a boolean if a field has been set.
+
+### SetArbitraryNullableType
+
+`func (o *User) SetArbitraryNullableType(v NullableMap[string]interface{})`
+
+SetArbitraryNullableType gets a reference to the given NullableMap[string]interface{} and assigns it to the ArbitraryNullableType field.
+
+### SetArbitraryNullableTypeExplicitNull
+
+`func (o *User) SetArbitraryNullableTypeExplicitNull(b bool)`
+
+SetArbitraryNullableTypeExplicitNull (un)sets ArbitraryNullableType to be considered as explicit "null" value
+when serializing to JSON (pass true as argument to set this, false to unset)
+The ArbitraryNullableType value is set to nil even if false is passed
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

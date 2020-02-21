@@ -81,7 +81,10 @@ class User(ModelNormal):
             'password': (str,),  # noqa: E501
             'phone': (str,),  # noqa: E501
             'user_status': (int,),  # noqa: E501
-            'stuff': (bool, date, datetime, dict, float, int, list, str, none_type,),  # noqa: E501
+            'arbitrary_object': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
+            'arbitrary_nullable_object': (bool, date, datetime, dict, float, int, list, str, none_type,),  # noqa: E501
+            'arbitrary_type': (object,),  # noqa: E501
+            'arbitrary_nullable_type': (object, none_type,),  # noqa: E501
         }
 
     @staticmethod
@@ -97,7 +100,10 @@ class User(ModelNormal):
         'password': 'password',  # noqa: E501
         'phone': 'phone',  # noqa: E501
         'user_status': 'userStatus',  # noqa: E501
-        'stuff': 'stuff',  # noqa: E501
+        'arbitrary_object': 'arbitraryObject',  # noqa: E501
+        'arbitrary_nullable_object': 'arbitraryNullableObject',  # noqa: E501
+        'arbitrary_type': 'arbitraryType',  # noqa: E501
+        'arbitrary_nullable_type': 'arbitraryNullableType',  # noqa: E501
     }
 
     @staticmethod
@@ -138,7 +144,10 @@ class User(ModelNormal):
             password (str): [optional]  # noqa: E501
             phone (str): [optional]  # noqa: E501
             user_status (int): User Status. [optional]  # noqa: E501
-            stuff (bool, date, datetime, dict, float, int, list, str, none_type): [optional]  # noqa: E501
+            arbitrary_object (bool, date, datetime, dict, float, int, list, str): test code generation for objects, i.e. maps of strings to values.. [optional]  # noqa: E501
+            arbitrary_nullable_object (bool, date, datetime, dict, float, int, list, str, none_type): test code generation for nullable objects, i.e. maps of strings to values or the &#39;null&#39; value.. [optional]  # noqa: E501
+            arbitrary_type (object): test code generation for any type, can be any value - string, number, boolean, array or object.. [optional]  # noqa: E501
+            arbitrary_nullable_type (object, none_type): test code generation for any type, can be any value - string, number, boolean, array or object.. [optional]  # noqa: E501
         """
 
         self._data_store = {}

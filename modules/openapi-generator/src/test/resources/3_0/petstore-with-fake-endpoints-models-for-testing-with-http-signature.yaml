@@ -1250,10 +1250,18 @@ components:
           type: integer
           format: int32
           description: User Status
-        stuff:
-            # Defined to test code generation for free-form objects.
-            type: object
-            nullable: true
+        arbitraryObject:
+          type: object
+          description: test code generation for objects, i.e. maps of strings to values.
+        arbitraryNullableObject:
+          type: object
+          description: test code generation for nullable objects, i.e. maps of strings to values or the 'null' value.
+          nullable: true
+        arbitraryType:
+          description: test code generation for any type, can be any value - string, number, boolean, array or object.
+        arbitraryNullableType:
+          description: test code generation for any type, can be any value - string, number, boolean, array or object.
+          nullable: true
       xml:
         name: User
     Tag:
