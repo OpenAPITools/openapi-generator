@@ -467,7 +467,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(IS_LOMBOK_MODEL, true);
         }
 
-
         if (!this.apiFirst && !this.reactive) {
             additionalProperties.put("useSpringfox", true);
         }
