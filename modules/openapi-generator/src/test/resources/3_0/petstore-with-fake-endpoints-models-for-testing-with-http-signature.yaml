@@ -1253,7 +1253,7 @@ components:
         arbitraryObject:
           type: object
           description: test code generation for objects
-            Value must be a map of strings to values. It cannot be the null value.
+            Value must be a map of strings to values. It cannot be the 'null' value.
         arbitraryNullableObject:
           type: object
           description: test code generation for nullable objects.
@@ -1264,7 +1264,8 @@ components:
             Value can be any type - string, number, boolean, array or object.
         arbitraryNullableType:
           description: test code generation for any type
-            Value can be any type - string, number, boolean, array or object.
+            Value can be any type - string, number, boolean, array, object or
+            the 'null' value.
           nullable: true
       xml:
         name: User
