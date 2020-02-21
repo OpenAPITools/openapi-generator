@@ -1252,15 +1252,19 @@ components:
           description: User Status
         arbitraryObject:
           type: object
-          description: test code generation for objects, i.e. maps of strings to values.
+          description: test code generation for objects
+            Value must be a map of strings to values. It cannot be the null value.
         arbitraryNullableObject:
           type: object
-          description: test code generation for nullable objects, i.e. maps of strings to values or the 'null' value.
+          description: test code generation for nullable objects.
+            Value must be a map of strings to values or the 'null' value.
           nullable: true
         arbitraryType:
-          description: test code generation for any type, can be any value - string, number, boolean, array or object.
+          description: test code generation for any type
+            Value can be any type - string, number, boolean, array or object.
         arbitraryNullableType:
-          description: test code generation for any type, can be any value - string, number, boolean, array or object.
+          description: test code generation for any type
+            Value can be any type - string, number, boolean, array or object.
           nullable: true
       xml:
         name: User

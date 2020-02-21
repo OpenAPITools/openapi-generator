@@ -144,10 +144,10 @@ class User(ModelNormal):
             password (str): [optional]  # noqa: E501
             phone (str): [optional]  # noqa: E501
             user_status (int): User Status. [optional]  # noqa: E501
-            arbitrary_object (bool, date, datetime, dict, float, int, list, str): test code generation for objects, i.e. maps of strings to values.. [optional]  # noqa: E501
-            arbitrary_nullable_object (bool, date, datetime, dict, float, int, list, str, none_type): test code generation for nullable objects, i.e. maps of strings to values or the &#39;null&#39; value.. [optional]  # noqa: E501
-            arbitrary_type (object): test code generation for any type, can be any value - string, number, boolean, array or object.. [optional]  # noqa: E501
-            arbitrary_nullable_type (object, none_type): test code generation for any type, can be any value - string, number, boolean, array or object.. [optional]  # noqa: E501
+            arbitrary_object (bool, date, datetime, dict, float, int, list, str): test code generation for objects Value must be a map of strings to values. It cannot be the null value.. [optional]  # noqa: E501
+            arbitrary_nullable_object (bool, date, datetime, dict, float, int, list, str, none_type): test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.. [optional]  # noqa: E501
+            arbitrary_type (object): test code generation for any type Value can be any type - string, number, boolean, array or object.. [optional]  # noqa: E501
+            arbitrary_nullable_type (object, none_type): test code generation for any type Value can be any type - string, number, boolean, array or object.. [optional]  # noqa: E501
         """
 
         self._data_store = {}

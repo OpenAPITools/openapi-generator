@@ -1329,18 +1329,19 @@ components:
           format: int32
           type: integer
         arbitraryObject:
-          description: test code generation for objects, i.e. maps of strings to values.
+          description: test code generation for objects Value must be a map of strings
+            to values. It cannot be the null value.
           type: object
         arbitraryNullableObject:
-          description: test code generation for nullable objects, i.e. maps of strings
-            to values or the 'null' value.
+          description: test code generation for nullable objects. Value must be a
+            map of strings to values or the 'null' value.
           nullable: true
           type: object
         arbitraryType:
-          description: test code generation for any type, can be any value - string,
+          description: test code generation for any type Value can be any type - string,
             number, boolean, array or object.
         arbitraryNullableType:
-          description: test code generation for any type, can be any value - string,
+          description: test code generation for any type Value can be any type - string,
             number, boolean, array or object.
           nullable: true
       type: object

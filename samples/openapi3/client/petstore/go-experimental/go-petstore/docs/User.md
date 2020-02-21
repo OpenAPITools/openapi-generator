@@ -12,10 +12,10 @@ Name | Type | Description | Notes
 **Password** | Pointer to **string** |  | [optional] 
 **Phone** | Pointer to **string** |  | [optional] 
 **UserStatus** | Pointer to **int32** | User Status | [optional] 
-**ArbitraryObject** | Pointer to [**map[string]interface{}**](.md) | test code generation for objects, i.e. maps of strings to values. | [optional] 
-**ArbitraryNullableObject** | Pointer to [**map[string]interface{}**](.md) | test code generation for nullable objects, i.e. maps of strings to values or the &#39;null&#39; value. | [optional] 
-**ArbitraryType** | Pointer to [**map[string]interface{}**](map[string]interface{}.md) | test code generation for any type, can be any value - string, number, boolean, array or object. | [optional] 
-**ArbitraryNullableType** | Pointer to [**NullableMap[string]interface{}**](map[string]interface{}.md) | test code generation for any type, can be any value - string, number, boolean, array or object. | [optional] 
+**ArbitraryObject** | Pointer to [**map[string]interface{}**](.md) | test code generation for objects Value must be a map of strings to values. It cannot be the null value. | [optional] 
+**ArbitraryNullableObject** | Pointer to [**map[string]interface{}**](.md) | test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value. | [optional] 
+**ArbitraryType** | Pointer to [**map[string]interface{}**](map[string]interface{}.md) | test code generation for any type Value can be any type - string, number, boolean, array or object. | [optional] 
+**ArbitraryNullableType** | Pointer to [**NullableMap[string]interface{}**](map[string]interface{}.md) | test code generation for any type Value can be any type - string, number, boolean, array or object. | [optional] 
 
 ## Methods
 

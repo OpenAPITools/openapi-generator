@@ -25,13 +25,13 @@ type User struct {
 	Phone *string `json:"phone,omitempty"`
 	// User Status
 	UserStatus *int32 `json:"userStatus,omitempty"`
-	// test code generation for objects, i.e. maps of strings to values.
+	// test code generation for objects Value must be a map of strings to values. It cannot be the null value.
 	ArbitraryObject *map[string]interface{} `json:"arbitraryObject,omitempty"`
-	// test code generation for nullable objects, i.e. maps of strings to values or the 'null' value.
+	// test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.
 	ArbitraryNullableObject *map[string]interface{} `json:"arbitraryNullableObject,omitempty"`
-	// test code generation for any type, can be any value - string, number, boolean, array or object.
+	// test code generation for any type Value can be any type - string, number, boolean, array or object.
 	ArbitraryType *map[string]interface{} `json:"arbitraryType,omitempty"`
-	// test code generation for any type, can be any value - string, number, boolean, array or object.
+	// test code generation for any type Value can be any type - string, number, boolean, array or object.
 	ArbitraryNullableType *NullableMap[string]interface{} `json:"arbitraryNullableType,omitempty"`
 }
 
