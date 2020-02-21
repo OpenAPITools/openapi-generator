@@ -679,10 +679,13 @@ public class ModelUtils {
      */
     public static boolean isAnyTypeSchema(Schema schema) {
         if (schema == null) {
-            once(LOGGER).error("Schema cannot be null in isArbitraryTypeSchema check");
+            once(LOGGER).error("Schema cannot be null in isAnyTypeSchema check");
             return false;
         }
-        if (schema instanceof Schema && schema.getType() == null) {
+        if (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
+                (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
+                schema.getAdditionalProperties() == null && schema.getNot() == null &&
+                schema.getEnum() == null) {
             return true;
             // If and when type arrays are supported in a future OAS specification,
             // we could return true if the type array includes all possible JSON schema types.
