@@ -1,156 +1,156 @@
 /**
 * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
 */{{#description}}
-    @ApiModel(description = "{{{description}}}"){{/description}}
+@ApiModel(description = "{{{description}}}"){{/description}}
 {{#isLombokModel}}
-    @AllArgsConstructor
-    @EqualsAndHashCode
-    @ToString
-    @Getter
-    {{#parent}}
-    @SuperBuilder
-    {{/parent}}
-    {{^parent}}
-    @Builder
-    {{/parent}}
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Getter
+{{#parent}}
+@SuperBuilder
+{{/parent}}
+{{^parent}}
+@Builder
+{{/parent}}
 {{/isLombokModel}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}{{>additionalModelTypeAnnotations}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}}extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
 {{#serializableModel}}
-    private static final long serialVersionUID = 1L;
+private static final long serialVersionUID = 1L;
 
 {{/serializableModel}}
 {{#vars}}
-    {{#isEnum}}
-        {{^isContainer}}
-            {{>enumClass}}
-        {{/isContainer}}
-        {{#isContainer}}
-            {{#mostInnerItems}}
-                {{>enumClass}}
-            {{/mostInnerItems}}
-        {{/isContainer}}
-    {{/isEnum}}
-    {{#jackson}}
-        @JsonProperty("{{baseName}}"){{#withXml}}
-            @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}localName = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"){{/withXml}}
-    {{/jackson}}
-    {{#gson}}
-        @SerializedName("{{baseName}}")
-    {{/gson}}
-    {{#isLombokModel}}
-        {{#required}}
-        @NonNull
-        {{/required}}
-    {{/isLombokModel}}
-    {{#isContainer}}
-        {{#useBeanValidation}}@Valid{{/useBeanValidation}}
-        private {{>nullableDataType}} {{name}} = {{#isNullable}}JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}}{{/isNullable}};
-    {{/isContainer}}
-    {{^isContainer}}
-        private {{>nullableDataType}} {{name}}{{#isNullable}} = JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
-    {{/isContainer}}
+{{#isEnum}}
+{{^isContainer}}
+{{>enumClass}}
+{{/isContainer}}
+{{#isContainer}}
+{{#mostInnerItems}}
+{{>enumClass}}
+{{/mostInnerItems}}
+{{/isContainer}}
+{{/isEnum}}
+{{#jackson}}
+@JsonProperty("{{baseName}}"){{#withXml}}
+@JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}localName = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"){{/withXml}}
+{{/jackson}}
+{{#gson}}
+@SerializedName("{{baseName}}")
+{{/gson}}
+{{#isLombokModel}}
+{{#required}}
+@NonNull
+{{/required}}
+{{/isLombokModel}}
+{{#isContainer}}
+{{#useBeanValidation}}@Valid{{/useBeanValidation}}
+private {{>nullableDataType}} {{name}} = {{#isNullable}}JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}}{{/isNullable}};
+{{/isContainer}}
+{{^isContainer}}
+private {{>nullableDataType}} {{name}}{{#isNullable}} = JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+{{/isContainer}}
 
 {{/vars}}
 {{^isLombokModel}}
-    {{#vars}}
-        public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
-        this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
-        return this;
-        }
-        {{#isListContainer}}
+{{#vars}}
+public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
+return this;
+}
+{{#isListContainer}}
 
-            public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
-            {{^required}}
-                if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
-                this.{{name}} = {{#isNullable}}JsonNullable.of({{{defaultValue}}}){{/isNullable}}{{^isNullable}}{{{defaultValue}}}{{/isNullable}};
-                }
-            {{/required}}
-            this.{{name}}{{#isNullable}}.get(){{/isNullable}}.add({{name}}Item);
-            return this;
-            }
-        {{/isListContainer}}
-        {{#isMapContainer}}
+public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+{{^required}}
+if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
+this.{{name}} = {{#isNullable}}JsonNullable.of({{{defaultValue}}}){{/isNullable}}{{^isNullable}}{{{defaultValue}}}{{/isNullable}};
+}
+{{/required}}
+this.{{name}}{{#isNullable}}.get(){{/isNullable}}.add({{name}}Item);
+return this;
+}
+{{/isListContainer}}
+{{#isMapContainer}}
 
-            public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
-            {{^required}}
-                if (this.{{name}} == null) {
-                this.{{name}} = {{{defaultValue}}};
-                }
-            {{/required}}
-            this.{{name}}.put(key, {{name}}Item);
-            return this;
-            }
-        {{/isMapContainer}}
+public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+{{^required}}
+if (this.{{name}} == null) {
+this.{{name}} = {{{defaultValue}}};
+}
+{{/required}}
+this.{{name}}.put(key, {{name}}Item);
+return this;
+}
+{{/isMapContainer}}
 
-        /**
-        {{#description}}
-            * {{{description}}}
-        {{/description}}
-        {{^description}}
-            * Get {{name}}
-        {{/description}}
-        {{#minimum}}
-            * minimum: {{minimum}}
-        {{/minimum}}
-        {{#maximum}}
-            * maximum: {{maximum}}
-        {{/maximum}}
-        * @return {{name}}
-        */
-        {{#vendorExtensions.x-extra-annotation}}
-            {{{vendorExtensions.x-extra-annotation}}}
-        {{/vendorExtensions.x-extra-annotation}}
-        @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
-        {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>nullableDataType}} {{getter}}() {
-        return {{name}};
-        }
+/**
+{{#description}}
+* {{{description}}}
+{{/description}}
+{{^description}}
+* Get {{name}}
+{{/description}}
+{{#minimum}}
+* minimum: {{minimum}}
+{{/minimum}}
+{{#maximum}}
+* maximum: {{maximum}}
+{{/maximum}}
+* @return {{name}}
+*/
+{{#vendorExtensions.x-extra-annotation}}
+{{{vendorExtensions.x-extra-annotation}}}
+{{/vendorExtensions.x-extra-annotation}}
+@ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>nullableDataType}} {{getter}}() {
+return {{name}};
+}
 
-        public void {{setter}}({{>nullableDataType}} {{name}}) {
-        this.{{name}} = {{name}};
-        }
+public void {{setter}}({{>nullableDataType}} {{name}}) {
+this.{{name}} = {{name}};
+}
 
-    {{/vars}}
+{{/vars}}
 
-    @Override
-    public boolean equals(java.lang.Object o) {
-    if (this == o) {
-    return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-    return false;
-    }{{#hasVars}}
-        {{classname}} {{classVarName}} = ({{classname}}) o;
-        return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
-        {{/hasMore}}{{/vars}}{{#parent}} &&
-        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
-        return true;{{/hasVars}}
-    }
+@Override
+public boolean equals(java.lang.Object o) {
+if (this == o) {
+return true;
+}
+if (o == null || getClass() != o.getClass()) {
+return false;
+}{{#hasVars}}
+{{classname}} {{classVarName}} = ({{classname}}) o;
+return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
+{{/hasMore}}{{/vars}}{{#parent}} &&
+super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
+return true;{{/hasVars}}
+}
 
-    @Override
-    public int hashCode() {
-    return Objects.hash({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
-    }
+@Override
+public int hashCode() {
+return Objects.hash({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+}
 
-    @Override
-    public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class {{classname}} {\n");
-    {{#parent}}sb.append("    ").append(toIndentedString(super.toString())).append("\n");{{/parent}}
-    {{#vars}}sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
-    {{/vars}}sb.append("}");
-    return sb.toString();
-    }
+@Override
+public String toString() {
+StringBuilder sb = new StringBuilder();
+sb.append("class {{classname}} {\n");
+{{#parent}}sb.append("    ").append(toIndentedString(super.toString())).append("\n");{{/parent}}
+{{#vars}}sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
+{{/vars}}sb.append("}");
+return sb.toString();
+}
 
-    /**
-    * Convert the given object to string with each line indented by 4 spaces
-    * (except the first line).
-    */
-    private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-    return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-    }
+/**
+* Convert the given object to string with each line indented by 4 spaces
+* (except the first line).
+*/
+private String toIndentedString(java.lang.Object o) {
+if (o == null) {
+return "null";
+}
+return o.toString().replace("\n", "\n    ");
+}
 {{/isLombokModel}}
 }
