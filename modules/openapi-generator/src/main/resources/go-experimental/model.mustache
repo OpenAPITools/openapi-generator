@@ -3,7 +3,6 @@ package {{packageName}}
 
 {{#models}}
 import (
-	"bytes"
 	"encoding/json"
 {{#imports}}
 	"{{import}}"
@@ -44,7 +43,7 @@ type {{classname}} struct {
 {{#description}}
 	// {{{description}}}
 {{/description}}
-	{{name}} {{^required}}*{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+	{{name}} {{^required}}{{^isNullable}}*{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
 {{/vendorExtensions.x-is-one-of-interface}}
 }
@@ -65,8 +64,14 @@ func New{{classname}}({{#vars}}{{#required}}{{nameInCamelCase}} {{dataType}}, {{
 {{^required}}
 {{#defaultValue}}
 {{^isContainer}}
-    var {{nameInCamelCase}} {{{dataType}}} = {{#isNullable}}{{{dataType}}}{Value: {{/isNullable}}{{{.}}}{{#isNullable}} }{{/isNullable}}
-    this.{{name}} = {{^required}}&{{/required}}{{nameInCamelCase}}
+{{#isNullable}}
+    var {{nameInCamelCase}} {{{datatypeWithEnum}}} = {{{.}}}
+    this.{{name}} = *New{{{dataType}}}(&{{nameInCamelCase}})
+{{/isNullable}}
+{{^isNullable}}
+    var {{nameInCamelCase}} {{{dataType}}} = {{{.}}}
+    this.{{name}} = &{{nameInCamelCase}}
+{{/isNullable}}
 {{/isContainer}}
 {{/defaultValue}}
 {{/required}}
@@ -82,8 +87,15 @@ func New{{classname}}WithDefaults() *{{classname}} {
 {{#vars}}
 {{#defaultValue}}
 {{^isContainer}}
-    var {{nameInCamelCase}} {{{dataType}}} = {{#isNullable}}{{{dataType}}}{Value: {{/isNullable}}{{{.}}}{{#isNullable}} }{{/isNullable}}
+{{#isNullable}}
+{{!we use datatypeWithEnum here, since it will represent the non-nullable name of the datatype, e.g. int64 for NullableInt64}}
+    var {{nameInCamelCase}} {{{datatypeWithEnum}}} = {{{.}}}
+    this.{{name}} = *New{{{dataType}}}(&{{nameInCamelCase}})
+{{/isNullable}}
+{{^isNullable}}
+    var {{nameInCamelCase}} {{{dataType}}} = {{{.}}}
     this.{{name}} = {{^required}}&{{/required}}{{nameInCamelCase}}
+{{/isNullable}}
 {{/isContainer}}
 {{/defaultValue}}
 {{/vars}}
@@ -111,26 +123,31 @@ func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
 {{^required}}
 // Get{{name}} returns the {{name}} field value if set, zero value otherwise.
 func (o *{{classname}}) Get{{name}}() {{dataType}} {
-	if o == nil || o.{{name}} == nil {
+	if o == nil {{^isNullable}}|| o.{{name}} == nil{{/isNullable}} {
 		var ret {{dataType}}
 		return ret
 	}
-	return *o.{{name}}
+	return {{^isNullable}}*{{/isNullable}}o.{{name}}
 }
 
 // Get{{name}}Ok returns a tuple with the {{name}} field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *{{classname}}) Get{{name}}Ok() ({{dataType}}, bool) {
-	if o == nil || o.{{name}} == nil {
+	if o == nil {{^isNullable}}|| o.{{name}} == nil{{/isNullable}} {
 		var ret {{dataType}}
 		return ret, false
 	}
-	return *o.{{name}}, true
+{{#isNullable}}
+    return o.{{name}}, o.{{name}}.IsSet()
+{{/isNullable}}
+{{^isNullable}}
+    return *o.{{name}}, true
+{{/isNullable}}
 }
 
 // Has{{name}} returns a boolean if a field has been set.
 func (o *{{classname}}) Has{{name}}() bool {
-	if o != nil && o.{{name}} != nil {
+	if o != nil && {{^isNullable}}o.{{name}} != nil{{/isNullable}}{{#isNullable}}o.{{name}}.IsSet(){{/isNullable}} {
 		return true
 	}
 
@@ -139,11 +156,31 @@ func (o *{{classname}}) Has{{name}}() bool {
 
 // Set{{name}} gets a reference to the given {{dataType}} and assigns it to the {{name}} field.
 func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
-	o.{{name}} = &v
+	o.{{name}} = {{^isNullable}}&{{/isNullable}}v
 }
 
 {{/required}}
 {{/vars}}
+func (o {{classname}}) MarshalJSON() ([]byte, error) {
+    //TODO: serialize parents?
+    toSerialize := map[string]interface{}{}
+    {{#vars}}
+    {{! if argument is nullable, only serialize it if it is set}}
+    {{#isNullable}}
+    if {{#required}}true{{/required}}{{^required}}o.{{name}}.IsSet(){{/required}} {
+        toSerialize["{{baseName}}"] = o.{{name}}.Get()
+    }
+    {{/isNullable}}
+    {{! if argument is not nullable, don't set it if it is nil}}
+    {{^isNullable}}
+    if {{#required}}true{{/required}}{{^required}}o.{{name}} != nil{{/required}} {
+        toSerialize["{{baseName}}"] = o.{{name}}
+    }
+    {{/isNullable}}
+    {{/vars}}
+    return json.Marshal(toSerialize)
+}
+
 {{/vendorExtensions.x-is-one-of-interface}}
 {{#vendorExtensions.x-is-one-of-interface}}
 func (s *{{classname}}) MarshalJSON() ([]byte, error) {
@@ -198,26 +235,39 @@ func (s *{{classname}}) As{{{.}}}() {{{.}}} {
 {{/vendorExtensions.x-implements}}
 {{/isEnum}}
 type Nullable{{{classname}}} struct {
-	Value {{{classname}}}
-	ExplicitNull bool
+	value *{{{classname}}}
+	isSet bool
+}
+
+func (v Nullable{{classname}}) Get() *{{classname}} {
+    return v.value
+}
+
+func (v Nullable{{classname}}) Set(val *{{classname}}) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v Nullable{{classname}}) IsSet() bool {
+    return v.isSet
+}
+
+func (v Nullable{{classname}}) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullable{{classname}}(val *{{classname}}) *Nullable{{classname}} {
+    return &Nullable{{classname}}{value: val, isSet: true}
 }
 
 func (v Nullable{{{classname}}}) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *Nullable{{{classname}}}) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
 {{/model}}
 {{/models}}
