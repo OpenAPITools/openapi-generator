@@ -346,9 +346,12 @@ public class SpringCodegen extends AbstractJavaCodegen
         typeMapping.put("file", "Resource");
         importMapping.put("Resource", "org.springframework.core.io.Resource");
         if (isLombokModel) {
-            importMapping.put("lombokValue", "lombok.Value");
+            importMapping.put("lombokGetter", "lombok.Getter");
             importMapping.put("lombokBuilder", "lombok.Builder");
+            importMapping.put("lombokSuperBuilder", "lombok.experimental.SuperBuilder");
             importMapping.put("lombokNonNull", "lombok.NonNull");
+            importMapping.put("lombokEqualsAndHashCode", "lombok.EqualsAndHashCode");
+            importMapping.put("lombokToString", "lombok.ToString");
         }
 
         if (useOptional) {
@@ -865,9 +868,12 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
         }
         if (isLombokModel) {
+            model.imports.add("lombokGetter");
             model.imports.add("lombokBuilder");
-            model.imports.add("lombokValue");
+            model.imports.add("lombokSuperBuilder");
             model.imports.add("lombokNonNull");
+            model.imports.add("lombokEqualsAndHashCode");
+            model.imports.add("lombokToString");
         }
     }
 

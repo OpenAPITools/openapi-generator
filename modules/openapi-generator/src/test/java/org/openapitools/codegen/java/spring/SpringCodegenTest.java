@@ -71,9 +71,12 @@ public class SpringCodegenTest {
         Assert.assertFalse(codegen.isLombokModel());
         Assert.assertFalse(codegen.additionalProperties().containsKey(SpringCodegen.IS_LOMBOK_MODEL));
 
-        Assert.assertFalse(codegen.importMapping().containsKey("lombokValue"));
-        Assert.assertFalse(codegen.importMapping().containsKey("lombokNonNull"));
+        Assert.assertFalse(codegen.importMapping().containsKey("lombokGetter"));
         Assert.assertFalse(codegen.importMapping().containsKey("lombokBuilder"));
+        Assert.assertFalse(codegen.importMapping().containsKey("lombokSuperBuilder"));
+        Assert.assertFalse(codegen.importMapping().containsKey("lombokNonNull"));
+        Assert.assertFalse(codegen.importMapping().containsKey("lombokEqualsAndHashCode"));
+        Assert.assertFalse(codegen.importMapping().containsKey("lombokToString"));
     }
 
     @Test
@@ -106,9 +109,12 @@ public class SpringCodegenTest {
         Assert.assertTrue(codegen.isLombokModel());
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.IS_LOMBOK_MODEL), true);
 
-        Assert.assertEquals(codegen.importMapping().get("lombokValue"), "lombok.Value");
-        Assert.assertEquals(codegen.importMapping().get("lombokNonNull"), "lombok.NonNull");
+        Assert.assertEquals(codegen.importMapping().get("lombokGetter"), "lombok.Getter");
         Assert.assertEquals(codegen.importMapping().get("lombokBuilder"), "lombok.Builder");
+        Assert.assertEquals(codegen.importMapping().get("lombokSuperBuilder"), "lombok.experimental.SuperBuilder");
+        Assert.assertEquals(codegen.importMapping().get("lombokNonNull"), "lombok.NonNull");
+        Assert.assertEquals(codegen.importMapping().get("lombokEqualsAndHashCode"), "lombok.EqualsAndHashCode");
+        Assert.assertEquals(codegen.importMapping().get("lombokToString"), "lombok.ToString");
     }
 
     @Test
