@@ -3,7 +3,10 @@
 */{{#description}}
     @ApiModel(description = "{{{description}}}"){{/description}}
 {{#isLombokModel}}
-    @Value
+    @AllArgsConstructor
+    @EqualsAndHashCode
+    @ToString
+    @Getter
     {{#parent}}
     @SuperBuilder
     {{/parent}}

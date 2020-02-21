@@ -347,6 +347,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         importMapping.put("Resource", "org.springframework.core.io.Resource");
         if (isLombokModel) {
             importMapping.put("lombokGetter", "lombok.Getter");
+            importMapping.put("lombokAllArgsConstructor", "lombok.AllArgsConstructor");
             importMapping.put("lombokBuilder", "lombok.Builder");
             importMapping.put("lombokSuperBuilder", "lombok.experimental.SuperBuilder");
             importMapping.put("lombokNonNull", "lombok.NonNull");
@@ -869,6 +870,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         if (isLombokModel) {
             model.imports.add("lombokGetter");
+            model.imports.add("lombokAllArgsConstructor");
             model.imports.add("lombokBuilder");
             model.imports.add("lombokSuperBuilder");
             model.imports.add("lombokNonNull");
