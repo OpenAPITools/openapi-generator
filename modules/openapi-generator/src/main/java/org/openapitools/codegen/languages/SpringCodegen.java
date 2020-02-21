@@ -463,6 +463,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
 
+        if (isLombokModel) {
+            additionalProperties.put(IS_LOMBOK_MODEL, true);
+        }
+
 
         if (!this.apiFirst && !this.reactive) {
             additionalProperties.put("useSpringfox", true);
@@ -762,6 +766,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public boolean isUnhandledException() {
         return unhandledException;
+    }
+
+    public boolean isLombokModel() {
+        return isLombokModel;
     }
 
     public void setBasePackage(String basePackage) {

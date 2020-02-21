@@ -68,6 +68,8 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "org.openapitools.configuration");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8082");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), false);
+        Assert.assertFalse(codegen.isLombokModel());
+        Assert.assertFalse(codegen.additionalProperties().containsKey(SpringCodegen.IS_LOMBOK_MODEL));
     }
 
     @Test
@@ -80,10 +82,11 @@ public class SpringCodegenTest {
         codegen.setBasePackage("xx.yyyyyyyy.base");
         codegen.setConfigPackage("xx.yyyyyyyy.config");
         codegen.setUnhandledException(true);
+        codegen.setLombokModel(true);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
         Assert.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
@@ -94,8 +97,10 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "xx.yyyyyyyy.base");
         Assert.assertEquals(codegen.getConfigPackage(), "xx.yyyyyyyy.config");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xx.yyyyyyyy.config");
-        Assert.assertEquals(codegen.isUnhandledException(), true);
+        Assert.assertTrue(codegen.isUnhandledException());
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), true);
+        Assert.assertTrue(codegen.isLombokModel());
+        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.IS_LOMBOK_MODEL), true);
     }
 
     @Test
