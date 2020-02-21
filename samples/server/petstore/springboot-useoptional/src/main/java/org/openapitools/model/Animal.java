@@ -19,6 +19,7 @@ import javax.validation.constraints.*;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
+  @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
 })
 
 public class Animal   {

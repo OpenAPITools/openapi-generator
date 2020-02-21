@@ -32,10 +32,18 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
         this.request = request;
     }
 
+    /**
+     * PATCH /fake_classname_test : To test class name in snake case
+     * To test class name in snake case
+     *
+     * @param body client model (required)
+     * @return successful operation (status code 200)
+     * @see FakeClassnameTestApi#testClassname
+     */
     public ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = ;
+                String exampleString = "{ \"client\" : \"client\" }";
                 ApiUtil.setExampleResponse(request, "application/json", exampleString);
                 break;
             }

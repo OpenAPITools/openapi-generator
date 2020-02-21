@@ -35,7 +35,7 @@ public interface AnotherFakeApiDelegate {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = ;
+                    String exampleString = "{ \"client\" : \"client\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

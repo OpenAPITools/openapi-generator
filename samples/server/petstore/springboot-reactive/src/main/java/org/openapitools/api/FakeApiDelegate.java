@@ -82,7 +82,7 @@ public interface FakeApiDelegate {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                String exampleString = ;
+                String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
                 result = ApiUtil.getExampleResponse(exchange, exampleString);
                 break;
             }
@@ -170,7 +170,7 @@ public interface FakeApiDelegate {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = ;
+                String exampleString = "{ \"client\" : \"client\" }";
                 result = ApiUtil.getExampleResponse(exchange, exampleString);
                 break;
             }
@@ -352,7 +352,7 @@ public interface FakeApiDelegate {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = ;
+                String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
                 result = ApiUtil.getExampleResponse(exchange, exampleString);
                 break;
             }
