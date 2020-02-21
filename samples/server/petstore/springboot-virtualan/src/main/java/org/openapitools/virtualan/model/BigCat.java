@@ -16,7 +16,16 @@ import javax.validation.constraints.*;
  * BigCat
  */
 
-public class BigCat extends Cat  {
+public class BigCat   {
+  @JsonProperty("className")
+  private String className;
+
+  @JsonProperty("color")
+  private String color = "red";
+
+  @JsonProperty("declawed")
+  private Boolean declawed;
+
   /**
    * Gets or Sets kind
    */
@@ -59,6 +68,67 @@ public class BigCat extends Cat  {
   @JsonProperty("kind")
   private KindEnum kind;
 
+  public BigCat className(String className) {
+    this.className = className;
+    return this;
+  }
+
+  /**
+   * Get className
+   * @return className
+  */
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+
+  public String getClassName() {
+    return className;
+  }
+
+  public void setClassName(String className) {
+    this.className = className;
+  }
+
+  public BigCat color(String color) {
+    this.color = color;
+    return this;
+  }
+
+  /**
+   * Get color
+   * @return color
+  */
+  @ApiModelProperty(value = "")
+
+
+  public String getColor() {
+    return color;
+  }
+
+  public void setColor(String color) {
+    this.color = color;
+  }
+
+  public BigCat declawed(Boolean declawed) {
+    this.declawed = declawed;
+    return this;
+  }
+
+  /**
+   * Get declawed
+   * @return declawed
+  */
+  @ApiModelProperty(value = "")
+
+
+  public Boolean getDeclawed() {
+    return declawed;
+  }
+
+  public void setDeclawed(Boolean declawed) {
+    this.declawed = declawed;
+  }
+
   public BigCat kind(KindEnum kind) {
     this.kind = kind;
     return this;
@@ -89,20 +159,25 @@ public class BigCat extends Cat  {
       return false;
     }
     BigCat bigCat = (BigCat) o;
-    return Objects.equals(this.kind, bigCat.kind) &&
-        super.equals(o);
+    return Objects.equals(this.className, bigCat.className) &&
+        Objects.equals(this.color, bigCat.color) &&
+        Objects.equals(this.declawed, bigCat.declawed) &&
+        Objects.equals(this.kind, bigCat.kind);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(kind, super.hashCode());
+    return Objects.hash(className, color, declawed, kind);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class BigCat {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    
+    sb.append("    className: ").append(toIndentedString(className)).append("\n");
+    sb.append("    color: ").append(toIndentedString(color)).append("\n");
+    sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
     sb.append("    kind: ").append(toIndentedString(kind)).append("\n");
     sb.append("}");
     return sb.toString();
