@@ -12,6 +12,7 @@ import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,6 +48,7 @@ public interface PetApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
+    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/pet",
         consumes = "application/json",
         method = RequestMethod.POST)
@@ -68,6 +70,7 @@ public interface PetApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid pet value") })
+    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/pet/{petId}",
         method = RequestMethod.DELETE)
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey);
@@ -90,6 +93,7 @@ public interface PetApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value") })
+    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/pet/findByStatus",
         produces = "application/json", 
         method = RequestMethod.GET)
@@ -114,6 +118,7 @@ public interface PetApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid tag value") })
+    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/pet/findByTags",
         produces = "application/json", 
         method = RequestMethod.GET)
@@ -160,6 +165,7 @@ public interface PetApi {
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found"),
         @ApiResponse(code = 405, message = "Validation exception") })
+    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/pet",
         consumes = "application/json",
         method = RequestMethod.PUT)
@@ -182,6 +188,7 @@ public interface PetApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
+    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/pet/{petId}",
         consumes = "application/x-www-form-urlencoded",
         method = RequestMethod.POST)
@@ -204,6 +211,7 @@ public interface PetApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
+    @PreAuthorize("hasAuthority('SCOPE_write:pets') and hasAuthority('SCOPE_read:pets')")
     @RequestMapping(value = "/pet/{petId}/uploadImage",
         produces = "application/json", 
         consumes = "multipart/form-data",

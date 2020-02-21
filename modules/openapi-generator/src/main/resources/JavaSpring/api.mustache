@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 {{/jdk8-no-delegate}}
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 {{#useBeanValidation}}
 import org.springframework.validation.annotation.Validated;
 {{/useBeanValidation}}
@@ -122,6 +123,13 @@ public interface {{classname}} {
     {{/headerParams}}
     })
     {{/implicitHeaders}}
+    {{#hasAuthMethods}}
+        {{#authMethods}}
+            {{#isOAuth}}
+    @PreAuthorize("{{#scopes}}hasAuthority('SCOPE_{{scope}}'){{#hasMore}} and {{/hasMore}}{{/scopes}}")
+            {{/isOAuth}}
+        {{/authMethods}}
+    {{/hasAuthMethods}}
     @RequestMapping(value = "{{{path}}}",{{#singleContentTypes}}{{#hasProduces}}
         produces = "{{{vendorExtensions.x-accepts}}}", {{/hasProduces}}{{#hasConsumes}}
         consumes = "{{{vendorExtensions.x-contentType}}}",{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
