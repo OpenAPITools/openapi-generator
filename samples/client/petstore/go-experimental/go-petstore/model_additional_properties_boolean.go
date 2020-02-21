@@ -19,6 +19,23 @@ type AdditionalPropertiesBoolean struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// NewAdditionalPropertiesBoolean instantiates a new AdditionalPropertiesBoolean object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewAdditionalPropertiesBoolean() *AdditionalPropertiesBoolean {
+    this := AdditionalPropertiesBoolean{}
+    return &this
+}
+
+// NewAdditionalPropertiesBooleanWithDefaults instantiates a new AdditionalPropertiesBoolean object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewAdditionalPropertiesBooleanWithDefaults() *AdditionalPropertiesBoolean {
+    this := AdditionalPropertiesBoolean{}
+    return &this
+}
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AdditionalPropertiesBoolean) GetName() string {
 	if o == nil || o.Name == nil {

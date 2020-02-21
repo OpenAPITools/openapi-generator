@@ -2047,7 +2047,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema.getExtensions() != null && !schema.getExtensions().isEmpty()) {
             m.getVendorExtensions().putAll(schema.getExtensions());
         }
-        m.isAlias = typeAliases.containsKey(name);
+        m.isAlias = (typeAliases.containsKey(name)
+                        || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
         m.discriminator = createDiscriminator(name, schema);
 
         if (schema.getXml() != null) {
@@ -4204,17 +4205,24 @@ public class DefaultCodegen implements CodegenConfig {
 
         Map<String, String> aliases = new HashMap<>();
         for (Map.Entry<String, Schema> entry : schemas.entrySet()) {
-            String oasName = entry.getKey();
             Schema schema = entry.getValue();
-            String schemaType = getPrimitiveType(schema);
-            if (schemaType != null && !schemaType.equals("object") && !schemaType.equals("array")
-                    && schema.getEnum() == null && !ModelUtils.isMapSchema(schema)) {
+            if (isAliasOfSimpleTypes(schema)) {
+                String oasName = entry.getKey();
+                String schemaType = getPrimitiveType(schema);
                 aliases.put(oasName, schemaType);
             }
 
         }
 
         return aliases;
+    }
+
+    private static Boolean isAliasOfSimpleTypes(Schema schema) {
+        return (!ModelUtils.isObjectSchema(schema)
+                && !ModelUtils.isArraySchema(schema)
+                && !ModelUtils.isMapSchema(schema)
+                && !ModelUtils.isComposedSchema(schema)
+                && schema.getEnum() == null);
     }
 
     /**

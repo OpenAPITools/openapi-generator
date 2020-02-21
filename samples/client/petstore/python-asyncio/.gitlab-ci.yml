@@ -7,8 +7,8 @@ stages:
   stage: test
   script:
    - pip install -r requirements.txt
-   - pip install nose
-   - nosetests
+   - pip install -r test-requirements.txt
+   - pytest --cov=petstore_api
 
 nosetest-2.7:
   extends: .nosetest

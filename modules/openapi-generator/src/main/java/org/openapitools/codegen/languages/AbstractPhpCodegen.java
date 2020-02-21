@@ -397,8 +397,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         return toVarName(name);
     }
 
-    @Override
-    public String toModelName(String name) {
+    private String toGenericName(String name) {
         // remove [
         name = name.replaceAll("\\]", "");
 
@@ -419,6 +418,13 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
+
+        return name;
+    }
+
+    @Override
+    public String toModelName(String name) {
+        name = toGenericName(name);
 
         // add prefix and/or suffic only if name does not start wth \ (e.g. \DateTime)
         if (!name.matches("^\\\\.*")) {
@@ -647,7 +653,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
+        String enumName = underscore(toGenericName(property.name)).toUpperCase(Locale.ROOT);
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");

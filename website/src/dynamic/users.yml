@@ -179,6 +179,11 @@
   infoLink: "https://www.juststarinfo.com/"
   pinned: true
 -
+  caption: k6.io 
+  image: "img/companies/k6.png"
+  infoLink: "https://k6.io"
+  pinned: false
+-
   caption: Klarna
   image: "img/companies/klarna.svg"
   infoLink: "https://www.klarna.com/us/"

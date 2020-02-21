@@ -19,6 +19,23 @@ type ArrayOfNumberOnly struct {
 	ArrayNumber *[]float32 `json:"ArrayNumber,omitempty"`
 }
 
+// NewArrayOfNumberOnly instantiates a new ArrayOfNumberOnly object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewArrayOfNumberOnly() *ArrayOfNumberOnly {
+    this := ArrayOfNumberOnly{}
+    return &this
+}
+
+// NewArrayOfNumberOnlyWithDefaults instantiates a new ArrayOfNumberOnly object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewArrayOfNumberOnlyWithDefaults() *ArrayOfNumberOnly {
+    this := ArrayOfNumberOnly{}
+    return &this
+}
+
 // GetArrayNumber returns the ArrayNumber field value if set, zero value otherwise.
 func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
 	if o == nil || o.ArrayNumber == nil {

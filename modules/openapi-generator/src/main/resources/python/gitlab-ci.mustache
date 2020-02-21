@@ -7,8 +7,13 @@ stages:
   stage: test
   script:
    - pip install -r requirements.txt
-   - pip install nose
+   - pip install -r test-requirements.txt
+   {{#useNose}}
    - nosetests
+   {{/useNose}}
+   {{^useNose}}
+   - pytest --cov={{{packageName}}}
+   {{/useNose}}
 
 nosetest-2.7:
   extends: .nosetest

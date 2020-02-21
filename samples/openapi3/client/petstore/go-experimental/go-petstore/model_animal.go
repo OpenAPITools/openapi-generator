@@ -20,6 +20,28 @@ type Animal struct {
 	Color *string `json:"color,omitempty"`
 }
 
+// NewAnimal instantiates a new Animal object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewAnimal(className string, ) *Animal {
+    this := Animal{}
+    this.ClassName = className
+    var color string = "red"
+    this.Color = &color
+    return &this
+}
+
+// NewAnimalWithDefaults instantiates a new Animal object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewAnimalWithDefaults() *Animal {
+    this := Animal{}
+    var color string = "red"
+    this.Color = &color
+    return &this
+}
+
 // GetClassName returns the ClassName field value
 func (o *Animal) GetClassName() string {
 	if o == nil {
