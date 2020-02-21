@@ -10,12 +10,12 @@ Name | Type | Description | Notes
 **StringProp** | Pointer to **NullableString** |  | [optional] 
 **DateProp** | Pointer to **NullableString** |  | [optional] 
 **DatetimeProp** | Pointer to [**NullableTime**](time.Time.md) |  | [optional] 
-**ArrayNullableProp** | Pointer to [**[]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
-**ArrayAndItemsNullableProp** | Pointer to [**[]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
-**ArrayItemsNullable** | Pointer to [**[]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
-**ObjectNullableProp** | Pointer to [**map[string]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
-**ObjectAndItemsNullableProp** | Pointer to [**map[string]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
-**ObjectItemsNullable** | Pointer to [**map[string]map[string]interface{}**](map[string]interface{}.md) |  | [optional] 
+**ArrayNullableProp** | Pointer to **[]map[string]interface{}** |  | [optional] 
+**ArrayAndItemsNullableProp** | Pointer to **[]map[string]interface{}** |  | [optional] 
+**ArrayItemsNullable** | Pointer to **[]map[string]interface{}** |  | [optional] 
+**ObjectNullableProp** | Pointer to **map[string]map[string]interface{}** |  | [optional] 
+**ObjectAndItemsNullableProp** | Pointer to **map[string]map[string]interface{}** |  | [optional] 
+**ObjectItemsNullable** | Pointer to **map[string]map[string]interface{}** |  | [optional] 
 
 ## Methods
 

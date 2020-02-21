@@ -14,8 +14,8 @@ Name | Type | Description | Notes
 **UserStatus** | Pointer to **int32** | User Status | [optional] 
 **ArbitraryObject** | Pointer to [**map[string]interface{}**](.md) | test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value. | [optional] 
 **ArbitraryNullableObject** | Pointer to [**map[string]interface{}**](.md) | test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value. | [optional] 
-**ArbitraryType** | Pointer to [**map[string]interface{}**](map[string]interface{}.md) | test code generation for any type Value can be any type - string, number, boolean, array or object. | [optional] 
-**ArbitraryNullableType** | Pointer to [**NullableMap[string]interface{}**](map[string]interface{}.md) | test code generation for any type Value can be any type - string, number, boolean, array, object or the &#39;null&#39; value. | [optional] 
+**ArbitraryTypeValue** | Pointer to **interface{}** | test code generation for any type Value can be any type - string, number, boolean, array or object. | [optional] 
+**ArbitraryNullableTypeValue** | Pointer to **NullableInterface{}** | test code generation for any type Value can be any type - string, number, boolean, array, object or the &#39;null&#39; value. | [optional] 
 
 ## Methods
 
@@ -293,63 +293,63 @@ SetArbitraryNullableObject gets a reference to the given map[string]interface{} 
 SetArbitraryNullableObjectExplicitNull (un)sets ArbitraryNullableObject to be considered as explicit "null" value
 when serializing to JSON (pass true as argument to set this, false to unset)
 The ArbitraryNullableObject value is set to nil even if false is passed
-### GetArbitraryType
+### GetArbitraryTypeValue
 
-`func (o *User) GetArbitraryType() map[string]interface{}`
+`func (o *User) GetArbitraryTypeValue() interface{}`
 
-GetArbitraryType returns the ArbitraryType field if non-nil, zero value otherwise.
+GetArbitraryTypeValue returns the ArbitraryTypeValue field if non-nil, zero value otherwise.
 
-### GetArbitraryTypeOk
+### GetArbitraryTypeValueOk
 
-`func (o *User) GetArbitraryTypeOk() (map[string]interface{}, bool)`
+`func (o *User) GetArbitraryTypeValueOk() (interface{}, bool)`
 
-GetArbitraryTypeOk returns a tuple with the ArbitraryType field if it's non-nil, zero value otherwise
+GetArbitraryTypeValueOk returns a tuple with the ArbitraryTypeValue field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### HasArbitraryType
+### HasArbitraryTypeValue
 
-`func (o *User) HasArbitraryType() bool`
+`func (o *User) HasArbitraryTypeValue() bool`
 
-HasArbitraryType returns a boolean if a field has been set.
+HasArbitraryTypeValue returns a boolean if a field has been set.
 
-### SetArbitraryType
+### SetArbitraryTypeValue
 
-`func (o *User) SetArbitraryType(v map[string]interface{})`
+`func (o *User) SetArbitraryTypeValue(v interface{})`
 
-SetArbitraryType gets a reference to the given map[string]interface{} and assigns it to the ArbitraryType field.
+SetArbitraryTypeValue gets a reference to the given interface{} and assigns it to the ArbitraryTypeValue field.
 
-### GetArbitraryNullableType
+### GetArbitraryNullableTypeValue
 
-`func (o *User) GetArbitraryNullableType() NullableMap[string]interface{}`
+`func (o *User) GetArbitraryNullableTypeValue() NullableInterface{}`
 
-GetArbitraryNullableType returns the ArbitraryNullableType field if non-nil, zero value otherwise.
+GetArbitraryNullableTypeValue returns the ArbitraryNullableTypeValue field if non-nil, zero value otherwise.
 
-### GetArbitraryNullableTypeOk
+### GetArbitraryNullableTypeValueOk
 
-`func (o *User) GetArbitraryNullableTypeOk() (NullableMap[string]interface{}, bool)`
+`func (o *User) GetArbitraryNullableTypeValueOk() (NullableInterface{}, bool)`
 
-GetArbitraryNullableTypeOk returns a tuple with the ArbitraryNullableType field if it's non-nil, zero value otherwise
+GetArbitraryNullableTypeValueOk returns a tuple with the ArbitraryNullableTypeValue field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### HasArbitraryNullableType
+### HasArbitraryNullableTypeValue
 
-`func (o *User) HasArbitraryNullableType() bool`
+`func (o *User) HasArbitraryNullableTypeValue() bool`
 
-HasArbitraryNullableType returns a boolean if a field has been set.
+HasArbitraryNullableTypeValue returns a boolean if a field has been set.
 
-### SetArbitraryNullableType
+### SetArbitraryNullableTypeValue
 
-`func (o *User) SetArbitraryNullableType(v NullableMap[string]interface{})`
+`func (o *User) SetArbitraryNullableTypeValue(v NullableInterface{})`
 
-SetArbitraryNullableType gets a reference to the given NullableMap[string]interface{} and assigns it to the ArbitraryNullableType field.
+SetArbitraryNullableTypeValue gets a reference to the given NullableInterface{} and assigns it to the ArbitraryNullableTypeValue field.
 
-### SetArbitraryNullableTypeExplicitNull
+### SetArbitraryNullableTypeValueExplicitNull
 
-`func (o *User) SetArbitraryNullableTypeExplicitNull(b bool)`
+`func (o *User) SetArbitraryNullableTypeValueExplicitNull(b bool)`
 
-SetArbitraryNullableTypeExplicitNull (un)sets ArbitraryNullableType to be considered as explicit "null" value
+SetArbitraryNullableTypeValueExplicitNull (un)sets ArbitraryNullableTypeValue to be considered as explicit "null" value
 when serializing to JSON (pass true as argument to set this, false to unset)
-The ArbitraryNullableType value is set to nil even if false is passed
+The ArbitraryNullableTypeValue value is set to nil even if false is passed
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

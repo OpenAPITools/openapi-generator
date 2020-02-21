@@ -1299,11 +1299,11 @@ components:
         lastName: lastName
         password: password
         userStatus: 6
+        arbitraryTypeValue: ""
+        arbitraryNullableTypeValue: ""
         phone: phone
-        arbitraryType: ""
         id: 0
         arbitraryObject: '{}'
-        arbitraryNullableType: ""
         email: email
         arbitraryNullableObject: '{}'
         username: username
@@ -1337,10 +1337,10 @@ components:
             map of strings to values or the 'null' value.
           nullable: true
           type: object
-        arbitraryType:
+        arbitraryTypeValue:
           description: test code generation for any type Value can be any type - string,
             number, boolean, array or object.
-        arbitraryNullableType:
+        arbitraryNullableTypeValue:
           description: test code generation for any type Value can be any type - string,
             number, boolean, array, object or the 'null' value.
           nullable: true
