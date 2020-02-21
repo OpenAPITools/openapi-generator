@@ -37,6 +37,17 @@ class Configuration(object):
       The dict value is an API key prefix when generating the auth data.
     :param username: Username for HTTP basic authentication
     :param password: Password for HTTP basic authentication
+    :param discard_unknown_keys: Boolean value indicating whether to discard
+      unknown properties. A server may send a response that includes additional
+      properties that are not known by the client in the following scenarios:
+      1. The OpenAPI document is incomplete, i.e. it does not match the server
+         implementation.
+      2. The client was generated using an older version of the OpenAPI document
+         and the server has been upgraded since then.
+      If a schema in the OpenAPI document defines the additionalProperties attribute,
+      then all undeclared properties received by the server are injected into the
+      additional properties map. In that case, there are undeclared properties, and
+      nothing to discard.
     :param signing_info: Configuration parameters for the HTTP signature security scheme.
         Must be an instance of petstore_api.signing.HttpSigningConfiguration
 
@@ -116,6 +127,7 @@ class Configuration(object):
     def __init__(self, host="http://petstore.swagger.io:80/v2",
                  api_key=None, api_key_prefix=None,
                  username=None, password=None,
+                 discard_unknown_keys=False,
                  signing_info=None,
                  ):
         """Constructor
@@ -146,6 +158,7 @@ class Configuration(object):
         self.password = password
         """Password for HTTP basic authentication
         """
+        self.discard_unknown_keys = discard_unknown_keys
         if signing_info is not None:
             signing_info.host = host
         self.signing_info = signing_info

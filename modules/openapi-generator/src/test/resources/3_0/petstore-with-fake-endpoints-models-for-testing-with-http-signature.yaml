@@ -1379,10 +1379,15 @@ components:
     Cat:
       allOf:
         - $ref: '#/components/schemas/Animal'
+        - $ref: '#/components/schemas/Address'
         - type: object
           properties:
             declawed:
               type: boolean
+    Address:
+      type: object
+      additionalProperties:
+         type: integer
     Animal:
       type: object
       discriminator:
