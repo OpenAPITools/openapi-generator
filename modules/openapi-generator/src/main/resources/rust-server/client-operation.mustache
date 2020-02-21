@@ -34,7 +34,7 @@
   {{^required}}
         if let Some(param_{{{paramName}}}) = param_{{{paramName}}} {
   {{/required}}
-            query_string.append_pair("{{{baseName}}}", &param_{{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});
+            query_string.append_pair("{{{baseName}}}", &param_{{{paramName}}}{{#isListContainer}}.iter().map(ToString::to_string).collect::<Vec<String>>().join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});
   {{^required}}
         }
   {{/required}}

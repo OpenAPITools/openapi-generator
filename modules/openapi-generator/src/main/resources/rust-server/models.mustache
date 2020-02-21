@@ -64,6 +64,12 @@ impl std::convert::From<{{{dataType}}}> for {{{classname}}} {
 }
 
 {{#vendorExtensions.isString}}
+impl std::string::ToString for {{{classname}}} {
+    fn to_string(&self) -> String {
+       self.0.to_string()
+    }
+}
+
 impl std::str::FromStr for {{{classname}}} {
     type Err = std::string::ParseError;
     fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
