@@ -23,6 +23,24 @@ type EnumTest struct {
 	OuterEnum *OuterEnum `json:"outerEnum,omitempty"`
 }
 
+// NewEnumTest instantiates a new EnumTest object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewEnumTest(enumStringRequired string, ) *EnumTest {
+    this := EnumTest{}
+    this.EnumStringRequired = enumStringRequired
+    return &this
+}
+
+// NewEnumTestWithDefaults instantiates a new EnumTest object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewEnumTestWithDefaults() *EnumTest {
+    this := EnumTest{}
+    return &this
+}
+
 // GetEnumString returns the EnumString field value if set, zero value otherwise.
 func (o *EnumTest) GetEnumString() string {
 	if o == nil || o.EnumString == nil {
@@ -181,7 +199,7 @@ func (v NullableEnumTest) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableEnumTest) UnmarshalJSON(src []byte) error {
@@ -192,4 +210,3 @@ func (v *NullableEnumTest) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

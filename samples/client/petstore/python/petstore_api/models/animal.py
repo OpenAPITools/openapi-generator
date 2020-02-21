@@ -44,7 +44,8 @@ class Animal(object):
 
     discriminator_value_class_map = {
         'Dog': 'Dog',
-        'Cat': 'Cat'
+        'Cat': 'Cat',
+        'BigCat': 'BigCat'
     }
 
     def __init__(self, class_name=None, color='red', local_vars_configuration=None):  # noqa: E501

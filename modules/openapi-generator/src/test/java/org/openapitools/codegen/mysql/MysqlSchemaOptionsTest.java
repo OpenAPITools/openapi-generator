@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,17 +16,16 @@
 
 package org.openapitools.codegen.mysql;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.MysqlSchemaCodegen;
 import org.openapitools.codegen.options.MysqlSchemaOptionsProvider;
 
-public class MysqlSchemaOptionsTest extends AbstractOptionsTest {
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-    @Tested
-    private MysqlSchemaCodegen clientCodegen;
+public class MysqlSchemaOptionsTest extends AbstractOptionsTest {
+    private MysqlSchemaCodegen clientCodegen = mock(MysqlSchemaCodegen.class, mockSettings);
 
     public MysqlSchemaOptionsTest() {
         super(new MysqlSchemaOptionsProvider());
@@ -39,12 +38,9 @@ public class MysqlSchemaOptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setDefaultDatabaseName(MysqlSchemaOptionsProvider.DEFAULT_DATABASE_NAME_VALUE);
-            times = 1;
-            clientCodegen.setJsonDataTypeEnabled(Boolean.valueOf(MysqlSchemaOptionsProvider.JSON_DATA_TYPE_ENABLED_VALUE));
-            times = 1;
-        }};
+    protected void verifyOptions() {
+        verify(clientCodegen).setDefaultDatabaseName(MysqlSchemaOptionsProvider.DEFAULT_DATABASE_NAME_VALUE);
+        verify(clientCodegen).setJsonDataTypeEnabled(Boolean.valueOf(MysqlSchemaOptionsProvider.JSON_DATA_TYPE_ENABLED_VALUE));
+        verify(clientCodegen).setIdentifierNamingConvention(MysqlSchemaOptionsProvider.IDENTIFIER_NAMING_CONVENTION_VALUE);
     }
 }

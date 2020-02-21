@@ -13,3 +13,4 @@ call .\bin\windows\typescript-angular-v7-not-provided-in-root.bat
 call .\bin\windows\typescript-angular-v7-not-provided-in-root-with-npm.bat
 call .\bin\windows\typescript-angular-v8-provided-in-root-with-npm.bat
 call .\bin\windows\typescript-angular-v8-petstore-provided-in-root-with-prefixed-module-name.bat
+call .\bin\windows\typescript-angular-v8-single-request-parameter.bat

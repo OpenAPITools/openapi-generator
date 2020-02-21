@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Category
  *
@@ -15,6 +16,8 @@
  */
 namespace OpenAPIServer\Model;
 
+use OpenAPIServer\Interfaces\ModelInterface;
+
 /**
  * Category
  *
@@ -22,12 +25,43 @@ namespace OpenAPIServer\Model;
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class Category
+class Category implements ModelInterface
 {
-    
+    private const MODEL_SCHEMA = <<<'SCHEMA'
+{
+  "required" : [ "name" ],
+  "type" : "object",
+  "properties" : {
+    "id" : {
+      "type" : "integer",
+      "format" : "int64"
+    },
+    "name" : {
+      "type" : "string",
+      "default" : "default-name"
+    }
+  },
+  "xml" : {
+    "name" : "Category"
+  }
+}
+SCHEMA;
+
     /** @var int $id */
     private $id;
-    
+
     /** @var string $name */
     private $name;
+
+    /**
+     * Returns model schema.
+     *
+     * @param bool $assoc When TRUE, returned objects will be converted into associative arrays. Default FALSE.
+     *
+     * @return array
+     */
+    public static function getOpenApiSchema($assoc = false)
+    {
+        return json_decode(static::MODEL_SCHEMA, $assoc);
+    }
 }

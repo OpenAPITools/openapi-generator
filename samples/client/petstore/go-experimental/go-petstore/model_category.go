@@ -20,6 +20,26 @@ type Category struct {
 	Name string `json:"name"`
 }
 
+// NewCategory instantiates a new Category object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewCategory(name string, ) *Category {
+    this := Category{}
+    this.Name = name
+    return &this
+}
+
+// NewCategoryWithDefaults instantiates a new Category object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewCategoryWithDefaults() *Category {
+    this := Category{}
+    var name string = "default-name"
+    this.Name = name
+    return &this
+}
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Category) GetId() int64 {
 	if o == nil || o.Id == nil {
@@ -79,7 +99,7 @@ func (v NullableCategory) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableCategory) UnmarshalJSON(src []byte) error {
@@ -90,4 +110,3 @@ func (v *NullableCategory) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

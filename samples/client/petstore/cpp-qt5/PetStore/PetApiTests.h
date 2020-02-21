@@ -4,7 +4,7 @@
 
 using namespace test_namespace;
 
-class PetApiTests: public QObject {
+class PetApiTests : public QObject {
     Q_OBJECT
 
     PFXPet createRandomPet();
@@ -14,6 +14,4 @@ private slots:
     void createAndGetPetTest();
     void updatePetTest();
     void updatePetWithFormTest();
-private:
-    const QString PetStoreHost = QStringLiteral("http://petstore.swagger.io");
 };

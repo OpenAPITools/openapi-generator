@@ -65,7 +65,7 @@ Code change should conform to the programming style guide of the respective lang
 - Go: https://github.com/golang/go/wiki/CodeReviewComments
 - ObjC: https://github.com/NYTimes/objective-c-style-guide
 - Perl: http://perldoc.perl.org/perlstyle.html
-- PHP: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
+- PHP: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-12-extended-coding-style-guide.md
 - PowerShell: https://msdn.microsoft.com/en-us/library/dd878270(v=vs.85).aspx
 - Python: https://www.python.org/dev/peps/pep-0008/
 - R: https://google.github.io/styleguide/Rguide.xml
@@ -105,5 +105,5 @@ To start the CI tests, you can run `mvn verify -Psamples` (assuming you've all t
 - Make sure test cases passed after the change (one way is to leverage https://travis-ci.org/ to run the CI tests)
 - File a PR with meaningful title, description and commit messages.
 - Recommended git settings
-   - `git config --global core.autocrlf input` to tell Git convert CRLF to LF on commit but not the other way around 
+   - `git config core.autocrlf input` to tell Git convert CRLF to LF on commit but not the other way around 
 - To close an issue (e.g. issue 1542) automatically after a PR is merged, use keywords "fix", "close", "resolve" in the PR description, e.g. `fix #1542`. (Ref: [closing issues using keywords](https://help.github.com/articles/closing-issues-using-keywords/))

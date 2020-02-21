@@ -497,7 +497,7 @@ public class ApiClient {
             formParams
                     .toSingleValueMap()
                     .entrySet()
-                    .forEach(es -> map.add(es.getKey(), (String) es.getValue()));
+                    .forEach(es -> map.add(es.getKey(), String.valueOf(es.getValue())));
 
             return BodyInserters.fromFormData(map);
         } else if(MediaType.MULTIPART_FORM_DATA.equals(contentType)) {
@@ -636,6 +636,28 @@ public class ApiClient {
             }
             auth.applyToParams(queryParams, headerParams, cookieParams);
         }
+    }
+
+    /**
+    * Formats the specified collection path parameter to a string value.
+    *
+    * @param collectionFormat The collection format of the parameter.
+    * @param values The values of the parameter.
+    * @return String representation of the parameter
+    */
+    public String collectionPathParameterToString(CollectionFormat collectionFormat, Collection<?> values) {
+        // create the value based on the collection format
+        if (CollectionFormat.MULTI.equals(collectionFormat)) {
+            // not valid for path params
+            return parameterToString(values);
+        }
+
+         // collectionFormat is assumed to be "csv" by default
+         if(collectionFormat == null) {
+             collectionFormat = CollectionFormat.CSV;
+         }
+
+         return collectionFormat.collectionToString(values);
     }
 
     private class ApiClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {

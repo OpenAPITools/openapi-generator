@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,17 +17,16 @@
 
 package org.openapitools.codegen.swift3;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.Swift3Codegen;
 import org.openapitools.codegen.options.Swift3OptionsProvider;
 
-public class Swift3OptionsTest extends AbstractOptionsTest {
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-    @Tested
-    private Swift3Codegen clientCodegen;
+public class Swift3OptionsTest extends AbstractOptionsTest {
+    private Swift3Codegen clientCodegen = mock(Swift3Codegen.class, mockSettings);
 
     public Swift3OptionsTest() {
         super(new Swift3OptionsProvider());
@@ -40,22 +39,13 @@ public class Swift3OptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(Swift3OptionsProvider.SORT_PARAMS_VALUE));
-            times = 1;
-            clientCodegen.setProjectName(Swift3OptionsProvider.PROJECT_NAME_VALUE);
-            times = 1;
-            clientCodegen.setResponseAs(Swift3OptionsProvider.RESPONSE_AS_VALUE.split(","));
-            times = 1;
-            clientCodegen.setUnwrapRequired(Boolean.valueOf(Swift3OptionsProvider.UNWRAP_REQUIRED_VALUE));
-            times = 1;
-            clientCodegen.setObjcCompatible(Boolean.valueOf(Swift3OptionsProvider.OBJC_COMPATIBLE_VALUE));
-            times = 1;
-            clientCodegen.setLenientTypeCast(Boolean.valueOf(Swift3OptionsProvider.LENIENT_TYPE_CAST_VALUE));
-            times = 1;
-            clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(Swift3OptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
-            times = 1;
-        }};
+    protected void verifyOptions() {
+        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.parseBoolean(Swift3OptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen).setProjectName(Swift3OptionsProvider.PROJECT_NAME_VALUE);
+        verify(clientCodegen).setResponseAs(Swift3OptionsProvider.RESPONSE_AS_VALUE.split(","));
+        verify(clientCodegen).setUnwrapRequired(Boolean.parseBoolean(Swift3OptionsProvider.UNWRAP_REQUIRED_VALUE));
+        verify(clientCodegen).setObjcCompatible(Boolean.parseBoolean(Swift3OptionsProvider.OBJC_COMPATIBLE_VALUE));
+        verify(clientCodegen).setLenientTypeCast(Boolean.parseBoolean(Swift3OptionsProvider.LENIENT_TYPE_CAST_VALUE));
+        verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.parseBoolean(Swift3OptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
     }
 }

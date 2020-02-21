@@ -1,4 +1,4 @@
-# AdditionalPropertiesObject
+# additional_properties_object.AdditionalPropertiesObject
 
 ## Properties
 Name | Type | Description | Notes

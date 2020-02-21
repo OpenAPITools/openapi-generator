@@ -1,0 +1,132 @@
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+:root {
+    --ifm-button-padding: 0.3em;
+    --feature-icon-height: 7rem;
+    --feature-icon-width: 7rem;
+}
+
+.heroBanner {
+    padding: 4rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.announcement {
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 48px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.announcementDark {
+    background-color: #20232a;
+    color: #fff;
+}
+
+.announcementLight {
+    background-color:#fff;
+    color: #20232a;
+}
+
+.announcementInner {
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.productShowcaseSection {
+    padding: 0 20px;
+    text-align: center;
+}
+
+.productShowcaseSection .logos {
+    align-items: center;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    padding: 20px;
+}
+
+.productShowcaseSectionLogo {
+    max-height: 110px;
+    padding: 20px;
+    width: 110px;
+}
+
+.productShowcaseSectionButton {
+    margin: 2rem 0;
+}
+
+.bronzeSponsorAvatars {
+    display: inline-flex;
+}
+
+@media screen and (max-width: 966px) {
+    .heroBanner {
+        padding: 2rem;
+    }
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.buttons a {
+    margin: var(--button-margin);
+}
+
+.features {
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+    width: 100%;
+}
+
+.callout {
+    display: flex;
+    padding: 2rem 0;
+    width: 100%;
+}
+
+.calloutRow {
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    padding: 2rem;
+}
+
+.calloutRow:nth-child(odd) {
+    backdrop-filter: invert(0.1);
+}
+
+.featureImage {
+    height: var(--feature-icon-height);
+    width: var(--feature-icon-width);
+    opacity: 0.8;
+}
+
+html[data-theme='dark'] .featureImage {
+    opacity: 0.9;
+    filter: invert(.9);
+}
+
+html[data-theme='dark'] .mediaLink {
+    filter: invert(1.0);
+}
+
+.indexCtasGitHubButtonWrapper {
+    display: flex;
+}
+
+.indexCtasGitHubButton {
+    border: none;
+    margin-left: 24px;
+    overflow: hidden;
+}

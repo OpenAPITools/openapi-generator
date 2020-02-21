@@ -20,6 +20,23 @@ type FileSchemaTestClass struct {
 	Files *[]File `json:"files,omitempty"`
 }
 
+// NewFileSchemaTestClass instantiates a new FileSchemaTestClass object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewFileSchemaTestClass() *FileSchemaTestClass {
+    this := FileSchemaTestClass{}
+    return &this
+}
+
+// NewFileSchemaTestClassWithDefaults instantiates a new FileSchemaTestClass object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewFileSchemaTestClassWithDefaults() *FileSchemaTestClass {
+    this := FileSchemaTestClass{}
+    return &this
+}
+
 // GetFile returns the File field value if set, zero value otherwise.
 func (o *FileSchemaTestClass) GetFile() File {
 	if o == nil || o.File == nil {
@@ -97,7 +114,7 @@ func (v NullableFileSchemaTestClass) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableFileSchemaTestClass) UnmarshalJSON(src []byte) error {
@@ -108,4 +125,3 @@ func (v *NullableFileSchemaTestClass) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

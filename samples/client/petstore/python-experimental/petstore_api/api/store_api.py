@@ -13,6 +13,7 @@
 from __future__ import absolute_import
 
 import re  # noqa: F401
+import sys  # noqa: F401
 
 # python 2 and python 3 compatibility library
 import six
@@ -33,7 +34,7 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models.order import Order
+from petstore_api.models import order
 
 
 class StoreApi(object):
@@ -48,7 +49,11 @@ class StoreApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-        def __delete_order(self, order_id, **kwargs):  # noqa: E501
+        def __delete_order(
+            self,
+            order_id,
+            **kwargs
+        ):
             """Delete purchase order by ID  # noqa: E501
 
             For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
@@ -57,30 +62,34 @@ class StoreApi(object):
             >>> thread = api.delete_order(order_id, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param str order_id: ID of the order that needs to be deleted (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: None
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                order_id (str): ID of the order that needs to be deleted
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                None
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -101,7 +110,8 @@ class StoreApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['order_id'] = order_id
+            kwargs['order_id'] = \
+                order_id
             return self.call_with_http_info(**kwargs)
 
         self.delete_order = Endpoint(
@@ -133,7 +143,8 @@ class StoreApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'order_id': (str,),
+                    'order_id':
+                        (str,),
                 },
                 'attribute_map': {
                     'order_id': 'order_id',
@@ -152,7 +163,10 @@ class StoreApi(object):
             callable=__delete_order
         )
 
-        def __get_inventory(self, **kwargs):  # noqa: E501
+        def __get_inventory(
+            self,
+            **kwargs
+        ):
             """Returns pet inventories by status  # noqa: E501
 
             Returns a map of status codes to quantities  # noqa: E501
@@ -161,29 +175,32 @@ class StoreApi(object):
             >>> thread = api.get_inventory(async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: {str: (int,)}
-                If the method is called asynchronously, returns the request
-                thread.
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                {str: (int,)}
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -252,7 +269,11 @@ class StoreApi(object):
             callable=__get_inventory
         )
 
-        def __get_order_by_id(self, order_id, **kwargs):  # noqa: E501
+        def __get_order_by_id(
+            self,
+            order_id,
+            **kwargs
+        ):
             """Find purchase order by ID  # noqa: E501
 
             For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
@@ -261,30 +282,34 @@ class StoreApi(object):
             >>> thread = api.get_order_by_id(order_id, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param int order_id: ID of pet that needs to be fetched (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: Order
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                order_id (int): ID of pet that needs to be fetched
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                order.Order
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -305,12 +330,13 @@ class StoreApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['order_id'] = order_id
+            kwargs['order_id'] = \
+                order_id
             return self.call_with_http_info(**kwargs)
 
         self.get_order_by_id = Endpoint(
             settings={
-                'response_type': (Order,),
+                'response_type': (order.Order,),
                 'auth': [],
                 'endpoint_path': '/store/order/{order_id}',
                 'operation_id': 'get_order_by_id',
@@ -343,7 +369,8 @@ class StoreApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'order_id': (int,),
+                    'order_id':
+                        (int,),
                 },
                 'attribute_map': {
                     'order_id': 'order_id',
@@ -365,7 +392,11 @@ class StoreApi(object):
             callable=__get_order_by_id
         )
 
-        def __place_order(self, body, **kwargs):  # noqa: E501
+        def __place_order(
+            self,
+            body,
+            **kwargs
+        ):
             """Place an order for a pet  # noqa: E501
 
             This method makes a synchronous HTTP request by default. To make an
@@ -373,30 +404,34 @@ class StoreApi(object):
             >>> thread = api.place_order(body, async_req=True)
             >>> result = thread.get()
 
-            :param async_req bool: execute request asynchronously
-                Default is False.
-            :param Order body: order placed for purchasing the pet (required)
-            :param _return_http_data_only: response data without head status
-                code and headers. Default is True.
-            :param _preload_content: if False, the urllib3.HTTPResponse object
-                will be returned without reading/decoding response data.
-                Default is True.
-            :param _request_timeout: timeout setting for this request. If one
-                number provided, it will be total request timeout. It can also
-                be a pair (tuple) of (connection, read) timeouts.
-                Default is None.
-            :param _check_input_type: boolean specifying if type checking
-                should be done one the data sent to the server.
-                Default is True.
-            :param _check_return_type: boolean specifying if type checking
-                should be done one the data received from the server.
-                Default is True.
-            :param _host_index: integer specifying the index of the server
-                that we want to use.
-                Default is 0.
-            :return: Order
-                If the method is called asynchronously, returns the request
-                thread.
+            Args:
+                body (order.Order): order placed for purchasing the pet
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                order.Order
+                    If the method is called asynchronously, returns the request
+                    thread.
             """
             kwargs['async_req'] = kwargs.get(
                 'async_req', False
@@ -417,12 +452,13 @@ class StoreApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['body'] = body
+            kwargs['body'] = \
+                body
             return self.call_with_http_info(**kwargs)
 
         self.place_order = Endpoint(
             settings={
-                'response_type': (Order,),
+                'response_type': (order.Order,),
                 'auth': [],
                 'endpoint_path': '/store/order',
                 'operation_id': 'place_order',
@@ -449,7 +485,8 @@ class StoreApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'body': (Order,),
+                    'body':
+                        (order.Order,),
                 },
                 'attribute_map': {
                 },

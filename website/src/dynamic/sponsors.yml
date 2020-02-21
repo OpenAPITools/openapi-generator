@@ -1,0 +1,15 @@
+-
+  caption: "NamSor"
+  image: "img/companies/namsor.png"
+  infoLink: "https://www.namsor.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "Lightbow"
+  image: "img/companies/lightbow.png"
+  infoLink: "https://www.lightbow.net/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "DocSpring"
+  image: "img/companies/docspring.png"
+  infoLink: "https://docspring.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true

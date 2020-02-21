@@ -31,7 +31,7 @@ class ApiExceptionTests(unittest.TestCase):
         self.category.name = "dog"
         self.tag = petstore_api.Tag()
         self.tag.id = id_gen()
-        self.tag.name = "blank"
+        self.tag.full_name = "blank"
         self.pet = petstore_api.Pet(name="hello kity", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet.id = id_gen()
         self.pet.status = "sold"

@@ -10,11 +10,48 @@
 package petstoreserver
 
 import (
+	"encoding/json"
 	"net/http"
+	"strings"
+
+	"github.com/gorilla/mux"
 )
 
+// A FakeClassnameTags123ApiController binds http requests to an api service and writes the service results to the http response
+type FakeClassnameTags123ApiController struct {
+	service FakeClassnameTags123ApiServicer
+}
+
+// NewFakeClassnameTags123ApiController creates a default api controller
+func NewFakeClassnameTags123ApiController(s FakeClassnameTags123ApiServicer) Router {
+	return &FakeClassnameTags123ApiController{ service: s }
+}
+
+// Routes returns all of the api route for the FakeClassnameTags123ApiController
+func (c *FakeClassnameTags123ApiController) Routes() Routes {
+	return Routes{ 
+		{
+			"TestClassname",
+			strings.ToUpper("Patch"),
+			"/v2/fake_classname_test",
+			c.TestClassname,
+		},
+	}
+}
+
 // TestClassname - To test class name in snake case
-func TestClassname(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+func (c *FakeClassnameTags123ApiController) TestClassname(w http.ResponseWriter, r *http.Request) { 
+	client := &Client{}
+	if err := json.NewDecoder(r.Body).Decode(&client); err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	result, err := c.service.TestClassname(*client)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	
+	EncodeJSONResponse(result, nil, w)
 }

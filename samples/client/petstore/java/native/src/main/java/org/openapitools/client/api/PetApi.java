@@ -98,7 +98,10 @@ public class PetApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -146,7 +149,10 @@ public class PetApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -200,7 +206,10 @@ public class PetApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -256,7 +265,10 @@ public class PetApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -302,7 +314,10 @@ public class PetApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -347,7 +362,10 @@ public class PetApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -393,7 +411,10 @@ public class PetApi {
             localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
 
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -441,7 +462,10 @@ public class PetApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }
@@ -493,7 +517,10 @@ public class PetApi {
       }
 
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {});
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException e) {
+      throw new ApiException(e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
   }

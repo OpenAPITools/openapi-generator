@@ -26,6 +26,8 @@ import ApiResponse from './model/ApiResponse';
 import ArrayOfArrayOfNumberOnly from './model/ArrayOfArrayOfNumberOnly';
 import ArrayOfNumberOnly from './model/ArrayOfNumberOnly';
 import ArrayTest from './model/ArrayTest';
+import BigCat from './model/BigCat';
+import BigCatAllOf from './model/BigCatAllOf';
 import Capitalization from './model/Capitalization';
 import Cat from './model/Cat';
 import CatAllOf from './model/CatAllOf';
@@ -182,6 +184,18 @@ export {
      * @property {module:model/ArrayTest}
      */
     ArrayTest,
+
+    /**
+     * The BigCat model constructor.
+     * @property {module:model/BigCat}
+     */
+    BigCat,
+
+    /**
+     * The BigCatAllOf model constructor.
+     * @property {module:model/BigCatAllOf}
+     */
+    BigCatAllOf,
 
     /**
      * The Capitalization model constructor.

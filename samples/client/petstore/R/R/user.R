@@ -10,21 +10,21 @@
 #' @title User
 #' @description User Class
 #' @format An \code{R6Class} generator object
-#' @field id   integer  [optional]
+#' @field id  integer [optional]
 #'
-#' @field username   character  [optional]
+#' @field username  character [optional]
 #'
-#' @field firstName   character  [optional]
+#' @field firstName  character [optional]
 #'
-#' @field lastName   character  [optional]
+#' @field lastName  character [optional]
 #'
-#' @field email   character  [optional]
+#' @field email  character [optional]
 #'
-#' @field password   character  [optional]
+#' @field password  character [optional]
 #'
-#' @field phone   character  [optional]
+#' @field phone  character [optional]
 #'
-#' @field userStatus   integer  [optional]
+#' @field userStatus  integer [optional]
 #'
 #'
 #' @importFrom R6 R6Class

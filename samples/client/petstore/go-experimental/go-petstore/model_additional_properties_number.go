@@ -19,6 +19,23 @@ type AdditionalPropertiesNumber struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// NewAdditionalPropertiesNumber instantiates a new AdditionalPropertiesNumber object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewAdditionalPropertiesNumber() *AdditionalPropertiesNumber {
+    this := AdditionalPropertiesNumber{}
+    return &this
+}
+
+// NewAdditionalPropertiesNumberWithDefaults instantiates a new AdditionalPropertiesNumber object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewAdditionalPropertiesNumberWithDefaults() *AdditionalPropertiesNumber {
+    this := AdditionalPropertiesNumber{}
+    return &this
+}
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AdditionalPropertiesNumber) GetName() string {
 	if o == nil || o.Name == nil {
@@ -63,7 +80,7 @@ func (v NullableAdditionalPropertiesNumber) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableAdditionalPropertiesNumber) UnmarshalJSON(src []byte) error {
@@ -74,4 +91,3 @@ func (v *NullableAdditionalPropertiesNumber) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

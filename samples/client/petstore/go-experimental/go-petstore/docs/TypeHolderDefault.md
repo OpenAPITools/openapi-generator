@@ -4,13 +4,30 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**StringItem** | Pointer to **string** |  | [default to what]
+**StringItem** | Pointer to **string** |  | [default to "what"]
 **NumberItem** | Pointer to **float32** |  | 
 **IntegerItem** | Pointer to **int32** |  | 
 **BoolItem** | Pointer to **bool** |  | [default to true]
 **ArrayItem** | Pointer to **[]int32** |  | 
 
 ## Methods
+
+### NewTypeHolderDefault
+
+`func NewTypeHolderDefault(stringItem string, numberItem float32, integerItem int32, boolItem bool, arrayItem []int32, ) *TypeHolderDefault`
+
+NewTypeHolderDefault instantiates a new TypeHolderDefault object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewTypeHolderDefaultWithDefaults
+
+`func NewTypeHolderDefaultWithDefaults() *TypeHolderDefault`
+
+NewTypeHolderDefaultWithDefaults instantiates a new TypeHolderDefault object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
 
 ### GetStringItem
 

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -25,6 +24,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +56,33 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
 
     public ScalaAkkaClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BearerToken
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath,
+                        ClientModificationFeature.UserAgent
+                )
+                .build();
+
         outputFolder = "generated-code/scala-akka";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
@@ -124,12 +151,13 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         super.processOpts();
         if (additionalProperties.containsKey("mainPackage")) {
             setMainPackage((String) additionalProperties.get("mainPackage"));
+            additionalProperties.replace("configKeyPath", this.configKeyPath);
             apiPackage = mainPackage + ".api";
             modelPackage = mainPackage + ".model";
             invokerPackage = mainPackage + ".core";
             additionalProperties.put("apiPackage", apiPackage);
-            additionalProperties.put("modelPackage", apiPackage);
-            additionalProperties.put("invokerPackage", apiPackage);
+            additionalProperties.put("modelPackage", modelPackage);
+            additionalProperties.put("invokerPackage", invokerPackage);
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -265,6 +293,9 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
+            if (ModelUtils.isSet(ap)) {
+                return "Set[" + inner + "].empty ";
+            }
             return "Seq[" + inner + "].empty ";
         } else if (ModelUtils.isStringSchema(p)) {
             return null;
@@ -337,6 +368,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     public void setMainPackage(String mainPackage) {
-        this.mainPackage = mainPackage;
+        this.configKeyPath = this.mainPackage = mainPackage;
     }
 }

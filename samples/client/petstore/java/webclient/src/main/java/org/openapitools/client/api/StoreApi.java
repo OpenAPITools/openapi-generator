@@ -65,6 +65,7 @@ public class StoreApi {
         final Map<String, Object> pathParams = new HashMap<String, Object>();
         pathParams.put("order_id", orderId);
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -92,6 +93,7 @@ public class StoreApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -132,6 +134,7 @@ public class StoreApi {
         final Map<String, Object> pathParams = new HashMap<String, Object>();
         pathParams.put("order_id", orderId);
 
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
@@ -168,6 +171,7 @@ public class StoreApi {
         
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
+
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();

@@ -10,6 +10,23 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewOuterComposite
+
+`func NewOuterComposite() *OuterComposite`
+
+NewOuterComposite instantiates a new OuterComposite object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewOuterCompositeWithDefaults
+
+`func NewOuterCompositeWithDefaults() *OuterComposite`
+
+NewOuterCompositeWithDefaults instantiates a new OuterComposite object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
 ### GetMyNumber
 
 `func (o *OuterComposite) GetMyNumber() float32`

@@ -296,7 +296,7 @@ case $state in
   ops)
     # Operations
     _values "Operations" \
-            "call123TestSpecialTags[To test special tags]"             "createXmlItem[creates an XmlItem]" \
+            "call123TestSpecialTags[To test special tags]"             "fooGet[]"             "fakeHealthGet[Health check endpoint]" \
             "fakeOuterBooleanSerialize[]" \
             "fakeOuterCompositeSerialize[]" \
             "fakeOuterNumberSerialize[]" \
@@ -343,7 +343,13 @@ case $state in
                               )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
-      createXmlItem)
+      fooGet)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      fakeHealthGet)
         local -a _op_arguments
         _op_arguments=(
                               )

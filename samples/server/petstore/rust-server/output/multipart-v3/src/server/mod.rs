@@ -35,6 +35,7 @@ use std::collections::BTreeSet;
 pub use swagger::auth::Authorization;
 use swagger::{ApiError, XSpanId, XSpanIdString, Has, RequestParser};
 use swagger::auth::Scopes;
+use swagger::headers::SafeHeaders;
 
 use {Api,
      MultipartRequestPostResponse
@@ -109,7 +110,7 @@ where
     type Request = (Request, C);
     type Response = Response;
     type Error = Error;
-    type Future = Box<Future<Item=Response, Error=Error>>;
+    type Future = Box<dyn Future<Item=Response, Error=Error>>;
 
     fn call(&self, (req, mut context): Self::Request) -> Self::Future {
         let api_impl = self.api_impl.clone();
@@ -123,14 +124,14 @@ where
             // MultipartRequestPost - POST /multipart_request
             &hyper::Method::Post if path.matched(paths::ID_MULTIPART_REQUEST) => {
                 let boundary = match multipart_boundary(&headers) {
-                    Some(boundary) => boundary.to_string(),
+                    Some(boundary) => boundary,
                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
                 };
                 // Form Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 // Read Form Parameters from body
@@ -203,7 +204,7 @@ where
                                 Box::new(api_impl.multipart_request_post(param_string_field, param_binary_field, param_optional_string_field, param_object_field, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -226,7 +227,7 @@ where
                                         future::ok(response)
                                     }
                                 ))
-                                as Box<Future<Item=Response, Error=Error>>
+                                as Box<dyn Future<Item=Response, Error=Error>>
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read multipart body")))),
                         }
@@ -234,7 +235,7 @@ where
                 )
             },
 
-            _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
+            _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<dyn Future<Item=Response, Error=Error>>,
         }
     }
 }
@@ -250,11 +251,11 @@ impl<T, C> Clone for Service<T, C>
 }
 
 /// Utility function to get the multipart boundary marker (if any) from the Headers.
-fn multipart_boundary<'a>(headers: &'a Headers) -> Option<&'a str> {
-    headers.get::<ContentType>().and_then(|content_type| {
-        let ContentType(ref mime) = *content_type;
+fn multipart_boundary(headers: &Headers) -> Option<String> {
+    headers.safe_get::<ContentType>().and_then(|content_type| {
+        let ContentType(mime) = content_type;
         if mime.type_() == hyper::mime::MULTIPART && mime.subtype() == hyper::mime::FORM_DATA {
-            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str())
+            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str().to_string())
         } else {
             None
         }

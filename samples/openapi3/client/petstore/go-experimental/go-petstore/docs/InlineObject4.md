@@ -9,6 +9,23 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewInlineObject4
+
+`func NewInlineObject4(param string, param2 string, ) *InlineObject4`
+
+NewInlineObject4 instantiates a new InlineObject4 object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewInlineObject4WithDefaults
+
+`func NewInlineObject4WithDefaults() *InlineObject4`
+
+NewInlineObject4WithDefaults instantiates a new InlineObject4 object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
 ### GetParam
 
 `func (o *InlineObject4) GetParam() string`

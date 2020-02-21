@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
@@ -30,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -62,6 +64,33 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public RustClientCodegen() {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath,
+                        ClientModificationFeature.UserAgent
+                )
+                .build();
+
         outputFolder = "generated-code/rust";
         modelTemplateFiles.put("model.mustache", ".rs");
 
@@ -85,7 +114,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "Self", "self", "sizeof", "static", "struct",
                         "super", "trait", "true", "type", "typeof",
                         "unsafe", "unsized", "use", "virtual", "where",
-                        "while", "yield"
+                        "while", "yield", "async", "await", "dyn", "try"
                 )
         );
 
@@ -160,6 +189,10 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         // Index all CodegenModels by model name.
         Map<String, CodegenModel> allModels = new HashMap<>();
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         for (Map.Entry<String, Object> entry : objs.entrySet()) {
             String modelName = toModelName(entry.getKey());
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
@@ -187,8 +220,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                         discriminatorVars.add(mas);
                     }
                     // TODO: figure out how to properly have the original property type that didn't go through toVarName
-                    cm.vendorExtensions.put("tagName", cm.discriminator.getPropertyName().replace("_", ""));
-                    cm.vendorExtensions.put("mappedModels", discriminatorVars);
+                    String vendorExtensionTagName = cm.discriminator.getPropertyName().replace("_", "");
+                    cm.vendorExtensions.put("tagName", vendorExtensionTagName); // TODO: 5.0 Remove
+                    cm.vendorExtensions.put("x-tag-name", vendorExtensionTagName);
+                    cm.vendorExtensions.put("mappedModels", discriminatorVars); // TODO: 5.0 Remove
+                    cm.vendorExtensions.put("x-mapped-models", discriminatorVars);
                 }
             }
         }

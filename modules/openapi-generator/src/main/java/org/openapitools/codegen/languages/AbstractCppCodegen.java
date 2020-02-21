@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap.Builder;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
@@ -300,14 +299,19 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         String port = URLPathUtils.getPort(url, "");
         String host = url.getHost();
-        if(!port.isEmpty()) {
+        String scheme = url.getProtocol();
+
+        if (!port.isEmpty()) {
             this.additionalProperties.put("serverPort", port);
         }
-        if(!host.isEmpty()) {
+        if (!host.isEmpty()) {
             this.additionalProperties.put("serverHost", host);
         }
+        if (!scheme.isEmpty()) {
+            this.additionalProperties.put("scheme", scheme);
+        }
     }
-    
+
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         return postProcessModelsEnum(objs);

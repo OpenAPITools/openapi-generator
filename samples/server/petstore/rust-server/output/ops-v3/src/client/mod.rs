@@ -24,6 +24,8 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
+use swagger::headers::SafeHeaders;
+
 use mimetypes;
 use serde_json;
 
@@ -105,7 +107,7 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
 /// A client that implements the API by making HTTP calls out to a server.
 pub struct Client<F> where
   F: Future<Item=hyper::Response, Error=hyper::Error> + 'static {
-    client_service: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
+    client_service: Arc<Box<dyn hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
     base_path: String,
 }
 
@@ -216,7 +218,7 @@ impl Client<hyper::client::FutureResponse> {
         handle: Handle,
         base_path: &str,
         protocol: Option<&'static str>,
-        connector_fn: Box<Fn(&Handle) -> C + Send + Sync>,
+        connector_fn: Box<dyn Fn(&Handle) -> C + Send + Sync>,
     ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
     where
         C: hyper::client::Connect + hyper::client::Service,
@@ -243,7 +245,7 @@ impl Client<hyper::client::FutureResponse> {
     /// should be mentioned here.
     #[deprecated(note="Use try_new_with_client_service instead")]
     pub fn try_new_with_hyper_client(
-        hyper_client: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
+        hyper_client: Arc<Box<dyn hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
         handle: Handle,
         base_path: &str
     ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
@@ -261,7 +263,7 @@ impl<F> Client<F> where
     /// Constructor for creating a `Client` by passing in a pre-made `hyper` client Service.
     ///
     /// This allows adding custom wrappers around the underlying transport, for example for logging.
-    pub fn try_new_with_client_service(client_service: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
+    pub fn try_new_with_client_service(client_service: Arc<Box<dyn hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
                                        handle: Handle,
                                        base_path: &str)
                                     -> Result<Client<F>, ClientInitError>
@@ -277,7 +279,7 @@ impl<F, C> Api<C> for Client<F> where
     F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static,
     C: Has<XSpanIdString> {
 
-    fn op10_get(&self, context: &C) -> Box<Future<Item=Op10GetResponse, Error=ApiError>> {
+    fn op10_get(&self, context: &C) -> Box<dyn Future<Item=Op10GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op10",
             self.base_path
@@ -300,7 +302,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -312,7 +314,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op10GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -331,14 +333,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op11_get(&self, context: &C) -> Box<Future<Item=Op11GetResponse, Error=ApiError>> {
+    fn op11_get(&self, context: &C) -> Box<dyn Future<Item=Op11GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op11",
             self.base_path
@@ -361,7 +363,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -373,7 +375,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op11GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -392,14 +394,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op12_get(&self, context: &C) -> Box<Future<Item=Op12GetResponse, Error=ApiError>> {
+    fn op12_get(&self, context: &C) -> Box<dyn Future<Item=Op12GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op12",
             self.base_path
@@ -422,7 +424,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -434,7 +436,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op12GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -453,14 +455,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op13_get(&self, context: &C) -> Box<Future<Item=Op13GetResponse, Error=ApiError>> {
+    fn op13_get(&self, context: &C) -> Box<dyn Future<Item=Op13GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op13",
             self.base_path
@@ -483,7 +485,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -495,7 +497,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op13GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -514,14 +516,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op14_get(&self, context: &C) -> Box<Future<Item=Op14GetResponse, Error=ApiError>> {
+    fn op14_get(&self, context: &C) -> Box<dyn Future<Item=Op14GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op14",
             self.base_path
@@ -544,7 +546,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -556,7 +558,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op14GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -575,14 +577,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op15_get(&self, context: &C) -> Box<Future<Item=Op15GetResponse, Error=ApiError>> {
+    fn op15_get(&self, context: &C) -> Box<dyn Future<Item=Op15GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op15",
             self.base_path
@@ -605,7 +607,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -617,7 +619,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op15GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -636,14 +638,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op16_get(&self, context: &C) -> Box<Future<Item=Op16GetResponse, Error=ApiError>> {
+    fn op16_get(&self, context: &C) -> Box<dyn Future<Item=Op16GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op16",
             self.base_path
@@ -666,7 +668,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -678,7 +680,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op16GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -697,14 +699,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op17_get(&self, context: &C) -> Box<Future<Item=Op17GetResponse, Error=ApiError>> {
+    fn op17_get(&self, context: &C) -> Box<dyn Future<Item=Op17GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op17",
             self.base_path
@@ -727,7 +729,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -739,7 +741,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op17GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -758,14 +760,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op18_get(&self, context: &C) -> Box<Future<Item=Op18GetResponse, Error=ApiError>> {
+    fn op18_get(&self, context: &C) -> Box<dyn Future<Item=Op18GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op18",
             self.base_path
@@ -788,7 +790,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -800,7 +802,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op18GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -819,14 +821,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op19_get(&self, context: &C) -> Box<Future<Item=Op19GetResponse, Error=ApiError>> {
+    fn op19_get(&self, context: &C) -> Box<dyn Future<Item=Op19GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op19",
             self.base_path
@@ -849,7 +851,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -861,7 +863,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op19GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -880,14 +882,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op1_get(&self, context: &C) -> Box<Future<Item=Op1GetResponse, Error=ApiError>> {
+    fn op1_get(&self, context: &C) -> Box<dyn Future<Item=Op1GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op1",
             self.base_path
@@ -910,7 +912,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -922,7 +924,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op1GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -941,14 +943,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op20_get(&self, context: &C) -> Box<Future<Item=Op20GetResponse, Error=ApiError>> {
+    fn op20_get(&self, context: &C) -> Box<dyn Future<Item=Op20GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op20",
             self.base_path
@@ -971,7 +973,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -983,7 +985,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op20GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1002,14 +1004,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op21_get(&self, context: &C) -> Box<Future<Item=Op21GetResponse, Error=ApiError>> {
+    fn op21_get(&self, context: &C) -> Box<dyn Future<Item=Op21GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op21",
             self.base_path
@@ -1032,7 +1034,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1044,7 +1046,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op21GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1063,14 +1065,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op22_get(&self, context: &C) -> Box<Future<Item=Op22GetResponse, Error=ApiError>> {
+    fn op22_get(&self, context: &C) -> Box<dyn Future<Item=Op22GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op22",
             self.base_path
@@ -1093,7 +1095,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1105,7 +1107,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op22GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1124,14 +1126,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op23_get(&self, context: &C) -> Box<Future<Item=Op23GetResponse, Error=ApiError>> {
+    fn op23_get(&self, context: &C) -> Box<dyn Future<Item=Op23GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op23",
             self.base_path
@@ -1154,7 +1156,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1166,7 +1168,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op23GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1185,14 +1187,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op24_get(&self, context: &C) -> Box<Future<Item=Op24GetResponse, Error=ApiError>> {
+    fn op24_get(&self, context: &C) -> Box<dyn Future<Item=Op24GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op24",
             self.base_path
@@ -1215,7 +1217,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1227,7 +1229,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op24GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1246,14 +1248,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op25_get(&self, context: &C) -> Box<Future<Item=Op25GetResponse, Error=ApiError>> {
+    fn op25_get(&self, context: &C) -> Box<dyn Future<Item=Op25GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op25",
             self.base_path
@@ -1276,7 +1278,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1288,7 +1290,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op25GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1307,14 +1309,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op26_get(&self, context: &C) -> Box<Future<Item=Op26GetResponse, Error=ApiError>> {
+    fn op26_get(&self, context: &C) -> Box<dyn Future<Item=Op26GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op26",
             self.base_path
@@ -1337,7 +1339,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1349,7 +1351,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op26GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1368,14 +1370,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op27_get(&self, context: &C) -> Box<Future<Item=Op27GetResponse, Error=ApiError>> {
+    fn op27_get(&self, context: &C) -> Box<dyn Future<Item=Op27GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op27",
             self.base_path
@@ -1398,7 +1400,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1410,7 +1412,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op27GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1429,14 +1431,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op28_get(&self, context: &C) -> Box<Future<Item=Op28GetResponse, Error=ApiError>> {
+    fn op28_get(&self, context: &C) -> Box<dyn Future<Item=Op28GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op28",
             self.base_path
@@ -1459,7 +1461,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1471,7 +1473,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op28GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1490,14 +1492,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op29_get(&self, context: &C) -> Box<Future<Item=Op29GetResponse, Error=ApiError>> {
+    fn op29_get(&self, context: &C) -> Box<dyn Future<Item=Op29GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op29",
             self.base_path
@@ -1520,7 +1522,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1532,7 +1534,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op29GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1551,14 +1553,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op2_get(&self, context: &C) -> Box<Future<Item=Op2GetResponse, Error=ApiError>> {
+    fn op2_get(&self, context: &C) -> Box<dyn Future<Item=Op2GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op2",
             self.base_path
@@ -1581,7 +1583,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1593,7 +1595,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op2GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1612,14 +1614,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op30_get(&self, context: &C) -> Box<Future<Item=Op30GetResponse, Error=ApiError>> {
+    fn op30_get(&self, context: &C) -> Box<dyn Future<Item=Op30GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op30",
             self.base_path
@@ -1642,7 +1644,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1654,7 +1656,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op30GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1673,14 +1675,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op31_get(&self, context: &C) -> Box<Future<Item=Op31GetResponse, Error=ApiError>> {
+    fn op31_get(&self, context: &C) -> Box<dyn Future<Item=Op31GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op31",
             self.base_path
@@ -1703,7 +1705,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1715,7 +1717,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op31GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1734,14 +1736,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op32_get(&self, context: &C) -> Box<Future<Item=Op32GetResponse, Error=ApiError>> {
+    fn op32_get(&self, context: &C) -> Box<dyn Future<Item=Op32GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op32",
             self.base_path
@@ -1764,7 +1766,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1776,7 +1778,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op32GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1795,14 +1797,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op33_get(&self, context: &C) -> Box<Future<Item=Op33GetResponse, Error=ApiError>> {
+    fn op33_get(&self, context: &C) -> Box<dyn Future<Item=Op33GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op33",
             self.base_path
@@ -1825,7 +1827,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1837,7 +1839,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op33GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1856,14 +1858,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op34_get(&self, context: &C) -> Box<Future<Item=Op34GetResponse, Error=ApiError>> {
+    fn op34_get(&self, context: &C) -> Box<dyn Future<Item=Op34GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op34",
             self.base_path
@@ -1886,7 +1888,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1898,7 +1900,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op34GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1917,14 +1919,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op35_get(&self, context: &C) -> Box<Future<Item=Op35GetResponse, Error=ApiError>> {
+    fn op35_get(&self, context: &C) -> Box<dyn Future<Item=Op35GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op35",
             self.base_path
@@ -1947,7 +1949,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1959,7 +1961,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op35GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -1978,14 +1980,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op36_get(&self, context: &C) -> Box<Future<Item=Op36GetResponse, Error=ApiError>> {
+    fn op36_get(&self, context: &C) -> Box<dyn Future<Item=Op36GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op36",
             self.base_path
@@ -2008,7 +2010,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2020,7 +2022,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op36GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -2039,14 +2041,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op37_get(&self, context: &C) -> Box<Future<Item=Op37GetResponse, Error=ApiError>> {
+    fn op37_get(&self, context: &C) -> Box<dyn Future<Item=Op37GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op37",
             self.base_path
@@ -2069,7 +2071,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2081,7 +2083,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op37GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -2100,14 +2102,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op3_get(&self, context: &C) -> Box<Future<Item=Op3GetResponse, Error=ApiError>> {
+    fn op3_get(&self, context: &C) -> Box<dyn Future<Item=Op3GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op3",
             self.base_path
@@ -2130,7 +2132,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2142,7 +2144,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op3GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -2161,14 +2163,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op4_get(&self, context: &C) -> Box<Future<Item=Op4GetResponse, Error=ApiError>> {
+    fn op4_get(&self, context: &C) -> Box<dyn Future<Item=Op4GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op4",
             self.base_path
@@ -2191,7 +2193,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2203,7 +2205,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op4GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -2222,14 +2224,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op5_get(&self, context: &C) -> Box<Future<Item=Op5GetResponse, Error=ApiError>> {
+    fn op5_get(&self, context: &C) -> Box<dyn Future<Item=Op5GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op5",
             self.base_path
@@ -2252,7 +2254,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2264,7 +2266,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op5GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -2283,14 +2285,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op6_get(&self, context: &C) -> Box<Future<Item=Op6GetResponse, Error=ApiError>> {
+    fn op6_get(&self, context: &C) -> Box<dyn Future<Item=Op6GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op6",
             self.base_path
@@ -2313,7 +2315,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2325,7 +2327,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op6GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -2344,14 +2346,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op7_get(&self, context: &C) -> Box<Future<Item=Op7GetResponse, Error=ApiError>> {
+    fn op7_get(&self, context: &C) -> Box<dyn Future<Item=Op7GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op7",
             self.base_path
@@ -2374,7 +2376,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2386,7 +2388,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op7GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -2405,14 +2407,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op8_get(&self, context: &C) -> Box<Future<Item=Op8GetResponse, Error=ApiError>> {
+    fn op8_get(&self, context: &C) -> Box<dyn Future<Item=Op8GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op8",
             self.base_path
@@ -2435,7 +2437,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2447,7 +2449,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op8GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -2466,14 +2468,14 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
 
     }
 
-    fn op9_get(&self, context: &C) -> Box<Future<Item=Op9GetResponse, Error=ApiError>> {
+    fn op9_get(&self, context: &C) -> Box<dyn Future<Item=Op9GetResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/op9",
             self.base_path
@@ -2496,7 +2498,7 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+        request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2508,7 +2510,7 @@ impl<F, C> Api<C> for Client<F> where
                         future::ok(
                             Op9GetResponse::OK
                         )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 },
                 code => {
                     let headers = response.headers().clone();
@@ -2527,7 +2529,7 @@ impl<F, C> Api<C> for Client<F> where
                                         Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
                                     })))
                             )
-                    ) as Box<Future<Item=_, Error=_>>
+                    ) as Box<dyn Future<Item=_, Error=_>>
                 }
             }
         }))
@@ -2558,7 +2560,7 @@ impl From<openssl::error::ErrorStack> for ClientInitError {
 
 impl fmt::Display for ClientInitError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        (self as &fmt::Debug).fmt(f)
+        (self as &dyn fmt::Debug).fmt(f)
     }
 }
 

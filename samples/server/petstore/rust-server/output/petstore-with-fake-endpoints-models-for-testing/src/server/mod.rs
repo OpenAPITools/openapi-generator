@@ -37,6 +37,7 @@ use std::collections::BTreeSet;
 pub use swagger::auth::Authorization;
 use swagger::{ApiError, XSpanId, XSpanIdString, Has, RequestParser};
 use swagger::auth::Scopes;
+use swagger::headers::SafeHeaders;
 
 use {Api,
      TestSpecialTagsResponse,
@@ -44,6 +45,7 @@ use {Api,
      FakeOuterCompositeSerializeResponse,
      FakeOuterNumberSerializeResponse,
      FakeOuterStringSerializeResponse,
+     HyphenParamResponse,
      TestBodyWithQueryParamsResponse,
      TestClientModelResponse,
      TestEndpointParametersResponse,
@@ -87,6 +89,7 @@ mod paths {
             r"^/v2/another-fake/dummy$",
             r"^/v2/fake$",
             r"^/v2/fake/body-with-query-params$",
+            r"^/v2/fake/hyphenParam/(?P<hyphen_param>[^/?#]*)$",
             r"^/v2/fake/inline-additionalProperties$",
             r"^/v2/fake/jsonFormData$",
             r"^/v2/fake/outer/boolean$",
@@ -97,8 +100,8 @@ mod paths {
             r"^/v2/pet$",
             r"^/v2/pet/findByStatus$",
             r"^/v2/pet/findByTags$",
-            r"^/v2/pet/(?P<petId>[^/?#]*)$",
-            r"^/v2/pet/(?P<petId>[^/?#]*)/uploadImage$",
+            r"^/v2/pet/(?P<pet_id>[^/?#]*)$",
+            r"^/v2/pet/(?P<pet_id>[^/?#]*)/uploadImage$",
             r"^/v2/store/inventory$",
             r"^/v2/store/order$",
             r"^/v2/store/order/(?P<order_id>[^/?#]*)$",
@@ -113,36 +116,40 @@ mod paths {
     pub static ID_ANOTHER_FAKE_DUMMY: usize = 0;
     pub static ID_FAKE: usize = 1;
     pub static ID_FAKE_BODY_WITH_QUERY_PARAMS: usize = 2;
-    pub static ID_FAKE_INLINE_ADDITIONALPROPERTIES: usize = 3;
-    pub static ID_FAKE_JSONFORMDATA: usize = 4;
-    pub static ID_FAKE_OUTER_BOOLEAN: usize = 5;
-    pub static ID_FAKE_OUTER_COMPOSITE: usize = 6;
-    pub static ID_FAKE_OUTER_NUMBER: usize = 7;
-    pub static ID_FAKE_OUTER_STRING: usize = 8;
-    pub static ID_FAKE_CLASSNAME_TEST: usize = 9;
-    pub static ID_PET: usize = 10;
-    pub static ID_PET_FINDBYSTATUS: usize = 11;
-    pub static ID_PET_FINDBYTAGS: usize = 12;
-    pub static ID_PET_PETID: usize = 13;
+    pub static ID_FAKE_HYPHENPARAM_HYPHEN_PARAM: usize = 3;
     lazy_static! {
-        pub static ref REGEX_PET_PETID: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)$").unwrap();
+        pub static ref REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM: regex::Regex = regex::Regex::new(r"^/v2/fake/hyphenParam/(?P<hyphen_param>[^/?#]*)$").unwrap();
     }
-    pub static ID_PET_PETID_UPLOADIMAGE: usize = 14;
+    pub static ID_FAKE_INLINE_ADDITIONALPROPERTIES: usize = 4;
+    pub static ID_FAKE_JSONFORMDATA: usize = 5;
+    pub static ID_FAKE_OUTER_BOOLEAN: usize = 6;
+    pub static ID_FAKE_OUTER_COMPOSITE: usize = 7;
+    pub static ID_FAKE_OUTER_NUMBER: usize = 8;
+    pub static ID_FAKE_OUTER_STRING: usize = 9;
+    pub static ID_FAKE_CLASSNAME_TEST: usize = 10;
+    pub static ID_PET: usize = 11;
+    pub static ID_PET_FINDBYSTATUS: usize = 12;
+    pub static ID_PET_FINDBYTAGS: usize = 13;
+    pub static ID_PET_PETID: usize = 14;
     lazy_static! {
-        pub static ref REGEX_PET_PETID_UPLOADIMAGE: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)/uploadImage$").unwrap();
+        pub static ref REGEX_PET_PETID: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<pet_id>[^/?#]*)$").unwrap();
     }
-    pub static ID_STORE_INVENTORY: usize = 15;
-    pub static ID_STORE_ORDER: usize = 16;
-    pub static ID_STORE_ORDER_ORDER_ID: usize = 17;
+    pub static ID_PET_PETID_UPLOADIMAGE: usize = 15;
+    lazy_static! {
+        pub static ref REGEX_PET_PETID_UPLOADIMAGE: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<pet_id>[^/?#]*)/uploadImage$").unwrap();
+    }
+    pub static ID_STORE_INVENTORY: usize = 16;
+    pub static ID_STORE_ORDER: usize = 17;
+    pub static ID_STORE_ORDER_ORDER_ID: usize = 18;
     lazy_static! {
         pub static ref REGEX_STORE_ORDER_ORDER_ID: regex::Regex = regex::Regex::new(r"^/v2/store/order/(?P<order_id>[^/?#]*)$").unwrap();
     }
-    pub static ID_USER: usize = 18;
-    pub static ID_USER_CREATEWITHARRAY: usize = 19;
-    pub static ID_USER_CREATEWITHLIST: usize = 20;
-    pub static ID_USER_LOGIN: usize = 21;
-    pub static ID_USER_LOGOUT: usize = 22;
-    pub static ID_USER_USERNAME: usize = 23;
+    pub static ID_USER: usize = 19;
+    pub static ID_USER_CREATEWITHARRAY: usize = 20;
+    pub static ID_USER_CREATEWITHLIST: usize = 21;
+    pub static ID_USER_LOGIN: usize = 22;
+    pub static ID_USER_LOGOUT: usize = 23;
+    pub static ID_USER_USERNAME: usize = 24;
     lazy_static! {
         pub static ref REGEX_USER_USERNAME: regex::Regex = regex::Regex::new(r"^/v2/user/(?P<username>[^/?#]*)$").unwrap();
     }
@@ -200,7 +207,7 @@ where
     type Request = (Request, C);
     type Response = Response;
     type Error = Error;
-    type Future = Box<Future<Item=Response, Error=Error>>;
+    type Future = Box<dyn Future<Item=Response, Error=Error>>;
 
     fn call(&self, (req, mut context): Self::Request) -> Self::Future {
         let api_impl = self.api_impl.clone();
@@ -217,7 +224,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -240,7 +247,7 @@ where
                                 Box::new(api_impl.test_special_tags(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -258,9 +265,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::TEST_SPECIAL_TAGS_SUCCESSFUL_OPERATION.clone()));
 
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                             },
@@ -279,7 +284,7 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // FakeOuterBooleanSerialize - POST /fake/outer/boolean
@@ -288,7 +293,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -307,7 +312,7 @@ where
                                 Box::new(api_impl.fake_outer_boolean_serialize(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -325,9 +330,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::FAKE_OUTER_BOOLEAN_SERIALIZE_OUTPUT_BOOLEAN.clone()));
 
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                             },
@@ -346,7 +349,7 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // FakeOuterCompositeSerialize - POST /fake/outer/composite
@@ -355,7 +358,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -374,7 +377,7 @@ where
                                 Box::new(api_impl.fake_outer_composite_serialize(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -392,9 +395,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::FAKE_OUTER_COMPOSITE_SERIALIZE_OUTPUT_COMPOSITE.clone()));
 
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                             },
@@ -413,7 +414,7 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // FakeOuterNumberSerialize - POST /fake/outer/number
@@ -422,7 +423,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -441,7 +442,7 @@ where
                                 Box::new(api_impl.fake_outer_number_serialize(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -459,9 +460,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::FAKE_OUTER_NUMBER_SERIALIZE_OUTPUT_NUMBER.clone()));
 
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                             },
@@ -480,7 +479,7 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // FakeOuterStringSerialize - POST /fake/outer/string
@@ -489,7 +488,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -508,7 +507,7 @@ where
                                 Box::new(api_impl.fake_outer_string_serialize(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -526,9 +525,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::FAKE_OUTER_STRING_SERIALIZE_OUTPUT_STRING.clone()));
 
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                             },
@@ -547,7 +544,56 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
+            },
+
+            // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
+            &hyper::Method::Get if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => {
+                // Path parameters
+                let path = uri.path().to_string();
+                let path_params =
+                    paths::REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM
+                    .captures(&path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE FAKE_HYPHENPARAM_HYPHEN_PARAM in set but failed match against \"{}\"", path, paths::REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM.as_str())
+                    );
+                let param_hyphen_param = match percent_encoding::percent_decode(path_params["hyphen_param"].as_bytes()).decode_utf8() {
+                    Ok(param_hyphen_param) => match param_hyphen_param.parse::<String>() {
+                        Ok(param_hyphen_param) => param_hyphen_param,
+                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter hyphen-param: {:?}", e)))),
+                    },
+                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["hyphen_param"]))))
+                };
+                Box::new({
+                        {{
+                                Box::new(api_impl.hyphen_param(param_hyphen_param, &context)
+                                    .then(move |result| {
+                                        let mut response = Response::new();
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                HyphenParamResponse::Success
+
+
+                                                => {
+                                                    response.set_status(StatusCode::try_from(200).unwrap());
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                response.set_status(StatusCode::InternalServerError);
+                                                response.set_body("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
@@ -567,7 +613,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -590,7 +636,7 @@ where
                                 Box::new(api_impl.test_body_with_query_params(param_query, param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -621,7 +667,7 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // TestClientModel - PATCH /fake
@@ -630,7 +676,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -653,7 +699,7 @@ where
                                 Box::new(api_impl.test_client_model(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -671,9 +717,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::TEST_CLIENT_MODEL_SUCCESSFUL_OPERATION.clone()));
 
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                             },
@@ -692,13 +736,13 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // TestEndpointParameters - POST /fake
             &hyper::Method::Post if path.matched(paths::ID_FAKE) => {
                 {
-                    let authorization = match (&context as &Has<Option<Authorization>>).get() {
+                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
                         &None => return Box::new(future::ok(Response::new()
                                                 .with_status(StatusCode::Forbidden)
@@ -726,7 +770,7 @@ where
                                 Box::new(api_impl.test_endpoint_parameters(param_number, param_double, param_pattern_without_delimiter, param_byte, param_integer, param_int32, param_int64, param_float, param_string, param_binary, param_date, param_date_time, param_password, param_callback, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -757,16 +801,16 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // TestEnumParameters - GET /fake
             &hyper::Method::Get if path.matched(paths::ID_FAKE) => {
                 // Header parameters
                 header! { (RequestEnumHeaderStringArray, "enum_header_string_array") => (String)* }
-                let param_enum_header_string_array = headers.get::<RequestEnumHeaderStringArray>().map(|header| header.0.clone());
+                let param_enum_header_string_array = headers.safe_get::<RequestEnumHeaderStringArray>().map(|header| header.0.clone());
                 header! { (RequestEnumHeaderString, "enum_header_string") => [String] }
-                let param_enum_header_string = headers.get::<RequestEnumHeaderString>().map(|header| header.0.clone());
+                let param_enum_header_string = headers.safe_get::<RequestEnumHeaderString>().map(|header| header.0.clone());
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_enum_query_string_array = query_params.iter().filter(|e| e.0 == "enum_query_string_array").map(|e| e.1.to_owned())
@@ -796,7 +840,7 @@ where
                                 Box::new(api_impl.test_enum_parameters(param_enum_header_string_array.as_ref(), param_enum_header_string, param_enum_query_string_array.as_ref(), param_enum_query_string, param_enum_query_integer, param_enum_query_double, param_enum_form_string, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -827,7 +871,7 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // TestInlineAdditionalProperties - POST /fake/inline-additionalProperties
@@ -836,7 +880,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -859,7 +903,7 @@ where
                                 Box::new(api_impl.test_inline_additional_properties(param_param, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -890,7 +934,7 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter param: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // TestJsonFormData - GET /fake/jsonFormData
@@ -903,7 +947,7 @@ where
                                 Box::new(api_impl.test_json_form_data(param_param, param_param2, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -927,13 +971,13 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // TestClassname - PATCH /fake_classname_test
             &hyper::Method::Patch if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => {
                 {
-                    let authorization = match (&context as &Has<Option<Authorization>>).get() {
+                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
                         &None => return Box::new(future::ok(Response::new()
                                                 .with_status(StatusCode::Forbidden)
@@ -945,7 +989,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -968,7 +1012,7 @@ where
                                 Box::new(api_impl.test_classname(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -986,9 +1030,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::TEST_CLASSNAME_SUCCESSFUL_OPERATION.clone()));
 
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                             },
@@ -1007,13 +1049,13 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // AddPet - POST /pet
             &hyper::Method::Post if path.matched(paths::ID_PET) => {
                 {
-                    let authorization = match (&context as &Has<Option<Authorization>>).get() {
+                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
                         &None => return Box::new(future::ok(Response::new()
                                                 .with_status(StatusCode::Forbidden)
@@ -1043,7 +1085,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1066,7 +1108,7 @@ where
                                 Box::new(api_impl.add_pet(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -1097,13 +1139,13 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // DeletePet - DELETE /pet/{petId}
             &hyper::Method::Delete if path.matched(paths::ID_PET_PETID) => {
                 {
-                    let authorization = match (&context as &Has<Option<Authorization>>).get() {
+                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
                         &None => return Box::new(future::ok(Response::new()
                                                 .with_status(StatusCode::Forbidden)
@@ -1137,22 +1179,22 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
                     );
-                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
+                let param_pet_id = match percent_encoding::percent_decode(path_params["pet_id"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
+                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["pet_id"]))))
                 };
                 // Header parameters
                 header! { (RequestApiKey, "api_key") => [String] }
-                let param_api_key = headers.get::<RequestApiKey>().map(|header| header.0.clone());
+                let param_api_key = headers.safe_get::<RequestApiKey>().map(|header| header.0.clone());
                 Box::new({
                         {{
                                 Box::new(api_impl.delete_pet(param_pet_id, param_api_key, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1176,13 +1218,13 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // FindPetsByStatus - GET /pet/findByStatus
             &hyper::Method::Get if path.matched(paths::ID_PET_FINDBYSTATUS) => {
                 {
-                    let authorization = match (&context as &Has<Option<Authorization>>).get() {
+                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
                         &None => return Box::new(future::ok(Response::new()
                                                 .with_status(StatusCode::Forbidden)
@@ -1218,7 +1260,7 @@ where
                                 Box::new(api_impl.find_pets_by_status(param_status.as_ref(), &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1232,9 +1274,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::FIND_PETS_BY_STATUS_SUCCESSFUL_OPERATION.clone()));
 
-
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                                 FindPetsByStatusResponse::InvalidStatusValue
@@ -1257,13 +1297,13 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // FindPetsByTags - GET /pet/findByTags
             &hyper::Method::Get if path.matched(paths::ID_PET_FINDBYTAGS) => {
                 {
-                    let authorization = match (&context as &Has<Option<Authorization>>).get() {
+                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
                         &None => return Box::new(future::ok(Response::new()
                                                 .with_status(StatusCode::Forbidden)
@@ -1299,7 +1339,7 @@ where
                                 Box::new(api_impl.find_pets_by_tags(param_tags.as_ref(), &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1313,9 +1353,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::FIND_PETS_BY_TAGS_SUCCESSFUL_OPERATION.clone()));
 
-
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                                 FindPetsByTagsResponse::InvalidTagValue
@@ -1338,13 +1376,13 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // GetPetById - GET /pet/{petId}
             &hyper::Method::Get if path.matched(paths::ID_PET_PETID) => {
                 {
-                    let authorization = match (&context as &Has<Option<Authorization>>).get() {
+                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
                         &None => return Box::new(future::ok(Response::new()
                                                 .with_status(StatusCode::Forbidden)
@@ -1360,19 +1398,19 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
                     );
-                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
+                let param_pet_id = match percent_encoding::percent_decode(path_params["pet_id"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
+                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["pet_id"]))))
                 };
                 Box::new({
                         {{
                                 Box::new(api_impl.get_pet_by_id(param_pet_id, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1386,9 +1424,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::GET_PET_BY_ID_SUCCESSFUL_OPERATION.clone()));
 
-
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                                 GetPetByIdResponse::InvalidIDSupplied
@@ -1418,13 +1454,13 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // UpdatePet - PUT /pet
             &hyper::Method::Put if path.matched(paths::ID_PET) => {
                 {
-                    let authorization = match (&context as &Has<Option<Authorization>>).get() {
+                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
                         &None => return Box::new(future::ok(Response::new()
                                                 .with_status(StatusCode::Forbidden)
@@ -1454,7 +1490,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1477,7 +1513,7 @@ where
                                 Box::new(api_impl.update_pet(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -1522,13 +1558,13 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // UpdatePetWithForm - POST /pet/{petId}
             &hyper::Method::Post if path.matched(paths::ID_PET_PETID) => {
                 {
-                    let authorization = match (&context as &Has<Option<Authorization>>).get() {
+                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
                         &None => return Box::new(future::ok(Response::new()
                                                 .with_status(StatusCode::Forbidden)
@@ -1562,12 +1598,12 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID.as_str())
                     );
-                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
+                let param_pet_id = match percent_encoding::percent_decode(path_params["pet_id"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
+                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["pet_id"]))))
                 };
                 Box::new({
                         {{
@@ -1577,7 +1613,7 @@ where
                                 Box::new(api_impl.update_pet_with_form(param_pet_id, param_name, param_status, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1601,13 +1637,13 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // UploadFile - POST /pet/{petId}/uploadImage
             &hyper::Method::Post if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => {
                 {
-                    let authorization = match (&context as &Has<Option<Authorization>>).get() {
+                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
                         &None => return Box::new(future::ok(Response::new()
                                                 .with_status(StatusCode::Forbidden)
@@ -1634,7 +1670,7 @@ where
                     }
                 }
                 let boundary = match multipart_boundary(&headers) {
-                    Some(boundary) => boundary.to_string(),
+                    Some(boundary) => boundary,
                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
                 };
                 // Path parameters
@@ -1645,18 +1681,18 @@ where
                     .unwrap_or_else(||
                         panic!("Path {} matched RE PET_PETID_UPLOADIMAGE in set but failed match against \"{}\"", path, paths::REGEX_PET_PETID_UPLOADIMAGE.as_str())
                     );
-                let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
+                let param_pet_id = match percent_encoding::percent_decode(path_params["pet_id"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
                         Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
                     },
-                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
+                    Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["pet_id"]))))
                 };
                 // Form Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 // Read Form Parameters from body
@@ -1697,7 +1733,7 @@ where
                                 Box::new(api_impl.upload_file(param_pet_id, param_additional_metadata, param_file, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1711,9 +1747,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::UPLOAD_FILE_SUCCESSFUL_OPERATION.clone()));
 
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                             },
@@ -1728,7 +1762,7 @@ where
                                         future::ok(response)
                                     }
                                 ))
-                                as Box<Future<Item=Response, Error=Error>>
+                                as Box<dyn Future<Item=Response, Error=Error>>
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read multipart body")))),
                         }
@@ -1758,7 +1792,7 @@ where
                                 Box::new(api_impl.delete_order(param_order_id, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1789,13 +1823,13 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // GetInventory - GET /store/inventory
             &hyper::Method::Get if path.matched(paths::ID_STORE_INVENTORY) => {
                 {
-                    let authorization = match (&context as &Has<Option<Authorization>>).get() {
+                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
                         &None => return Box::new(future::ok(Response::new()
                                                 .with_status(StatusCode::Forbidden)
@@ -1808,7 +1842,7 @@ where
                                 Box::new(api_impl.get_inventory(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1822,9 +1856,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::GET_INVENTORY_SUCCESSFUL_OPERATION.clone()));
 
-
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                             },
@@ -1840,7 +1872,7 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // GetOrderById - GET /store/order/{order_id}
@@ -1865,7 +1897,7 @@ where
                                 Box::new(api_impl.get_order_by_id(param_order_id, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -1879,9 +1911,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::GET_ORDER_BY_ID_SUCCESSFUL_OPERATION.clone()));
 
-
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                                 GetOrderByIdResponse::InvalidIDSupplied
@@ -1911,7 +1941,7 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // PlaceOrder - POST /store/order
@@ -1920,7 +1950,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1943,7 +1973,7 @@ where
                                 Box::new(api_impl.place_order(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -1961,9 +1991,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::PLACE_ORDER_SUCCESSFUL_OPERATION.clone()));
 
-
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                                 PlaceOrderResponse::InvalidOrder
@@ -1989,7 +2017,7 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // CreateUser - POST /user
@@ -1998,7 +2026,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -2021,7 +2049,7 @@ where
                                 Box::new(api_impl.create_user(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -2052,7 +2080,7 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // CreateUsersWithArrayInput - POST /user/createWithArray
@@ -2061,7 +2089,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -2084,7 +2112,7 @@ where
                                 Box::new(api_impl.create_users_with_array_input(param_body.as_ref(), &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -2115,7 +2143,7 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // CreateUsersWithListInput - POST /user/createWithList
@@ -2124,7 +2152,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -2147,7 +2175,7 @@ where
                                 Box::new(api_impl.create_users_with_list_input(param_body.as_ref(), &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -2178,7 +2206,7 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // DeleteUser - DELETE /user/{username}
@@ -2203,7 +2231,7 @@ where
                                 Box::new(api_impl.delete_user(param_username, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -2234,7 +2262,7 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // GetUserByName - GET /user/{username}
@@ -2259,7 +2287,7 @@ where
                                 Box::new(api_impl.get_user_by_name(param_username, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -2273,9 +2301,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::GET_USER_BY_NAME_SUCCESSFUL_OPERATION.clone()));
 
-
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                                 GetUserByNameResponse::InvalidUsernameSupplied
@@ -2305,7 +2331,7 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // LoginUser - GET /user/login
@@ -2335,7 +2361,7 @@ where
                                 Box::new(api_impl.login_user(param_username, param_password, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -2358,9 +2384,7 @@ where
 
                                                     response.headers_mut().set(ContentType(mimetypes::responses::LOGIN_USER_SUCCESSFUL_OPERATION.clone()));
 
-
                                                     let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
-
                                                     response.set_body(body);
                                                 },
                                                 LoginUserResponse::InvalidUsername
@@ -2383,7 +2407,7 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // LogoutUser - GET /user/logout
@@ -2393,7 +2417,7 @@ where
                                 Box::new(api_impl.logout_user(&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         match result {
                                             Ok(rsp) => match rsp {
@@ -2417,7 +2441,7 @@ where
                                     }
                                 ))
                         }}
-                }) as Box<Future<Item=Response, Error=Error>>
+                }) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
             // UpdateUser - PUT /user/{username}
@@ -2441,7 +2465,7 @@ where
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                    .then(move |result| -> Box<dyn Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -2464,7 +2488,7 @@ where
                                 Box::new(api_impl.update_user(param_username, param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+                                        response.headers_mut().set(XSpanId((&context as &dyn Has<XSpanIdString>).get().0.to_string()));
 
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
@@ -2502,10 +2526,10 @@ where
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
-                ) as Box<Future<Item=Response, Error=Error>>
+                ) as Box<dyn Future<Item=Response, Error=Error>>
             },
 
-            _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
+            _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<dyn Future<Item=Response, Error=Error>>,
         }
     }
 }
@@ -2521,11 +2545,11 @@ impl<T, C> Clone for Service<T, C>
 }
 
 /// Utility function to get the multipart boundary marker (if any) from the Headers.
-fn multipart_boundary<'a>(headers: &'a Headers) -> Option<&'a str> {
-    headers.get::<ContentType>().and_then(|content_type| {
-        let ContentType(ref mime) = *content_type;
+fn multipart_boundary(headers: &Headers) -> Option<String> {
+    headers.safe_get::<ContentType>().and_then(|content_type| {
+        let ContentType(mime) = content_type;
         if mime.type_() == hyper::mime::MULTIPART && mime.subtype() == hyper::mime::FORM_DATA {
-            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str())
+            mime.get_param(hyper::mime::BOUNDARY).map(|x| x.as_str().to_string())
         } else {
             None
         }
@@ -2553,6 +2577,9 @@ impl RequestParser for ApiRequestParser {
 
             // FakeOuterStringSerialize - POST /fake/outer/string
             &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_STRING) => Ok("FakeOuterStringSerialize"),
+
+            // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
+            &hyper::Method::Get if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => Ok("HyphenParam"),
 
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
             &hyper::Method::Put if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => Ok("TestBodyWithQueryParams"),

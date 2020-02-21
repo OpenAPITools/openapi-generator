@@ -47,6 +47,23 @@ type XmlItem struct {
 	PrefixNsWrappedArray *[]int32 `json:"prefix_ns_wrapped_array,omitempty"`
 }
 
+// NewXmlItem instantiates a new XmlItem object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewXmlItem() *XmlItem {
+    this := XmlItem{}
+    return &this
+}
+
+// NewXmlItemWithDefaults instantiates a new XmlItem object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewXmlItemWithDefaults() *XmlItem {
+    this := XmlItem{}
+    return &this
+}
+
 // GetAttributeString returns the AttributeString field value if set, zero value otherwise.
 func (o *XmlItem) GetAttributeString() string {
 	if o == nil || o.AttributeString == nil {
@@ -1015,7 +1032,7 @@ func (v NullableXmlItem) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableXmlItem) UnmarshalJSON(src []byte) error {
@@ -1026,4 +1043,3 @@ func (v *NullableXmlItem) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-
