@@ -2,10 +2,10 @@
 * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
 */{{#description}}
     @ApiModel(description = "{{{description}}}"){{/description}}
-{{#useLombokModel}}
+{{#isLombokModel}}
     @Value
     @Builder
-{{/useLombokModel}}
+{{/isLombokModel}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}{{>additionalModelTypeAnnotations}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}}extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
 {{#serializableModel}}
@@ -30,11 +30,11 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
     {{#gson}}
         @SerializedName("{{baseName}}")
     {{/gson}}
-    {{#useLombokModel}}
+    {{#isLombokModel}}
         {{#required}}
         @NonNull
         {{/required}}
-    {{/useLombokModel}}
+    {{/isLombokModel}}
     {{#isContainer}}
         {{#useBeanValidation}}@Valid{{/useBeanValidation}}
         private {{>nullableDataType}} {{name}} = {{#isNullable}}JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}}{{/isNullable}};
@@ -44,7 +44,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
     {{/isContainer}}
 
 {{/vars}}
-{{^useLombokModel}}
+{{^isLombokModel}}
     {{#vars}}
         public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
         this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
@@ -145,5 +145,5 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
     }
     return o.toString().replace("\n", "\n    ");
     }
-{{/useLombokModel}}
+{{/isLombokModel}}
 }
