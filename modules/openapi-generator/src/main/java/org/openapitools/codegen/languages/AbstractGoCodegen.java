@@ -119,10 +119,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // A 'type: object' OAS schema without any declared property is
         // (per JSON schema specification) "an unordered set of properties
         // mapping a string to an instance".
-        // So technically using map[string]interface{} is the proper
-        // implementation in golang. However, other code generators are
-        // more lenient and accept any valid JSON value, such as arrays,
-        // primitive types and the 'null' value.
+        // Hence map[string]interface{} is the proper implementation in golang.
+        // Note: OpenAPITools uses the same token 'object' for free-form objects
+        // and arbitrary types. A free form object is implemented in golang as
+        // map[string]interface{}, whereas an arbitrary type is implemented
+        // in golang as interface{}.
         // See issue #5387 for more details.
         typeMapping.put("object", "map[string]interface{}");
 
@@ -341,6 +342,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         if (ref != null && !ref.isEmpty()) {
             type = openAPIType;
+        } else if (openAPIType == "object" && p.getType() == null) {
+            // Arbitrary type. Note this is not the same thing as free-form object.
+            type = "interface{}";
         } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
