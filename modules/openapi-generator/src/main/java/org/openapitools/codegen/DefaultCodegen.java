@@ -2254,14 +2254,16 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (sortModelPropertiesByRequiredFlag) {
-            Collections.sort(m.vars, new Comparator<CodegenProperty>() {
+            Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
                 @Override
                 public int compare(CodegenProperty one, CodegenProperty another) {
                     if (one.required == another.required) return 0;
                     else if (one.required) return -1;
                     else return 1;
                 }
-            });
+            };
+            Collections.sort(m.vars, comparator);
+            Collections.sort(m.allVars, comparator);
         }
 
         return m;
