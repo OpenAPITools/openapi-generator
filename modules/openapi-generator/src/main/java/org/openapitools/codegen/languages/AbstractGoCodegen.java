@@ -302,7 +302,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     /**
      * Return the golang implementation type for the specified property.
      * 
-     * @param the OAS property.
+     * @param p the OAS property.
      * @return the golang implementation type.
      */
     @Override
