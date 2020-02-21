@@ -653,6 +653,75 @@ mkArrayTest =
   , arrayTestArrayArrayOfModel = Nothing
   }
 
+-- ** BigCat
+-- | BigCat
+data BigCat = BigCat
+  { bigCatClassName :: !(Text) -- ^ /Required/ "className"
+  , bigCatColor :: !(Maybe Text) -- ^ "color"
+  , bigCatDeclawed :: !(Maybe Bool) -- ^ "declawed"
+  , bigCatKind :: !(Maybe E'Kind) -- ^ "kind"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON BigCat
+instance A.FromJSON BigCat where
+  parseJSON = A.withObject "BigCat" $ \o ->
+    BigCat
+      <$> (o .:  "className")
+      <*> (o .:? "color")
+      <*> (o .:? "declawed")
+      <*> (o .:? "kind")
+
+-- | ToJSON BigCat
+instance A.ToJSON BigCat where
+  toJSON BigCat {..} =
+   _omitNulls
+      [ "className" .= bigCatClassName
+      , "color" .= bigCatColor
+      , "declawed" .= bigCatDeclawed
+      , "kind" .= bigCatKind
+      ]
+
+
+-- | Construct a value of type 'BigCat' (by applying it's required fields, if any)
+mkBigCat
+  :: Text -- ^ 'bigCatClassName' 
+  -> BigCat
+mkBigCat bigCatClassName =
+  BigCat
+  { bigCatClassName
+  , bigCatColor = Nothing
+  , bigCatDeclawed = Nothing
+  , bigCatKind = Nothing
+  }
+
+-- ** BigCatAllOf
+-- | BigCatAllOf
+data BigCatAllOf = BigCatAllOf
+  { bigCatAllOfKind :: !(Maybe E'Kind) -- ^ "kind"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON BigCatAllOf
+instance A.FromJSON BigCatAllOf where
+  parseJSON = A.withObject "BigCatAllOf" $ \o ->
+    BigCatAllOf
+      <$> (o .:? "kind")
+
+-- | ToJSON BigCatAllOf
+instance A.ToJSON BigCatAllOf where
+  toJSON BigCatAllOf {..} =
+   _omitNulls
+      [ "kind" .= bigCatAllOfKind
+      ]
+
+
+-- | Construct a value of type 'BigCatAllOf' (by applying it's required fields, if any)
+mkBigCatAllOf
+  :: BigCatAllOf
+mkBigCatAllOf =
+  BigCatAllOf
+  { bigCatAllOfKind = Nothing
+  }
+
 -- ** Capitalization
 -- | Capitalization
 data Capitalization = Capitalization
@@ -2197,6 +2266,40 @@ toE'JustSymbol = \case
   ">=" -> P.Right E'JustSymbol'Greater_Than_Or_Equal_To
   "$" -> P.Right E'JustSymbol'Dollar
   s -> P.Left $ "toE'JustSymbol: enum parse failure: " P.++ P.show s
+
+
+-- ** E'Kind
+
+-- | Enum of 'Text'
+data E'Kind
+  = E'Kind'Lions -- ^ @"lions"@
+  | E'Kind'Tigers -- ^ @"tigers"@
+  | E'Kind'Leopards -- ^ @"leopards"@
+  | E'Kind'Jaguars -- ^ @"jaguars"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'Kind where toJSON = A.toJSON . fromE'Kind
+instance A.FromJSON E'Kind where parseJSON o = P.either P.fail (pure . P.id) . toE'Kind =<< A.parseJSON o
+instance WH.ToHttpApiData E'Kind where toQueryParam = WH.toQueryParam . fromE'Kind
+instance WH.FromHttpApiData E'Kind where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'Kind
+instance MimeRender MimeMultipartFormData E'Kind where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'Kind' enum
+fromE'Kind :: E'Kind -> Text
+fromE'Kind = \case
+  E'Kind'Lions -> "lions"
+  E'Kind'Tigers -> "tigers"
+  E'Kind'Leopards -> "leopards"
+  E'Kind'Jaguars -> "jaguars"
+
+-- | parse 'E'Kind' enum
+toE'Kind :: Text -> P.Either String E'Kind
+toE'Kind = \case
+  "lions" -> P.Right E'Kind'Lions
+  "tigers" -> P.Right E'Kind'Tigers
+  "leopards" -> P.Right E'Kind'Leopards
+  "jaguars" -> P.Right E'Kind'Jaguars
+  s -> P.Left $ "toE'Kind: enum parse failure: " P.++ P.show s
 
 
 -- ** E'Status

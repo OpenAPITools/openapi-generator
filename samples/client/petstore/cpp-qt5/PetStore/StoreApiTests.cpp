@@ -1,12 +1,11 @@
 #include "StoreApiTests.h"
 
+#include <QDebug>
 #include <QTest>
 #include <QTimer>
-#include <QDebug>
 
 void StoreApiTests::placeOrderTest() {
     PFXStoreApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool orderPlaced = false;
 
@@ -17,7 +16,7 @@ void StoreApiTests::placeOrderTest() {
         qDebug() << order.getShipDate();
         loop.quit();
     });
-    connect(&api, &PFXStoreApi::placeOrderSignalE, [&](){
+    connect(&api, &PFXStoreApi::placeOrderSignalE, [&]() {
         QFAIL("shouldn't trigger error");
         loop.quit();
     });
@@ -33,12 +32,10 @@ void StoreApiTests::placeOrderTest() {
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
     QVERIFY2(orderPlaced, "didn't finish within timeout");
-
 }
 
 void StoreApiTests::getOrderByIdTest() {
     PFXStoreApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool orderFetched = false;
 
@@ -54,18 +51,16 @@ void StoreApiTests::getOrderByIdTest() {
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
     QVERIFY2(orderFetched, "didn't finish within timeout");
-
 }
 
 void StoreApiTests::getInventoryTest() {
     PFXStoreApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool inventoryFetched = false;
 
     connect(&api, &PFXStoreApi::getInventorySignal, [&](QMap<QString, qint32> status) {
         inventoryFetched = true;
-        for(const auto& key : status.keys()) {
+        for (const auto &key : status.keys()) {
             qDebug() << (key) << " Quantities " << status.value(key);
         }
         loop.quit();
@@ -75,5 +70,4 @@ void StoreApiTests::getInventoryTest() {
     QTimer::singleShot(14000, &loop, &QEventLoop::quit);
     loop.exec();
     QVERIFY2(inventoryFetched, "didn't finish within timeout");
-
 }

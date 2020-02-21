@@ -1,4 +1,4 @@
-# TypeHolderDefault
+# type_holder_default.TypeHolderDefault
 
 a model to test optional properties with server defaults
 ## Properties

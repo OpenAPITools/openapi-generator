@@ -218,6 +218,32 @@ impl DuplicateXmlObject {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct InlineResponse201 {
+    #[serde(rename = "foo")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub foo: Option<String>,
+
+}
+
+impl InlineResponse201 {
+    pub fn new() -> InlineResponse201 {
+        InlineResponse201 {
+            foo: None,
+        }
+    }
+}
+
+impl InlineResponse201 {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 /// Test a model containing a UUID
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]

@@ -1,0 +1,475 @@
+openapi: 3.0.1
+info:
+  title: Test for Kotlin reserved words
+  version: 1.0.0
+paths:
+  /ping:
+    get:
+      summary: Ping
+      description: Pingy Ping
+      parameters:
+        - name: as
+          in: header
+          schema:
+            type: string
+        - name: break
+          in: header
+          schema:
+            type: string
+        - name: class
+          in: header
+          schema:
+            type: string
+        - name: continue
+          in: header
+          schema:
+            type: string
+        - name: do
+          in: header
+          schema:
+            type: string
+        - name: else
+          in: header
+          schema:
+            type: string
+        - name: "false"
+          in: header
+          schema:
+            type: string
+        - name: for
+          in: header
+          schema:
+            type: string
+        - name: fun
+          in: header
+          schema:
+            type: string
+        - name: if
+          in: header
+          schema:
+            type: string
+        - name: in
+          in: header
+          schema:
+            type: string
+        - name: interface
+          in: header
+          schema:
+            type: string
+        - name: is
+          in: header
+          schema:
+            type: string
+        - name: "null"
+          in: header
+          schema:
+            type: string
+        - name: object
+          in: header
+          schema:
+            type: string
+        - name: package
+          in: header
+          schema:
+            type: string
+        - name: return
+          in: header
+          schema:
+            type: string
+        - name: super
+          in: header
+          schema:
+            type: string
+        - name: this
+          in: header
+          schema:
+            type: string
+        - name: throw
+          in: header
+          schema:
+            type: string
+        - name: "true"
+          in: header
+          schema:
+            type: string
+        - name: try
+          in: header
+          schema:
+            type: string
+        - name: typealias
+          in: header
+          schema:
+            type: string
+        - name: typeof
+          in: header
+          schema:
+            type: string
+        - name: val
+          in: header
+          schema:
+            type: string
+        - name: var
+          in: header
+          schema:
+            type: string
+        - name: when
+          in: header
+          schema:
+            type: string
+        - name: while
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: "#/components/schemas/Good"
+
+components:
+  schemas:
+    Good:
+      description: OK, Good
+      type: object
+      properties:
+        as:
+          type: string
+        break:
+          type: string
+        class:
+          type: string
+        continue:
+          type: string
+        do:
+          type: string
+        else:
+          type: string
+        false:
+          type: string
+        for:
+          type: string
+        fun:
+          type: string
+        if:
+          type: string
+        in:
+          type: string
+        interface:
+          type: string
+        is:
+          type: string
+        null:
+          type: string
+        object:
+          type: string
+        package:
+          type: string
+        return:
+          type: string
+        super:
+          type: string
+        this:
+          type: string
+        throw:
+          type: string
+        true:
+          type: string
+        try:
+          type: string
+        typealias:
+          type: string
+        typeof:
+          type: string
+        val:
+          type: string
+        var:
+          type: string
+        when:
+          type: string
+        while:
+          type: string
+        linked:
+          $ref: '#/components/schemas/Linked'
+
+    Linked:
+      description: Refernce links
+      type: object
+      properties:
+        as:
+          $ref: '#/components/schemas/as'
+        break:
+          $ref: '#/components/schemas/break'
+        class:
+          $ref: '#/components/schemas/class'
+        continue:
+          $ref: '#/components/schemas/continue'
+        do:
+          $ref: '#/components/schemas/do'
+        else:
+          $ref: '#/components/schemas/else'
+        false:
+          $ref: '#/components/schemas/false'
+        for:
+          $ref: '#/components/schemas/for'
+        fun:
+          $ref: '#/components/schemas/fun'
+        if:
+          $ref: '#/components/schemas/if'
+        in:
+          $ref: '#/components/schemas/in'
+        interface:
+          $ref: '#/components/schemas/interface'
+        is:
+          $ref: '#/components/schemas/is'
+        null:
+          $ref: '#/components/schemas/null'
+        object:
+          $ref: '#/components/schemas/object'
+        package:
+          $ref: '#/components/schemas/package'
+        return:
+          $ref: '#/components/schemas/return'
+        super:
+          $ref: '#/components/schemas/super'
+        this:
+          $ref: '#/components/schemas/this'
+        throw:
+          $ref: '#/components/schemas/throw'
+        true:
+          $ref: '#/components/schemas/true'
+        try:
+          $ref: '#/components/schemas/try'
+        typealias:
+          $ref: '#/components/schemas/typealias'
+        typeof:
+          $ref: '#/components/schemas/typeof'
+        val:
+          $ref: '#/components/schemas/val'
+        var:
+          $ref: '#/components/schemas/var'
+        when:
+          $ref: '#/components/schemas/when'
+        while:
+          $ref: '#/components/schemas/while'
+
+    as:
+      title: Testing reserved word 'as'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    break:
+      title: Testing reserved word 'break'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    class:
+      title: Testing reserved word 'class'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    continue:
+      title: Testing reserved word 'continue'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    do:
+      title: Testing reserved word 'do'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    else:
+      title: Testing reserved word 'else'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    false:
+      title: Testing reserved word 'false'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    for:
+      title: Testing reserved word 'for'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    fun:
+      title: Testing reserved word 'fun'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    if:
+      title: Testing reserved word 'if'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    in:
+      title: Testing reserved word 'in'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    interface:
+      title: Testing reserved word 'interface'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    is:
+      title: Testing reserved word 'is'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    null:
+      title: Testing reserved word 'null'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    object:
+      title: Testing reserved word 'object'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    package:
+      title: Testing reserved word 'package'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    return:
+      title: Testing reserved word 'return'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    super:
+      title: Testing reserved word 'super'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    this:
+      title: Testing reserved word 'this'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    throw:
+      title: Testing reserved word 'throw'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    true:
+      title: Testing reserved word 'true'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    try:
+      title: Testing reserved word 'try'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    typealias:
+      title: Testing reserved word 'typealias'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    typeof:
+      title: Testing reserved word 'typeof'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    val:
+      title: Testing reserved word 'val'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    var:
+      title: Testing reserved word 'var'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    when:
+      title: Testing reserved word 'when'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    while:
+      title: Testing reserved word 'while'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64

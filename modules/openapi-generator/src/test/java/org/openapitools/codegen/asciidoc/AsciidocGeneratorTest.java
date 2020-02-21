@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 
 import io.swagger.v3.oas.models.OpenAPI;
 
-/** check against ping.yaml spec. */
+/** unit test asciidoc markup generation against ping.yaml openapi spec. */
 public class AsciidocGeneratorTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AsciidocGeneratorTest.class);
@@ -113,5 +113,41 @@ public class AsciidocGeneratorTest {
         Assert.assertTrue(markupFileGenerated, "index.adoc is not generated!");
 
     }
+    
+
+    @Test
+    public void testHeaderAttributesFlagRemovesAttributesFromMarkupHeaderSection() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        LOGGER.info("test: generating sample markup " + output.getAbsolutePath());
+
+        Map<String, Object> props = new TreeMap<String, Object>();
+        props.put("specDir", "spec");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("asciidoc")
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.getAbsolutePath())
+                .addAdditionalProperty(AsciidocDocumentationCodegen.HEADER_ATTRIBUTES_FLAG, "false")    // option avoids generation of attributes
+                .addAdditionalProperty(AsciidocDocumentationCodegen.SPEC_DIR, "SPEC-DIR")
+                .addAdditionalProperty(AsciidocDocumentationCodegen.SNIPPET_DIR, "MY/SNIPPET/DIR");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        boolean markupFileGenerated = false;
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        for (File file : files) {
+            if (file.getName().equals("index.adoc")) {
+                markupFileGenerated = true;
+                String markupContent = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+                Assert.assertFalse(markupContent.contains(":specDir: SPEC-DIR"),
+                        "not expected :specDir: in: " + markupContent.substring(0, 250));
+                Assert.assertFalse(markupContent.contains(":snippetDir: MY/SNIPPET/DIR"),
+                        "not expected :snippetDir: in: " + markupContent.substring(0, 250));
+                Assert.assertFalse(markupContent.contains(":toc:"),
+                        "not expected :toc: in: " + markupContent.substring(0, 250));               // typical attributes not found in markup.
+            }
+        }
+        Assert.assertTrue(markupFileGenerated, "index.adoc is not generated!");
+    }    
 
 }

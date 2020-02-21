@@ -1,5 +1,6 @@
 package org.openapitools.codegen;
 
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
@@ -103,5 +104,28 @@ public class TestUtils {
         catch (ParseProblemException ex) {
             fail("Java parse problem: " + filename, ex);
         }
+    }
+
+
+    public static void assertFileContains(MockDefaultGenerator generator, String path, String... lines) {
+        final String generatedFile = generator.getFiles().get(path);
+        if (null == generatedFile) {
+            fail("File " + path +  " not found in " + generator.getFiles().keySet());
+        }
+        String file = linearize(generatedFile);
+        assertNotNull(file);
+        for (String line : lines)
+            assertTrue(file.contains(linearize(line)));
+    }
+
+    private static String linearize(String target) {
+        return target.replaceAll("\r?\n", "").replaceAll("\\s+", "\\s");
+    }
+
+    public static void assertFileNotContains(MockDefaultGenerator generator, String path, String... lines) {
+        String file = linearize(generator.getFiles().get(path));
+        assertNotNull(file);
+        for (String line : lines)
+            assertFalse(file.contains(linearize(line)));
     }
 }

@@ -27,7 +27,7 @@ final class ISOFullDateTests: XCTestCase {
             [
                 .Year,
                 .Month,
-                .Day,
+                .Day
             ],
             fromDate: date
         )
@@ -62,7 +62,7 @@ final class ISOFullDateTests: XCTestCase {
             [
                 .Year,
                 .Month,
-                .Day,
+                .Day
             ],
             fromDate: date
         )

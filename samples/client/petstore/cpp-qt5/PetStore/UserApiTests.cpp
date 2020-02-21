@@ -1,8 +1,8 @@
 #include "UserApiTests.h"
 
+#include <QDebug>
 #include <QTest>
 #include <QTimer>
-#include <QDebug>
 
 PFXUser UserApiTests::createRandomUser() {
     PFXUser user;
@@ -17,15 +17,14 @@ PFXUser UserApiTests::createRandomUser() {
     return user;
 }
 
-void UserApiTests::createUserTest(){
+void UserApiTests::createUserTest() {
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool userCreated = false;
 
-    connect(&api, &PFXUserApi::createUserSignal, [&](){
-            userCreated = true;
-            loop.quit();
+    connect(&api, &PFXUserApi::createUserSignal, [&]() {
+        userCreated = true;
+        loop.quit();
     });
 
     api.createUser(createRandomUser());
@@ -34,15 +33,14 @@ void UserApiTests::createUserTest(){
     QVERIFY2(userCreated, "didn't finish within timeout");
 }
 
-void UserApiTests::createUsersWithArrayInputTest(){
+void UserApiTests::createUsersWithArrayInputTest() {
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool usersCreated = false;
 
-    connect(&api, &PFXUserApi::createUsersWithArrayInputSignal, [&](){
-            usersCreated = true;
-            loop.quit();
+    connect(&api, &PFXUserApi::createUsersWithArrayInputSignal, [&]() {
+        usersCreated = true;
+        loop.quit();
     });
 
     QList<PFXUser> users;
@@ -55,15 +53,14 @@ void UserApiTests::createUsersWithArrayInputTest(){
     QVERIFY2(usersCreated, "didn't finish within timeout");
 }
 
-void UserApiTests::createUsersWithListInputTest(){
+void UserApiTests::createUsersWithListInputTest() {
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool usersCreated = false;
 
-    connect(&api, &PFXUserApi::createUsersWithListInputSignal, [&](){
-            usersCreated = true;
-            loop.quit();
+    connect(&api, &PFXUserApi::createUsersWithListInputSignal, [&]() {
+        usersCreated = true;
+        loop.quit();
     });
 
     QList<PFXUser> users;
@@ -80,15 +77,14 @@ void UserApiTests::createUsersWithListInputTest(){
     QVERIFY2(usersCreated, "didn't finish within timeout");
 }
 
-void UserApiTests::deleteUserTest(){
+void UserApiTests::deleteUserTest() {
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool userDeleted = false;
 
-    connect(&api, &PFXUserApi::deleteUserSignal, [&](){
-            userDeleted = true;
-            loop.quit();
+    connect(&api, &PFXUserApi::deleteUserSignal, [&]() {
+        userDeleted = true;
+        loop.quit();
     });
 
     api.deleteUser("rambo");
@@ -97,9 +93,8 @@ void UserApiTests::deleteUserTest(){
     QVERIFY2(userDeleted, "didn't finish within timeout");
 }
 
-void UserApiTests::getUserByNameTest(){
+void UserApiTests::getUserByNameTest() {
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool userFetched = false;
 
@@ -116,9 +111,8 @@ void UserApiTests::getUserByNameTest(){
     QVERIFY2(userFetched, "didn't finish within timeout");
 }
 
-void UserApiTests::loginUserTest(){
+void UserApiTests::loginUserTest() {
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool userLogged = false;
 
@@ -134,13 +128,12 @@ void UserApiTests::loginUserTest(){
     QVERIFY2(userLogged, "didn't finish within timeout");
 }
 
-void UserApiTests::logoutUserTest(){
+void UserApiTests::logoutUserTest() {
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool userLoggedOut = false;
 
-    connect(&api, &PFXUserApi::logoutUserSignal, [&](){
+    connect(&api, &PFXUserApi::logoutUserSignal, [&]() {
         userLoggedOut = true;
         loop.quit();
     });
@@ -151,15 +144,14 @@ void UserApiTests::logoutUserTest(){
     QVERIFY2(userLoggedOut, "didn't finish within timeout");
 }
 
-void UserApiTests::updateUserTest(){
+void UserApiTests::updateUserTest() {
     PFXUserApi api;
-    api.setHost(PetStoreHost);
     QEventLoop loop;
     bool userUpdated = false;
 
     connect(&api, &PFXUserApi::updateUserSignal, [&]() {
-            userUpdated = true;
-            loop.quit();
+        userUpdated = true;
+        loop.quit();
     });
 
     auto johndoe = createRandomUser();

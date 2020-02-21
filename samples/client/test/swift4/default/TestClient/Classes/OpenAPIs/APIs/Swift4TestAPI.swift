@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Alamofire
 
 open class Swift4TestAPI {
     /**
@@ -35,7 +34,7 @@ open class Swift4TestAPI {
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "client_id": clientId
+            "client_id": clientId.encodeToJSON()
         ])
 
         let requestBuilder: RequestBuilder<GetAllModelsResult>.Type = TestClientAPI.requestBuilderFactory.getBuilder()

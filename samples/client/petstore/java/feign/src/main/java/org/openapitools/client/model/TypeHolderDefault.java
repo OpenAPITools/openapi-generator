@@ -36,6 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
+@javax.annotation.concurrent.Immutable
 
 public class TypeHolderDefault {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";

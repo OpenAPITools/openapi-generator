@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,7 +23,10 @@ import io.airlift.airline.Option;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
-import org.openapitools.codegen.utils.ModelUtils;
+import org.apache.commons.lang3.text.WordUtils;
+import org.openapitools.codegen.validation.ValidationResult;
+import org.openapitools.codegen.validations.oas.OpenApiEvaluator;
+import org.openapitools.codegen.validations.oas.RuleConfiguration;
 
 import java.util.HashSet;
 import java.util.List;
@@ -51,27 +54,28 @@ public class Validate implements Runnable {
         StringBuilder sb = new StringBuilder();
         OpenAPI specification = result.getOpenAPI();
 
-        if (Boolean.TRUE.equals(recommend)) {
-            if (specification != null) {
-                // Add information about unused models to the warnings set.
-                List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
-                if (unusedModels != null) {
-                    unusedModels.forEach(name -> warnings.add("Unused model: " + name));
-                }
-            }
-        }
+        RuleConfiguration ruleConfiguration = new RuleConfiguration();
+        ruleConfiguration.setEnableRecommendations(recommend != null ? recommend : false);
+
+        OpenApiEvaluator evaluator = new OpenApiEvaluator(ruleConfiguration);
+        ValidationResult validationResult = evaluator.validate(specification);
+
+        // TODO: We could also provide description here along with getMessage. getMessage is either a "generic" message or specific (e.g. Model 'Cat' has issues).
+        //       This would require that we parse the messageList coming from swagger-parser into a better structure.
+        validationResult.getWarnings().forEach(invalid -> warnings.add(invalid.getMessage()));
+        validationResult.getErrors().forEach(invalid -> errors.add(invalid.getMessage()));
 
         if (!errors.isEmpty()) {
             sb.append("Errors:").append(System.lineSeparator());
             errors.forEach(msg ->
-                    sb.append("\t-").append(msg).append(System.lineSeparator())
+                    sb.append("\t- ").append(WordUtils.wrap(msg, 90).replace(System.lineSeparator(), System.lineSeparator() + "\t  ")).append(System.lineSeparator())
             );
         }
 
         if (!warnings.isEmpty()) {
             sb.append("Warnings: ").append(System.lineSeparator());
             warnings.forEach(msg ->
-                    sb.append("\t-").append(msg).append(System.lineSeparator())
+                    sb.append("\t- ").append(WordUtils.wrap(msg, 90).replace(System.lineSeparator(), System.lineSeparator() + "\t  ")).append(System.lineSeparator())
             );
         }
 

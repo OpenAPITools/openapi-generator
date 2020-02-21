@@ -1,5 +1,5 @@
 {
-  "!include": "./bin/jaxrs-datelib-j8.json",
+  "!include": "bin/jaxrs-datelib-j8.json",
   "generatorName": "jaxrs-jersey",
   "inputSpec": "modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml",
   "outputDir": "samples/server/petstore/jaxrs-datelib-j8/",

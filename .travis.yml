@@ -11,6 +11,7 @@ before_cache:
   - rm -fr $HOME/.m2/repository/org/openapitools/
 
 cache:
+  yarn: true
   directories:
   - $HOME/.m2
   - $HOME/.ivy2
@@ -56,13 +57,15 @@ addons:
     - petstore.swagger.io
 
 before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.0
+  - export PATH="$HOME/.yarn/bin:$PATH"
   # install rust
   - curl https://sh.rustup.rs -sSf | sh -s -- -y -v
   # required when sudo: required for the Ruby petstore tests
   - gem install bundler
   - npm install -g typescript
   - npm install -g npm
-  - npm install -g elm@0.18.0-exp5
+  #- npm install -g elm@0.18.0-exp5
   - npm config set registry http://registry.npmjs.org/
   # set python 3.6.3 as default
   - source ~/virtualenv/python3.6/bin/activate
@@ -108,7 +111,7 @@ before_install:
       gpg --keyserver keyserver.ubuntu.com --recv-key $SIGNING_KEY ;
       gpg --check-trustdb ;
     fi;
-  - pushd .; cd website; npm install; popd
+  - pushd .; cd website; yarn install; popd
 
 install:
   # Add Godeps dependencies to GOPATH and PATH
@@ -133,12 +136,13 @@ script:
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
-  - mvn --quiet --batch-mode --show-version clean install
-  - mvn --quiet --batch-mode --show-version verify -Psamples
+  - mvn --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   # test maven plugin
-  - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml
-  - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml
-  - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml
+  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/kotlin.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/spring.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   # test gradle plugin
   - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew buildGoSdk)
   - (cd modules/openapi-generator-gradle-plugin/samples/local-spec && ./gradlew openApiGenerate)
@@ -183,8 +187,8 @@ after_success:
       git config --global user.name "${GH_NAME}";
       git config --global user.email "${GH_EMAIL}";
       echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc;
-      npm install;
-      GIT_USER="${GH_NAME}" npm run-script publish-gh-pages;
+      yarn install;
+      GIT_USER="${GH_NAME}" yarn run publish-gh-pages;
     fi;
 
 env:

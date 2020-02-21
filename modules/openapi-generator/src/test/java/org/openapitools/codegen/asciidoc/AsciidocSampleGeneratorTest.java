@@ -64,6 +64,7 @@ public class AsciidocSampleGeneratorTest {
 
     /**
      * ensure api-docs.json includes sample and spec files directory as attributes.
+     * @throws Exception exception
      */
     @Test
     public void testSampleAsciidocMarkupGenerationFromJsonWithAttributes() throws Exception {
@@ -75,6 +76,7 @@ public class AsciidocSampleGeneratorTest {
 
     /**
      * ensure api-docs.json includes sample and spec files into markup.
+     * @throws Exception exception
      */
     @Test
     public void testSampleAsciidocMarkupGenerationFromJsonWithIncludes() throws Exception {
@@ -98,6 +100,7 @@ public class AsciidocSampleGeneratorTest {
 
     /**
      * markup doc header content.
+     * @throws Exception exception
      */
     @Test
     public void testSampleAsciidocMarkupGenerationFromJsonWithContent() throws Exception {
@@ -108,11 +111,36 @@ public class AsciidocSampleGeneratorTest {
 
     /**
      * fix: parameter name unchanged.
+     * @throws Exception exception
      */
     @Test
     public void testSampleAsciidocMarkupGenerationParameterNameUnchanged() throws Exception {
         Assert.assertTrue(markupContent.contains("from-iso-date-string"),
                 "keep parameter name from-iso-date-string unchanged.");
+    }
+
+    /**
+     * added apikey info in access section.
+     * @throws Exception exception
+     */
+    @Test
+    public void testSampleAsciidocMarkupGenerationAccessApiKey() throws Exception {
+        Assert.assertTrue(markupContent.contains("*APIKey*"),
+                "access section mit apikey expected.");
+        Assert.assertFalse(markupContent.contains("*OAuth*"),
+                "access section no oauth expected.");
+        Assert.assertFalse(markupContent.contains("*HTTP Basic*"),
+                "access section no http basic expected.");
+    }
+
+    /**
+     * no form params in this sample spec.
+     * @throws Exception exception
+     */
+    @Test
+    public void testSampleAsciidocMarkupGenerationWithoutFormParameter() throws Exception {
+        Assert.assertFalse(markupContent.contains("= Form Parameter"),
+                "no form parameters in this openapi spec expected.");
     }
 
 }

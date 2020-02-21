@@ -40,10 +40,10 @@ deleteOrder :
 deleteOrder params =
     Http.request
         { method = "DELETE"
-        , headers = []
+        , headers = List.filterMap identity []
         , url = Url.crossOrigin basePath
-            ["store", "order",   params.orderId]
-            []
+            ["store", "order", identity params.orderId]
+            (List.filterMap identity [])
         , body = Http.emptyBody
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -65,10 +65,10 @@ getInventory :
 getInventory params =
     Http.request
         { method = "GET"
-        , headers = []
+        , headers = List.filterMap identity []
         , url = Url.crossOrigin basePath
             ["store", "inventory"]
-            []
+            (List.filterMap identity [])
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend (Decode.dict Decode.int)
         , timeout = Just 30000
@@ -90,10 +90,10 @@ getOrderById :
 getOrderById params =
     Http.request
         { method = "GET"
-        , headers = []
+        , headers = List.filterMap identity []
         , url = Url.crossOrigin basePath
-            ["store", "order",  String.fromInt params.orderId]
-            []
+            ["store", "order", String.fromInt params.orderId]
+            (List.filterMap identity [])
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend Order_.decoder
         , timeout = Just 30000
@@ -113,10 +113,10 @@ placeOrder :
 placeOrder params =
     Http.request
         { method = "POST"
-        , headers = []
+        , headers = List.filterMap identity []
         , url = Url.crossOrigin basePath
             ["store", "order"]
-            []
+            (List.filterMap identity [])
         , body = Http.jsonBody <| Order_.encode params.body
         , expect = Http.expectJson params.onSend Order_.decoder
         , timeout = Just 30000

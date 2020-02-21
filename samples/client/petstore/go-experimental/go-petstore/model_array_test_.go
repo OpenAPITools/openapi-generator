@@ -21,6 +21,23 @@ type ArrayTest struct {
 	ArrayArrayOfModel *[][]ReadOnlyFirst `json:"array_array_of_model,omitempty"`
 }
 
+// NewArrayTest instantiates a new ArrayTest object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewArrayTest() *ArrayTest {
+    this := ArrayTest{}
+    return &this
+}
+
+// NewArrayTestWithDefaults instantiates a new ArrayTest object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewArrayTestWithDefaults() *ArrayTest {
+    this := ArrayTest{}
+    return &this
+}
+
 // GetArrayOfString returns the ArrayOfString field value if set, zero value otherwise.
 func (o *ArrayTest) GetArrayOfString() []string {
 	if o == nil || o.ArrayOfString == nil {
@@ -131,7 +148,7 @@ func (v NullableArrayTest) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableArrayTest) UnmarshalJSON(src []byte) error {
@@ -142,4 +159,3 @@ func (v *NullableArrayTest) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

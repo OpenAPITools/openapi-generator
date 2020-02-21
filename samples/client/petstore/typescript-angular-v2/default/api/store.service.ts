@@ -19,10 +19,11 @@ import { CustomQueryEncoderHelper }                          from '../encoder';
 import { Observable }                                        from 'rxjs/Observable';
 import '../rxjs-operators';
 
-import { Order } from '../model/order';
+import { Order } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+
 
 
 @Injectable()
@@ -50,6 +51,7 @@ export class StoreService {
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * @summary Delete purchase order by ID
+     
      * @param orderId ID of the order that needs to be deleted
      */
     public deleteOrder(orderId: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
@@ -66,6 +68,7 @@ export class StoreService {
     /**
      * Returns a map of status codes to quantities
      * @summary Returns pet inventories by status
+     
      */
     public getInventory(extraHttpRequestParams?: RequestOptionsArgs): Observable<{ [key: string]: number; }> {
         return this.getInventoryWithHttpInfo(extraHttpRequestParams)
@@ -81,6 +84,7 @@ export class StoreService {
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * @summary Find purchase order by ID
+     
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderById(orderId: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Order> {
@@ -97,6 +101,7 @@ export class StoreService {
     /**
      * 
      * @summary Place an order for a pet
+     
      * @param body order placed for purchasing the pet
      */
     public placeOrder(body: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Order> {
@@ -111,23 +116,61 @@ export class StoreService {
     }
 
 
+    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object" && value instanceof Date === false) {
+            this.addToHttpParamsRecursive(httpParams, value);
+        } else {
+            this.addToHttpParamsRecursive(httpParams, value, key);
+        }
+        return httpParams;
+    }
+
+    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
+        if (value == null) {
+            return httpParams;
+        }
+
+        if (typeof value === "object") {
+            if (Array.isArray(value)) {
+                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+            } else if (value instanceof Date) {
+                if (key != null) {
+                    httpParams.append(key,
+                        (value as Date).toISOString().substr(0, 10));
+                } else {
+                   throw Error("key may not be null if value is Date");
+                }
+            } else {
+                Object.keys(value).forEach( k => this.addToHttpParamsRecursive(
+                    httpParams, value[k], key != null ? `${key}.${k}` : k));
+            }
+        } else if (key != null) {
+            httpParams.append(key, value);
+        } else {
+            throw Error("key may not be null if value is not object or array");
+        }
+        return httpParams;
+    }
+
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
-     
      */
-    public deleteOrderWithHttpInfo(orderId: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public deleteOrderWithHttpInfo(orderId: string, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: undefined}): Observable<Response> {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
@@ -136,6 +179,7 @@ export class StoreService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -149,22 +193,27 @@ export class StoreService {
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     
      */
-    public getInventoryWithHttpInfo(extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public getInventoryWithHttpInfo(extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: 'application/json'}): Observable<Response> {
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // authentication (api_key) required
-        if (this.configuration.apiKeys && this.configuration.apiKeys["api_key"]) {
-            headers.set('api_key', this.configuration.apiKeys["api_key"]);
+        if (this.configuration.apiKeys) {
+            const key: string | undefined = this.configuration.apiKeys["api_key"] || this.configuration.apiKeys["api_key"];
+            if (key) {
+                headers.set('api_key', key);
+            }
         }
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
@@ -173,6 +222,7 @@ export class StoreService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -187,21 +237,23 @@ export class StoreService {
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
-     
      */
-    public getOrderByIdWithHttpInfo(orderId: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public getOrderByIdWithHttpInfo(orderId: number, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<Response> {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/xml',
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
@@ -210,6 +262,7 @@ export class StoreService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -223,21 +276,23 @@ export class StoreService {
     /**
      * Place an order for a pet
      * @param body order placed for purchasing the pet
-     
      */
-    public placeOrderWithHttpInfo(body: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public placeOrderWithHttpInfo(body: Order, extraHttpRequestParams?: RequestOptionsArgs, options?: {httpHeaderAccept?: 'application/xml' | 'application/json'}): Observable<Response> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling placeOrder.');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-            'application/xml',
-            'application/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/xml',
+                'application/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
@@ -255,6 +310,7 @@ export class StoreService {
             method: RequestMethod.Post,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            responseType: httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text') ? ResponseContentType.Text : ResponseContentType.Json,
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037

@@ -42,17 +42,17 @@ pub mod responses {
 
     lazy_static! {
         /// Create Mime objects for the response content types for FindPetsByStatus
-        pub static ref FIND_PETS_BY_STATUS_SUCCESSFUL_OPERATION: Mime = "application/json".parse().unwrap();
+        pub static ref FIND_PETS_BY_STATUS_SUCCESSFUL_OPERATION: Mime = "application/xml".parse().unwrap();
     }
 
     lazy_static! {
         /// Create Mime objects for the response content types for FindPetsByTags
-        pub static ref FIND_PETS_BY_TAGS_SUCCESSFUL_OPERATION: Mime = "application/json".parse().unwrap();
+        pub static ref FIND_PETS_BY_TAGS_SUCCESSFUL_OPERATION: Mime = "application/xml".parse().unwrap();
     }
 
     lazy_static! {
         /// Create Mime objects for the response content types for GetPetById
-        pub static ref GET_PET_BY_ID_SUCCESSFUL_OPERATION: Mime = "application/json".parse().unwrap();
+        pub static ref GET_PET_BY_ID_SUCCESSFUL_OPERATION: Mime = "application/xml".parse().unwrap();
     }
 
     lazy_static! {
@@ -67,22 +67,22 @@ pub mod responses {
 
     lazy_static! {
         /// Create Mime objects for the response content types for GetOrderById
-        pub static ref GET_ORDER_BY_ID_SUCCESSFUL_OPERATION: Mime = "application/json".parse().unwrap();
+        pub static ref GET_ORDER_BY_ID_SUCCESSFUL_OPERATION: Mime = "application/xml".parse().unwrap();
     }
 
     lazy_static! {
         /// Create Mime objects for the response content types for PlaceOrder
-        pub static ref PLACE_ORDER_SUCCESSFUL_OPERATION: Mime = "application/json".parse().unwrap();
+        pub static ref PLACE_ORDER_SUCCESSFUL_OPERATION: Mime = "application/xml".parse().unwrap();
     }
 
     lazy_static! {
         /// Create Mime objects for the response content types for GetUserByName
-        pub static ref GET_USER_BY_NAME_SUCCESSFUL_OPERATION: Mime = "application/json".parse().unwrap();
+        pub static ref GET_USER_BY_NAME_SUCCESSFUL_OPERATION: Mime = "application/xml".parse().unwrap();
     }
 
     lazy_static! {
         /// Create Mime objects for the response content types for LoginUser
-        pub static ref LOGIN_USER_SUCCESSFUL_OPERATION: Mime = "application/json".parse().unwrap();
+        pub static ref LOGIN_USER_SUCCESSFUL_OPERATION: Mime = "application/xml".parse().unwrap();
     }
 
 }

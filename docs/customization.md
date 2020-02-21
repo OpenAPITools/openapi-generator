@@ -3,10 +3,9 @@ id: customization
 title: Customization
 ---
 
-<a id="creating-a-new-template"></a><!-- maintain old link ref name.-->
 ## Custom Generator (and Template)
-
-If none of the built-in generators suit your needs and you need to do more than just modify the mustache templates to tweak generated code, you can create a brand new generator and its associated templates. OpenAPI Generator can help with this, using the `meta` command:
+ 
+<a id="creating-a-new-template"></a> If none of the built-in generators suit your needs and you need to do more than just modify the mustache templates to tweak generated code, you can create a brand new generator and its associated templates. OpenAPI Generator can help with this, using the `meta` command:
 
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar meta \
@@ -224,7 +223,7 @@ apiPackage: "petstore"
 ```
 
 Supported config options can be different per language. Running `config-help -g {lang}` will show available options.
-**These options are applied via configuration file (e.g. config.json or config.yml) or by passing them with `-D{optionName}={optionValue}`**. (If `-D{optionName}` does not work, please open a [ticket](https://github.com/openapitools/openapi-generator/issues/new) and we'll look into it)
+**These options are applied via configuration file (e.g. config.json or config.yml) or by passing them with `-p {optionName}={optionValue}`**. (If `-p {optionName}` does not work, please open a [ticket](https://github.com/openapitools/openapi-generator/issues/new) and we'll look into it)
 
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar config-help -g java

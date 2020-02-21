@@ -11,11 +11,10 @@ class {{classname}} extends EnumClass {
       {{#description}}
   /// {{description}}
       {{/description}}
-  @BuiltValueEnumConst(wireName: '{{name}}')
+  @BuiltValueEnumConst(wireName: {{{value}}})
   static const {{classname}} {{name}} = _${{name}};
     {{/enumVars}}
   {{/allowableValues}}
-
 
   static Serializer<{{classname}}> get serializer => _${{classVarName}}Serializer;
 

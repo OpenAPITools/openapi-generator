@@ -22,6 +22,23 @@ type MapTest struct {
 	IndirectMap *map[string]bool `json:"indirect_map,omitempty"`
 }
 
+// NewMapTest instantiates a new MapTest object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewMapTest() *MapTest {
+    this := MapTest{}
+    return &this
+}
+
+// NewMapTestWithDefaults instantiates a new MapTest object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewMapTestWithDefaults() *MapTest {
+    this := MapTest{}
+    return &this
+}
+
 // GetMapMapOfString returns the MapMapOfString field value if set, zero value otherwise.
 func (o *MapTest) GetMapMapOfString() map[string]map[string]string {
 	if o == nil || o.MapMapOfString == nil {
@@ -165,7 +182,7 @@ func (v NullableMapTest) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableMapTest) UnmarshalJSON(src []byte) error {
@@ -176,4 +193,3 @@ func (v *NullableMapTest) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

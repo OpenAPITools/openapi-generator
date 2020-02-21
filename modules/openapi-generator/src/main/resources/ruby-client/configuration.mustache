@@ -176,7 +176,7 @@ module {{moduleName}}
           },
 {{/isApiKey}}
 {{#isBasic}}
-{{^isBasicBearer}}
+{{#isBasicBasic}}
         '{{name}}' =>
           {
             type: 'basic',
@@ -184,7 +184,7 @@ module {{moduleName}}
             key: 'Authorization',
             value: basic_auth_token
           },
-{{/isBasicBearer}}
+{{/isBasicBasic}}
 {{#isBasicBearer}}
         '{{name}}' =>
           {
@@ -217,13 +217,13 @@ module {{moduleName}}
       {{#servers}}
         {
           url: "{{{url}}}",
-          description: "{{{description}}}{{^description}}No descriptoin provided{{/description}}",
+          description: "{{{description}}}{{^description}}No description provided{{/description}}",
           {{#variables}}
           {{#-first}}
           variables: {
           {{/-first}}
             {{{name}}}: {
-                description: "{{{description}}}{{^description}}No descriptoin provided{{/description}}",
+                description: "{{{description}}}{{^description}}No description provided{{/description}}",
                 default_value: "{{{defaultValue}}}",
                 {{#enumValues}}
                 {{#-first}}

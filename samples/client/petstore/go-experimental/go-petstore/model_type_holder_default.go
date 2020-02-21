@@ -23,6 +23,32 @@ type TypeHolderDefault struct {
 	ArrayItem []int32 `json:"array_item"`
 }
 
+// NewTypeHolderDefault instantiates a new TypeHolderDefault object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewTypeHolderDefault(stringItem string, numberItem float32, integerItem int32, boolItem bool, arrayItem []int32, ) *TypeHolderDefault {
+    this := TypeHolderDefault{}
+    this.StringItem = stringItem
+    this.NumberItem = numberItem
+    this.IntegerItem = integerItem
+    this.BoolItem = boolItem
+    this.ArrayItem = arrayItem
+    return &this
+}
+
+// NewTypeHolderDefaultWithDefaults instantiates a new TypeHolderDefault object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewTypeHolderDefaultWithDefaults() *TypeHolderDefault {
+    this := TypeHolderDefault{}
+    var stringItem string = "what"
+    this.StringItem = stringItem
+    var boolItem bool = true
+    this.BoolItem = boolItem
+    return &this
+}
+
 // GetStringItem returns the StringItem field value
 func (o *TypeHolderDefault) GetStringItem() string {
 	if o == nil {
@@ -109,7 +135,7 @@ func (v NullableTypeHolderDefault) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableTypeHolderDefault) UnmarshalJSON(src []byte) error {
@@ -120,4 +146,3 @@ func (v *NullableTypeHolderDefault) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

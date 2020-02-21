@@ -10,6 +10,7 @@
 
 from __future__ import absolute_import
 
+import atexit
 import datetime
 from dateutil.parser import parse
 import json
@@ -80,11 +81,19 @@ class ApiClient(object):
         self.user_agent = 'OpenAPI-Generator/1.0.0/python'
         self.client_side_validation = configuration.client_side_validation
 
-    def __del__(self):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+
+    def close(self):
         if self._pool:
             self._pool.close()
             self._pool.join()
             self._pool = None
+            if hasattr(atexit, 'unregister'):
+                atexit.unregister(self.close)
 
     @property
     def pool(self):
@@ -92,6 +101,7 @@ class ApiClient(object):
          avoids instantiating unused threadpool for blocking clients.
         """
         if self._pool is None:
+            atexit.register(self.close)
             self._pool = ThreadPool(self.pool_threads)
         return self._pool
 
@@ -513,9 +523,7 @@ class ApiClient(object):
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
-                if not auth_setting['value']:
-                    continue
-                elif auth_setting['in'] == 'cookie':
+                if auth_setting['in'] == 'cookie':
                     headers['Cookie'] = auth_setting['value']
                 elif auth_setting['in'] == 'header':
                     headers[auth_setting['key']] = auth_setting['value']

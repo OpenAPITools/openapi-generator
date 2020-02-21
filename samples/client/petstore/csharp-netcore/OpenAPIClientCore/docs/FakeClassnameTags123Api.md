@@ -29,13 +29,14 @@ namespace Example
     {
         public static void Main()
         {
-            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
             // Configure API key authorization: api_key_query
-            Configuration.Default.AddApiKey("api_key_query", "YOUR_API_KEY");
+            config.AddApiKey("api_key_query", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.AddApiKeyPrefix("api_key_query", "Bearer");
+            // config.AddApiKeyPrefix("api_key_query", "Bearer");
 
-            var apiInstance = new FakeClassnameTags123Api(Configuration.Default);
+            var apiInstance = new FakeClassnameTags123Api(config);
             var body = new ModelClient(); // ModelClient | client model
 
             try

@@ -19,6 +19,23 @@ type List struct {
 	Var123List *string `json:"123-list,omitempty"`
 }
 
+// NewList instantiates a new List object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewList() *List {
+    this := List{}
+    return &this
+}
+
+// NewListWithDefaults instantiates a new List object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewListWithDefaults() *List {
+    this := List{}
+    return &this
+}
+
 // GetVar123List returns the Var123List field value if set, zero value otherwise.
 func (o *List) GetVar123List() string {
 	if o == nil || o.Var123List == nil {
@@ -63,7 +80,7 @@ func (v NullableList) MarshalJSON() ([]byte, error) {
         return []byte("null"), nil
     default:
 		return json.Marshal(v.Value)
-	}	
+	}
 }
 
 func (v *NullableList) UnmarshalJSON(src []byte) error {
@@ -74,4 +91,3 @@ func (v *NullableList) UnmarshalJSON(src []byte) error {
 
 	return json.Unmarshal(src, &v.Value)
 }
-

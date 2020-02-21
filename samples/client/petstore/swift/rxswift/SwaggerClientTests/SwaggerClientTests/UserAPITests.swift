@@ -104,7 +104,7 @@ class UserAPITests: XCTestCase {
             XCTAssert(user.password == "test!", "invalid password")
             XCTAssert(user.phone == "867-5309", "invalid phone")
             expectation.fulfill()
-            }, onError: { errorType in
+            }, onError: { _ in
                 XCTFail("error getting user")
             }, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -100,16 +101,6 @@ public class GenerateBatch implements Runnable {
             numThreads = threads;
         }
 
-        // This allows us to put meta-configs in a different file from referenced configs.
-        // If not specified, we'll assume it's the parent directory of the first file.
-        File includesDir;
-        if (includes != null) {
-            includesDir = new File(includes);
-        } else {
-            Path first = Paths.get(configs.get(0));
-            includesDir = first.getParent().toFile();
-        }
-
         Path rootDir;
         if (root != null) {
             rootDir = Paths.get(root);
@@ -117,26 +108,27 @@ public class GenerateBatch implements Runnable {
             rootDir = Paths.get(System.getProperty("user.dir"));
         }
 
-        LOGGER.info(String.format(Locale.ROOT, "Batch generation using %d threads.\nIncludes: %s\nRoot: %s", numThreads, includesDir.getAbsolutePath(), rootDir.toAbsolutePath().toString()));
+        // This allows us to put meta-configs in a different file from referenced configs.
+        // If not specified, we'll assume it's the parent directory of the first file.
+        File includesDir;
+        if (includes != null) {
+            includesDir = new File(includes);
+        } else {
+            Path first = Paths.get(configs.get(0));
+            if (Files.isRegularFile(first) && !Files.isSymbolicLink(first)) {
+                includesDir = first.toAbsolutePath().getParent().toFile();
+            } else {
+                // Not traversing symbolic links for includes. Falling back to rooted working directory.
+                includesDir = rootDir.toFile();
+            }
+        }
+
+        LOGGER.info(String.format(Locale.ROOT, "Batch generation using up to %d threads.\nIncludes: %s\nRoot: %s", numThreads, includesDir.getAbsolutePath(), rootDir.toAbsolutePath().toString()));
 
         // Create a module which loads our config files, but supports a special "!include" key which can point to an existing config file.
         // This allows us to create a sort of meta-config which holds configs which are otherwise required at CLI time (via generate task).
         // That is, this allows us to create a wrapper config for generatorName, inputSpec, outputDir, etc.
-        SimpleModule module = new SimpleModule("GenerateBatch");
-        module.setDeserializerModifier(new BeanDeserializerModifier() {
-            @Override
-            public JsonDeserializer<?> modifyDeserializer(DeserializationConfig config,
-                                                          BeanDescription bd, JsonDeserializer<?> original) {
-                JsonDeserializer<?> result;
-                if (bd.getBeanClass() == DynamicSettings.class) {
-                    result = new DynamicSettingsRefSupport(original, includesDir);
-                } else {
-                    result = original;
-                }
-                return result;
-            }
-        });
-
+        SimpleModule module = getCustomDeserializationModel(includesDir);
         List<CodegenConfigurator> configurators = configs.stream().map(config -> CodegenConfigurator.fromFile(config, module)).collect(Collectors.toList());
 
         // it doesn't make sense to interleave INFO level logs, so limit these to only ERROR.
@@ -162,6 +154,8 @@ public class GenerateBatch implements Runnable {
             System.out.println("COMPLETE.");
         } catch (InterruptedException e) {
             e.printStackTrace();
+            // re-interrupt
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -220,6 +214,28 @@ public class GenerateBatch implements Runnable {
         }
     }
 
+    static SimpleModule getCustomDeserializationModel(final File includesDir) {
+        // Create a module which loads our config files, but supports a special "!include" key which can point to an existing config file.
+        // This allows us to create a sort of meta-config which holds configs which are otherwise required at CLI time (via generate task).
+        // That is, this allows us to create a wrapper config for generatorName, inputSpec, outputDir, etc.
+        SimpleModule module = new SimpleModule("GenerateBatch");
+        module.setDeserializerModifier(new BeanDeserializerModifier() {
+            @Override
+            public JsonDeserializer<?> modifyDeserializer(DeserializationConfig config,
+                                                          BeanDescription bd, JsonDeserializer<?> original) {
+                JsonDeserializer<?> result;
+                if (bd.getBeanClass() == DynamicSettings.class) {
+                    result = new DynamicSettingsRefSupport(original, includesDir);
+                } else {
+                    result = original;
+                }
+                return result;
+            }
+        });
+
+        return module;
+    }
+
     static class DynamicSettingsRefSupport extends DelegatingDeserializer {
         private static final String INCLUDE = "!include";
         private File scanDir;
@@ -248,11 +264,13 @@ public class GenerateBatch implements Runnable {
                         // load the file into the tree node and continue parsing as normal
                         ((ObjectNode) node).remove(INCLUDE);
 
-                        JsonParser includeParser = codec.getFactory().createParser(includeFile);
-                        TreeNode includeNode = includeParser.readValueAsTree();
+                        TreeNode includeNode;
+                        try (JsonParser includeParser = codec.getFactory().createParser(includeFile)) {
+                            includeNode = includeParser.readValueAsTree();
+                        }
 
                         ObjectReader reader = codec.readerForUpdating(node);
-                        TreeNode updated = reader.readValue(includeFile);
+                        TreeNode updated = reader.readValue(includeNode.traverse());
                         JsonParser updatedParser = updated.traverse();
                         updatedParser.nextToken();
                         return super.deserialize(updatedParser, ctx);
