@@ -41,6 +41,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
 
     protected static final String RESERVED_WORD_PREFIX_OPTION = "reservedWordPrefix";
+    protected static final String RESERVED_WORD_PREFIX_DESC = "Prefix to prepend to reserved words in order to avoid conflicts";
     protected String reservedWordPrefix = "r_";
 
     public AbstractCppCodegen() {
@@ -140,8 +141,9 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                         "xor_eq")
         );
 
-        addOption(RESERVED_WORD_PREFIX_OPTION, "Prefix to prepend to reserved words in order to avoid conflicts",
-            this.reservedWordPrefix);
+        addOption(RESERVED_WORD_PREFIX_OPTION,
+                RESERVED_WORD_PREFIX_DESC,
+                this.reservedWordPrefix);
     }
 
     @Override
@@ -269,9 +271,9 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
         if (additionalProperties.containsKey(RESERVED_WORD_PREFIX_OPTION)) {
             reservedWordPrefix = (String) additionalProperties.get(RESERVED_WORD_PREFIX_OPTION);
-        } else {
-            additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);
         }
+
+        additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);
     }
 
     @Override
