@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.1
 servers:
   - url: 'http://petstore.swagger.io/v2'
 info:
@@ -217,17 +217,7 @@ paths:
             - 'write:pets'
             - 'read:pets'
       requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
+        $ref: '#/components/requestBodies/PetForm'
     delete:
       tags:
         - pet
@@ -281,18 +271,7 @@ paths:
             - 'write:pets'
             - 'read:pets'
       requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  type: string
-                  format: binary
+        $ref: '#/components/requestBodies/UploadForm'
   /store/inventory:
     get:
       tags:
@@ -588,7 +567,7 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/User'
-      description: List of user object
+      description: List of user objects
       required: true
     Pet:
       content:
@@ -600,6 +579,22 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
+    PetForm:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/PetForm'
+          example:
+              name: fluffy
+              status: available
+    UploadForm:
+      content:
+        multipart/form-data:
+          schema:
+            $ref: '#/components/schemas/UploadForm'
+          example:
+            additionalMetadata: additional metadata example
+            file: c29tZSB0ZXN0IGRhdGEK
   securitySchemes:
     petstore_auth:
       type: oauth2
@@ -737,6 +732,34 @@ components:
             - sold
       xml:
         name: Pet
+    PetForm:
+      title: A pet form
+      description: A form for updating a pet
+      type: object
+      required:
+        - name
+        - status
+      properties:
+        name:
+          description: Updated name of the pet
+          type: string
+        status:
+          description: Updated status of the pet
+          type: string
+    UploadForm:
+      title: An upload form
+      description: A form for attaching files to a pet
+      type: object
+      required:
+        - file
+      properties:
+        additionalMetadata:
+          description: Additional data to pass to server
+          type: string
+        file:
+          description: file to upload
+          type: string
+          format: binary
     ApiResponse:
       title: An uploaded response
       description: Describes the result of uploading an image resource

@@ -8,7 +8,9 @@ from six import BytesIO
 
 from openapi_server.models.api_response import ApiResponse  # noqa: E501
 from openapi_server.models.pet import Pet  # noqa: E501
+from openapi_server.models.pet_form import PetForm  # noqa: E501
 from openapi_server.models.status_enum import StatusEnum  # noqa: E501
+from openapi_server.models.upload_form import UploadForm  # noqa: E501
 from openapi_server.test import BaseTestCase
 
 
@@ -178,17 +180,16 @@ class TestPetController(BaseTestCase):
 
         Updates a pet in the store with form data
         """
+        pet_form = {"name":"fluffy","status":"available"}
         headers = { 
             'Content-Type': 'application/x-www-form-urlencoded',
             'Authorization': 'Bearer special-key',
         }
-        data = dict(name='name_example',
-                    status='status_example')
         response = self.client.open(
             '/v2/pet/{pet_id}'.format(pet_id=56),
             method='POST',
             headers=headers,
-            data=data,
+            data=json.dumps(pet_form),
             content_type='application/x-www-form-urlencoded')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -199,18 +200,17 @@ class TestPetController(BaseTestCase):
 
         uploads an image
         """
+        upload_form = {"additionalMetadata":"additional metadata example","file":"c29tZSB0ZXN0IGRhdGEK"}
         headers = { 
             'Accept': 'application/json',
             'Content-Type': 'multipart/form-data',
             'Authorization': 'Bearer special-key',
         }
-        data = dict(additional_metadata='additional_metadata_example',
-                    file=(BytesIO(b'some file data'), 'file.txt'))
         response = self.client.open(
             '/v2/pet/{pet_id}/uploadImage'.format(pet_id=56),
             method='POST',
             headers=headers,
-            data=data,
+            data=json.dumps(upload_form),
             content_type='multipart/form-data')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
