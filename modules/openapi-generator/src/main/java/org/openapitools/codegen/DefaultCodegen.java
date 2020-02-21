@@ -2652,6 +2652,9 @@ public class DefaultCodegen implements CodegenConfig {
             setNonArrayMapProperty(property, type);
             Schema refOrCurrent = ModelUtils.getReferencedSchema(this.openAPI, p);
             property.isModel = (ModelUtils.isComposedSchema(refOrCurrent) || ModelUtils.isObjectSchema(refOrCurrent)) && ModelUtils.isModel(refOrCurrent);
+            if (ModelUtils.isAnyTypeSchema(p)) {
+                property.isAnyType = true;
+            }
         }
 
         LOGGER.debug("debugging from property return: " + property);

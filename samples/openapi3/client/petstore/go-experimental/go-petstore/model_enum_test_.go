@@ -20,7 +20,7 @@ type EnumTest struct {
 	EnumStringRequired string `json:"enum_string_required"`
 	EnumInteger *int32 `json:"enum_integer,omitempty"`
 	EnumNumber *float64 `json:"enum_number,omitempty"`
-	OuterEnum *NullableOuterEnum `json:"outerEnum,omitempty"`
+	OuterEnum *OuterEnum `json:"outerEnum,omitempty"`
 	OuterEnumInteger *OuterEnumInteger `json:"outerEnumInteger,omitempty"`
 	OuterEnumDefaultValue *OuterEnumDefaultValue `json:"outerEnumDefaultValue,omitempty"`
 	OuterEnumIntegerDefaultValue *OuterEnumIntegerDefaultValue `json:"outerEnumIntegerDefaultValue,omitempty"`
@@ -167,9 +167,9 @@ func (o *EnumTest) SetEnumNumber(v float64) {
 }
 
 // GetOuterEnum returns the OuterEnum field value if set, zero value otherwise.
-func (o *EnumTest) GetOuterEnum() NullableOuterEnum {
+func (o *EnumTest) GetOuterEnum() OuterEnum {
 	if o == nil || o.OuterEnum == nil {
-		var ret NullableOuterEnum
+		var ret OuterEnum
 		return ret
 	}
 	return *o.OuterEnum
@@ -177,9 +177,9 @@ func (o *EnumTest) GetOuterEnum() NullableOuterEnum {
 
 // GetOuterEnumOk returns a tuple with the OuterEnum field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumTest) GetOuterEnumOk() (NullableOuterEnum, bool) {
+func (o *EnumTest) GetOuterEnumOk() (OuterEnum, bool) {
 	if o == nil || o.OuterEnum == nil {
-		var ret NullableOuterEnum
+		var ret OuterEnum
 		return ret, false
 	}
 	return *o.OuterEnum, true
@@ -194,8 +194,8 @@ func (o *EnumTest) HasOuterEnum() bool {
 	return false
 }
 
-// SetOuterEnum gets a reference to the given NullableOuterEnum and assigns it to the OuterEnum field.
-func (o *EnumTest) SetOuterEnum(v NullableOuterEnum) {
+// SetOuterEnum gets a reference to the given OuterEnum and assigns it to the OuterEnum field.
+func (o *EnumTest) SetOuterEnum(v OuterEnum) {
 	o.OuterEnum = &v
 }
 

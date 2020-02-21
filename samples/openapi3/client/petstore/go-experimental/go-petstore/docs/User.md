@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **ArbitraryObject** | Pointer to [**map[string]interface{}**](.md) | test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value. | [optional] 
 **ArbitraryNullableObject** | Pointer to [**map[string]interface{}**](.md) | test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value. | [optional] 
 **ArbitraryTypeValue** | Pointer to **interface{}** | test code generation for any type Value can be any type - string, number, boolean, array or object. | [optional] 
-**ArbitraryNullableTypeValue** | Pointer to **NullableInterface{}** | test code generation for any type Value can be any type - string, number, boolean, array, object or the &#39;null&#39; value. | [optional] 
+**ArbitraryNullableTypeValue** | Pointer to **interface{}** | test code generation for any type Value can be any type - string, number, boolean, array, object or the &#39;null&#39; value. | [optional] 
 
 ## Methods
 
@@ -320,13 +320,13 @@ SetArbitraryTypeValue gets a reference to the given interface{} and assigns it t
 
 ### GetArbitraryNullableTypeValue
 
-`func (o *User) GetArbitraryNullableTypeValue() NullableInterface{}`
+`func (o *User) GetArbitraryNullableTypeValue() interface{}`
 
 GetArbitraryNullableTypeValue returns the ArbitraryNullableTypeValue field if non-nil, zero value otherwise.
 
 ### GetArbitraryNullableTypeValueOk
 
-`func (o *User) GetArbitraryNullableTypeValueOk() (NullableInterface{}, bool)`
+`func (o *User) GetArbitraryNullableTypeValueOk() (interface{}, bool)`
 
 GetArbitraryNullableTypeValueOk returns a tuple with the ArbitraryNullableTypeValue field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
@@ -339,9 +339,9 @@ HasArbitraryNullableTypeValue returns a boolean if a field has been set.
 
 ### SetArbitraryNullableTypeValue
 
-`func (o *User) SetArbitraryNullableTypeValue(v NullableInterface{})`
+`func (o *User) SetArbitraryNullableTypeValue(v interface{})`
 
-SetArbitraryNullableTypeValue gets a reference to the given NullableInterface{} and assigns it to the ArbitraryNullableTypeValue field.
+SetArbitraryNullableTypeValue gets a reference to the given interface{} and assigns it to the ArbitraryNullableTypeValue field.
 
 ### SetArbitraryNullableTypeValueExplicitNull
 

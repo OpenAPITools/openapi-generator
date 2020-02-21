@@ -32,7 +32,7 @@ type User struct {
 	// test code generation for any type Value can be any type - string, number, boolean, array or object.
 	ArbitraryTypeValue *interface{} `json:"arbitraryTypeValue,omitempty"`
 	// test code generation for any type Value can be any type - string, number, boolean, array, object or the 'null' value.
-	ArbitraryNullableTypeValue *NullableInterface{} `json:"arbitraryNullableTypeValue,omitempty"`
+	ArbitraryNullableTypeValue *interface{} `json:"arbitraryNullableTypeValue,omitempty"`
 }
 
 // NewUser instantiates a new User object
@@ -416,9 +416,9 @@ func (o *User) SetArbitraryTypeValue(v interface{}) {
 }
 
 // GetArbitraryNullableTypeValue returns the ArbitraryNullableTypeValue field value if set, zero value otherwise.
-func (o *User) GetArbitraryNullableTypeValue() NullableInterface{} {
+func (o *User) GetArbitraryNullableTypeValue() interface{} {
 	if o == nil || o.ArbitraryNullableTypeValue == nil {
-		var ret NullableInterface{}
+		var ret interface{}
 		return ret
 	}
 	return *o.ArbitraryNullableTypeValue
@@ -426,9 +426,9 @@ func (o *User) GetArbitraryNullableTypeValue() NullableInterface{} {
 
 // GetArbitraryNullableTypeValueOk returns a tuple with the ArbitraryNullableTypeValue field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
-func (o *User) GetArbitraryNullableTypeValueOk() (NullableInterface{}, bool) {
+func (o *User) GetArbitraryNullableTypeValueOk() (interface{}, bool) {
 	if o == nil || o.ArbitraryNullableTypeValue == nil {
-		var ret NullableInterface{}
+		var ret interface{}
 		return ret, false
 	}
 	return *o.ArbitraryNullableTypeValue, true
@@ -443,8 +443,8 @@ func (o *User) HasArbitraryNullableTypeValue() bool {
 	return false
 }
 
-// SetArbitraryNullableTypeValue gets a reference to the given NullableInterface{} and assigns it to the ArbitraryNullableTypeValue field.
-func (o *User) SetArbitraryNullableTypeValue(v NullableInterface{}) {
+// SetArbitraryNullableTypeValue gets a reference to the given interface{} and assigns it to the ArbitraryNullableTypeValue field.
+func (o *User) SetArbitraryNullableTypeValue(v interface{}) {
 	o.ArbitraryNullableTypeValue = &v
 }
 
