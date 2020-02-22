@@ -5,8 +5,26 @@ use serde::ser::Serializer;
 use std::collections::HashMap;
 use models;
 use swagger;
+use hyper::header::HeaderValue;
 use std::string::ParseError;
+use std::str::FromStr;
+use header::IntoHeaderValue;
 
+
+
+// Methods for converting between IntoHeaderValue<MultipartRelatedRequest> and HeaderValue
+
+impl From<IntoHeaderValue<MultipartRelatedRequest>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<MultipartRelatedRequest>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<MultipartRelatedRequest> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(MultipartRelatedRequest::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -34,6 +52,21 @@ impl MultipartRelatedRequest {
     }
 }
 
+
+
+// Methods for converting between IntoHeaderValue<MultipartRequest> and HeaderValue
+
+impl From<IntoHeaderValue<MultipartRequest>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<MultipartRequest>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<MultipartRequest> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(MultipartRequest::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -65,6 +98,21 @@ impl MultipartRequest {
     }
 }
 
+
+
+// Methods for converting between IntoHeaderValue<MultipartRequestObjectField> and HeaderValue
+
+impl From<IntoHeaderValue<MultipartRequestObjectField>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<MultipartRequestObjectField>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<MultipartRequestObjectField> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(MultipartRequestObjectField::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]

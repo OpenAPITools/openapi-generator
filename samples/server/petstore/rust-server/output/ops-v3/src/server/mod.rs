@@ -60,6 +60,7 @@ use {Api,
 
 #[allow(unused_imports)]
 use models;
+use header;
 
 pub mod context;
 

@@ -178,6 +178,9 @@ paths:
             Success-Info:
               schema:
                 type: String
+            Object-Header:
+              schema:
+                $ref: "#/components/schemas/ObjectHeader"
         '412':
           description: Precondition Failed
           headers:
@@ -187,6 +190,17 @@ paths:
             Failure-Info:
               schema:
                 type: String
+  /mandatory-request-header:
+    get:
+      parameters:
+        - name: X-Header
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
 
 components:
   securitySchemes:
@@ -281,4 +295,17 @@ components:
       items:
         $ref: '#/components/schemas/MyID'
     MyID:
+      type: integer
+    ObjectHeader:
+      type: object
+      required:
+        - requiredObjectHeader
+      properties:
+        requiredObjectHeader:
+          $ref: '#/components/schemas/RequiredObjectHeader'
+        optionalObjectHeader:
+          $ref: '#/components/schemas/OptionalObjectHeader'
+    RequiredObjectHeader:
+      type: boolean
+    OptionalObjectHeader:
       type: integer

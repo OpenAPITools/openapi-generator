@@ -69,6 +69,7 @@ use {Api,
 
 use mimetypes;
 use models;
+use header;
 
 define_encode_set! {
     /// This encode set is used for object IDs
@@ -1125,10 +1126,10 @@ impl<C, F> Api<C> for Client<F> where
         // Header parameters
         param_enum_header_string_array.map(|value| request.headers_mut().append(
             HeaderName::from_static("enum_header_string_array"),
-            swagger::IntoHeaderValue(value.clone()).into()));
+            header::IntoHeaderValue(value.clone()).into()));
         param_enum_header_string.map(|value| request.headers_mut().append(
             HeaderName::from_static("enum_header_string"),
-            swagger::IntoHeaderValue(value.clone()).into()));
+            header::IntoHeaderValue(value.clone()).into()));
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1583,7 +1584,7 @@ impl<C, F> Api<C> for Client<F> where
         // Header parameters
         param_api_key.map(|value| request.headers_mut().append(
             HeaderName::from_static("api_key"),
-            swagger::IntoHeaderValue(value.clone()).into()));
+            header::IntoHeaderValue(value.clone()).into()));
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -3181,8 +3182,8 @@ impl<C, F> Api<C> for Client<F> where
                             LoginUserResponse::SuccessfulOperation
                             {
                                body: body,
-                               x_rate_limit: (*Into::<swagger::IntoHeaderValue<i32>>::into(response_x_rate_limit)).clone(),
-                               x_expires_after: (*Into::<swagger::IntoHeaderValue<chrono::DateTime<chrono::Utc>>>::into(response_x_expires_after)).clone(),
+                               x_rate_limit: (*Into::<header::IntoHeaderValue<i32>>::into(response_x_rate_limit)).clone(),
+                               x_expires_after: (*Into::<header::IntoHeaderValue<chrono::DateTime<chrono::Utc>>>::into(response_x_expires_after)).clone(),
                             }
                         })
                     ) as Box<dyn Future<Item=_, Error=_> + Send>
