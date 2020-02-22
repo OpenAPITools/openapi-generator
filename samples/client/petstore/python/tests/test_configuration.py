@@ -36,11 +36,13 @@ class TestConfiguration(unittest.TestCase):
 
         # prepare default configuration
         c1 = petstore_api.Configuration(host="example.com")
+        c1.debug = True
         petstore_api.Configuration.set_default(c1)
 
         # get default configuration
-        c2 = petstore_api.Configuration.new_instance()
+        c2 = petstore_api.Configuration.get_default_copy()
         self.assertEqual(c2.host, "example.com")
+        self.assertTrue(c2.debug)
 
         self.assertNotEqual(id(c1.api_key), id(c2.api_key))
         self.assertNotEqual(id(c1.api_key_prefix), id(c2.api_key_prefix))
