@@ -52,23 +52,47 @@ paths:
           description: Success
           schema:
             type: object
-
-    # Requests with arbitrary JSON currently fail.
-    # post:
-    #   summary: Send an arbitrary JSON blob
-    #   consumes:
-    #     - application/json
-    #   parameters:
-    #   - in: body
-    #     name: body
-    #     required: true
-    #     schema:
-    #       type: object
-    #   responses:
-    #     200:
-    #       description: Success
-    #       schema:
-    #         type: string
+  /solo-object:
+    post:
+      summary: Send an arbitrary JSON blob
+      consumes:
+        - application/json
+      parameters:
+        - name: value
+          in: body
+          required: true
+          schema:
+            type: object
+      responses:
+        '204':
+          description: OK
+  /post-yaml:
+    post:
+      description: Test sending an arbitrary unsupported format - e.g. YAML
+      operationId: post_yaml
+      consumes:
+        - application/yaml
+      parameters:
+        - name: value
+          description: The YAML body to test
+          in: body
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: OK
+  /get-structured-yaml:
+    get:
+      description: Test returning arbitrary structured YAML
+      operationId: getStructuredYaml
+      produces:
+        - application/yaml
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/get_yaml_response'
 
 parameters:
   nested_response:
@@ -115,6 +139,13 @@ definitions:
             type: string
           optional_thing:
             type: integer
+  get_yaml_response:
+    description: structured response
+    type: object
+    properties:
+      value:
+        description: Inner string
+        type: string
   # Currently broken - see https://github.com/OpenAPITools/openapi-generator/issues/8
   # ArrayOfObjects:
   #   description: An array of objects

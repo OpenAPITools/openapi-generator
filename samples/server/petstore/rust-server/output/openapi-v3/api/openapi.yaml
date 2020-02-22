@@ -185,6 +185,16 @@ paths:
       - authScheme:
         - test.read
         - test.write
+  /untyped_property:
+    get:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectUntypedProps'
+      responses:
+        "200":
+          description: Check that untyped properties works
   /responses_with_headers:
     get:
       responses:
@@ -317,6 +327,25 @@ components:
       type: array
     MyID:
       type: integer
+    ObjectUntypedProps:
+      example:
+        not_required_untyped_nullable: ""
+        required_untyped: ""
+        required_untyped_nullable: ""
+        not_required_untyped: ""
+      properties:
+        required_untyped:
+          nullable: false
+        required_untyped_nullable:
+          nullable: true
+        not_required_untyped:
+          nullable: false
+        not_required_untyped_nullable:
+          nullable: false
+      required:
+      - required_untyped
+      - required_untyped_nullable
+      type: object
     ObjectParam:
       properties:
         requiredParam:

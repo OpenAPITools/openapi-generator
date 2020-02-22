@@ -28,6 +28,7 @@ use {Api,
      ReadonlyAuthSchemeGetResponse,
      RequiredOctetStreamPutResponse,
      ResponsesWithHeadersGetResponse,
+     UntypedPropertyGetResponse,
      UuidGetResponse,
      XmlExtraPostResponse,
      XmlOtherPostResponse,
@@ -54,6 +55,7 @@ mod paths {
             r"^/readonly_auth_scheme$",
             r"^/required_octet_stream$",
             r"^/responses_with_headers$",
+            r"^/untyped_property$",
             r"^/uuid$",
             r"^/xml$",
             r"^/xml_extra$",
@@ -68,10 +70,11 @@ mod paths {
     pub static ID_READONLY_AUTH_SCHEME: usize = 4;
     pub static ID_REQUIRED_OCTET_STREAM: usize = 5;
     pub static ID_RESPONSES_WITH_HEADERS: usize = 6;
-    pub static ID_UUID: usize = 7;
-    pub static ID_XML: usize = 8;
-    pub static ID_XML_EXTRA: usize = 9;
-    pub static ID_XML_OTHER: usize = 10;
+    pub static ID_UNTYPED_PROPERTY: usize = 7;
+    pub static ID_UUID: usize = 8;
+    pub static ID_XML: usize = 9;
+    pub static ID_XML_EXTRA: usize = 10;
+    pub static ID_XML_OTHER: usize = 11;
 }
 
 pub struct MakeService<T, RC> {
@@ -697,6 +700,78 @@ where
                 }) as Self::Future
             },
 
+            // UntypedPropertyGet - GET /untyped_property
+            &hyper::Method::GET if path.matched(paths::ID_UNTYPED_PROPERTY) => {
+                // Body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                Box::new(body.concat2()
+                    .then(move |result| -> Self::Future {
+                        match result {
+                            Ok(body) => {
+                                let mut unused_elements = Vec::new();
+                                let param_object_untyped_props: Option<models::ObjectUntypedProps> = if !body.is_empty() {
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
+                                        Ok(param_object_untyped_props) => param_object_untyped_props,
+                                        Err(_) => None,
+                                    }
+                                } else {
+                                    None
+                                };
+                                Box::new(
+                                    api_impl.untyped_property_get(
+                                            param_object_untyped_props,
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+
+                                        if !unused_elements.is_empty() {
+                                            response.headers_mut().insert(
+                                                HeaderName::from_static("warning"),
+                                                HeaderValue::from_str(format!("Ignoring unknown fields in body: {:?}", unused_elements).as_str())
+                                                    .expect("Unable to create Warning header value"));
+                                        }
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                UntypedPropertyGetResponse::CheckThatUntypedPropertiesWorks
+
+
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                            },
+                            Err(e) => Box::new(future::ok(Response::builder()
+                                                .status(StatusCode::BAD_REQUEST)
+                                                .body(Body::from(format!("Couldn't read body parameter ObjectUntypedProps: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter ObjectUntypedProps"))),
+                        }
+                    })
+                ) as Self::Future
+            },
+
             // UuidGet - GET /uuid
             &hyper::Method::GET if path.matched(paths::ID_UUID) => {
                 Box::new({
@@ -1187,6 +1262,9 @@ impl<T> RequestParser<T> for ApiRequestParser {
 
             // ResponsesWithHeadersGet - GET /responses_with_headers
             &hyper::Method::GET if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => Ok("ResponsesWithHeadersGet"),
+
+            // UntypedPropertyGet - GET /untyped_property
+            &hyper::Method::GET if path.matched(paths::ID_UNTYPED_PROPERTY) => Ok("UntypedPropertyGet"),
 
             // UuidGet - GET /uuid
             &hyper::Method::GET if path.matched(paths::ID_UUID) => Ok("UuidGet"),

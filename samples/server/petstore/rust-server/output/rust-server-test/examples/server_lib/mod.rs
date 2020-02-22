@@ -20,8 +20,11 @@ use rust_server_test::{Api, ApiError,
                       DummyGetResponse,
                       DummyPutResponse,
                       FileResponseGetResponse,
+                      GetStructuredYamlResponse,
                       HtmlPostResponse,
-                      RawJsonGetResponse
+                      PostYamlResponse,
+                      RawJsonGetResponse,
+                      SoloObjectPostResponse
 };
 use rust_server_test::models;
 
@@ -59,6 +62,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
         Box::new(futures::failed("Generic failure".into()))
     }
 
+
+    fn get_structured_yaml(&self, context: &C) -> Box<Future<Item=GetStructuredYamlResponse, Error=ApiError> + Send> {
+        let context = context.clone();
+        println!("get_structured_yaml() - X-Span-ID: {:?}", context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
     /// Test HTML handling
     fn html_post(&self, body: String, context: &C) -> Box<Future<Item=HtmlPostResponse, Error=ApiError> + Send> {
         let context = context.clone();
@@ -66,10 +76,24 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
         Box::new(futures::failed("Generic failure".into()))
     }
 
+
+    fn post_yaml(&self, value: String, context: &C) -> Box<Future<Item=PostYamlResponse, Error=ApiError> + Send> {
+        let context = context.clone();
+        println!("post_yaml(\"{}\") - X-Span-ID: {:?}", value, context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
     /// Get an arbitrary JSON blob.
     fn raw_json_get(&self, context: &C) -> Box<Future<Item=RawJsonGetResponse, Error=ApiError> + Send> {
         let context = context.clone();
         println!("raw_json_get() - X-Span-ID: {:?}", context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
+    /// Send an arbitrary JSON blob
+    fn solo_object_post(&self, value: serde_json::Value, context: &C) -> Box<Future<Item=SoloObjectPostResponse, Error=ApiError> + Send> {
+        let context = context.clone();
+        println!("solo_object_post({:?}) - X-Span-ID: {:?}", value, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 

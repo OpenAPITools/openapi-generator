@@ -82,35 +82,35 @@ pub const API_VERSION: &'static str = "1.0.0";
 pub enum TestSpecialTagsResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Client)
+            ( models::Client )
 }
 
 #[derive(Debug, PartialEq)]
 pub enum FakeOuterBooleanSerializeResponse {
     /// Output boolean
     OutputBoolean
-    (bool)
+            ( bool )
 }
 
 #[derive(Debug, PartialEq)]
 pub enum FakeOuterCompositeSerializeResponse {
     /// Output composite
     OutputComposite
-    (models::OuterComposite)
+            ( models::OuterComposite )
 }
 
 #[derive(Debug, PartialEq)]
 pub enum FakeOuterNumberSerializeResponse {
     /// Output number
     OutputNumber
-    (f64)
+            ( f64 )
 }
 
 #[derive(Debug, PartialEq)]
 pub enum FakeOuterStringSerializeResponse {
     /// Output string
     OutputString
-    (String)
+            ( String )
 }
 
 #[derive(Debug, PartialEq)]
@@ -129,7 +129,7 @@ pub enum TestBodyWithQueryParamsResponse {
 pub enum TestClientModelResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Client)
+            ( models::Client )
 }
 
 #[derive(Debug, PartialEq)]
@@ -166,7 +166,7 @@ pub enum TestJsonFormDataResponse {
 pub enum TestClassnameResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Client)
+            ( models::Client )
 }
 
 #[derive(Debug, PartialEq)]
@@ -185,7 +185,7 @@ pub enum DeletePetResponse {
 pub enum FindPetsByStatusResponse {
     /// successful operation
     SuccessfulOperation
-    (Vec<models::Pet>)
+            ( Vec<models::Pet> )
     ,
     /// Invalid status value
     InvalidStatusValue
@@ -195,7 +195,7 @@ pub enum FindPetsByStatusResponse {
 pub enum FindPetsByTagsResponse {
     /// successful operation
     SuccessfulOperation
-    (Vec<models::Pet>)
+            ( Vec<models::Pet> )
     ,
     /// Invalid tag value
     InvalidTagValue
@@ -205,7 +205,7 @@ pub enum FindPetsByTagsResponse {
 pub enum GetPetByIdResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Pet)
+            ( models::Pet )
     ,
     /// Invalid ID supplied
     InvalidIDSupplied
@@ -236,7 +236,7 @@ pub enum UpdatePetWithFormResponse {
 pub enum UploadFileResponse {
     /// successful operation
     SuccessfulOperation
-    (models::ApiResponse)
+            ( models::ApiResponse )
 }
 
 #[derive(Debug, PartialEq)]
@@ -252,14 +252,14 @@ pub enum DeleteOrderResponse {
 pub enum GetInventoryResponse {
     /// successful operation
     SuccessfulOperation
-    (HashMap<String, i32>)
+            ( HashMap<String, i32> )
 }
 
 #[derive(Debug, PartialEq)]
 pub enum GetOrderByIdResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Order)
+            ( models::Order )
     ,
     /// Invalid ID supplied
     InvalidIDSupplied
@@ -272,7 +272,7 @@ pub enum GetOrderByIdResponse {
 pub enum PlaceOrderResponse {
     /// successful operation
     SuccessfulOperation
-    (models::Order)
+            ( models::Order )
     ,
     /// Invalid Order
     InvalidOrder
@@ -309,7 +309,7 @@ pub enum DeleteUserResponse {
 pub enum GetUserByNameResponse {
     /// successful operation
     SuccessfulOperation
-    (models::User)
+            ( models::User )
     ,
     /// Invalid username supplied
     InvalidUsernameSupplied
@@ -322,8 +322,8 @@ pub enum GetUserByNameResponse {
 pub enum LoginUserResponse {
     /// successful operation
     SuccessfulOperation
-    {
-        body: String,
+        {
+              body: String,
         x_rate_limit: i32,
         x_expires_after: chrono::DateTime::<chrono::Utc>,
     }

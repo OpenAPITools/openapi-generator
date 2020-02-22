@@ -84,31 +84,31 @@ pub enum MandatoryRequestHeaderGetResponse {
 pub enum MultigetGetResponse {
     /// JSON rsp
     JSONRsp
-    (models::AnotherXmlObject)
+            ( models::AnotherXmlObject )
     ,
     /// XML rsp
     XMLRsp
-    (models::InlineResponse201)
+            ( models::InlineResponse201 )
     ,
     /// octet rsp
     OctetRsp
-    (swagger::ByteArray)
+            ( swagger::ByteArray )
     ,
     /// string rsp
     StringRsp
-    (String)
+            (String)
     ,
     /// Duplicate Response long text. One.
     DuplicateResponseLongText
-    (models::AnotherXmlObject)
+            ( models::AnotherXmlObject )
     ,
     /// Duplicate Response long text. Two.
     DuplicateResponseLongText_2
-    (models::AnotherXmlObject)
+            ( models::AnotherXmlObject )
     ,
     /// Duplicate Response long text. Three.
     DuplicateResponseLongText_3
-    (models::AnotherXmlObject)
+            ( models::AnotherXmlObject )
 }
 
 #[derive(Debug, PartialEq)]
@@ -121,7 +121,7 @@ pub enum MultipleAuthSchemeGetResponse {
 pub enum ParamgetGetResponse {
     /// JSON rsp
     JSONRsp
-    (models::AnotherXmlObject)
+            ( models::AnotherXmlObject )
 }
 
 #[derive(Debug, PartialEq)]
@@ -140,8 +140,8 @@ pub enum RequiredOctetStreamPutResponse {
 pub enum ResponsesWithHeadersGetResponse {
     /// Success
     Success
-    {
-        body: String,
+        {
+              body: String,
         success_info: String,
         object_header: models::ObjectHeader,
     }
@@ -155,10 +155,16 @@ pub enum ResponsesWithHeadersGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum UntypedPropertyGetResponse {
+    /// Check that untyped properties works
+    CheckThatUntypedPropertiesWorks
+}
+
+#[derive(Debug, PartialEq)]
 pub enum UuidGetResponse {
     /// Duplicate Response long text. One.
     DuplicateResponseLongText
-    (uuid::Uuid)
+            ( uuid::Uuid )
 }
 
 #[derive(Debug, PartialEq)]
@@ -232,6 +238,9 @@ pub trait Api<C> {
     fn responses_with_headers_get(&self, context: &C) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError> + Send>;
 
 
+    fn untyped_property_get(&self, object_untyped_props: Option<models::ObjectUntypedProps>, context: &C) -> Box<dyn Future<Item=UntypedPropertyGetResponse, Error=ApiError> + Send>;
+
+
     fn uuid_get(&self, context: &C) -> Box<dyn Future<Item=UuidGetResponse, Error=ApiError> + Send>;
 
 
@@ -274,6 +283,9 @@ pub trait ApiNoContext {
 
 
     fn responses_with_headers_get(&self) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError> + Send>;
+
+
+    fn untyped_property_get(&self, object_untyped_props: Option<models::ObjectUntypedProps>) -> Box<dyn Future<Item=UntypedPropertyGetResponse, Error=ApiError> + Send>;
 
 
     fn uuid_get(&self) -> Box<dyn Future<Item=UuidGetResponse, Error=ApiError> + Send>;
@@ -342,6 +354,11 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
     fn responses_with_headers_get(&self) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError> + Send> {
         self.api().responses_with_headers_get(&self.context())
+    }
+
+
+    fn untyped_property_get(&self, object_untyped_props: Option<models::ObjectUntypedProps>) -> Box<dyn Future<Item=UntypedPropertyGetResponse, Error=ApiError> + Send> {
+        self.api().untyped_property_get(object_untyped_props, &self.context())
     }
 
 

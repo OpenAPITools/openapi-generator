@@ -64,8 +64,11 @@ To run a client, follow one of the following simple steps:
 cargo run --example client DummyGet
 cargo run --example client DummyPut
 cargo run --example client FileResponseGet
+cargo run --example client GetStructuredYaml
 cargo run --example client HtmlPost
+cargo run --example client PostYaml
 cargo run --example client RawJsonGet
+cargo run --example client SoloObjectPost
 ```
 
 ### HTTPS
@@ -102,14 +105,18 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **GET** /dummy | A dummy endpoint to make the spec valid.
 [****](docs/default_api.md#) | **PUT** /dummy | 
 [****](docs/default_api.md#) | **GET** /file_response | Get a file
+[**getStructuredYaml**](docs/default_api.md#getStructuredYaml) | **GET** /get-structured-yaml | 
 [****](docs/default_api.md#) | **POST** /html | Test HTML handling
+[**post_yaml**](docs/default_api.md#post_yaml) | **POST** /post-yaml | 
 [****](docs/default_api.md#) | **GET** /raw_json | Get an arbitrary JSON blob.
+[****](docs/default_api.md#) | **POST** /solo-object | Send an arbitrary JSON blob
 
 
 ## Documentation For Models
 
  - [ANullableContainer](docs/ANullableContainer.md)
  - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
+ - [GetYamlResponse](docs/GetYamlResponse.md)
  - [InlineObject](docs/InlineObject.md)
  - [ObjectOfObjects](docs/ObjectOfObjects.md)
  - [ObjectOfObjectsInner](docs/ObjectOfObjectsInner.md)

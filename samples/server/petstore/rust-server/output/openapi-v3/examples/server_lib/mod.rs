@@ -24,6 +24,7 @@ use openapi_v3::{Api, ApiError,
                       ReadonlyAuthSchemeGetResponse,
                       RequiredOctetStreamPutResponse,
                       ResponsesWithHeadersGetResponse,
+                      UntypedPropertyGetResponse,
                       UuidGetResponse,
                       XmlExtraPostResponse,
                       XmlOtherPostResponse,
@@ -92,6 +93,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn responses_with_headers_get(&self, context: &C) -> Box<Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError> + Send> {
         let context = context.clone();
         println!("responses_with_headers_get() - X-Span-ID: {:?}", context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
+
+    fn untyped_property_get(&self, object_untyped_props: Option<models::ObjectUntypedProps>, context: &C) -> Box<Future<Item=UntypedPropertyGetResponse, Error=ApiError> + Send> {
+        let context = context.clone();
+        println!("untyped_property_get({:?}) - X-Span-ID: {:?}", object_untyped_props, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 

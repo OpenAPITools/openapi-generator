@@ -954,6 +954,139 @@ impl ObjectParam {
     }
 }
 
+// Methods for converting between IntoHeaderValue<ObjectUntypedProps> and HeaderValue
+
+impl From<IntoHeaderValue<ObjectUntypedProps>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ObjectUntypedProps>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ObjectUntypedProps> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ObjectUntypedProps::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct ObjectUntypedProps {
+    #[serde(rename = "required_untyped")]
+    pub required_untyped: serde_json::Value,
+
+    #[serde(rename = "required_untyped_nullable")]
+    pub required_untyped_nullable: serde_json::Value,
+
+    #[serde(rename = "not_required_untyped")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub not_required_untyped: Option<serde_json::Value>,
+
+    #[serde(rename = "not_required_untyped_nullable")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub not_required_untyped_nullable: Option<serde_json::Value>,
+
+}
+
+impl ObjectUntypedProps {
+    pub fn new(required_untyped: serde_json::Value, required_untyped_nullable: serde_json::Value, ) -> ObjectUntypedProps {
+        ObjectUntypedProps {
+            required_untyped: required_untyped,
+            required_untyped_nullable: required_untyped_nullable,
+            not_required_untyped: None,
+            not_required_untyped_nullable: None,
+        }
+    }
+}
+
+/// Converts the ObjectUntypedProps value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for ObjectUntypedProps {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+        // Skipping required_untyped in query parameter serialization
+
+        // Skipping required_untyped_nullable in query parameter serialization
+
+        // Skipping not_required_untyped in query parameter serialization
+
+        // Skipping not_required_untyped_nullable in query parameter serialization
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a ObjectUntypedProps value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for ObjectUntypedProps {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub required_untyped: Vec<serde_json::Value>,
+            pub required_untyped_nullable: Vec<serde_json::Value>,
+            pub not_required_untyped: Vec<serde_json::Value>,
+            pub not_required_untyped_nullable: Vec<serde_json::Value>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return Err(())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    
+                    "required_untyped" => intermediate_rep.required_untyped.push(serde_json::Value::from_str(val).map_err(|x| ())?),
+                    
+                    
+                    "required_untyped_nullable" => intermediate_rep.required_untyped_nullable.push(serde_json::Value::from_str(val).map_err(|x| ())?),
+                    
+                    
+                    "not_required_untyped" => intermediate_rep.not_required_untyped.push(serde_json::Value::from_str(val).map_err(|x| ())?),
+                    
+                    
+                    "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(serde_json::Value::from_str(val).map_err(|x| ())?),
+                    
+                    _ => return Err(()) // Parse error - unexpected key
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        Ok(ObjectUntypedProps {
+            required_untyped: intermediate_rep.required_untyped.into_iter().next().ok_or(())?,
+            required_untyped_nullable: intermediate_rep.required_untyped_nullable.into_iter().next().ok_or(())?,
+            not_required_untyped: intermediate_rep.not_required_untyped.into_iter().next(),
+            not_required_untyped_nullable: intermediate_rep.not_required_untyped_nullable.into_iter().next(),
+        })
+    }
+}
+
+
+impl ObjectUntypedProps {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 // Methods for converting between IntoHeaderValue<ObjectWithArrayOfObjects> and HeaderValue
 
 impl From<IntoHeaderValue<ObjectWithArrayOfObjects>> for HeaderValue {

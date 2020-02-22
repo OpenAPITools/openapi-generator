@@ -69,7 +69,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final String xmlMimeType = "application/xml";
     private static final String octetMimeType = "application/octet-stream";
-    private static final String plainMimeType = "text/plain";
+    private static final String plainTextMimeType = "text/plain";
     private static final String jsonMimeType = "application/json";
 
     public RustServerCodegen() {
@@ -199,6 +199,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", bytesType);
         typeMapping.put("array", "Vec");
         typeMapping.put("map", "HashMap");
+        typeMapping.put("object", "serde_json::Value");
 
         importMapping = new HashMap<String, String>();
 
@@ -526,12 +527,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return mimetype.toLowerCase(Locale.ROOT).startsWith(xmlMimeType);
     }
 
-    private boolean isMimetypePlainText(String mimetype) {
-        return mimetype.toLowerCase(Locale.ROOT).startsWith(plainMimeType);
-    }
-
-    private boolean isMimetypeHtmlText(String mimetype) {
-        return mimetype.toLowerCase(Locale.ROOT).startsWith("text/html");
+    private boolean isMimetypeJson(String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(jsonMimeType);
     }
 
     private boolean isMimetypeWwwFormUrlEncoded(String mimetype) {
@@ -550,8 +547,21 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return mimetype.toLowerCase(Locale.ROOT).startsWith("multipart/related");
     }
 
-    private boolean isMimetypePlain(String mimetype) {
-        return isMimetypePlainText(mimetype) || isMimetypeHtmlText(mimetype) || isMimetypeOctetStream(mimetype);
+    private boolean isMimetypeUnknown(String mimetype) {
+        return mimetype.equals("*/*");
+    }
+
+    /**
+     * Do we have any special handling for this mimetype?
+     */
+    boolean isMimetypePlain(String mimetype) {
+        boolean result = !(isMimetypeUnknown(mimetype) ||
+                           isMimetypeXml(mimetype) ||
+                           isMimetypeJson(mimetype) ||
+                           isMimetypeWwwFormUrlEncoded(mimetype) ||
+                           isMimetypeMultipartFormData(mimetype) ||
+                           isMimetypeMultipartRelated(mimetype));
+        return result;
     }
 
     @Override
@@ -736,7 +746,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                         if (rsp.dataType.equals(bytesType)) {
                             outputMime = octetMimeType;
                         } else {
-                            outputMime = plainMimeType;
+                            outputMime = plainTextMimeType;
                         }
                     } else {
                         outputMime = jsonMimeType;
@@ -1236,6 +1246,17 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (!property.required) {
             property.defaultValue = (property.defaultValue != null) ? "Some(" + property.defaultValue + ")" : "None";
         }
+
+        // If a property has no type defined in the schema, it can take values of any type.
+        // This clashes with Rust being statically typed. Hence, assume it's sent as a json
+        // blob and return the json value to the user of the API and let the user determine
+        // the type from the value. If the property has no type, at this point it will have
+        // baseType "object" allowing us to identify such properties. Moreover, set to not
+        // nullable, we can use the serde_json::Value::Null enum variant.
+        if ("object".equals(property.baseType)) {
+            property.dataType = "serde_json::Value";
+            property.isNullable = false;
+        }
     }
 
     private long requiredBits(Long bound, boolean unsigned) {
@@ -1328,6 +1349,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private void processParam(CodegenParameter param, CodegenOperation op) {
+
         String example = null;
 
         // If a parameter uses UUIDs, we need to import the UUID package.
@@ -1335,7 +1357,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put("apiUsesUuid", true);
         }
 
-        if (param.isString) {
+        if (Boolean.TRUE.equals(param.isFreeFormObject)) {
+            param.vendorExtensions.put("formatString", "{:?}");
+            example = null;
+        } else if (param.isString) {
             param.vendorExtensions.put("formatString", "\\\"{}\\\"");
             example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
         } else if (param.isPrimitiveType) {

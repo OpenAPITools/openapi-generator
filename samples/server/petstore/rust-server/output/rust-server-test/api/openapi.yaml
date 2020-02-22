@@ -71,6 +71,47 @@ paths:
                 type: object
           description: Success
       summary: Get an arbitrary JSON blob.
+  /solo-object:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: OK
+      summary: Send an arbitrary JSON blob
+      x-codegen-request-body-name: value
+  /post-yaml:
+    post:
+      description: Test sending an arbitrary unsupported format - e.g. YAML
+      operationId: post_yaml
+      requestBody:
+        content:
+          application/yaml:
+            schema:
+              type: string
+        description: The YAML body to test
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: OK
+      x-codegen-request-body-name: value
+  /get-structured-yaml:
+    get:
+      description: Test returning arbitrary structured YAML
+      operationId: getStructuredYaml
+      responses:
+        "200":
+          content:
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/get_yaml_response'
+          description: OK
 components:
   requestBodies:
     nested_response:
@@ -115,6 +156,13 @@ components:
       properties:
         inner:
           $ref: '#/components/schemas/ObjectOfObjects_inner'
+      type: object
+    get_yaml_response:
+      description: structured response
+      properties:
+        value:
+          description: Inner string
+          type: string
       type: object
     inline_object:
       properties:

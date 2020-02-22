@@ -90,21 +90,40 @@ pub enum DummyPutResponse {
 pub enum FileResponseGetResponse {
     /// Success
     Success
-    (swagger::ByteArray)
+            ( swagger::ByteArray )
+}
+
+#[derive(Debug, PartialEq)]
+pub enum GetStructuredYamlResponse {
+    /// OK
+    OK
+            (String)
 }
 
 #[derive(Debug, PartialEq)]
 pub enum HtmlPostResponse {
     /// Success
     Success
-    (String)
+            (String)
+}
+
+#[derive(Debug, PartialEq)]
+pub enum PostYamlResponse {
+    /// OK
+    OK
 }
 
 #[derive(Debug, PartialEq)]
 pub enum RawJsonGetResponse {
     /// Success
     Success
-    (serde_json::Value)
+            ( serde_json::Value )
+}
+
+#[derive(Debug, PartialEq)]
+pub enum SoloObjectPostResponse {
+    /// OK
+    OK
 }
 
 
@@ -120,11 +139,20 @@ pub trait Api<C> {
     /// Get a file
     fn file_response_get(&self, context: &C) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError> + Send>;
 
+
+    fn get_structured_yaml(&self, context: &C) -> Box<dyn Future<Item=GetStructuredYamlResponse, Error=ApiError> + Send>;
+
     /// Test HTML handling
     fn html_post(&self, body: String, context: &C) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError> + Send>;
 
+
+    fn post_yaml(&self, value: String, context: &C) -> Box<dyn Future<Item=PostYamlResponse, Error=ApiError> + Send>;
+
     /// Get an arbitrary JSON blob.
     fn raw_json_get(&self, context: &C) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError> + Send>;
+
+    /// Send an arbitrary JSON blob
+    fn solo_object_post(&self, value: serde_json::Value, context: &C) -> Box<dyn Future<Item=SoloObjectPostResponse, Error=ApiError> + Send>;
 
 }
 
@@ -140,11 +168,20 @@ pub trait ApiNoContext {
     /// Get a file
     fn file_response_get(&self) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError> + Send>;
 
+
+    fn get_structured_yaml(&self) -> Box<dyn Future<Item=GetStructuredYamlResponse, Error=ApiError> + Send>;
+
     /// Test HTML handling
     fn html_post(&self, body: String) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError> + Send>;
 
+
+    fn post_yaml(&self, value: String) -> Box<dyn Future<Item=PostYamlResponse, Error=ApiError> + Send>;
+
     /// Get an arbitrary JSON blob.
     fn raw_json_get(&self) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError> + Send>;
+
+    /// Send an arbitrary JSON blob
+    fn solo_object_post(&self, value: serde_json::Value) -> Box<dyn Future<Item=SoloObjectPostResponse, Error=ApiError> + Send>;
 
 }
 
@@ -177,14 +214,29 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
         self.api().file_response_get(&self.context())
     }
 
+
+    fn get_structured_yaml(&self) -> Box<dyn Future<Item=GetStructuredYamlResponse, Error=ApiError> + Send> {
+        self.api().get_structured_yaml(&self.context())
+    }
+
     /// Test HTML handling
     fn html_post(&self, body: String) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError> + Send> {
         self.api().html_post(body, &self.context())
     }
 
+
+    fn post_yaml(&self, value: String) -> Box<dyn Future<Item=PostYamlResponse, Error=ApiError> + Send> {
+        self.api().post_yaml(value, &self.context())
+    }
+
     /// Get an arbitrary JSON blob.
     fn raw_json_get(&self) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError> + Send> {
         self.api().raw_json_get(&self.context())
+    }
+
+    /// Send an arbitrary JSON blob
+    fn solo_object_post(&self, value: serde_json::Value) -> Box<dyn Future<Item=SoloObjectPostResponse, Error=ApiError> + Send> {
+        self.api().solo_object_post(value, &self.context())
     }
 
 }

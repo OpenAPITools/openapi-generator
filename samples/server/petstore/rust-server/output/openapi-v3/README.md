@@ -68,6 +68,7 @@ cargo run --example client ParamgetGet
 cargo run --example client ReadonlyAuthSchemeGet
 cargo run --example client RequiredOctetStreamPut
 cargo run --example client ResponsesWithHeadersGet
+cargo run --example client UntypedPropertyGet
 cargo run --example client UuidGet
 cargo run --example client XmlExtraPost
 cargo run --example client XmlOtherPost
@@ -114,6 +115,7 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
 [****](docs/default_api.md#) | **PUT** /required_octet_stream | 
 [****](docs/default_api.md#) | **GET** /responses_with_headers | 
+[****](docs/default_api.md#) | **GET** /untyped_property | 
 [****](docs/default_api.md#) | **GET** /uuid | 
 [****](docs/default_api.md#) | **POST** /xml_extra | 
 [****](docs/default_api.md#) | **POST** /xml_other | 
@@ -134,6 +136,7 @@ Method | HTTP request | Description
  - [MyIdList](docs/MyIdList.md)
  - [ObjectHeader](docs/ObjectHeader.md)
  - [ObjectParam](docs/ObjectParam.md)
+ - [ObjectUntypedProps](docs/ObjectUntypedProps.md)
  - [ObjectWithArrayOfObjects](docs/ObjectWithArrayOfObjects.md)
  - [OptionalObjectHeader](docs/OptionalObjectHeader.md)
  - [RequiredObjectHeader](docs/RequiredObjectHeader.md)
