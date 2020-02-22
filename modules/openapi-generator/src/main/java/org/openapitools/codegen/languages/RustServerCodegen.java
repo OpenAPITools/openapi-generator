@@ -87,7 +87,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )
