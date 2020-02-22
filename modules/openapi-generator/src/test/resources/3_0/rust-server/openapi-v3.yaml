@@ -45,6 +45,41 @@ paths:
           description: 'OK'
         '400':
           description: Bad Request
+  /paramget:
+    get:
+      summary: Get some stuff with parameters.
+      parameters:
+      - description: The stuff to get
+        explode: false
+        in: query
+        name: uuid
+        required: false
+        schema:
+          $ref: "#/components/schemas/UuidObject"
+        style: form
+      - description: Some object to pass as query parameter
+        explode: false
+        in: query
+        name: someObject
+        required: false
+        schema:
+          $ref: "#/components/schemas/ObjectParam"
+        style: form
+      - description: Some list to pass as query parameter
+        explode: false
+        in: query
+        name: someList
+        required: false
+        schema:
+          $ref: "#/components/schemas/MyIDList"
+        style: form
+      responses:
+        200:
+          description: JSON rsp
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/anotherXmlObject"
   /multiget:
     get:
       summary: Get some stuff.
@@ -188,6 +223,9 @@ paths:
             Success-Info:
               schema:
                 type: String
+            Object-Header:
+              schema:
+                $ref: "#/components/schemas/ObjectHeader"
         '412':
           description: Precondition Failed
           headers:
@@ -197,6 +235,17 @@ paths:
             Failure-Info:
               schema:
                 type: String
+  /mandatory-request-header:
+    get:
+      parameters:
+        - name: X-Header
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
 
 components:
   securitySchemes:
@@ -306,3 +355,25 @@ components:
       - required_untyped
       - required_untyped_nullable
       type: object
+    ObjectParam:
+      type: object
+      required:
+        - requiredParam
+      properties:
+        requiredParam:
+          type: boolean
+        optionalParam:
+          type: integer
+    ObjectHeader:
+      type: object
+      required:
+        - requiredObjectHeader
+      properties:
+        requiredObjectHeader:
+          $ref: '#/components/schemas/RequiredObjectHeader'
+        optionalObjectHeader:
+          $ref: '#/components/schemas/OptionalObjectHeader'
+    RequiredObjectHeader:
+      type: boolean
+    OptionalObjectHeader:
+      type: integer

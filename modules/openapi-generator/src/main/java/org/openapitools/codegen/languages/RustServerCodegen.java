@@ -192,8 +192,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("ByteArray", bytesType);
         typeMapping.put("binary", bytesType);
         typeMapping.put("boolean", "bool");
-        typeMapping.put("date", "chrono::DateTime<chrono::Utc>");
-        typeMapping.put("DateTime", "chrono::DateTime<chrono::Utc>");
+        typeMapping.put("date", "chrono::DateTime::<chrono::Utc>");
+        typeMapping.put("DateTime", "chrono::DateTime::<chrono::Utc>");
         typeMapping.put("password", "String");
         typeMapping.put("File", bytesType);
         typeMapping.put("file", bytesType);
@@ -228,6 +228,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("models.mustache", "src", "models.rs"));
+        supportingFiles.add(new SupportingFile("header.mustache", "src", "header.rs"));
         supportingFiles.add(new SupportingFile("server-mod.mustache", "src/server", "mod.rs"));
         supportingFiles.add(new SupportingFile("server-context.mustache", "src/server", "context.rs"));
         supportingFiles.add(new SupportingFile("client-mod.mustache", "src/client", "mod.rs"));

@@ -61,8 +61,10 @@ cargo run --example server
 To run a client, follow one of the following simple steps:
 
 ```
+cargo run --example client MandatoryRequestHeaderGet
 cargo run --example client MultigetGet
 cargo run --example client MultipleAuthSchemeGet
+cargo run --example client ParamgetGet
 cargo run --example client ReadonlyAuthSchemeGet
 cargo run --example client RequiredOctetStreamPut
 cargo run --example client ResponsesWithHeadersGet
@@ -106,8 +108,10 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[****](docs/default_api.md#) | **GET** /mandatory-request-header | 
 [****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
 [****](docs/default_api.md#) | **GET** /multiple_auth_scheme | 
+[****](docs/default_api.md#) | **GET** /paramget | Get some stuff with parameters.
 [****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
 [****](docs/default_api.md#) | **PUT** /required_octet_stream | 
 [****](docs/default_api.md#) | **GET** /responses_with_headers | 
@@ -130,12 +134,13 @@ Method | HTTP request | Description
  - [InlineResponse201](docs/InlineResponse201.md)
  - [MyId](docs/MyId.md)
  - [MyIdList](docs/MyIdList.md)
-<<<<<<< HEAD
- - [ObjectWithArrayOfObjects](docs/ObjectWithArrayOfObjects.md)
- - [StringObject](docs/StringObject.md)
-=======
+ - [ObjectHeader](docs/ObjectHeader.md)
+ - [ObjectParam](docs/ObjectParam.md)
  - [ObjectUntypedProps](docs/ObjectUntypedProps.md)
->>>>>>> 2a2499e197... Merge branch 'add_support_for_untyped_properties' into 'rust-openapi'
+ - [ObjectWithArrayOfObjects](docs/ObjectWithArrayOfObjects.md)
+ - [OptionalObjectHeader](docs/OptionalObjectHeader.md)
+ - [RequiredObjectHeader](docs/RequiredObjectHeader.md)
+ - [StringObject](docs/StringObject.md)
  - [UuidObject](docs/UuidObject.md)
  - [XmlArray](docs/XmlArray.md)
  - [XmlInner](docs/XmlInner.md)

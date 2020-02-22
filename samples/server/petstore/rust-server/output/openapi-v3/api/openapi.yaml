@@ -30,6 +30,41 @@ paths:
           description: OK
         "400":
           description: Bad Request
+  /paramget:
+    get:
+      parameters:
+      - description: The stuff to get
+        explode: false
+        in: query
+        name: uuid
+        required: false
+        schema:
+          $ref: '#/components/schemas/UuidObject'
+        style: form
+      - description: Some object to pass as query parameter
+        explode: false
+        in: query
+        name: someObject
+        required: false
+        schema:
+          $ref: '#/components/schemas/ObjectParam'
+        style: form
+      - description: Some list to pass as query parameter
+        explode: false
+        in: query
+        name: someList
+        required: false
+        schema:
+          $ref: '#/components/schemas/MyIDList'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/anotherXmlObject'
+          description: JSON rsp
+      summary: Get some stuff with parameters.
   /multiget:
     get:
       responses:
@@ -175,6 +210,11 @@ paths:
               schema:
                 type: String
               style: simple
+            Object-Header:
+              explode: false
+              schema:
+                $ref: '#/components/schemas/ObjectHeader'
+              style: simple
         "412":
           description: Precondition Failed
           headers:
@@ -188,6 +228,19 @@ paths:
               schema:
                 type: String
               style: simple
+  /mandatory-request-header:
+    get:
+      parameters:
+      - explode: false
+        in: header
+        name: X-Header
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Success
 components:
   schemas:
     EnumWithStarObject:
@@ -293,6 +346,28 @@ components:
       - required_untyped
       - required_untyped_nullable
       type: object
+    ObjectParam:
+      properties:
+        requiredParam:
+          type: boolean
+        optionalParam:
+          type: integer
+      required:
+      - requiredParam
+      type: object
+    ObjectHeader:
+      properties:
+        requiredObjectHeader:
+          type: boolean
+        optionalObjectHeader:
+          type: integer
+      required:
+      - requiredObjectHeader
+      type: object
+    RequiredObjectHeader:
+      type: boolean
+    OptionalObjectHeader:
+      type: integer
     inline_response_201:
       properties:
         foo:

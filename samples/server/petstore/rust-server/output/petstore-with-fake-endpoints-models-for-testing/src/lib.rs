@@ -325,7 +325,7 @@ pub enum LoginUserResponse {
         {
               body: String,
         x_rate_limit: i32,
-        x_expires_after: chrono::DateTime<chrono::Utc>,
+        x_expires_after: chrono::DateTime::<chrono::Utc>,
     }
     ,
     /// Invalid username/password supplied
@@ -376,7 +376,7 @@ pub trait Api<C> {
     fn test_client_model(&self, body: models::Client, context: &C) -> Box<dyn Future<Item=TestClientModelResponse, Error=ApiError> + Send>;
 
     /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-    fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>, context: &C) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send>;
+    fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime::<chrono::Utc>>, date_time: Option<chrono::DateTime::<chrono::Utc>>, password: Option<String>, callback: Option<String>, context: &C) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send>;
 
     /// To test enum parameters
     fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>, enum_form_string: Option<String>, context: &C) -> Box<dyn Future<Item=TestEnumParametersResponse, Error=ApiError> + Send>;
@@ -480,7 +480,7 @@ pub trait ApiNoContext {
     fn test_client_model(&self, body: models::Client) -> Box<dyn Future<Item=TestClientModelResponse, Error=ApiError> + Send>;
 
     /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-    fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send>;
+    fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime::<chrono::Utc>>, date_time: Option<chrono::DateTime::<chrono::Utc>>, password: Option<String>, callback: Option<String>) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send>;
 
     /// To test enum parameters
     fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>, enum_form_string: Option<String>) -> Box<dyn Future<Item=TestEnumParametersResponse, Error=ApiError> + Send>;
@@ -611,7 +611,7 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     }
 
     /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-    fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send> {
+    fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime::<chrono::Utc>>, date_time: Option<chrono::DateTime::<chrono::Utc>>, password: Option<String>, callback: Option<String>) -> Box<dyn Future<Item=TestEndpointParametersResponse, Error=ApiError> + Send> {
         self.api().test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, date, date_time, password, callback, &self.context())
     }
 
@@ -752,3 +752,4 @@ pub mod server;
 pub use self::server::Service;
 
 pub mod models;
+pub mod header;

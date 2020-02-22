@@ -17,8 +17,10 @@ use swagger;
 use swagger::{Has, XSpanIdString};
 
 use openapi_v3::{Api, ApiError,
+                      MandatoryRequestHeaderGetResponse,
                       MultigetGetResponse,
                       MultipleAuthSchemeGetResponse,
+                      ParamgetGetResponse,
                       ReadonlyAuthSchemeGetResponse,
                       RequiredOctetStreamPutResponse,
                       ResponsesWithHeadersGetResponse,
@@ -45,6 +47,13 @@ impl<C> Server<C> {
 
 impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
+
+    fn mandatory_request_header_get(&self, x_header: String, context: &C) -> Box<Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send> {
+        let context = context.clone();
+        println!("mandatory_request_header_get(\"{}\") - X-Span-ID: {:?}", x_header, context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
     /// Get some stuff.
     fn multiget_get(&self, context: &C) -> Box<Future<Item=MultigetGetResponse, Error=ApiError> + Send> {
         let context = context.clone();
@@ -56,6 +65,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn multiple_auth_scheme_get(&self, context: &C) -> Box<Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError> + Send> {
         let context = context.clone();
         println!("multiple_auth_scheme_get() - X-Span-ID: {:?}", context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
+    /// Get some stuff with parameters.
+    fn paramget_get(&self, uuid: Option<uuid::Uuid>, some_object: Option<models::ObjectParam>, some_list: Option<models::MyIdList>, context: &C) -> Box<Future<Item=ParamgetGetResponse, Error=ApiError> + Send> {
+        let context = context.clone();
+        println!("paramget_get({:?}, {:?}, {:?}) - X-Span-ID: {:?}", uuid, some_object, some_list, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
