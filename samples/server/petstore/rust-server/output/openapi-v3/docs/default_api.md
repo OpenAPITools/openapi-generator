@@ -4,11 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+****](default_api.md#) | **POST** /callback-with-header | 
 ****](default_api.md#) | **GET** /mandatory-request-header | 
 ****](default_api.md#) | **GET** /multiget | Get some stuff.
 ****](default_api.md#) | **GET** /multiple_auth_scheme | 
 ****](default_api.md#) | **GET** /paramget | Get some stuff with parameters.
 ****](default_api.md#) | **GET** /readonly_auth_scheme | 
+****](default_api.md#) | **POST** /register-callback | 
 ****](default_api.md#) | **PUT** /required_octet_stream | 
 ****](default_api.md#) | **GET** /responses_with_headers | 
 ****](default_api.md#) | **GET** /untyped_property | 
@@ -19,6 +21,31 @@ Method | HTTP request | Description
 ****](default_api.md#) | **POST** /xml | Post an array
 ****](default_api.md#) | **PUT** /xml | 
 
+
+# ****
+> (url)
+
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **url** | **String**|  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # ****
 > (x_header)
@@ -137,6 +164,31 @@ This endpoint does not need any parameter.
 ### Authorization
 
 [authScheme](../README.md#authScheme)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# ****
+> (url)
+
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **url** | **String**|  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
 
 ### HTTP request headers
 

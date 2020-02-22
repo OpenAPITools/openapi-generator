@@ -1,13 +1,13 @@
 #![allow(missing_docs, unused_variables, trivial_casts)]
-
 extern crate rust_server_test;
+extern crate clap;
+extern crate env_logger;
 extern crate futures;
 #[macro_use]
+extern crate log;
+#[macro_use]
 extern crate swagger;
-extern crate clap;
 extern crate tokio;
-
-use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
 
 #[allow(unused_imports)]
 use futures::{Future, future, Stream, stream};
@@ -24,25 +24,21 @@ use rust_server_test::{Api, ApiNoContext, Client, ContextWrapperExt,
                       SoloObjectPostResponse
                      };
 use clap::{App, Arg};
+use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
 
 fn main() {
+    env_logger::init();
+
     let matches = App::new("client")
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
-
                 "DummyGet",
-
                 "FileResponseGet",
-
                 "GetStructuredYaml",
-
                 "HtmlPost",
-
                 "PostYaml",
-
                 "RawJsonGet",
-
             ])
             .required(true)
             .index(1))
@@ -85,72 +81,57 @@ fn main() {
 
     let client = client.with_context(context);
 
-    match matches.value_of("operation") {
+    let mut rt = tokio::runtime::Runtime::new().unwrap();
 
+    match matches.value_of("operation") {
         Some("DummyGet") => {
-            let mut rt = tokio::runtime::Runtime::new().unwrap();
             let result = rt.block_on(client.dummy_get(
             ));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },
-
         /* Disabled because there's no example.
         Some("DummyPut") => {
-            let mut rt = tokio::runtime::Runtime::new().unwrap();
             let result = rt.block_on(client.dummy_put(
                   ???
             ));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },
         */
-
         Some("FileResponseGet") => {
-            let mut rt = tokio::runtime::Runtime::new().unwrap();
             let result = rt.block_on(client.file_response_get(
             ));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },
-
         Some("GetStructuredYaml") => {
-            let mut rt = tokio::runtime::Runtime::new().unwrap();
             let result = rt.block_on(client.get_structured_yaml(
             ));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },
-
         Some("HtmlPost") => {
-            let mut rt = tokio::runtime::Runtime::new().unwrap();
             let result = rt.block_on(client.html_post(
                   "body_example".to_string()
             ));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },
-
         Some("PostYaml") => {
-            let mut rt = tokio::runtime::Runtime::new().unwrap();
             let result = rt.block_on(client.post_yaml(
                   "value_example".to_string()
             ));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },
-
         Some("RawJsonGet") => {
-            let mut rt = tokio::runtime::Runtime::new().unwrap();
             let result = rt.block_on(client.raw_json_get(
             ));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },
-
         /* Disabled because there's no example.
         Some("SoloObjectPost") => {
-            let mut rt = tokio::runtime::Runtime::new().unwrap();
             let result = rt.block_on(client.solo_object_post(
                   ???
             ));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         },
         */
-
         _ => {
             panic!("Invalid operation provided")
         }

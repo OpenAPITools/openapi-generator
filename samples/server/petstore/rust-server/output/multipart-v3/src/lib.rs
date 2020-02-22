@@ -4,7 +4,7 @@
 
 #[macro_use]
 extern crate serde_derive;
-#[cfg(any(feature = "server"))]
+#[cfg(feature = "server")]
 #[macro_use]
 extern crate lazy_static;
 #[cfg(any(feature = "client", feature = "server"))]
@@ -34,7 +34,7 @@ extern crate swagger;
 
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate hyper;
-#[cfg(any(feature = "client"))]
+#[cfg(feature = "client")]
 extern crate hyper_tls;
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate openssl;
@@ -82,7 +82,6 @@ pub use futures::Future;
 pub const BASE_PATH: &'static str = "";
 pub const API_VERSION: &'static str = "1.0.7";
 
-
 #[derive(Debug, PartialEq)]
 pub enum MultipartRelatedRequestPostResponse {
     /// OK
@@ -95,26 +94,41 @@ pub enum MultipartRequestPostResponse {
     OK
 }
 
-
 /// API
 pub trait Api<C> {
+    fn multipart_related_request_post(
+        &self,
+        required_binary_field: swagger::ByteArray,
+        object_field: Option<models::MultipartRequestObjectField>,
+        optional_binary_field: Option<swagger::ByteArray>,
+        context: &C) -> Box<dyn Future<Item=MultipartRelatedRequestPostResponse, Error=ApiError> + Send>;
 
-
-    fn multipart_related_request_post(&self, required_binary_field: swagger::ByteArray, object_field: Option<models::MultipartRequestObjectField>, optional_binary_field: Option<swagger::ByteArray>, context: &C) -> Box<dyn Future<Item=MultipartRelatedRequestPostResponse, Error=ApiError> + Send>;
-
-
-    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>, context: &C) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send>;
+    fn multipart_request_post(
+        &self,
+        string_field: String,
+        binary_field: swagger::ByteArray,
+        optional_string_field: Option<String>,
+        object_field: Option<models::MultipartRequestObjectField>,
+        context: &C) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send>;
 
 }
 
 /// API without a `Context`
 pub trait ApiNoContext {
+    fn multipart_related_request_post(
+        &self,
+        required_binary_field: swagger::ByteArray,
+        object_field: Option<models::MultipartRequestObjectField>,
+        optional_binary_field: Option<swagger::ByteArray>,
+        ) -> Box<dyn Future<Item=MultipartRelatedRequestPostResponse, Error=ApiError> + Send>;
 
-
-    fn multipart_related_request_post(&self, required_binary_field: swagger::ByteArray, object_field: Option<models::MultipartRequestObjectField>, optional_binary_field: Option<swagger::ByteArray>) -> Box<dyn Future<Item=MultipartRelatedRequestPostResponse, Error=ApiError> + Send>;
-
-
-    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send>;
+    fn multipart_request_post(
+        &self,
+        string_field: String,
+        binary_field: swagger::ByteArray,
+        optional_string_field: Option<String>,
+        object_field: Option<models::MultipartRequestObjectField>,
+        ) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send>;
 
 }
 
@@ -131,14 +145,24 @@ impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
 }
 
 impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
-
-
-    fn multipart_related_request_post(&self, required_binary_field: swagger::ByteArray, object_field: Option<models::MultipartRequestObjectField>, optional_binary_field: Option<swagger::ByteArray>) -> Box<dyn Future<Item=MultipartRelatedRequestPostResponse, Error=ApiError> + Send> {
+    fn multipart_related_request_post(
+        &self,
+        required_binary_field: swagger::ByteArray,
+        object_field: Option<models::MultipartRequestObjectField>,
+        optional_binary_field: Option<swagger::ByteArray>,
+        ) -> Box<dyn Future<Item=MultipartRelatedRequestPostResponse, Error=ApiError> + Send>
+    {
         self.api().multipart_related_request_post(required_binary_field, object_field, optional_binary_field, &self.context())
     }
 
-
-    fn multipart_request_post(&self, string_field: String, binary_field: swagger::ByteArray, optional_string_field: Option<String>, object_field: Option<models::MultipartRequestObjectField>) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send> {
+    fn multipart_request_post(
+        &self,
+        string_field: String,
+        binary_field: swagger::ByteArray,
+        optional_string_field: Option<String>,
+        object_field: Option<models::MultipartRequestObjectField>,
+        ) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError> + Send>
+    {
         self.api().multipart_request_post(string_field, binary_field, optional_string_field, object_field, &self.context())
     }
 
@@ -149,7 +173,7 @@ pub mod client;
 
 // Re-export Client as a top-level name
 #[cfg(feature = "client")]
-pub use self::client::Client;
+pub use client::Client;
 
 #[cfg(feature = "server")]
 pub mod server;
@@ -157,6 +181,9 @@ pub mod server;
 // Re-export router() as a top-level name
 #[cfg(feature = "server")]
 pub use self::server::Service;
+
+#[cfg(feature = "server")]
+pub mod context;
 
 pub mod models;
 pub mod header;

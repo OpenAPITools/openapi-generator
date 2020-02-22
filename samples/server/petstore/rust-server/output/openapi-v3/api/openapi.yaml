@@ -241,6 +241,60 @@ paths:
       responses:
         "200":
           description: Success
+  /register-callback:
+    post:
+      callbacks:
+        callback:
+          '{$request.query.url}/callback':
+            post:
+              operationId: callback_CallbackPost
+              responses:
+                "204":
+                  description: OK
+              x-callback-request: true
+      parameters:
+      - explode: true
+        in: query
+        name: url
+        required: true
+        schema:
+          format: uri
+          type: string
+        style: form
+      responses:
+        "204":
+          description: OK
+  /callback-with-header:
+    post:
+      callbacks:
+        callback:
+          '{$request.query.url}/callback-with-header':
+            post:
+              operationId: callback_CallbackWithHeaderPost
+              parameters:
+              - explode: false
+                in: header
+                name: Information
+                required: false
+                schema:
+                  type: string
+                style: simple
+              responses:
+                "204":
+                  description: OK
+              x-callback-request: true
+      parameters:
+      - explode: true
+        in: query
+        name: url
+        required: true
+        schema:
+          format: uri
+          type: string
+        style: form
+      responses:
+        "204":
+          description: OK
 components:
   schemas:
     EnumWithStarObject:

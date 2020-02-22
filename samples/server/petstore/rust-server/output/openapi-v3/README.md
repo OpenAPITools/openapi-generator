@@ -61,11 +61,13 @@ cargo run --example server
 To run a client, follow one of the following simple steps:
 
 ```
+cargo run --example client CallbackWithHeaderPost
 cargo run --example client MandatoryRequestHeaderGet
 cargo run --example client MultigetGet
 cargo run --example client MultipleAuthSchemeGet
 cargo run --example client ParamgetGet
 cargo run --example client ReadonlyAuthSchemeGet
+cargo run --example client RegisterCallbackPost
 cargo run --example client RequiredOctetStreamPut
 cargo run --example client ResponsesWithHeadersGet
 cargo run --example client UntypedPropertyGet
@@ -108,11 +110,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[****](docs/default_api.md#) | **POST** /callback-with-header | 
 [****](docs/default_api.md#) | **GET** /mandatory-request-header | 
 [****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
 [****](docs/default_api.md#) | **GET** /multiple_auth_scheme | 
 [****](docs/default_api.md#) | **GET** /paramget | Get some stuff with parameters.
 [****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
+[****](docs/default_api.md#) | **POST** /register-callback | 
 [****](docs/default_api.md#) | **PUT** /required_octet_stream | 
 [****](docs/default_api.md#) | **GET** /responses_with_headers | 
 [****](docs/default_api.md#) | **GET** /untyped_property | 

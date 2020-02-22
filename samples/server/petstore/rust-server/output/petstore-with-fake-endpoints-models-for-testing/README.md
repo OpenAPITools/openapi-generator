@@ -61,39 +61,29 @@ cargo run --example server
 To run a client, follow one of the following simple steps:
 
 ```
-cargo run --example client TestSpecialTags
 cargo run --example client FakeOuterBooleanSerialize
 cargo run --example client FakeOuterCompositeSerialize
 cargo run --example client FakeOuterNumberSerialize
 cargo run --example client FakeOuterStringSerialize
 cargo run --example client HyphenParam
-cargo run --example client TestBodyWithQueryParams
-cargo run --example client TestClientModel
 cargo run --example client TestEndpointParameters
 cargo run --example client TestEnumParameters
-cargo run --example client TestInlineAdditionalProperties
 cargo run --example client TestJsonFormData
-cargo run --example client TestClassname
-cargo run --example client AddPet
 cargo run --example client DeletePet
 cargo run --example client FindPetsByStatus
 cargo run --example client FindPetsByTags
 cargo run --example client GetPetById
-cargo run --example client UpdatePet
 cargo run --example client UpdatePetWithForm
 cargo run --example client UploadFile
 cargo run --example client DeleteOrder
 cargo run --example client GetInventory
 cargo run --example client GetOrderById
-cargo run --example client PlaceOrder
-cargo run --example client CreateUser
 cargo run --example client CreateUsersWithArrayInput
 cargo run --example client CreateUsersWithListInput
 cargo run --example client DeleteUser
 cargo run --example client GetUserByName
 cargo run --example client LoginUser
 cargo run --example client LogoutUser
-cargo run --example client UpdateUser
 ```
 
 ### HTTPS

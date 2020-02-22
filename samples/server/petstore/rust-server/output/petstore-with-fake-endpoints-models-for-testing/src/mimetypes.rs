@@ -1,8 +1,6 @@
 /// mime types for requests and responses
 
 pub mod responses {
-
-
     /// Create &str objects for the response content types for TestSpecialTags
     pub static TEST_SPECIAL_TAGS_SUCCESSFUL_OPERATION: &str = "application/json";
 
@@ -18,11 +16,19 @@ pub mod responses {
     /// Create &str objects for the response content types for FakeOuterStringSerialize
     pub static FAKE_OUTER_STRING_SERIALIZE_OUTPUT_STRING: &str = "*/*";
 
+
+
     /// Create &str objects for the response content types for TestClientModel
     pub static TEST_CLIENT_MODEL_SUCCESSFUL_OPERATION: &str = "application/json";
 
+
+
+
+
     /// Create &str objects for the response content types for TestClassname
     pub static TEST_CLASSNAME_SUCCESSFUL_OPERATION: &str = "application/json";
+
+
 
     /// Create &str objects for the response content types for FindPetsByStatus
     pub static FIND_PETS_BY_STATUS_SUCCESSFUL_OPERATION: &str = "application/xml";
@@ -33,8 +39,11 @@ pub mod responses {
     /// Create &str objects for the response content types for GetPetById
     pub static GET_PET_BY_ID_SUCCESSFUL_OPERATION: &str = "application/xml";
 
+
+
     /// Create &str objects for the response content types for UploadFile
     pub static UPLOAD_FILE_SUCCESSFUL_OPERATION: &str = "application/json";
+
 
     /// Create &str objects for the response content types for GetInventory
     pub static GET_INVENTORY_SUCCESSFUL_OPERATION: &str = "application/json";
@@ -45,16 +54,21 @@ pub mod responses {
     /// Create &str objects for the response content types for PlaceOrder
     pub static PLACE_ORDER_SUCCESSFUL_OPERATION: &str = "application/xml";
 
+
+
+
+
     /// Create &str objects for the response content types for GetUserByName
     pub static GET_USER_BY_NAME_SUCCESSFUL_OPERATION: &str = "application/xml";
 
     /// Create &str objects for the response content types for LoginUser
     pub static LOGIN_USER_SUCCESSFUL_OPERATION: &str = "application/xml";
 
+
+
 }
 
 pub mod requests {
-
     /// Create &str objects for the request content types for TestSpecialTags
     pub static TEST_SPECIAL_TAGS: &str = "application/json";
 
@@ -69,6 +83,7 @@ pub mod requests {
 
     /// Create &str objects for the request content types for FakeOuterStringSerialize
     pub static FAKE_OUTER_STRING_SERIALIZE: &str = "application/json";
+
 
     /// Create &str objects for the request content types for TestBodyWithQueryParams
     pub static TEST_BODY_WITH_QUERY_PARAMS: &str = "application/json";
@@ -94,11 +109,19 @@ pub mod requests {
     /// Create &str objects for the request content types for AddPet
     pub static ADD_PET: &str = "application/json";
 
+
+
+
+
     /// Create &str objects for the request content types for UpdatePet
     pub static UPDATE_PET: &str = "application/json";
 
     /// Create &str objects for the request content types for UpdatePetWithForm
     pub static UPDATE_PET_WITH_FORM: &str = "application/x-www-form-urlencoded";
+
+
+
+
 
     /// Create &str objects for the request content types for PlaceOrder
     pub static PLACE_ORDER: &str = "application/json";
@@ -111,6 +134,10 @@ pub mod requests {
 
     /// Create &str objects for the request content types for CreateUsersWithListInput
     pub static CREATE_USERS_WITH_LIST_INPUT: &str = "application/json";
+
+
+
+
 
     /// Create &str objects for the request content types for UpdateUser
     pub static UPDATE_USER: &str = "application/json";
