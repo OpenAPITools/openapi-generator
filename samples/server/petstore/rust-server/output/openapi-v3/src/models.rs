@@ -6,9 +6,26 @@ use serde::ser::Serializer;
 use std::collections::{HashMap, BTreeMap};
 use models;
 use swagger;
+use hyper::header::HeaderValue;
 use std::string::ParseError;
 use uuid;
+use std::str::FromStr;
+use header::IntoHeaderValue;
 
+
+// Methods for converting between IntoHeaderValue<AnotherXmlArray> and HeaderValue
+
+impl From<IntoHeaderValue<AnotherXmlArray>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<AnotherXmlArray>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<AnotherXmlArray> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(AnotherXmlArray::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
 
 // Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
@@ -164,6 +181,20 @@ impl AnotherXmlInner {
 }
 
 /// An XML object
+// Methods for converting between IntoHeaderValue<AnotherXmlObject> and HeaderValue
+
+impl From<IntoHeaderValue<AnotherXmlObject>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<AnotherXmlObject>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<AnotherXmlObject> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(AnotherXmlObject::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -264,6 +295,20 @@ impl AnotherXmlObject {
 }
 
 /// An XML object
+// Methods for converting between IntoHeaderValue<DuplicateXmlObject> and HeaderValue
+
+impl From<IntoHeaderValue<DuplicateXmlObject>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<DuplicateXmlObject>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<DuplicateXmlObject> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(DuplicateXmlObject::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -423,6 +468,20 @@ impl EnumWithStarObject {
     }
 }
 
+// Methods for converting between IntoHeaderValue<InlineResponse201> and HeaderValue
+
+impl From<IntoHeaderValue<InlineResponse201>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<InlineResponse201>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<InlineResponse201> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(InlineResponse201::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -552,6 +611,20 @@ impl MyId {
     }
 }
 
+// Methods for converting between IntoHeaderValue<MyIdList> and HeaderValue
+
+impl From<IntoHeaderValue<MyIdList>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<MyIdList>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<MyIdList> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(MyIdList::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct MyIdList(Vec<i32>);
@@ -646,6 +719,136 @@ impl MyIdList {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<ObjectHeader> and HeaderValue
+
+impl From<IntoHeaderValue<ObjectHeader>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ObjectHeader>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ObjectHeader> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ObjectHeader::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct ObjectHeader {
+    #[serde(rename = "requiredObjectHeader")]
+    pub required_object_header: bool,
+
+    #[serde(rename = "optionalObjectHeader")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub optional_object_header: Option<isize>,
+
+}
+
+impl ObjectHeader {
+    pub fn new(required_object_header: bool, ) -> ObjectHeader {
+        ObjectHeader {
+            required_object_header: required_object_header,
+            optional_object_header: None,
+        }
+    }
+}
+
+/// Converts the ObjectHeader value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for ObjectHeader {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+
+        params.push("requiredObjectHeader".to_string());
+        params.push(self.required_object_header.to_string());
+
+
+        if let Some(ref optional_object_header) = self.optional_object_header {
+            params.push("optionalObjectHeader".to_string());
+            params.push(optional_object_header.to_string());
+        }
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a ObjectHeader value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for ObjectHeader {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub required_object_header: Vec<bool>,
+            pub optional_object_header: Vec<isize>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return Err(())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    
+                    "requiredObjectHeader" => intermediate_rep.required_object_header.push(bool::from_str(val).map_err(|x| ())?),
+                    
+                    
+                    "optionalObjectHeader" => intermediate_rep.optional_object_header.push(isize::from_str(val).map_err(|x| ())?),
+                    
+                    _ => return Err(()) // Parse error - unexpected key
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        Ok(ObjectHeader {
+            required_object_header: intermediate_rep.required_object_header.into_iter().next().ok_or(())?,
+            optional_object_header: intermediate_rep.optional_object_header.into_iter().next(),
+        })
+    }
+}
+
+
+impl ObjectHeader {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<ObjectParam> and HeaderValue
+
+impl From<IntoHeaderValue<ObjectParam>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ObjectParam>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ObjectParam> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ObjectParam::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -751,6 +954,20 @@ impl ObjectParam {
     }
 }
 
+// Methods for converting between IntoHeaderValue<ObjectWithArrayOfObjects> and HeaderValue
+
+impl From<IntoHeaderValue<ObjectWithArrayOfObjects>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ObjectWithArrayOfObjects>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ObjectWithArrayOfObjects> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ObjectWithArrayOfObjects::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -831,6 +1048,86 @@ impl ::std::str::FromStr for ObjectWithArrayOfObjects {
 
 
 impl ObjectWithArrayOfObjects {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct OptionalObjectHeader(i32);
+
+impl ::std::convert::From<i32> for OptionalObjectHeader {
+    fn from(x: i32) -> Self {
+        OptionalObjectHeader(x)
+    }
+}
+
+
+impl ::std::convert::From<OptionalObjectHeader> for i32 {
+    fn from(x: OptionalObjectHeader) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for OptionalObjectHeader {
+    type Target = i32;
+    fn deref(&self) -> &i32 {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for OptionalObjectHeader {
+    fn deref_mut(&mut self) -> &mut i32 {
+        &mut self.0
+    }
+}
+
+
+impl OptionalObjectHeader {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+pub struct RequiredObjectHeader(bool);
+
+impl ::std::convert::From<bool> for RequiredObjectHeader {
+    fn from(x: bool) -> Self {
+        RequiredObjectHeader(x)
+    }
+}
+
+
+impl ::std::convert::From<RequiredObjectHeader> for bool {
+    fn from(x: RequiredObjectHeader) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for RequiredObjectHeader {
+    type Target = bool;
+    fn deref(&self) -> &bool {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for RequiredObjectHeader {
+    fn deref_mut(&mut self) -> &mut bool {
+        &mut self.0
+    }
+}
+
+
+impl RequiredObjectHeader {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -923,6 +1220,20 @@ impl UuidObject {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<XmlArray> and HeaderValue
+
+impl From<IntoHeaderValue<XmlArray>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<XmlArray>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<XmlArray> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(XmlArray::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1080,6 +1391,20 @@ impl XmlInner {
 }
 
 /// An XML object
+// Methods for converting between IntoHeaderValue<XmlObject> and HeaderValue
+
+impl From<IntoHeaderValue<XmlObject>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<XmlObject>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<XmlObject> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(XmlObject::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]

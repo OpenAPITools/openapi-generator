@@ -40,6 +40,7 @@ use {Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
 
 #[allow(unused_imports)]
 use models;
+use header;
 
 pub mod context;
 
@@ -225,7 +226,7 @@ where
 
   {{#required}}
                 let param_{{{paramName}}} = match param_{{{paramName}}})) {
-                    Some(v) => Some(swagger::IntoHeaderValue::<{{{dataType}}}>::from(v)).0),
+                    Some(v) => Some(header::IntoHeaderValue::<{{{dataType}}}>::from(v)).0),
                     None => return Box::new(future::ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
                                         .body(Body::from("Missing or invalid required header {{{baseName}}}"))
@@ -234,7 +235,7 @@ where
   {{/required}}
   {{^required}}
                 let param_{{{paramName}}} = param_{{{paramName}}}.map(|p| {
-                        swagger::IntoHeaderValue::<{{{dataType}}}>::from((*p).clone()).0
+                        header::IntoHeaderValue::<{{{dataType}}}>::from((*p).clone()).0
                 });
   {{/required}}
 {{/headerParams}}
@@ -596,7 +597,7 @@ where
 {{#headers}}
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("{{{nameInLowerCase}}}"),
-                                                        swagger::IntoHeaderValue({{name}}).into()
+                                                        header::IntoHeaderValue({{name}}).into()
                                                     );
 {{/headers}}
 {{#produces}}{{#-first}}{{#dataType}}

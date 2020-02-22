@@ -5,8 +5,25 @@ use serde::ser::Serializer;
 use std::collections::HashMap;
 use models;
 use swagger;
+use hyper::header::HeaderValue;
 use std::string::ParseError;
+use std::str::FromStr;
+use header::IntoHeaderValue;
 
+
+// Methods for converting between IntoHeaderValue<ANullableContainer> and HeaderValue
+
+impl From<IntoHeaderValue<ANullableContainer>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ANullableContainer>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ANullableContainer> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ANullableContainer::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
 
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -156,6 +173,20 @@ impl ::std::str::FromStr for AdditionalPropertiesObject {
 }
 
 
+// Methods for converting between IntoHeaderValue<InlineObject> and HeaderValue
+
+impl From<IntoHeaderValue<InlineObject>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<InlineObject>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<InlineObject> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(InlineObject::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -251,6 +282,20 @@ impl ::std::str::FromStr for InlineObject {
 
 
 /// An object of objects
+// Methods for converting between IntoHeaderValue<ObjectOfObjects> and HeaderValue
+
+impl From<IntoHeaderValue<ObjectOfObjects>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ObjectOfObjects>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ObjectOfObjects> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ObjectOfObjects::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -327,6 +372,20 @@ impl ::std::str::FromStr for ObjectOfObjects {
 }
 
 
+
+// Methods for converting between IntoHeaderValue<ObjectOfObjectsInner> and HeaderValue
+
+impl From<IntoHeaderValue<ObjectOfObjectsInner>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ObjectOfObjectsInner>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ObjectOfObjectsInner> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ObjectOfObjectsInner::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
 
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

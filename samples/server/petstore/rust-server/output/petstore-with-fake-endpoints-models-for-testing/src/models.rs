@@ -6,9 +6,26 @@ use serde::ser::Serializer;
 use std::collections::{HashMap, BTreeMap};
 use models;
 use swagger;
+use hyper::header::HeaderValue;
 use std::string::ParseError;
 use uuid;
+use std::str::FromStr;
+use header::IntoHeaderValue;
 
+
+// Methods for converting between IntoHeaderValue<AdditionalPropertiesClass> and HeaderValue
+
+impl From<IntoHeaderValue<AdditionalPropertiesClass>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<AdditionalPropertiesClass>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<AdditionalPropertiesClass> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(AdditionalPropertiesClass::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
 
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -103,6 +120,20 @@ impl AdditionalPropertiesClass {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<Animal> and HeaderValue
+
+impl From<IntoHeaderValue<Animal>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<Animal>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<Animal> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(Animal::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -208,6 +239,20 @@ impl Animal {
     }
 }
 
+// Methods for converting between IntoHeaderValue<AnimalFarm> and HeaderValue
+
+impl From<IntoHeaderValue<AnimalFarm>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<AnimalFarm>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<AnimalFarm> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(AnimalFarm::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
 pub struct AnimalFarm(Vec<Animal>);
@@ -302,6 +347,20 @@ impl AnimalFarm {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<ApiResponse> and HeaderValue
+
+impl From<IntoHeaderValue<ApiResponse>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ApiResponse>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ApiResponse> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ApiResponse::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -426,6 +485,20 @@ impl ApiResponse {
     }
 }
 
+// Methods for converting between IntoHeaderValue<ArrayOfArrayOfNumberOnly> and HeaderValue
+
+impl From<IntoHeaderValue<ArrayOfArrayOfNumberOnly>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ArrayOfArrayOfNumberOnly>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ArrayOfArrayOfNumberOnly> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ArrayOfArrayOfNumberOnly::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -507,6 +580,20 @@ impl ArrayOfArrayOfNumberOnly {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<ArrayOfNumberOnly> and HeaderValue
+
+impl From<IntoHeaderValue<ArrayOfNumberOnly>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ArrayOfNumberOnly>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ArrayOfNumberOnly> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ArrayOfNumberOnly::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -595,6 +682,20 @@ impl ArrayOfNumberOnly {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<ArrayTest> and HeaderValue
+
+impl From<IntoHeaderValue<ArrayTest>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ArrayTest>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ArrayTest> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ArrayTest::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -721,6 +822,20 @@ impl ArrayTest {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<Capitalization> and HeaderValue
+
+impl From<IntoHeaderValue<Capitalization>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<Capitalization>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<Capitalization> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(Capitalization::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -894,6 +1009,20 @@ impl Capitalization {
     }
 }
 
+// Methods for converting between IntoHeaderValue<Cat> and HeaderValue
+
+impl From<IntoHeaderValue<Cat>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<Cat>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<Cat> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(Cat::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -1012,6 +1141,20 @@ impl Cat {
     }
 }
 
+// Methods for converting between IntoHeaderValue<CatAllOf> and HeaderValue
+
+impl From<IntoHeaderValue<CatAllOf>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<CatAllOf>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<CatAllOf> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(CatAllOf::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -1098,6 +1241,20 @@ impl CatAllOf {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<Category> and HeaderValue
+
+impl From<IntoHeaderValue<Category>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<Category>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<Category> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(Category::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1208,6 +1365,20 @@ impl Category {
 }
 
 /// Model for testing model with \"_class\" property
+// Methods for converting between IntoHeaderValue<ClassModel> and HeaderValue
+
+impl From<IntoHeaderValue<ClassModel>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ClassModel>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ClassModel> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ClassModel::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -1297,6 +1468,20 @@ impl ClassModel {
     }
 }
 
+// Methods for converting between IntoHeaderValue<Client> and HeaderValue
+
+impl From<IntoHeaderValue<Client>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<Client>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<Client> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(Client::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -1383,6 +1568,20 @@ impl Client {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<Dog> and HeaderValue
+
+impl From<IntoHeaderValue<Dog>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<Dog>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<Dog> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(Dog::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1504,6 +1703,20 @@ impl Dog {
     }
 }
 
+// Methods for converting between IntoHeaderValue<DogAllOf> and HeaderValue
+
+impl From<IntoHeaderValue<DogAllOf>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<DogAllOf>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<DogAllOf> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(DogAllOf::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -1590,6 +1803,20 @@ impl DogAllOf {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<EnumArrays> and HeaderValue
+
+impl From<IntoHeaderValue<EnumArrays>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<EnumArrays>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<EnumArrays> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(EnumArrays::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -1758,6 +1985,20 @@ impl EnumClass {
     }
 }
 
+// Methods for converting between IntoHeaderValue<EnumTest> and HeaderValue
+
+impl From<IntoHeaderValue<EnumTest>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<EnumTest>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<EnumTest> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(EnumTest::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -1905,6 +2146,20 @@ impl EnumTest {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<FormatTest> and HeaderValue
+
+impl From<IntoHeaderValue<FormatTest>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<FormatTest>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<FormatTest> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(FormatTest::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -2161,6 +2416,20 @@ impl FormatTest {
     }
 }
 
+// Methods for converting between IntoHeaderValue<HasOnlyReadOnly> and HeaderValue
+
+impl From<IntoHeaderValue<HasOnlyReadOnly>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<HasOnlyReadOnly>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<HasOnlyReadOnly> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(HasOnlyReadOnly::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -2266,6 +2535,20 @@ impl HasOnlyReadOnly {
     }
 }
 
+// Methods for converting between IntoHeaderValue<List> and HeaderValue
+
+impl From<IntoHeaderValue<List>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<List>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<List> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(List::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -2352,6 +2635,20 @@ impl List {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<MapTest> and HeaderValue
+
+impl From<IntoHeaderValue<MapTest>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<MapTest>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<MapTest> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(MapTest::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -2465,6 +2762,20 @@ impl MapTest {
     }
 }
 
+// Methods for converting between IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass> and HeaderValue
+
+impl From<IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<MixedPropertiesAndAdditionalPropertiesClass> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(MixedPropertiesAndAdditionalPropertiesClass::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -2575,6 +2886,20 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 }
 
 /// Model for testing model name starting with number
+// Methods for converting between IntoHeaderValue<Model200Response> and HeaderValue
+
+impl From<IntoHeaderValue<Model200Response>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<Model200Response>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<Model200Response> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(Model200Response::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -2682,6 +3007,20 @@ impl Model200Response {
 }
 
 /// Model for testing reserved words
+// Methods for converting between IntoHeaderValue<ModelReturn> and HeaderValue
+
+impl From<IntoHeaderValue<ModelReturn>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ModelReturn>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ModelReturn> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ModelReturn::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -2773,6 +3112,20 @@ impl ModelReturn {
 }
 
 /// Model for testing model name same as property name
+// Methods for converting between IntoHeaderValue<Name> and HeaderValue
+
+impl From<IntoHeaderValue<Name>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<Name>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<Name> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(Name::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -2908,6 +3261,20 @@ impl Name {
     }
 }
 
+// Methods for converting between IntoHeaderValue<NumberOnly> and HeaderValue
+
+impl From<IntoHeaderValue<NumberOnly>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<NumberOnly>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<NumberOnly> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(NumberOnly::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -2994,6 +3361,20 @@ impl NumberOnly {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties> and HeaderValue
+
+impl From<IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ObjectContainingObjectWithOnlyAdditionalProperties> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ObjectContainingObjectWithOnlyAdditionalProperties::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -3140,6 +3521,20 @@ impl ObjectWithOnlyAdditionalProperties {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<Order> and HeaderValue
+
+impl From<IntoHeaderValue<Order>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<Order>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<Order> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(Order::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -3348,6 +3743,20 @@ impl OuterBoolean {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<OuterComposite> and HeaderValue
+
+impl From<IntoHeaderValue<OuterComposite>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<OuterComposite>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<OuterComposite> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(OuterComposite::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -3605,6 +4014,20 @@ impl OuterString {
     }
 }
 
+// Methods for converting between IntoHeaderValue<Pet> and HeaderValue
+
+impl From<IntoHeaderValue<Pet>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<Pet>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<Pet> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(Pet::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -3761,6 +4184,20 @@ impl Pet {
     }
 }
 
+// Methods for converting between IntoHeaderValue<ReadOnlyFirst> and HeaderValue
+
+impl From<IntoHeaderValue<ReadOnlyFirst>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<ReadOnlyFirst>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<ReadOnlyFirst> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(ReadOnlyFirst::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -3866,6 +4303,20 @@ impl ReadOnlyFirst {
     }
 }
 
+// Methods for converting between IntoHeaderValue<SpecialModelName> and HeaderValue
+
+impl From<IntoHeaderValue<SpecialModelName>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<SpecialModelName>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<SpecialModelName> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(SpecialModelName::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
@@ -3953,6 +4404,20 @@ impl SpecialModelName {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<Tag> and HeaderValue
+
+impl From<IntoHeaderValue<Tag>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<Tag>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<Tag> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(Tag::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 
@@ -4059,6 +4524,20 @@ impl Tag {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between IntoHeaderValue<User> and HeaderValue
+
+impl From<IntoHeaderValue<User>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<User>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<User> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue(User::from_str(hdr_value.to_str().unwrap()).unwrap())
     }
 }
 

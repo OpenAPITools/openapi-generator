@@ -200,6 +200,11 @@ paths:
               schema:
                 type: String
               style: simple
+            Object-Header:
+              explode: false
+              schema:
+                $ref: '#/components/schemas/ObjectHeader'
+              style: simple
         "412":
           description: Precondition Failed
           headers:
@@ -213,6 +218,19 @@ paths:
               schema:
                 type: String
               style: simple
+  /mandatory-request-header:
+    get:
+      parameters:
+      - explode: false
+        in: header
+        name: X-Header
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Success
 components:
   schemas:
     EnumWithStarObject:
@@ -308,6 +326,19 @@ components:
       required:
       - requiredParam
       type: object
+    ObjectHeader:
+      properties:
+        requiredObjectHeader:
+          type: boolean
+        optionalObjectHeader:
+          type: integer
+      required:
+      - requiredObjectHeader
+      type: object
+    RequiredObjectHeader:
+      type: boolean
+    OptionalObjectHeader:
+      type: integer
     inline_response_201:
       properties:
         foo:

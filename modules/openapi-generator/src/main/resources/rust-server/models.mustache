@@ -13,10 +13,13 @@ use std::collections::HashMap;
 {{/usesXml}}
 use models;
 use swagger;
+use hyper::header::HeaderValue;
 use std::string::ParseError;
 {{#apiUsesUuid}}
 use uuid;
 {{/apiUsesUuid}}
+use std::str::FromStr;
+use header::IntoHeaderValue;
 
 {{#models}}{{#model}}
 {{#description}}/// {{{description}}}
@@ -124,6 +127,20 @@ impl ::std::str::FromStr for {{{classname}}} {
 {{/additionalPropertiesType}}
 {{/dataType}}
 {{^dataType}}
+// Methods for converting between IntoHeaderValue<{{{classname}}}> and HeaderValue
+
+impl From<IntoHeaderValue<{{{classname}}}>> for HeaderValue {
+    fn from(hdr_value: IntoHeaderValue<{{{classname}}}>) -> Self {
+        HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+    }
+}
+
+impl From<HeaderValue> for IntoHeaderValue<{{{classname}}}> {
+    fn from(hdr_value: HeaderValue) -> Self {
+        IntoHeaderValue({{{classname}}}::from_str(hdr_value.to_str().unwrap()).unwrap())
+    }
+}
+
 {{#arrayModelType}}{{#vendorExtensions}}{{#itemXmlName}}// Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
 fn wrap_in_{{{itemXmlName}}}<S>(item: &Vec<{{{arrayModelType}}}>, serializer: S) -> Result<S::Ok, S::Error>

@@ -75,6 +75,12 @@ pub const API_VERSION: &'static str = "1.0.7";
 
 
 #[derive(Debug, PartialEq)]
+pub enum MandatoryRequestHeaderGetResponse {
+    /// Success
+    Success
+}
+
+#[derive(Debug, PartialEq)]
 pub enum MultigetGetResponse {
     /// JSON rsp
     JSONRsp
@@ -137,6 +143,7 @@ pub enum ResponsesWithHeadersGetResponse {
     {
         body: String,
         success_info: String,
+        object_header: models::ObjectHeader,
     }
     ,
     /// Precondition Failed
@@ -203,6 +210,9 @@ pub enum XmlPutResponse {
 /// API
 pub trait Api<C> {
 
+
+    fn mandatory_request_header_get(&self, x_header: String, context: &C) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send>;
+
     /// Get some stuff.
     fn multiget_get(&self, context: &C) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError> + Send>;
 
@@ -243,6 +253,9 @@ pub trait Api<C> {
 
 /// API without a `Context`
 pub trait ApiNoContext {
+
+
+    fn mandatory_request_header_get(&self, x_header: String) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send>;
 
     /// Get some stuff.
     fn multiget_get(&self) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError> + Send>;
@@ -295,6 +308,11 @@ impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
 }
 
 impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
+
+
+    fn mandatory_request_header_get(&self, x_header: String) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send> {
+        self.api().mandatory_request_header_get(x_header, &self.context())
+    }
 
     /// Get some stuff.
     fn multiget_get(&self) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError> + Send> {
@@ -373,3 +391,4 @@ pub mod server;
 pub use self::server::Service;
 
 pub mod models;
+pub mod header;
