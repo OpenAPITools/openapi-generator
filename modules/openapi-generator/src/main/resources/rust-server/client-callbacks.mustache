@@ -1,20 +1,39 @@
 {{>server-imports}}
-use {Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
-     {{{operationId}}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
-};
+use CallbackApi as Api;
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
+use {{{operationId}}}Response;
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
 
-{{#hasCallbacks}}
-pub mod callbacks;
-
-{{/hasCallbacks}}
+{{#callbacks}}
 {{>server-paths}}
+{{/callbacks}}
+
 {{>server-make-service}}
+
 {{>server-service-header}}
 {{#apiInfo}}
   {{#apis}}
     {{#operations}}
       {{#operation}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
 {{>server-operation}}
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
       {{/operation}}
     {{/operations}}
   {{/apis}}
@@ -30,8 +49,14 @@ impl<T> RequestParser<T> for ApiRequestParser {
   {{#apis}}
     {{#operations}}
       {{#operation}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
             // {{{operationId}}} - {{{httpMethod}}} {{{path}}}
             &hyper::Method::{{{vendorExtensions.HttpMethod}}} if path.matched(paths::ID_{{{vendorExtensions.PATH_ID}}}) => Ok("{{{operationId}}}"),
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
       {{/operation}}
     {{/operations}}
   {{/apis}}

@@ -1,0 +1,10 @@
+{{#responses}}
+  {{#produces}}
+    {{#-first}}
+      {{#dataType}}
+    /// Create &str objects for the response content types for {{{operationId}}}
+    pub static {{#vendorExtensions}}{{{uppercase_operation_id}}}_{{x-uppercaseResponseId}}: &str = "{{{mimeType}}}";{{/vendorExtensions}}
+      {{/dataType}}
+    {{/-first}}
+  {{/produces}}
+{{/responses}}
