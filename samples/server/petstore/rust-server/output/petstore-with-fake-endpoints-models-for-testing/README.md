@@ -191,6 +191,8 @@ Method | HTTP request | Description
  - [ModelReturn](docs/ModelReturn.md)
  - [Name](docs/Name.md)
  - [NumberOnly](docs/NumberOnly.md)
+ - [ObjectContainingObjectWithOnlyAdditionalProperties](docs/ObjectContainingObjectWithOnlyAdditionalProperties.md)
+ - [ObjectWithOnlyAdditionalProperties](docs/ObjectWithOnlyAdditionalProperties.md)
  - [Order](docs/Order.md)
  - [OuterBoolean](docs/OuterBoolean.md)
  - [OuterComposite](docs/OuterComposite.md)

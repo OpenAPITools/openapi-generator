@@ -7,6 +7,7 @@ Method | HTTP request | Description
 ****](default_api.md#) | **GET** /mandatory-request-header | 
 ****](default_api.md#) | **GET** /multiget | Get some stuff.
 ****](default_api.md#) | **GET** /multiple_auth_scheme | 
+****](default_api.md#) | **GET** /paramget | Get some stuff with parameters.
 ****](default_api.md#) | **GET** /readonly_auth_scheme | 
 ****](default_api.md#) | **PUT** /required_octet_stream | 
 ****](default_api.md#) | **GET** /responses_with_headers | 
@@ -84,6 +85,40 @@ This endpoint does not need any parameter.
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# ****
+> models::AnotherXmlObject (optional)
+Get some stuff with parameters.
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **uuid** | [****](.md)| The stuff to get | 
+ **some_object** | [****](.md)| Some object to pass as query parameter | 
+ **some_list** | [****](.md)| Some list to pass as query parameter | 
+
+### Return type
+
+[**models::AnotherXmlObject**](anotherXmlObject.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, 
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

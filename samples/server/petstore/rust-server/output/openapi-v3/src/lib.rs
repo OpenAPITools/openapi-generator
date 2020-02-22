@@ -118,6 +118,13 @@ pub enum MultipleAuthSchemeGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum ParamgetGetResponse {
+    /// JSON rsp
+    JSONRsp
+    (models::AnotherXmlObject)
+}
+
+#[derive(Debug, PartialEq)]
 pub enum ReadonlyAuthSchemeGetResponse {
     /// Check that limiting to a single required auth scheme works
     CheckThatLimitingToASingleRequiredAuthSchemeWorks
@@ -212,6 +219,9 @@ pub trait Api<C> {
 
     fn multiple_auth_scheme_get(&self, context: &C) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError> + Send>;
 
+    /// Get some stuff with parameters.
+    fn paramget_get(&self, uuid: Option<uuid::Uuid>, some_object: Option<models::ObjectParam>, some_list: Option<models::MyIdList>, context: &C) -> Box<dyn Future<Item=ParamgetGetResponse, Error=ApiError> + Send>;
+
 
     fn readonly_auth_scheme_get(&self, context: &C) -> Box<dyn Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError> + Send>;
 
@@ -252,6 +262,9 @@ pub trait ApiNoContext {
 
 
     fn multiple_auth_scheme_get(&self) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError> + Send>;
+
+    /// Get some stuff with parameters.
+    fn paramget_get(&self, uuid: Option<uuid::Uuid>, some_object: Option<models::ObjectParam>, some_list: Option<models::MyIdList>) -> Box<dyn Future<Item=ParamgetGetResponse, Error=ApiError> + Send>;
 
 
     fn readonly_auth_scheme_get(&self) -> Box<dyn Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError> + Send>;
@@ -309,6 +322,11 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
     fn multiple_auth_scheme_get(&self) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError> + Send> {
         self.api().multiple_auth_scheme_get(&self.context())
+    }
+
+    /// Get some stuff with parameters.
+    fn paramget_get(&self, uuid: Option<uuid::Uuid>, some_object: Option<models::ObjectParam>, some_list: Option<models::MyIdList>) -> Box<dyn Future<Item=ParamgetGetResponse, Error=ApiError> + Send> {
+        self.api().paramget_get(uuid, some_object, some_list, &self.context())
     }
 
 

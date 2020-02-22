@@ -1303,6 +1303,15 @@ definitions:
         type: object
         additionalProperties:
           $ref: '#/definitions/Animal'
+  ObjectContainingObjectWithOnlyAdditionalProperties:
+    type: object
+    properties:
+      inner:
+        $ref: '#/definitions/ObjectWithOnlyAdditionalProperties'
+  ObjectWithOnlyAdditionalProperties:
+    type: object
+    additionalProperties:
+      type: string
   List:
     type: object
     properties:

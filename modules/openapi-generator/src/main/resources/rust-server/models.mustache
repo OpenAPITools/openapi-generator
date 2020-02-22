@@ -102,7 +102,31 @@ impl ::std::ops::DerefMut for {{{classname}}} {
     }
 }
 
-{{/dataType}}{{^dataType}}
+{{#additionalPropertiesType}}
+/// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for {{{classname}}} {
+    fn to_string(&self) -> String {
+        // Skipping additionalProperties in query parameter serialization
+        "".to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for {{{classname}}} {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        // Parsing additionalProperties in this style is not supported yet
+        Err(())
+    }
+}
+{{/additionalPropertiesType}}
+{{/dataType}}
+{{^dataType}}
 // Methods for converting between IntoHeaderValue<{{{classname}}}> and HeaderValue
 
 impl From<IntoHeaderValue<{{{classname}}}>> for HeaderValue {
@@ -188,9 +212,37 @@ impl ::std::ops::DerefMut for {{{classname}}} {
     }
 }
 
-{{/arrayModelType}}{{^arrayModelType}}{{! general struct}}#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]{{#xmlName}}
-#[serde(rename = "{{{xmlName}}}")]{{/xmlName}}
+/// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for {{{classname}}} {
+    fn to_string(&self) -> String {
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for {{{classname}}} {
+    type Err = <{{{arrayModelType}}} as ::std::str::FromStr>::Err;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let mut items = vec![];
+        for item in s.split(',')
+        {
+            items.push(item.parse()?);
+        }
+        Ok({{{classname}}}(items))
+    }
+}
+
+{{/arrayModelType}}{{^arrayModelType}}{{! general struct}}
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "conversion", derive(LabelledGeneric))]
+{{#xmlName}}
+#[serde(rename = "{{{xmlName}}}")]
+{{/xmlName}}
 pub struct {{{classname}}} {
 {{#vars}}{{#description}}    /// {{{description}}}
 {{/description}}{{#isEnum}}    // Note: inline enums are not fully supported by openapi-generator
@@ -215,6 +267,131 @@ impl {{{classname}}} {
         }
     }
 }
+
+/// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for {{{classname}}} {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+{{#vars}}
+{{#isByteArray}}
+        // Skipping {{baseName}} in query parameter serialization
+{{/isByteArray}}
+{{#isBinary}}
+        // Skipping {{baseName}} in query parameter serialization
+{{/isBinary}}
+{{#isMapContainer}}
+        // Skipping {{baseName}} in query parameter serialization
+{{/isMapContainer}}
+{{^isPrimitiveType}}
+        // Skipping {{baseName}} in query parameter serialization
+{{/isPrimitiveType}}
+{{^isByteArray}}{{^isBinary}}{{^isMapContainer}}{{#isPrimitiveType}}
+{{#required}}
+        params.push("{{{baseName}}}".to_string());
+{{^isListContainer}}
+{{#isNullable}}
+        params.push(self.{{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string()));
+{{/isNullable}}
+{{^isNullable}}
+        params.push(self.{{{name}}}.to_string());
+{{/isNullable}}
+{{/isListContainer}}
+{{#isListContainer}}
+        params.push(self.{{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
+{{/isListContainer}}
+{{/required}}
+{{^required}}
+        if let Some(ref {{{name}}}) = self.{{{name}}} {
+            params.push("{{{baseName}}}".to_string());
+{{^isListContainer}}
+{{#isNullable}}
+            params.push({{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string()));
+{{/isNullable}}
+{{^isNullable}}
+            params.push({{{name}}}.to_string());
+{{/isNullable}}
+{{/isListContainer}}
+{{#isListContainer}}
+            params.push({{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
+{{/isListContainer}}
+        }
+{{/required}}
+{{/isPrimitiveType}}{{/isMapContainer}}{{/isBinary}}{{/isByteArray}}
+{{/vars}}
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for {{{classname}}} {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            {{#vars}}
+            pub {{{name}}}: Vec<{{{dataType}}}>,
+            {{/vars}}
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return Err(())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    {{#vars}}
+                    {{#isBinary}}
+                    "{{{baseName}}}" => return Err(()), // Parsing binary data in this style is not supported yet
+                    {{/isBinary}}
+                    {{#isByteArray}}
+                    "{{{baseName}}}" => return Err(()), // Parsing binary data in this style is not supported yet
+                    {{/isByteArray}}
+                    {{#isContainer}}
+                    "{{{baseName}}}" => return Err(()), // Parsing a container in this style is not supported yet
+                    {{/isContainer}}
+                    {{#isNullable}}
+                    "{{{baseName}}}" => return Err(()), // Parsing a nullable type in this style is not supported yet
+                    {{/isNullable}}
+                    {{^isByteArray}}{{^isBinary}}{{^isContainer}}{{^isNullable}}
+                    "{{{baseName}}}" => intermediate_rep.{{{name}}}.push({{{dataType}}}::from_str(val).map_err(|x| ())?),
+                    {{/isNullable}}{{/isContainer}}{{/isBinary}}{{/isByteArray}}
+                    {{/vars}}
+                    _ => return Err(()) // Parse error - unexpected key
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        Ok({{{classname}}} {
+            {{#vars}}
+            {{#isNullable}}
+            {{{name}}}: Err(())?,
+            {{/isNullable}}
+            {{^isNullable}}
+            {{{name}}}: intermediate_rep.{{{name}}}.into_iter().next(){{#required}}.ok_or(())?{{/required}},
+            {{/isNullable}}
+            {{/vars}}
+        })
+    }
+}
+
 {{/arrayModelType}}
 {{/dataType}}
 {{/isEnum}}
