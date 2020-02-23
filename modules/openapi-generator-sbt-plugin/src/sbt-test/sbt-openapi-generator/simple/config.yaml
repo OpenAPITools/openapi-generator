@@ -1,0 +1,3 @@
+apiPackage: "petstore"
+generatorName: "scala-akka"
+outputDir : "generated"
