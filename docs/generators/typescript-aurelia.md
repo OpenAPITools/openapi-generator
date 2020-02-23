@@ -46,6 +46,7 @@ sidebar_label: typescript-aurelia
 <li>Long</li>
 <li>Map</li>
 <li>Object</li>
+<li>ReadonlyArray</li>
 <li>String</li>
 <li>any</li>
 <li>boolean</li>
