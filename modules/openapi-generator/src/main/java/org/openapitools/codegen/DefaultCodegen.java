@@ -2044,6 +2044,11 @@ public class DefaultCodegen implements CodegenConfig {
         m.removeAllDuplicatedProperty();
 
         // post process model properties
+        if (m.vars != null) {
+            for (CodegenProperty prop : m.vars) {
+                postProcessModelProperty(m, prop);
+            }
+        }
         if (m.allVars != null) {
             for (CodegenProperty prop : m.allVars) {
                 postProcessModelProperty(m, prop);
