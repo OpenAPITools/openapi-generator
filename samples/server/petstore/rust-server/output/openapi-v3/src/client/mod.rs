@@ -36,6 +36,7 @@ use {Api,
      ReadonlyAuthSchemeGetResponse,
      RequiredOctetStreamPutResponse,
      ResponsesWithHeadersGetResponse,
+     Rfc7807GetResponse,
      UntypedPropertyGetResponse,
      UuidGetResponse,
      XmlExtraPostResponse,
@@ -918,6 +919,131 @@ impl<C, F> Api<C> for Client<F> where
                               failure_info: (*Into::<header::IntoHeaderValue<String>>::into(response_failure_info)).clone(),
                             }
                         )
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.into_body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                }
+            }
+        }))
+
+    }
+
+    fn rfc7807_get(&self, context: &C) -> Box<dyn Future<Item=Rfc7807GetResponse, Error=ApiError> + Send> {
+        let mut uri = format!(
+            "{}/rfc7807",
+            self.base_path
+        );
+
+        // Query parameters
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(future::err(ApiError(format!("Unable to build URI: {}", err)))),
+        };
+
+        let mut request = match hyper::Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Box::new(future::err(ApiError(format!("Unable to create request: {}", e))))
+        };
+
+
+        let header = HeaderValue::from_str((context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
+        });
+
+
+        Box::new(self.client_service.request(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                204 => {
+                    let body = response.into_body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::ObjectWithArrayOfObjects>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
+                        .map(move |body| {
+                            Rfc7807GetResponse::OK
+                            (body)
+                        })
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                },
+                404 => {
+                    let body = response.into_body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                serde_json::from_str::<models::ObjectWithArrayOfObjects>(body)
+                                .map_err(|e| e.into())
+                            )
+                        )
+                        .map(move |body| {
+                            Rfc7807GetResponse::NotFound
+                            (body)
+                        })
+                    ) as Box<dyn Future<Item=_, Error=_> + Send>
+                },
+                406 => {
+                    let body = response.into_body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body|
+                            str::from_utf8(&body)
+                            .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                            .and_then(|body|
+                                // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                serde_xml_rs::from_str::<models::ObjectWithArrayOfObjects>(body)
+                                .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                            )
+                        )
+                        .map(move |body| {
+                            Rfc7807GetResponse::NotAcceptable
+                            (body)
+                        })
                     ) as Box<dyn Future<Item=_, Error=_> + Send>
                 },
                 code => {

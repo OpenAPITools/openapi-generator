@@ -24,6 +24,7 @@ use openapi_v3::{Api, ApiError,
                       ReadonlyAuthSchemeGetResponse,
                       RequiredOctetStreamPutResponse,
                       ResponsesWithHeadersGetResponse,
+                      Rfc7807GetResponse,
                       UntypedPropertyGetResponse,
                       UuidGetResponse,
                       XmlExtraPostResponse,
@@ -93,6 +94,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn responses_with_headers_get(&self, context: &C) -> Box<Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError> + Send> {
         let context = context.clone();
         println!("responses_with_headers_get() - X-Span-ID: {:?}", context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
+
+    fn rfc7807_get(&self, context: &C) -> Box<Future<Item=Rfc7807GetResponse, Error=ApiError> + Send> {
+        let context = context.clone();
+        println!("rfc7807_get() - X-Span-ID: {:?}", context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 

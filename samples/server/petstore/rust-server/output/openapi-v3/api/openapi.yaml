@@ -241,6 +241,27 @@ paths:
       responses:
         "200":
           description: Success
+  /rfc7807:
+    get:
+      responses:
+        "204":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+          description: OK
+        "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+          description: NotFound
+        "406":
+          content:
+            application/problem+xml:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+          description: NotAcceptable
 components:
   schemas:
     EnumWithStarObject:
@@ -313,6 +334,10 @@ components:
         name: snake_another_xml_object
         namespace: http://foo.bar
     ObjectWithArrayOfObjects:
+      example:
+        objectArray:
+        - null
+        - null
       properties:
         objectArray:
           items:
