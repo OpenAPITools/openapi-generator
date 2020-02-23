@@ -219,19 +219,33 @@ class Configuration(object):
         # Disable client side validation
         self.client_side_validation = True
 
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        for k, v in self.__dict__.items():
+            if k not in ('logger', 'logger_file_handler'):
+                setattr(result, k, copy.deepcopy(v, memo))
+        # shallow copy of loggers
+        result.logger = copy.copy(self.logger)
+        # use setters to configure loggers
+        result.logger_file = self.logger_file
+        result.debug = self.debug
+        return result
+
     @classmethod
     def set_default(cls, default):
         """Set default instance of configuration.
 
         It stores default configuration, which can be
-        returned by get_instance method.
+        returned by get_default_copy method.
 
         :param default: object of Configuration
         """
-        cls._default = copy.copy(default)
+        cls._default = copy.deepcopy(default)
 
     @classmethod
-    def get_instance(cls):
+    def get_default_copy(cls):
         """Return new instance of configuration.
 
         This method returns newly created, based on default constructor,
@@ -241,7 +255,7 @@ class Configuration(object):
         :return: The configuration object.
         """
         if cls._default is not None:
-            return copy.copy(cls._default)
+            return copy.deepcopy(cls._default)
         return Configuration()
 
     @property
