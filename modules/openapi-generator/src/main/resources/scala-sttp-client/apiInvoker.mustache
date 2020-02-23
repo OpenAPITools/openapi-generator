@@ -1,0 +1,98 @@
+{{>licenseInfo}}
+package {{{mainPackage}}}.core
+
+import java.io.File
+
+import org.joda.time.DateTime
+import org.joda.time.format.ISODateTimeFormat
+import org.json4s.JsonAST.JString
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
+import org.json4s.jackson.Serialization
+
+import scala.collection.immutable
+import scala.concurrent.{ ExecutionContext, ExecutionContextExecutor, Future }
+import scala.reflect.ClassTag
+import sttp.client.json4s.SttpJson4sApi
+
+class SttpSerializer(implicit val serialization: org.json4s.Serialization) extends SttpJson4sApi
+
+object ApiInvoker {
+
+  def apply(): ApiInvoker =
+    apply(DefaultFormats + DateTimeSerializer)
+
+  def apply(serializers: Iterable[Serializer[_]]): ApiInvoker =
+    apply(DefaultFormats + DateTimeSerializer ++ serializers)
+
+  def apply(formats: Formats): ApiInvoker = new ApiInvoker(formats)
+
+
+  /**
+    * Allows request execution without calling apiInvoker.execute(request)
+    * request.response can be used to get a future of the ApiResponse generated.
+    * request.result can be used to get a future of the expected ApiResponse content. If content doesn't match, a
+    * Future will failed with a ClassCastException
+    *
+    * @param request the apiRequest to be executed
+    */
+  implicit class ApiRequestImprovements[T: Manifest](request: ApiRequest[T]) {
+
+    def response(invoker: ApiInvoker)(implicit ec: ExecutionContext): Future[ApiResponse[T]] =
+      response(ec, invoker)
+
+    def response(implicit ec: ExecutionContext, invoker: ApiInvoker): Future[ApiResponse[T]] =
+      invoker.execute(request)
+
+    def result[U <: T](implicit c: ClassTag[U], ec: ExecutionContext, invoker: ApiInvoker): Future[U] =
+      invoker.execute(request).map(_.content).mapTo[U]
+
+  }
+
+  case object DateTimeSerializer extends CustomSerializer[DateTime](_ => ( {
+    case JString(s) =>
+      ISODateTimeFormat.dateOptionalTimeParser().parseDateTime(s)
+  }, {
+    case d: DateTime =>
+      JString(ISODateTimeFormat.dateTime().print(d))
+  })
+  )
+
+}
+
+
+class ApiInvoker(formats: Formats) {
+/*
+  import {{{mainPackage}}}.core.ApiInvoker._
+  import {{{mainPackage}}}.core.ParametersMap._
+
+  implicit val jsonFormats: Formats = formats
+
+  private implicit val serialization: Serialization = jackson.Serialization
+*/
+  def execute[T: Manifest](r: ApiRequest[T]): Future[ApiResponse[T]] = {
+//    implicit val timeout: Timeout = settings.connectionTimeout
+/*
+    val request = createRequest(makeUri(r), r)
+
+    http
+      .singleRequest(request)
+      .map { response =>
+        val decoder: Coder with StreamDecoder = response.encoding match {
+          case HttpEncodings.gzip ⇒
+            Gzip
+          case HttpEncodings.deflate ⇒
+            Deflate
+          case HttpEncodings.identity ⇒
+            NoCoding
+          case HttpEncoding(encoding) =>
+            throw new IllegalArgumentException(s"Unsupported encoding: $encoding")
+        }
+
+        decoder.decodeMessage(response)
+      }
+      .flatMap(unmarshallApiResponse(r))
+      */
+      null
+  }
+}
