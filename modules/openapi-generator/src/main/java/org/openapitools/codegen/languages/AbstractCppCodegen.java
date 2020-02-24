@@ -39,6 +39,10 @@ import java.util.Map;
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
 
+    protected static final String RESERVED_WORD_PREFIX_OPTION = "reservedWordPrefix";
+    protected static final String RESERVED_WORD_PREFIX_DESC = "Prefix to prepend to reserved words in order to avoid conflicts";
+    protected String reservedWordPrefix = "r_";
+
     public AbstractCppCodegen() {
         super();
 
@@ -135,6 +139,10 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                         "xor",
                         "xor_eq")
         );
+
+        addOption(RESERVED_WORD_PREFIX_OPTION,
+                RESERVED_WORD_PREFIX_DESC,
+                this.reservedWordPrefix);
     }
 
     @Override
@@ -200,7 +208,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return sanitizeName("_" + name);
+        return sanitizeName(reservedWordPrefix + name);
     }
 
     @Override
@@ -259,6 +267,12 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             LOGGER.info("Environment variable CPP_POST_PROCESS_FILE not defined so the C++ code may not be properly formatted. To define it, try 'export CPP_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
+
+        if (additionalProperties.containsKey(RESERVED_WORD_PREFIX_OPTION)) {
+            reservedWordPrefix = (String) additionalProperties.get(RESERVED_WORD_PREFIX_OPTION);
+        }
+
+        additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);
     }
 
     @Override
