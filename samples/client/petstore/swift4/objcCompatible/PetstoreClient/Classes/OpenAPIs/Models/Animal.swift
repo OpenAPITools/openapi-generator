@@ -9,12 +9,17 @@ import Foundation
 
 public struct Animal: Codable {
 
-    public var className: String
+    public var _className: String
     public var color: String? = "red"
 
-    public init(className: String, color: String?) {
-        self.className = className
+    public init(_className: String, color: String?) {
+        self._className = _className
         self.color = color
+    }
+
+    public enum CodingKeys: String, CodingKey {
+        case _className = "className"
+        case color
     }
 
 }

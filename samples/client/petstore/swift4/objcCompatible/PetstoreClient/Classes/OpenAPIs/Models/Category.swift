@@ -10,6 +10,11 @@ import Foundation
 public struct Category: Codable {
 
     public var _id: Int64?
+    public var _idNum: NSNumber? {
+        get {
+            return _id as NSNumber?
+        }
+    }
     public var name: String = "default-name"
 
     public init(_id: Int64?, name: String) {

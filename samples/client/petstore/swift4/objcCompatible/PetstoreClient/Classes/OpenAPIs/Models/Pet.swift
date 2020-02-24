@@ -15,6 +15,11 @@ public struct Pet: Codable {
         case sold = "sold"
     }
     public var _id: Int64?
+    public var _idNum: NSNumber? {
+        get {
+            return _id as NSNumber?
+        }
+    }
     public var category: Category?
     public var name: String
     public var photoUrls: [String]

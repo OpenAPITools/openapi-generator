@@ -11,6 +11,11 @@ import Foundation
 public struct Model200Response: Codable {
 
     public var name: Int?
+    public var nameNum: NSNumber? {
+        get {
+            return name as NSNumber?
+        }
+    }
     public var _class: String?
 
     public init(name: Int?, _class: String?) {

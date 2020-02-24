@@ -10,6 +10,11 @@ import Foundation
 public struct CatAllOf: Codable {
 
     public var declawed: Bool?
+    public var declawedNum: NSNumber? {
+        get {
+            return declawed as NSNumber?
+        }
+    }
 
     public init(declawed: Bool?) {
         self.declawed = declawed
