@@ -63,7 +63,7 @@ public struct ModelWithPropertiesAndAdditionalProperties: Codable {
 
     // Decodable protocol methods
 
-    public required init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
         myIntegerReq = try container.decode(Int.self, forKey: "myIntegerReq")
