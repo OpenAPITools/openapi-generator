@@ -871,11 +871,16 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (isLombokModel) {
             model.imports.add("lombokGetter");
             model.imports.add("lombokAllArgsConstructor");
-            model.imports.add("lombokBuilder");
-            model.imports.add("lombokSuperBuilder");
-            model.imports.add("lombokNonNull");
             model.imports.add("lombokEqualsAndHashCode");
             model.imports.add("lombokToString");
+            if (model.parent != null) {
+                model.imports.add("lombokSuperBuilder");
+            } else {
+                model.imports.add("lombokBuilder");
+            }
+            if (property.required) {
+                model.imports.add("lombokNonNull");
+            }
         }
     }
 

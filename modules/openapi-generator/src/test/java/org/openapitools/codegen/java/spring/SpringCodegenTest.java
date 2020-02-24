@@ -24,6 +24,9 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
+import org.junit.runner.RunWith;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
@@ -42,6 +45,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 
+@RunWith(JUnitParamsRunner.class)
 public class SpringCodegenTest {
 
     @Test
@@ -151,6 +155,55 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xyz.yyyyy.cccc.config");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.TITLE), "someTest");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8088");
+    }
+
+    @Test
+    @Parameters(method = "modelWithProps")
+    public void lombokImports(CodegenModel codegenModel, boolean hasBuilder, boolean hasSuperBuilder, boolean hasNonNull) {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
+        codegen.additionalProperties().put(SpringCodegen.BASE_PACKAGE, "xyz.yyyyy.bbbb.base");
+        codegen.additionalProperties().put(SpringCodegen.CONFIG_PACKAGE, "xyz.yyyyy.cccc.config");
+        codegen.additionalProperties().put(SpringCodegen.SERVER_PORT, "8088");
+        codegen.processOpts();
+
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
+        openAPI.setInfo(new Info());
+        openAPI.getInfo().setTitle("Some test API");
+        codegen.preprocessOpenAPI(openAPI);
+
+        codegenModel.getVars().forEach(codegenProperty -> {
+            codegen.postProcessModelProperty(codegenModel, codegenProperty);
+
+            Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokGetter")));
+            Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokAllArgsConstructor")));
+            Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokEqualsAndHashCode")));
+            Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokToString")));
+
+            boolean islombokSuperBuilderPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokSuperBuilder"));
+            boolean islombokBuilderPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokBuilder"));
+            boolean islombokNonNullPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokNonNull"));
+
+            Assert.assertEquals(hasBuilder, islombokBuilderPresent);
+            Assert.assertEquals(hasSuperBuilder, islombokSuperBuilderPresent);
+            Assert.assertEquals(hasNonNull, islombokNonNullPresent);
+        });
+
+    }
+
+    private Object[] modelWithProps() {
+//        public void testLombokImports(CodegenModel codegenModel, boolean hasBuilder, boolean hasSuperBuilder, boolean hasNonNull) {
+
+        CodegenModel modelWithParent = new CodegenModel();
+        modelWithParent.setParent("someParent");
+
+        return new Object[]{
+                new Object[] {modelWithParent, false, true, false}
+        };
     }
 
     @Test
