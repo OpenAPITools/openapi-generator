@@ -30,11 +30,6 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_get_composed_info,
 )
 try:
-    from petstore_api.models import address
-except ImportError:
-    address = sys.modules[
-        'petstore_api.models.address']
-try:
     from petstore_api.models import animal
 except ImportError:
     animal = sys.modules[
@@ -193,7 +188,6 @@ class Cat(ModelComposed):
           'anyOf': [
           ],
           'allOf': [
-              address.Address,
               animal.Animal,
               cat_all_of.CatAllOf,
           ],
