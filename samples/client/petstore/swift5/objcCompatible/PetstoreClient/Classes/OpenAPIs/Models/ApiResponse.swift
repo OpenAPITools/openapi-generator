@@ -10,6 +10,11 @@ import Foundation
 public struct ApiResponse: Codable {
 
     public var code: Int?
+    public var codeNum: NSNumber? {
+        get {
+            return code as NSNumber?
+        }
+    }
     public var type: String?
     public var message: String?
 

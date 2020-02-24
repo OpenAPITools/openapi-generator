@@ -12,6 +12,11 @@ public struct OuterComposite: Codable {
     public var myNumber: Double?
     public var myString: String?
     public var myBoolean: Bool?
+    public var myBooleanNum: NSNumber? {
+        get {
+            return myBoolean as NSNumber?
+        }
+    }
 
     public init(myNumber: Double?, myString: String?, myBoolean: Bool?) {
         self.myNumber = myNumber

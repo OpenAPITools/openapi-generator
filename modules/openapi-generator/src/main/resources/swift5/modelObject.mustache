@@ -17,7 +17,7 @@
     {{#vendorExtensions.x-swift-optional-scalar}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var {{name}}Num: NSNumber? {
         get {
-            return {{name}}.map({ return NSNumber(value: $0) })
+            return {{name}} as NSNumber?
         }
     }
     {{/vendorExtensions.x-swift-optional-scalar}}

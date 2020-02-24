@@ -9,14 +9,20 @@ import Foundation
 
 public struct Dog: Codable {
 
-    public var className: String
+    public var _className: String
     public var color: String? = "red"
     public var breed: String?
 
-    public init(className: String, color: String?, breed: String?) {
-        self.className = className
+    public init(_className: String, color: String?, breed: String?) {
+        self._className = _className
         self.color = color
         self.breed = breed
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case _className = "className"
+        case color
+        case breed
     }
 
 }

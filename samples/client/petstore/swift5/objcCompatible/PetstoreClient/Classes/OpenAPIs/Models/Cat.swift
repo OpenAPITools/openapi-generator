@@ -9,19 +9,25 @@ import Foundation
 
 public struct Cat: Codable {
 
-    public var className: String
+    public var _className: String
     public var color: String? = "red"
     public var declawed: Bool?
     public var declawedNum: NSNumber? {
         get {
-            return declawed.map({ return NSNumber(value: $0) })
+            return declawed as NSNumber?
         }
     }
 
-    public init(className: String, color: String?, declawed: Bool?) {
-        self.className = className
+    public init(_className: String, color: String?, declawed: Bool?) {
+        self._className = _className
         self.color = color
         self.declawed = declawed
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case _className = "className"
+        case color
+        case declawed
     }
 
 }
