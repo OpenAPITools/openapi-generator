@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Order: Codable {
+@objc public class Order: NSObject, Codable {
 
     public enum Status: String, Codable, CaseIterable {
         case placed = "placed"

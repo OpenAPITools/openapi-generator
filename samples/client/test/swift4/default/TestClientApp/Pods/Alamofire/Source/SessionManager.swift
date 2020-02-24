@@ -124,7 +124,7 @@ open class SessionManager {
     public let session: URLSession
 
     /// The session delegate handling all the task and session delegate callbacks.
-    public let delegate: SessionDelegate
+    public weak var delegate: SessionDelegate
 
     /// Whether to start requests immediately after being constructed. `true` by default.
     open var startRequestsImmediately: Bool = true

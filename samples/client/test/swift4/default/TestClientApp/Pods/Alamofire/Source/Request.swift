@@ -120,7 +120,7 @@ open class Request {
 
     var validations: [() -> Void] = []
 
-    private var taskDelegate: TaskDelegate
+    private weak var taskDelegate: TaskDelegate
     private var taskDelegateLock = NSLock()
 
     // MARK: Lifecycle

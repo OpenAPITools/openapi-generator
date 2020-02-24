@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct User: Codable {
+@objc public class User: NSObject, Codable {
 
     public var _id: Int64?
     public var _idNum: NSNumber? {
