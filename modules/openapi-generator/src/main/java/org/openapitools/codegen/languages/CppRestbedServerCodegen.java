@@ -89,6 +89,9 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         addOption(DEFAULT_INCLUDE,
                 "The default include statement that should be placed in all headers for including things like the declspec (convention: #include \"Commons.h\" ",
                 this.defaultInclude);
+        addOption(RESERVED_WORD_PREFIX_OPTION,
+                RESERVED_WORD_PREFIX_DESC,
+                this.reservedWordPrefix);
 
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
@@ -209,12 +212,17 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             defaultInclude = additionalProperties.get(DEFAULT_INCLUDE).toString();
         }
 
+        if (additionalProperties.containsKey(RESERVED_WORD_PREFIX_OPTION)) {
+            reservedWordPrefix = additionalProperties.get(RESERVED_WORD_PREFIX_OPTION).toString();
+        }
+
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
         additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
         additionalProperties.put("declspec", declspec);
         additionalProperties.put("defaultInclude", defaultInclude);
+        additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);
     }
 
     /**
