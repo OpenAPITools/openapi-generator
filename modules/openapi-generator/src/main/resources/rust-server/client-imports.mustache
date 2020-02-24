@@ -27,7 +27,6 @@ use multipart::client::lazy::Multipart;
 {{/apiUsesMultipartFormData}}
 {{#apiUsesMultipartRelated}}
 use hyper_0_10::header::{Headers, ContentType};
-header! { (ContentId, "Content-ID") => [String] }
 use mime_multipart::{Node, Part, generate_boundary, write_multipart};
 {{/apiUsesMultipartRelated}}
 {{#apiUsesUuid}}
@@ -37,10 +36,10 @@ use uuid;
 use serde_xml_rs;
 {{/usesXml}}
 
-use models;
-use header;
+use crate::models;
+use crate::header;
 
-define_encode_set! {
+url::define_encode_set! {
     /// This encode set is used for object IDs
     ///
     /// Aside from the special characters defined in the `PATH_SEGMENT_ENCODE_SET`,

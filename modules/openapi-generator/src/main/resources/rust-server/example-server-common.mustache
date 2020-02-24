@@ -3,7 +3,7 @@
 #![allow(unused_imports)]
 
 mod errors {
-    error_chain!{}
+    error_chain::error_chain!{}
 }
 
 pub use self::errors::*;
@@ -12,6 +12,7 @@ use chrono;
 use futures::{future, Future, Stream};
 use hyper::server::conn::Http;
 use hyper::service::MakeService as _;
+use log::info;
 use openssl::ssl::SslAcceptorBuilder;
 use std::marker::PhantomData;
 use std::net::SocketAddr;

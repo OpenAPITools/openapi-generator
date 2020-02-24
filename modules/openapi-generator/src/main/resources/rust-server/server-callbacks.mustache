@@ -1,5 +1,5 @@
 {{>client-imports}}
-use CallbackApi;
+use crate::CallbackApi;
 {{#apiInfo}}
   {{#apis}}
     {{#operations}}
@@ -7,7 +7,7 @@ use CallbackApi;
         {{#callbacks}}
           {{#urls}}
             {{#requests}}
-use {{{operationId}}}Response;
+use crate::{{{operationId}}}Response;
             {{/requests}}
           {{/urls}}
         {{/callbacks}}
@@ -25,7 +25,7 @@ pub struct Client<F>
 
 impl<F> fmt::Debug for Client<F>
 {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "Client")
     }
 }

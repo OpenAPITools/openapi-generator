@@ -1,30 +1,6 @@
 #![allow(missing_docs, unused_variables, trivial_casts)]
-extern crate {{{externCrateName}}};
-extern crate clap;
-extern crate env_logger;
-extern crate futures;
 
-// log may be unused if there are no examples
-#[allow(unused_imports)]
-#[macro_use]
-extern crate log;
-#[macro_use]
-extern crate swagger;
-extern crate tokio;
 {{#hasCallbacks}}
-extern crate chrono;
-#[macro_use]
-extern crate error_chain;
-extern crate hyper;
-{{#apiUsesUuid}}
-extern crate uuid;
-{{/apiUsesUuid}}
-
-#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-extern crate openssl;
-#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
-extern crate tokio_openssl;
-
 mod server;
 {{/hasCallbacks}}
 
@@ -36,6 +12,7 @@ use {{{externCrateName}}}::{Api, ApiNoContext, Client, ContextWrapperExt,
                       {{{operationId}}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
                      };
 use clap::{App, Arg};
+use log::info;
 
 // swagger::Has may be unused if there are no examples
 #[allow(unused_imports)]
@@ -98,8 +75,8 @@ fn main() {
             .expect("Failed to create HTTP client")
     };
 
-    let context: make_context_ty!(ContextBuilder, EmptyContext, Option<AuthData>, XSpanIdString) =
-        make_context!(ContextBuilder, EmptyContext, None as Option<AuthData>, XSpanIdString::default());
+    let context: swagger::make_context_ty!(ContextBuilder, EmptyContext, Option<AuthData>, XSpanIdString) =
+        swagger::make_context!(ContextBuilder, EmptyContext, None as Option<AuthData>, XSpanIdString::default());
 
     let client = client.with_context(context);
 

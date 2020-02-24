@@ -1,5 +1,5 @@
 {{>client-imports}}
-use {Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
+use crate::{Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
      {{{operationId}}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
      };
 
@@ -38,7 +38,7 @@ pub struct Client<F>
 
 impl<F> fmt::Debug for Client<F>
 {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "Client {{ base_path: {} }}", self.base_path)
     }
 }
@@ -205,7 +205,7 @@ impl From<hyper::http::uri::InvalidUri> for ClientInitError {
 }
 
 impl fmt::Display for ClientInitError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let s: &dyn fmt::Debug = self;
         s.fmt(f)
     }

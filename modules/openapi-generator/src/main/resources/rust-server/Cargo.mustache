@@ -6,6 +6,7 @@ authors = [{{#infoEmail}}"{{{infoEmail}}}"{{/infoEmail}}]
 description = "{{{appDescription}}}"
 {{/appDescription}}
 license = "Unlicense"
+edition = "2018"
 
 [features]
 default = ["client", "server"]
@@ -25,6 +26,7 @@ client = [
 {{#hasCallbacks}}
     "serde_ignored", "regex", "percent-encoding", "lazy_static",
 {{/hasCallbacks}}
+{{! Anything added to the list below, should probably be added to the callbacks list below }}
     "hyper", "hyper-openssl", "native-tls", "openssl", "url"
 ]
 server = [
@@ -57,11 +59,10 @@ openssl = {version = "0.10", optional = true }
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.1"
 swagger = "4.0"
-log = "0.3.0"
+log = "0.4.0"
 mime = "0.3"
 
-serde = "1.0"
-serde_derive = "1.0"
+serde = { version = "1.0", features = ["derive"]}
 serde_json = "1.0"
 
 # Crates included if required by the API definition

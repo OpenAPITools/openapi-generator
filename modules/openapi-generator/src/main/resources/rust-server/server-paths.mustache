@@ -1,5 +1,5 @@
 mod paths {
-    extern crate regex;
+    use lazy_static::lazy_static;
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(vec![
@@ -10,7 +10,7 @@ mod paths {
         .expect("Unable to create global regex set");
     }
 {{#pathSet}}
-    pub static ID_{{{PATH_ID}}}: usize = {{{index}}};
+    pub(crate) static ID_{{{PATH_ID}}}: usize = {{{index}}};
 {{#hasPathParams}}
     lazy_static! {
         pub static ref REGEX_{{{PATH_ID}}}: regex::Regex =
