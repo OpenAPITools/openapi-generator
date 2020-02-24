@@ -202,7 +202,7 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 
 {{/vendorExtensions.x-is-one-of-interface}}
 {{#vendorExtensions.x-is-one-of-interface}}
-func (s *{{classname}}) MarshalJSON() ([]byte, error) {
+func (s {{classname}}) MarshalJSON() ([]byte, error) {
     return json.Marshal(s.{{classname}}Interface)
 }
 
