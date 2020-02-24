@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -71,25 +70,49 @@ func (o *InlineObject4) SetParam2(v string) {
 	o.Param2 = v
 }
 
+func (o InlineObject4) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if true {
+        toSerialize["param"] = o.Param
+    }
+    if true {
+        toSerialize["param2"] = o.Param2
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableInlineObject4 struct {
-	Value InlineObject4
-	ExplicitNull bool
+	value *InlineObject4
+	isSet bool
+}
+
+func (v NullableInlineObject4) Get() *InlineObject4 {
+    return v.value
+}
+
+func (v NullableInlineObject4) Set(val *InlineObject4) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableInlineObject4) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableInlineObject4) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableInlineObject4(val *InlineObject4) *NullableInlineObject4 {
+    return &NullableInlineObject4{value: val, isSet: true}
 }
 
 func (v NullableInlineObject4) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableInlineObject4) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

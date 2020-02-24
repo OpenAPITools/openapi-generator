@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -52,12 +51,12 @@ func (o *SpecialModelName) GetSpecialPropertyNameOk() (int64, bool) {
 		var ret int64
 		return ret, false
 	}
-	return *o.SpecialPropertyName, true
+    return *o.SpecialPropertyName, true
 }
 
 // HasSpecialPropertyName returns a boolean if a field has been set.
 func (o *SpecialModelName) HasSpecialPropertyName() bool {
-	if o != nil && o.SpecialPropertyName != nil {
+    if o != nil && o.SpecialPropertyName != nil {
 		return true
 	}
 
@@ -69,25 +68,46 @@ func (o *SpecialModelName) SetSpecialPropertyName(v int64) {
 	o.SpecialPropertyName = &v
 }
 
+func (o SpecialModelName) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.SpecialPropertyName != nil {
+        toSerialize["$special[property.name]"] = o.SpecialPropertyName
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableSpecialModelName struct {
-	Value SpecialModelName
-	ExplicitNull bool
+	value *SpecialModelName
+	isSet bool
+}
+
+func (v NullableSpecialModelName) Get() *SpecialModelName {
+    return v.value
+}
+
+func (v NullableSpecialModelName) Set(val *SpecialModelName) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableSpecialModelName) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableSpecialModelName) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableSpecialModelName(val *SpecialModelName) *NullableSpecialModelName {
+    return &NullableSpecialModelName{value: val, isSet: true}
 }
 
 func (v NullableSpecialModelName) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableSpecialModelName) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

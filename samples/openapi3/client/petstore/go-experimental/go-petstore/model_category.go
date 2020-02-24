@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -56,12 +55,12 @@ func (o *Category) GetIdOk() (int64, bool) {
 		var ret int64
 		return ret, false
 	}
-	return *o.Id, true
+    return *o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
 func (o *Category) HasId() bool {
-	if o != nil && o.Id != nil {
+    if o != nil && o.Id != nil {
 		return true
 	}
 
@@ -88,25 +87,49 @@ func (o *Category) SetName(v string) {
 	o.Name = v
 }
 
+func (o Category) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.Id != nil {
+        toSerialize["id"] = o.Id
+    }
+    if true {
+        toSerialize["name"] = o.Name
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableCategory struct {
-	Value Category
-	ExplicitNull bool
+	value *Category
+	isSet bool
+}
+
+func (v NullableCategory) Get() *Category {
+    return v.value
+}
+
+func (v NullableCategory) Set(val *Category) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableCategory) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableCategory) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableCategory(val *Category) *NullableCategory {
+    return &NullableCategory{value: val, isSet: true}
 }
 
 func (v NullableCategory) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableCategory) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

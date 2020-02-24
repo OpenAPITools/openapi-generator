@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 	"os"
 )
@@ -56,12 +55,12 @@ func (o *InlineObject1) GetAdditionalMetadataOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.AdditionalMetadata, true
+    return *o.AdditionalMetadata, true
 }
 
 // HasAdditionalMetadata returns a boolean if a field has been set.
 func (o *InlineObject1) HasAdditionalMetadata() bool {
-	if o != nil && o.AdditionalMetadata != nil {
+    if o != nil && o.AdditionalMetadata != nil {
 		return true
 	}
 
@@ -89,12 +88,12 @@ func (o *InlineObject1) GetFileOk() (*os.File, bool) {
 		var ret *os.File
 		return ret, false
 	}
-	return *o.File, true
+    return *o.File, true
 }
 
 // HasFile returns a boolean if a field has been set.
 func (o *InlineObject1) HasFile() bool {
-	if o != nil && o.File != nil {
+    if o != nil && o.File != nil {
 		return true
 	}
 
@@ -106,25 +105,49 @@ func (o *InlineObject1) SetFile(v *os.File) {
 	o.File = &v
 }
 
+func (o InlineObject1) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.AdditionalMetadata != nil {
+        toSerialize["additionalMetadata"] = o.AdditionalMetadata
+    }
+    if o.File != nil {
+        toSerialize["file"] = o.File
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableInlineObject1 struct {
-	Value InlineObject1
-	ExplicitNull bool
+	value *InlineObject1
+	isSet bool
+}
+
+func (v NullableInlineObject1) Get() *InlineObject1 {
+    return v.value
+}
+
+func (v NullableInlineObject1) Set(val *InlineObject1) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableInlineObject1) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableInlineObject1) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableInlineObject1(val *InlineObject1) *NullableInlineObject1 {
+    return &NullableInlineObject1{value: val, isSet: true}
 }
 
 func (v NullableInlineObject1) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableInlineObject1) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

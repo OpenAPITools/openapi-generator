@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -52,12 +51,12 @@ func (o *CatAllOf) GetDeclawedOk() (bool, bool) {
 		var ret bool
 		return ret, false
 	}
-	return *o.Declawed, true
+    return *o.Declawed, true
 }
 
 // HasDeclawed returns a boolean if a field has been set.
 func (o *CatAllOf) HasDeclawed() bool {
-	if o != nil && o.Declawed != nil {
+    if o != nil && o.Declawed != nil {
 		return true
 	}
 
@@ -69,25 +68,46 @@ func (o *CatAllOf) SetDeclawed(v bool) {
 	o.Declawed = &v
 }
 
+func (o CatAllOf) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.Declawed != nil {
+        toSerialize["declawed"] = o.Declawed
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableCatAllOf struct {
-	Value CatAllOf
-	ExplicitNull bool
+	value *CatAllOf
+	isSet bool
+}
+
+func (v NullableCatAllOf) Get() *CatAllOf {
+    return v.value
+}
+
+func (v NullableCatAllOf) Set(val *CatAllOf) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableCatAllOf) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableCatAllOf) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableCatAllOf(val *CatAllOf) *NullableCatAllOf {
+    return &NullableCatAllOf{value: val, isSet: true}
 }
 
 func (v NullableCatAllOf) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableCatAllOf) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

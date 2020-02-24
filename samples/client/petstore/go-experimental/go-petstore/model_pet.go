@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -60,12 +59,12 @@ func (o *Pet) GetIdOk() (int64, bool) {
 		var ret int64
 		return ret, false
 	}
-	return *o.Id, true
+    return *o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
 func (o *Pet) HasId() bool {
-	if o != nil && o.Id != nil {
+    if o != nil && o.Id != nil {
 		return true
 	}
 
@@ -93,12 +92,12 @@ func (o *Pet) GetCategoryOk() (Category, bool) {
 		var ret Category
 		return ret, false
 	}
-	return *o.Category, true
+    return *o.Category, true
 }
 
 // HasCategory returns a boolean if a field has been set.
 func (o *Pet) HasCategory() bool {
-	if o != nil && o.Category != nil {
+    if o != nil && o.Category != nil {
 		return true
 	}
 
@@ -156,12 +155,12 @@ func (o *Pet) GetTagsOk() ([]Tag, bool) {
 		var ret []Tag
 		return ret, false
 	}
-	return *o.Tags, true
+    return *o.Tags, true
 }
 
 // HasTags returns a boolean if a field has been set.
 func (o *Pet) HasTags() bool {
-	if o != nil && o.Tags != nil {
+    if o != nil && o.Tags != nil {
 		return true
 	}
 
@@ -189,12 +188,12 @@ func (o *Pet) GetStatusOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.Status, true
+    return *o.Status, true
 }
 
 // HasStatus returns a boolean if a field has been set.
 func (o *Pet) HasStatus() bool {
-	if o != nil && o.Status != nil {
+    if o != nil && o.Status != nil {
 		return true
 	}
 
@@ -206,25 +205,61 @@ func (o *Pet) SetStatus(v string) {
 	o.Status = &v
 }
 
+func (o Pet) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.Id != nil {
+        toSerialize["id"] = o.Id
+    }
+    if o.Category != nil {
+        toSerialize["category"] = o.Category
+    }
+    if true {
+        toSerialize["name"] = o.Name
+    }
+    if true {
+        toSerialize["photoUrls"] = o.PhotoUrls
+    }
+    if o.Tags != nil {
+        toSerialize["tags"] = o.Tags
+    }
+    if o.Status != nil {
+        toSerialize["status"] = o.Status
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullablePet struct {
-	Value Pet
-	ExplicitNull bool
+	value *Pet
+	isSet bool
+}
+
+func (v NullablePet) Get() *Pet {
+    return v.value
+}
+
+func (v NullablePet) Set(val *Pet) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullablePet) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullablePet) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullablePet(val *Pet) *NullablePet {
+    return &NullablePet{value: val, isSet: true}
 }
 
 func (v NullablePet) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullablePet) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -59,12 +58,12 @@ func (o *InlineObject2) GetEnumFormStringArrayOk() ([]string, bool) {
 		var ret []string
 		return ret, false
 	}
-	return *o.EnumFormStringArray, true
+    return *o.EnumFormStringArray, true
 }
 
 // HasEnumFormStringArray returns a boolean if a field has been set.
 func (o *InlineObject2) HasEnumFormStringArray() bool {
-	if o != nil && o.EnumFormStringArray != nil {
+    if o != nil && o.EnumFormStringArray != nil {
 		return true
 	}
 
@@ -92,12 +91,12 @@ func (o *InlineObject2) GetEnumFormStringOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.EnumFormString, true
+    return *o.EnumFormString, true
 }
 
 // HasEnumFormString returns a boolean if a field has been set.
 func (o *InlineObject2) HasEnumFormString() bool {
-	if o != nil && o.EnumFormString != nil {
+    if o != nil && o.EnumFormString != nil {
 		return true
 	}
 
@@ -109,25 +108,49 @@ func (o *InlineObject2) SetEnumFormString(v string) {
 	o.EnumFormString = &v
 }
 
+func (o InlineObject2) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.EnumFormStringArray != nil {
+        toSerialize["enum_form_string_array"] = o.EnumFormStringArray
+    }
+    if o.EnumFormString != nil {
+        toSerialize["enum_form_string"] = o.EnumFormString
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableInlineObject2 struct {
-	Value InlineObject2
-	ExplicitNull bool
+	value *InlineObject2
+	isSet bool
+}
+
+func (v NullableInlineObject2) Get() *InlineObject2 {
+    return v.value
+}
+
+func (v NullableInlineObject2) Set(val *InlineObject2) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableInlineObject2) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableInlineObject2) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableInlineObject2(val *InlineObject2) *NullableInlineObject2 {
+    return &NullableInlineObject2{value: val, isSet: true}
 }
 
 func (v NullableInlineObject2) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableInlineObject2) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

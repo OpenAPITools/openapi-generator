@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -73,12 +72,12 @@ func (o *Animal) GetColorOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.Color, true
+    return *o.Color, true
 }
 
 // HasColor returns a boolean if a field has been set.
 func (o *Animal) HasColor() bool {
-	if o != nil && o.Color != nil {
+    if o != nil && o.Color != nil {
 		return true
 	}
 
@@ -90,25 +89,49 @@ func (o *Animal) SetColor(v string) {
 	o.Color = &v
 }
 
+func (o Animal) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if true {
+        toSerialize["className"] = o.ClassName
+    }
+    if o.Color != nil {
+        toSerialize["color"] = o.Color
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableAnimal struct {
-	Value Animal
-	ExplicitNull bool
+	value *Animal
+	isSet bool
+}
+
+func (v NullableAnimal) Get() *Animal {
+    return v.value
+}
+
+func (v NullableAnimal) Set(val *Animal) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableAnimal) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableAnimal) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableAnimal(val *Animal) *NullableAnimal {
+    return &NullableAnimal{value: val, isSet: true}
 }
 
 func (v NullableAnimal) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableAnimal) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

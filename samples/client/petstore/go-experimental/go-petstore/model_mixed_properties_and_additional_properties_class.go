@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 	"time"
 )
@@ -55,12 +54,12 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuidOk() (string, bool)
 		var ret string
 		return ret, false
 	}
-	return *o.Uuid, true
+    return *o.Uuid, true
 }
 
 // HasUuid returns a boolean if a field has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) HasUuid() bool {
-	if o != nil && o.Uuid != nil {
+    if o != nil && o.Uuid != nil {
 		return true
 	}
 
@@ -88,12 +87,12 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTimeOk() (time.Time
 		var ret time.Time
 		return ret, false
 	}
-	return *o.DateTime, true
+    return *o.DateTime, true
 }
 
 // HasDateTime returns a boolean if a field has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) HasDateTime() bool {
-	if o != nil && o.DateTime != nil {
+    if o != nil && o.DateTime != nil {
 		return true
 	}
 
@@ -121,12 +120,12 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (map[string]Ani
 		var ret map[string]Animal
 		return ret, false
 	}
-	return *o.Map, true
+    return *o.Map, true
 }
 
 // HasMap returns a boolean if a field has been set.
 func (o *MixedPropertiesAndAdditionalPropertiesClass) HasMap() bool {
-	if o != nil && o.Map != nil {
+    if o != nil && o.Map != nil {
 		return true
 	}
 
@@ -138,25 +137,52 @@ func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]Animal
 	o.Map = &v
 }
 
+func (o MixedPropertiesAndAdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.Uuid != nil {
+        toSerialize["uuid"] = o.Uuid
+    }
+    if o.DateTime != nil {
+        toSerialize["dateTime"] = o.DateTime
+    }
+    if o.Map != nil {
+        toSerialize["map"] = o.Map
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableMixedPropertiesAndAdditionalPropertiesClass struct {
-	Value MixedPropertiesAndAdditionalPropertiesClass
-	ExplicitNull bool
+	value *MixedPropertiesAndAdditionalPropertiesClass
+	isSet bool
+}
+
+func (v NullableMixedPropertiesAndAdditionalPropertiesClass) Get() *MixedPropertiesAndAdditionalPropertiesClass {
+    return v.value
+}
+
+func (v NullableMixedPropertiesAndAdditionalPropertiesClass) Set(val *MixedPropertiesAndAdditionalPropertiesClass) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableMixedPropertiesAndAdditionalPropertiesClass) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableMixedPropertiesAndAdditionalPropertiesClass) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableMixedPropertiesAndAdditionalPropertiesClass(val *MixedPropertiesAndAdditionalPropertiesClass) *NullableMixedPropertiesAndAdditionalPropertiesClass {
+    return &NullableMixedPropertiesAndAdditionalPropertiesClass{value: val, isSet: true}
 }
 
 func (v NullableMixedPropertiesAndAdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableMixedPropertiesAndAdditionalPropertiesClass) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

@@ -138,7 +138,7 @@ func (o *{{classname}}) Get{{name}}Ok() ({{dataType}}, bool) {
 		return ret, false
 	}
 {{#isNullable}}
-    return o.{{name}}, o.{{name}}.IsSet()
+    return o.{{name}}, {{#isContainer}}o.{{name}} == nil{{/isContainer}}{{^isContainer}}o.{{name}}.IsSet(){{/isContainer}}
 {{/isNullable}}
 {{^isNullable}}
     return *o.{{name}}, true
@@ -147,7 +147,7 @@ func (o *{{classname}}) Get{{name}}Ok() ({{dataType}}, bool) {
 
 // Has{{name}} returns a boolean if a field has been set.
 func (o *{{classname}}) Has{{name}}() bool {
-	if o != nil && {{^isNullable}}o.{{name}} != nil{{/isNullable}}{{#isNullable}}o.{{name}}.IsSet(){{/isNullable}} {
+    if o != nil && {{^isNullable}}o.{{name}} != nil{{/isNullable}}{{#isNullable}}{{#isContainer}}o.{{name}} != nil{{/isContainer}}{{^isContainer}}o.{{name}}.IsSet(){{/isContainer}}{{/isNullable}} {
 		return true
 	}
 
@@ -162,14 +162,33 @@ func (o *{{classname}}) Set{{name}}(v {{dataType}}) {
 {{/required}}
 {{/vars}}
 func (o {{classname}}) MarshalJSON() ([]byte, error) {
-    //TODO: serialize parents?
     toSerialize := map[string]interface{}{}
+    {{#parent}}
+    {{^isMapModel}}
+    serialized{{parent}}, err{{parent}} := json.Marshal(o.{{parent}})
+    if err{{parent}} != nil {
+        return []byte{}, err{{parent}}
+    }
+    err{{parent}} = json.Unmarshal([]byte(serialized{{parent}}), &toSerialize)
+    if err{{parent}} != nil {
+       return []byte{}, err{{parent}}
+    }
+    {{/isMapModel}}
+    {{/parent}}
     {{#vars}}
     {{! if argument is nullable, only serialize it if it is set}}
     {{#isNullable}}
+    {{#isContainer}}
+    {{! support for container fields is not ideal at this point because of lack of Nullable* types}}
+    if o.{{name}} != nil {
+        toSerialize["{{baseName}}"] = o.{{name}}
+    }
+    {{/isContainer}}
+    {{^isContainer}}
     if {{#required}}true{{/required}}{{^required}}o.{{name}}.IsSet(){{/required}} {
         toSerialize["{{baseName}}"] = o.{{name}}.Get()
     }
+    {{/isContainer}}
     {{/isNullable}}
     {{! if argument is not nullable, don't set it if it is nil}}
     {{^isNullable}}

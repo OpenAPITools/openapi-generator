@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -58,12 +57,12 @@ func (o *Capitalization) GetSmallCamelOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.SmallCamel, true
+    return *o.SmallCamel, true
 }
 
 // HasSmallCamel returns a boolean if a field has been set.
 func (o *Capitalization) HasSmallCamel() bool {
-	if o != nil && o.SmallCamel != nil {
+    if o != nil && o.SmallCamel != nil {
 		return true
 	}
 
@@ -91,12 +90,12 @@ func (o *Capitalization) GetCapitalCamelOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.CapitalCamel, true
+    return *o.CapitalCamel, true
 }
 
 // HasCapitalCamel returns a boolean if a field has been set.
 func (o *Capitalization) HasCapitalCamel() bool {
-	if o != nil && o.CapitalCamel != nil {
+    if o != nil && o.CapitalCamel != nil {
 		return true
 	}
 
@@ -124,12 +123,12 @@ func (o *Capitalization) GetSmallSnakeOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.SmallSnake, true
+    return *o.SmallSnake, true
 }
 
 // HasSmallSnake returns a boolean if a field has been set.
 func (o *Capitalization) HasSmallSnake() bool {
-	if o != nil && o.SmallSnake != nil {
+    if o != nil && o.SmallSnake != nil {
 		return true
 	}
 
@@ -157,12 +156,12 @@ func (o *Capitalization) GetCapitalSnakeOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.CapitalSnake, true
+    return *o.CapitalSnake, true
 }
 
 // HasCapitalSnake returns a boolean if a field has been set.
 func (o *Capitalization) HasCapitalSnake() bool {
-	if o != nil && o.CapitalSnake != nil {
+    if o != nil && o.CapitalSnake != nil {
 		return true
 	}
 
@@ -190,12 +189,12 @@ func (o *Capitalization) GetSCAETHFlowPointsOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.SCAETHFlowPoints, true
+    return *o.SCAETHFlowPoints, true
 }
 
 // HasSCAETHFlowPoints returns a boolean if a field has been set.
 func (o *Capitalization) HasSCAETHFlowPoints() bool {
-	if o != nil && o.SCAETHFlowPoints != nil {
+    if o != nil && o.SCAETHFlowPoints != nil {
 		return true
 	}
 
@@ -223,12 +222,12 @@ func (o *Capitalization) GetATT_NAMEOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.ATT_NAME, true
+    return *o.ATT_NAME, true
 }
 
 // HasATT_NAME returns a boolean if a field has been set.
 func (o *Capitalization) HasATT_NAME() bool {
-	if o != nil && o.ATT_NAME != nil {
+    if o != nil && o.ATT_NAME != nil {
 		return true
 	}
 
@@ -240,25 +239,61 @@ func (o *Capitalization) SetATT_NAME(v string) {
 	o.ATT_NAME = &v
 }
 
+func (o Capitalization) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.SmallCamel != nil {
+        toSerialize["smallCamel"] = o.SmallCamel
+    }
+    if o.CapitalCamel != nil {
+        toSerialize["CapitalCamel"] = o.CapitalCamel
+    }
+    if o.SmallSnake != nil {
+        toSerialize["small_Snake"] = o.SmallSnake
+    }
+    if o.CapitalSnake != nil {
+        toSerialize["Capital_Snake"] = o.CapitalSnake
+    }
+    if o.SCAETHFlowPoints != nil {
+        toSerialize["SCA_ETH_Flow_Points"] = o.SCAETHFlowPoints
+    }
+    if o.ATT_NAME != nil {
+        toSerialize["ATT_NAME"] = o.ATT_NAME
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableCapitalization struct {
-	Value Capitalization
-	ExplicitNull bool
+	value *Capitalization
+	isSet bool
+}
+
+func (v NullableCapitalization) Get() *Capitalization {
+    return v.value
+}
+
+func (v NullableCapitalization) Set(val *Capitalization) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableCapitalization) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableCapitalization) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableCapitalization(val *Capitalization) *NullableCapitalization {
+    return &NullableCapitalization{value: val, isSet: true}
 }
 
 func (v NullableCapitalization) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableCapitalization) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

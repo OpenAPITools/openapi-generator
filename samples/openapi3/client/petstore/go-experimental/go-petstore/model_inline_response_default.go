@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -52,12 +51,12 @@ func (o *InlineResponseDefault) GetStringOk() (Foo, bool) {
 		var ret Foo
 		return ret, false
 	}
-	return *o.String, true
+    return *o.String, true
 }
 
 // HasString returns a boolean if a field has been set.
 func (o *InlineResponseDefault) HasString() bool {
-	if o != nil && o.String != nil {
+    if o != nil && o.String != nil {
 		return true
 	}
 
@@ -69,25 +68,46 @@ func (o *InlineResponseDefault) SetString(v Foo) {
 	o.String = &v
 }
 
+func (o InlineResponseDefault) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.String != nil {
+        toSerialize["string"] = o.String
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableInlineResponseDefault struct {
-	Value InlineResponseDefault
-	ExplicitNull bool
+	value *InlineResponseDefault
+	isSet bool
+}
+
+func (v NullableInlineResponseDefault) Get() *InlineResponseDefault {
+    return v.value
+}
+
+func (v NullableInlineResponseDefault) Set(val *InlineResponseDefault) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableInlineResponseDefault) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableInlineResponseDefault) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableInlineResponseDefault(val *InlineResponseDefault) *NullableInlineResponseDefault {
+    return &NullableInlineResponseDefault{value: val, isSet: true}
 }
 
 func (v NullableInlineResponseDefault) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableInlineResponseDefault) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -53,12 +52,12 @@ func (o *Model200Response) GetNameOk() (int32, bool) {
 		var ret int32
 		return ret, false
 	}
-	return *o.Name, true
+    return *o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
 func (o *Model200Response) HasName() bool {
-	if o != nil && o.Name != nil {
+    if o != nil && o.Name != nil {
 		return true
 	}
 
@@ -86,12 +85,12 @@ func (o *Model200Response) GetClassOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.Class, true
+    return *o.Class, true
 }
 
 // HasClass returns a boolean if a field has been set.
 func (o *Model200Response) HasClass() bool {
-	if o != nil && o.Class != nil {
+    if o != nil && o.Class != nil {
 		return true
 	}
 
@@ -103,25 +102,49 @@ func (o *Model200Response) SetClass(v string) {
 	o.Class = &v
 }
 
+func (o Model200Response) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.Name != nil {
+        toSerialize["name"] = o.Name
+    }
+    if o.Class != nil {
+        toSerialize["class"] = o.Class
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableModel200Response struct {
-	Value Model200Response
-	ExplicitNull bool
+	value *Model200Response
+	isSet bool
+}
+
+func (v NullableModel200Response) Get() *Model200Response {
+    return v.value
+}
+
+func (v NullableModel200Response) Set(val *Model200Response) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableModel200Response) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableModel200Response) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableModel200Response(val *Model200Response) *NullableModel200Response {
+    return &NullableModel200Response{value: val, isSet: true}
 }
 
 func (v NullableModel200Response) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableModel200Response) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -52,12 +51,12 @@ func (o *NumberOnly) GetJustNumberOk() (float32, bool) {
 		var ret float32
 		return ret, false
 	}
-	return *o.JustNumber, true
+    return *o.JustNumber, true
 }
 
 // HasJustNumber returns a boolean if a field has been set.
 func (o *NumberOnly) HasJustNumber() bool {
-	if o != nil && o.JustNumber != nil {
+    if o != nil && o.JustNumber != nil {
 		return true
 	}
 
@@ -69,25 +68,46 @@ func (o *NumberOnly) SetJustNumber(v float32) {
 	o.JustNumber = &v
 }
 
+func (o NumberOnly) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.JustNumber != nil {
+        toSerialize["JustNumber"] = o.JustNumber
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableNumberOnly struct {
-	Value NumberOnly
-	ExplicitNull bool
+	value *NumberOnly
+	isSet bool
+}
+
+func (v NullableNumberOnly) Get() *NumberOnly {
+    return v.value
+}
+
+func (v NullableNumberOnly) Set(val *NumberOnly) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableNumberOnly) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableNumberOnly) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableNumberOnly(val *NumberOnly) *NullableNumberOnly {
+    return &NullableNumberOnly{value: val, isSet: true}
 }
 
 func (v NullableNumberOnly) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableNumberOnly) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

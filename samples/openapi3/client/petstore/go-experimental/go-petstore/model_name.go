@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -71,12 +70,12 @@ func (o *Name) GetSnakeCaseOk() (int32, bool) {
 		var ret int32
 		return ret, false
 	}
-	return *o.SnakeCase, true
+    return *o.SnakeCase, true
 }
 
 // HasSnakeCase returns a boolean if a field has been set.
 func (o *Name) HasSnakeCase() bool {
-	if o != nil && o.SnakeCase != nil {
+    if o != nil && o.SnakeCase != nil {
 		return true
 	}
 
@@ -104,12 +103,12 @@ func (o *Name) GetPropertyOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.Property, true
+    return *o.Property, true
 }
 
 // HasProperty returns a boolean if a field has been set.
 func (o *Name) HasProperty() bool {
-	if o != nil && o.Property != nil {
+    if o != nil && o.Property != nil {
 		return true
 	}
 
@@ -137,12 +136,12 @@ func (o *Name) GetVar123NumberOk() (int32, bool) {
 		var ret int32
 		return ret, false
 	}
-	return *o.Var123Number, true
+    return *o.Var123Number, true
 }
 
 // HasVar123Number returns a boolean if a field has been set.
 func (o *Name) HasVar123Number() bool {
-	if o != nil && o.Var123Number != nil {
+    if o != nil && o.Var123Number != nil {
 		return true
 	}
 
@@ -154,25 +153,55 @@ func (o *Name) SetVar123Number(v int32) {
 	o.Var123Number = &v
 }
 
+func (o Name) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if true {
+        toSerialize["name"] = o.Name
+    }
+    if o.SnakeCase != nil {
+        toSerialize["snake_case"] = o.SnakeCase
+    }
+    if o.Property != nil {
+        toSerialize["property"] = o.Property
+    }
+    if o.Var123Number != nil {
+        toSerialize["123Number"] = o.Var123Number
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableName struct {
-	Value Name
-	ExplicitNull bool
+	value *Name
+	isSet bool
+}
+
+func (v NullableName) Get() *Name {
+    return v.value
+}
+
+func (v NullableName) Set(val *Name) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableName) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableName) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableName(val *Name) *NullableName {
+    return &NullableName{value: val, isSet: true}
 }
 
 func (v NullableName) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableName) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

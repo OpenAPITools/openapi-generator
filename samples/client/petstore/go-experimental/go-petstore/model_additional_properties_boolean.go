@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -52,12 +51,12 @@ func (o *AdditionalPropertiesBoolean) GetNameOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.Name, true
+    return *o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
 func (o *AdditionalPropertiesBoolean) HasName() bool {
-	if o != nil && o.Name != nil {
+    if o != nil && o.Name != nil {
 		return true
 	}
 
@@ -69,25 +68,46 @@ func (o *AdditionalPropertiesBoolean) SetName(v string) {
 	o.Name = &v
 }
 
+func (o AdditionalPropertiesBoolean) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.Name != nil {
+        toSerialize["name"] = o.Name
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableAdditionalPropertiesBoolean struct {
-	Value AdditionalPropertiesBoolean
-	ExplicitNull bool
+	value *AdditionalPropertiesBoolean
+	isSet bool
+}
+
+func (v NullableAdditionalPropertiesBoolean) Get() *AdditionalPropertiesBoolean {
+    return v.value
+}
+
+func (v NullableAdditionalPropertiesBoolean) Set(val *AdditionalPropertiesBoolean) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableAdditionalPropertiesBoolean) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableAdditionalPropertiesBoolean) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableAdditionalPropertiesBoolean(val *AdditionalPropertiesBoolean) *NullableAdditionalPropertiesBoolean {
+    return &NullableAdditionalPropertiesBoolean{value: val, isSet: true}
 }
 
 func (v NullableAdditionalPropertiesBoolean) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableAdditionalPropertiesBoolean) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

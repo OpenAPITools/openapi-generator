@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -54,12 +53,12 @@ func (o *OuterComposite) GetMyNumberOk() (float32, bool) {
 		var ret float32
 		return ret, false
 	}
-	return *o.MyNumber, true
+    return *o.MyNumber, true
 }
 
 // HasMyNumber returns a boolean if a field has been set.
 func (o *OuterComposite) HasMyNumber() bool {
-	if o != nil && o.MyNumber != nil {
+    if o != nil && o.MyNumber != nil {
 		return true
 	}
 
@@ -87,12 +86,12 @@ func (o *OuterComposite) GetMyStringOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.MyString, true
+    return *o.MyString, true
 }
 
 // HasMyString returns a boolean if a field has been set.
 func (o *OuterComposite) HasMyString() bool {
-	if o != nil && o.MyString != nil {
+    if o != nil && o.MyString != nil {
 		return true
 	}
 
@@ -120,12 +119,12 @@ func (o *OuterComposite) GetMyBooleanOk() (bool, bool) {
 		var ret bool
 		return ret, false
 	}
-	return *o.MyBoolean, true
+    return *o.MyBoolean, true
 }
 
 // HasMyBoolean returns a boolean if a field has been set.
 func (o *OuterComposite) HasMyBoolean() bool {
-	if o != nil && o.MyBoolean != nil {
+    if o != nil && o.MyBoolean != nil {
 		return true
 	}
 
@@ -137,25 +136,52 @@ func (o *OuterComposite) SetMyBoolean(v bool) {
 	o.MyBoolean = &v
 }
 
+func (o OuterComposite) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.MyNumber != nil {
+        toSerialize["my_number"] = o.MyNumber
+    }
+    if o.MyString != nil {
+        toSerialize["my_string"] = o.MyString
+    }
+    if o.MyBoolean != nil {
+        toSerialize["my_boolean"] = o.MyBoolean
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableOuterComposite struct {
-	Value OuterComposite
-	ExplicitNull bool
+	value *OuterComposite
+	isSet bool
+}
+
+func (v NullableOuterComposite) Get() *OuterComposite {
+    return v.value
+}
+
+func (v NullableOuterComposite) Set(val *OuterComposite) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableOuterComposite) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableOuterComposite) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableOuterComposite(val *OuterComposite) *NullableOuterComposite {
+    return &NullableOuterComposite{value: val, isSet: true}
 }
 
 func (v NullableOuterComposite) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableOuterComposite) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

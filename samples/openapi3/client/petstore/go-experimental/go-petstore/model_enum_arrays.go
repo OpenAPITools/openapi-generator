@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -53,12 +52,12 @@ func (o *EnumArrays) GetJustSymbolOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.JustSymbol, true
+    return *o.JustSymbol, true
 }
 
 // HasJustSymbol returns a boolean if a field has been set.
 func (o *EnumArrays) HasJustSymbol() bool {
-	if o != nil && o.JustSymbol != nil {
+    if o != nil && o.JustSymbol != nil {
 		return true
 	}
 
@@ -86,12 +85,12 @@ func (o *EnumArrays) GetArrayEnumOk() ([]string, bool) {
 		var ret []string
 		return ret, false
 	}
-	return *o.ArrayEnum, true
+    return *o.ArrayEnum, true
 }
 
 // HasArrayEnum returns a boolean if a field has been set.
 func (o *EnumArrays) HasArrayEnum() bool {
-	if o != nil && o.ArrayEnum != nil {
+    if o != nil && o.ArrayEnum != nil {
 		return true
 	}
 
@@ -103,25 +102,49 @@ func (o *EnumArrays) SetArrayEnum(v []string) {
 	o.ArrayEnum = &v
 }
 
+func (o EnumArrays) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.JustSymbol != nil {
+        toSerialize["just_symbol"] = o.JustSymbol
+    }
+    if o.ArrayEnum != nil {
+        toSerialize["array_enum"] = o.ArrayEnum
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableEnumArrays struct {
-	Value EnumArrays
-	ExplicitNull bool
+	value *EnumArrays
+	isSet bool
+}
+
+func (v NullableEnumArrays) Get() *EnumArrays {
+    return v.value
+}
+
+func (v NullableEnumArrays) Set(val *EnumArrays) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableEnumArrays) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableEnumArrays) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableEnumArrays(val *EnumArrays) *NullableEnumArrays {
+    return &NullableEnumArrays{value: val, isSet: true}
 }
 
 func (v NullableEnumArrays) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableEnumArrays) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -52,12 +51,12 @@ func (o *ArrayOfNumberOnly) GetArrayNumberOk() ([]float32, bool) {
 		var ret []float32
 		return ret, false
 	}
-	return *o.ArrayNumber, true
+    return *o.ArrayNumber, true
 }
 
 // HasArrayNumber returns a boolean if a field has been set.
 func (o *ArrayOfNumberOnly) HasArrayNumber() bool {
-	if o != nil && o.ArrayNumber != nil {
+    if o != nil && o.ArrayNumber != nil {
 		return true
 	}
 
@@ -69,25 +68,46 @@ func (o *ArrayOfNumberOnly) SetArrayNumber(v []float32) {
 	o.ArrayNumber = &v
 }
 
+func (o ArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.ArrayNumber != nil {
+        toSerialize["ArrayNumber"] = o.ArrayNumber
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableArrayOfNumberOnly struct {
-	Value ArrayOfNumberOnly
-	ExplicitNull bool
+	value *ArrayOfNumberOnly
+	isSet bool
+}
+
+func (v NullableArrayOfNumberOnly) Get() *ArrayOfNumberOnly {
+    return v.value
+}
+
+func (v NullableArrayOfNumberOnly) Set(val *ArrayOfNumberOnly) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableArrayOfNumberOnly) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableArrayOfNumberOnly) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableArrayOfNumberOnly(val *ArrayOfNumberOnly) *NullableArrayOfNumberOnly {
+    return &NullableArrayOfNumberOnly{value: val, isSet: true}
 }
 
 func (v NullableArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableArrayOfNumberOnly) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

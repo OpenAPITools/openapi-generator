@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -56,12 +55,12 @@ func (o *Foo) GetBarOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.Bar, true
+    return *o.Bar, true
 }
 
 // HasBar returns a boolean if a field has been set.
 func (o *Foo) HasBar() bool {
-	if o != nil && o.Bar != nil {
+    if o != nil && o.Bar != nil {
 		return true
 	}
 
@@ -73,25 +72,46 @@ func (o *Foo) SetBar(v string) {
 	o.Bar = &v
 }
 
+func (o Foo) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.Bar != nil {
+        toSerialize["bar"] = o.Bar
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableFoo struct {
-	Value Foo
-	ExplicitNull bool
+	value *Foo
+	isSet bool
+}
+
+func (v NullableFoo) Get() *Foo {
+    return v.value
+}
+
+func (v NullableFoo) Set(val *Foo) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableFoo) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableFoo) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableFoo(val *Foo) *NullableFoo {
+    return &NullableFoo{value: val, isSet: true}
 }
 
 func (v NullableFoo) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableFoo) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

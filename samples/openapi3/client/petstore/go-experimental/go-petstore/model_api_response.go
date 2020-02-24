@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -54,12 +53,12 @@ func (o *ApiResponse) GetCodeOk() (int32, bool) {
 		var ret int32
 		return ret, false
 	}
-	return *o.Code, true
+    return *o.Code, true
 }
 
 // HasCode returns a boolean if a field has been set.
 func (o *ApiResponse) HasCode() bool {
-	if o != nil && o.Code != nil {
+    if o != nil && o.Code != nil {
 		return true
 	}
 
@@ -87,12 +86,12 @@ func (o *ApiResponse) GetTypeOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.Type, true
+    return *o.Type, true
 }
 
 // HasType returns a boolean if a field has been set.
 func (o *ApiResponse) HasType() bool {
-	if o != nil && o.Type != nil {
+    if o != nil && o.Type != nil {
 		return true
 	}
 
@@ -120,12 +119,12 @@ func (o *ApiResponse) GetMessageOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.Message, true
+    return *o.Message, true
 }
 
 // HasMessage returns a boolean if a field has been set.
 func (o *ApiResponse) HasMessage() bool {
-	if o != nil && o.Message != nil {
+    if o != nil && o.Message != nil {
 		return true
 	}
 
@@ -137,25 +136,52 @@ func (o *ApiResponse) SetMessage(v string) {
 	o.Message = &v
 }
 
+func (o ApiResponse) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.Code != nil {
+        toSerialize["code"] = o.Code
+    }
+    if o.Type != nil {
+        toSerialize["type"] = o.Type
+    }
+    if o.Message != nil {
+        toSerialize["message"] = o.Message
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableApiResponse struct {
-	Value ApiResponse
-	ExplicitNull bool
+	value *ApiResponse
+	isSet bool
+}
+
+func (v NullableApiResponse) Get() *ApiResponse {
+    return v.value
+}
+
+func (v NullableApiResponse) Set(val *ApiResponse) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableApiResponse) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableApiResponse) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableApiResponse(val *ApiResponse) *NullableApiResponse {
+    return &NullableApiResponse{value: val, isSet: true}
 }
 
 func (v NullableApiResponse) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableApiResponse) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

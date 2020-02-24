@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 	"os"
 )
@@ -57,12 +56,12 @@ func (o *InlineObject5) GetAdditionalMetadataOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.AdditionalMetadata, true
+    return *o.AdditionalMetadata, true
 }
 
 // HasAdditionalMetadata returns a boolean if a field has been set.
 func (o *InlineObject5) HasAdditionalMetadata() bool {
-	if o != nil && o.AdditionalMetadata != nil {
+    if o != nil && o.AdditionalMetadata != nil {
 		return true
 	}
 
@@ -89,25 +88,49 @@ func (o *InlineObject5) SetRequiredFile(v *os.File) {
 	o.RequiredFile = v
 }
 
+func (o InlineObject5) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.AdditionalMetadata != nil {
+        toSerialize["additionalMetadata"] = o.AdditionalMetadata
+    }
+    if true {
+        toSerialize["requiredFile"] = o.RequiredFile
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableInlineObject5 struct {
-	Value InlineObject5
-	ExplicitNull bool
+	value *InlineObject5
+	isSet bool
+}
+
+func (v NullableInlineObject5) Get() *InlineObject5 {
+    return v.value
+}
+
+func (v NullableInlineObject5) Set(val *InlineObject5) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableInlineObject5) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableInlineObject5) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableInlineObject5(val *InlineObject5) *NullableInlineObject5 {
+    return &NullableInlineObject5{value: val, isSet: true}
 }
 
 func (v NullableInlineObject5) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableInlineObject5) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

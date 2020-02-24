@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -53,12 +52,12 @@ func (o *HasOnlyReadOnly) GetBarOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.Bar, true
+    return *o.Bar, true
 }
 
 // HasBar returns a boolean if a field has been set.
 func (o *HasOnlyReadOnly) HasBar() bool {
-	if o != nil && o.Bar != nil {
+    if o != nil && o.Bar != nil {
 		return true
 	}
 
@@ -86,12 +85,12 @@ func (o *HasOnlyReadOnly) GetFooOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.Foo, true
+    return *o.Foo, true
 }
 
 // HasFoo returns a boolean if a field has been set.
 func (o *HasOnlyReadOnly) HasFoo() bool {
-	if o != nil && o.Foo != nil {
+    if o != nil && o.Foo != nil {
 		return true
 	}
 
@@ -103,25 +102,49 @@ func (o *HasOnlyReadOnly) SetFoo(v string) {
 	o.Foo = &v
 }
 
+func (o HasOnlyReadOnly) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.Bar != nil {
+        toSerialize["bar"] = o.Bar
+    }
+    if o.Foo != nil {
+        toSerialize["foo"] = o.Foo
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableHasOnlyReadOnly struct {
-	Value HasOnlyReadOnly
-	ExplicitNull bool
+	value *HasOnlyReadOnly
+	isSet bool
+}
+
+func (v NullableHasOnlyReadOnly) Get() *HasOnlyReadOnly {
+    return v.value
+}
+
+func (v NullableHasOnlyReadOnly) Set(val *HasOnlyReadOnly) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableHasOnlyReadOnly) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableHasOnlyReadOnly) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableHasOnlyReadOnly(val *HasOnlyReadOnly) *NullableHasOnlyReadOnly {
+    return &NullableHasOnlyReadOnly{value: val, isSet: true}
 }
 
 func (v NullableHasOnlyReadOnly) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableHasOnlyReadOnly) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

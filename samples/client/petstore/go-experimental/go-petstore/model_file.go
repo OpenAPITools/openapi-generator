@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -53,12 +52,12 @@ func (o *File) GetSourceURIOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.SourceURI, true
+    return *o.SourceURI, true
 }
 
 // HasSourceURI returns a boolean if a field has been set.
 func (o *File) HasSourceURI() bool {
-	if o != nil && o.SourceURI != nil {
+    if o != nil && o.SourceURI != nil {
 		return true
 	}
 
@@ -70,25 +69,46 @@ func (o *File) SetSourceURI(v string) {
 	o.SourceURI = &v
 }
 
+func (o File) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.SourceURI != nil {
+        toSerialize["sourceURI"] = o.SourceURI
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableFile struct {
-	Value File
-	ExplicitNull bool
+	value *File
+	isSet bool
+}
+
+func (v NullableFile) Get() *File {
+    return v.value
+}
+
+func (v NullableFile) Set(val *File) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableFile) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableFile) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableFile(val *File) *NullableFile {
+    return &NullableFile{value: val, isSet: true}
 }
 
 func (v NullableFile) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableFile) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

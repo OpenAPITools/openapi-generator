@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -53,12 +52,12 @@ func (o *BigCat) GetKindOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.Kind, true
+    return *o.Kind, true
 }
 
 // HasKind returns a boolean if a field has been set.
 func (o *BigCat) HasKind() bool {
-	if o != nil && o.Kind != nil {
+    if o != nil && o.Kind != nil {
 		return true
 	}
 
@@ -70,25 +69,54 @@ func (o *BigCat) SetKind(v string) {
 	o.Kind = &v
 }
 
+func (o BigCat) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    serializedCat, errCat := json.Marshal(o.Cat)
+    if errCat != nil {
+        return []byte{}, errCat
+    }
+    errCat = json.Unmarshal([]byte(serializedCat), &toSerialize)
+    if errCat != nil {
+       return []byte{}, errCat
+    }
+    if o.Kind != nil {
+        toSerialize["kind"] = o.Kind
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableBigCat struct {
-	Value BigCat
-	ExplicitNull bool
+	value *BigCat
+	isSet bool
+}
+
+func (v NullableBigCat) Get() *BigCat {
+    return v.value
+}
+
+func (v NullableBigCat) Set(val *BigCat) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableBigCat) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableBigCat) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableBigCat(val *BigCat) *NullableBigCat {
+    return &NullableBigCat{value: val, isSet: true}
 }
 
 func (v NullableBigCat) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableBigCat) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

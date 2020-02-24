@@ -10,13 +10,12 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
 // HealthCheckResult Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
 type HealthCheckResult struct {
-	NullableMessage *NullableString `json:"NullableMessage,omitempty"`
+	NullableMessage NullableString `json:"NullableMessage,omitempty"`
 }
 
 // NewHealthCheckResult instantiates a new HealthCheckResult object
@@ -38,26 +37,26 @@ func NewHealthCheckResultWithDefaults() *HealthCheckResult {
 
 // GetNullableMessage returns the NullableMessage field value if set, zero value otherwise.
 func (o *HealthCheckResult) GetNullableMessage() NullableString {
-	if o == nil || o.NullableMessage == nil {
+	if o == nil  {
 		var ret NullableString
 		return ret
 	}
-	return *o.NullableMessage
+	return o.NullableMessage
 }
 
 // GetNullableMessageOk returns a tuple with the NullableMessage field value if set, zero value otherwise
 // and a boolean to check if the value has been set.
 func (o *HealthCheckResult) GetNullableMessageOk() (NullableString, bool) {
-	if o == nil || o.NullableMessage == nil {
+	if o == nil  {
 		var ret NullableString
 		return ret, false
 	}
-	return *o.NullableMessage, true
+    return o.NullableMessage, o.NullableMessage.IsSet()
 }
 
 // HasNullableMessage returns a boolean if a field has been set.
 func (o *HealthCheckResult) HasNullableMessage() bool {
-	if o != nil && o.NullableMessage != nil {
+    if o != nil && o.NullableMessage.IsSet() {
 		return true
 	}
 
@@ -66,28 +65,49 @@ func (o *HealthCheckResult) HasNullableMessage() bool {
 
 // SetNullableMessage gets a reference to the given NullableString and assigns it to the NullableMessage field.
 func (o *HealthCheckResult) SetNullableMessage(v NullableString) {
-	o.NullableMessage = &v
+	o.NullableMessage = v
+}
+
+func (o HealthCheckResult) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.NullableMessage.IsSet() {
+        toSerialize["NullableMessage"] = o.NullableMessage.Get()
+    }
+    return json.Marshal(toSerialize)
 }
 
 type NullableHealthCheckResult struct {
-	Value HealthCheckResult
-	ExplicitNull bool
+	value *HealthCheckResult
+	isSet bool
+}
+
+func (v NullableHealthCheckResult) Get() *HealthCheckResult {
+    return v.value
+}
+
+func (v NullableHealthCheckResult) Set(val *HealthCheckResult) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableHealthCheckResult) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableHealthCheckResult) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableHealthCheckResult(val *HealthCheckResult) *NullableHealthCheckResult {
+    return &NullableHealthCheckResult{value: val, isSet: true}
 }
 
 func (v NullableHealthCheckResult) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableHealthCheckResult) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

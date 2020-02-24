@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -54,12 +53,12 @@ func (o *ArrayTest) GetArrayOfStringOk() ([]string, bool) {
 		var ret []string
 		return ret, false
 	}
-	return *o.ArrayOfString, true
+    return *o.ArrayOfString, true
 }
 
 // HasArrayOfString returns a boolean if a field has been set.
 func (o *ArrayTest) HasArrayOfString() bool {
-	if o != nil && o.ArrayOfString != nil {
+    if o != nil && o.ArrayOfString != nil {
 		return true
 	}
 
@@ -87,12 +86,12 @@ func (o *ArrayTest) GetArrayArrayOfIntegerOk() ([][]int64, bool) {
 		var ret [][]int64
 		return ret, false
 	}
-	return *o.ArrayArrayOfInteger, true
+    return *o.ArrayArrayOfInteger, true
 }
 
 // HasArrayArrayOfInteger returns a boolean if a field has been set.
 func (o *ArrayTest) HasArrayArrayOfInteger() bool {
-	if o != nil && o.ArrayArrayOfInteger != nil {
+    if o != nil && o.ArrayArrayOfInteger != nil {
 		return true
 	}
 
@@ -120,12 +119,12 @@ func (o *ArrayTest) GetArrayArrayOfModelOk() ([][]ReadOnlyFirst, bool) {
 		var ret [][]ReadOnlyFirst
 		return ret, false
 	}
-	return *o.ArrayArrayOfModel, true
+    return *o.ArrayArrayOfModel, true
 }
 
 // HasArrayArrayOfModel returns a boolean if a field has been set.
 func (o *ArrayTest) HasArrayArrayOfModel() bool {
-	if o != nil && o.ArrayArrayOfModel != nil {
+    if o != nil && o.ArrayArrayOfModel != nil {
 		return true
 	}
 
@@ -137,25 +136,52 @@ func (o *ArrayTest) SetArrayArrayOfModel(v [][]ReadOnlyFirst) {
 	o.ArrayArrayOfModel = &v
 }
 
+func (o ArrayTest) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.ArrayOfString != nil {
+        toSerialize["array_of_string"] = o.ArrayOfString
+    }
+    if o.ArrayArrayOfInteger != nil {
+        toSerialize["array_array_of_integer"] = o.ArrayArrayOfInteger
+    }
+    if o.ArrayArrayOfModel != nil {
+        toSerialize["array_array_of_model"] = o.ArrayArrayOfModel
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableArrayTest struct {
-	Value ArrayTest
-	ExplicitNull bool
+	value *ArrayTest
+	isSet bool
+}
+
+func (v NullableArrayTest) Get() *ArrayTest {
+    return v.value
+}
+
+func (v NullableArrayTest) Set(val *ArrayTest) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableArrayTest) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableArrayTest) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableArrayTest(val *ArrayTest) *NullableArrayTest {
+    return &NullableArrayTest{value: val, isSet: true}
 }
 
 func (v NullableArrayTest) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableArrayTest) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

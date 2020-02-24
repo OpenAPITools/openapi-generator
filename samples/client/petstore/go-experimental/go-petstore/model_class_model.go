@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -52,12 +51,12 @@ func (o *ClassModel) GetClassOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.Class, true
+    return *o.Class, true
 }
 
 // HasClass returns a boolean if a field has been set.
 func (o *ClassModel) HasClass() bool {
-	if o != nil && o.Class != nil {
+    if o != nil && o.Class != nil {
 		return true
 	}
 
@@ -69,25 +68,46 @@ func (o *ClassModel) SetClass(v string) {
 	o.Class = &v
 }
 
+func (o ClassModel) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.Class != nil {
+        toSerialize["_class"] = o.Class
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableClassModel struct {
-	Value ClassModel
-	ExplicitNull bool
+	value *ClassModel
+	isSet bool
+}
+
+func (v NullableClassModel) Get() *ClassModel {
+    return v.value
+}
+
+func (v NullableClassModel) Set(val *ClassModel) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableClassModel) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableClassModel) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableClassModel(val *ClassModel) *NullableClassModel {
+    return &NullableClassModel{value: val, isSet: true}
 }
 
 func (v NullableClassModel) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableClassModel) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

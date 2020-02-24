@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -124,25 +123,58 @@ func (o *TypeHolderDefault) SetArrayItem(v []int32) {
 	o.ArrayItem = v
 }
 
+func (o TypeHolderDefault) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if true {
+        toSerialize["string_item"] = o.StringItem
+    }
+    if true {
+        toSerialize["number_item"] = o.NumberItem
+    }
+    if true {
+        toSerialize["integer_item"] = o.IntegerItem
+    }
+    if true {
+        toSerialize["bool_item"] = o.BoolItem
+    }
+    if true {
+        toSerialize["array_item"] = o.ArrayItem
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableTypeHolderDefault struct {
-	Value TypeHolderDefault
-	ExplicitNull bool
+	value *TypeHolderDefault
+	isSet bool
+}
+
+func (v NullableTypeHolderDefault) Get() *TypeHolderDefault {
+    return v.value
+}
+
+func (v NullableTypeHolderDefault) Set(val *TypeHolderDefault) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableTypeHolderDefault) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableTypeHolderDefault) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableTypeHolderDefault(val *TypeHolderDefault) *NullableTypeHolderDefault {
+    return &NullableTypeHolderDefault{value: val, isSet: true}
 }
 
 func (v NullableTypeHolderDefault) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableTypeHolderDefault) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

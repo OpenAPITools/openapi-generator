@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -52,12 +51,12 @@ func (o *Return) GetReturnOk() (int32, bool) {
 		var ret int32
 		return ret, false
 	}
-	return *o.Return, true
+    return *o.Return, true
 }
 
 // HasReturn returns a boolean if a field has been set.
 func (o *Return) HasReturn() bool {
-	if o != nil && o.Return != nil {
+    if o != nil && o.Return != nil {
 		return true
 	}
 
@@ -69,25 +68,46 @@ func (o *Return) SetReturn(v int32) {
 	o.Return = &v
 }
 
+func (o Return) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.Return != nil {
+        toSerialize["return"] = o.Return
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableReturn struct {
-	Value Return
-	ExplicitNull bool
+	value *Return
+	isSet bool
+}
+
+func (v NullableReturn) Get() *Return {
+    return v.value
+}
+
+func (v NullableReturn) Set(val *Return) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableReturn) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableReturn) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableReturn(val *Return) *NullableReturn {
+    return &NullableReturn{value: val, isSet: true}
 }
 
 func (v NullableReturn) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableReturn) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

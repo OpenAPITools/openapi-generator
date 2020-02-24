@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -53,12 +52,12 @@ func (o *Tag) GetIdOk() (int64, bool) {
 		var ret int64
 		return ret, false
 	}
-	return *o.Id, true
+    return *o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
 func (o *Tag) HasId() bool {
-	if o != nil && o.Id != nil {
+    if o != nil && o.Id != nil {
 		return true
 	}
 
@@ -86,12 +85,12 @@ func (o *Tag) GetNameOk() (string, bool) {
 		var ret string
 		return ret, false
 	}
-	return *o.Name, true
+    return *o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
 func (o *Tag) HasName() bool {
-	if o != nil && o.Name != nil {
+    if o != nil && o.Name != nil {
 		return true
 	}
 
@@ -103,25 +102,49 @@ func (o *Tag) SetName(v string) {
 	o.Name = &v
 }
 
+func (o Tag) MarshalJSON() ([]byte, error) {
+    toSerialize := map[string]interface{}{}
+    if o.Id != nil {
+        toSerialize["id"] = o.Id
+    }
+    if o.Name != nil {
+        toSerialize["name"] = o.Name
+    }
+    return json.Marshal(toSerialize)
+}
+
 type NullableTag struct {
-	Value Tag
-	ExplicitNull bool
+	value *Tag
+	isSet bool
+}
+
+func (v NullableTag) Get() *Tag {
+    return v.value
+}
+
+func (v NullableTag) Set(val *Tag) {
+    v.value = val
+    v.isSet = true
+}
+
+func (v NullableTag) IsSet() bool {
+    return v.isSet
+}
+
+func (v NullableTag) Unset() {
+    v.value = nil
+    v.isSet = false
+}
+
+func NewNullableTag(val *Tag) *NullableTag {
+    return &NullableTag{value: val, isSet: true}
 }
 
 func (v NullableTag) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+    return json.Marshal(v.value)
 }
 
 func (v *NullableTag) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+    v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
