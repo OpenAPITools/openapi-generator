@@ -608,6 +608,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Kubernetes](https://kubernetes.io)
 - [Linode](https://www.linode.com/)
 - [Logicdrop](https://www.logicdrop.com)
+- [MailSlurp](https://www.mailslurp.com)
 - [Médiavision](https://www.mediavision.fr/)
 - [Metaswitch](https://www.metaswitch.com/)
 - [Myworkout](https://myworkout.com)
