@@ -41,6 +41,7 @@ from petstore_api.exceptions import ApiException
 
 # import models into sdk package
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
+from petstore_api.models.address import Address
 from petstore_api.models.animal import Animal
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.apple import Apple
