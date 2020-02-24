@@ -21,10 +21,9 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -500,6 +499,59 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, 42L);
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
+    }
+
+
+    @Test()
+    public void javaInheritanceWithRequiredAttributesOnAllOfObject() {
+        Schema parent = new ObjectSchema()
+                .addProperties("a", new StringSchema())
+                .addProperties("b", new StringSchema())
+                .addRequiredItem("a")
+                .name("Parent");
+        Schema child = new ComposedSchema()
+                .addAllOfItem(new Schema().$ref("Parent"))
+                .addAllOfItem(new ObjectSchema()
+                        .addProperties("c", new StringSchema())
+                        .addProperties("d", new StringSchema())
+                        .addRequiredItem("a")
+                        .addRequiredItem("c"))
+                .name("Child");
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas(parent.getName(), parent);
+        openAPI.getComponents().addSchemas(child.getName(), child);
+
+        final DefaultCodegen codegen = new AbstractJavaCodegen() {};
+        codegen.setOpenAPI(openAPI);
+
+        final CodegenModel pm = codegen
+                .fromModel("Parent", parent);
+        final CodegenProperty propertyPA = pm.allVars.get(0);
+        Assert.assertEquals(propertyPA.name, "a");
+        Assert.assertTrue(propertyPA.required);
+        final CodegenProperty propertyPB = pm.allVars.get(1);
+        Assert.assertEquals(propertyPB.name, "b");
+        Assert.assertFalse(propertyPB.required);
+        Assert.assertEquals(pm.requiredVars.size() + pm.optionalVars.size(), pm.allVars.size());
+
+        final CodegenModel cm = codegen
+                .fromModel("Child", child);
+        final CodegenProperty propertyCA = cm.allVars.get(0);
+        Assert.assertEquals(propertyCA.name, "a");
+        Assert.assertTrue(propertyCA.required);
+        Assert.assertTrue(propertyCA.isInherited);
+        final CodegenProperty propertyCB = cm.allVars.get(1);
+        Assert.assertEquals(propertyCB.name, "b");
+        Assert.assertFalse(propertyCB.required);
+        Assert.assertTrue(propertyCB.isInherited);
+        final CodegenProperty propertyCC = cm.allVars.get(2);
+        Assert.assertEquals(propertyCC.name, "c");
+        Assert.assertTrue(propertyCC.required);
+        final CodegenProperty propertyCD = cm.allVars.get(3);
+        Assert.assertEquals(propertyCD.name, "d");
+        Assert.assertFalse(propertyCD.required);
+        Assert.assertEquals(cm.requiredVars.size() + cm.optionalVars.size(), cm.allVars.size());
+        Assert.assertEquals(cm.parentVars.size(), 2);
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {
