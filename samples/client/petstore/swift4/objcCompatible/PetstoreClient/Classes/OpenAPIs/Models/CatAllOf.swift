@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct CatAllOf: Codable {
+@objc public class CatAllOf: NSObject, Codable {
 
     public var declawed: Bool?
     public var declawedNum: NSNumber? {

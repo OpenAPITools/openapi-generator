@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Animal: Codable {
+@objc public class Animal: NSObject, Codable {
 
     public var _className: String
     public var color: String? = "red"

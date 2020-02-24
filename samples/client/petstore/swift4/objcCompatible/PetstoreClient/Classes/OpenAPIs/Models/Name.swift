@@ -8,7 +8,8 @@
 import Foundation
 
 /** Model for testing model name same as property name */
-public struct Name: Codable {
+
+@objc public class Name: NSObject, Codable {
 
     public var name: Int
     public var nameNum: NSNumber? {

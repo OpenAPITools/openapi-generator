@@ -35,7 +35,7 @@ internal struct StringBooleanMap: Codable {
 
     // Decodable protocol methods
 
-    internal init(from decoder: Decoder) throws {
+    internal required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
         var nonAdditionalPropertyKeys = Set<String>()

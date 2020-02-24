@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct OuterComposite: Codable {
+@objc public class OuterComposite: NSObject, Codable {
 
     public var myNumber: Double?
     public var myString: String?

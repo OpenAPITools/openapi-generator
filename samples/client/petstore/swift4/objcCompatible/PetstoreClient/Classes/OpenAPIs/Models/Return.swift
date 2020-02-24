@@ -8,7 +8,8 @@
 import Foundation
 
 /** Model for testing reserved words */
-public struct Return: Codable {
+
+@objc public class Return: NSObject, Codable {
 
     public var _return: Int?
     public var _returnNum: NSNumber? {
