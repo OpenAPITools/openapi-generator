@@ -117,6 +117,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [additional_properties_class.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [address.Address](docs/Address.md)
  - [animal.Animal](docs/Animal.md)
  - [api_response.ApiResponse](docs/ApiResponse.md)
  - [array_of_array_of_number_only.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)

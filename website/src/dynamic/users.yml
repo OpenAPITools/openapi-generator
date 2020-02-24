@@ -204,11 +204,6 @@
   infoLink: "https://kubernetes.io/"
   pinned: false
 -
-  caption: "Médiavision"
-  image: "img/companies/mediavision.jpeg"
-  infoLink: "https://www.mediavision.fr/"
-  pinned: false
--
   caption: "Kurusugawa Computer Inc."
   image: "img/companies/kurusugawa.png"
   infoLink: "https://www.kurusugawa.jp/"
@@ -219,19 +214,29 @@
   infoLink: "https://jobs.m3.com/engineer/"
   pinned: false
 -
+  caption: MailSlurp
+  image: "img/companies/mailslurp.png"
+  infoLink: "https://www.mailslurp.com/"
+  pinned: false
+-
+  caption: "Médiavision"
+  image: "img/companies/mediavision.jpeg"
+  infoLink: "https://www.mediavision.fr/"
+  pinned: false
+-
   caption: Metaswitch
   image: "img/companies/metaswitch.svg"
   infoLink: "https://www.metaswitch.com/"
   pinned: true
 -
-  caption: NamSor
-  image: "img/companies/namsor.png"
-  infoLink: "https://www.namsor.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
-  pinned: false
--
   caption: Myworkout
   image: "img/companies/myworkout.png"
   infoLink: "https://myworkout.com/"
+  pinned: false
+-
+  caption: NamSor
+  image: "img/companies/namsor.png"
+  infoLink: "https://www.namsor.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
   pinned: false
 -
   caption: Openet
