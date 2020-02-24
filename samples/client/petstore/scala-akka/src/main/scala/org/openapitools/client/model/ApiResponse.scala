@@ -12,8 +12,6 @@
 package org.openapitools.client.model
 
 import org.openapitools.client.core.ApiModel
-import org.joda.time.DateTime
-import java.util.UUID
 
 case class ApiResponse (
   code: Option[Int] = None,

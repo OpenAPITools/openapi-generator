@@ -31,11 +31,13 @@ from petstore_api.model_utils import (  # noqa: F401
 try:
     from petstore_api.models import grandparent
 except ImportError:
-    grandparent = sys.modules['petstore_api.models.grandparent']
+    grandparent = sys.modules[
+        'petstore_api.models.grandparent']
 try:
     from petstore_api.models import parent_all_of
 except ImportError:
-    parent_all_of = sys.modules['petstore_api.models.parent_all_of']
+    parent_all_of = sys.modules[
+        'petstore_api.models.parent_all_of']
 
 
 class Parent(ModelComposed):
@@ -53,8 +55,6 @@ class Parent(ModelComposed):
           and the value is json key in definition.
       discriminator_value_class_map (dict): A dict to go from the discriminator
           variable value to the discriminator class name.
-      openapi_types (dict): The key is attribute name
-          and the value is attribute type.
       validations (dict): The key is the tuple path to the attribute
           and the for var_name this is (var_name,). The value is a dict
           that stores validations for max_length, min_length, max_items,
@@ -67,15 +67,25 @@ class Parent(ModelComposed):
     allowed_values = {
     }
 
-    openapi_types = {
-        'radio_waves': (bool,),  # noqa: E501
-        'tele_vision': (bool,),  # noqa: E501
-    }
-
     validations = {
     }
 
     additional_properties_type = None
+
+    @staticmethod
+    def openapi_types():
+        """
+        This must be a class method so a model may have properties that are
+        of type self, this ensures that we don't create a cyclic import
+
+        Returns
+            openapi_types (dict): The key is attribute name
+                and the value is attribute type.
+        """
+        return {
+            'radio_waves': (bool,),  # noqa: E501
+            'tele_vision': (bool,),  # noqa: E501
+        }
 
     @staticmethod
     def discriminator():
@@ -139,8 +149,15 @@ class Parent(ModelComposed):
         self._composed_instances = composed_info[0]
         self._var_name_to_model_instances = composed_info[1]
         self._additional_properties_model_instances = composed_info[2]
+        unused_args = composed_info[3]
 
         for var_name, var_value in six.iteritems(kwargs):
+            if var_name in unused_args and \
+                        self._configuration is not None and \
+                        self._configuration.discard_unknown_keys and \
+                        not self._additional_properties_model_instances:
+                # discard variable.
+                continue
             setattr(self, var_name, var_value)
 
     @staticmethod

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,6 +32,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +64,11 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
 
     public PythonAbstractConnexionServerCodegen(String templateDirectory, boolean fixBodyNameValue) {
         super();
+
+        featureSet = getFeatureSet().modify()
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .build();
+
         fixBodyName = fixBodyNameValue;
         modelPackage = "models";
         testPackage = "test";
@@ -510,7 +516,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                 if (pathExtensions != null) {
                     // Get and remove the (temporary) vendor extension
                     String openapiPathname = (String) pathExtensions.remove("x-python-connexion-openapi-name");
-                    if (openapiPathname != null && openapiPathname != pythonPathname) {
+                    if (openapiPathname != null && !openapiPathname.equals(pythonPathname)) {
                         LOGGER.info("Path '" + pythonPathname + "' is not consistant with the original OpenAPI definition. It will be replaced back by '" + openapiPathname + "'");
                         paths.remove(pythonPathname);
                         paths.put(openapiPathname, path);
@@ -529,7 +535,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                                     String swaggerParameterName = (String) parameterExtensions.remove("x-python-connexion-openapi-name");
                                     if (swaggerParameterName != null) {
                                         String pythonParameterName = parameter.getName();
-                                        if (swaggerParameterName != pythonParameterName) {
+                                        if (!swaggerParameterName.equals(pythonParameterName)) {
                                             LOGGER.info("Reverting name of parameter '" + pythonParameterName + "' of operation '" + operation.getOperationId() + "' back to '" + swaggerParameterName + "'");
                                             parameter.setName(swaggerParameterName);
                                         } else {

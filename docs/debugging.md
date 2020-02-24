@@ -3,6 +3,76 @@ id: debugging
 title: Debugging
 ---
 
+## Generation
+
+As a user there may be times when generated outputs don't match your expectations it's unclear why. The CLI supports a `--dry-run` option which may be used to inspect the anticipated file operations without making changes to the file system.
+
+Suppose you generate using the `--minimal-update` option, and you notice on subsequent generations of a client that no files have changed. This is by design.
+
+For example, if you generate the aspnetcore generator passing `--minimal-update --dry-run` to the sample generation script in the code repository:
+
+```bash
+export JAVA_OPTS="-Dlog.level=off"
+./bin/aspnetcore-petstore-server.sh --minimal-update --dry-run
+```
+
+You'll see the output similar to the following:
+
+```
+# START SCRIPT: ./bin/aspnetcore-petstore-server.sh
+
+
+Dry Run Results:
+
+s /path/to/aspnetcore/.openapi-generator-ignore
+n /path/to/aspnetcore/.openapi-generator/VERSION
+n /path/to/aspnetcore/Org.OpenAPITools.sln
+n /path/to/aspnetcore/README.md
+n /path/to/aspnetcore/build.bat
+n /path/to/aspnetcore/build.sh
+w /path/to/aspnetcore/src/Org.OpenAPITools/.gitignore
+n /path/to/aspnetcore/src/Org.OpenAPITools/Attributes/ValidateModelStateAttribute.cs
+n /path/to/aspnetcore/src/Org.OpenAPITools/Authentication/ApiAuthentication.cs
+n /path/to/aspnetcore/src/Org.OpenAPITools/Controllers/PetApi.cs
+n /path/to/aspnetcore/src/Org.OpenAPITools/Controllers/StoreApi.cs
+n /path/to/aspnetcore/src/Org.OpenAPITools/Controllers/UserApi.cs
+n /path/to/aspnetcore/src/Org.OpenAPITools/Converters/CustomEnumConverter.cs
+n /path/to/aspnetcore/src/Org.OpenAPITools/Dockerfile
+n /path/to/aspnetcore/src/Org.OpenAPITools/Filters/BasePathFilter.cs
+n /path/to/aspnetcore/src/Org.OpenAPITools/Filters/GeneratePathParamsValidationFilter.cs
+n /path/to/aspnetcore/src/Org.OpenAPITools/Models/ApiResponse.cs
+n /path/to/aspnetcore/src/Org.OpenAPITools/Models/Category.cs
+n /path/to/aspnetcore/src/Org.OpenAPITools/Models/Order.cs
+n /path/to/aspnetcore/src/Org.OpenAPITools/Models/Pet.cs
+n /path/to/aspnetcore/src/Org.OpenAPITools/Models/Tag.cs
+n /path/to/aspnetcore/src/Org.OpenAPITools/Models/User.cs
+n /path/to/aspnetcore/src/Org.OpenAPITools/Org.OpenAPITools.csproj
+n /path/to/aspnetcore/src/Org.OpenAPITools/Program.cs
+w /path/to/aspnetcore/src/Org.OpenAPITools/Properties/launchSettings.json
+n /path/to/aspnetcore/src/Org.OpenAPITools/Startup.cs
+w /path/to/aspnetcore/src/Org.OpenAPITools/appsettings.json
+w /path/to/aspnetcore/src/Org.OpenAPITools/wwwroot/README.md
+w /path/to/aspnetcore/src/Org.OpenAPITools/wwwroot/index.html
+n /path/to/aspnetcore/src/Org.OpenAPITools/wwwroot/openapi-original.json
+w /path/to/aspnetcore/src/Org.OpenAPITools/wwwroot/web.config
+
+
+States:
+
+  - w Write
+  - n Write if New/Updated
+  - i Ignored
+  - s Skipped Overwrite
+  - k Skipped by user option(s)
+  - e Error evaluating file write state
+
+```
+
+The output lists the files which would be written in a normal run of the tool. Notice that we skip `.openapi-generator-ignore` because the file exists and we don't want to blow away the user's generation rules. Most of these files will overwrite output files only if the contents slated for write are different from those on the filesystem; this is denoted by an `n` preceding the filename. Some of the above lines begin with a `w`, meaning these files will _always_ result in a write operation.
+
+If you find an operation that you feel should result in a different state, please [open an issue](https://github.com/OpenAPITools/openapi-generator/issues/new/choose) or [submit a pull request](https://github.com/OpenAPITools/openapi-generator/compare) to change the behavior (we welcome all contributions).
+
+
 ## Templates
 
 Sometimes, you may have issues with variables in your templates. As discussed in the [templating](./templating.md) docs, we offer a variety of system properties for inspecting the models bound to templates.

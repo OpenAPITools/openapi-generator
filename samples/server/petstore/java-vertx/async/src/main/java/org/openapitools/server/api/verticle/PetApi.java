@@ -13,7 +13,7 @@ import java.util.Map;
 
 public interface PetApi  {
     //addPet
-    void addPet(Pet pet, Handler<AsyncResult<Void>> handler);
+    void addPet(Pet body, Handler<AsyncResult<Void>> handler);
     
     //deletePet
     void deletePet(Long petId, String apiKey, Handler<AsyncResult<Void>> handler);
@@ -28,7 +28,7 @@ public interface PetApi  {
     void getPetById(Long petId, Handler<AsyncResult<Pet>> handler);
     
     //updatePet
-    void updatePet(Pet pet, Handler<AsyncResult<Void>> handler);
+    void updatePet(Pet body, Handler<AsyncResult<Void>> handler);
     
     //updatePetWithForm
     void updatePetWithForm(Long petId, String name, String status, Handler<AsyncResult<Void>> handler);

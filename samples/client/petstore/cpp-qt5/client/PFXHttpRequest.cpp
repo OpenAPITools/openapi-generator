@@ -103,6 +103,14 @@ void PFXHttpRequestWorker::setWorkingDirectory(const QString &path) {
     }
 }
 
+void PFXHttpRequestWorker::setResponseCompressionEnabled(bool enable) {
+    isResponseCompressionEnabled = enable;
+}
+
+void PFXHttpRequestWorker::setRequestCompressionEnabled(bool enable) {
+    isRequestCompressionEnabled = enable;
+}
+
 QString PFXHttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
     // result structure follows RFC 5987
     bool need_utf_encoding = false;
@@ -288,7 +296,11 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
     if (input->request_body.size() > 0) {
         qDebug() << "got a request body";
         request_content.clear();
-        request_content.append(input->request_body);
+        if(!isFormData && (input->var_layout != MULTIPART) && isRequestCompressionEnabled){
+            request_content.append(compress(input->request_body, 7, PFXCompressionType::Gzip));
+        } else {
+            request_content.append(input->request_body);
+        }
     }
     // prepare connection
 
@@ -305,10 +317,19 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         } else {
             request.setHeader(QNetworkRequest::ContentTypeHeader, input->headers.value("Content-Type"));
         }
+        if(isRequestCompressionEnabled){
+            request.setRawHeader("Content-Encoding", "gzip");
+        }
     } else if (input->var_layout == URL_ENCODED) {
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     } else if (input->var_layout == MULTIPART) {
         request.setHeader(QNetworkRequest::ContentTypeHeader, "multipart/form-data; boundary=" + boundary);
+    }
+
+    if(isResponseCompressionEnabled){
+        request.setRawHeader("Accept-Encoding", "gzip");
+    } else {
+        request.setRawHeader("Accept-Encoding", "identity");
     }
 
     if (input->http_method == "GET") {
@@ -340,15 +361,14 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
 
 void PFXHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
     error_type = reply->error();
-    response = reply->readAll();
     error_str = reply->errorString();
     if (reply->rawHeaderPairs().count() > 0) {
         for (const auto &item : reply->rawHeaderPairs()) {
             headers.insert(item.first, item.second);
         }
     }
+    process_response(reply);
     reply->deleteLater();
-    process_form_response();
     emit on_execution_finished(this);
 }
 
@@ -362,7 +382,7 @@ void PFXHttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
     emit on_execution_finished(this);
 }
 
-void PFXHttpRequestWorker::process_form_response() {
+void PFXHttpRequestWorker::process_response(QNetworkReply *reply) {
     if (getResponseHeaders().contains(QString("Content-Disposition"))) {
         auto contentDisposition = getResponseHeaders().value(QString("Content-Disposition").toUtf8()).split(QString(";"), QString::SkipEmptyParts);
         auto contentType =
@@ -376,16 +396,45 @@ void PFXHttpRequestWorker::process_form_response() {
                 }
             }
             PFXHttpFileElement felement;
-            felement.saveToFile(QString(), workingDirectory + QDir::separator() + filename, filename, contentType, response.data());
+            felement.saveToFile(QString(), workingDirectory + QDir::separator() + filename, filename, contentType, reply->readAll());
             files.insert(filename, felement);
         }
 
     } else if (getResponseHeaders().contains(QString("Content-Type"))) {
         auto contentType = getResponseHeaders().value(QString("Content-Type").toUtf8()).split(QString(";"), QString::SkipEmptyParts);
         if ((contentType.count() > 0) && (contentType.first() == QString("multipart/form-data"))) {
+            // TODO : Handle Multipart responses
         } else {
+            if(headers.contains("Content-Encoding")){
+                auto encoding = headers.value("Content-Encoding").split(QString(";"), QString::SkipEmptyParts);
+                if(encoding.count() > 0){
+                    auto compressionTypes = encoding.first().split(',', QString::SkipEmptyParts);
+                    if(compressionTypes.contains("gzip", Qt::CaseInsensitive) || compressionTypes.contains("deflate", Qt::CaseInsensitive)){
+                        response = decompress(reply->readAll());
+                    } else if(compressionTypes.contains("identity", Qt::CaseInsensitive)){
+                        response = reply->readAll();
+                    }
+                }
+            }
+            else {
+                response = reply->readAll();
+            }
         }
     }
+}
+
+QByteArray PFXHttpRequestWorker::decompress(const QByteArray& data){
+    
+    Q_UNUSED(data);
+    return QByteArray();
+}
+
+QByteArray PFXHttpRequestWorker::compress(const QByteArray& input, int level, PFXCompressionType compressType) {
+    
+    Q_UNUSED(input);
+    Q_UNUSED(level);
+    Q_UNUSED(compressType);        
+    return QByteArray();
 }
 
 QSslConfiguration *PFXHttpRequestWorker::sslDefaultConfiguration;

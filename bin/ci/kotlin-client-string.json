@@ -6,6 +6,8 @@
   "templateDir": "modules/openapi-generator/src/main/resources/kotlin-client",
   "additionalProperties": {
     "dateLibrary": "string",
-    "serializableModel": "true"
+    "serializableModel": "true",
+    "sortParamsByRequiredFlag": "false",
+    "sortModelPropertiesByRequiredFlag": "false"
   }
 }

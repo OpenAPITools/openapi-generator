@@ -4,18 +4,18 @@
  * @module {{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
  * @version {{projectVersion}}
  */{{/emitJSDoc}}
-class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-isArray}}extends Array {{/vendorExtensions.x-isArray}}{{/parentModel}}{{/parent}}{
+class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}extends Array {{/vendorExtensions.x-is-array}}{{/parentModel}}{{/parent}}{
     {{#emitJSDoc}}/**
      * Constructs a new <code>{{classname}}</code>.{{#description}}
      * {{description}}{{/description}}
      * @alias module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}{{#useInheritance}}{{#parent}}
-     * @extends {{#parentModel}}module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}{{/parentModel}}{{^parentModel}}{{#vendorExtensions.x-isArray}}Array{{/vendorExtensions.x-isArray}}{{#vendorExtensions.x-isMap}}Object{{/vendorExtensions.x-isMap}}{{/parentModel}}{{/parent}}{{#interfaces}}
+     * @extends {{#parentModel}}module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}{{/parentModel}}{{^parentModel}}{{#vendorExtensions.x-is-array}}Array{{/vendorExtensions.x-is-array}}{{#vendorExtensions.x-is-map}}Object{{/vendorExtensions.x-is-map}}{{/parentModel}}{{/parent}}{{#interfaces}}
      * @implements module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{.}}{{/interfaces}}{{/useInheritance}}{{#vendorExtensions.x-all-required}}
      * @param {{name}} {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{#description}}{{{description}}}{{/description}}{{/vendorExtensions.x-all-required}}
      */{{/emitJSDoc}}
-    constructor({{#vendorExtensions.x-all-required}}{{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-all-required}}) { {{#parent}}{{^parentModel}}{{#vendorExtensions.x-isArray}}
+    constructor({{#vendorExtensions.x-all-required}}{{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-all-required}}) { {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}
         super();
-        {{/vendorExtensions.x-isArray}}{{/parentModel}}{{/parent}}{{#useInheritance}}
+        {{/vendorExtensions.x-is-array}}{{/parentModel}}{{/parent}}{{#useInheritance}}
         {{#interfaceModels}}{{classname}}.initialize(this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});{{/interfaceModels}}{{/useInheritance}}
         {{classname}}.initialize(this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});
     }
@@ -40,7 +40,7 @@ class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-isArray}}ex
         if (data){{! TODO: support polymorphism: discriminator property on data determines class to instantiate.}} {
             obj = obj || new {{classname}}();{{#parent}}{{^parentModel}}
 
-            ApiClient.constructFromObject(data, obj, '{{vendorExtensions.x-itemType}}');
+            ApiClient.constructFromObject(data, obj, '{{vendorExtensions.x-item-type}}');
             {{/parentModel}}{{/parent}}{{#useInheritance}}{{#parentModel}}
             {{classname}}.constructFromObject(data, obj);{{/parentModel}}{{#interfaces}}
             {{.}}.constructFromObject(data, obj);{{/interfaces}}{{/useInheritance}}

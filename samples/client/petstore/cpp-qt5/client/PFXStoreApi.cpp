@@ -22,7 +22,9 @@ PFXStoreApi::PFXStoreApi(const QString &scheme, const QString &host, int port, c
       _host(host),
       _port(port),
       _basePath(basePath),
-      _timeOut(timeOut) {}
+      _timeOut(timeOut),
+      isResponseCompressionEnabled(false),
+      isRequestCompressionEnabled(false) {}
 
 PFXStoreApi::~PFXStoreApi() {
 }
@@ -55,6 +57,18 @@ void PFXStoreApi::addHeaders(const QString &key, const QString &value) {
     defaultHeaders.insert(key, value);
 }
 
+void PFXStoreApi::enableRequestCompression() {
+    isRequestCompressionEnabled = true;
+}
+
+void PFXStoreApi::enableResponseCompression() {
+    isResponseCompressionEnabled = true;
+}
+
+void PFXStoreApi::abortRequests(){
+    emit abortRequestsSignal();
+}
+
 void PFXStoreApi::deleteOrder(const QString &order_id) {
     QString fullPath = QString("%1://%2%3%4%5")
                            .arg(_scheme)
@@ -74,7 +88,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::deleteOrderCallback);
-
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -87,6 +101,7 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     worker->deleteLater();
 
@@ -115,7 +130,7 @@ void PFXStoreApi::getInventory() {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getInventoryCallback);
-
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -128,6 +143,7 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     QMap<QString, qint32> output;
     QString json(worker->response);
@@ -169,7 +185,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getOrderByIdCallback);
-
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -182,6 +198,7 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     PFXOrder output(QString(worker->response));
     worker->deleteLater();
@@ -214,7 +231,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
-
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -227,6 +244,7 @@ void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     PFXOrder output(QString(worker->response));
     worker->deleteLater();

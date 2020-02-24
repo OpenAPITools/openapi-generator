@@ -25,7 +25,7 @@ namespace Org.OpenAPITools.Models
     /// </summary>
     [DataContract]
     public partial class User : IEquatable<User>
-    { 
+    {
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
