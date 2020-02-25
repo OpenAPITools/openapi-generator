@@ -24,18 +24,25 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
-import org.junit.runner.RunWith;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.MockDefaultGenerator;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -45,7 +52,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 
-@RunWith(JUnitParamsRunner.class)
 public class SpringCodegenTest {
 
     @Test
@@ -157,8 +163,7 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8088");
     }
 
-    @Test
-    @Parameters(method = "modelWithProps")
+    @Test(dataProvider = "modelWithProps")
     public void lombokImports(CodegenModel codegenModel, boolean hasBuilder, boolean hasSuperBuilder, boolean hasNonNull) {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
@@ -168,6 +173,7 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(SpringCodegen.BASE_PACKAGE, "xyz.yyyyy.bbbb.base");
         codegen.additionalProperties().put(SpringCodegen.CONFIG_PACKAGE, "xyz.yyyyy.cccc.config");
         codegen.additionalProperties().put(SpringCodegen.SERVER_PORT, "8088");
+        codegen.additionalProperties().put(SpringCodegen.IS_LOMBOK_MODEL, true);
         codegen.processOpts();
 
         OpenAPI openAPI = new OpenAPI();
@@ -178,33 +184,72 @@ public class SpringCodegenTest {
 
         codegenModel.getVars().forEach(codegenProperty -> {
             codegen.postProcessModelProperty(codegenModel, codegenProperty);
-
-            Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokGetter")));
-            Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokAllArgsConstructor")));
-            Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokEqualsAndHashCode")));
-            Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokToString")));
-
-            boolean islombokSuperBuilderPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokSuperBuilder"));
-            boolean islombokBuilderPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokBuilder"));
-            boolean islombokNonNullPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokNonNull"));
-
-            Assert.assertEquals(hasBuilder, islombokBuilderPresent);
-            Assert.assertEquals(hasSuperBuilder, islombokSuperBuilderPresent);
-            Assert.assertEquals(hasNonNull, islombokNonNullPresent);
         });
+        Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokGetter")));
+        Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokAllArgsConstructor")));
+        Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokEqualsAndHashCode")));
+        Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokToString")));
+        boolean islombokSuperBuilderPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokSuperBuilder"));
+        boolean islombokBuilderPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokBuilder"));
+        boolean islombokNonNullPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokNonNull"));
 
+        Assert.assertEquals(hasBuilder, islombokBuilderPresent);
+        Assert.assertEquals(hasSuperBuilder, islombokSuperBuilderPresent);
+        Assert.assertEquals(hasNonNull, islombokNonNullPresent);
     }
 
-    private Object[] modelWithProps() {
-//        public void testLombokImports(CodegenModel codegenModel, boolean hasBuilder, boolean hasSuperBuilder, boolean hasNonNull) {
-
+    @DataProvider(name = "modelWithProps")
+    private Object[][] modelWithProps() {
         CodegenModel modelWithParent = new CodegenModel();
+        modelWithParent.setVars(Collections.singletonList(new CodegenProperty()));
         modelWithParent.setParent("someParent");
 
-        return new Object[]{
-                new Object[] {modelWithParent, false, true, false}
+        CodegenModel modelWithRequiredProperty = new CodegenModel();
+        CodegenProperty requiredProperty = new CodegenProperty();
+        requiredProperty.setRequired(true);
+        modelWithRequiredProperty.setVars(Collections.singletonList(requiredProperty));
+
+        CodegenModel modelWithNullableProperty = new CodegenModel();
+        CodegenProperty nullableProperty = new CodegenProperty();
+        nullableProperty.setRequired(false);
+        modelWithNullableProperty.setVars(Collections.singletonList(nullableProperty));
+
+        return new Object[][] {
+                new Object[]{modelWithParent, false, true, false},
+                new Object[]{modelWithRequiredProperty, true, false, true},
+                new Object[]{modelWithNullableProperty, true, false, false},
         };
     }
+
+    @Test
+    public void lombokImportsWithoutModelProperties() {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
+        codegen.additionalProperties().put(SpringCodegen.BASE_PACKAGE, "xyz.yyyyy.bbbb.base");
+        codegen.additionalProperties().put(SpringCodegen.CONFIG_PACKAGE, "xyz.yyyyy.cccc.config");
+        codegen.additionalProperties().put(SpringCodegen.SERVER_PORT, "8088");
+        codegen.additionalProperties().put(SpringCodegen.IS_LOMBOK_MODEL, true);
+        codegen.processOpts();
+
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
+        openAPI.setInfo(new Info());
+        openAPI.getInfo().setTitle("Some test API");
+        codegen.preprocessOpenAPI(openAPI);
+
+        CodegenModel codegenModel = new CodegenModel();
+        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokGetter")));
+        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokAllArgsConstructor")));
+        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokEqualsAndHashCode")));
+        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokToString")));
+        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokSuperBuilder")));
+        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokBuilder")));
+        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokNonNull")));
+    }
+
 
     @Test
     public void interfaceDefaultImplDisableWithReponseWrapper() {
@@ -236,7 +281,7 @@ public class SpringCodegenTest {
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
 
-        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/PonyApi.java",  "@RequestParam");
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/PonyApi.java", "@RequestParam");
     }
 
     @Test
@@ -408,14 +453,14 @@ public class SpringCodegenTest {
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
 
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/MonkeysApi.java",  "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java",  "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java",  "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/BearsApi.java",  "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java",  "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/PandasApi.java",  "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/CrocodilesApi.java",  "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/PolarBearsApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/MonkeysApi.java", "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java", "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java", "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/BearsApi.java", "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java", "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/PandasApi.java", "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/CrocodilesApi.java", "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/PolarBearsApi.java", "@RequestParam");
 
     }
 
@@ -445,7 +490,7 @@ public class SpringCodegenTest {
         codegen.cliOptions()
                 .stream()
                 .collect(groupingBy(CliOption::getOpt))
-                .forEach((k,v) -> assertEquals(v.size(), 1, k + " is described multiple times"));
+                .forEach((k, v) -> assertEquals(v.size(), 1, k + " is described multiple times"));
     }
 
     @Test
@@ -521,37 +566,37 @@ public class SpringCodegenTest {
 
     @Test
     public void useBeanValidationTruePerformBeanValidationFalseJava8TrueForFormatEmail() throws IOException {
-      beanValidationForFormatEmail(true, false, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+        beanValidationForFormatEmail(true, false, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
 
     @Test
     public void useBeanValidationTruePerformBeanValidationTrueJava8TrueForFormatEmail() throws IOException {
-      beanValidationForFormatEmail(true, true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+        beanValidationForFormatEmail(true, true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
 
     private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, boolean java8, String contains, String notContains) throws IOException {
-      File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-      output.deleteOnExit();
-      String outputPath = output.getAbsolutePath().replace('\\', '/');
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
 
-      OpenAPI openAPI = new OpenAPIParser()
-              .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_4876_format_email.yaml", null, new ParseOptions()).getOpenAPI();
 
-      SpringCodegen codegen = new SpringCodegen();
-      codegen.setOutputDir(output.getAbsolutePath());
-      codegen.setUseBeanValidation(useBeanValidation);
-      codegen.setPerformBeanValidation(performBeanValidation);
-      codegen.setJava8(java8);
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseBeanValidation(useBeanValidation);
+        codegen.setPerformBeanValidation(performBeanValidation);
+        codegen.setJava8(java8);
 
-      ClientOptInput input = new ClientOptInput();
-      input.openAPI(openAPI);
-      input.config(codegen);
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
 
-      MockDefaultGenerator generator = new MockDefaultGenerator();
-      generator.opts(input).generate();
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
 
-      checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", contains);
-      checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", notContains);
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", contains);
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java", notContains);
     }
 
     @Test
