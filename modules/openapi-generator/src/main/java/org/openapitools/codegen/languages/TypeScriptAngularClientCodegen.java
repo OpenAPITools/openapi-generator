@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.base.CaseFormat;
+
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -55,18 +57,21 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String FILE_NAMING = "fileNaming";
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
+    public static final String BASE_PATH_NAME = "basePathName";
+    public static final String BASE_PATH_NAME_CAMEL_CASE = "basePathNameCamelCase";
 
     protected String ngVersion = "9.0.0";
     protected String npmRepository = null;
-    private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
     protected String modelSuffix = "";
     protected String modelFileSuffix = "";
     protected String fileNaming = "camelCase";
     protected Boolean stringEnums = false;
+    protected String basePathName = "BASE_PATH";
 
     private boolean taggedUnions = false;
+    private boolean useSingleRequestParameter = false;
 
     public TypeScriptAngularClientCodegen() {
         super();
@@ -109,6 +114,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
+        this.cliOptions.add(new CliOption(BASE_PATH_NAME, "The base path name.").defaultValue(this.basePathName));
     }
 
     @Override
@@ -234,9 +240,18 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(FILE_NAMING)) {
             this.setFileNaming(additionalProperties.get(FILE_NAMING).toString());
         }
-
+       
         if (isEnumSuffixV4Compat) {
             applyEnumSuffixV4CompatMode();
+        }
+
+        if (additionalProperties.containsKey(BASE_PATH_NAME)) {
+            String  value = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, additionalProperties.get(BASE_PATH_NAME).toString());
+            additionalProperties.put(BASE_PATH_NAME_CAMEL_CASE,value);
+        } else{
+            additionalProperties.put(BASE_PATH_NAME, this.basePathName);
+            String  value = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, additionalProperties.get(BASE_PATH_NAME).toString());
+            additionalProperties.put(BASE_PATH_NAME_CAMEL_CASE,value);
         }
     }
 

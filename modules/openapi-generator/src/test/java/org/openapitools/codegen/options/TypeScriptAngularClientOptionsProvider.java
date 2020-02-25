@@ -46,7 +46,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
     public static String SERVICE_FILE_SUFFIX = ".service";
     public static String MODEL_SUFFIX = "";
     public static String MODEL_FILE_SUFFIX = "";
-
+    public static String BASE_PATH_NAME = "BASE_PATH";
     @Override
     public String getLanguage() {
         return "typescript-angular";
@@ -81,6 +81,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(TypeScriptAngularClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)
+                .put(TypeScriptAngularClientCodegen.BASE_PATH_NAME, BASE_PATH_NAME )
                 .build();
     }
 

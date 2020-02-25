@@ -27,7 +27,7 @@ import '../rxjs-operators';
 import { {{classname}} } from '../model/models';
 {{/imports}}
 
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
+import { {{basePathName}}, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 {{#withInterfaces}}
 import {
@@ -84,7 +84,7 @@ export class {{classname}} {
     public encoder: QueryEncoder;
 {{/useHttpClient}}
 
-    constructor(protected {{#useHttpClient}}httpClient: HttpClient{{/useHttpClient}}{{^useHttpClient}}http: Http{{/useHttpClient}}, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+    constructor(protected {{#useHttpClient}}httpClient: HttpClient{{/useHttpClient}}{{^useHttpClient}}http: Http{{/useHttpClient}}, @Optional()@Inject({{basePathName}}) basePath: string, @Optional() configuration: Configuration) {
         if (configuration) {
             this.configuration = configuration;
         }
