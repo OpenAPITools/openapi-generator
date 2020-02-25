@@ -6,7 +6,7 @@ sidebar_label: mysql-schema
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |defaultDatabaseName|Default database name for all MySQL queries| ||
-|identifierNamingConvention|Naming convention of MySQL identifiers(table names and column names). This is not related to database name which is defined by defaultDatabaseName option|<dl><dt>**original**</dt><dd>Do not transform original names</dd><dt>**snake_case**</dt><dd>Use snake_case names</dd><dl>|original|
+|identifierNamingConvention|Naming convention of MySQL identifiers(table names and column names). This is not related to database name which is defined by defaultDatabaseName option|<dl><dt>**original**</dt><dd>Do not transform original names</dd><dt>**snake_case**</dt><dd>Use snake_case names</dd></dl>|original|
 |jsonDataTypeEnabled|Use special JSON MySQL data type for complex model properties. Requires MySQL version 5.7.8. Generates TEXT data type when disabled| |true|
 
 ## IMPORT MAPPING
@@ -23,7 +23,8 @@ sidebar_label: mysql-schema
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>BigDecimal</li>
+<ul class="column-ul">
+<li>BigDecimal</li>
 <li>ByteArray</li>
 <li>Date</li>
 <li>DateTime</li>
@@ -50,7 +51,8 @@ sidebar_label: mysql-schema
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>accessible</li>
+<ul class="column-ul">
+<li>accessible</li>
 <li>add</li>
 <li>all</li>
 <li>alter</li>

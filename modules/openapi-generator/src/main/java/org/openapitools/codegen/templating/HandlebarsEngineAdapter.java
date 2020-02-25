@@ -90,7 +90,7 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
             } catch (Exception ignored) {
             }
         }
-        throw new RuntimeException("couldnt find a subtemplate " + templateFile);
+        throw new TemplateNotFoundException(templateFile);
     }
 
     @Override

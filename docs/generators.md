@@ -37,6 +37,7 @@ The following generators are available:
 * [javascript-flowtyped](generators/javascript-flowtyped.md)  
 * [jaxrs-cxf-client](generators/jaxrs-cxf-client.md)  
 * [jmeter](generators/jmeter.md)  
+* [k6 (beta)](generators/k6.md)  
 * [kotlin](generators/kotlin.md)  
 * [lua](generators/lua.md)  
 * [nim (beta)](generators/nim.md)  

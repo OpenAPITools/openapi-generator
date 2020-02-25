@@ -49,6 +49,11 @@ dependencies {
     {{#gson}}
     compile "com.google.code.gson:gson:2.8.6"
     {{/gson}}
+    {{#jackson}}
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.10.2"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.10.2"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.2"
+    {{/jackson}}
     {{#jvm-okhttp3}}
     compile "com.squareup.okhttp3:okhttp:3.12.6"
     {{/jvm-okhttp3}}

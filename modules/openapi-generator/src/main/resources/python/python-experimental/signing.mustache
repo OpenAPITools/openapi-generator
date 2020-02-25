@@ -7,13 +7,12 @@ from Crypto.IO import PEM, PKCS8
 from Crypto.Hash import SHA256, SHA512
 from Crypto.PublicKey import RSA, ECC
 from Crypto.Signature import PKCS1_v1_5, pss, DSS
-from datetime import datetime
 from email.utils import formatdate
 import json
 import os
 import re
 from six.moves.urllib.parse import urlencode, urlparse
-from time import mktime
+from time import time
 
 # The constants below define a subset of HTTP headers that can be included in the
 # HTTP signature scheme. Additional headers may be included in the signature.
@@ -228,12 +227,6 @@ class HttpSigningConfiguration(object):
                         "Signing algorithm {0} is not compatible with private key".format(
                             self.signing_algorithm))
 
-    def _get_unix_time(self, ts):
-        """Converts and returns a datetime object to UNIX time, the number of seconds
-           elapsed since January 1, 1970 UTC.
-        """
-        return (ts - datetime(1970, 1, 1)).total_seconds()
-
     def _get_signed_header_info(self, resource_path, method, headers, body, query_params):
         """Build the HTTP headers (name, value) that need to be included in
         the HTTP signature scheme.
@@ -262,15 +255,16 @@ class HttpSigningConfiguration(object):
         if query_params:
             request_target += "?" + urlencode(query_params)
 
-        # Get current time and generate RFC 1123 (HTTP/1.1) date/time string.
-        now = datetime.now()
-        stamp = mktime(now.timetuple())
-        cdate = formatdate(timeval=stamp, localtime=False, usegmt=True)
+        # Get UNIX time, e.g. seconds since epoch, not including leap seconds.
+        now = time()
+        # Format date per RFC 7231 section-7.1.1.2. An example is:
+        # Date: Wed, 21 Oct 2015 07:28:00 GMT
+        cdate = formatdate(timeval=now, localtime=False, usegmt=True)
         # The '(created)' value MUST be a Unix timestamp integer value.
         # Subsecond precision is not supported.
-        created = int(self._get_unix_time(now))
+        created = int(now)
         if self.signature_max_validity is not None:
-            expires = self._get_unix_time(now + self.signature_max_validity)
+            expires = now + self.signature_max_validity.total_seconds()
 
         signed_headers_list = []
         request_headers_dict = {}

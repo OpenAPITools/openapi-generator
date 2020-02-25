@@ -26,7 +26,8 @@ sidebar_label: perl
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>ARRAY</li>
+<ul class="column-ul">
+<li>ARRAY</li>
 <li>DateTime</li>
 <li>HASH</li>
 <li>boolean</li>
@@ -38,7 +39,8 @@ sidebar_label: perl
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>__end__</li>
+<ul class="column-ul">
+<li>__end__</li>
 <li>__file__</li>
 <li>__line__</li>
 <li>__package__</li>

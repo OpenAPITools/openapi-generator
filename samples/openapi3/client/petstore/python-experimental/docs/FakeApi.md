@@ -34,7 +34,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     
@@ -86,7 +86,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = True # bool | Input boolean as post body (optional)
@@ -142,7 +142,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     outer_composite_outer_composite = petstore_api.OuterComposite() # outer_composite.OuterComposite | Input composite as post body (optional)
@@ -198,7 +198,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = 3.4 # float | Input number as post body (optional)
@@ -254,7 +254,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = 'body_example' # str | Input string as post body (optional)
@@ -310,7 +310,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     file_schema_test_class_file_schema_test_class = petstore_api.FileSchemaTestClass() # file_schema_test_class.FileSchemaTestClass | 
@@ -362,7 +362,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     query = 'query_example' # str | 
@@ -418,7 +418,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     client_client = petstore_api.Client() # client.Client | client model
@@ -480,6 +480,7 @@ configuration.password = 'YOUR_PASSWORD'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -571,7 +572,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     enum_header_string_array = ['enum_header_string_array_example'] # [str] | Header parameter enum test (string array) (optional)
@@ -647,6 +648,7 @@ configuration.access_token = 'YOUR_BEARER_TOKEN'
 
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -719,7 +721,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     request_body = {'key': 'request_body_example'} # {str: (str,)} | request body
@@ -772,7 +774,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     param = 'param_example' # str | field1
@@ -829,7 +831,7 @@ import petstore_api
 from pprint import pprint
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     pipe = ['pipe_example'] # [str] | 

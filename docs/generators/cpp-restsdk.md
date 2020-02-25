@@ -11,6 +11,7 @@ sidebar_label: cpp-restsdk
 |generateGMocksForApis|Generate Google Mock classes for APIs.| |null|
 |modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.client.model|
 |packageVersion|C++ package version.| |1.0.0|
+|reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
 
 ## IMPORT MAPPING
 
@@ -33,7 +34,8 @@ sidebar_label: cpp-restsdk
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>bool</li>
+<ul class="column-ul">
+<li>bool</li>
 <li>char</li>
 <li>double</li>
 <li>float</li>
@@ -45,7 +47,8 @@ sidebar_label: cpp-restsdk
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>alignas</li>
+<ul class="column-ul">
+<li>alignas</li>
 <li>alignof</li>
 <li>and</li>
 <li>and_eq</li>

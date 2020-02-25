@@ -30,7 +30,7 @@
     "rxjs": "^6.5.0",
     "tsickle": "^0.35.0",
     "typescript": ">=3.4.0 <3.6.0",
-    "zone.js": "^0.9.1"
+    "zone.js": "^0.10.2"
   },
   "publishConfig": {
     "registry": "https://skimdb.npmjs.com/registry"

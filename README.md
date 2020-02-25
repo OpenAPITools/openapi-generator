@@ -52,10 +52,11 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/docspring.png" width="128" height="128">](https://docspring.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 
-#### Thank you GoDaddy for sponsoring the domain names and Linode for sponsoring the VPS
+#### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS and Checkly for sponsoring the API monitoring
 
 [<img src="https://openapi-generator.tech/img/companies/godaddy.png" width="150">](https://www.godaddy.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [![Linode](https://www.linode.com/media/images/logos/standard/light/linode-logo_standard_light_small.png)](https://www.linode.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRAhEYadUyZYzGUotZiSdXkVMqqLGuohyixLl4eUpUV6pAbUULL" width="150">](https://checklyhq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 
 ## Overview
@@ -63,7 +64,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 |                                | Languages/Frameworks |
 |-|-|
-**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later, .NET Standard 1.3 - 2.0, .NET Core 2.0), **C++** (cpp-restsdk, Qt5, Tizen), **Clojure**, **Dart (1.x, 2.x)**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client, MicroProfile Rest Client), **Kotlin**, **Lua**, **Nim**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types), **Objective-C**, **OCaml**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x, 5.x), **Typescript** (AngularJS, Angular (2.x - 8.x), Aurelia, Axios, Fetch, Inversify, jQuery, Node, Rxjs)
+**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later, .NET Standard 1.3 - 2.0, .NET Core 2.0), **C++** (cpp-restsdk, Qt5, Tizen), **Clojure**, **Dart (1.x, 2.x)**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client, MicroProfile Rest Client), **k6**, **Kotlin**, **Lua**, **Nim**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types), **Objective-C**, **OCaml**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x, 5.x), **Typescript** (AngularJS, Angular (2.x - 8.x), Aurelia, Axios, Fetch, Inversify, jQuery, Node, Rxjs)
 **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, NancyFx), **C++** (Pistache, Restbed, Qt5 QHTTPEngine), **Erlang**, **F#** (Giraffe), **Go** (net/http, Gin), **Haskell** (Servant), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, Jersey, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples), [Vert.x](https://vertx.io/)), **Kotlin** (Spring Boot, Ktor, Vertx), **PHP** (Laravel, Lumen, Slim, Silex, [Symfony](https://symfony.com/), [Zend Expressive](https://github.com/zendframework/zend-expressive)), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** ([Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), [Play](https://www.playframework.com/), Scalatra)
 **API documentation generators** | **HTML**, **Confluence Wiki**, **Asciidoc**
 **Configuration files**          | [**Apache2**](https://httpd.apache.org/)
@@ -601,10 +602,13 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Here](https://developer.here.com/)
 - [IBM](https://www.ibm.com/)
 - [JustStar](https://www.juststarinfo.com)
+- [k6.io](https://k6.io/)
 - [Klarna](https://www.klarna.com/)
 - [Kronsoft Development](https://www.kronsoft.ro/home/)
 - [Kubernetes](https://kubernetes.io)
 - [Linode](https://www.linode.com/)
+- [Logicdrop](https://www.logicdrop.com)
+- [MailSlurp](https://www.mailslurp.com)
 - [Médiavision](https://www.mediavision.fr/)
 - [Metaswitch](https://www.metaswitch.com/)
 - [Myworkout](https://myworkout.com)
@@ -653,6 +657,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2018/10/31 - [A node package wrapper for openapi-generator](https://github.com/HarmoWatch/openapi-generator-cli)
 - 2018/11/03 - [OpenAPI Generator + golang + Flutter でアプリ開発](http://ryuichi111std.hatenablog.com/entry/2018/11/03/214005) by [Ryuichi Daigo](https://github.com/ryuichi111)
 - 2018/11/15 - [基于openapi3.0的yaml文件生成java代码的一次实践](https://blog.csdn.net/yzy199391/article/details/84023982) by [焱魔王](https://me.csdn.net/yzy199391)
+- 2018/11/18 - [Generating PHP library code from OpenAPI](https://lornajane.net/posts/2018/generating-php-library-code-from-openapi) by [Lorna Jane](https://lornajane.net/) at [LORNAJANE Blog](https://lornajane.net/blog)
 - 2018/11/19 - [OpenAPIs are everywhere](https://youtu.be/-lDot4Yn7Dg) by [Jeremie Bresson (Unblu)](https://github.com/jmini) at [EclipseCon Europe 2018](https://www.eclipsecon.org/europe2018)
 - 2018/12/09 - [openapi-generator をカスタマイズする方法](https://qiita.com/watiko/items/0961287c02eac9211572) by [@watiko](https://qiita.com/watiko)
 - 2019/01/03 - [Calling a Swagger service from Apex using openapi-generator](https://lekkimworld.com/2019/01/03/calling-a-swagger-service-from-apex-using-openapi-generator/) by [Mikkel Flindt Heisterberg](https://lekkimworld.com)
@@ -664,6 +669,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019/02/26 - [Building API Services: A Beginner’s Guide](https://medium.com/google-cloud/building-api-services-a-beginners-guide-7274ae4c547f) by [Ratros Y.](https://medium.com/@ratrosy) in [Google Cloud Platofrm Blog](https://medium.com/google-cloud)
 - 2019/02/26 - [Building APIs with OpenAPI: Continued](https://medium.com/@ratrosy/building-apis-with-openapi-continued-5d0faaed32eb) by [Ratros Y.](https://medium.com/@ratrosy) in [Google Cloud Platofrm Blog](https://medium.com/google-cloud)
 - 2019-03-07 - [OpenAPI Generator で Spring Boot と Angular をタイプセーフに繋ぐ](https://qiita.com/chibato/items/e4a748db12409b40c02f) by [Tomofumi Chiba](https://github.com/chibat)
+- 2019-03-16 - [A Quick introduction to manual OpenAPI V3](https://vadosware.io/post/quick-intro-to-manual-openapi-v3/) by [vados](https://github.com/t3hmrman) at [VADOSWARE](https://vadosware.io)
 - 2019-03-25 - [Access any REST service with the SAP S/4HANA Cloud SDK](https://blogs.sap.com/2019/03/25/integrate-sap-s4hana-cloud-sdk-with-open-api/) by [Alexander Duemont](https://people.sap.com/alexander.duemont)
 - 2019-03-25 - [OpenAPI generatorを試してみる](https://qiita.com/amuyikam/items/e8a45daae59c68be0fc8) by [@amuyikam](https://twitter.com/amuyikam)
 - 2019-03-27 - [OpenAPI3を使ってみよう！Go言語でクライアントとスタブの自動生成まで！](https://techblog.zozo.com/entry/openapi3/go) by [@gold_kou](https://twitter.com/gold_kou)
@@ -710,6 +716,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-11-08 - [JHipster beyond CRUD - API-First for Enterprises by Enrico Costanzi](https://www.youtube.com/watch?v=m28JFovKQ20) by [Enrico Costanzi](https://twitter.com/enricocostanzi) at [JHipster Conf 2019 in Paris](https://jhipster-conf.github.io/)
 - 2019-11-11 - [TypeScript REST APIクライアント](https://qiita.com/unhurried/items/7b74f7d3c43545dadd2b) by [@unhurried](https://qiita.com/unhurried)
 - 2019-11-11 - [One Spec to Rule them all - OpenAPI in Action](https://www.youtube.com/watch?v=MMay_nht8ec) by [Andreas Litt](https://github.com/littldr) at [code.talks 2019](https://www.codetalks.com/)
+- 2019-11-13 - [OpenAPI 3.0 Editor And Generator With A Spring Boot Example](https://simply-how.com/design-and-generate-api-code-from-openapi) at [Simply How](https://simply-how.com/)
 - 2019-11-17 - [OpenAPI Generator YouTube playlist](https://www.youtube.com/playlist?list=PLtJyHVMdzfF6fBkOUV5VDVErP23CGgHIy) at [YouTube](https://www.youtube.com)
 - 2019-11-20 - [Introduction to OpenAPI](https://noti.st/lornajane/HvDH7U/introduction-to-openapi) by [Lorna Mitchell](https://twitter.com/lornajane) at [GOTO Copenhagen 2019](https://gotocph.com/2019/)
 - 2019-11-20 - [How to Generate Angular code from OpenAPI specifications](https://dotnetthoughts.net/how-to-generate-angular-code-from-openapi-specifications/) by Anuraj
@@ -717,14 +724,19 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-11-24 - [Accelerate Flutter development with OpenAPI and Dart code generation](https://medium.com/@irinasouthwell_220/accelerate-flutter-development-with-openapi-and-dart-code-generation-1f16f8329a6a) by [Irina Southwell](https://medium.com/@irinasouthwell_220)
 - 2019-11-25 - [openapi-generatorで手軽にスタブサーバとクライアントの生成](https://qiita.com/pochopocho13/items/8db662e1934fb2b408b8) by [@pochopocho13](https://twitter.com/pochopocho13)
 - 2019-11-26 - [CordaCon 2019 Highlights: Braid Server and OpenAPI Generator for Corda Client API’s](https://blog.b9lab.com/cordacon-2019-highlights-braid-server-and-openapi-generator-for-corda-flows-api-s-d24179ccb27c) by [Adel Rustum](https://blog.b9lab.com/@adelrestom) at [B9lab](https://blog.b9lab.com/)
+- 2019-12-03 - [A Road to Less Coding: Auto-Generate APILibrary](https://www.corda.net/blog/a-road-to-less-coding-auto-generate-apilibrary/) at [Corda Blog](https://www.corda.net/blog/)
 - 2019-12-04 - [Angular＋NestJS＋OpenAPI（Swagger）でマイクロサービスを視野に入れた環境を考える](https://qiita.com/teracy55/items/0327c7a170ec772970c6) by [てらしー](https://twitter.com/teracy55)
 - 2019-12-17 - [OpenAPI Generator で OAuth2 アクセストークン発行のコードまで生成してみる](https://www.techscore.com/blog/2019/12/17/openapi-generator-oauth2-accesstoken/) by [TECHSCORE](https://www.techscore.com/blog/)
 - 2019-12-23 - [Use Ada for Your Web Development](https://www.electronicdesign.com/technologies/embedded-revolution/article/21119177/use-ada-for-your-web-development) by [Stephane Carrez](https://github.com/stcarrez)
+- 2019-12-23 - [OpenAPIのスキーマを分割・構造化していく方法](https://gift-tech.co.jp/articles/structured-openapi-schema) by [小飯塚達也](https://github.com/t2h5) at [GiFT, Inc](https://gift-tech.co.jp/)
 - 2020-01-17 - [OpenAPI demo for Pulp 3.0 GA](https://www.youtube.com/watch?v=mFBP-M0ZPfw&t=178s) by [Pulp](https://www.youtube.com/channel/UCI43Ffs4VPDv7awXvvBJfRQ) at [Youtube](https://www.youtube.com/)
 - 2020-01-19 - [Why document a REST API as code?](https://dev.to/rolfstreefkerk/why-document-a-rest-api-as-code-5e7p) by [Rolf Streefkerk](https://github.com/rpstreef) at [DEV Community](https://dev.to)
 - 2020-01-28 - [Get Your Serverless Swagger Back with OpenAPI](https://dev.to/matttyler/get-your-serverless-swagger-back-with-openapi-48gc) by [Matt Tyler](https://dev.to/matttyler)
 - 2020-01-30 - [OpenAPI Generatorへのコントリビュート](https://www.yutaka0m.work/entry/2020/01/30/163905) by [yutaka0m](https://github.com/yutaka0m)
-- 
+- 2020-02-01 - [Using OpenAPI to Maximise Your Pulp 3 Experience](https://fosdem.org/2020/schedule/event/openapi/) by [Dennis Kliban](https://github.com/dkliban/) at [FOSDEM](https://fosdem.org/)
+- 2020-02-07 - [Why you should use OpenAPI for your API design](https://www.youtube.com/watch?v=zhb7vUApLW8&t=927s) by [Nick Van Hoof](https://apiconference.net/speaker/nick-van-hoof/) at [API Conference](https://apiconference.net/)
+- 2020-02-17 - [Rubynetes: using OpenAPI to validate Kubernetes configs](https://www.brightbox.com/blog/2020/02/17/using-openapi-to-validate-kubernetes-configs/) by Neil Wilson at [Brightbox](https://www.brightbox.com/)
+- 2020-02-20 - [Building SDKs for the future](https://devblog.xero.com/building-sdks-for-the-future-b79ff726dfd6) by [Sid Maestre (Xero)](https://twitter.com/sidneyallen)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -862,6 +874,7 @@ Here is a list of template creators:
    * Confluence Wiki: @jhitchcock
  * Configuration
    * Apache2: @stkrwork
+   * k6: @mostafa 
  * Schema
    * Avro: @sgadouar
    * GraphQL: @wing328 [:heart:](https://www.patreon.com/wing328)

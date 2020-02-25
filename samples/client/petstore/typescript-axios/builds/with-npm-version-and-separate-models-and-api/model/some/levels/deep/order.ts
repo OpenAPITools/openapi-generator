@@ -39,10 +39,10 @@ export interface Order {
     quantity?: number;
     /**
      * 
-     * @type {Date}
+     * @type {string}
      * @memberof Order
      */
-    shipDate?: Date;
+    shipDate?: string;
     /**
      * Order Status
      * @type {string}

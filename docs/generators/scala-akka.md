@@ -47,7 +47,8 @@ sidebar_label: scala-akka
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Any</li>
+<ul class="column-ul">
+<li>Any</li>
 <li>Array</li>
 <li>Boolean</li>
 <li>Double</li>
@@ -64,7 +65,8 @@ sidebar_label: scala-akka
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abstract</li>
+<ul class="column-ul">
+<li>abstract</li>
 <li>case</li>
 <li>catch</li>
 <li>class</li>
@@ -199,7 +201,7 @@ sidebar_label: scala-akka
 |BasicAuth|✓|OAS2,OAS3
 |ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
+|BearerToken|✓|OAS3
 |OAuth2_Implicit|✗|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3

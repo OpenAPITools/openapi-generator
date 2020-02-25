@@ -26,7 +26,8 @@ sidebar_label: ada
 
 ## LANGUAGE PRIMITIVES
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>Boolean</li>
+<ul class="column-ul">
+<li>Boolean</li>
 <li>Character</li>
 <li>Integer</li>
 <li>boolean</li>
@@ -38,7 +39,8 @@ sidebar_label: ada
 
 ## RESERVED WORDS
 
-<ul data-columns="2" style="list-style-type: disc;-webkit-columns:2;-moz-columns:2;columns:2;-moz-column-fill:auto;column-fill:auto"><li>abort</li>
+<ul class="column-ul">
+<li>abort</li>
 <li>abs</li>
 <li>abstract</li>
 <li>accept</li>
