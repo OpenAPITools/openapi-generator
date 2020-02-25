@@ -386,8 +386,8 @@ UserAPI_loginUser(apiClient_t *apiClient ,char * username ,char * password)
 
 
     // query parameters
-    char *keyQuery_username;
-    char * valueQuery_username;
+    char *keyQuery_username = NULL;
+    char * valueQuery_username = NULL;
     keyValuePair_t *keyPairQuery_username = 0;
     if (username)
     {
@@ -398,8 +398,8 @@ UserAPI_loginUser(apiClient_t *apiClient ,char * username ,char * password)
     }
 
     // query parameters
-    char *keyQuery_password;
-    char * valueQuery_password;
+    char *keyQuery_password = NULL;
+    char * valueQuery_password = NULL;
     keyValuePair_t *keyPairQuery_password = 0;
     if (password)
     {
@@ -438,12 +438,30 @@ UserAPI_loginUser(apiClient_t *apiClient ,char * username ,char * password)
     list_free(localVarHeaderType);
     
     free(localVarPath);
-    free(keyQuery_username);
-    free(valueQuery_username);
-    keyValuePair_free(keyPairQuery_username);
-    free(keyQuery_password);
-    free(valueQuery_password);
-    keyValuePair_free(keyPairQuery_password);
+    if(keyQuery_username){
+        free(keyQuery_username);
+        keyQuery_username = NULL;
+    }
+    if(valueQuery_username){
+        free(valueQuery_username);
+        valueQuery_username = NULL;
+    }
+    if(keyPairQuery_username){
+        keyValuePair_free(keyPairQuery_username);
+        keyPairQuery_username = NULL;
+    }
+    if(keyQuery_password){
+        free(keyQuery_password);
+        keyQuery_password = NULL;
+    }
+    if(valueQuery_password){
+        free(valueQuery_password);
+        valueQuery_password = NULL;
+    }
+    if(keyPairQuery_password){
+        keyValuePair_free(keyPairQuery_password);
+        keyPairQuery_password = NULL;
+    }
     return elementToReturn;
 end:
     return NULL;

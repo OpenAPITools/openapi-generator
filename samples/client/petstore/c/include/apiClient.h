@@ -11,6 +11,7 @@
 
 typedef struct apiClient_t {
     char *basePath;
+    char *caPath;
     void *dataReceived;
     long response_code;
     list_t *apiKeys;
@@ -24,6 +25,11 @@ typedef struct binary_t
 } binary_t;
 
 apiClient_t* apiClient_create();
+
+apiClient_t* apiClient_create_with_base_path(const char *basePath
+, const char *caPath
+, list_t *apiKeys
+);
 
 void apiClient_free(apiClient_t *apiClient);
 
