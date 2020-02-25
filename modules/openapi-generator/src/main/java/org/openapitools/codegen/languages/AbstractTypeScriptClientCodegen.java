@@ -290,32 +290,30 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             name = "_u";
         }
 
-        // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
-            return name;
-        }
-
         name = getNameUsingModelPropertyNaming(name);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
+        name = toSafeIdentifier(name);
 
         return name;
     }
 
     @Override
     public String toVarName(String name) {
-        name = this.toParamName(name);
-        
-        // if the property name has any breaking characters such as :, ;, . etc.
-        // then wrap the name within single quotes.
-        // my:interface:property: string; => 'my:interface:property': string;
-        if (propertyHasBreakingCharacters(name)) {
-            name = "\'" + name + "\'";
+        name = sanitizeName(name, "[^\\w$]");
+
+        if ("_".equals(name)) {
+            name = "_u";
         }
 
+        name = camelize(name, true);
+        name = toSafeIdentifier(name);
+
+        return name;
+    }
+
+    private String toSafeIdentifier(String name) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
         return name;
     }
 
@@ -542,13 +540,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
-        // method name cannot use reserved keyword or word starting with number, e.g. return or 123return
-        // append _ at the beginning, e.g. _return or _123return
-        if (isReservedWord(operationId) || operationId.matches("^\\d.*")) {
-            return escapeReservedWord(camelize(sanitizeName(operationId), true));
-        }
+        operationId = camelize(sanitizeName(operationId), true);
+        operationId = toSafeIdentifier(operationId);
 
-        return camelize(sanitizeName(operationId), true);
+        return operationId;
     }
 
     public void setModelPropertyNaming(String naming) {
