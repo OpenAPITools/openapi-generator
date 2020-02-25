@@ -30,7 +30,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
@@ -131,7 +131,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         Map<String, CodegenModel> allModels = getAllModels(objs);
 
         // Clean interfaces of ambiguity
-        for (Entry<String, CodegenModel> cm : allModels.entrySet())  {
+        for (Entry<String, CodegenModel> cm : allModels.entrySet()) {
             if (cm.getValue().getInterfaces() != null && !cm.getValue().getInterfaces().isEmpty()) {
                 List<String> newIntf = new ArrayList<String>(cm.getValue().getInterfaces());
 
