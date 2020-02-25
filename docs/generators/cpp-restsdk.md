@@ -11,6 +11,7 @@ sidebar_label: cpp-restsdk
 |generateGMocksForApis|Generate Google Mock classes for APIs.| |null|
 |modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.client.model|
 |packageVersion|C++ package version.| |1.0.0|
+|reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
 
 ## IMPORT MAPPING
 
