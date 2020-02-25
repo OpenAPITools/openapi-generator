@@ -10,8 +10,4 @@ Name | Type | Description | Notes
 **_return** | **Integer** |  |  [optional]
 
 
-## Implemented Interfaces
-
-* Parcelable
-
 

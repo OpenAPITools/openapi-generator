@@ -44,7 +44,7 @@ use JMS\Serializer\Annotation\SerializedName;
 class Pet 
 {
         /**
-     * @var int|null
+     * @var |null
      * @SerializedName("id")
      * @Assert\Type("int")
      * @Type("int")
@@ -52,7 +52,7 @@ class Pet
     protected $id;
 
     /**
-     * @var OpenAPI\Server\Model\Category|null
+     * @var |null
      * @SerializedName("category")
      * @Assert\Type("OpenAPI\Server\Model\Category")
      * @Type("OpenAPI\Server\Model\Category")
@@ -60,7 +60,7 @@ class Pet
     protected $category;
 
     /**
-     * @var string
+     * @var 
      * @SerializedName("name")
      * @Assert\NotNull()
      * @Assert\Type("string")
@@ -69,7 +69,7 @@ class Pet
     protected $name;
 
     /**
-     * @var string[]
+     * @var 
      * @SerializedName("photoUrls")
      * @Assert\NotNull()
      * @Assert\All({
@@ -80,7 +80,7 @@ class Pet
     protected $photoUrls;
 
     /**
-     * @var OpenAPI\Server\Model\Tag[]|null
+     * @var |null
      * @SerializedName("tags")
      * @Assert\All({
      *   @Assert\Type("OpenAPI\Server\Model\Tag")
@@ -92,7 +92,7 @@ class Pet
     /**
      * pet status in the store
      *
-     * @var string|null
+     * @var |null
      * @SerializedName("status")
      * @Assert\Choice({ "available", "pending", "sold" })
      * @Assert\Type("string")
@@ -117,7 +117,7 @@ class Pet
     /**
      * Gets id.
      *
-     * @return int|null
+     * @return |null
      */
     public function getId()
     {
@@ -127,7 +127,7 @@ class Pet
     /**
      * Sets id.
      *
-     * @param int|null $id
+     * @param |null $id
      *
      * @return $this
      */
@@ -141,7 +141,7 @@ class Pet
     /**
      * Gets category.
      *
-     * @return OpenAPI\Server\Model\Category|null
+     * @return |null
      */
     public function getCategory()
     {
@@ -151,11 +151,11 @@ class Pet
     /**
      * Sets category.
      *
-     * @param OpenAPI\Server\Model\Category|null $category
+     * @param |null $category
      *
      * @return $this
      */
-    public function setCategory(Category $category = null)
+    public function setCategory($category = null)
     {
         $this->category = $category;
 
@@ -165,7 +165,7 @@ class Pet
     /**
      * Gets name.
      *
-     * @return string
+     * @return 
      */
     public function getName()
     {
@@ -175,7 +175,7 @@ class Pet
     /**
      * Sets name.
      *
-     * @param string $name
+     * @param  $name
      *
      * @return $this
      */
@@ -189,7 +189,7 @@ class Pet
     /**
      * Gets photoUrls.
      *
-     * @return string[]
+     * @return 
      */
     public function getPhotoUrls()
     {
@@ -199,11 +199,11 @@ class Pet
     /**
      * Sets photoUrls.
      *
-     * @param string[] $photoUrls
+     * @param  $photoUrls
      *
      * @return $this
      */
-    public function setPhotoUrls(array $photoUrls)
+    public function setPhotoUrls($photoUrls)
     {
         $this->photoUrls = $photoUrls;
 
@@ -213,7 +213,7 @@ class Pet
     /**
      * Gets tags.
      *
-     * @return OpenAPI\Server\Model\Tag[]|null
+     * @return |null
      */
     public function getTags()
     {
@@ -223,11 +223,11 @@ class Pet
     /**
      * Sets tags.
      *
-     * @param OpenAPI\Server\Model\Tag[]|null $tags
+     * @param |null $tags
      *
      * @return $this
      */
-    public function setTags(array $tags = null)
+    public function setTags($tags = null)
     {
         $this->tags = $tags;
 
@@ -237,7 +237,7 @@ class Pet
     /**
      * Gets status.
      *
-     * @return string|null
+     * @return |null
      */
     public function getStatus()
     {
@@ -247,7 +247,7 @@ class Pet
     /**
      * Sets status.
      *
-     * @param string|null $status  pet status in the store
+     * @param |null $status  pet status in the store
      *
      * @return $this
      */

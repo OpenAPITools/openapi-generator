@@ -226,7 +226,7 @@ where
         match &method {
 
             // Op10Get - GET /op10
-            &hyper::Method::Get if path.matched(paths::ID_OP10) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op10_get(&context)
@@ -260,7 +260,7 @@ where
             },
 
             // Op11Get - GET /op11
-            &hyper::Method::Get if path.matched(paths::ID_OP11) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op11_get(&context)
@@ -294,7 +294,7 @@ where
             },
 
             // Op12Get - GET /op12
-            &hyper::Method::Get if path.matched(paths::ID_OP12) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op12_get(&context)
@@ -328,7 +328,7 @@ where
             },
 
             // Op13Get - GET /op13
-            &hyper::Method::Get if path.matched(paths::ID_OP13) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op13_get(&context)
@@ -362,7 +362,7 @@ where
             },
 
             // Op14Get - GET /op14
-            &hyper::Method::Get if path.matched(paths::ID_OP14) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op14_get(&context)
@@ -396,7 +396,7 @@ where
             },
 
             // Op15Get - GET /op15
-            &hyper::Method::Get if path.matched(paths::ID_OP15) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op15_get(&context)
@@ -430,7 +430,7 @@ where
             },
 
             // Op16Get - GET /op16
-            &hyper::Method::Get if path.matched(paths::ID_OP16) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op16_get(&context)
@@ -464,7 +464,7 @@ where
             },
 
             // Op17Get - GET /op17
-            &hyper::Method::Get if path.matched(paths::ID_OP17) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op17_get(&context)
@@ -498,7 +498,7 @@ where
             },
 
             // Op18Get - GET /op18
-            &hyper::Method::Get if path.matched(paths::ID_OP18) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op18_get(&context)
@@ -532,7 +532,7 @@ where
             },
 
             // Op19Get - GET /op19
-            &hyper::Method::Get if path.matched(paths::ID_OP19) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op19_get(&context)
@@ -566,7 +566,7 @@ where
             },
 
             // Op1Get - GET /op1
-            &hyper::Method::Get if path.matched(paths::ID_OP1) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op1_get(&context)
@@ -600,7 +600,7 @@ where
             },
 
             // Op20Get - GET /op20
-            &hyper::Method::Get if path.matched(paths::ID_OP20) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op20_get(&context)
@@ -634,7 +634,7 @@ where
             },
 
             // Op21Get - GET /op21
-            &hyper::Method::Get if path.matched(paths::ID_OP21) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op21_get(&context)
@@ -668,7 +668,7 @@ where
             },
 
             // Op22Get - GET /op22
-            &hyper::Method::Get if path.matched(paths::ID_OP22) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op22_get(&context)
@@ -702,7 +702,7 @@ where
             },
 
             // Op23Get - GET /op23
-            &hyper::Method::Get if path.matched(paths::ID_OP23) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op23_get(&context)
@@ -736,7 +736,7 @@ where
             },
 
             // Op24Get - GET /op24
-            &hyper::Method::Get if path.matched(paths::ID_OP24) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op24_get(&context)
@@ -770,7 +770,7 @@ where
             },
 
             // Op25Get - GET /op25
-            &hyper::Method::Get if path.matched(paths::ID_OP25) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op25_get(&context)
@@ -804,7 +804,7 @@ where
             },
 
             // Op26Get - GET /op26
-            &hyper::Method::Get if path.matched(paths::ID_OP26) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op26_get(&context)
@@ -838,7 +838,7 @@ where
             },
 
             // Op27Get - GET /op27
-            &hyper::Method::Get if path.matched(paths::ID_OP27) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op27_get(&context)
@@ -872,7 +872,7 @@ where
             },
 
             // Op28Get - GET /op28
-            &hyper::Method::Get if path.matched(paths::ID_OP28) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op28_get(&context)
@@ -906,7 +906,7 @@ where
             },
 
             // Op29Get - GET /op29
-            &hyper::Method::Get if path.matched(paths::ID_OP29) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op29_get(&context)
@@ -940,7 +940,7 @@ where
             },
 
             // Op2Get - GET /op2
-            &hyper::Method::Get if path.matched(paths::ID_OP2) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op2_get(&context)
@@ -974,7 +974,7 @@ where
             },
 
             // Op30Get - GET /op30
-            &hyper::Method::Get if path.matched(paths::ID_OP30) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op30_get(&context)
@@ -1008,7 +1008,7 @@ where
             },
 
             // Op31Get - GET /op31
-            &hyper::Method::Get if path.matched(paths::ID_OP31) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op31_get(&context)
@@ -1042,7 +1042,7 @@ where
             },
 
             // Op32Get - GET /op32
-            &hyper::Method::Get if path.matched(paths::ID_OP32) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op32_get(&context)
@@ -1076,7 +1076,7 @@ where
             },
 
             // Op33Get - GET /op33
-            &hyper::Method::Get if path.matched(paths::ID_OP33) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op33_get(&context)
@@ -1110,7 +1110,7 @@ where
             },
 
             // Op34Get - GET /op34
-            &hyper::Method::Get if path.matched(paths::ID_OP34) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op34_get(&context)
@@ -1144,7 +1144,7 @@ where
             },
 
             // Op35Get - GET /op35
-            &hyper::Method::Get if path.matched(paths::ID_OP35) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op35_get(&context)
@@ -1178,7 +1178,7 @@ where
             },
 
             // Op36Get - GET /op36
-            &hyper::Method::Get if path.matched(paths::ID_OP36) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op36_get(&context)
@@ -1212,7 +1212,7 @@ where
             },
 
             // Op37Get - GET /op37
-            &hyper::Method::Get if path.matched(paths::ID_OP37) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op37_get(&context)
@@ -1246,7 +1246,7 @@ where
             },
 
             // Op3Get - GET /op3
-            &hyper::Method::Get if path.matched(paths::ID_OP3) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op3_get(&context)
@@ -1280,7 +1280,7 @@ where
             },
 
             // Op4Get - GET /op4
-            &hyper::Method::Get if path.matched(paths::ID_OP4) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op4_get(&context)
@@ -1314,7 +1314,7 @@ where
             },
 
             // Op5Get - GET /op5
-            &hyper::Method::Get if path.matched(paths::ID_OP5) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op5_get(&context)
@@ -1348,7 +1348,7 @@ where
             },
 
             // Op6Get - GET /op6
-            &hyper::Method::Get if path.matched(paths::ID_OP6) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op6_get(&context)
@@ -1382,7 +1382,7 @@ where
             },
 
             // Op7Get - GET /op7
-            &hyper::Method::Get if path.matched(paths::ID_OP7) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op7_get(&context)
@@ -1416,7 +1416,7 @@ where
             },
 
             // Op8Get - GET /op8
-            &hyper::Method::Get if path.matched(paths::ID_OP8) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op8_get(&context)
@@ -1450,7 +1450,7 @@ where
             },
 
             // Op9Get - GET /op9
-            &hyper::Method::Get if path.matched(paths::ID_OP9) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.op9_get(&context)
@@ -1507,115 +1507,115 @@ impl RequestParser for ApiRequestParser {
         match request.method() {
 
             // Op10Get - GET /op10
-            &hyper::Method::Get if path.matched(paths::ID_OP10) => Ok("Op10Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op10Get"),
 
             // Op11Get - GET /op11
-            &hyper::Method::Get if path.matched(paths::ID_OP11) => Ok("Op11Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op11Get"),
 
             // Op12Get - GET /op12
-            &hyper::Method::Get if path.matched(paths::ID_OP12) => Ok("Op12Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op12Get"),
 
             // Op13Get - GET /op13
-            &hyper::Method::Get if path.matched(paths::ID_OP13) => Ok("Op13Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op13Get"),
 
             // Op14Get - GET /op14
-            &hyper::Method::Get if path.matched(paths::ID_OP14) => Ok("Op14Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op14Get"),
 
             // Op15Get - GET /op15
-            &hyper::Method::Get if path.matched(paths::ID_OP15) => Ok("Op15Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op15Get"),
 
             // Op16Get - GET /op16
-            &hyper::Method::Get if path.matched(paths::ID_OP16) => Ok("Op16Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op16Get"),
 
             // Op17Get - GET /op17
-            &hyper::Method::Get if path.matched(paths::ID_OP17) => Ok("Op17Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op17Get"),
 
             // Op18Get - GET /op18
-            &hyper::Method::Get if path.matched(paths::ID_OP18) => Ok("Op18Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op18Get"),
 
             // Op19Get - GET /op19
-            &hyper::Method::Get if path.matched(paths::ID_OP19) => Ok("Op19Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op19Get"),
 
             // Op1Get - GET /op1
-            &hyper::Method::Get if path.matched(paths::ID_OP1) => Ok("Op1Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op1Get"),
 
             // Op20Get - GET /op20
-            &hyper::Method::Get if path.matched(paths::ID_OP20) => Ok("Op20Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op20Get"),
 
             // Op21Get - GET /op21
-            &hyper::Method::Get if path.matched(paths::ID_OP21) => Ok("Op21Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op21Get"),
 
             // Op22Get - GET /op22
-            &hyper::Method::Get if path.matched(paths::ID_OP22) => Ok("Op22Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op22Get"),
 
             // Op23Get - GET /op23
-            &hyper::Method::Get if path.matched(paths::ID_OP23) => Ok("Op23Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op23Get"),
 
             // Op24Get - GET /op24
-            &hyper::Method::Get if path.matched(paths::ID_OP24) => Ok("Op24Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op24Get"),
 
             // Op25Get - GET /op25
-            &hyper::Method::Get if path.matched(paths::ID_OP25) => Ok("Op25Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op25Get"),
 
             // Op26Get - GET /op26
-            &hyper::Method::Get if path.matched(paths::ID_OP26) => Ok("Op26Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op26Get"),
 
             // Op27Get - GET /op27
-            &hyper::Method::Get if path.matched(paths::ID_OP27) => Ok("Op27Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op27Get"),
 
             // Op28Get - GET /op28
-            &hyper::Method::Get if path.matched(paths::ID_OP28) => Ok("Op28Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op28Get"),
 
             // Op29Get - GET /op29
-            &hyper::Method::Get if path.matched(paths::ID_OP29) => Ok("Op29Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op29Get"),
 
             // Op2Get - GET /op2
-            &hyper::Method::Get if path.matched(paths::ID_OP2) => Ok("Op2Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op2Get"),
 
             // Op30Get - GET /op30
-            &hyper::Method::Get if path.matched(paths::ID_OP30) => Ok("Op30Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op30Get"),
 
             // Op31Get - GET /op31
-            &hyper::Method::Get if path.matched(paths::ID_OP31) => Ok("Op31Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op31Get"),
 
             // Op32Get - GET /op32
-            &hyper::Method::Get if path.matched(paths::ID_OP32) => Ok("Op32Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op32Get"),
 
             // Op33Get - GET /op33
-            &hyper::Method::Get if path.matched(paths::ID_OP33) => Ok("Op33Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op33Get"),
 
             // Op34Get - GET /op34
-            &hyper::Method::Get if path.matched(paths::ID_OP34) => Ok("Op34Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op34Get"),
 
             // Op35Get - GET /op35
-            &hyper::Method::Get if path.matched(paths::ID_OP35) => Ok("Op35Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op35Get"),
 
             // Op36Get - GET /op36
-            &hyper::Method::Get if path.matched(paths::ID_OP36) => Ok("Op36Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op36Get"),
 
             // Op37Get - GET /op37
-            &hyper::Method::Get if path.matched(paths::ID_OP37) => Ok("Op37Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op37Get"),
 
             // Op3Get - GET /op3
-            &hyper::Method::Get if path.matched(paths::ID_OP3) => Ok("Op3Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op3Get"),
 
             // Op4Get - GET /op4
-            &hyper::Method::Get if path.matched(paths::ID_OP4) => Ok("Op4Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op4Get"),
 
             // Op5Get - GET /op5
-            &hyper::Method::Get if path.matched(paths::ID_OP5) => Ok("Op5Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op5Get"),
 
             // Op6Get - GET /op6
-            &hyper::Method::Get if path.matched(paths::ID_OP6) => Ok("Op6Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op6Get"),
 
             // Op7Get - GET /op7
-            &hyper::Method::Get if path.matched(paths::ID_OP7) => Ok("Op7Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op7Get"),
 
             // Op8Get - GET /op8
-            &hyper::Method::Get if path.matched(paths::ID_OP8) => Ok("Op8Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op8Get"),
 
             // Op9Get - GET /op9
-            &hyper::Method::Get if path.matched(paths::ID_OP9) => Ok("Op9Get"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("Op9Get"),
             _ => Err(()),
         }
     }

@@ -22,7 +22,7 @@ class AdditionalPropertiesObject {
     /**
      * Constructs a new <code>AdditionalPropertiesObject</code>.
      * @alias module:model/AdditionalPropertiesObject
-     * @extends Object
+     * @extends 
      */
     constructor() { 
         
@@ -48,7 +48,7 @@ class AdditionalPropertiesObject {
         if (data) {
             obj = obj || new AdditionalPropertiesObject();
 
-            ApiClient.constructFromObject(data, obj, 'Object');
+            ApiClient.constructFromObject(data, obj, '');
             
 
             if (data.hasOwnProperty('name')) {

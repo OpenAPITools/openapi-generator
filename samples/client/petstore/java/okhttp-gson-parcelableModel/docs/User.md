@@ -16,8 +16,4 @@ Name | Type | Description | Notes
 **userStatus** | **Integer** | User Status |  [optional]
 
 
-## Implemented Interfaces
-
-* Parcelable
-
 

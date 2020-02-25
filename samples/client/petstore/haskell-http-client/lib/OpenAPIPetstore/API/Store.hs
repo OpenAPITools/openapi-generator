@@ -55,29 +55,28 @@ import qualified Prelude as P
 -- * Operations
 
 
--- ** Store
-
 -- *** deleteOrder
 
--- | @DELETE \/store\/order\/{order_id}@
+-- | @@
 -- 
 -- Delete purchase order by ID
 -- 
 -- For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 -- 
 deleteOrder 
-  :: OrderIdText -- ^ "orderId" -  ID of the order that needs to be deleted
-  -> OpenAPIPetstoreRequest DeleteOrder MimeNoContent NoContent MimeNoContent
-deleteOrder (OrderIdText orderId) =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> Text -- ^ "orderId" -  ID of the order that needs to be deleted
+  -> OpenAPIPetstoreRequest  contentType  accept
+deleteOrder _  _ ( orderId) =
   _mkRequest "DELETE" ["/store/order/",toPath orderId]
 
-data DeleteOrder  
-instance Produces DeleteOrder MimeNoContent
+data   
+instance Produces  MimeNoContent
 
 
 -- *** getInventory
 
--- | @GET \/store\/inventory@
+-- | @@
 -- 
 -- Returns pet inventories by status
 -- 
@@ -86,19 +85,20 @@ instance Produces DeleteOrder MimeNoContent
 -- AuthMethod: 'AuthApiKeyApiKey'
 -- 
 getInventory 
-  :: OpenAPIPetstoreRequest GetInventory MimeNoContent ((Map.Map String Int)) MimeJSON
-getInventory =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> OpenAPIPetstoreRequest  contentType  accept
+getInventory _  _ =
   _mkRequest "GET" ["/store/inventory"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyApiKey)
 
-data GetInventory  
+data   
 -- | @application/json@
-instance Produces GetInventory MimeJSON
+instance Produces  MimeJSON
 
 
 -- *** getOrderById
 
--- | @GET \/store\/order\/{order_id}@
+-- | @@
 -- 
 -- Find purchase order by ID
 -- 
@@ -106,44 +106,38 @@ instance Produces GetInventory MimeJSON
 -- 
 getOrderById 
   :: Accept accept -- ^ request accept ('MimeType')
-  -> OrderId -- ^ "orderId" -  ID of pet that needs to be fetched
-  -> OpenAPIPetstoreRequest GetOrderById MimeNoContent Order accept
-getOrderById  _ (OrderId orderId) =
+  -> Integer -- ^ "orderId" -  ID of pet that needs to be fetched
+  -> OpenAPIPetstoreRequest  contentType  accept
+getOrderById _  _ ( orderId) =
   _mkRequest "GET" ["/store/order/",toPath orderId]
 
-data GetOrderById  
+data   
 -- | @application/xml@
-instance Produces GetOrderById MimeXML
+instance Produces  MimeXML
 -- | @application/json@
-instance Produces GetOrderById MimeJSON
+instance Produces  MimeJSON
 
 
 -- *** placeOrder
 
--- | @POST \/store\/order@
+-- | @@
 -- 
 -- Place an order for a pet
 -- 
 placeOrder 
-  :: (Consumes PlaceOrder contentType, MimeRender contentType Order)
-  => ContentType contentType -- ^ request content-type ('MimeType')
-  -> Accept accept -- ^ request accept ('MimeType')
+  :: Accept accept -- ^ request accept ('MimeType')
   -> Order -- ^ "body" -  order placed for purchasing the pet
-  -> OpenAPIPetstoreRequest PlaceOrder contentType Order accept
+  -> OpenAPIPetstoreRequest  contentType  accept
 placeOrder _  _ body =
   _mkRequest "POST" ["/store/order"]
     `setBodyParam` body
 
-data PlaceOrder 
+data  
 
 -- | /Body Param/ "body" - order placed for purchasing the pet
-instance HasBodyParam PlaceOrder Order 
-    
--- | @*/*@
-instance MimeType mtype => Consumes PlaceOrder mtype
-
+instance HasBodyParam  Order 
 -- | @application/xml@
-instance Produces PlaceOrder MimeXML
+instance Produces  MimeXML
 -- | @application/json@
-instance Produces PlaceOrder MimeJSON
+instance Produces  MimeJSON
 

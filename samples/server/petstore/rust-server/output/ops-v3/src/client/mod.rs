@@ -281,7 +281,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op10_get(&self, context: &C) -> Box<dyn Future<Item=Op10GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op10",
+            "{}",
             self.base_path
         );
 
@@ -342,7 +342,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op11_get(&self, context: &C) -> Box<dyn Future<Item=Op11GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op11",
+            "{}",
             self.base_path
         );
 
@@ -403,7 +403,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op12_get(&self, context: &C) -> Box<dyn Future<Item=Op12GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op12",
+            "{}",
             self.base_path
         );
 
@@ -464,7 +464,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op13_get(&self, context: &C) -> Box<dyn Future<Item=Op13GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op13",
+            "{}",
             self.base_path
         );
 
@@ -525,7 +525,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op14_get(&self, context: &C) -> Box<dyn Future<Item=Op14GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op14",
+            "{}",
             self.base_path
         );
 
@@ -586,7 +586,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op15_get(&self, context: &C) -> Box<dyn Future<Item=Op15GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op15",
+            "{}",
             self.base_path
         );
 
@@ -647,7 +647,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op16_get(&self, context: &C) -> Box<dyn Future<Item=Op16GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op16",
+            "{}",
             self.base_path
         );
 
@@ -708,7 +708,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op17_get(&self, context: &C) -> Box<dyn Future<Item=Op17GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op17",
+            "{}",
             self.base_path
         );
 
@@ -769,7 +769,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op18_get(&self, context: &C) -> Box<dyn Future<Item=Op18GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op18",
+            "{}",
             self.base_path
         );
 
@@ -830,7 +830,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op19_get(&self, context: &C) -> Box<dyn Future<Item=Op19GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op19",
+            "{}",
             self.base_path
         );
 
@@ -891,7 +891,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op1_get(&self, context: &C) -> Box<dyn Future<Item=Op1GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op1",
+            "{}",
             self.base_path
         );
 
@@ -952,7 +952,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op20_get(&self, context: &C) -> Box<dyn Future<Item=Op20GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op20",
+            "{}",
             self.base_path
         );
 
@@ -1013,7 +1013,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op21_get(&self, context: &C) -> Box<dyn Future<Item=Op21GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op21",
+            "{}",
             self.base_path
         );
 
@@ -1074,7 +1074,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op22_get(&self, context: &C) -> Box<dyn Future<Item=Op22GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op22",
+            "{}",
             self.base_path
         );
 
@@ -1135,7 +1135,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op23_get(&self, context: &C) -> Box<dyn Future<Item=Op23GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op23",
+            "{}",
             self.base_path
         );
 
@@ -1196,7 +1196,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op24_get(&self, context: &C) -> Box<dyn Future<Item=Op24GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op24",
+            "{}",
             self.base_path
         );
 
@@ -1257,7 +1257,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op25_get(&self, context: &C) -> Box<dyn Future<Item=Op25GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op25",
+            "{}",
             self.base_path
         );
 
@@ -1318,7 +1318,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op26_get(&self, context: &C) -> Box<dyn Future<Item=Op26GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op26",
+            "{}",
             self.base_path
         );
 
@@ -1379,7 +1379,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op27_get(&self, context: &C) -> Box<dyn Future<Item=Op27GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op27",
+            "{}",
             self.base_path
         );
 
@@ -1440,7 +1440,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op28_get(&self, context: &C) -> Box<dyn Future<Item=Op28GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op28",
+            "{}",
             self.base_path
         );
 
@@ -1501,7 +1501,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op29_get(&self, context: &C) -> Box<dyn Future<Item=Op29GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op29",
+            "{}",
             self.base_path
         );
 
@@ -1562,7 +1562,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op2_get(&self, context: &C) -> Box<dyn Future<Item=Op2GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op2",
+            "{}",
             self.base_path
         );
 
@@ -1623,7 +1623,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op30_get(&self, context: &C) -> Box<dyn Future<Item=Op30GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op30",
+            "{}",
             self.base_path
         );
 
@@ -1684,7 +1684,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op31_get(&self, context: &C) -> Box<dyn Future<Item=Op31GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op31",
+            "{}",
             self.base_path
         );
 
@@ -1745,7 +1745,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op32_get(&self, context: &C) -> Box<dyn Future<Item=Op32GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op32",
+            "{}",
             self.base_path
         );
 
@@ -1806,7 +1806,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op33_get(&self, context: &C) -> Box<dyn Future<Item=Op33GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op33",
+            "{}",
             self.base_path
         );
 
@@ -1867,7 +1867,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op34_get(&self, context: &C) -> Box<dyn Future<Item=Op34GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op34",
+            "{}",
             self.base_path
         );
 
@@ -1928,7 +1928,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op35_get(&self, context: &C) -> Box<dyn Future<Item=Op35GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op35",
+            "{}",
             self.base_path
         );
 
@@ -1989,7 +1989,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op36_get(&self, context: &C) -> Box<dyn Future<Item=Op36GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op36",
+            "{}",
             self.base_path
         );
 
@@ -2050,7 +2050,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op37_get(&self, context: &C) -> Box<dyn Future<Item=Op37GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op37",
+            "{}",
             self.base_path
         );
 
@@ -2111,7 +2111,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op3_get(&self, context: &C) -> Box<dyn Future<Item=Op3GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op3",
+            "{}",
             self.base_path
         );
 
@@ -2172,7 +2172,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op4_get(&self, context: &C) -> Box<dyn Future<Item=Op4GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op4",
+            "{}",
             self.base_path
         );
 
@@ -2233,7 +2233,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op5_get(&self, context: &C) -> Box<dyn Future<Item=Op5GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op5",
+            "{}",
             self.base_path
         );
 
@@ -2294,7 +2294,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op6_get(&self, context: &C) -> Box<dyn Future<Item=Op6GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op6",
+            "{}",
             self.base_path
         );
 
@@ -2355,7 +2355,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op7_get(&self, context: &C) -> Box<dyn Future<Item=Op7GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op7",
+            "{}",
             self.base_path
         );
 
@@ -2416,7 +2416,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op8_get(&self, context: &C) -> Box<dyn Future<Item=Op8GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op8",
+            "{}",
             self.base_path
         );
 
@@ -2477,7 +2477,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn op9_get(&self, context: &C) -> Box<dyn Future<Item=Op9GetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/op9",
+            "{}",
             self.base_path
         );
 

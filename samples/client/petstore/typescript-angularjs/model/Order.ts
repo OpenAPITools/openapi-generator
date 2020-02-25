@@ -19,7 +19,7 @@ export interface Order {
     "id"?: number;
     "petId"?: number;
     "quantity"?: number;
-    "shipDate"?: string;
+    "shipDate"?: Date;
     /**
      * Order Status
      */

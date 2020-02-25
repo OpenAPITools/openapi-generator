@@ -351,7 +351,7 @@ No authorization required
 
 
 
-For this test, the body for this request much reference a schema named `File`.
+For this test, the body for this request much reference a schema named &#x60;File&#x60;.
 
 ### Example
 
@@ -479,7 +479,7 @@ No authorization required
 
 To test \&quot;client\&quot; model
 
-To test "client" model
+To test \&quot;client\&quot; model
 
 ### Example
 
@@ -544,10 +544,7 @@ No authorization required
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
-Fake endpoint for testing various parameters
- 假端點
- 偽のエンドポイント
- 가짜 엔드 포인트
+Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
 ### Example
 
@@ -719,7 +716,7 @@ No authorization required
 
 ## testGroupParameters
 
-> testGroupParameters().requiredStringGroup(requiredStringGroup).requiredBooleanGroup(requiredBooleanGroup).requiredInt64Group(requiredInt64Group).stringGroup(stringGroup).booleanGroup(booleanGroup).int64Group(int64Group).execute();
+> testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group)
 
 Fake endpoint to test group parameters (optional)
 
@@ -748,14 +745,7 @@ public class Example {
         Boolean booleanGroup = true; // Boolean | Boolean in group parameters
         Long int64Group = 56L; // Long | Integer in group parameters
         try {
-            api.testGroupParameters()
-                .requiredStringGroup(requiredStringGroup)
-                .requiredBooleanGroup(requiredBooleanGroup)
-                .requiredInt64Group(requiredInt64Group)
-                .stringGroup(stringGroup)
-                .booleanGroup(booleanGroup)
-                .int64Group(int64Group)
-                .execute();
+            apiInstance.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testGroupParameters");
             System.err.println("Status code: " + e.getCode());

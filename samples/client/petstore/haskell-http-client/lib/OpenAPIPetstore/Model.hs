@@ -231,7 +231,7 @@ newtype Username = Username { unUsername :: Text } deriving (P.Eq, P.Show)
 -- ** AdditionalPropertiesAnyType
 -- | AdditionalPropertiesAnyType
 data AdditionalPropertiesAnyType = AdditionalPropertiesAnyType
-  { additionalPropertiesAnyTypeName :: !(Maybe Text) -- ^ "name"
+  { additionalPropertiesAnyTypeName :: !(Maybe ) -- ^ "name"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON AdditionalPropertiesAnyType
@@ -259,7 +259,7 @@ mkAdditionalPropertiesAnyType =
 -- ** AdditionalPropertiesArray
 -- | AdditionalPropertiesArray
 data AdditionalPropertiesArray = AdditionalPropertiesArray
-  { additionalPropertiesArrayName :: !(Maybe Text) -- ^ "name"
+  { additionalPropertiesArrayName :: !(Maybe ) -- ^ "name"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON AdditionalPropertiesArray
@@ -287,7 +287,7 @@ mkAdditionalPropertiesArray =
 -- ** AdditionalPropertiesBoolean
 -- | AdditionalPropertiesBoolean
 data AdditionalPropertiesBoolean = AdditionalPropertiesBoolean
-  { additionalPropertiesBooleanName :: !(Maybe Text) -- ^ "name"
+  { additionalPropertiesBooleanName :: !(Maybe ) -- ^ "name"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON AdditionalPropertiesBoolean
@@ -315,17 +315,17 @@ mkAdditionalPropertiesBoolean =
 -- ** AdditionalPropertiesClass
 -- | AdditionalPropertiesClass
 data AdditionalPropertiesClass = AdditionalPropertiesClass
-  { additionalPropertiesClassMapString :: !(Maybe (Map.Map String Text)) -- ^ "map_string"
-  , additionalPropertiesClassMapNumber :: !(Maybe (Map.Map String Double)) -- ^ "map_number"
-  , additionalPropertiesClassMapInteger :: !(Maybe (Map.Map String Int)) -- ^ "map_integer"
-  , additionalPropertiesClassMapBoolean :: !(Maybe (Map.Map String Bool)) -- ^ "map_boolean"
-  , additionalPropertiesClassMapArrayInteger :: !(Maybe (Map.Map String [Int])) -- ^ "map_array_integer"
-  , additionalPropertiesClassMapArrayAnytype :: !(Maybe (Map.Map String [A.Value])) -- ^ "map_array_anytype"
-  , additionalPropertiesClassMapMapString :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_map_string"
-  , additionalPropertiesClassMapMapAnytype :: !(Maybe (Map.Map String (Map.Map String A.Value))) -- ^ "map_map_anytype"
-  , additionalPropertiesClassAnytype1 :: !(Maybe A.Value) -- ^ "anytype_1"
-  , additionalPropertiesClassAnytype2 :: !(Maybe A.Value) -- ^ "anytype_2"
-  , additionalPropertiesClassAnytype3 :: !(Maybe A.Value) -- ^ "anytype_3"
+  { additionalPropertiesClassMapString :: !(Maybe ) -- ^ "map_string"
+  , additionalPropertiesClassMapNumber :: !(Maybe ) -- ^ "map_number"
+  , additionalPropertiesClassMapInteger :: !(Maybe ) -- ^ "map_integer"
+  , additionalPropertiesClassMapBoolean :: !(Maybe ) -- ^ "map_boolean"
+  , additionalPropertiesClassMapArrayInteger :: !(Maybe ) -- ^ "map_array_integer"
+  , additionalPropertiesClassMapArrayAnytype :: !(Maybe ) -- ^ "map_array_anytype"
+  , additionalPropertiesClassMapMapString :: !(Maybe ) -- ^ "map_map_string"
+  , additionalPropertiesClassMapMapAnytype :: !(Maybe ) -- ^ "map_map_anytype"
+  , additionalPropertiesClassAnytype1 :: !(Maybe ) -- ^ "anytype_1"
+  , additionalPropertiesClassAnytype2 :: !(Maybe ) -- ^ "anytype_2"
+  , additionalPropertiesClassAnytype3 :: !(Maybe ) -- ^ "anytype_3"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON AdditionalPropertiesClass
@@ -383,7 +383,7 @@ mkAdditionalPropertiesClass =
 -- ** AdditionalPropertiesInteger
 -- | AdditionalPropertiesInteger
 data AdditionalPropertiesInteger = AdditionalPropertiesInteger
-  { additionalPropertiesIntegerName :: !(Maybe Text) -- ^ "name"
+  { additionalPropertiesIntegerName :: !(Maybe ) -- ^ "name"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON AdditionalPropertiesInteger
@@ -411,7 +411,7 @@ mkAdditionalPropertiesInteger =
 -- ** AdditionalPropertiesNumber
 -- | AdditionalPropertiesNumber
 data AdditionalPropertiesNumber = AdditionalPropertiesNumber
-  { additionalPropertiesNumberName :: !(Maybe Text) -- ^ "name"
+  { additionalPropertiesNumberName :: !(Maybe ) -- ^ "name"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON AdditionalPropertiesNumber
@@ -439,7 +439,7 @@ mkAdditionalPropertiesNumber =
 -- ** AdditionalPropertiesObject
 -- | AdditionalPropertiesObject
 data AdditionalPropertiesObject = AdditionalPropertiesObject
-  { additionalPropertiesObjectName :: !(Maybe Text) -- ^ "name"
+  { additionalPropertiesObjectName :: !(Maybe ) -- ^ "name"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON AdditionalPropertiesObject
@@ -467,7 +467,7 @@ mkAdditionalPropertiesObject =
 -- ** AdditionalPropertiesString
 -- | AdditionalPropertiesString
 data AdditionalPropertiesString = AdditionalPropertiesString
-  { additionalPropertiesStringName :: !(Maybe Text) -- ^ "name"
+  { additionalPropertiesStringName :: !(Maybe ) -- ^ "name"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON AdditionalPropertiesString
@@ -495,8 +495,8 @@ mkAdditionalPropertiesString =
 -- ** Animal
 -- | Animal
 data Animal = Animal
-  { animalClassName :: !(Text) -- ^ /Required/ "className"
-  , animalColor :: !(Maybe Text) -- ^ "color"
+  { animalClassName :: !() -- ^ /Required/ "className"
+  , animalColor :: !(Maybe ) -- ^ "color"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Animal
@@ -517,7 +517,7 @@ instance A.ToJSON Animal where
 
 -- | Construct a value of type 'Animal' (by applying it's required fields, if any)
 mkAnimal
-  :: Text -- ^ 'animalClassName' 
+  ::  -- ^ 'animalClassName' 
   -> Animal
 mkAnimal animalClassName =
   Animal
@@ -528,9 +528,9 @@ mkAnimal animalClassName =
 -- ** ApiResponse
 -- | ApiResponse
 data ApiResponse = ApiResponse
-  { apiResponseCode :: !(Maybe Int) -- ^ "code"
-  , apiResponseType :: !(Maybe Text) -- ^ "type"
-  , apiResponseMessage :: !(Maybe Text) -- ^ "message"
+  { apiResponseCode :: !(Maybe ) -- ^ "code"
+  , apiResponseType :: !(Maybe ) -- ^ "type"
+  , apiResponseMessage :: !(Maybe ) -- ^ "message"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON ApiResponse
@@ -564,7 +564,7 @@ mkApiResponse =
 -- ** ArrayOfArrayOfNumberOnly
 -- | ArrayOfArrayOfNumberOnly
 data ArrayOfArrayOfNumberOnly = ArrayOfArrayOfNumberOnly
-  { arrayOfArrayOfNumberOnlyArrayArrayNumber :: !(Maybe [[Double]]) -- ^ "ArrayArrayNumber"
+  { arrayOfArrayOfNumberOnlyArrayArrayNumber :: !(Maybe ) -- ^ "ArrayArrayNumber"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON ArrayOfArrayOfNumberOnly
@@ -592,7 +592,7 @@ mkArrayOfArrayOfNumberOnly =
 -- ** ArrayOfNumberOnly
 -- | ArrayOfNumberOnly
 data ArrayOfNumberOnly = ArrayOfNumberOnly
-  { arrayOfNumberOnlyArrayNumber :: !(Maybe [Double]) -- ^ "ArrayNumber"
+  { arrayOfNumberOnlyArrayNumber :: !(Maybe ) -- ^ "ArrayNumber"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON ArrayOfNumberOnly
@@ -620,9 +620,9 @@ mkArrayOfNumberOnly =
 -- ** ArrayTest
 -- | ArrayTest
 data ArrayTest = ArrayTest
-  { arrayTestArrayOfString :: !(Maybe [Text]) -- ^ "array_of_string"
-  , arrayTestArrayArrayOfInteger :: !(Maybe [[Integer]]) -- ^ "array_array_of_integer"
-  , arrayTestArrayArrayOfModel :: !(Maybe [[ReadOnlyFirst]]) -- ^ "array_array_of_model"
+  { arrayTestArrayOfString :: !(Maybe ) -- ^ "array_of_string"
+  , arrayTestArrayArrayOfInteger :: !(Maybe ) -- ^ "array_array_of_integer"
+  , arrayTestArrayArrayOfModel :: !(Maybe ) -- ^ "array_array_of_model"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON ArrayTest
@@ -656,10 +656,10 @@ mkArrayTest =
 -- ** BigCat
 -- | BigCat
 data BigCat = BigCat
-  { bigCatClassName :: !(Text) -- ^ /Required/ "className"
-  , bigCatColor :: !(Maybe Text) -- ^ "color"
-  , bigCatDeclawed :: !(Maybe Bool) -- ^ "declawed"
-  , bigCatKind :: !(Maybe E'Kind) -- ^ "kind"
+  { bigCatClassName :: !() -- ^ /Required/ "className"
+  , bigCatColor :: !(Maybe ) -- ^ "color"
+  , bigCatDeclawed :: !(Maybe ) -- ^ "declawed"
+  , bigCatKind :: !(Maybe ) -- ^ "kind"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON BigCat
@@ -684,7 +684,7 @@ instance A.ToJSON BigCat where
 
 -- | Construct a value of type 'BigCat' (by applying it's required fields, if any)
 mkBigCat
-  :: Text -- ^ 'bigCatClassName' 
+  ::  -- ^ 'bigCatClassName' 
   -> BigCat
 mkBigCat bigCatClassName =
   BigCat
@@ -697,7 +697,7 @@ mkBigCat bigCatClassName =
 -- ** BigCatAllOf
 -- | BigCatAllOf
 data BigCatAllOf = BigCatAllOf
-  { bigCatAllOfKind :: !(Maybe E'Kind) -- ^ "kind"
+  { bigCatAllOfKind :: !(Maybe ) -- ^ "kind"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON BigCatAllOf
@@ -725,12 +725,12 @@ mkBigCatAllOf =
 -- ** Capitalization
 -- | Capitalization
 data Capitalization = Capitalization
-  { capitalizationSmallCamel :: !(Maybe Text) -- ^ "smallCamel"
-  , capitalizationCapitalCamel :: !(Maybe Text) -- ^ "CapitalCamel"
-  , capitalizationSmallSnake :: !(Maybe Text) -- ^ "small_Snake"
-  , capitalizationCapitalSnake :: !(Maybe Text) -- ^ "Capital_Snake"
-  , capitalizationScaEthFlowPoints :: !(Maybe Text) -- ^ "SCA_ETH_Flow_Points"
-  , capitalizationAttName :: !(Maybe Text) -- ^ "ATT_NAME" - Name of the pet 
+  { capitalizationSmallCamel :: !(Maybe ) -- ^ "smallCamel"
+  , capitalizationCapitalCamel :: !(Maybe ) -- ^ "CapitalCamel"
+  , capitalizationSmallSnake :: !(Maybe ) -- ^ "small_Snake"
+  , capitalizationCapitalSnake :: !(Maybe ) -- ^ "Capital_Snake"
+  , capitalizationScaEthFlowPoints :: !(Maybe ) -- ^ "SCA_ETH_Flow_Points"
+  , capitalizationAttName :: !(Maybe ) -- ^ "ATT_NAME" - Name of the pet 
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Capitalization
@@ -773,9 +773,9 @@ mkCapitalization =
 -- ** Cat
 -- | Cat
 data Cat = Cat
-  { catClassName :: !(Text) -- ^ /Required/ "className"
-  , catColor :: !(Maybe Text) -- ^ "color"
-  , catDeclawed :: !(Maybe Bool) -- ^ "declawed"
+  { catClassName :: !() -- ^ /Required/ "className"
+  , catColor :: !(Maybe ) -- ^ "color"
+  , catDeclawed :: !(Maybe ) -- ^ "declawed"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Cat
@@ -798,7 +798,7 @@ instance A.ToJSON Cat where
 
 -- | Construct a value of type 'Cat' (by applying it's required fields, if any)
 mkCat
-  :: Text -- ^ 'catClassName' 
+  ::  -- ^ 'catClassName' 
   -> Cat
 mkCat catClassName =
   Cat
@@ -810,7 +810,7 @@ mkCat catClassName =
 -- ** CatAllOf
 -- | CatAllOf
 data CatAllOf = CatAllOf
-  { catAllOfDeclawed :: !(Maybe Bool) -- ^ "declawed"
+  { catAllOfDeclawed :: !(Maybe ) -- ^ "declawed"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON CatAllOf
@@ -838,8 +838,8 @@ mkCatAllOf =
 -- ** Category
 -- | Category
 data Category = Category
-  { categoryId :: !(Maybe Integer) -- ^ "id"
-  , categoryName :: !(Text) -- ^ /Required/ "name"
+  { categoryId :: !(Maybe ) -- ^ "id"
+  , categoryName :: !() -- ^ /Required/ "name"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Category
@@ -860,7 +860,7 @@ instance A.ToJSON Category where
 
 -- | Construct a value of type 'Category' (by applying it's required fields, if any)
 mkCategory
-  :: Text -- ^ 'categoryName' 
+  ::  -- ^ 'categoryName' 
   -> Category
 mkCategory categoryName =
   Category
@@ -872,7 +872,7 @@ mkCategory categoryName =
 -- | ClassModel
 -- Model for testing model with \"_class\" property
 data ClassModel = ClassModel
-  { classModelClass :: !(Maybe Text) -- ^ "_class"
+  { classModelClass :: !(Maybe ) -- ^ "_class"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON ClassModel
@@ -900,7 +900,7 @@ mkClassModel =
 -- ** Client
 -- | Client
 data Client = Client
-  { clientClient :: !(Maybe Text) -- ^ "client"
+  { clientClient :: !(Maybe ) -- ^ "client"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Client
@@ -928,9 +928,9 @@ mkClient =
 -- ** Dog
 -- | Dog
 data Dog = Dog
-  { dogClassName :: !(Text) -- ^ /Required/ "className"
-  , dogColor :: !(Maybe Text) -- ^ "color"
-  , dogBreed :: !(Maybe Text) -- ^ "breed"
+  { dogClassName :: !() -- ^ /Required/ "className"
+  , dogColor :: !(Maybe ) -- ^ "color"
+  , dogBreed :: !(Maybe ) -- ^ "breed"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Dog
@@ -953,7 +953,7 @@ instance A.ToJSON Dog where
 
 -- | Construct a value of type 'Dog' (by applying it's required fields, if any)
 mkDog
-  :: Text -- ^ 'dogClassName' 
+  ::  -- ^ 'dogClassName' 
   -> Dog
 mkDog dogClassName =
   Dog
@@ -965,7 +965,7 @@ mkDog dogClassName =
 -- ** DogAllOf
 -- | DogAllOf
 data DogAllOf = DogAllOf
-  { dogAllOfBreed :: !(Maybe Text) -- ^ "breed"
+  { dogAllOfBreed :: !(Maybe ) -- ^ "breed"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON DogAllOf
@@ -993,8 +993,8 @@ mkDogAllOf =
 -- ** EnumArrays
 -- | EnumArrays
 data EnumArrays = EnumArrays
-  { enumArraysJustSymbol :: !(Maybe E'JustSymbol) -- ^ "just_symbol"
-  , enumArraysArrayEnum :: !(Maybe [E'ArrayEnum]) -- ^ "array_enum"
+  { enumArraysJustSymbol :: !(Maybe ) -- ^ "just_symbol"
+  , enumArraysArrayEnum :: !(Maybe ) -- ^ "array_enum"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON EnumArrays
@@ -1025,11 +1025,11 @@ mkEnumArrays =
 -- ** EnumTest
 -- | EnumTest
 data EnumTest = EnumTest
-  { enumTestEnumString :: !(Maybe E'EnumString) -- ^ "enum_string"
-  , enumTestEnumStringRequired :: !(E'EnumString) -- ^ /Required/ "enum_string_required"
-  , enumTestEnumInteger :: !(Maybe E'EnumInteger) -- ^ "enum_integer"
-  , enumTestEnumNumber :: !(Maybe E'EnumNumber) -- ^ "enum_number"
-  , enumTestOuterEnum :: !(Maybe OuterEnum) -- ^ "outerEnum"
+  { enumTestEnumString :: !(Maybe ) -- ^ "enum_string"
+  , enumTestEnumStringRequired :: !() -- ^ /Required/ "enum_string_required"
+  , enumTestEnumInteger :: !(Maybe ) -- ^ "enum_integer"
+  , enumTestEnumNumber :: !(Maybe ) -- ^ "enum_number"
+  , enumTestOuterEnum :: !(Maybe ) -- ^ "outerEnum"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON EnumTest
@@ -1056,7 +1056,7 @@ instance A.ToJSON EnumTest where
 
 -- | Construct a value of type 'EnumTest' (by applying it's required fields, if any)
 mkEnumTest
-  :: E'EnumString -- ^ 'enumTestEnumStringRequired' 
+  ::  -- ^ 'enumTestEnumStringRequired' 
   -> EnumTest
 mkEnumTest enumTestEnumStringRequired =
   EnumTest
@@ -1071,7 +1071,7 @@ mkEnumTest enumTestEnumStringRequired =
 -- | File
 -- Must be named `File` for test.
 data File = File
-  { fileSourceUri :: !(Maybe Text) -- ^ "sourceURI" - Test capitalization
+  { fileSourceUri :: !(Maybe ) -- ^ "sourceURI" - Test capitalization
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON File
@@ -1099,8 +1099,8 @@ mkFile =
 -- ** FileSchemaTestClass
 -- | FileSchemaTestClass
 data FileSchemaTestClass = FileSchemaTestClass
-  { fileSchemaTestClassFile :: !(Maybe File) -- ^ "file"
-  , fileSchemaTestClassFiles :: !(Maybe [File]) -- ^ "files"
+  { fileSchemaTestClassFile :: !(Maybe ) -- ^ "file"
+  , fileSchemaTestClassFiles :: !(Maybe ) -- ^ "files"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON FileSchemaTestClass
@@ -1131,20 +1131,20 @@ mkFileSchemaTestClass =
 -- ** FormatTest
 -- | FormatTest
 data FormatTest = FormatTest
-  { formatTestInteger :: !(Maybe Int) -- ^ "integer"
-  , formatTestInt32 :: !(Maybe Int) -- ^ "int32"
-  , formatTestInt64 :: !(Maybe Integer) -- ^ "int64"
-  , formatTestNumber :: !(Double) -- ^ /Required/ "number"
-  , formatTestFloat :: !(Maybe Float) -- ^ "float"
-  , formatTestDouble :: !(Maybe Double) -- ^ "double"
-  , formatTestString :: !(Maybe Text) -- ^ "string"
-  , formatTestByte :: !(ByteArray) -- ^ /Required/ "byte"
-  , formatTestBinary :: !(Maybe FilePath) -- ^ "binary"
-  , formatTestDate :: !(Date) -- ^ /Required/ "date"
-  , formatTestDateTime :: !(Maybe DateTime) -- ^ "dateTime"
-  , formatTestUuid :: !(Maybe Text) -- ^ "uuid"
-  , formatTestPassword :: !(Text) -- ^ /Required/ "password"
-  , formatTestBigDecimal :: !(Maybe Double) -- ^ "BigDecimal"
+  { formatTestInteger :: !(Maybe ) -- ^ "integer"
+  , formatTestInt32 :: !(Maybe ) -- ^ "int32"
+  , formatTestInt64 :: !(Maybe ) -- ^ "int64"
+  , formatTestNumber :: !() -- ^ /Required/ "number"
+  , formatTestFloat :: !(Maybe ) -- ^ "float"
+  , formatTestDouble :: !(Maybe ) -- ^ "double"
+  , formatTestString :: !(Maybe ) -- ^ "string"
+  , formatTestByte :: !() -- ^ /Required/ "byte"
+  , formatTestBinary :: !(Maybe ) -- ^ "binary"
+  , formatTestDate :: !() -- ^ /Required/ "date"
+  , formatTestDateTime :: !(Maybe ) -- ^ "dateTime"
+  , formatTestUuid :: !(Maybe ) -- ^ "uuid"
+  , formatTestPassword :: !() -- ^ /Required/ "password"
+  , formatTestBigDecimal :: !(Maybe ) -- ^ "BigDecimal"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON FormatTest
@@ -1189,10 +1189,10 @@ instance A.ToJSON FormatTest where
 
 -- | Construct a value of type 'FormatTest' (by applying it's required fields, if any)
 mkFormatTest
-  :: Double -- ^ 'formatTestNumber' 
-  -> ByteArray -- ^ 'formatTestByte' 
-  -> Date -- ^ 'formatTestDate' 
-  -> Text -- ^ 'formatTestPassword' 
+  ::  -- ^ 'formatTestNumber' 
+  ->  -- ^ 'formatTestByte' 
+  ->  -- ^ 'formatTestDate' 
+  ->  -- ^ 'formatTestPassword' 
   -> FormatTest
 mkFormatTest formatTestNumber formatTestByte formatTestDate formatTestPassword =
   FormatTest
@@ -1215,8 +1215,8 @@ mkFormatTest formatTestNumber formatTestByte formatTestDate formatTestPassword =
 -- ** HasOnlyReadOnly
 -- | HasOnlyReadOnly
 data HasOnlyReadOnly = HasOnlyReadOnly
-  { hasOnlyReadOnlyBar :: !(Maybe Text) -- ^ /ReadOnly/ "bar"
-  , hasOnlyReadOnlyFoo :: !(Maybe Text) -- ^ /ReadOnly/ "foo"
+  { hasOnlyReadOnlyBar :: !(Maybe ) -- ^ /ReadOnly/ "bar"
+  , hasOnlyReadOnlyFoo :: !(Maybe ) -- ^ /ReadOnly/ "foo"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON HasOnlyReadOnly
@@ -1247,10 +1247,10 @@ mkHasOnlyReadOnly =
 -- ** MapTest
 -- | MapTest
 data MapTest = MapTest
-  { mapTestMapMapOfString :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_map_of_string"
-  , mapTestMapOfEnumString :: !(Maybe (Map.Map String E'Inner)) -- ^ "map_of_enum_string"
-  , mapTestDirectMap :: !(Maybe (Map.Map String Bool)) -- ^ "direct_map"
-  , mapTestIndirectMap :: !(Maybe (Map.Map String Bool)) -- ^ "indirect_map"
+  { mapTestMapMapOfString :: !(Maybe ) -- ^ "map_map_of_string"
+  , mapTestMapOfEnumString :: !(Maybe ) -- ^ "map_of_enum_string"
+  , mapTestDirectMap :: !(Maybe ) -- ^ "direct_map"
+  , mapTestIndirectMap :: !(Maybe ) -- ^ "indirect_map"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON MapTest
@@ -1287,9 +1287,9 @@ mkMapTest =
 -- ** MixedPropertiesAndAdditionalPropertiesClass
 -- | MixedPropertiesAndAdditionalPropertiesClass
 data MixedPropertiesAndAdditionalPropertiesClass = MixedPropertiesAndAdditionalPropertiesClass
-  { mixedPropertiesAndAdditionalPropertiesClassUuid :: !(Maybe Text) -- ^ "uuid"
-  , mixedPropertiesAndAdditionalPropertiesClassDateTime :: !(Maybe DateTime) -- ^ "dateTime"
-  , mixedPropertiesAndAdditionalPropertiesClassMap :: !(Maybe (Map.Map String Animal)) -- ^ "map"
+  { mixedPropertiesAndAdditionalPropertiesClassUuid :: !(Maybe ) -- ^ "uuid"
+  , mixedPropertiesAndAdditionalPropertiesClassDateTime :: !(Maybe ) -- ^ "dateTime"
+  , mixedPropertiesAndAdditionalPropertiesClassMap :: !(Maybe ) -- ^ "map"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON MixedPropertiesAndAdditionalPropertiesClass
@@ -1324,8 +1324,8 @@ mkMixedPropertiesAndAdditionalPropertiesClass =
 -- | Model200Response
 -- Model for testing model name starting with number
 data Model200Response = Model200Response
-  { model200ResponseName :: !(Maybe Int) -- ^ "name"
-  , model200ResponseClass :: !(Maybe Text) -- ^ "class"
+  { model200ResponseName :: !(Maybe ) -- ^ "name"
+  , model200ResponseClass :: !(Maybe ) -- ^ "class"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Model200Response
@@ -1356,7 +1356,7 @@ mkModel200Response =
 -- ** ModelList
 -- | ModelList
 data ModelList = ModelList
-  { modelList123list :: !(Maybe Text) -- ^ "123-list"
+  { modelList123list :: !(Maybe ) -- ^ "123-list"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON ModelList
@@ -1385,7 +1385,7 @@ mkModelList =
 -- | ModelReturn
 -- Model for testing reserved words
 data ModelReturn = ModelReturn
-  { modelReturnReturn :: !(Maybe Int) -- ^ "return"
+  { modelReturnReturn :: !(Maybe ) -- ^ "return"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON ModelReturn
@@ -1414,10 +1414,10 @@ mkModelReturn =
 -- | Name
 -- Model for testing model name same as property name
 data Name = Name
-  { nameName :: !(Int) -- ^ /Required/ "name"
-  , nameSnakeCase :: !(Maybe Int) -- ^ /ReadOnly/ "snake_case"
-  , nameProperty :: !(Maybe Text) -- ^ "property"
-  , name123number :: !(Maybe Int) -- ^ /ReadOnly/ "123Number"
+  { nameName :: !() -- ^ /Required/ "name"
+  , nameSnakeCase :: !(Maybe ) -- ^ /ReadOnly/ "snake_case"
+  , nameProperty :: !(Maybe ) -- ^ "property"
+  , name123number :: !(Maybe ) -- ^ /ReadOnly/ "123Number"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Name
@@ -1442,7 +1442,7 @@ instance A.ToJSON Name where
 
 -- | Construct a value of type 'Name' (by applying it's required fields, if any)
 mkName
-  :: Int -- ^ 'nameName' 
+  ::  -- ^ 'nameName' 
   -> Name
 mkName nameName =
   Name
@@ -1455,7 +1455,7 @@ mkName nameName =
 -- ** NumberOnly
 -- | NumberOnly
 data NumberOnly = NumberOnly
-  { numberOnlyJustNumber :: !(Maybe Double) -- ^ "JustNumber"
+  { numberOnlyJustNumber :: !(Maybe ) -- ^ "JustNumber"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON NumberOnly
@@ -1483,12 +1483,12 @@ mkNumberOnly =
 -- ** Order
 -- | Order
 data Order = Order
-  { orderId :: !(Maybe Integer) -- ^ "id"
-  , orderPetId :: !(Maybe Integer) -- ^ "petId"
-  , orderQuantity :: !(Maybe Int) -- ^ "quantity"
-  , orderShipDate :: !(Maybe DateTime) -- ^ "shipDate"
-  , orderStatus :: !(Maybe E'Status) -- ^ "status" - Order Status
-  , orderComplete :: !(Maybe Bool) -- ^ "complete"
+  { orderId :: !(Maybe ) -- ^ "id"
+  , orderPetId :: !(Maybe ) -- ^ "petId"
+  , orderQuantity :: !(Maybe ) -- ^ "quantity"
+  , orderShipDate :: !(Maybe ) -- ^ "shipDate"
+  , orderStatus :: !(Maybe ) -- ^ "status" - Order Status
+  , orderComplete :: !(Maybe ) -- ^ "complete"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Order
@@ -1531,9 +1531,9 @@ mkOrder =
 -- ** OuterComposite
 -- | OuterComposite
 data OuterComposite = OuterComposite
-  { outerCompositeMyNumber :: !(Maybe Double) -- ^ "my_number"
-  , outerCompositeMyString :: !(Maybe Text) -- ^ "my_string"
-  , outerCompositeMyBoolean :: !(Maybe Bool) -- ^ "my_boolean"
+  { outerCompositeMyNumber :: !(Maybe ) -- ^ "my_number"
+  , outerCompositeMyString :: !(Maybe ) -- ^ "my_string"
+  , outerCompositeMyBoolean :: !(Maybe ) -- ^ "my_boolean"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON OuterComposite
@@ -1567,12 +1567,12 @@ mkOuterComposite =
 -- ** Pet
 -- | Pet
 data Pet = Pet
-  { petId :: !(Maybe Integer) -- ^ "id"
-  , petCategory :: !(Maybe Category) -- ^ "category"
-  , petName :: !(Text) -- ^ /Required/ "name"
-  , petPhotoUrls :: !([Text]) -- ^ /Required/ "photoUrls"
-  , petTags :: !(Maybe [Tag]) -- ^ "tags"
-  , petStatus :: !(Maybe E'Status2) -- ^ "status" - pet status in the store
+  { petId :: !(Maybe ) -- ^ "id"
+  , petCategory :: !(Maybe ) -- ^ "category"
+  , petName :: !() -- ^ /Required/ "name"
+  , petPhotoUrls :: !() -- ^ /Required/ "photoUrls"
+  , petTags :: !(Maybe ) -- ^ "tags"
+  , petStatus :: !(Maybe ) -- ^ "status" - pet status in the store
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Pet
@@ -1601,8 +1601,8 @@ instance A.ToJSON Pet where
 
 -- | Construct a value of type 'Pet' (by applying it's required fields, if any)
 mkPet
-  :: Text -- ^ 'petName' 
-  -> [Text] -- ^ 'petPhotoUrls' 
+  ::  -- ^ 'petName' 
+  ->  -- ^ 'petPhotoUrls' 
   -> Pet
 mkPet petName petPhotoUrls =
   Pet
@@ -1617,8 +1617,8 @@ mkPet petName petPhotoUrls =
 -- ** ReadOnlyFirst
 -- | ReadOnlyFirst
 data ReadOnlyFirst = ReadOnlyFirst
-  { readOnlyFirstBar :: !(Maybe Text) -- ^ /ReadOnly/ "bar"
-  , readOnlyFirstBaz :: !(Maybe Text) -- ^ "baz"
+  { readOnlyFirstBar :: !(Maybe ) -- ^ /ReadOnly/ "bar"
+  , readOnlyFirstBaz :: !(Maybe ) -- ^ "baz"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON ReadOnlyFirst
@@ -1649,7 +1649,7 @@ mkReadOnlyFirst =
 -- ** SpecialModelName
 -- | SpecialModelName
 data SpecialModelName = SpecialModelName
-  { specialModelNameSpecialPropertyName :: !(Maybe Integer) -- ^ "$special[property.name]"
+  { specialModelNameSpecialPropertyName :: !(Maybe ) -- ^ "$special[property.name]"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON SpecialModelName
@@ -1677,8 +1677,8 @@ mkSpecialModelName =
 -- ** Tag
 -- | Tag
 data Tag = Tag
-  { tagId :: !(Maybe Integer) -- ^ "id"
-  , tagName :: !(Maybe Text) -- ^ "name"
+  { tagId :: !(Maybe ) -- ^ "id"
+  , tagName :: !(Maybe ) -- ^ "name"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Tag
@@ -1709,11 +1709,11 @@ mkTag =
 -- ** TypeHolderDefault
 -- | TypeHolderDefault
 data TypeHolderDefault = TypeHolderDefault
-  { typeHolderDefaultStringItem :: !(Text) -- ^ /Required/ "string_item"
-  , typeHolderDefaultNumberItem :: !(Double) -- ^ /Required/ "number_item"
-  , typeHolderDefaultIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
-  , typeHolderDefaultBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
-  , typeHolderDefaultArrayItem :: !([Int]) -- ^ /Required/ "array_item"
+  { typeHolderDefaultStringItem :: !() -- ^ /Required/ "string_item"
+  , typeHolderDefaultNumberItem :: !() -- ^ /Required/ "number_item"
+  , typeHolderDefaultIntegerItem :: !() -- ^ /Required/ "integer_item"
+  , typeHolderDefaultBoolItem :: !() -- ^ /Required/ "bool_item"
+  , typeHolderDefaultArrayItem :: !() -- ^ /Required/ "array_item"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON TypeHolderDefault
@@ -1740,11 +1740,11 @@ instance A.ToJSON TypeHolderDefault where
 
 -- | Construct a value of type 'TypeHolderDefault' (by applying it's required fields, if any)
 mkTypeHolderDefault
-  :: Text -- ^ 'typeHolderDefaultStringItem' 
-  -> Double -- ^ 'typeHolderDefaultNumberItem' 
-  -> Int -- ^ 'typeHolderDefaultIntegerItem' 
-  -> Bool -- ^ 'typeHolderDefaultBoolItem' 
-  -> [Int] -- ^ 'typeHolderDefaultArrayItem' 
+  ::  -- ^ 'typeHolderDefaultStringItem' 
+  ->  -- ^ 'typeHolderDefaultNumberItem' 
+  ->  -- ^ 'typeHolderDefaultIntegerItem' 
+  ->  -- ^ 'typeHolderDefaultBoolItem' 
+  ->  -- ^ 'typeHolderDefaultArrayItem' 
   -> TypeHolderDefault
 mkTypeHolderDefault typeHolderDefaultStringItem typeHolderDefaultNumberItem typeHolderDefaultIntegerItem typeHolderDefaultBoolItem typeHolderDefaultArrayItem =
   TypeHolderDefault
@@ -1758,12 +1758,12 @@ mkTypeHolderDefault typeHolderDefaultStringItem typeHolderDefaultNumberItem type
 -- ** TypeHolderExample
 -- | TypeHolderExample
 data TypeHolderExample = TypeHolderExample
-  { typeHolderExampleStringItem :: !(Text) -- ^ /Required/ "string_item"
-  , typeHolderExampleNumberItem :: !(Double) -- ^ /Required/ "number_item"
-  , typeHolderExampleFloatItem :: !(Float) -- ^ /Required/ "float_item"
-  , typeHolderExampleIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
-  , typeHolderExampleBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
-  , typeHolderExampleArrayItem :: !([Int]) -- ^ /Required/ "array_item"
+  { typeHolderExampleStringItem :: !() -- ^ /Required/ "string_item"
+  , typeHolderExampleNumberItem :: !() -- ^ /Required/ "number_item"
+  , typeHolderExampleFloatItem :: !() -- ^ /Required/ "float_item"
+  , typeHolderExampleIntegerItem :: !() -- ^ /Required/ "integer_item"
+  , typeHolderExampleBoolItem :: !() -- ^ /Required/ "bool_item"
+  , typeHolderExampleArrayItem :: !() -- ^ /Required/ "array_item"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON TypeHolderExample
@@ -1792,12 +1792,12 @@ instance A.ToJSON TypeHolderExample where
 
 -- | Construct a value of type 'TypeHolderExample' (by applying it's required fields, if any)
 mkTypeHolderExample
-  :: Text -- ^ 'typeHolderExampleStringItem' 
-  -> Double -- ^ 'typeHolderExampleNumberItem' 
-  -> Float -- ^ 'typeHolderExampleFloatItem' 
-  -> Int -- ^ 'typeHolderExampleIntegerItem' 
-  -> Bool -- ^ 'typeHolderExampleBoolItem' 
-  -> [Int] -- ^ 'typeHolderExampleArrayItem' 
+  ::  -- ^ 'typeHolderExampleStringItem' 
+  ->  -- ^ 'typeHolderExampleNumberItem' 
+  ->  -- ^ 'typeHolderExampleFloatItem' 
+  ->  -- ^ 'typeHolderExampleIntegerItem' 
+  ->  -- ^ 'typeHolderExampleBoolItem' 
+  ->  -- ^ 'typeHolderExampleArrayItem' 
   -> TypeHolderExample
 mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem typeHolderExampleFloatItem typeHolderExampleIntegerItem typeHolderExampleBoolItem typeHolderExampleArrayItem =
   TypeHolderExample
@@ -1812,14 +1812,14 @@ mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem type
 -- ** User
 -- | User
 data User = User
-  { userId :: !(Maybe Integer) -- ^ "id"
-  , userUsername :: !(Maybe Text) -- ^ "username"
-  , userFirstName :: !(Maybe Text) -- ^ "firstName"
-  , userLastName :: !(Maybe Text) -- ^ "lastName"
-  , userEmail :: !(Maybe Text) -- ^ "email"
-  , userPassword :: !(Maybe Text) -- ^ "password"
-  , userPhone :: !(Maybe Text) -- ^ "phone"
-  , userUserStatus :: !(Maybe Int) -- ^ "userStatus" - User Status
+  { userId :: !(Maybe ) -- ^ "id"
+  , userUsername :: !(Maybe ) -- ^ "username"
+  , userFirstName :: !(Maybe ) -- ^ "firstName"
+  , userLastName :: !(Maybe ) -- ^ "lastName"
+  , userEmail :: !(Maybe ) -- ^ "email"
+  , userPassword :: !(Maybe ) -- ^ "password"
+  , userPhone :: !(Maybe ) -- ^ "phone"
+  , userUserStatus :: !(Maybe ) -- ^ "userStatus" - User Status
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON User
@@ -1868,35 +1868,35 @@ mkUser =
 -- ** XmlItem
 -- | XmlItem
 data XmlItem = XmlItem
-  { xmlItemAttributeString :: !(Maybe Text) -- ^ "attribute_string"
-  , xmlItemAttributeNumber :: !(Maybe Double) -- ^ "attribute_number"
-  , xmlItemAttributeInteger :: !(Maybe Int) -- ^ "attribute_integer"
-  , xmlItemAttributeBoolean :: !(Maybe Bool) -- ^ "attribute_boolean"
-  , xmlItemWrappedArray :: !(Maybe [Int]) -- ^ "wrapped_array"
-  , xmlItemNameString :: !(Maybe Text) -- ^ "name_string"
-  , xmlItemNameNumber :: !(Maybe Double) -- ^ "name_number"
-  , xmlItemNameInteger :: !(Maybe Int) -- ^ "name_integer"
-  , xmlItemNameBoolean :: !(Maybe Bool) -- ^ "name_boolean"
-  , xmlItemNameArray :: !(Maybe [Int]) -- ^ "name_array"
-  , xmlItemNameWrappedArray :: !(Maybe [Int]) -- ^ "name_wrapped_array"
-  , xmlItemPrefixString :: !(Maybe Text) -- ^ "prefix_string"
-  , xmlItemPrefixNumber :: !(Maybe Double) -- ^ "prefix_number"
-  , xmlItemPrefixInteger :: !(Maybe Int) -- ^ "prefix_integer"
-  , xmlItemPrefixBoolean :: !(Maybe Bool) -- ^ "prefix_boolean"
-  , xmlItemPrefixArray :: !(Maybe [Int]) -- ^ "prefix_array"
-  , xmlItemPrefixWrappedArray :: !(Maybe [Int]) -- ^ "prefix_wrapped_array"
-  , xmlItemNamespaceString :: !(Maybe Text) -- ^ "namespace_string"
-  , xmlItemNamespaceNumber :: !(Maybe Double) -- ^ "namespace_number"
-  , xmlItemNamespaceInteger :: !(Maybe Int) -- ^ "namespace_integer"
-  , xmlItemNamespaceBoolean :: !(Maybe Bool) -- ^ "namespace_boolean"
-  , xmlItemNamespaceArray :: !(Maybe [Int]) -- ^ "namespace_array"
-  , xmlItemNamespaceWrappedArray :: !(Maybe [Int]) -- ^ "namespace_wrapped_array"
-  , xmlItemPrefixNsString :: !(Maybe Text) -- ^ "prefix_ns_string"
-  , xmlItemPrefixNsNumber :: !(Maybe Double) -- ^ "prefix_ns_number"
-  , xmlItemPrefixNsInteger :: !(Maybe Int) -- ^ "prefix_ns_integer"
-  , xmlItemPrefixNsBoolean :: !(Maybe Bool) -- ^ "prefix_ns_boolean"
-  , xmlItemPrefixNsArray :: !(Maybe [Int]) -- ^ "prefix_ns_array"
-  , xmlItemPrefixNsWrappedArray :: !(Maybe [Int]) -- ^ "prefix_ns_wrapped_array"
+  { xmlItemAttributeString :: !(Maybe ) -- ^ "attribute_string"
+  , xmlItemAttributeNumber :: !(Maybe ) -- ^ "attribute_number"
+  , xmlItemAttributeInteger :: !(Maybe ) -- ^ "attribute_integer"
+  , xmlItemAttributeBoolean :: !(Maybe ) -- ^ "attribute_boolean"
+  , xmlItemWrappedArray :: !(Maybe ) -- ^ "wrapped_array"
+  , xmlItemNameString :: !(Maybe ) -- ^ "name_string"
+  , xmlItemNameNumber :: !(Maybe ) -- ^ "name_number"
+  , xmlItemNameInteger :: !(Maybe ) -- ^ "name_integer"
+  , xmlItemNameBoolean :: !(Maybe ) -- ^ "name_boolean"
+  , xmlItemNameArray :: !(Maybe ) -- ^ "name_array"
+  , xmlItemNameWrappedArray :: !(Maybe ) -- ^ "name_wrapped_array"
+  , xmlItemPrefixString :: !(Maybe ) -- ^ "prefix_string"
+  , xmlItemPrefixNumber :: !(Maybe ) -- ^ "prefix_number"
+  , xmlItemPrefixInteger :: !(Maybe ) -- ^ "prefix_integer"
+  , xmlItemPrefixBoolean :: !(Maybe ) -- ^ "prefix_boolean"
+  , xmlItemPrefixArray :: !(Maybe ) -- ^ "prefix_array"
+  , xmlItemPrefixWrappedArray :: !(Maybe ) -- ^ "prefix_wrapped_array"
+  , xmlItemNamespaceString :: !(Maybe ) -- ^ "namespace_string"
+  , xmlItemNamespaceNumber :: !(Maybe ) -- ^ "namespace_number"
+  , xmlItemNamespaceInteger :: !(Maybe ) -- ^ "namespace_integer"
+  , xmlItemNamespaceBoolean :: !(Maybe ) -- ^ "namespace_boolean"
+  , xmlItemNamespaceArray :: !(Maybe ) -- ^ "namespace_array"
+  , xmlItemNamespaceWrappedArray :: !(Maybe ) -- ^ "namespace_wrapped_array"
+  , xmlItemPrefixNsString :: !(Maybe ) -- ^ "prefix_ns_string"
+  , xmlItemPrefixNsNumber :: !(Maybe ) -- ^ "prefix_ns_number"
+  , xmlItemPrefixNsInteger :: !(Maybe ) -- ^ "prefix_ns_integer"
+  , xmlItemPrefixNsBoolean :: !(Maybe ) -- ^ "prefix_ns_boolean"
+  , xmlItemPrefixNsArray :: !(Maybe ) -- ^ "prefix_ns_array"
+  , xmlItemPrefixNsWrappedArray :: !(Maybe ) -- ^ "prefix_ns_wrapped_array"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON XmlItem

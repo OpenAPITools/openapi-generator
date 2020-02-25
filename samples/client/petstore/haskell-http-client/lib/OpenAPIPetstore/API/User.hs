@@ -55,189 +55,169 @@ import qualified Prelude as P
 -- * Operations
 
 
--- ** User
-
 -- *** createUser
 
--- | @POST \/user@
+-- | @@
 -- 
 -- Create user
 -- 
 -- This can only be done by the logged in user.
 -- 
 createUser 
-  :: (Consumes CreateUser contentType, MimeRender contentType User)
-  => ContentType contentType -- ^ request content-type ('MimeType')
+  :: Accept accept -- ^ request accept ('MimeType')
   -> User -- ^ "body" -  Created user object
-  -> OpenAPIPetstoreRequest CreateUser contentType NoContent MimeNoContent
-createUser _ body =
+  -> OpenAPIPetstoreRequest  contentType  accept
+createUser _  _ body =
   _mkRequest "POST" ["/user"]
     `setBodyParam` body
 
-data CreateUser 
+data  
 
 -- | /Body Param/ "body" - Created user object
-instance HasBodyParam CreateUser User 
-    
--- | @*/*@
-instance MimeType mtype => Consumes CreateUser mtype
-
-instance Produces CreateUser MimeNoContent
+instance HasBodyParam  User 
+instance Produces  MimeNoContent
 
 
 -- *** createUsersWithArrayInput
 
--- | @POST \/user\/createWithArray@
+-- | @@
 -- 
 -- Creates list of users with given input array
 -- 
 createUsersWithArrayInput 
-  :: (Consumes CreateUsersWithArrayInput contentType, MimeRender contentType Body)
-  => ContentType contentType -- ^ request content-type ('MimeType')
-  -> Body -- ^ "body" -  List of user object
-  -> OpenAPIPetstoreRequest CreateUsersWithArrayInput contentType NoContent MimeNoContent
-createUsersWithArrayInput _ body =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> [User] -- ^ "body" -  List of user object
+  -> OpenAPIPetstoreRequest  contentType  accept
+createUsersWithArrayInput _  _ body =
   _mkRequest "POST" ["/user/createWithArray"]
     `setBodyParam` body
 
-data CreateUsersWithArrayInput 
+data  
 
 -- | /Body Param/ "body" - List of user object
-instance HasBodyParam CreateUsersWithArrayInput Body 
-    
--- | @*/*@
-instance MimeType mtype => Consumes CreateUsersWithArrayInput mtype
-
-instance Produces CreateUsersWithArrayInput MimeNoContent
+instance HasBodyParam  [User] 
+instance Produces  MimeNoContent
 
 
 -- *** createUsersWithListInput
 
--- | @POST \/user\/createWithList@
+-- | @@
 -- 
 -- Creates list of users with given input array
 -- 
 createUsersWithListInput 
-  :: (Consumes CreateUsersWithListInput contentType, MimeRender contentType Body)
-  => ContentType contentType -- ^ request content-type ('MimeType')
-  -> Body -- ^ "body" -  List of user object
-  -> OpenAPIPetstoreRequest CreateUsersWithListInput contentType NoContent MimeNoContent
-createUsersWithListInput _ body =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> [User] -- ^ "body" -  List of user object
+  -> OpenAPIPetstoreRequest  contentType  accept
+createUsersWithListInput _  _ body =
   _mkRequest "POST" ["/user/createWithList"]
     `setBodyParam` body
 
-data CreateUsersWithListInput 
+data  
 
 -- | /Body Param/ "body" - List of user object
-instance HasBodyParam CreateUsersWithListInput Body 
-    
--- | @*/*@
-instance MimeType mtype => Consumes CreateUsersWithListInput mtype
-
-instance Produces CreateUsersWithListInput MimeNoContent
+instance HasBodyParam  [User] 
+instance Produces  MimeNoContent
 
 
 -- *** deleteUser
 
--- | @DELETE \/user\/{username}@
+-- | @@
 -- 
 -- Delete user
 -- 
 -- This can only be done by the logged in user.
 -- 
 deleteUser 
-  :: Username -- ^ "username" -  The name that needs to be deleted
-  -> OpenAPIPetstoreRequest DeleteUser MimeNoContent NoContent MimeNoContent
-deleteUser (Username username) =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> Text -- ^ "username" -  The name that needs to be deleted
+  -> OpenAPIPetstoreRequest  contentType  accept
+deleteUser _  _ ( username) =
   _mkRequest "DELETE" ["/user/",toPath username]
 
-data DeleteUser  
-instance Produces DeleteUser MimeNoContent
+data   
+instance Produces  MimeNoContent
 
 
 -- *** getUserByName
 
--- | @GET \/user\/{username}@
+-- | @@
 -- 
 -- Get user by user name
 -- 
 getUserByName 
   :: Accept accept -- ^ request accept ('MimeType')
-  -> Username -- ^ "username" -  The name that needs to be fetched. Use user1 for testing.
-  -> OpenAPIPetstoreRequest GetUserByName MimeNoContent User accept
-getUserByName  _ (Username username) =
+  -> Text -- ^ "username" -  The name that needs to be fetched. Use user1 for testing.
+  -> OpenAPIPetstoreRequest  contentType  accept
+getUserByName _  _ ( username) =
   _mkRequest "GET" ["/user/",toPath username]
 
-data GetUserByName  
+data   
 -- | @application/xml@
-instance Produces GetUserByName MimeXML
+instance Produces  MimeXML
 -- | @application/json@
-instance Produces GetUserByName MimeJSON
+instance Produces  MimeJSON
 
 
 -- *** loginUser
 
--- | @GET \/user\/login@
+-- | @@
 -- 
 -- Logs user into the system
 -- 
 loginUser 
   :: Accept accept -- ^ request accept ('MimeType')
-  -> Username -- ^ "username" -  The user name for login
-  -> Password -- ^ "password" -  The password for login in clear text
-  -> OpenAPIPetstoreRequest LoginUser MimeNoContent Text accept
-loginUser  _ (Username username) (Password password) =
+  -> Text -- ^ "username" -  The user name for login
+  -> Text -- ^ "password" -  The password for login in clear text
+  -> OpenAPIPetstoreRequest  contentType  accept
+loginUser _  _ ( username) ( password) =
   _mkRequest "GET" ["/user/login"]
     `setQuery` toQuery ("username", Just username)
     `setQuery` toQuery ("password", Just password)
 
-data LoginUser  
+data   
 -- | @application/xml@
-instance Produces LoginUser MimeXML
+instance Produces  MimeXML
 -- | @application/json@
-instance Produces LoginUser MimeJSON
+instance Produces  MimeJSON
 
 
 -- *** logoutUser
 
--- | @GET \/user\/logout@
+-- | @@
 -- 
 -- Logs out current logged in user session
 -- 
 logoutUser 
-  :: OpenAPIPetstoreRequest LogoutUser MimeNoContent NoContent MimeNoContent
-logoutUser =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> OpenAPIPetstoreRequest  contentType  accept
+logoutUser _  _ =
   _mkRequest "GET" ["/user/logout"]
 
-data LogoutUser  
-instance Produces LogoutUser MimeNoContent
+data   
+instance Produces  MimeNoContent
 
 
 -- *** updateUser
 
--- | @PUT \/user\/{username}@
+-- | @@
 -- 
 -- Updated user
 -- 
 -- This can only be done by the logged in user.
 -- 
 updateUser 
-  :: (Consumes UpdateUser contentType, MimeRender contentType User)
-  => ContentType contentType -- ^ request content-type ('MimeType')
+  :: Accept accept -- ^ request accept ('MimeType')
   -> User -- ^ "body" -  Updated user object
-  -> Username -- ^ "username" -  name that need to be deleted
-  -> OpenAPIPetstoreRequest UpdateUser contentType NoContent MimeNoContent
-updateUser _ body (Username username) =
+  -> Text -- ^ "username" -  name that need to be deleted
+  -> OpenAPIPetstoreRequest  contentType  accept
+updateUser _  _ body ( username) =
   _mkRequest "PUT" ["/user/",toPath username]
     `setBodyParam` body
 
-data UpdateUser 
+data  
 
 -- | /Body Param/ "body" - Updated user object
-instance HasBodyParam UpdateUser User 
-    
--- | @*/*@
-instance MimeType mtype => Consumes UpdateUser mtype
-
-instance Produces UpdateUser MimeNoContent
+instance HasBodyParam  User 
+instance Produces  MimeNoContent
 

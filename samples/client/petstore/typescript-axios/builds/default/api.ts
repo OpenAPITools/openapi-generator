@@ -89,10 +89,10 @@ export interface Order {
     quantity?: number;
     /**
      * 
-     * @type {string}
+     * @type {Date}
      * @memberof Order
      */
-    shipDate?: string;
+    shipDate?: Date;
     /**
      * Order Status
      * @type {string}
@@ -790,7 +790,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(body: Pet, options?: any): AxiosPromise<void> {
+        addPet(body: Pet, options?: any) {
             return PetApiFp(configuration).addPet(body, options)(axios, basePath);
         },
         /**
@@ -801,7 +801,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePet(petId: number, apiKey?: string, options?: any): AxiosPromise<void> {
+        deletePet(petId: number, apiKey?: string, options?: any) {
             return PetApiFp(configuration).deletePet(petId, apiKey, options)(axios, basePath);
         },
         /**
@@ -811,7 +811,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: any): AxiosPromise<Array<Pet>> {
+        findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: any) {
             return PetApiFp(configuration).findPetsByStatus(status, options)(axios, basePath);
         },
         /**
@@ -821,7 +821,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByTags(tags: Array<string>, options?: any): AxiosPromise<Array<Pet>> {
+        findPetsByTags(tags: Array<string>, options?: any) {
             return PetApiFp(configuration).findPetsByTags(tags, options)(axios, basePath);
         },
         /**
@@ -831,7 +831,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPetById(petId: number, options?: any): AxiosPromise<Pet> {
+        getPetById(petId: number, options?: any) {
             return PetApiFp(configuration).getPetById(petId, options)(axios, basePath);
         },
         /**
@@ -841,7 +841,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(body: Pet, options?: any): AxiosPromise<void> {
+        updatePet(body: Pet, options?: any) {
             return PetApiFp(configuration).updatePet(body, options)(axios, basePath);
         },
         /**
@@ -853,7 +853,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePetWithForm(petId: number, name?: string, status?: string, options?: any): AxiosPromise<void> {
+        updatePetWithForm(petId: number, name?: string, status?: string, options?: any) {
             return PetApiFp(configuration).updatePetWithForm(petId, name, status, options)(axios, basePath);
         },
         /**
@@ -865,7 +865,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any): AxiosPromise<ApiResponse> {
+        uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any) {
             return PetApiFp(configuration).uploadFile(petId, additionalMetadata, file, options)(axios, basePath);
         },
     };
@@ -1213,7 +1213,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteOrder(orderId: string, options?: any): AxiosPromise<void> {
+        deleteOrder(orderId: string, options?: any) {
             return StoreApiFp(configuration).deleteOrder(orderId, options)(axios, basePath);
         },
         /**
@@ -1222,7 +1222,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInventory(options?: any): AxiosPromise<{ [key: string]: number; }> {
+        getInventory(options?: any) {
             return StoreApiFp(configuration).getInventory(options)(axios, basePath);
         },
         /**
@@ -1232,7 +1232,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderById(orderId: number, options?: any): AxiosPromise<Order> {
+        getOrderById(orderId: number, options?: any) {
             return StoreApiFp(configuration).getOrderById(orderId, options)(axios, basePath);
         },
         /**
@@ -1242,7 +1242,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(body: Order, options?: any): AxiosPromise<Order> {
+        placeOrder(body: Order, options?: any) {
             return StoreApiFp(configuration).placeOrder(body, options)(axios, basePath);
         },
     };
@@ -1753,7 +1753,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser(body: User, options?: any): AxiosPromise<void> {
+        createUser(body: User, options?: any) {
             return UserApiFp(configuration).createUser(body, options)(axios, basePath);
         },
         /**
@@ -1763,7 +1763,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithArrayInput(body: Array<User>, options?: any): AxiosPromise<void> {
+        createUsersWithArrayInput(body: Array<User>, options?: any) {
             return UserApiFp(configuration).createUsersWithArrayInput(body, options)(axios, basePath);
         },
         /**
@@ -1773,7 +1773,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithListInput(body: Array<User>, options?: any): AxiosPromise<void> {
+        createUsersWithListInput(body: Array<User>, options?: any) {
             return UserApiFp(configuration).createUsersWithListInput(body, options)(axios, basePath);
         },
         /**
@@ -1783,7 +1783,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteUser(username: string, options?: any): AxiosPromise<void> {
+        deleteUser(username: string, options?: any) {
             return UserApiFp(configuration).deleteUser(username, options)(axios, basePath);
         },
         /**
@@ -1793,7 +1793,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserByName(username: string, options?: any): AxiosPromise<User> {
+        getUserByName(username: string, options?: any) {
             return UserApiFp(configuration).getUserByName(username, options)(axios, basePath);
         },
         /**
@@ -1804,7 +1804,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        loginUser(username: string, password: string, options?: any): AxiosPromise<string> {
+        loginUser(username: string, password: string, options?: any) {
             return UserApiFp(configuration).loginUser(username, password, options)(axios, basePath);
         },
         /**
@@ -1813,7 +1813,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        logoutUser(options?: any): AxiosPromise<void> {
+        logoutUser(options?: any) {
             return UserApiFp(configuration).logoutUser(options)(axios, basePath);
         },
         /**
@@ -1824,7 +1824,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(username: string, body: User, options?: any): AxiosPromise<void> {
+        updateUser(username: string, body: User, options?: any) {
             return UserApiFp(configuration).updateUser(username, body, options)(axios, basePath);
         },
     };

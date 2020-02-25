@@ -31,13 +31,11 @@ from petstore_api.model_utils import (  # noqa: F401
 try:
     from petstore_api.models import cat
 except ImportError:
-    cat = sys.modules[
-        'petstore_api.models.cat']
+    cat = sys.modules['petstore_api.models.cat']
 try:
     from petstore_api.models import dog
 except ImportError:
-    dog = sys.modules[
-        'petstore_api.models.dog']
+    dog = sys.modules['petstore_api.models.dog']
 
 
 class Animal(ModelNormal):

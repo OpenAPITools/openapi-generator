@@ -11,8 +11,4 @@ Name | Type | Description | Notes
 **map** | [**Map&lt;String, Animal&gt;**](Animal.md) |  |  [optional]
 
 
-## Implemented Interfaces
-
-* Parcelable
-
 

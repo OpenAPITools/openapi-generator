@@ -17,8 +17,8 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { ApiResponse } from '../model/models';
-import { Pet } from '../model/models';
+import { ApiResponse } from '../model/apiResponse';
+import { Pet } from '../model/pet';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -62,42 +62,6 @@ export class PetService {
         return false;
     }
 
-
-    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object" && value instanceof Date === false) {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value);
-        } else {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
-        }
-        return httpParams;
-    }
-
-    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
-        if (value == null) {
-            return httpParams;
-        }
-
-        if (typeof value === "object") {
-            if (Array.isArray(value)) {
-                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
-            } else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key,
-                        (value as Date).toISOString().substr(0, 10));
-                } else {
-                   throw Error("key may not be null if value is Date");
-                }
-            } else {
-                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
-                    httpParams, value[k], key != null ? `${key}.${k}` : k));
-            }
-        } else if (key != null) {
-            httpParams = httpParams.append(key, value);
-        } else {
-            throw Error("key may not be null if value is not object or array");
-        }
-        return httpParams;
-    }
 
     /**
      * Add a new pet to the store
@@ -235,8 +199,7 @@ export class PetService {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (status) {
-            queryParameters = this.addToHttpParams(queryParameters,
-                status.join(COLLECTION_FORMATS['csv']), 'status');
+            queryParameters = queryParameters.set('status', status.join(COLLECTION_FORMATS['csv']));
         }
 
         let headers = this.defaultHeaders;
@@ -297,8 +260,7 @@ export class PetService {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (tags) {
-            queryParameters = this.addToHttpParams(queryParameters,
-                tags.join(COLLECTION_FORMATS['csv']), 'tags');
+            queryParameters = queryParameters.set('tags', tags.join(COLLECTION_FORMATS['csv']));
         }
 
         let headers = this.defaultHeaders;
@@ -360,11 +322,8 @@ export class PetService {
         let headers = this.defaultHeaders;
 
         // authentication (api_key) required
-        if (this.configuration.apiKeys) {
-            const key: string | undefined = this.configuration.apiKeys["api_key"] || this.configuration.apiKeys["api_key"];
-            if (key) {
-                headers = headers.set('api_key', key);
-            }
+        if (this.configuration.apiKeys && this.configuration.apiKeys["api_key"]) {
+            headers = headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;

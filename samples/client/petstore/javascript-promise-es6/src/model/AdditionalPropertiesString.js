@@ -22,7 +22,7 @@ class AdditionalPropertiesString {
     /**
      * Constructs a new <code>AdditionalPropertiesString</code>.
      * @alias module:model/AdditionalPropertiesString
-     * @extends Object
+     * @extends 
      */
     constructor() { 
         
@@ -48,7 +48,7 @@ class AdditionalPropertiesString {
         if (data) {
             obj = obj || new AdditionalPropertiesString();
 
-            ApiClient.constructFromObject(data, obj, 'String');
+            ApiClient.constructFromObject(data, obj, '');
             
 
             if (data.hasOwnProperty('name')) {

@@ -128,7 +128,7 @@ where
         match &method {
 
             // DummyGet - GET /dummy
-            &hyper::Method::Get if path.matched(paths::ID_DUMMY) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.dummy_get(&context)
@@ -162,7 +162,7 @@ where
             },
 
             // DummyPut - PUT /dummy
-            &hyper::Method::Put if path.matched(paths::ID_DUMMY) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -225,7 +225,7 @@ where
             },
 
             // FileResponseGet - GET /file_response
-            &hyper::Method::Get if path.matched(paths::ID_FILE_RESPONSE) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.file_response_get(&context)
@@ -265,7 +265,7 @@ where
             },
 
             // HtmlPost - POST /html
-            &hyper::Method::Post if path.matched(paths::ID_HTML) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -322,7 +322,7 @@ where
             },
 
             // RawJsonGet - GET /raw_json
-            &hyper::Method::Get if path.matched(paths::ID_RAW_JSON) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.raw_json_get(&context)
@@ -385,19 +385,19 @@ impl RequestParser for ApiRequestParser {
         match request.method() {
 
             // DummyGet - GET /dummy
-            &hyper::Method::Get if path.matched(paths::ID_DUMMY) => Ok("DummyGet"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("DummyGet"),
 
             // DummyPut - PUT /dummy
-            &hyper::Method::Put if path.matched(paths::ID_DUMMY) => Ok("DummyPut"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("DummyPut"),
 
             // FileResponseGet - GET /file_response
-            &hyper::Method::Get if path.matched(paths::ID_FILE_RESPONSE) => Ok("FileResponseGet"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("FileResponseGet"),
 
             // HtmlPost - POST /html
-            &hyper::Method::Post if path.matched(paths::ID_HTML) => Ok("HtmlPost"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("HtmlPost"),
 
             // RawJsonGet - GET /raw_json
-            &hyper::Method::Get if path.matched(paths::ID_RAW_JSON) => Ok("RawJsonGet"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("RawJsonGet"),
             _ => Err(()),
         }
     }

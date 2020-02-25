@@ -146,7 +146,7 @@ where
         match &method {
 
             // MultigetGet - GET /multiget
-            &hyper::Method::Get if path.matched(paths::ID_MULTIGET) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.multiget_get(&context)
@@ -264,7 +264,7 @@ where
             },
 
             // MultipleAuthSchemeGet - GET /multiple_auth_scheme
-            &hyper::Method::Get if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -325,7 +325,7 @@ where
             },
 
             // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
-            &hyper::Method::Get if path.matched(paths::ID_READONLY_AUTH_SCHEME) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -385,7 +385,7 @@ where
             },
 
             // RequiredOctetStreamPut - PUT /required_octet_stream
-            &hyper::Method::Put if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -436,7 +436,7 @@ where
             },
 
             // ResponsesWithHeadersGet - GET /responses_with_headers
-            &hyper::Method::Get if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.responses_with_headers_get(&context)
@@ -497,7 +497,7 @@ where
             },
 
             // UuidGet - GET /uuid
-            &hyper::Method::Get if path.matched(paths::ID_UUID) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.uuid_get(&context)
@@ -537,7 +537,7 @@ where
             },
 
             // XmlExtraPost - POST /xml_extra
-            &hyper::Method::Post if path.matched(paths::ID_XML_EXTRA) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -603,7 +603,7 @@ where
             },
 
             // XmlOtherPost - POST /xml_other
-            &hyper::Method::Post if path.matched(paths::ID_XML_OTHER) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -669,7 +669,7 @@ where
             },
 
             // XmlOtherPut - PUT /xml_other
-            &hyper::Method::Put if path.matched(paths::ID_XML_OTHER) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -735,7 +735,7 @@ where
             },
 
             // XmlPost - POST /xml
-            &hyper::Method::Post if path.matched(paths::ID_XML) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -801,7 +801,7 @@ where
             },
 
             // XmlPut - PUT /xml
-            &hyper::Method::Put if path.matched(paths::ID_XML) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -890,37 +890,37 @@ impl RequestParser for ApiRequestParser {
         match request.method() {
 
             // MultigetGet - GET /multiget
-            &hyper::Method::Get if path.matched(paths::ID_MULTIGET) => Ok("MultigetGet"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("MultigetGet"),
 
             // MultipleAuthSchemeGet - GET /multiple_auth_scheme
-            &hyper::Method::Get if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => Ok("MultipleAuthSchemeGet"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("MultipleAuthSchemeGet"),
 
             // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
-            &hyper::Method::Get if path.matched(paths::ID_READONLY_AUTH_SCHEME) => Ok("ReadonlyAuthSchemeGet"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("ReadonlyAuthSchemeGet"),
 
             // RequiredOctetStreamPut - PUT /required_octet_stream
-            &hyper::Method::Put if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => Ok("RequiredOctetStreamPut"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("RequiredOctetStreamPut"),
 
             // ResponsesWithHeadersGet - GET /responses_with_headers
-            &hyper::Method::Get if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => Ok("ResponsesWithHeadersGet"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("ResponsesWithHeadersGet"),
 
             // UuidGet - GET /uuid
-            &hyper::Method::Get if path.matched(paths::ID_UUID) => Ok("UuidGet"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("UuidGet"),
 
             // XmlExtraPost - POST /xml_extra
-            &hyper::Method::Post if path.matched(paths::ID_XML_EXTRA) => Ok("XmlExtraPost"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("XmlExtraPost"),
 
             // XmlOtherPost - POST /xml_other
-            &hyper::Method::Post if path.matched(paths::ID_XML_OTHER) => Ok("XmlOtherPost"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("XmlOtherPost"),
 
             // XmlOtherPut - PUT /xml_other
-            &hyper::Method::Put if path.matched(paths::ID_XML_OTHER) => Ok("XmlOtherPut"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("XmlOtherPut"),
 
             // XmlPost - POST /xml
-            &hyper::Method::Post if path.matched(paths::ID_XML) => Ok("XmlPost"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("XmlPost"),
 
             // XmlPut - PUT /xml
-            &hyper::Method::Put if path.matched(paths::ID_XML) => Ok("XmlPut"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("XmlPut"),
             _ => Err(()),
         }
     }

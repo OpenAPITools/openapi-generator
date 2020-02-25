@@ -22,7 +22,7 @@ class AdditionalPropertiesBoolean {
     /**
      * Constructs a new <code>AdditionalPropertiesBoolean</code>.
      * @alias module:model/AdditionalPropertiesBoolean
-     * @extends Object
+     * @extends 
      */
     constructor() { 
         
@@ -48,7 +48,7 @@ class AdditionalPropertiesBoolean {
         if (data) {
             obj = obj || new AdditionalPropertiesBoolean();
 
-            ApiClient.constructFromObject(data, obj, 'Boolean');
+            ApiClient.constructFromObject(data, obj, '');
             
 
             if (data.hasOwnProperty('name')) {

@@ -16,7 +16,7 @@
  */
 namespace OpenAPIServer\Model;
 
-use OpenAPIServer\Interfaces\ModelInterface;
+use \ModelInterface;
 
 /**
  * Category

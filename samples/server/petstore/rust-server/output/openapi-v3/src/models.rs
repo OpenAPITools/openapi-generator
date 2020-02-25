@@ -103,12 +103,6 @@ impl ::std::convert::From<String> for AnotherXmlInner {
     }
 }
 
-impl std::str::FromStr for AnotherXmlInner {
-    type Err = ParseError;
-    fn from_str(x: &str) -> Result<Self, Self::Err> {
-        Ok(AnotherXmlInner(x.to_string()))
-    }
-}
 
 impl ::std::convert::From<AnotherXmlInner> for String {
     fn from(x: AnotherXmlInner) -> Self {
@@ -377,12 +371,6 @@ impl ::std::convert::From<String> for XmlInner {
     }
 }
 
-impl std::str::FromStr for XmlInner {
-    type Err = ParseError;
-    fn from_str(x: &str) -> Result<Self, Self::Err> {
-        Ok(XmlInner(x.to_string()))
-    }
-}
 
 impl ::std::convert::From<XmlInner> for String {
     fn from(x: XmlInner) -> Self {

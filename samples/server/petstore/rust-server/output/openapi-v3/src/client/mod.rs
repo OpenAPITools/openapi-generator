@@ -257,7 +257,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn multiget_get(&self, context: &C) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/multiget",
+            "{}",
             self.base_path
         );
 
@@ -438,7 +438,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn multiple_auth_scheme_get(&self, context: &C) -> Box<dyn Future<Item=MultipleAuthSchemeGetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/multiple_auth_scheme",
+            "{}",
             self.base_path
         );
 
@@ -460,18 +460,6 @@ impl<F, C> Api<C> for Client<F> where
 
 
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
-
-        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
-            // Currently only authentication with Basic, API Key, and Bearer are supported
-            match auth_data {
-                &AuthData::Bearer(ref bearer_header) => {
-                    request.headers_mut().set(hyper::header::Authorization(
-                        bearer_header.clone(),
-                    ))
-                },
-                _ => {}
-            }
-        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -511,7 +499,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn readonly_auth_scheme_get(&self, context: &C) -> Box<dyn Future<Item=ReadonlyAuthSchemeGetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/readonly_auth_scheme",
+            "{}",
             self.base_path
         );
 
@@ -533,18 +521,6 @@ impl<F, C> Api<C> for Client<F> where
 
 
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
-
-        (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
-            // Currently only authentication with Basic, API Key, and Bearer are supported
-            match auth_data {
-                &AuthData::Bearer(ref bearer_header) => {
-                    request.headers_mut().set(hyper::header::Authorization(
-                        bearer_header.clone(),
-                    ))
-                },
-                _ => {}
-            }
-        });
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -584,7 +560,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn required_octet_stream_put(&self, param_body: swagger::ByteArray, context: &C) -> Box<dyn Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/required_octet_stream",
+            "{}",
             self.base_path
         );
 
@@ -649,7 +625,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn responses_with_headers_get(&self, context: &C) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/responses_with_headers",
+            "{}",
             self.base_path
         );
 
@@ -748,7 +724,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn uuid_get(&self, context: &C) -> Box<dyn Future<Item=UuidGetResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/uuid",
+            "{}",
             self.base_path
         );
 
@@ -819,7 +795,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn xml_extra_post(&self, param_duplicate_xml_object: Option<models::DuplicateXmlObject>, context: &C) -> Box<dyn Future<Item=XmlExtraPostResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/xml_extra",
+            "{}",
             self.base_path
         );
 
@@ -898,7 +874,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn xml_other_post(&self, param_another_xml_object: Option<models::AnotherXmlObject>, context: &C) -> Box<dyn Future<Item=XmlOtherPostResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/xml_other",
+            "{}",
             self.base_path
         );
 
@@ -977,7 +953,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn xml_other_put(&self, param_string: Option<models::AnotherXmlArray>, context: &C) -> Box<dyn Future<Item=XmlOtherPutResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/xml_other",
+            "{}",
             self.base_path
         );
 
@@ -1056,7 +1032,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn xml_post(&self, param_string: Option<models::XmlArray>, context: &C) -> Box<dyn Future<Item=XmlPostResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/xml",
+            "{}",
             self.base_path
         );
 
@@ -1135,7 +1111,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn xml_put(&self, param_xml_object: Option<models::XmlObject>, context: &C) -> Box<dyn Future<Item=XmlPutResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/xml",
+            "{}",
             self.base_path
         );
 

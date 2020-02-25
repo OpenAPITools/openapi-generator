@@ -55,11 +55,9 @@ import qualified Prelude as P
 -- * Operations
 
 
--- ** FakeClassnameTags123
-
 -- *** testClassname
 
--- | @PATCH \/fake_classname_test@
+-- | @@
 -- 
 -- To test class name in snake case
 -- 
@@ -68,22 +66,22 @@ import qualified Prelude as P
 -- AuthMethod: 'AuthApiKeyApiKeyQuery'
 -- 
 testClassname 
-  :: (Consumes TestClassname MimeJSON, MimeRender MimeJSON Client)
-  => Client -- ^ "body" -  client model
-  -> OpenAPIPetstoreRequest TestClassname MimeJSON Client MimeJSON
-testClassname body =
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> Client -- ^ "body" -  client model
+  -> OpenAPIPetstoreRequest  contentType  accept
+testClassname _  _ body =
   _mkRequest "PATCH" ["/fake_classname_test"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyApiKeyQuery)
     `setBodyParam` body
 
-data TestClassname 
+data  
 
 -- | /Body Param/ "body" - client model
-instance HasBodyParam TestClassname Client 
+instance HasBodyParam  Client 
 
 -- | @application/json@
-instance Consumes TestClassname MimeJSON
+instance Consumes  MimeJSON
 
 -- | @application/json@
-instance Produces TestClassname MimeJSON
+instance Produces  MimeJSON
 

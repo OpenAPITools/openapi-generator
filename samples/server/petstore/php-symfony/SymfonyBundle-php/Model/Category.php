@@ -44,7 +44,7 @@ use JMS\Serializer\Annotation\SerializedName;
 class Category 
 {
         /**
-     * @var int|null
+     * @var |null
      * @SerializedName("id")
      * @Assert\Type("int")
      * @Type("int")
@@ -52,7 +52,7 @@ class Category
     protected $id;
 
     /**
-     * @var string|null
+     * @var |null
      * @SerializedName("name")
      * @Assert\Type("string")
      * @Type("string")
@@ -72,7 +72,7 @@ class Category
     /**
      * Gets id.
      *
-     * @return int|null
+     * @return |null
      */
     public function getId()
     {
@@ -82,7 +82,7 @@ class Category
     /**
      * Sets id.
      *
-     * @param int|null $id
+     * @param |null $id
      *
      * @return $this
      */
@@ -96,7 +96,7 @@ class Category
     /**
      * Gets name.
      *
-     * @return string|null
+     * @return |null
      */
     public function getName()
     {
@@ -106,7 +106,7 @@ class Category
     /**
      * Sets name.
      *
-     * @param string|null $name
+     * @param |null $name
      *
      * @return $this
      */

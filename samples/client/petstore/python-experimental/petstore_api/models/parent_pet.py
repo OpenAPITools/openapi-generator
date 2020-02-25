@@ -31,23 +31,19 @@ from petstore_api.model_utils import (  # noqa: F401
 try:
     from petstore_api.models import child_cat
 except ImportError:
-    child_cat = sys.modules[
-        'petstore_api.models.child_cat']
+    child_cat = sys.modules['petstore_api.models.child_cat']
 try:
     from petstore_api.models import child_dog
 except ImportError:
-    child_dog = sys.modules[
-        'petstore_api.models.child_dog']
+    child_dog = sys.modules['petstore_api.models.child_dog']
 try:
     from petstore_api.models import child_lizard
 except ImportError:
-    child_lizard = sys.modules[
-        'petstore_api.models.child_lizard']
+    child_lizard = sys.modules['petstore_api.models.child_lizard']
 try:
     from petstore_api.models import grandparent_animal
 except ImportError:
-    grandparent_animal = sys.modules[
-        'petstore_api.models.grandparent_animal']
+    grandparent_animal = sys.modules['petstore_api.models.grandparent_animal']
 
 
 class ParentPet(ModelComposed):

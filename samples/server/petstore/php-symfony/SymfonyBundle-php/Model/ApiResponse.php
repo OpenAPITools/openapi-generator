@@ -44,7 +44,7 @@ use JMS\Serializer\Annotation\SerializedName;
 class ApiResponse 
 {
         /**
-     * @var int|null
+     * @var |null
      * @SerializedName("code")
      * @Assert\Type("int")
      * @Type("int")
@@ -52,7 +52,7 @@ class ApiResponse
     protected $code;
 
     /**
-     * @var string|null
+     * @var |null
      * @SerializedName("type")
      * @Assert\Type("string")
      * @Type("string")
@@ -60,7 +60,7 @@ class ApiResponse
     protected $type;
 
     /**
-     * @var string|null
+     * @var |null
      * @SerializedName("message")
      * @Assert\Type("string")
      * @Type("string")
@@ -81,7 +81,7 @@ class ApiResponse
     /**
      * Gets code.
      *
-     * @return int|null
+     * @return |null
      */
     public function getCode()
     {
@@ -91,7 +91,7 @@ class ApiResponse
     /**
      * Sets code.
      *
-     * @param int|null $code
+     * @param |null $code
      *
      * @return $this
      */
@@ -105,7 +105,7 @@ class ApiResponse
     /**
      * Gets type.
      *
-     * @return string|null
+     * @return |null
      */
     public function getType()
     {
@@ -115,7 +115,7 @@ class ApiResponse
     /**
      * Sets type.
      *
-     * @param string|null $type
+     * @param |null $type
      *
      * @return $this
      */
@@ -129,7 +129,7 @@ class ApiResponse
     /**
      * Gets message.
      *
-     * @return string|null
+     * @return |null
      */
     public function getMessage()
     {
@@ -139,7 +139,7 @@ class ApiResponse
     /**
      * Sets message.
      *
-     * @param string|null $message
+     * @param |null $message
      *
      * @return $this
      */

@@ -41,7 +41,7 @@ export default class PetApi {
      * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    addPetWithHttpInfo(body) {
+    addPetWithHttpInfo() {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -73,8 +73,8 @@ export default class PetApi {
      * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    addPet(body) {
-      return this.addPetWithHttpInfo(body)
+    addPet() {
+      return this.addPetWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -88,8 +88,7 @@ export default class PetApi {
      * @param {String} opts.apiKey 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    deletePetWithHttpInfo(petId, opts) {
-      opts = opts || {};
+    deletePetWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {
@@ -125,8 +124,8 @@ export default class PetApi {
      * @param {String} opts.apiKey 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    deletePet(petId, opts) {
-      return this.deletePetWithHttpInfo(petId, opts)
+    deletePet() {
+      return this.deletePetWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -139,7 +138,7 @@ export default class PetApi {
      * @param {Array.<module:model/String>} status Status values that need to be considered for filter
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link Array.<module:model/Pet>} and HTTP response
      */
-    findPetsByStatusWithHttpInfo(status) {
+    findPetsByStatusWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'status' is set
       if (status === undefined || status === null) {
@@ -173,8 +172,8 @@ export default class PetApi {
      * @param {Array.<module:model/String>} status Status values that need to be considered for filter
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Array.<module:model/Pet>}
      */
-    findPetsByStatus(status) {
-      return this.findPetsByStatusWithHttpInfo(status)
+    findPetsByStatus() {
+      return this.findPetsByStatusWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -187,7 +186,7 @@ export default class PetApi {
      * @param {Array.<String>} tags Tags to filter by
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link Array.<module:model/Pet>} and HTTP response
      */
-    findPetsByTagsWithHttpInfo(tags) {
+    findPetsByTagsWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'tags' is set
       if (tags === undefined || tags === null) {
@@ -221,8 +220,8 @@ export default class PetApi {
      * @param {Array.<String>} tags Tags to filter by
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Array.<module:model/Pet>}
      */
-    findPetsByTags(tags) {
-      return this.findPetsByTagsWithHttpInfo(tags)
+    findPetsByTags() {
+      return this.findPetsByTagsWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -235,7 +234,7 @@ export default class PetApi {
      * @param {Number} petId ID of pet to return
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Pet} and HTTP response
      */
-    getPetByIdWithHttpInfo(petId) {
+    getPetByIdWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {
@@ -269,8 +268,8 @@ export default class PetApi {
      * @param {Number} petId ID of pet to return
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Pet}
      */
-    getPetById(petId) {
-      return this.getPetByIdWithHttpInfo(petId)
+    getPetById() {
+      return this.getPetByIdWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -282,7 +281,7 @@ export default class PetApi {
      * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    updatePetWithHttpInfo(body) {
+    updatePetWithHttpInfo() {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -314,8 +313,8 @@ export default class PetApi {
      * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    updatePet(body) {
-      return this.updatePetWithHttpInfo(body)
+    updatePet() {
+      return this.updatePetWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -330,8 +329,7 @@ export default class PetApi {
      * @param {String} opts.status Updated status of the pet
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    updatePetWithFormWithHttpInfo(petId, opts) {
-      opts = opts || {};
+    updatePetWithFormWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {
@@ -369,8 +367,8 @@ export default class PetApi {
      * @param {String} opts.status Updated status of the pet
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    updatePetWithForm(petId, opts) {
-      return this.updatePetWithFormWithHttpInfo(petId, opts)
+    updatePetWithForm() {
+      return this.updatePetWithFormWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -385,8 +383,7 @@ export default class PetApi {
      * @param {File} opts.file file to upload
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/ApiResponse} and HTTP response
      */
-    uploadFileWithHttpInfo(petId, opts) {
-      opts = opts || {};
+    uploadFileWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {
@@ -424,8 +421,8 @@ export default class PetApi {
      * @param {File} opts.file file to upload
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/ApiResponse}
      */
-    uploadFile(petId, opts) {
-      return this.uploadFileWithHttpInfo(petId, opts)
+    uploadFile() {
+      return this.uploadFileWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -440,8 +437,7 @@ export default class PetApi {
      * @param {String} opts.additionalMetadata Additional data to pass to server
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/ApiResponse} and HTTP response
      */
-    uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, opts) {
-      opts = opts || {};
+    uploadFileWithRequiredFileWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {
@@ -483,8 +479,8 @@ export default class PetApi {
      * @param {String} opts.additionalMetadata Additional data to pass to server
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/ApiResponse}
      */
-    uploadFileWithRequiredFile(petId, requiredFile, opts) {
-      return this.uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, opts)
+    uploadFileWithRequiredFile() {
+      return this.uploadFileWithRequiredFileWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });

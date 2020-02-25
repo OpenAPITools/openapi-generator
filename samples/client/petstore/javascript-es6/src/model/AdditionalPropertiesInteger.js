@@ -22,7 +22,7 @@ class AdditionalPropertiesInteger {
     /**
      * Constructs a new <code>AdditionalPropertiesInteger</code>.
      * @alias module:model/AdditionalPropertiesInteger
-     * @extends Object
+     * @extends 
      */
     constructor() { 
         
@@ -48,7 +48,7 @@ class AdditionalPropertiesInteger {
         if (data) {
             obj = obj || new AdditionalPropertiesInteger();
 
-            ApiClient.constructFromObject(data, obj, 'Number');
+            ApiClient.constructFromObject(data, obj, '');
             
 
             if (data.hasOwnProperty('name')) {

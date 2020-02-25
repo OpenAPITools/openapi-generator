@@ -9,8 +9,4 @@ Name | Type | Description | Notes
 **$specialPropertyName** | **Long** |  |  [optional]
 
 
-## Implemented Interfaces
-
-* Parcelable
-
 

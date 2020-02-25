@@ -44,7 +44,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="property">property.</param>
         public Name(int name = default(int), string property = default(string))
         {
-            this._Name = name;
+            // to ensure "name" is required (not null)
+            this._Name = name ?? throw new ArgumentNullException("name is a required property for Name and cannot be null");;
             this.Property = property;
         }
         
@@ -126,11 +127,14 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this._Name.GetHashCode();
-                hashCode = hashCode * 59 + this.SnakeCase.GetHashCode();
+                if (this._Name != null)
+                    hashCode = hashCode * 59 + this._Name.GetHashCode();
+                if (this.SnakeCase != null)
+                    hashCode = hashCode * 59 + this.SnakeCase.GetHashCode();
                 if (this.Property != null)
                     hashCode = hashCode * 59 + this.Property.GetHashCode();
-                hashCode = hashCode * 59 + this._123Number.GetHashCode();
+                if (this._123Number != null)
+                    hashCode = hashCode * 59 + this._123Number.GetHashCode();
                 return hashCode;
             }
         }

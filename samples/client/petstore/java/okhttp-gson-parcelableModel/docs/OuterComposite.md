@@ -11,8 +11,4 @@ Name | Type | Description | Notes
 **myBoolean** | **Boolean** |  |  [optional]
 
 
-## Implemented Interfaces
-
-* Parcelable
-
 

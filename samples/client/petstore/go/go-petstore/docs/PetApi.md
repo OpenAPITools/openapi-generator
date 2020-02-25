@@ -71,7 +71,7 @@ Optional parameters are passed through a pointer to a DeletePetOpts struct
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **apiKey** | **optional.String**|  | 
+ **apiKey** | **optional.**|  | 
 
 ### Return type
 
@@ -248,8 +248,8 @@ Optional parameters are passed through a pointer to a UpdatePetWithFormOpts stru
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **name** | **optional.String**| Updated name of the pet | 
- **status** | **optional.String**| Updated status of the pet | 
+ **name** | **optional.**| Updated name of the pet | 
+ **status** | **optional.**| Updated status of the pet | 
 
 ### Return type
 
@@ -292,8 +292,8 @@ Optional parameters are passed through a pointer to a UploadFileOpts struct
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **additionalMetadata** | **optional.String**| Additional data to pass to server | 
- **file** | **optional.Interface of *os.File****optional.*os.File**| file to upload | 
+ **additionalMetadata** | **optional.**| Additional data to pass to server | 
+ **file** | **optional.Interface of *os.File****optional.**| file to upload | 
 
 ### Return type
 
@@ -338,7 +338,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **additionalMetadata** | **optional.String**| Additional data to pass to server | 
+ **additionalMetadata** | **optional.**| Additional data to pass to server | 
 
 ### Return type
 

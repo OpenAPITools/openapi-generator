@@ -89,7 +89,7 @@ mod paths {
             r"^/v2/another-fake/dummy$",
             r"^/v2/fake$",
             r"^/v2/fake/body-with-query-params$",
-            r"^/v2/fake/hyphenParam/(?P<hyphen_param>[^/?#]*)$",
+            r"^/v2/fake/hyphenParam/(?P<hyphen-param>[^/?#]*)$",
             r"^/v2/fake/inline-additionalProperties$",
             r"^/v2/fake/jsonFormData$",
             r"^/v2/fake/outer/boolean$",
@@ -100,8 +100,8 @@ mod paths {
             r"^/v2/pet$",
             r"^/v2/pet/findByStatus$",
             r"^/v2/pet/findByTags$",
-            r"^/v2/pet/(?P<pet_id>[^/?#]*)$",
-            r"^/v2/pet/(?P<pet_id>[^/?#]*)/uploadImage$",
+            r"^/v2/pet/(?P<petId>[^/?#]*)$",
+            r"^/v2/pet/(?P<petId>[^/?#]*)/uploadImage$",
             r"^/v2/store/inventory$",
             r"^/v2/store/order$",
             r"^/v2/store/order/(?P<order_id>[^/?#]*)$",
@@ -118,7 +118,7 @@ mod paths {
     pub static ID_FAKE_BODY_WITH_QUERY_PARAMS: usize = 2;
     pub static ID_FAKE_HYPHENPARAM_HYPHEN_PARAM: usize = 3;
     lazy_static! {
-        pub static ref REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM: regex::Regex = regex::Regex::new(r"^/v2/fake/hyphenParam/(?P<hyphen_param>[^/?#]*)$").unwrap();
+        pub static ref REGEX_FAKE_HYPHENPARAM_HYPHEN_PARAM: regex::Regex = regex::Regex::new(r"^/v2/fake/hyphenParam/(?P<hyphen-param>[^/?#]*)$").unwrap();
     }
     pub static ID_FAKE_INLINE_ADDITIONALPROPERTIES: usize = 4;
     pub static ID_FAKE_JSONFORMDATA: usize = 5;
@@ -132,11 +132,11 @@ mod paths {
     pub static ID_PET_FINDBYTAGS: usize = 13;
     pub static ID_PET_PETID: usize = 14;
     lazy_static! {
-        pub static ref REGEX_PET_PETID: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<pet_id>[^/?#]*)$").unwrap();
+        pub static ref REGEX_PET_PETID: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)$").unwrap();
     }
     pub static ID_PET_PETID_UPLOADIMAGE: usize = 15;
     lazy_static! {
-        pub static ref REGEX_PET_PETID_UPLOADIMAGE: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<pet_id>[^/?#]*)/uploadImage$").unwrap();
+        pub static ref REGEX_PET_PETID_UPLOADIMAGE: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)/uploadImage$").unwrap();
     }
     pub static ID_STORE_INVENTORY: usize = 16;
     pub static ID_STORE_ORDER: usize = 17;
@@ -219,7 +219,7 @@ where
         match &method {
 
             // TestSpecialTags - PATCH /another-fake/dummy
-            &hyper::Method::Patch if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -288,7 +288,7 @@ where
             },
 
             // FakeOuterBooleanSerialize - POST /fake/outer/boolean
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -353,7 +353,7 @@ where
             },
 
             // FakeOuterCompositeSerialize - POST /fake/outer/composite
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -418,7 +418,7 @@ where
             },
 
             // FakeOuterNumberSerialize - POST /fake/outer/number
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_NUMBER) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -483,7 +483,7 @@ where
             },
 
             // FakeOuterStringSerialize - POST /fake/outer/string
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_STRING) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -548,7 +548,7 @@ where
             },
 
             // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
-            &hyper::Method::Get if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -597,7 +597,7 @@ where
             },
 
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
-            &hyper::Method::Put if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_query = query_params.iter().filter(|e| e.0 == "query").map(|e| e.1.to_owned())
@@ -671,7 +671,7 @@ where
             },
 
             // TestClientModel - PATCH /fake
-            &hyper::Method::Patch if path.matched(paths::ID_FAKE) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -740,7 +740,7 @@ where
             },
 
             // TestEndpointParameters - POST /fake
-            &hyper::Method::Post if path.matched(paths::ID_FAKE) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -805,12 +805,12 @@ where
             },
 
             // TestEnumParameters - GET /fake
-            &hyper::Method::Get if path.matched(paths::ID_FAKE) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Header parameters
-                header! { (RequestEnumHeaderStringArray, "enum_header_string_array") => (String)* }
-                let param_enum_header_string_array = headers.safe_get::<RequestEnumHeaderStringArray>().map(|header| header.0.clone());
-                header! { (RequestEnumHeaderString, "enum_header_string") => [String] }
-                let param_enum_header_string = headers.safe_get::<RequestEnumHeaderString>().map(|header| header.0.clone());
+                header! { (Request, "enum_header_string_array") => (String)* }
+                let param_enum_header_string_array = headers.safe_get::<Request>().map(|header| header.0.clone());
+                header! { (Request, "enum_header_string") => [String] }
+                let param_enum_header_string = headers.safe_get::<Request>().map(|header| header.0.clone());
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_enum_query_string_array = query_params.iter().filter(|e| e.0 == "enum_query_string_array").map(|e| e.1.to_owned())
@@ -875,7 +875,7 @@ where
             },
 
             // TestInlineAdditionalProperties - POST /fake/inline-additionalProperties
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -938,7 +938,7 @@ where
             },
 
             // TestJsonFormData - GET /fake/jsonFormData
-            &hyper::Method::Get if path.matched(paths::ID_FAKE_JSONFORMDATA) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 // Form parameters
@@ -975,7 +975,7 @@ where
             },
 
             // TestClassname - PATCH /fake_classname_test
-            &hyper::Method::Patch if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -1053,7 +1053,7 @@ where
             },
 
             // AddPet - POST /pet
-            &hyper::Method::Post if path.matched(paths::ID_PET) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -1143,7 +1143,7 @@ where
             },
 
             // DeletePet - DELETE /pet/{petId}
-            &hyper::Method::Delete if path.matched(paths::ID_PET_PETID) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -1187,8 +1187,8 @@ where
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["pet_id"]))))
                 };
                 // Header parameters
-                header! { (RequestApiKey, "api_key") => [String] }
-                let param_api_key = headers.safe_get::<RequestApiKey>().map(|header| header.0.clone());
+                header! { (Request, "api_key") => [String] }
+                let param_api_key = headers.safe_get::<Request>().map(|header| header.0.clone());
                 Box::new({
                         {{
                                 Box::new(api_impl.delete_pet(param_pet_id, param_api_key, &context)
@@ -1222,7 +1222,7 @@ where
             },
 
             // FindPetsByStatus - GET /pet/findByStatus
-            &hyper::Method::Get if path.matched(paths::ID_PET_FINDBYSTATUS) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -1301,7 +1301,7 @@ where
             },
 
             // FindPetsByTags - GET /pet/findByTags
-            &hyper::Method::Get if path.matched(paths::ID_PET_FINDBYTAGS) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -1380,7 +1380,7 @@ where
             },
 
             // GetPetById - GET /pet/{petId}
-            &hyper::Method::Get if path.matched(paths::ID_PET_PETID) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -1458,7 +1458,7 @@ where
             },
 
             // UpdatePet - PUT /pet
-            &hyper::Method::Put if path.matched(paths::ID_PET) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -1562,7 +1562,7 @@ where
             },
 
             // UpdatePetWithForm - POST /pet/{petId}
-            &hyper::Method::Post if path.matched(paths::ID_PET_PETID) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -1641,7 +1641,7 @@ where
             },
 
             // UploadFile - POST /pet/{petId}/uploadImage
-            &hyper::Method::Post if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -1771,7 +1771,7 @@ where
             },
 
             // DeleteOrder - DELETE /store/order/{order_id}
-            &hyper::Method::Delete if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -1827,7 +1827,7 @@ where
             },
 
             // GetInventory - GET /store/inventory
-            &hyper::Method::Get if path.matched(paths::ID_STORE_INVENTORY) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 {
                     let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
                         &Some(ref authorization) => authorization,
@@ -1876,7 +1876,7 @@ where
             },
 
             // GetOrderById - GET /store/order/{order_id}
-            &hyper::Method::Get if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -1945,7 +1945,7 @@ where
             },
 
             // PlaceOrder - POST /store/order
-            &hyper::Method::Post if path.matched(paths::ID_STORE_ORDER) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2021,7 +2021,7 @@ where
             },
 
             // CreateUser - POST /user
-            &hyper::Method::Post if path.matched(paths::ID_USER) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2084,7 +2084,7 @@ where
             },
 
             // CreateUsersWithArrayInput - POST /user/createWithArray
-            &hyper::Method::Post if path.matched(paths::ID_USER_CREATEWITHARRAY) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2147,7 +2147,7 @@ where
             },
 
             // CreateUsersWithListInput - POST /user/createWithList
-            &hyper::Method::Post if path.matched(paths::ID_USER_CREATEWITHLIST) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
@@ -2210,7 +2210,7 @@ where
             },
 
             // DeleteUser - DELETE /user/{username}
-            &hyper::Method::Delete if path.matched(paths::ID_USER_USERNAME) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -2266,7 +2266,7 @@ where
             },
 
             // GetUserByName - GET /user/{username}
-            &hyper::Method::Get if path.matched(paths::ID_USER_USERNAME) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -2335,7 +2335,7 @@ where
             },
 
             // LoginUser - GET /user/login
-            &hyper::Method::Get if path.matched(paths::ID_USER_LOGIN) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_username = query_params.iter().filter(|e| e.0 == "username").map(|e| e.1.to_owned())
@@ -2411,7 +2411,7 @@ where
             },
 
             // LogoutUser - GET /user/logout
-            &hyper::Method::Get if path.matched(paths::ID_USER_LOGOUT) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 Box::new({
                         {{
                                 Box::new(api_impl.logout_user(&context)
@@ -2445,7 +2445,7 @@ where
             },
 
             // UpdateUser - PUT /user/{username}
-            &hyper::Method::Put if path.matched(paths::ID_USER_USERNAME) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 // Path parameters
                 let path = uri.path().to_string();
                 let path_params =
@@ -2564,103 +2564,103 @@ impl RequestParser for ApiRequestParser {
         match request.method() {
 
             // TestSpecialTags - PATCH /another-fake/dummy
-            &hyper::Method::Patch if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => Ok("TestSpecialTags"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("TestSpecialTags"),
 
             // FakeOuterBooleanSerialize - POST /fake/outer/boolean
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => Ok("FakeOuterBooleanSerialize"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("FakeOuterBooleanSerialize"),
 
             // FakeOuterCompositeSerialize - POST /fake/outer/composite
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => Ok("FakeOuterCompositeSerialize"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("FakeOuterCompositeSerialize"),
 
             // FakeOuterNumberSerialize - POST /fake/outer/number
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_NUMBER) => Ok("FakeOuterNumberSerialize"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("FakeOuterNumberSerialize"),
 
             // FakeOuterStringSerialize - POST /fake/outer/string
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_STRING) => Ok("FakeOuterStringSerialize"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("FakeOuterStringSerialize"),
 
             // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
-            &hyper::Method::Get if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => Ok("HyphenParam"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("HyphenParam"),
 
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
-            &hyper::Method::Put if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => Ok("TestBodyWithQueryParams"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("TestBodyWithQueryParams"),
 
             // TestClientModel - PATCH /fake
-            &hyper::Method::Patch if path.matched(paths::ID_FAKE) => Ok("TestClientModel"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("TestClientModel"),
 
             // TestEndpointParameters - POST /fake
-            &hyper::Method::Post if path.matched(paths::ID_FAKE) => Ok("TestEndpointParameters"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("TestEndpointParameters"),
 
             // TestEnumParameters - GET /fake
-            &hyper::Method::Get if path.matched(paths::ID_FAKE) => Ok("TestEnumParameters"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("TestEnumParameters"),
 
             // TestInlineAdditionalProperties - POST /fake/inline-additionalProperties
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => Ok("TestInlineAdditionalProperties"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("TestInlineAdditionalProperties"),
 
             // TestJsonFormData - GET /fake/jsonFormData
-            &hyper::Method::Get if path.matched(paths::ID_FAKE_JSONFORMDATA) => Ok("TestJsonFormData"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("TestJsonFormData"),
 
             // TestClassname - PATCH /fake_classname_test
-            &hyper::Method::Patch if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => Ok("TestClassname"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("TestClassname"),
 
             // AddPet - POST /pet
-            &hyper::Method::Post if path.matched(paths::ID_PET) => Ok("AddPet"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("AddPet"),
 
             // DeletePet - DELETE /pet/{petId}
-            &hyper::Method::Delete if path.matched(paths::ID_PET_PETID) => Ok("DeletePet"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("DeletePet"),
 
             // FindPetsByStatus - GET /pet/findByStatus
-            &hyper::Method::Get if path.matched(paths::ID_PET_FINDBYSTATUS) => Ok("FindPetsByStatus"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("FindPetsByStatus"),
 
             // FindPetsByTags - GET /pet/findByTags
-            &hyper::Method::Get if path.matched(paths::ID_PET_FINDBYTAGS) => Ok("FindPetsByTags"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("FindPetsByTags"),
 
             // GetPetById - GET /pet/{petId}
-            &hyper::Method::Get if path.matched(paths::ID_PET_PETID) => Ok("GetPetById"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("GetPetById"),
 
             // UpdatePet - PUT /pet
-            &hyper::Method::Put if path.matched(paths::ID_PET) => Ok("UpdatePet"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("UpdatePet"),
 
             // UpdatePetWithForm - POST /pet/{petId}
-            &hyper::Method::Post if path.matched(paths::ID_PET_PETID) => Ok("UpdatePetWithForm"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("UpdatePetWithForm"),
 
             // UploadFile - POST /pet/{petId}/uploadImage
-            &hyper::Method::Post if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => Ok("UploadFile"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("UploadFile"),
 
             // DeleteOrder - DELETE /store/order/{order_id}
-            &hyper::Method::Delete if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Ok("DeleteOrder"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("DeleteOrder"),
 
             // GetInventory - GET /store/inventory
-            &hyper::Method::Get if path.matched(paths::ID_STORE_INVENTORY) => Ok("GetInventory"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("GetInventory"),
 
             // GetOrderById - GET /store/order/{order_id}
-            &hyper::Method::Get if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Ok("GetOrderById"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("GetOrderById"),
 
             // PlaceOrder - POST /store/order
-            &hyper::Method::Post if path.matched(paths::ID_STORE_ORDER) => Ok("PlaceOrder"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("PlaceOrder"),
 
             // CreateUser - POST /user
-            &hyper::Method::Post if path.matched(paths::ID_USER) => Ok("CreateUser"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("CreateUser"),
 
             // CreateUsersWithArrayInput - POST /user/createWithArray
-            &hyper::Method::Post if path.matched(paths::ID_USER_CREATEWITHARRAY) => Ok("CreateUsersWithArrayInput"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("CreateUsersWithArrayInput"),
 
             // CreateUsersWithListInput - POST /user/createWithList
-            &hyper::Method::Post if path.matched(paths::ID_USER_CREATEWITHLIST) => Ok("CreateUsersWithListInput"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("CreateUsersWithListInput"),
 
             // DeleteUser - DELETE /user/{username}
-            &hyper::Method::Delete if path.matched(paths::ID_USER_USERNAME) => Ok("DeleteUser"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("DeleteUser"),
 
             // GetUserByName - GET /user/{username}
-            &hyper::Method::Get if path.matched(paths::ID_USER_USERNAME) => Ok("GetUserByName"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("GetUserByName"),
 
             // LoginUser - GET /user/login
-            &hyper::Method::Get if path.matched(paths::ID_USER_LOGIN) => Ok("LoginUser"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("LoginUser"),
 
             // LogoutUser - GET /user/logout
-            &hyper::Method::Get if path.matched(paths::ID_USER_LOGOUT) => Ok("LogoutUser"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("LogoutUser"),
 
             // UpdateUser - PUT /user/{username}
-            &hyper::Method::Put if path.matched(paths::ID_USER_USERNAME) => Ok("UpdateUser"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("UpdateUser"),
             _ => Err(()),
         }
     }

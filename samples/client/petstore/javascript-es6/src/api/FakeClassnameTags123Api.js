@@ -49,7 +49,7 @@ export default class FakeClassnameTags123Api {
      * @param {module:api/FakeClassnameTags123Api~testClassnameCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Client}
      */
-    testClassname(body, callback) {
+    testClassname() {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {

@@ -162,7 +162,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.Id.GetHashCode();
+                if (this.Id != null)
+                    hashCode = hashCode * 59 + this.Id.GetHashCode();
                 if (this.Username != null)
                     hashCode = hashCode * 59 + this.Username.GetHashCode();
                 if (this.FirstName != null)
@@ -175,7 +176,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Password.GetHashCode();
                 if (this.Phone != null)
                     hashCode = hashCode * 59 + this.Phone.GetHashCode();
-                hashCode = hashCode * 59 + this.UserStatus.GetHashCode();
+                if (this.UserStatus != null)
+                    hashCode = hashCode * 59 + this.UserStatus.GetHashCode();
                 return hashCode;
             }
         }

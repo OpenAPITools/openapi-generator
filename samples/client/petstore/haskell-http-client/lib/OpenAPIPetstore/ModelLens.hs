@@ -39,7 +39,7 @@ import OpenAPIPetstore.Core
 -- * AdditionalPropertiesAnyType
 
 -- | 'additionalPropertiesAnyTypeName' Lens
-additionalPropertiesAnyTypeNameL :: Lens_' AdditionalPropertiesAnyType (Maybe Text)
+additionalPropertiesAnyTypeNameL :: Lens_' AdditionalPropertiesAnyType (Maybe )
 additionalPropertiesAnyTypeNameL f AdditionalPropertiesAnyType{..} = (\additionalPropertiesAnyTypeName -> AdditionalPropertiesAnyType { additionalPropertiesAnyTypeName, ..} ) <$> f additionalPropertiesAnyTypeName
 {-# INLINE additionalPropertiesAnyTypeNameL #-}
 
@@ -48,7 +48,7 @@ additionalPropertiesAnyTypeNameL f AdditionalPropertiesAnyType{..} = (\additiona
 -- * AdditionalPropertiesArray
 
 -- | 'additionalPropertiesArrayName' Lens
-additionalPropertiesArrayNameL :: Lens_' AdditionalPropertiesArray (Maybe Text)
+additionalPropertiesArrayNameL :: Lens_' AdditionalPropertiesArray (Maybe )
 additionalPropertiesArrayNameL f AdditionalPropertiesArray{..} = (\additionalPropertiesArrayName -> AdditionalPropertiesArray { additionalPropertiesArrayName, ..} ) <$> f additionalPropertiesArrayName
 {-# INLINE additionalPropertiesArrayNameL #-}
 
@@ -57,7 +57,7 @@ additionalPropertiesArrayNameL f AdditionalPropertiesArray{..} = (\additionalPro
 -- * AdditionalPropertiesBoolean
 
 -- | 'additionalPropertiesBooleanName' Lens
-additionalPropertiesBooleanNameL :: Lens_' AdditionalPropertiesBoolean (Maybe Text)
+additionalPropertiesBooleanNameL :: Lens_' AdditionalPropertiesBoolean (Maybe )
 additionalPropertiesBooleanNameL f AdditionalPropertiesBoolean{..} = (\additionalPropertiesBooleanName -> AdditionalPropertiesBoolean { additionalPropertiesBooleanName, ..} ) <$> f additionalPropertiesBooleanName
 {-# INLINE additionalPropertiesBooleanNameL #-}
 
@@ -66,57 +66,57 @@ additionalPropertiesBooleanNameL f AdditionalPropertiesBoolean{..} = (\additiona
 -- * AdditionalPropertiesClass
 
 -- | 'additionalPropertiesClassMapString' Lens
-additionalPropertiesClassMapStringL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String Text))
+additionalPropertiesClassMapStringL :: Lens_' AdditionalPropertiesClass (Maybe )
 additionalPropertiesClassMapStringL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapString -> AdditionalPropertiesClass { additionalPropertiesClassMapString, ..} ) <$> f additionalPropertiesClassMapString
 {-# INLINE additionalPropertiesClassMapStringL #-}
 
 -- | 'additionalPropertiesClassMapNumber' Lens
-additionalPropertiesClassMapNumberL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String Double))
+additionalPropertiesClassMapNumberL :: Lens_' AdditionalPropertiesClass (Maybe )
 additionalPropertiesClassMapNumberL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapNumber -> AdditionalPropertiesClass { additionalPropertiesClassMapNumber, ..} ) <$> f additionalPropertiesClassMapNumber
 {-# INLINE additionalPropertiesClassMapNumberL #-}
 
 -- | 'additionalPropertiesClassMapInteger' Lens
-additionalPropertiesClassMapIntegerL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String Int))
+additionalPropertiesClassMapIntegerL :: Lens_' AdditionalPropertiesClass (Maybe )
 additionalPropertiesClassMapIntegerL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapInteger -> AdditionalPropertiesClass { additionalPropertiesClassMapInteger, ..} ) <$> f additionalPropertiesClassMapInteger
 {-# INLINE additionalPropertiesClassMapIntegerL #-}
 
 -- | 'additionalPropertiesClassMapBoolean' Lens
-additionalPropertiesClassMapBooleanL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String Bool))
+additionalPropertiesClassMapBooleanL :: Lens_' AdditionalPropertiesClass (Maybe )
 additionalPropertiesClassMapBooleanL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapBoolean -> AdditionalPropertiesClass { additionalPropertiesClassMapBoolean, ..} ) <$> f additionalPropertiesClassMapBoolean
 {-# INLINE additionalPropertiesClassMapBooleanL #-}
 
 -- | 'additionalPropertiesClassMapArrayInteger' Lens
-additionalPropertiesClassMapArrayIntegerL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String [Int]))
+additionalPropertiesClassMapArrayIntegerL :: Lens_' AdditionalPropertiesClass (Maybe )
 additionalPropertiesClassMapArrayIntegerL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapArrayInteger -> AdditionalPropertiesClass { additionalPropertiesClassMapArrayInteger, ..} ) <$> f additionalPropertiesClassMapArrayInteger
 {-# INLINE additionalPropertiesClassMapArrayIntegerL #-}
 
 -- | 'additionalPropertiesClassMapArrayAnytype' Lens
-additionalPropertiesClassMapArrayAnytypeL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String [A.Value]))
+additionalPropertiesClassMapArrayAnytypeL :: Lens_' AdditionalPropertiesClass (Maybe )
 additionalPropertiesClassMapArrayAnytypeL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapArrayAnytype -> AdditionalPropertiesClass { additionalPropertiesClassMapArrayAnytype, ..} ) <$> f additionalPropertiesClassMapArrayAnytype
 {-# INLINE additionalPropertiesClassMapArrayAnytypeL #-}
 
 -- | 'additionalPropertiesClassMapMapString' Lens
-additionalPropertiesClassMapMapStringL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String (Map.Map String Text)))
+additionalPropertiesClassMapMapStringL :: Lens_' AdditionalPropertiesClass (Maybe )
 additionalPropertiesClassMapMapStringL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapMapString -> AdditionalPropertiesClass { additionalPropertiesClassMapMapString, ..} ) <$> f additionalPropertiesClassMapMapString
 {-# INLINE additionalPropertiesClassMapMapStringL #-}
 
 -- | 'additionalPropertiesClassMapMapAnytype' Lens
-additionalPropertiesClassMapMapAnytypeL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String (Map.Map String A.Value)))
+additionalPropertiesClassMapMapAnytypeL :: Lens_' AdditionalPropertiesClass (Maybe )
 additionalPropertiesClassMapMapAnytypeL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapMapAnytype -> AdditionalPropertiesClass { additionalPropertiesClassMapMapAnytype, ..} ) <$> f additionalPropertiesClassMapMapAnytype
 {-# INLINE additionalPropertiesClassMapMapAnytypeL #-}
 
 -- | 'additionalPropertiesClassAnytype1' Lens
-additionalPropertiesClassAnytype1L :: Lens_' AdditionalPropertiesClass (Maybe A.Value)
+additionalPropertiesClassAnytype1L :: Lens_' AdditionalPropertiesClass (Maybe )
 additionalPropertiesClassAnytype1L f AdditionalPropertiesClass{..} = (\additionalPropertiesClassAnytype1 -> AdditionalPropertiesClass { additionalPropertiesClassAnytype1, ..} ) <$> f additionalPropertiesClassAnytype1
 {-# INLINE additionalPropertiesClassAnytype1L #-}
 
 -- | 'additionalPropertiesClassAnytype2' Lens
-additionalPropertiesClassAnytype2L :: Lens_' AdditionalPropertiesClass (Maybe A.Value)
+additionalPropertiesClassAnytype2L :: Lens_' AdditionalPropertiesClass (Maybe )
 additionalPropertiesClassAnytype2L f AdditionalPropertiesClass{..} = (\additionalPropertiesClassAnytype2 -> AdditionalPropertiesClass { additionalPropertiesClassAnytype2, ..} ) <$> f additionalPropertiesClassAnytype2
 {-# INLINE additionalPropertiesClassAnytype2L #-}
 
 -- | 'additionalPropertiesClassAnytype3' Lens
-additionalPropertiesClassAnytype3L :: Lens_' AdditionalPropertiesClass (Maybe A.Value)
+additionalPropertiesClassAnytype3L :: Lens_' AdditionalPropertiesClass (Maybe )
 additionalPropertiesClassAnytype3L f AdditionalPropertiesClass{..} = (\additionalPropertiesClassAnytype3 -> AdditionalPropertiesClass { additionalPropertiesClassAnytype3, ..} ) <$> f additionalPropertiesClassAnytype3
 {-# INLINE additionalPropertiesClassAnytype3L #-}
 
@@ -125,7 +125,7 @@ additionalPropertiesClassAnytype3L f AdditionalPropertiesClass{..} = (\additiona
 -- * AdditionalPropertiesInteger
 
 -- | 'additionalPropertiesIntegerName' Lens
-additionalPropertiesIntegerNameL :: Lens_' AdditionalPropertiesInteger (Maybe Text)
+additionalPropertiesIntegerNameL :: Lens_' AdditionalPropertiesInteger (Maybe )
 additionalPropertiesIntegerNameL f AdditionalPropertiesInteger{..} = (\additionalPropertiesIntegerName -> AdditionalPropertiesInteger { additionalPropertiesIntegerName, ..} ) <$> f additionalPropertiesIntegerName
 {-# INLINE additionalPropertiesIntegerNameL #-}
 
@@ -134,7 +134,7 @@ additionalPropertiesIntegerNameL f AdditionalPropertiesInteger{..} = (\additiona
 -- * AdditionalPropertiesNumber
 
 -- | 'additionalPropertiesNumberName' Lens
-additionalPropertiesNumberNameL :: Lens_' AdditionalPropertiesNumber (Maybe Text)
+additionalPropertiesNumberNameL :: Lens_' AdditionalPropertiesNumber (Maybe )
 additionalPropertiesNumberNameL f AdditionalPropertiesNumber{..} = (\additionalPropertiesNumberName -> AdditionalPropertiesNumber { additionalPropertiesNumberName, ..} ) <$> f additionalPropertiesNumberName
 {-# INLINE additionalPropertiesNumberNameL #-}
 
@@ -143,7 +143,7 @@ additionalPropertiesNumberNameL f AdditionalPropertiesNumber{..} = (\additionalP
 -- * AdditionalPropertiesObject
 
 -- | 'additionalPropertiesObjectName' Lens
-additionalPropertiesObjectNameL :: Lens_' AdditionalPropertiesObject (Maybe Text)
+additionalPropertiesObjectNameL :: Lens_' AdditionalPropertiesObject (Maybe )
 additionalPropertiesObjectNameL f AdditionalPropertiesObject{..} = (\additionalPropertiesObjectName -> AdditionalPropertiesObject { additionalPropertiesObjectName, ..} ) <$> f additionalPropertiesObjectName
 {-# INLINE additionalPropertiesObjectNameL #-}
 
@@ -152,7 +152,7 @@ additionalPropertiesObjectNameL f AdditionalPropertiesObject{..} = (\additionalP
 -- * AdditionalPropertiesString
 
 -- | 'additionalPropertiesStringName' Lens
-additionalPropertiesStringNameL :: Lens_' AdditionalPropertiesString (Maybe Text)
+additionalPropertiesStringNameL :: Lens_' AdditionalPropertiesString (Maybe )
 additionalPropertiesStringNameL f AdditionalPropertiesString{..} = (\additionalPropertiesStringName -> AdditionalPropertiesString { additionalPropertiesStringName, ..} ) <$> f additionalPropertiesStringName
 {-# INLINE additionalPropertiesStringNameL #-}
 
@@ -161,12 +161,12 @@ additionalPropertiesStringNameL f AdditionalPropertiesString{..} = (\additionalP
 -- * Animal
 
 -- | 'animalClassName' Lens
-animalClassNameL :: Lens_' Animal (Text)
+animalClassNameL :: Lens_' Animal ()
 animalClassNameL f Animal{..} = (\animalClassName -> Animal { animalClassName, ..} ) <$> f animalClassName
 {-# INLINE animalClassNameL #-}
 
 -- | 'animalColor' Lens
-animalColorL :: Lens_' Animal (Maybe Text)
+animalColorL :: Lens_' Animal (Maybe )
 animalColorL f Animal{..} = (\animalColor -> Animal { animalColor, ..} ) <$> f animalColor
 {-# INLINE animalColorL #-}
 
@@ -175,17 +175,17 @@ animalColorL f Animal{..} = (\animalColor -> Animal { animalColor, ..} ) <$> f a
 -- * ApiResponse
 
 -- | 'apiResponseCode' Lens
-apiResponseCodeL :: Lens_' ApiResponse (Maybe Int)
+apiResponseCodeL :: Lens_' ApiResponse (Maybe )
 apiResponseCodeL f ApiResponse{..} = (\apiResponseCode -> ApiResponse { apiResponseCode, ..} ) <$> f apiResponseCode
 {-# INLINE apiResponseCodeL #-}
 
 -- | 'apiResponseType' Lens
-apiResponseTypeL :: Lens_' ApiResponse (Maybe Text)
+apiResponseTypeL :: Lens_' ApiResponse (Maybe )
 apiResponseTypeL f ApiResponse{..} = (\apiResponseType -> ApiResponse { apiResponseType, ..} ) <$> f apiResponseType
 {-# INLINE apiResponseTypeL #-}
 
 -- | 'apiResponseMessage' Lens
-apiResponseMessageL :: Lens_' ApiResponse (Maybe Text)
+apiResponseMessageL :: Lens_' ApiResponse (Maybe )
 apiResponseMessageL f ApiResponse{..} = (\apiResponseMessage -> ApiResponse { apiResponseMessage, ..} ) <$> f apiResponseMessage
 {-# INLINE apiResponseMessageL #-}
 
@@ -194,7 +194,7 @@ apiResponseMessageL f ApiResponse{..} = (\apiResponseMessage -> ApiResponse { ap
 -- * ArrayOfArrayOfNumberOnly
 
 -- | 'arrayOfArrayOfNumberOnlyArrayArrayNumber' Lens
-arrayOfArrayOfNumberOnlyArrayArrayNumberL :: Lens_' ArrayOfArrayOfNumberOnly (Maybe [[Double]])
+arrayOfArrayOfNumberOnlyArrayArrayNumberL :: Lens_' ArrayOfArrayOfNumberOnly (Maybe )
 arrayOfArrayOfNumberOnlyArrayArrayNumberL f ArrayOfArrayOfNumberOnly{..} = (\arrayOfArrayOfNumberOnlyArrayArrayNumber -> ArrayOfArrayOfNumberOnly { arrayOfArrayOfNumberOnlyArrayArrayNumber, ..} ) <$> f arrayOfArrayOfNumberOnlyArrayArrayNumber
 {-# INLINE arrayOfArrayOfNumberOnlyArrayArrayNumberL #-}
 
@@ -203,7 +203,7 @@ arrayOfArrayOfNumberOnlyArrayArrayNumberL f ArrayOfArrayOfNumberOnly{..} = (\arr
 -- * ArrayOfNumberOnly
 
 -- | 'arrayOfNumberOnlyArrayNumber' Lens
-arrayOfNumberOnlyArrayNumberL :: Lens_' ArrayOfNumberOnly (Maybe [Double])
+arrayOfNumberOnlyArrayNumberL :: Lens_' ArrayOfNumberOnly (Maybe )
 arrayOfNumberOnlyArrayNumberL f ArrayOfNumberOnly{..} = (\arrayOfNumberOnlyArrayNumber -> ArrayOfNumberOnly { arrayOfNumberOnlyArrayNumber, ..} ) <$> f arrayOfNumberOnlyArrayNumber
 {-# INLINE arrayOfNumberOnlyArrayNumberL #-}
 
@@ -212,17 +212,17 @@ arrayOfNumberOnlyArrayNumberL f ArrayOfNumberOnly{..} = (\arrayOfNumberOnlyArray
 -- * ArrayTest
 
 -- | 'arrayTestArrayOfString' Lens
-arrayTestArrayOfStringL :: Lens_' ArrayTest (Maybe [Text])
+arrayTestArrayOfStringL :: Lens_' ArrayTest (Maybe )
 arrayTestArrayOfStringL f ArrayTest{..} = (\arrayTestArrayOfString -> ArrayTest { arrayTestArrayOfString, ..} ) <$> f arrayTestArrayOfString
 {-# INLINE arrayTestArrayOfStringL #-}
 
 -- | 'arrayTestArrayArrayOfInteger' Lens
-arrayTestArrayArrayOfIntegerL :: Lens_' ArrayTest (Maybe [[Integer]])
+arrayTestArrayArrayOfIntegerL :: Lens_' ArrayTest (Maybe )
 arrayTestArrayArrayOfIntegerL f ArrayTest{..} = (\arrayTestArrayArrayOfInteger -> ArrayTest { arrayTestArrayArrayOfInteger, ..} ) <$> f arrayTestArrayArrayOfInteger
 {-# INLINE arrayTestArrayArrayOfIntegerL #-}
 
 -- | 'arrayTestArrayArrayOfModel' Lens
-arrayTestArrayArrayOfModelL :: Lens_' ArrayTest (Maybe [[ReadOnlyFirst]])
+arrayTestArrayArrayOfModelL :: Lens_' ArrayTest (Maybe )
 arrayTestArrayArrayOfModelL f ArrayTest{..} = (\arrayTestArrayArrayOfModel -> ArrayTest { arrayTestArrayArrayOfModel, ..} ) <$> f arrayTestArrayArrayOfModel
 {-# INLINE arrayTestArrayArrayOfModelL #-}
 
@@ -231,22 +231,22 @@ arrayTestArrayArrayOfModelL f ArrayTest{..} = (\arrayTestArrayArrayOfModel -> Ar
 -- * BigCat
 
 -- | 'bigCatClassName' Lens
-bigCatClassNameL :: Lens_' BigCat (Text)
+bigCatClassNameL :: Lens_' BigCat ()
 bigCatClassNameL f BigCat{..} = (\bigCatClassName -> BigCat { bigCatClassName, ..} ) <$> f bigCatClassName
 {-# INLINE bigCatClassNameL #-}
 
 -- | 'bigCatColor' Lens
-bigCatColorL :: Lens_' BigCat (Maybe Text)
+bigCatColorL :: Lens_' BigCat (Maybe )
 bigCatColorL f BigCat{..} = (\bigCatColor -> BigCat { bigCatColor, ..} ) <$> f bigCatColor
 {-# INLINE bigCatColorL #-}
 
 -- | 'bigCatDeclawed' Lens
-bigCatDeclawedL :: Lens_' BigCat (Maybe Bool)
+bigCatDeclawedL :: Lens_' BigCat (Maybe )
 bigCatDeclawedL f BigCat{..} = (\bigCatDeclawed -> BigCat { bigCatDeclawed, ..} ) <$> f bigCatDeclawed
 {-# INLINE bigCatDeclawedL #-}
 
 -- | 'bigCatKind' Lens
-bigCatKindL :: Lens_' BigCat (Maybe E'Kind)
+bigCatKindL :: Lens_' BigCat (Maybe )
 bigCatKindL f BigCat{..} = (\bigCatKind -> BigCat { bigCatKind, ..} ) <$> f bigCatKind
 {-# INLINE bigCatKindL #-}
 
@@ -255,7 +255,7 @@ bigCatKindL f BigCat{..} = (\bigCatKind -> BigCat { bigCatKind, ..} ) <$> f bigC
 -- * BigCatAllOf
 
 -- | 'bigCatAllOfKind' Lens
-bigCatAllOfKindL :: Lens_' BigCatAllOf (Maybe E'Kind)
+bigCatAllOfKindL :: Lens_' BigCatAllOf (Maybe )
 bigCatAllOfKindL f BigCatAllOf{..} = (\bigCatAllOfKind -> BigCatAllOf { bigCatAllOfKind, ..} ) <$> f bigCatAllOfKind
 {-# INLINE bigCatAllOfKindL #-}
 
@@ -264,32 +264,32 @@ bigCatAllOfKindL f BigCatAllOf{..} = (\bigCatAllOfKind -> BigCatAllOf { bigCatAl
 -- * Capitalization
 
 -- | 'capitalizationSmallCamel' Lens
-capitalizationSmallCamelL :: Lens_' Capitalization (Maybe Text)
+capitalizationSmallCamelL :: Lens_' Capitalization (Maybe )
 capitalizationSmallCamelL f Capitalization{..} = (\capitalizationSmallCamel -> Capitalization { capitalizationSmallCamel, ..} ) <$> f capitalizationSmallCamel
 {-# INLINE capitalizationSmallCamelL #-}
 
 -- | 'capitalizationCapitalCamel' Lens
-capitalizationCapitalCamelL :: Lens_' Capitalization (Maybe Text)
+capitalizationCapitalCamelL :: Lens_' Capitalization (Maybe )
 capitalizationCapitalCamelL f Capitalization{..} = (\capitalizationCapitalCamel -> Capitalization { capitalizationCapitalCamel, ..} ) <$> f capitalizationCapitalCamel
 {-# INLINE capitalizationCapitalCamelL #-}
 
 -- | 'capitalizationSmallSnake' Lens
-capitalizationSmallSnakeL :: Lens_' Capitalization (Maybe Text)
+capitalizationSmallSnakeL :: Lens_' Capitalization (Maybe )
 capitalizationSmallSnakeL f Capitalization{..} = (\capitalizationSmallSnake -> Capitalization { capitalizationSmallSnake, ..} ) <$> f capitalizationSmallSnake
 {-# INLINE capitalizationSmallSnakeL #-}
 
 -- | 'capitalizationCapitalSnake' Lens
-capitalizationCapitalSnakeL :: Lens_' Capitalization (Maybe Text)
+capitalizationCapitalSnakeL :: Lens_' Capitalization (Maybe )
 capitalizationCapitalSnakeL f Capitalization{..} = (\capitalizationCapitalSnake -> Capitalization { capitalizationCapitalSnake, ..} ) <$> f capitalizationCapitalSnake
 {-# INLINE capitalizationCapitalSnakeL #-}
 
 -- | 'capitalizationScaEthFlowPoints' Lens
-capitalizationScaEthFlowPointsL :: Lens_' Capitalization (Maybe Text)
+capitalizationScaEthFlowPointsL :: Lens_' Capitalization (Maybe )
 capitalizationScaEthFlowPointsL f Capitalization{..} = (\capitalizationScaEthFlowPoints -> Capitalization { capitalizationScaEthFlowPoints, ..} ) <$> f capitalizationScaEthFlowPoints
 {-# INLINE capitalizationScaEthFlowPointsL #-}
 
 -- | 'capitalizationAttName' Lens
-capitalizationAttNameL :: Lens_' Capitalization (Maybe Text)
+capitalizationAttNameL :: Lens_' Capitalization (Maybe )
 capitalizationAttNameL f Capitalization{..} = (\capitalizationAttName -> Capitalization { capitalizationAttName, ..} ) <$> f capitalizationAttName
 {-# INLINE capitalizationAttNameL #-}
 
@@ -298,17 +298,17 @@ capitalizationAttNameL f Capitalization{..} = (\capitalizationAttName -> Capital
 -- * Cat
 
 -- | 'catClassName' Lens
-catClassNameL :: Lens_' Cat (Text)
+catClassNameL :: Lens_' Cat ()
 catClassNameL f Cat{..} = (\catClassName -> Cat { catClassName, ..} ) <$> f catClassName
 {-# INLINE catClassNameL #-}
 
 -- | 'catColor' Lens
-catColorL :: Lens_' Cat (Maybe Text)
+catColorL :: Lens_' Cat (Maybe )
 catColorL f Cat{..} = (\catColor -> Cat { catColor, ..} ) <$> f catColor
 {-# INLINE catColorL #-}
 
 -- | 'catDeclawed' Lens
-catDeclawedL :: Lens_' Cat (Maybe Bool)
+catDeclawedL :: Lens_' Cat (Maybe )
 catDeclawedL f Cat{..} = (\catDeclawed -> Cat { catDeclawed, ..} ) <$> f catDeclawed
 {-# INLINE catDeclawedL #-}
 
@@ -317,7 +317,7 @@ catDeclawedL f Cat{..} = (\catDeclawed -> Cat { catDeclawed, ..} ) <$> f catDecl
 -- * CatAllOf
 
 -- | 'catAllOfDeclawed' Lens
-catAllOfDeclawedL :: Lens_' CatAllOf (Maybe Bool)
+catAllOfDeclawedL :: Lens_' CatAllOf (Maybe )
 catAllOfDeclawedL f CatAllOf{..} = (\catAllOfDeclawed -> CatAllOf { catAllOfDeclawed, ..} ) <$> f catAllOfDeclawed
 {-# INLINE catAllOfDeclawedL #-}
 
@@ -326,12 +326,12 @@ catAllOfDeclawedL f CatAllOf{..} = (\catAllOfDeclawed -> CatAllOf { catAllOfDecl
 -- * Category
 
 -- | 'categoryId' Lens
-categoryIdL :: Lens_' Category (Maybe Integer)
+categoryIdL :: Lens_' Category (Maybe )
 categoryIdL f Category{..} = (\categoryId -> Category { categoryId, ..} ) <$> f categoryId
 {-# INLINE categoryIdL #-}
 
 -- | 'categoryName' Lens
-categoryNameL :: Lens_' Category (Text)
+categoryNameL :: Lens_' Category ()
 categoryNameL f Category{..} = (\categoryName -> Category { categoryName, ..} ) <$> f categoryName
 {-# INLINE categoryNameL #-}
 
@@ -340,7 +340,7 @@ categoryNameL f Category{..} = (\categoryName -> Category { categoryName, ..} ) 
 -- * ClassModel
 
 -- | 'classModelClass' Lens
-classModelClassL :: Lens_' ClassModel (Maybe Text)
+classModelClassL :: Lens_' ClassModel (Maybe )
 classModelClassL f ClassModel{..} = (\classModelClass -> ClassModel { classModelClass, ..} ) <$> f classModelClass
 {-# INLINE classModelClassL #-}
 
@@ -349,7 +349,7 @@ classModelClassL f ClassModel{..} = (\classModelClass -> ClassModel { classModel
 -- * Client
 
 -- | 'clientClient' Lens
-clientClientL :: Lens_' Client (Maybe Text)
+clientClientL :: Lens_' Client (Maybe )
 clientClientL f Client{..} = (\clientClient -> Client { clientClient, ..} ) <$> f clientClient
 {-# INLINE clientClientL #-}
 
@@ -358,17 +358,17 @@ clientClientL f Client{..} = (\clientClient -> Client { clientClient, ..} ) <$> 
 -- * Dog
 
 -- | 'dogClassName' Lens
-dogClassNameL :: Lens_' Dog (Text)
+dogClassNameL :: Lens_' Dog ()
 dogClassNameL f Dog{..} = (\dogClassName -> Dog { dogClassName, ..} ) <$> f dogClassName
 {-# INLINE dogClassNameL #-}
 
 -- | 'dogColor' Lens
-dogColorL :: Lens_' Dog (Maybe Text)
+dogColorL :: Lens_' Dog (Maybe )
 dogColorL f Dog{..} = (\dogColor -> Dog { dogColor, ..} ) <$> f dogColor
 {-# INLINE dogColorL #-}
 
 -- | 'dogBreed' Lens
-dogBreedL :: Lens_' Dog (Maybe Text)
+dogBreedL :: Lens_' Dog (Maybe )
 dogBreedL f Dog{..} = (\dogBreed -> Dog { dogBreed, ..} ) <$> f dogBreed
 {-# INLINE dogBreedL #-}
 
@@ -377,7 +377,7 @@ dogBreedL f Dog{..} = (\dogBreed -> Dog { dogBreed, ..} ) <$> f dogBreed
 -- * DogAllOf
 
 -- | 'dogAllOfBreed' Lens
-dogAllOfBreedL :: Lens_' DogAllOf (Maybe Text)
+dogAllOfBreedL :: Lens_' DogAllOf (Maybe )
 dogAllOfBreedL f DogAllOf{..} = (\dogAllOfBreed -> DogAllOf { dogAllOfBreed, ..} ) <$> f dogAllOfBreed
 {-# INLINE dogAllOfBreedL #-}
 
@@ -386,12 +386,12 @@ dogAllOfBreedL f DogAllOf{..} = (\dogAllOfBreed -> DogAllOf { dogAllOfBreed, ..}
 -- * EnumArrays
 
 -- | 'enumArraysJustSymbol' Lens
-enumArraysJustSymbolL :: Lens_' EnumArrays (Maybe E'JustSymbol)
+enumArraysJustSymbolL :: Lens_' EnumArrays (Maybe )
 enumArraysJustSymbolL f EnumArrays{..} = (\enumArraysJustSymbol -> EnumArrays { enumArraysJustSymbol, ..} ) <$> f enumArraysJustSymbol
 {-# INLINE enumArraysJustSymbolL #-}
 
 -- | 'enumArraysArrayEnum' Lens
-enumArraysArrayEnumL :: Lens_' EnumArrays (Maybe [E'ArrayEnum])
+enumArraysArrayEnumL :: Lens_' EnumArrays (Maybe )
 enumArraysArrayEnumL f EnumArrays{..} = (\enumArraysArrayEnum -> EnumArrays { enumArraysArrayEnum, ..} ) <$> f enumArraysArrayEnum
 {-# INLINE enumArraysArrayEnumL #-}
 
@@ -404,27 +404,27 @@ enumArraysArrayEnumL f EnumArrays{..} = (\enumArraysArrayEnum -> EnumArrays { en
 -- * EnumTest
 
 -- | 'enumTestEnumString' Lens
-enumTestEnumStringL :: Lens_' EnumTest (Maybe E'EnumString)
+enumTestEnumStringL :: Lens_' EnumTest (Maybe )
 enumTestEnumStringL f EnumTest{..} = (\enumTestEnumString -> EnumTest { enumTestEnumString, ..} ) <$> f enumTestEnumString
 {-# INLINE enumTestEnumStringL #-}
 
 -- | 'enumTestEnumStringRequired' Lens
-enumTestEnumStringRequiredL :: Lens_' EnumTest (E'EnumString)
+enumTestEnumStringRequiredL :: Lens_' EnumTest ()
 enumTestEnumStringRequiredL f EnumTest{..} = (\enumTestEnumStringRequired -> EnumTest { enumTestEnumStringRequired, ..} ) <$> f enumTestEnumStringRequired
 {-# INLINE enumTestEnumStringRequiredL #-}
 
 -- | 'enumTestEnumInteger' Lens
-enumTestEnumIntegerL :: Lens_' EnumTest (Maybe E'EnumInteger)
+enumTestEnumIntegerL :: Lens_' EnumTest (Maybe )
 enumTestEnumIntegerL f EnumTest{..} = (\enumTestEnumInteger -> EnumTest { enumTestEnumInteger, ..} ) <$> f enumTestEnumInteger
 {-# INLINE enumTestEnumIntegerL #-}
 
 -- | 'enumTestEnumNumber' Lens
-enumTestEnumNumberL :: Lens_' EnumTest (Maybe E'EnumNumber)
+enumTestEnumNumberL :: Lens_' EnumTest (Maybe )
 enumTestEnumNumberL f EnumTest{..} = (\enumTestEnumNumber -> EnumTest { enumTestEnumNumber, ..} ) <$> f enumTestEnumNumber
 {-# INLINE enumTestEnumNumberL #-}
 
 -- | 'enumTestOuterEnum' Lens
-enumTestOuterEnumL :: Lens_' EnumTest (Maybe OuterEnum)
+enumTestOuterEnumL :: Lens_' EnumTest (Maybe )
 enumTestOuterEnumL f EnumTest{..} = (\enumTestOuterEnum -> EnumTest { enumTestOuterEnum, ..} ) <$> f enumTestOuterEnum
 {-# INLINE enumTestOuterEnumL #-}
 
@@ -433,7 +433,7 @@ enumTestOuterEnumL f EnumTest{..} = (\enumTestOuterEnum -> EnumTest { enumTestOu
 -- * File
 
 -- | 'fileSourceUri' Lens
-fileSourceUriL :: Lens_' File (Maybe Text)
+fileSourceUriL :: Lens_' File (Maybe )
 fileSourceUriL f File{..} = (\fileSourceUri -> File { fileSourceUri, ..} ) <$> f fileSourceUri
 {-# INLINE fileSourceUriL #-}
 
@@ -442,12 +442,12 @@ fileSourceUriL f File{..} = (\fileSourceUri -> File { fileSourceUri, ..} ) <$> f
 -- * FileSchemaTestClass
 
 -- | 'fileSchemaTestClassFile' Lens
-fileSchemaTestClassFileL :: Lens_' FileSchemaTestClass (Maybe File)
+fileSchemaTestClassFileL :: Lens_' FileSchemaTestClass (Maybe )
 fileSchemaTestClassFileL f FileSchemaTestClass{..} = (\fileSchemaTestClassFile -> FileSchemaTestClass { fileSchemaTestClassFile, ..} ) <$> f fileSchemaTestClassFile
 {-# INLINE fileSchemaTestClassFileL #-}
 
 -- | 'fileSchemaTestClassFiles' Lens
-fileSchemaTestClassFilesL :: Lens_' FileSchemaTestClass (Maybe [File])
+fileSchemaTestClassFilesL :: Lens_' FileSchemaTestClass (Maybe )
 fileSchemaTestClassFilesL f FileSchemaTestClass{..} = (\fileSchemaTestClassFiles -> FileSchemaTestClass { fileSchemaTestClassFiles, ..} ) <$> f fileSchemaTestClassFiles
 {-# INLINE fileSchemaTestClassFilesL #-}
 
@@ -456,72 +456,72 @@ fileSchemaTestClassFilesL f FileSchemaTestClass{..} = (\fileSchemaTestClassFiles
 -- * FormatTest
 
 -- | 'formatTestInteger' Lens
-formatTestIntegerL :: Lens_' FormatTest (Maybe Int)
+formatTestIntegerL :: Lens_' FormatTest (Maybe )
 formatTestIntegerL f FormatTest{..} = (\formatTestInteger -> FormatTest { formatTestInteger, ..} ) <$> f formatTestInteger
 {-# INLINE formatTestIntegerL #-}
 
 -- | 'formatTestInt32' Lens
-formatTestInt32L :: Lens_' FormatTest (Maybe Int)
+formatTestInt32L :: Lens_' FormatTest (Maybe )
 formatTestInt32L f FormatTest{..} = (\formatTestInt32 -> FormatTest { formatTestInt32, ..} ) <$> f formatTestInt32
 {-# INLINE formatTestInt32L #-}
 
 -- | 'formatTestInt64' Lens
-formatTestInt64L :: Lens_' FormatTest (Maybe Integer)
+formatTestInt64L :: Lens_' FormatTest (Maybe )
 formatTestInt64L f FormatTest{..} = (\formatTestInt64 -> FormatTest { formatTestInt64, ..} ) <$> f formatTestInt64
 {-# INLINE formatTestInt64L #-}
 
 -- | 'formatTestNumber' Lens
-formatTestNumberL :: Lens_' FormatTest (Double)
+formatTestNumberL :: Lens_' FormatTest ()
 formatTestNumberL f FormatTest{..} = (\formatTestNumber -> FormatTest { formatTestNumber, ..} ) <$> f formatTestNumber
 {-# INLINE formatTestNumberL #-}
 
 -- | 'formatTestFloat' Lens
-formatTestFloatL :: Lens_' FormatTest (Maybe Float)
+formatTestFloatL :: Lens_' FormatTest (Maybe )
 formatTestFloatL f FormatTest{..} = (\formatTestFloat -> FormatTest { formatTestFloat, ..} ) <$> f formatTestFloat
 {-# INLINE formatTestFloatL #-}
 
 -- | 'formatTestDouble' Lens
-formatTestDoubleL :: Lens_' FormatTest (Maybe Double)
+formatTestDoubleL :: Lens_' FormatTest (Maybe )
 formatTestDoubleL f FormatTest{..} = (\formatTestDouble -> FormatTest { formatTestDouble, ..} ) <$> f formatTestDouble
 {-# INLINE formatTestDoubleL #-}
 
 -- | 'formatTestString' Lens
-formatTestStringL :: Lens_' FormatTest (Maybe Text)
+formatTestStringL :: Lens_' FormatTest (Maybe )
 formatTestStringL f FormatTest{..} = (\formatTestString -> FormatTest { formatTestString, ..} ) <$> f formatTestString
 {-# INLINE formatTestStringL #-}
 
 -- | 'formatTestByte' Lens
-formatTestByteL :: Lens_' FormatTest (ByteArray)
+formatTestByteL :: Lens_' FormatTest ()
 formatTestByteL f FormatTest{..} = (\formatTestByte -> FormatTest { formatTestByte, ..} ) <$> f formatTestByte
 {-# INLINE formatTestByteL #-}
 
 -- | 'formatTestBinary' Lens
-formatTestBinaryL :: Lens_' FormatTest (Maybe FilePath)
+formatTestBinaryL :: Lens_' FormatTest (Maybe )
 formatTestBinaryL f FormatTest{..} = (\formatTestBinary -> FormatTest { formatTestBinary, ..} ) <$> f formatTestBinary
 {-# INLINE formatTestBinaryL #-}
 
 -- | 'formatTestDate' Lens
-formatTestDateL :: Lens_' FormatTest (Date)
+formatTestDateL :: Lens_' FormatTest ()
 formatTestDateL f FormatTest{..} = (\formatTestDate -> FormatTest { formatTestDate, ..} ) <$> f formatTestDate
 {-# INLINE formatTestDateL #-}
 
 -- | 'formatTestDateTime' Lens
-formatTestDateTimeL :: Lens_' FormatTest (Maybe DateTime)
+formatTestDateTimeL :: Lens_' FormatTest (Maybe )
 formatTestDateTimeL f FormatTest{..} = (\formatTestDateTime -> FormatTest { formatTestDateTime, ..} ) <$> f formatTestDateTime
 {-# INLINE formatTestDateTimeL #-}
 
 -- | 'formatTestUuid' Lens
-formatTestUuidL :: Lens_' FormatTest (Maybe Text)
+formatTestUuidL :: Lens_' FormatTest (Maybe )
 formatTestUuidL f FormatTest{..} = (\formatTestUuid -> FormatTest { formatTestUuid, ..} ) <$> f formatTestUuid
 {-# INLINE formatTestUuidL #-}
 
 -- | 'formatTestPassword' Lens
-formatTestPasswordL :: Lens_' FormatTest (Text)
+formatTestPasswordL :: Lens_' FormatTest ()
 formatTestPasswordL f FormatTest{..} = (\formatTestPassword -> FormatTest { formatTestPassword, ..} ) <$> f formatTestPassword
 {-# INLINE formatTestPasswordL #-}
 
 -- | 'formatTestBigDecimal' Lens
-formatTestBigDecimalL :: Lens_' FormatTest (Maybe Double)
+formatTestBigDecimalL :: Lens_' FormatTest (Maybe )
 formatTestBigDecimalL f FormatTest{..} = (\formatTestBigDecimal -> FormatTest { formatTestBigDecimal, ..} ) <$> f formatTestBigDecimal
 {-# INLINE formatTestBigDecimalL #-}
 
@@ -530,12 +530,12 @@ formatTestBigDecimalL f FormatTest{..} = (\formatTestBigDecimal -> FormatTest { 
 -- * HasOnlyReadOnly
 
 -- | 'hasOnlyReadOnlyBar' Lens
-hasOnlyReadOnlyBarL :: Lens_' HasOnlyReadOnly (Maybe Text)
+hasOnlyReadOnlyBarL :: Lens_' HasOnlyReadOnly (Maybe )
 hasOnlyReadOnlyBarL f HasOnlyReadOnly{..} = (\hasOnlyReadOnlyBar -> HasOnlyReadOnly { hasOnlyReadOnlyBar, ..} ) <$> f hasOnlyReadOnlyBar
 {-# INLINE hasOnlyReadOnlyBarL #-}
 
 -- | 'hasOnlyReadOnlyFoo' Lens
-hasOnlyReadOnlyFooL :: Lens_' HasOnlyReadOnly (Maybe Text)
+hasOnlyReadOnlyFooL :: Lens_' HasOnlyReadOnly (Maybe )
 hasOnlyReadOnlyFooL f HasOnlyReadOnly{..} = (\hasOnlyReadOnlyFoo -> HasOnlyReadOnly { hasOnlyReadOnlyFoo, ..} ) <$> f hasOnlyReadOnlyFoo
 {-# INLINE hasOnlyReadOnlyFooL #-}
 
@@ -544,22 +544,22 @@ hasOnlyReadOnlyFooL f HasOnlyReadOnly{..} = (\hasOnlyReadOnlyFoo -> HasOnlyReadO
 -- * MapTest
 
 -- | 'mapTestMapMapOfString' Lens
-mapTestMapMapOfStringL :: Lens_' MapTest (Maybe (Map.Map String (Map.Map String Text)))
+mapTestMapMapOfStringL :: Lens_' MapTest (Maybe )
 mapTestMapMapOfStringL f MapTest{..} = (\mapTestMapMapOfString -> MapTest { mapTestMapMapOfString, ..} ) <$> f mapTestMapMapOfString
 {-# INLINE mapTestMapMapOfStringL #-}
 
 -- | 'mapTestMapOfEnumString' Lens
-mapTestMapOfEnumStringL :: Lens_' MapTest (Maybe (Map.Map String E'Inner))
+mapTestMapOfEnumStringL :: Lens_' MapTest (Maybe )
 mapTestMapOfEnumStringL f MapTest{..} = (\mapTestMapOfEnumString -> MapTest { mapTestMapOfEnumString, ..} ) <$> f mapTestMapOfEnumString
 {-# INLINE mapTestMapOfEnumStringL #-}
 
 -- | 'mapTestDirectMap' Lens
-mapTestDirectMapL :: Lens_' MapTest (Maybe (Map.Map String Bool))
+mapTestDirectMapL :: Lens_' MapTest (Maybe )
 mapTestDirectMapL f MapTest{..} = (\mapTestDirectMap -> MapTest { mapTestDirectMap, ..} ) <$> f mapTestDirectMap
 {-# INLINE mapTestDirectMapL #-}
 
 -- | 'mapTestIndirectMap' Lens
-mapTestIndirectMapL :: Lens_' MapTest (Maybe (Map.Map String Bool))
+mapTestIndirectMapL :: Lens_' MapTest (Maybe )
 mapTestIndirectMapL f MapTest{..} = (\mapTestIndirectMap -> MapTest { mapTestIndirectMap, ..} ) <$> f mapTestIndirectMap
 {-# INLINE mapTestIndirectMapL #-}
 
@@ -568,17 +568,17 @@ mapTestIndirectMapL f MapTest{..} = (\mapTestIndirectMap -> MapTest { mapTestInd
 -- * MixedPropertiesAndAdditionalPropertiesClass
 
 -- | 'mixedPropertiesAndAdditionalPropertiesClassUuid' Lens
-mixedPropertiesAndAdditionalPropertiesClassUuidL :: Lens_' MixedPropertiesAndAdditionalPropertiesClass (Maybe Text)
+mixedPropertiesAndAdditionalPropertiesClassUuidL :: Lens_' MixedPropertiesAndAdditionalPropertiesClass (Maybe )
 mixedPropertiesAndAdditionalPropertiesClassUuidL f MixedPropertiesAndAdditionalPropertiesClass{..} = (\mixedPropertiesAndAdditionalPropertiesClassUuid -> MixedPropertiesAndAdditionalPropertiesClass { mixedPropertiesAndAdditionalPropertiesClassUuid, ..} ) <$> f mixedPropertiesAndAdditionalPropertiesClassUuid
 {-# INLINE mixedPropertiesAndAdditionalPropertiesClassUuidL #-}
 
 -- | 'mixedPropertiesAndAdditionalPropertiesClassDateTime' Lens
-mixedPropertiesAndAdditionalPropertiesClassDateTimeL :: Lens_' MixedPropertiesAndAdditionalPropertiesClass (Maybe DateTime)
+mixedPropertiesAndAdditionalPropertiesClassDateTimeL :: Lens_' MixedPropertiesAndAdditionalPropertiesClass (Maybe )
 mixedPropertiesAndAdditionalPropertiesClassDateTimeL f MixedPropertiesAndAdditionalPropertiesClass{..} = (\mixedPropertiesAndAdditionalPropertiesClassDateTime -> MixedPropertiesAndAdditionalPropertiesClass { mixedPropertiesAndAdditionalPropertiesClassDateTime, ..} ) <$> f mixedPropertiesAndAdditionalPropertiesClassDateTime
 {-# INLINE mixedPropertiesAndAdditionalPropertiesClassDateTimeL #-}
 
 -- | 'mixedPropertiesAndAdditionalPropertiesClassMap' Lens
-mixedPropertiesAndAdditionalPropertiesClassMapL :: Lens_' MixedPropertiesAndAdditionalPropertiesClass (Maybe (Map.Map String Animal))
+mixedPropertiesAndAdditionalPropertiesClassMapL :: Lens_' MixedPropertiesAndAdditionalPropertiesClass (Maybe )
 mixedPropertiesAndAdditionalPropertiesClassMapL f MixedPropertiesAndAdditionalPropertiesClass{..} = (\mixedPropertiesAndAdditionalPropertiesClassMap -> MixedPropertiesAndAdditionalPropertiesClass { mixedPropertiesAndAdditionalPropertiesClassMap, ..} ) <$> f mixedPropertiesAndAdditionalPropertiesClassMap
 {-# INLINE mixedPropertiesAndAdditionalPropertiesClassMapL #-}
 
@@ -587,12 +587,12 @@ mixedPropertiesAndAdditionalPropertiesClassMapL f MixedPropertiesAndAdditionalPr
 -- * Model200Response
 
 -- | 'model200ResponseName' Lens
-model200ResponseNameL :: Lens_' Model200Response (Maybe Int)
+model200ResponseNameL :: Lens_' Model200Response (Maybe )
 model200ResponseNameL f Model200Response{..} = (\model200ResponseName -> Model200Response { model200ResponseName, ..} ) <$> f model200ResponseName
 {-# INLINE model200ResponseNameL #-}
 
 -- | 'model200ResponseClass' Lens
-model200ResponseClassL :: Lens_' Model200Response (Maybe Text)
+model200ResponseClassL :: Lens_' Model200Response (Maybe )
 model200ResponseClassL f Model200Response{..} = (\model200ResponseClass -> Model200Response { model200ResponseClass, ..} ) <$> f model200ResponseClass
 {-# INLINE model200ResponseClassL #-}
 
@@ -601,7 +601,7 @@ model200ResponseClassL f Model200Response{..} = (\model200ResponseClass -> Model
 -- * ModelList
 
 -- | 'modelList123list' Lens
-modelList123listL :: Lens_' ModelList (Maybe Text)
+modelList123listL :: Lens_' ModelList (Maybe )
 modelList123listL f ModelList{..} = (\modelList123list -> ModelList { modelList123list, ..} ) <$> f modelList123list
 {-# INLINE modelList123listL #-}
 
@@ -610,7 +610,7 @@ modelList123listL f ModelList{..} = (\modelList123list -> ModelList { modelList1
 -- * ModelReturn
 
 -- | 'modelReturnReturn' Lens
-modelReturnReturnL :: Lens_' ModelReturn (Maybe Int)
+modelReturnReturnL :: Lens_' ModelReturn (Maybe )
 modelReturnReturnL f ModelReturn{..} = (\modelReturnReturn -> ModelReturn { modelReturnReturn, ..} ) <$> f modelReturnReturn
 {-# INLINE modelReturnReturnL #-}
 
@@ -619,22 +619,22 @@ modelReturnReturnL f ModelReturn{..} = (\modelReturnReturn -> ModelReturn { mode
 -- * Name
 
 -- | 'nameName' Lens
-nameNameL :: Lens_' Name (Int)
+nameNameL :: Lens_' Name ()
 nameNameL f Name{..} = (\nameName -> Name { nameName, ..} ) <$> f nameName
 {-# INLINE nameNameL #-}
 
 -- | 'nameSnakeCase' Lens
-nameSnakeCaseL :: Lens_' Name (Maybe Int)
+nameSnakeCaseL :: Lens_' Name (Maybe )
 nameSnakeCaseL f Name{..} = (\nameSnakeCase -> Name { nameSnakeCase, ..} ) <$> f nameSnakeCase
 {-# INLINE nameSnakeCaseL #-}
 
 -- | 'nameProperty' Lens
-namePropertyL :: Lens_' Name (Maybe Text)
+namePropertyL :: Lens_' Name (Maybe )
 namePropertyL f Name{..} = (\nameProperty -> Name { nameProperty, ..} ) <$> f nameProperty
 {-# INLINE namePropertyL #-}
 
 -- | 'name123number' Lens
-name123numberL :: Lens_' Name (Maybe Int)
+name123numberL :: Lens_' Name (Maybe )
 name123numberL f Name{..} = (\name123number -> Name { name123number, ..} ) <$> f name123number
 {-# INLINE name123numberL #-}
 
@@ -643,7 +643,7 @@ name123numberL f Name{..} = (\name123number -> Name { name123number, ..} ) <$> f
 -- * NumberOnly
 
 -- | 'numberOnlyJustNumber' Lens
-numberOnlyJustNumberL :: Lens_' NumberOnly (Maybe Double)
+numberOnlyJustNumberL :: Lens_' NumberOnly (Maybe )
 numberOnlyJustNumberL f NumberOnly{..} = (\numberOnlyJustNumber -> NumberOnly { numberOnlyJustNumber, ..} ) <$> f numberOnlyJustNumber
 {-# INLINE numberOnlyJustNumberL #-}
 
@@ -652,32 +652,32 @@ numberOnlyJustNumberL f NumberOnly{..} = (\numberOnlyJustNumber -> NumberOnly { 
 -- * Order
 
 -- | 'orderId' Lens
-orderIdL :: Lens_' Order (Maybe Integer)
+orderIdL :: Lens_' Order (Maybe )
 orderIdL f Order{..} = (\orderId -> Order { orderId, ..} ) <$> f orderId
 {-# INLINE orderIdL #-}
 
 -- | 'orderPetId' Lens
-orderPetIdL :: Lens_' Order (Maybe Integer)
+orderPetIdL :: Lens_' Order (Maybe )
 orderPetIdL f Order{..} = (\orderPetId -> Order { orderPetId, ..} ) <$> f orderPetId
 {-# INLINE orderPetIdL #-}
 
 -- | 'orderQuantity' Lens
-orderQuantityL :: Lens_' Order (Maybe Int)
+orderQuantityL :: Lens_' Order (Maybe )
 orderQuantityL f Order{..} = (\orderQuantity -> Order { orderQuantity, ..} ) <$> f orderQuantity
 {-# INLINE orderQuantityL #-}
 
 -- | 'orderShipDate' Lens
-orderShipDateL :: Lens_' Order (Maybe DateTime)
+orderShipDateL :: Lens_' Order (Maybe )
 orderShipDateL f Order{..} = (\orderShipDate -> Order { orderShipDate, ..} ) <$> f orderShipDate
 {-# INLINE orderShipDateL #-}
 
 -- | 'orderStatus' Lens
-orderStatusL :: Lens_' Order (Maybe E'Status)
+orderStatusL :: Lens_' Order (Maybe )
 orderStatusL f Order{..} = (\orderStatus -> Order { orderStatus, ..} ) <$> f orderStatus
 {-# INLINE orderStatusL #-}
 
 -- | 'orderComplete' Lens
-orderCompleteL :: Lens_' Order (Maybe Bool)
+orderCompleteL :: Lens_' Order (Maybe )
 orderCompleteL f Order{..} = (\orderComplete -> Order { orderComplete, ..} ) <$> f orderComplete
 {-# INLINE orderCompleteL #-}
 
@@ -686,17 +686,17 @@ orderCompleteL f Order{..} = (\orderComplete -> Order { orderComplete, ..} ) <$>
 -- * OuterComposite
 
 -- | 'outerCompositeMyNumber' Lens
-outerCompositeMyNumberL :: Lens_' OuterComposite (Maybe Double)
+outerCompositeMyNumberL :: Lens_' OuterComposite (Maybe )
 outerCompositeMyNumberL f OuterComposite{..} = (\outerCompositeMyNumber -> OuterComposite { outerCompositeMyNumber, ..} ) <$> f outerCompositeMyNumber
 {-# INLINE outerCompositeMyNumberL #-}
 
 -- | 'outerCompositeMyString' Lens
-outerCompositeMyStringL :: Lens_' OuterComposite (Maybe Text)
+outerCompositeMyStringL :: Lens_' OuterComposite (Maybe )
 outerCompositeMyStringL f OuterComposite{..} = (\outerCompositeMyString -> OuterComposite { outerCompositeMyString, ..} ) <$> f outerCompositeMyString
 {-# INLINE outerCompositeMyStringL #-}
 
 -- | 'outerCompositeMyBoolean' Lens
-outerCompositeMyBooleanL :: Lens_' OuterComposite (Maybe Bool)
+outerCompositeMyBooleanL :: Lens_' OuterComposite (Maybe )
 outerCompositeMyBooleanL f OuterComposite{..} = (\outerCompositeMyBoolean -> OuterComposite { outerCompositeMyBoolean, ..} ) <$> f outerCompositeMyBoolean
 {-# INLINE outerCompositeMyBooleanL #-}
 
@@ -709,32 +709,32 @@ outerCompositeMyBooleanL f OuterComposite{..} = (\outerCompositeMyBoolean -> Out
 -- * Pet
 
 -- | 'petId' Lens
-petIdL :: Lens_' Pet (Maybe Integer)
+petIdL :: Lens_' Pet (Maybe )
 petIdL f Pet{..} = (\petId -> Pet { petId, ..} ) <$> f petId
 {-# INLINE petIdL #-}
 
 -- | 'petCategory' Lens
-petCategoryL :: Lens_' Pet (Maybe Category)
+petCategoryL :: Lens_' Pet (Maybe )
 petCategoryL f Pet{..} = (\petCategory -> Pet { petCategory, ..} ) <$> f petCategory
 {-# INLINE petCategoryL #-}
 
 -- | 'petName' Lens
-petNameL :: Lens_' Pet (Text)
+petNameL :: Lens_' Pet ()
 petNameL f Pet{..} = (\petName -> Pet { petName, ..} ) <$> f petName
 {-# INLINE petNameL #-}
 
 -- | 'petPhotoUrls' Lens
-petPhotoUrlsL :: Lens_' Pet ([Text])
+petPhotoUrlsL :: Lens_' Pet ()
 petPhotoUrlsL f Pet{..} = (\petPhotoUrls -> Pet { petPhotoUrls, ..} ) <$> f petPhotoUrls
 {-# INLINE petPhotoUrlsL #-}
 
 -- | 'petTags' Lens
-petTagsL :: Lens_' Pet (Maybe [Tag])
+petTagsL :: Lens_' Pet (Maybe )
 petTagsL f Pet{..} = (\petTags -> Pet { petTags, ..} ) <$> f petTags
 {-# INLINE petTagsL #-}
 
 -- | 'petStatus' Lens
-petStatusL :: Lens_' Pet (Maybe E'Status2)
+petStatusL :: Lens_' Pet (Maybe )
 petStatusL f Pet{..} = (\petStatus -> Pet { petStatus, ..} ) <$> f petStatus
 {-# INLINE petStatusL #-}
 
@@ -743,12 +743,12 @@ petStatusL f Pet{..} = (\petStatus -> Pet { petStatus, ..} ) <$> f petStatus
 -- * ReadOnlyFirst
 
 -- | 'readOnlyFirstBar' Lens
-readOnlyFirstBarL :: Lens_' ReadOnlyFirst (Maybe Text)
+readOnlyFirstBarL :: Lens_' ReadOnlyFirst (Maybe )
 readOnlyFirstBarL f ReadOnlyFirst{..} = (\readOnlyFirstBar -> ReadOnlyFirst { readOnlyFirstBar, ..} ) <$> f readOnlyFirstBar
 {-# INLINE readOnlyFirstBarL #-}
 
 -- | 'readOnlyFirstBaz' Lens
-readOnlyFirstBazL :: Lens_' ReadOnlyFirst (Maybe Text)
+readOnlyFirstBazL :: Lens_' ReadOnlyFirst (Maybe )
 readOnlyFirstBazL f ReadOnlyFirst{..} = (\readOnlyFirstBaz -> ReadOnlyFirst { readOnlyFirstBaz, ..} ) <$> f readOnlyFirstBaz
 {-# INLINE readOnlyFirstBazL #-}
 
@@ -757,7 +757,7 @@ readOnlyFirstBazL f ReadOnlyFirst{..} = (\readOnlyFirstBaz -> ReadOnlyFirst { re
 -- * SpecialModelName
 
 -- | 'specialModelNameSpecialPropertyName' Lens
-specialModelNameSpecialPropertyNameL :: Lens_' SpecialModelName (Maybe Integer)
+specialModelNameSpecialPropertyNameL :: Lens_' SpecialModelName (Maybe )
 specialModelNameSpecialPropertyNameL f SpecialModelName{..} = (\specialModelNameSpecialPropertyName -> SpecialModelName { specialModelNameSpecialPropertyName, ..} ) <$> f specialModelNameSpecialPropertyName
 {-# INLINE specialModelNameSpecialPropertyNameL #-}
 
@@ -766,12 +766,12 @@ specialModelNameSpecialPropertyNameL f SpecialModelName{..} = (\specialModelName
 -- * Tag
 
 -- | 'tagId' Lens
-tagIdL :: Lens_' Tag (Maybe Integer)
+tagIdL :: Lens_' Tag (Maybe )
 tagIdL f Tag{..} = (\tagId -> Tag { tagId, ..} ) <$> f tagId
 {-# INLINE tagIdL #-}
 
 -- | 'tagName' Lens
-tagNameL :: Lens_' Tag (Maybe Text)
+tagNameL :: Lens_' Tag (Maybe )
 tagNameL f Tag{..} = (\tagName -> Tag { tagName, ..} ) <$> f tagName
 {-# INLINE tagNameL #-}
 
@@ -780,27 +780,27 @@ tagNameL f Tag{..} = (\tagName -> Tag { tagName, ..} ) <$> f tagName
 -- * TypeHolderDefault
 
 -- | 'typeHolderDefaultStringItem' Lens
-typeHolderDefaultStringItemL :: Lens_' TypeHolderDefault (Text)
+typeHolderDefaultStringItemL :: Lens_' TypeHolderDefault ()
 typeHolderDefaultStringItemL f TypeHolderDefault{..} = (\typeHolderDefaultStringItem -> TypeHolderDefault { typeHolderDefaultStringItem, ..} ) <$> f typeHolderDefaultStringItem
 {-# INLINE typeHolderDefaultStringItemL #-}
 
 -- | 'typeHolderDefaultNumberItem' Lens
-typeHolderDefaultNumberItemL :: Lens_' TypeHolderDefault (Double)
+typeHolderDefaultNumberItemL :: Lens_' TypeHolderDefault ()
 typeHolderDefaultNumberItemL f TypeHolderDefault{..} = (\typeHolderDefaultNumberItem -> TypeHolderDefault { typeHolderDefaultNumberItem, ..} ) <$> f typeHolderDefaultNumberItem
 {-# INLINE typeHolderDefaultNumberItemL #-}
 
 -- | 'typeHolderDefaultIntegerItem' Lens
-typeHolderDefaultIntegerItemL :: Lens_' TypeHolderDefault (Int)
+typeHolderDefaultIntegerItemL :: Lens_' TypeHolderDefault ()
 typeHolderDefaultIntegerItemL f TypeHolderDefault{..} = (\typeHolderDefaultIntegerItem -> TypeHolderDefault { typeHolderDefaultIntegerItem, ..} ) <$> f typeHolderDefaultIntegerItem
 {-# INLINE typeHolderDefaultIntegerItemL #-}
 
 -- | 'typeHolderDefaultBoolItem' Lens
-typeHolderDefaultBoolItemL :: Lens_' TypeHolderDefault (Bool)
+typeHolderDefaultBoolItemL :: Lens_' TypeHolderDefault ()
 typeHolderDefaultBoolItemL f TypeHolderDefault{..} = (\typeHolderDefaultBoolItem -> TypeHolderDefault { typeHolderDefaultBoolItem, ..} ) <$> f typeHolderDefaultBoolItem
 {-# INLINE typeHolderDefaultBoolItemL #-}
 
 -- | 'typeHolderDefaultArrayItem' Lens
-typeHolderDefaultArrayItemL :: Lens_' TypeHolderDefault ([Int])
+typeHolderDefaultArrayItemL :: Lens_' TypeHolderDefault ()
 typeHolderDefaultArrayItemL f TypeHolderDefault{..} = (\typeHolderDefaultArrayItem -> TypeHolderDefault { typeHolderDefaultArrayItem, ..} ) <$> f typeHolderDefaultArrayItem
 {-# INLINE typeHolderDefaultArrayItemL #-}
 
@@ -809,32 +809,32 @@ typeHolderDefaultArrayItemL f TypeHolderDefault{..} = (\typeHolderDefaultArrayIt
 -- * TypeHolderExample
 
 -- | 'typeHolderExampleStringItem' Lens
-typeHolderExampleStringItemL :: Lens_' TypeHolderExample (Text)
+typeHolderExampleStringItemL :: Lens_' TypeHolderExample ()
 typeHolderExampleStringItemL f TypeHolderExample{..} = (\typeHolderExampleStringItem -> TypeHolderExample { typeHolderExampleStringItem, ..} ) <$> f typeHolderExampleStringItem
 {-# INLINE typeHolderExampleStringItemL #-}
 
 -- | 'typeHolderExampleNumberItem' Lens
-typeHolderExampleNumberItemL :: Lens_' TypeHolderExample (Double)
+typeHolderExampleNumberItemL :: Lens_' TypeHolderExample ()
 typeHolderExampleNumberItemL f TypeHolderExample{..} = (\typeHolderExampleNumberItem -> TypeHolderExample { typeHolderExampleNumberItem, ..} ) <$> f typeHolderExampleNumberItem
 {-# INLINE typeHolderExampleNumberItemL #-}
 
 -- | 'typeHolderExampleFloatItem' Lens
-typeHolderExampleFloatItemL :: Lens_' TypeHolderExample (Float)
+typeHolderExampleFloatItemL :: Lens_' TypeHolderExample ()
 typeHolderExampleFloatItemL f TypeHolderExample{..} = (\typeHolderExampleFloatItem -> TypeHolderExample { typeHolderExampleFloatItem, ..} ) <$> f typeHolderExampleFloatItem
 {-# INLINE typeHolderExampleFloatItemL #-}
 
 -- | 'typeHolderExampleIntegerItem' Lens
-typeHolderExampleIntegerItemL :: Lens_' TypeHolderExample (Int)
+typeHolderExampleIntegerItemL :: Lens_' TypeHolderExample ()
 typeHolderExampleIntegerItemL f TypeHolderExample{..} = (\typeHolderExampleIntegerItem -> TypeHolderExample { typeHolderExampleIntegerItem, ..} ) <$> f typeHolderExampleIntegerItem
 {-# INLINE typeHolderExampleIntegerItemL #-}
 
 -- | 'typeHolderExampleBoolItem' Lens
-typeHolderExampleBoolItemL :: Lens_' TypeHolderExample (Bool)
+typeHolderExampleBoolItemL :: Lens_' TypeHolderExample ()
 typeHolderExampleBoolItemL f TypeHolderExample{..} = (\typeHolderExampleBoolItem -> TypeHolderExample { typeHolderExampleBoolItem, ..} ) <$> f typeHolderExampleBoolItem
 {-# INLINE typeHolderExampleBoolItemL #-}
 
 -- | 'typeHolderExampleArrayItem' Lens
-typeHolderExampleArrayItemL :: Lens_' TypeHolderExample ([Int])
+typeHolderExampleArrayItemL :: Lens_' TypeHolderExample ()
 typeHolderExampleArrayItemL f TypeHolderExample{..} = (\typeHolderExampleArrayItem -> TypeHolderExample { typeHolderExampleArrayItem, ..} ) <$> f typeHolderExampleArrayItem
 {-# INLINE typeHolderExampleArrayItemL #-}
 
@@ -843,42 +843,42 @@ typeHolderExampleArrayItemL f TypeHolderExample{..} = (\typeHolderExampleArrayIt
 -- * User
 
 -- | 'userId' Lens
-userIdL :: Lens_' User (Maybe Integer)
+userIdL :: Lens_' User (Maybe )
 userIdL f User{..} = (\userId -> User { userId, ..} ) <$> f userId
 {-# INLINE userIdL #-}
 
 -- | 'userUsername' Lens
-userUsernameL :: Lens_' User (Maybe Text)
+userUsernameL :: Lens_' User (Maybe )
 userUsernameL f User{..} = (\userUsername -> User { userUsername, ..} ) <$> f userUsername
 {-# INLINE userUsernameL #-}
 
 -- | 'userFirstName' Lens
-userFirstNameL :: Lens_' User (Maybe Text)
+userFirstNameL :: Lens_' User (Maybe )
 userFirstNameL f User{..} = (\userFirstName -> User { userFirstName, ..} ) <$> f userFirstName
 {-# INLINE userFirstNameL #-}
 
 -- | 'userLastName' Lens
-userLastNameL :: Lens_' User (Maybe Text)
+userLastNameL :: Lens_' User (Maybe )
 userLastNameL f User{..} = (\userLastName -> User { userLastName, ..} ) <$> f userLastName
 {-# INLINE userLastNameL #-}
 
 -- | 'userEmail' Lens
-userEmailL :: Lens_' User (Maybe Text)
+userEmailL :: Lens_' User (Maybe )
 userEmailL f User{..} = (\userEmail -> User { userEmail, ..} ) <$> f userEmail
 {-# INLINE userEmailL #-}
 
 -- | 'userPassword' Lens
-userPasswordL :: Lens_' User (Maybe Text)
+userPasswordL :: Lens_' User (Maybe )
 userPasswordL f User{..} = (\userPassword -> User { userPassword, ..} ) <$> f userPassword
 {-# INLINE userPasswordL #-}
 
 -- | 'userPhone' Lens
-userPhoneL :: Lens_' User (Maybe Text)
+userPhoneL :: Lens_' User (Maybe )
 userPhoneL f User{..} = (\userPhone -> User { userPhone, ..} ) <$> f userPhone
 {-# INLINE userPhoneL #-}
 
 -- | 'userUserStatus' Lens
-userUserStatusL :: Lens_' User (Maybe Int)
+userUserStatusL :: Lens_' User (Maybe )
 userUserStatusL f User{..} = (\userUserStatus -> User { userUserStatus, ..} ) <$> f userUserStatus
 {-# INLINE userUserStatusL #-}
 
@@ -887,147 +887,147 @@ userUserStatusL f User{..} = (\userUserStatus -> User { userUserStatus, ..} ) <$
 -- * XmlItem
 
 -- | 'xmlItemAttributeString' Lens
-xmlItemAttributeStringL :: Lens_' XmlItem (Maybe Text)
+xmlItemAttributeStringL :: Lens_' XmlItem (Maybe )
 xmlItemAttributeStringL f XmlItem{..} = (\xmlItemAttributeString -> XmlItem { xmlItemAttributeString, ..} ) <$> f xmlItemAttributeString
 {-# INLINE xmlItemAttributeStringL #-}
 
 -- | 'xmlItemAttributeNumber' Lens
-xmlItemAttributeNumberL :: Lens_' XmlItem (Maybe Double)
+xmlItemAttributeNumberL :: Lens_' XmlItem (Maybe )
 xmlItemAttributeNumberL f XmlItem{..} = (\xmlItemAttributeNumber -> XmlItem { xmlItemAttributeNumber, ..} ) <$> f xmlItemAttributeNumber
 {-# INLINE xmlItemAttributeNumberL #-}
 
 -- | 'xmlItemAttributeInteger' Lens
-xmlItemAttributeIntegerL :: Lens_' XmlItem (Maybe Int)
+xmlItemAttributeIntegerL :: Lens_' XmlItem (Maybe )
 xmlItemAttributeIntegerL f XmlItem{..} = (\xmlItemAttributeInteger -> XmlItem { xmlItemAttributeInteger, ..} ) <$> f xmlItemAttributeInteger
 {-# INLINE xmlItemAttributeIntegerL #-}
 
 -- | 'xmlItemAttributeBoolean' Lens
-xmlItemAttributeBooleanL :: Lens_' XmlItem (Maybe Bool)
+xmlItemAttributeBooleanL :: Lens_' XmlItem (Maybe )
 xmlItemAttributeBooleanL f XmlItem{..} = (\xmlItemAttributeBoolean -> XmlItem { xmlItemAttributeBoolean, ..} ) <$> f xmlItemAttributeBoolean
 {-# INLINE xmlItemAttributeBooleanL #-}
 
 -- | 'xmlItemWrappedArray' Lens
-xmlItemWrappedArrayL :: Lens_' XmlItem (Maybe [Int])
+xmlItemWrappedArrayL :: Lens_' XmlItem (Maybe )
 xmlItemWrappedArrayL f XmlItem{..} = (\xmlItemWrappedArray -> XmlItem { xmlItemWrappedArray, ..} ) <$> f xmlItemWrappedArray
 {-# INLINE xmlItemWrappedArrayL #-}
 
 -- | 'xmlItemNameString' Lens
-xmlItemNameStringL :: Lens_' XmlItem (Maybe Text)
+xmlItemNameStringL :: Lens_' XmlItem (Maybe )
 xmlItemNameStringL f XmlItem{..} = (\xmlItemNameString -> XmlItem { xmlItemNameString, ..} ) <$> f xmlItemNameString
 {-# INLINE xmlItemNameStringL #-}
 
 -- | 'xmlItemNameNumber' Lens
-xmlItemNameNumberL :: Lens_' XmlItem (Maybe Double)
+xmlItemNameNumberL :: Lens_' XmlItem (Maybe )
 xmlItemNameNumberL f XmlItem{..} = (\xmlItemNameNumber -> XmlItem { xmlItemNameNumber, ..} ) <$> f xmlItemNameNumber
 {-# INLINE xmlItemNameNumberL #-}
 
 -- | 'xmlItemNameInteger' Lens
-xmlItemNameIntegerL :: Lens_' XmlItem (Maybe Int)
+xmlItemNameIntegerL :: Lens_' XmlItem (Maybe )
 xmlItemNameIntegerL f XmlItem{..} = (\xmlItemNameInteger -> XmlItem { xmlItemNameInteger, ..} ) <$> f xmlItemNameInteger
 {-# INLINE xmlItemNameIntegerL #-}
 
 -- | 'xmlItemNameBoolean' Lens
-xmlItemNameBooleanL :: Lens_' XmlItem (Maybe Bool)
+xmlItemNameBooleanL :: Lens_' XmlItem (Maybe )
 xmlItemNameBooleanL f XmlItem{..} = (\xmlItemNameBoolean -> XmlItem { xmlItemNameBoolean, ..} ) <$> f xmlItemNameBoolean
 {-# INLINE xmlItemNameBooleanL #-}
 
 -- | 'xmlItemNameArray' Lens
-xmlItemNameArrayL :: Lens_' XmlItem (Maybe [Int])
+xmlItemNameArrayL :: Lens_' XmlItem (Maybe )
 xmlItemNameArrayL f XmlItem{..} = (\xmlItemNameArray -> XmlItem { xmlItemNameArray, ..} ) <$> f xmlItemNameArray
 {-# INLINE xmlItemNameArrayL #-}
 
 -- | 'xmlItemNameWrappedArray' Lens
-xmlItemNameWrappedArrayL :: Lens_' XmlItem (Maybe [Int])
+xmlItemNameWrappedArrayL :: Lens_' XmlItem (Maybe )
 xmlItemNameWrappedArrayL f XmlItem{..} = (\xmlItemNameWrappedArray -> XmlItem { xmlItemNameWrappedArray, ..} ) <$> f xmlItemNameWrappedArray
 {-# INLINE xmlItemNameWrappedArrayL #-}
 
 -- | 'xmlItemPrefixString' Lens
-xmlItemPrefixStringL :: Lens_' XmlItem (Maybe Text)
+xmlItemPrefixStringL :: Lens_' XmlItem (Maybe )
 xmlItemPrefixStringL f XmlItem{..} = (\xmlItemPrefixString -> XmlItem { xmlItemPrefixString, ..} ) <$> f xmlItemPrefixString
 {-# INLINE xmlItemPrefixStringL #-}
 
 -- | 'xmlItemPrefixNumber' Lens
-xmlItemPrefixNumberL :: Lens_' XmlItem (Maybe Double)
+xmlItemPrefixNumberL :: Lens_' XmlItem (Maybe )
 xmlItemPrefixNumberL f XmlItem{..} = (\xmlItemPrefixNumber -> XmlItem { xmlItemPrefixNumber, ..} ) <$> f xmlItemPrefixNumber
 {-# INLINE xmlItemPrefixNumberL #-}
 
 -- | 'xmlItemPrefixInteger' Lens
-xmlItemPrefixIntegerL :: Lens_' XmlItem (Maybe Int)
+xmlItemPrefixIntegerL :: Lens_' XmlItem (Maybe )
 xmlItemPrefixIntegerL f XmlItem{..} = (\xmlItemPrefixInteger -> XmlItem { xmlItemPrefixInteger, ..} ) <$> f xmlItemPrefixInteger
 {-# INLINE xmlItemPrefixIntegerL #-}
 
 -- | 'xmlItemPrefixBoolean' Lens
-xmlItemPrefixBooleanL :: Lens_' XmlItem (Maybe Bool)
+xmlItemPrefixBooleanL :: Lens_' XmlItem (Maybe )
 xmlItemPrefixBooleanL f XmlItem{..} = (\xmlItemPrefixBoolean -> XmlItem { xmlItemPrefixBoolean, ..} ) <$> f xmlItemPrefixBoolean
 {-# INLINE xmlItemPrefixBooleanL #-}
 
 -- | 'xmlItemPrefixArray' Lens
-xmlItemPrefixArrayL :: Lens_' XmlItem (Maybe [Int])
+xmlItemPrefixArrayL :: Lens_' XmlItem (Maybe )
 xmlItemPrefixArrayL f XmlItem{..} = (\xmlItemPrefixArray -> XmlItem { xmlItemPrefixArray, ..} ) <$> f xmlItemPrefixArray
 {-# INLINE xmlItemPrefixArrayL #-}
 
 -- | 'xmlItemPrefixWrappedArray' Lens
-xmlItemPrefixWrappedArrayL :: Lens_' XmlItem (Maybe [Int])
+xmlItemPrefixWrappedArrayL :: Lens_' XmlItem (Maybe )
 xmlItemPrefixWrappedArrayL f XmlItem{..} = (\xmlItemPrefixWrappedArray -> XmlItem { xmlItemPrefixWrappedArray, ..} ) <$> f xmlItemPrefixWrappedArray
 {-# INLINE xmlItemPrefixWrappedArrayL #-}
 
 -- | 'xmlItemNamespaceString' Lens
-xmlItemNamespaceStringL :: Lens_' XmlItem (Maybe Text)
+xmlItemNamespaceStringL :: Lens_' XmlItem (Maybe )
 xmlItemNamespaceStringL f XmlItem{..} = (\xmlItemNamespaceString -> XmlItem { xmlItemNamespaceString, ..} ) <$> f xmlItemNamespaceString
 {-# INLINE xmlItemNamespaceStringL #-}
 
 -- | 'xmlItemNamespaceNumber' Lens
-xmlItemNamespaceNumberL :: Lens_' XmlItem (Maybe Double)
+xmlItemNamespaceNumberL :: Lens_' XmlItem (Maybe )
 xmlItemNamespaceNumberL f XmlItem{..} = (\xmlItemNamespaceNumber -> XmlItem { xmlItemNamespaceNumber, ..} ) <$> f xmlItemNamespaceNumber
 {-# INLINE xmlItemNamespaceNumberL #-}
 
 -- | 'xmlItemNamespaceInteger' Lens
-xmlItemNamespaceIntegerL :: Lens_' XmlItem (Maybe Int)
+xmlItemNamespaceIntegerL :: Lens_' XmlItem (Maybe )
 xmlItemNamespaceIntegerL f XmlItem{..} = (\xmlItemNamespaceInteger -> XmlItem { xmlItemNamespaceInteger, ..} ) <$> f xmlItemNamespaceInteger
 {-# INLINE xmlItemNamespaceIntegerL #-}
 
 -- | 'xmlItemNamespaceBoolean' Lens
-xmlItemNamespaceBooleanL :: Lens_' XmlItem (Maybe Bool)
+xmlItemNamespaceBooleanL :: Lens_' XmlItem (Maybe )
 xmlItemNamespaceBooleanL f XmlItem{..} = (\xmlItemNamespaceBoolean -> XmlItem { xmlItemNamespaceBoolean, ..} ) <$> f xmlItemNamespaceBoolean
 {-# INLINE xmlItemNamespaceBooleanL #-}
 
 -- | 'xmlItemNamespaceArray' Lens
-xmlItemNamespaceArrayL :: Lens_' XmlItem (Maybe [Int])
+xmlItemNamespaceArrayL :: Lens_' XmlItem (Maybe )
 xmlItemNamespaceArrayL f XmlItem{..} = (\xmlItemNamespaceArray -> XmlItem { xmlItemNamespaceArray, ..} ) <$> f xmlItemNamespaceArray
 {-# INLINE xmlItemNamespaceArrayL #-}
 
 -- | 'xmlItemNamespaceWrappedArray' Lens
-xmlItemNamespaceWrappedArrayL :: Lens_' XmlItem (Maybe [Int])
+xmlItemNamespaceWrappedArrayL :: Lens_' XmlItem (Maybe )
 xmlItemNamespaceWrappedArrayL f XmlItem{..} = (\xmlItemNamespaceWrappedArray -> XmlItem { xmlItemNamespaceWrappedArray, ..} ) <$> f xmlItemNamespaceWrappedArray
 {-# INLINE xmlItemNamespaceWrappedArrayL #-}
 
 -- | 'xmlItemPrefixNsString' Lens
-xmlItemPrefixNsStringL :: Lens_' XmlItem (Maybe Text)
+xmlItemPrefixNsStringL :: Lens_' XmlItem (Maybe )
 xmlItemPrefixNsStringL f XmlItem{..} = (\xmlItemPrefixNsString -> XmlItem { xmlItemPrefixNsString, ..} ) <$> f xmlItemPrefixNsString
 {-# INLINE xmlItemPrefixNsStringL #-}
 
 -- | 'xmlItemPrefixNsNumber' Lens
-xmlItemPrefixNsNumberL :: Lens_' XmlItem (Maybe Double)
+xmlItemPrefixNsNumberL :: Lens_' XmlItem (Maybe )
 xmlItemPrefixNsNumberL f XmlItem{..} = (\xmlItemPrefixNsNumber -> XmlItem { xmlItemPrefixNsNumber, ..} ) <$> f xmlItemPrefixNsNumber
 {-# INLINE xmlItemPrefixNsNumberL #-}
 
 -- | 'xmlItemPrefixNsInteger' Lens
-xmlItemPrefixNsIntegerL :: Lens_' XmlItem (Maybe Int)
+xmlItemPrefixNsIntegerL :: Lens_' XmlItem (Maybe )
 xmlItemPrefixNsIntegerL f XmlItem{..} = (\xmlItemPrefixNsInteger -> XmlItem { xmlItemPrefixNsInteger, ..} ) <$> f xmlItemPrefixNsInteger
 {-# INLINE xmlItemPrefixNsIntegerL #-}
 
 -- | 'xmlItemPrefixNsBoolean' Lens
-xmlItemPrefixNsBooleanL :: Lens_' XmlItem (Maybe Bool)
+xmlItemPrefixNsBooleanL :: Lens_' XmlItem (Maybe )
 xmlItemPrefixNsBooleanL f XmlItem{..} = (\xmlItemPrefixNsBoolean -> XmlItem { xmlItemPrefixNsBoolean, ..} ) <$> f xmlItemPrefixNsBoolean
 {-# INLINE xmlItemPrefixNsBooleanL #-}
 
 -- | 'xmlItemPrefixNsArray' Lens
-xmlItemPrefixNsArrayL :: Lens_' XmlItem (Maybe [Int])
+xmlItemPrefixNsArrayL :: Lens_' XmlItem (Maybe )
 xmlItemPrefixNsArrayL f XmlItem{..} = (\xmlItemPrefixNsArray -> XmlItem { xmlItemPrefixNsArray, ..} ) <$> f xmlItemPrefixNsArray
 {-# INLINE xmlItemPrefixNsArrayL #-}
 
 -- | 'xmlItemPrefixNsWrappedArray' Lens
-xmlItemPrefixNsWrappedArrayL :: Lens_' XmlItem (Maybe [Int])
+xmlItemPrefixNsWrappedArrayL :: Lens_' XmlItem (Maybe )
 xmlItemPrefixNsWrappedArrayL f XmlItem{..} = (\xmlItemPrefixNsWrappedArray -> XmlItem { xmlItemPrefixNsWrappedArray, ..} ) <$> f xmlItemPrefixNsWrappedArray
 {-# INLINE xmlItemPrefixNsWrappedArrayL #-}
 

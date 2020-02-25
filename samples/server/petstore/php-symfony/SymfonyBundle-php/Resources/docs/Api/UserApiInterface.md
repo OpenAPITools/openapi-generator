@@ -50,7 +50,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUser
      */
-    public function createUser(User $body)
+    public function createUser($body)
     {
         // Implement the operation ...
     }
@@ -102,7 +102,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUsersWithArrayInput
      */
-    public function createUsersWithArrayInput(array $body)
+    public function createUsersWithArrayInput($body)
     {
         // Implement the operation ...
     }
@@ -154,7 +154,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUsersWithListInput
      */
-    public function createUsersWithListInput(array $body)
+    public function createUsersWithListInput($body)
     {
         // Implement the operation ...
     }
@@ -416,7 +416,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#updateUser
      */
-    public function updateUser($username, User $body)
+    public function updateUser($username, $body)
     {
         // Implement the operation ...
     }

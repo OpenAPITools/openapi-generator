@@ -41,7 +41,7 @@ export default class StoreApi {
      * @param {String} orderId ID of the order that needs to be deleted
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    deleteOrderWithHttpInfo(orderId) {
+    deleteOrderWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'orderId' is set
       if (orderId === undefined || orderId === null) {
@@ -75,8 +75,8 @@ export default class StoreApi {
      * @param {String} orderId ID of the order that needs to be deleted
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    deleteOrder(orderId) {
-      return this.deleteOrderWithHttpInfo(orderId)
+    deleteOrder() {
+      return this.deleteOrderWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -130,7 +130,7 @@ export default class StoreApi {
      * @param {Number} orderId ID of pet that needs to be fetched
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Order} and HTTP response
      */
-    getOrderByIdWithHttpInfo(orderId) {
+    getOrderByIdWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'orderId' is set
       if (orderId === undefined || orderId === null) {
@@ -164,8 +164,8 @@ export default class StoreApi {
      * @param {Number} orderId ID of pet that needs to be fetched
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Order}
      */
-    getOrderById(orderId) {
-      return this.getOrderByIdWithHttpInfo(orderId)
+    getOrderById() {
+      return this.getOrderByIdWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -177,7 +177,7 @@ export default class StoreApi {
      * @param {module:model/Order} body order placed for purchasing the pet
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Order} and HTTP response
      */
-    placeOrderWithHttpInfo(body) {
+    placeOrderWithHttpInfo() {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -209,8 +209,8 @@ export default class StoreApi {
      * @param {module:model/Order} body order placed for purchasing the pet
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Order}
      */
-    placeOrder(body) {
-      return this.placeOrderWithHttpInfo(body)
+    placeOrder() {
+      return this.placeOrderWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });

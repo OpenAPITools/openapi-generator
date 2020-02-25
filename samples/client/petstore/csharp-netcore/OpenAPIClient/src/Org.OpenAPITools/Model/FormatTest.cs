@@ -56,10 +56,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="bigDecimal">bigDecimal.</param>
         public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), decimal bigDecimal = default(decimal))
         {
-            this.Number = number;
+            // to ensure "number" is required (not null)
+            this.Number = number ?? throw new ArgumentNullException("number is a required property for FormatTest and cannot be null");;
             // to ensure "_byte" is required (not null)
             this.Byte = _byte ?? throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");;
-            this.Date = date;
+            // to ensure "date" is required (not null)
+            this.Date = date ?? throw new ArgumentNullException("date is a required property for FormatTest and cannot be null");;
             // to ensure "password" is required (not null)
             this.Password = password ?? throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");;
             this.Integer = integer;
@@ -223,12 +225,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.Integer.GetHashCode();
-                hashCode = hashCode * 59 + this.Int32.GetHashCode();
-                hashCode = hashCode * 59 + this.Int64.GetHashCode();
-                hashCode = hashCode * 59 + this.Number.GetHashCode();
-                hashCode = hashCode * 59 + this.Float.GetHashCode();
-                hashCode = hashCode * 59 + this.Double.GetHashCode();
+                if (this.Integer != null)
+                    hashCode = hashCode * 59 + this.Integer.GetHashCode();
+                if (this.Int32 != null)
+                    hashCode = hashCode * 59 + this.Int32.GetHashCode();
+                if (this.Int64 != null)
+                    hashCode = hashCode * 59 + this.Int64.GetHashCode();
+                if (this.Number != null)
+                    hashCode = hashCode * 59 + this.Number.GetHashCode();
+                if (this.Float != null)
+                    hashCode = hashCode * 59 + this.Float.GetHashCode();
+                if (this.Double != null)
+                    hashCode = hashCode * 59 + this.Double.GetHashCode();
                 if (this.String != null)
                     hashCode = hashCode * 59 + this.String.GetHashCode();
                 if (this.Byte != null)
@@ -243,7 +251,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Uuid.GetHashCode();
                 if (this.Password != null)
                     hashCode = hashCode * 59 + this.Password.GetHashCode();
-                hashCode = hashCode * 59 + this.BigDecimal.GetHashCode();
+                if (this.BigDecimal != null)
+                    hashCode = hashCode * 59 + this.BigDecimal.GetHashCode();
                 return hashCode;
             }
         }

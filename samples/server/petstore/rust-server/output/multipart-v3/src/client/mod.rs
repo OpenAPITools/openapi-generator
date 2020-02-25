@@ -249,7 +249,7 @@ impl<F, C> Api<C> for Client<F> where
 
     fn multipart_request_post(&self, param_string_field: String, param_binary_field: swagger::ByteArray, param_optional_string_field: Option<String>, param_object_field: Option<models::MultipartRequestObjectField>, context: &C) -> Box<dyn Future<Item=MultipartRequestPostResponse, Error=ApiError>> {
         let mut uri = format!(
-            "{}/multipart_request",
+            "{}",
             self.base_path
         );
 

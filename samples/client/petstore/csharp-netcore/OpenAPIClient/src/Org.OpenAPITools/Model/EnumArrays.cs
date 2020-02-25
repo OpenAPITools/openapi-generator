@@ -146,8 +146,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.JustSymbol.GetHashCode();
-                hashCode = hashCode * 59 + this.ArrayEnum.GetHashCode();
+                if (this.JustSymbol != null)
+                    hashCode = hashCode * 59 + this.JustSymbol.GetHashCode();
+                if (this.ArrayEnum != null)
+                    hashCode = hashCode * 59 + this.ArrayEnum.GetHashCode();
                 return hashCode;
             }
         }

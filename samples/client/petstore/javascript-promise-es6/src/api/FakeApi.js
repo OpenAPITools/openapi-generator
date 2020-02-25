@@ -45,7 +45,7 @@ export default class FakeApi {
      * @param {module:model/XmlItem} xmlItem XmlItem Body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    createXmlItemWithHttpInfo(xmlItem) {
+    createXmlItemWithHttpInfo() {
       let postBody = xmlItem;
       // verify the required parameter 'xmlItem' is set
       if (xmlItem === undefined || xmlItem === null) {
@@ -78,8 +78,8 @@ export default class FakeApi {
      * @param {module:model/XmlItem} xmlItem XmlItem Body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    createXmlItem(xmlItem) {
-      return this.createXmlItemWithHttpInfo(xmlItem)
+    createXmlItem() {
+      return this.createXmlItemWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -92,8 +92,7 @@ export default class FakeApi {
      * @param {Boolean} opts.body Input boolean as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link Boolean} and HTTP response
      */
-    fakeOuterBooleanSerializeWithHttpInfo(opts) {
-      opts = opts || {};
+    fakeOuterBooleanSerializeWithHttpInfo() {
       let postBody = opts['body'];
 
       let pathParams = {
@@ -122,8 +121,8 @@ export default class FakeApi {
      * @param {Boolean} opts.body Input boolean as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Boolean}
      */
-    fakeOuterBooleanSerialize(opts) {
-      return this.fakeOuterBooleanSerializeWithHttpInfo(opts)
+    fakeOuterBooleanSerialize() {
+      return this.fakeOuterBooleanSerializeWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -136,8 +135,7 @@ export default class FakeApi {
      * @param {module:model/OuterComposite} opts.body Input composite as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/OuterComposite} and HTTP response
      */
-    fakeOuterCompositeSerializeWithHttpInfo(opts) {
-      opts = opts || {};
+    fakeOuterCompositeSerializeWithHttpInfo() {
       let postBody = opts['body'];
 
       let pathParams = {
@@ -166,8 +164,8 @@ export default class FakeApi {
      * @param {module:model/OuterComposite} opts.body Input composite as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/OuterComposite}
      */
-    fakeOuterCompositeSerialize(opts) {
-      return this.fakeOuterCompositeSerializeWithHttpInfo(opts)
+    fakeOuterCompositeSerialize() {
+      return this.fakeOuterCompositeSerializeWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -180,8 +178,7 @@ export default class FakeApi {
      * @param {Number} opts.body Input number as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link Number} and HTTP response
      */
-    fakeOuterNumberSerializeWithHttpInfo(opts) {
-      opts = opts || {};
+    fakeOuterNumberSerializeWithHttpInfo() {
       let postBody = opts['body'];
 
       let pathParams = {
@@ -210,8 +207,8 @@ export default class FakeApi {
      * @param {Number} opts.body Input number as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Number}
      */
-    fakeOuterNumberSerialize(opts) {
-      return this.fakeOuterNumberSerializeWithHttpInfo(opts)
+    fakeOuterNumberSerialize() {
+      return this.fakeOuterNumberSerializeWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -224,8 +221,7 @@ export default class FakeApi {
      * @param {String} opts.body Input string as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link String} and HTTP response
      */
-    fakeOuterStringSerializeWithHttpInfo(opts) {
-      opts = opts || {};
+    fakeOuterStringSerializeWithHttpInfo() {
       let postBody = opts['body'];
 
       let pathParams = {
@@ -254,8 +250,8 @@ export default class FakeApi {
      * @param {String} opts.body Input string as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link String}
      */
-    fakeOuterStringSerialize(opts) {
-      return this.fakeOuterStringSerializeWithHttpInfo(opts)
+    fakeOuterStringSerialize() {
+      return this.fakeOuterStringSerializeWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -267,7 +263,7 @@ export default class FakeApi {
      * @param {module:model/FileSchemaTestClass} body 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    testBodyWithFileSchemaWithHttpInfo(body) {
+    testBodyWithFileSchemaWithHttpInfo() {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -299,8 +295,8 @@ export default class FakeApi {
      * @param {module:model/FileSchemaTestClass} body 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    testBodyWithFileSchema(body) {
-      return this.testBodyWithFileSchemaWithHttpInfo(body)
+    testBodyWithFileSchema() {
+      return this.testBodyWithFileSchemaWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -312,7 +308,7 @@ export default class FakeApi {
      * @param {module:model/User} body 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    testBodyWithQueryParamsWithHttpInfo(query, body) {
+    testBodyWithQueryParamsWithHttpInfo() {
       let postBody = body;
       // verify the required parameter 'query' is set
       if (query === undefined || query === null) {
@@ -349,8 +345,8 @@ export default class FakeApi {
      * @param {module:model/User} body 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    testBodyWithQueryParams(query, body) {
-      return this.testBodyWithQueryParamsWithHttpInfo(query, body)
+    testBodyWithQueryParams() {
+      return this.testBodyWithQueryParamsWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -363,7 +359,7 @@ export default class FakeApi {
      * @param {module:model/Client} body client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Client} and HTTP response
      */
-    testClientModelWithHttpInfo(body) {
+    testClientModelWithHttpInfo() {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -396,8 +392,8 @@ export default class FakeApi {
      * @param {module:model/Client} body client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Client}
      */
-    testClientModel(body) {
-      return this.testClientModelWithHttpInfo(body)
+    testClientModel() {
+      return this.testClientModelWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -424,8 +420,7 @@ export default class FakeApi {
      * @param {String} opts.callback None
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    testEndpointParametersWithHttpInfo(_number, _double, patternWithoutDelimiter, _byte, opts) {
-      opts = opts || {};
+    testEndpointParametersWithHttpInfo() {
       let postBody = null;
       // verify the required parameter '_number' is set
       if (_number === undefined || _number === null) {
@@ -498,8 +493,8 @@ export default class FakeApi {
      * @param {String} opts.callback None
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    testEndpointParameters(_number, _double, patternWithoutDelimiter, _byte, opts) {
-      return this.testEndpointParametersWithHttpInfo(_number, _double, patternWithoutDelimiter, _byte, opts)
+    testEndpointParameters() {
+      return this.testEndpointParametersWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -520,8 +515,7 @@ export default class FakeApi {
      * @param {module:model/String} opts.enumFormString Form parameter enum test (string) (default to '-efg')
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    testEnumParametersWithHttpInfo(opts) {
-      opts = opts || {};
+    testEnumParametersWithHttpInfo() {
       let postBody = null;
 
       let pathParams = {
@@ -566,8 +560,8 @@ export default class FakeApi {
      * @param {module:model/String} opts.enumFormString Form parameter enum test (string) (default to '-efg')
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    testEnumParameters(opts) {
-      return this.testEnumParametersWithHttpInfo(opts)
+    testEnumParameters() {
+      return this.testEnumParametersWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -586,8 +580,7 @@ export default class FakeApi {
      * @param {Number} opts.int64Group Integer in group parameters
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts) {
-      opts = opts || {};
+    testGroupParametersWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'requiredStringGroup' is set
       if (requiredStringGroup === undefined || requiredStringGroup === null) {
@@ -640,8 +633,8 @@ export default class FakeApi {
      * @param {Number} opts.int64Group Integer in group parameters
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts) {
-      return this.testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts)
+    testGroupParameters() {
+      return this.testGroupParametersWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -653,7 +646,7 @@ export default class FakeApi {
      * @param {Object.<String, {String: String}>} param request body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    testInlineAdditionalPropertiesWithHttpInfo(param) {
+    testInlineAdditionalPropertiesWithHttpInfo() {
       let postBody = param;
       // verify the required parameter 'param' is set
       if (param === undefined || param === null) {
@@ -685,8 +678,8 @@ export default class FakeApi {
      * @param {Object.<String, {String: String}>} param request body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    testInlineAdditionalProperties(param) {
-      return this.testInlineAdditionalPropertiesWithHttpInfo(param)
+    testInlineAdditionalProperties() {
+      return this.testInlineAdditionalPropertiesWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -699,7 +692,7 @@ export default class FakeApi {
      * @param {String} param2 field2
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    testJsonFormDataWithHttpInfo(param, param2) {
+    testJsonFormDataWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'param' is set
       if (param === undefined || param === null) {
@@ -738,8 +731,8 @@ export default class FakeApi {
      * @param {String} param2 field2
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    testJsonFormData(param, param2) {
-      return this.testJsonFormDataWithHttpInfo(param, param2)
+    testJsonFormData() {
+      return this.testJsonFormDataWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -755,7 +748,7 @@ export default class FakeApi {
      * @param {Array.<String>} context 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context) {
+    testQueryParameterCollectionFormatWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'pipe' is set
       if (pipe === undefined || pipe === null) {
@@ -812,8 +805,8 @@ export default class FakeApi {
      * @param {Array.<String>} context 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    testQueryParameterCollectionFormat(pipe, ioutil, http, url, context) {
-      return this.testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context)
+    testQueryParameterCollectionFormat() {
+      return this.testQueryParameterCollectionFormatWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });

@@ -12,7 +12,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { BaseAPI, HttpHeaders, HttpQuery, throwIfNullOrUndefined, encodeURI } from '../runtime';
+import { BaseAPI, HttpHeaders, HttpQuery, throwIfRequired, encodeURI } from '../runtime';
 import {
     User,
 } from '../models';
@@ -56,8 +56,8 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Create user
      */
-    createUser = ({ body }: CreateUserRequest): Observable<void> => {
-        throwIfNullOrUndefined(body, 'createUser');
+    createUser = (requestParameters: CreateUserRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'body', 'createUser');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
@@ -67,15 +67,15 @@ export class UserApi extends BaseAPI {
             path: '/user',
             method: 'POST',
             headers,
-            body: body,
+            body: requestParameters.body,
         });
     };
 
     /**
      * Creates list of users with given input array
      */
-    createUsersWithArrayInput = ({ body }: CreateUsersWithArrayInputRequest): Observable<void> => {
-        throwIfNullOrUndefined(body, 'createUsersWithArrayInput');
+    createUsersWithArrayInput = (requestParameters: CreateUsersWithArrayInputRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'body', 'createUsersWithArrayInput');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
@@ -85,15 +85,15 @@ export class UserApi extends BaseAPI {
             path: '/user/createWithArray',
             method: 'POST',
             headers,
-            body: body,
+            body: requestParameters.body,
         });
     };
 
     /**
      * Creates list of users with given input array
      */
-    createUsersWithListInput = ({ body }: CreateUsersWithListInputRequest): Observable<void> => {
-        throwIfNullOrUndefined(body, 'createUsersWithListInput');
+    createUsersWithListInput = (requestParameters: CreateUsersWithListInputRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'body', 'createUsersWithListInput');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ export class UserApi extends BaseAPI {
             path: '/user/createWithList',
             method: 'POST',
             headers,
-            body: body,
+            body: requestParameters.body,
         });
     };
 
@@ -111,11 +111,11 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Delete user
      */
-    deleteUser = ({ username }: DeleteUserRequest): Observable<void> => {
-        throwIfNullOrUndefined(username, 'deleteUser');
+    deleteUser = (requestParameters: DeleteUserRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'username', 'deleteUser');
 
         return this.request<void>({
-            path: '/user/{username}'.replace('{username}', encodeURI(username)),
+            path: '/user/{username}'.replace('{username}', encodeURI(requestParameters.username)),
             method: 'DELETE',
         });
     };
@@ -123,11 +123,11 @@ export class UserApi extends BaseAPI {
     /**
      * Get user by user name
      */
-    getUserByName = ({ username }: GetUserByNameRequest): Observable<User> => {
-        throwIfNullOrUndefined(username, 'getUserByName');
+    getUserByName = (requestParameters: GetUserByNameRequest): Observable<User> => {
+        throwIfRequired(requestParameters, 'username', 'getUserByName');
 
         return this.request<User>({
-            path: '/user/{username}'.replace('{username}', encodeURI(username)),
+            path: '/user/{username}'.replace('{username}', encodeURI(requestParameters.username)),
             method: 'GET',
         });
     };
@@ -135,13 +135,13 @@ export class UserApi extends BaseAPI {
     /**
      * Logs user into the system
      */
-    loginUser = ({ username, password }: LoginUserRequest): Observable<string> => {
-        throwIfNullOrUndefined(username, 'loginUser');
-        throwIfNullOrUndefined(password, 'loginUser');
+    loginUser = (requestParameters: LoginUserRequest): Observable<string> => {
+        throwIfRequired(requestParameters, 'username', 'loginUser');
+        throwIfRequired(requestParameters, 'password', 'loginUser');
 
-        const query: HttpQuery = { // required parameters are used directly since they are already checked by throwIfNullOrUndefined
-            'username': username,
-            'password': password,
+        const query: HttpQuery = {
+            ...(requestParameters.username && { 'username': requestParameters.username }),
+            ...(requestParameters.password && { 'password': requestParameters.password }),
         };
 
         return this.request<string>({
@@ -165,19 +165,19 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Updated user
      */
-    updateUser = ({ username, body }: UpdateUserRequest): Observable<void> => {
-        throwIfNullOrUndefined(username, 'updateUser');
-        throwIfNullOrUndefined(body, 'updateUser');
+    updateUser = (requestParameters: UpdateUserRequest): Observable<void> => {
+        throwIfRequired(requestParameters, 'username', 'updateUser');
+        throwIfRequired(requestParameters, 'body', 'updateUser');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
         };
 
         return this.request<void>({
-            path: '/user/{username}'.replace('{username}', encodeURI(username)),
+            path: '/user/{username}'.replace('{username}', encodeURI(requestParameters.username)),
             method: 'PUT',
             headers,
-            body: body,
+            body: requestParameters.body,
         });
     };
 

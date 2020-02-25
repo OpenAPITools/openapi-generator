@@ -122,7 +122,7 @@ where
         match &method {
 
             // MultipartRequestPost - POST /multipart_request
-            &hyper::Method::Post if path.matched(paths::ID_MULTIPART_REQUEST) => {
+            &hyper::Method:: if path.matched(paths::ID_) => {
                 let boundary = match multipart_boundary(&headers) {
                     Some(boundary) => boundary,
                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
@@ -270,7 +270,7 @@ impl RequestParser for ApiRequestParser {
         match request.method() {
 
             // MultipartRequestPost - POST /multipart_request
-            &hyper::Method::Post if path.matched(paths::ID_MULTIPART_REQUEST) => Ok("MultipartRequestPost"),
+            &hyper::Method:: if path.matched(paths::ID_) => Ok("MultipartRequestPost"),
             _ => Err(()),
         }
     }

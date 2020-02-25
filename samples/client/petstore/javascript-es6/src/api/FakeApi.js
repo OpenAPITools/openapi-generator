@@ -52,7 +52,7 @@ export default class FakeApi {
      * @param {module:model/XmlItem} xmlItem XmlItem Body
      * @param {module:api/FakeApi~createXmlItemCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    createXmlItem(xmlItem, callback) {
+    createXmlItem() {
       let postBody = xmlItem;
       // verify the required parameter 'xmlItem' is set
       if (xmlItem === undefined || xmlItem === null) {
@@ -94,8 +94,7 @@ export default class FakeApi {
      * @param {module:api/FakeApi~fakeOuterBooleanSerializeCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Boolean}
      */
-    fakeOuterBooleanSerialize(opts, callback) {
-      opts = opts || {};
+    fakeOuterBooleanSerialize() {
       let postBody = opts['body'];
 
       let pathParams = {
@@ -133,8 +132,7 @@ export default class FakeApi {
      * @param {module:api/FakeApi~fakeOuterCompositeSerializeCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/OuterComposite}
      */
-    fakeOuterCompositeSerialize(opts, callback) {
-      opts = opts || {};
+    fakeOuterCompositeSerialize() {
       let postBody = opts['body'];
 
       let pathParams = {
@@ -172,8 +170,7 @@ export default class FakeApi {
      * @param {module:api/FakeApi~fakeOuterNumberSerializeCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Number}
      */
-    fakeOuterNumberSerialize(opts, callback) {
-      opts = opts || {};
+    fakeOuterNumberSerialize() {
       let postBody = opts['body'];
 
       let pathParams = {
@@ -211,8 +208,7 @@ export default class FakeApi {
      * @param {module:api/FakeApi~fakeOuterStringSerializeCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link String}
      */
-    fakeOuterStringSerialize(opts, callback) {
-      opts = opts || {};
+    fakeOuterStringSerialize() {
       let postBody = opts['body'];
 
       let pathParams = {
@@ -248,7 +244,7 @@ export default class FakeApi {
      * @param {module:model/FileSchemaTestClass} body 
      * @param {module:api/FakeApi~testBodyWithFileSchemaCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    testBodyWithFileSchema(body, callback) {
+    testBodyWithFileSchema() {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -288,7 +284,7 @@ export default class FakeApi {
      * @param {module:model/User} body 
      * @param {module:api/FakeApi~testBodyWithQueryParamsCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    testBodyWithQueryParams(query, body, callback) {
+    testBodyWithQueryParams() {
       let postBody = body;
       // verify the required parameter 'query' is set
       if (query === undefined || query === null) {
@@ -335,7 +331,7 @@ export default class FakeApi {
      * @param {module:api/FakeApi~testClientModelCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Client}
      */
-    testClientModel(body, callback) {
+    testClientModel() {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -390,8 +386,7 @@ export default class FakeApi {
      * @param {String} opts.callback None
      * @param {module:api/FakeApi~testEndpointParametersCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    testEndpointParameters(_number, _double, patternWithoutDelimiter, _byte, opts, callback) {
-      opts = opts || {};
+    testEndpointParameters() {
       let postBody = null;
       // verify the required parameter '_number' is set
       if (_number === undefined || _number === null) {
@@ -466,8 +461,7 @@ export default class FakeApi {
      * @param {module:model/String} opts.enumFormString Form parameter enum test (string) (default to '-efg')
      * @param {module:api/FakeApi~testEnumParametersCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    testEnumParameters(opts, callback) {
-      opts = opts || {};
+    testEnumParameters() {
       let postBody = null;
 
       let pathParams = {
@@ -518,8 +512,7 @@ export default class FakeApi {
      * @param {Number} opts.int64Group Integer in group parameters
      * @param {module:api/FakeApi~testGroupParametersCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts, callback) {
-      opts = opts || {};
+    testGroupParameters() {
       let postBody = null;
       // verify the required parameter 'requiredStringGroup' is set
       if (requiredStringGroup === undefined || requiredStringGroup === null) {
@@ -573,7 +566,7 @@ export default class FakeApi {
      * @param {Object.<String, {String: String}>} param request body
      * @param {module:api/FakeApi~testInlineAdditionalPropertiesCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    testInlineAdditionalProperties(param, callback) {
+    testInlineAdditionalProperties() {
       let postBody = param;
       // verify the required parameter 'param' is set
       if (param === undefined || param === null) {
@@ -614,7 +607,7 @@ export default class FakeApi {
      * @param {String} param2 field2
      * @param {module:api/FakeApi~testJsonFormDataCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    testJsonFormData(param, param2, callback) {
+    testJsonFormData() {
       let postBody = null;
       // verify the required parameter 'param' is set
       if (param === undefined || param === null) {
@@ -664,7 +657,7 @@ export default class FakeApi {
      * @param {Array.<String>} context 
      * @param {module:api/FakeApi~testQueryParameterCollectionFormatCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, callback) {
+    testQueryParameterCollectionFormat() {
       let postBody = null;
       // verify the required parameter 'pipe' is set
       if (pipe === undefined || pipe === null) {

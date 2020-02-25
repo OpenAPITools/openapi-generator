@@ -48,7 +48,7 @@ export default class PetApi {
      * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @param {module:api/PetApi~addPetCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    addPet(body, callback) {
+    addPet() {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -90,8 +90,7 @@ export default class PetApi {
      * @param {String} opts.apiKey 
      * @param {module:api/PetApi~deletePetCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    deletePet(petId, opts, callback) {
-      opts = opts || {};
+    deletePet() {
       let postBody = null;
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {
@@ -135,7 +134,7 @@ export default class PetApi {
      * @param {module:api/PetApi~findPetsByStatusCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Array.<module:model/Pet>}
      */
-    findPetsByStatus(status, callback) {
+    findPetsByStatus() {
       let postBody = null;
       // verify the required parameter 'status' is set
       if (status === undefined || status === null) {
@@ -178,7 +177,7 @@ export default class PetApi {
      * @param {module:api/PetApi~findPetsByTagsCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Array.<module:model/Pet>}
      */
-    findPetsByTags(tags, callback) {
+    findPetsByTags() {
       let postBody = null;
       // verify the required parameter 'tags' is set
       if (tags === undefined || tags === null) {
@@ -221,7 +220,7 @@ export default class PetApi {
      * @param {module:api/PetApi~getPetByIdCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Pet}
      */
-    getPetById(petId, callback) {
+    getPetById() {
       let postBody = null;
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {
@@ -262,7 +261,7 @@ export default class PetApi {
      * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @param {module:api/PetApi~updatePetCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    updatePet(body, callback) {
+    updatePet() {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -305,8 +304,7 @@ export default class PetApi {
      * @param {String} opts.status Updated status of the pet
      * @param {module:api/PetApi~updatePetWithFormCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    updatePetWithForm(petId, opts, callback) {
-      opts = opts || {};
+    updatePetWithForm() {
       let postBody = null;
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {
@@ -353,8 +351,7 @@ export default class PetApi {
      * @param {module:api/PetApi~uploadFileCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/ApiResponse}
      */
-    uploadFile(petId, opts, callback) {
-      opts = opts || {};
+    uploadFile() {
       let postBody = null;
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {
@@ -401,8 +398,7 @@ export default class PetApi {
      * @param {module:api/PetApi~uploadFileWithRequiredFileCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/ApiResponse}
      */
-    uploadFileWithRequiredFile(petId, requiredFile, opts, callback) {
-      opts = opts || {};
+    uploadFileWithRequiredFile() {
       let postBody = null;
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {

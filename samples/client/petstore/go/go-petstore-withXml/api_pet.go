@@ -96,7 +96,7 @@ func (a *PetApiService) AddPet(ctx _context.Context, body Pet) (*_nethttp.Respon
 
 // DeletePetOpts Optional parameters for the method 'DeletePet'
 type DeletePetOpts struct {
-    ApiKey optional.String
+     optional.
 }
 
 /*
@@ -104,7 +104,7 @@ DeletePet Deletes a pet
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId Pet id to delete
  * @param optional nil or *DeletePetOpts - Optional Parameters:
- * @param "ApiKey" (optional.String) - 
+ * @param "" (optional.) - 
 */
 func (a *PetApiService) DeletePet(ctx _context.Context, petId int64, localVarOptionals *DeletePetOpts) (*_nethttp.Response, error) {
 	var (
@@ -140,8 +140,8 @@ func (a *PetApiService) DeletePet(ctx _context.Context, petId int64, localVarOpt
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals.ApiKey.IsSet() {
-		localVarHeaderParams["api_key"] = parameterToString(localVarOptionals.ApiKey.Value(), "")
+	if localVarOptionals != nil && localVarOptionals..IsSet() {
+		localVarHeaderParams["api_key"] = parameterToString(localVarOptionals..Value(), "")
 	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
@@ -512,8 +512,8 @@ func (a *PetApiService) UpdatePet(ctx _context.Context, body Pet) (*_nethttp.Res
 
 // UpdatePetWithFormOpts Optional parameters for the method 'UpdatePetWithForm'
 type UpdatePetWithFormOpts struct {
-    Name optional.String
-    Status optional.String
+     optional.
+     optional.
 }
 
 /*
@@ -521,8 +521,8 @@ UpdatePetWithForm Updates a pet in the store with form data
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet that needs to be updated
  * @param optional nil or *UpdatePetWithFormOpts - Optional Parameters:
- * @param "Name" (optional.String) -  Updated name of the pet
- * @param "Status" (optional.String) -  Updated status of the pet
+ * @param "" (optional.) -  Updated name of the pet
+ * @param "" (optional.) -  Updated status of the pet
 */
 func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, localVarOptionals *UpdatePetWithFormOpts) (*_nethttp.Response, error) {
 	var (
@@ -558,11 +558,11 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, loc
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals.Name.IsSet() {
-		localVarFormParams.Add("name", parameterToString(localVarOptionals.Name.Value(), ""))
+	if localVarOptionals != nil && localVarOptionals..IsSet() {
+		localVarFormParams.Add("name", parameterToString(localVarOptionals..Value(), ""))
 	}
-	if localVarOptionals != nil && localVarOptionals.Status.IsSet() {
-		localVarFormParams.Add("status", parameterToString(localVarOptionals.Status.Value(), ""))
+	if localVarOptionals != nil && localVarOptionals..IsSet() {
+		localVarFormParams.Add("status", parameterToString(localVarOptionals..Value(), ""))
 	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
@@ -593,8 +593,8 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, loc
 
 // UploadFileOpts Optional parameters for the method 'UploadFile'
 type UploadFileOpts struct {
-    AdditionalMetadata optional.String
-    File optional.Interface
+     optional.
+     optional.Interface
 }
 
 /*
@@ -602,8 +602,8 @@ UploadFile uploads an image
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet to update
  * @param optional nil or *UploadFileOpts - Optional Parameters:
- * @param "AdditionalMetadata" (optional.String) -  Additional data to pass to server
- * @param "File" (optional.Interface of *os.File) -  file to upload
+ * @param "" (optional.) -  Additional data to pass to server
+ * @param "" (optional.Interface of *os.File) -  file to upload
 @return ApiResponse
 */
 func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOptionals *UploadFileOpts) (ApiResponse, *_nethttp.Response, error) {
@@ -641,14 +641,14 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals.AdditionalMetadata.IsSet() {
-		localVarFormParams.Add("additionalMetadata", parameterToString(localVarOptionals.AdditionalMetadata.Value(), ""))
+	if localVarOptionals != nil && localVarOptionals..IsSet() {
+		localVarFormParams.Add("additionalMetadata", parameterToString(localVarOptionals..Value(), ""))
 	}
 	localVarFormFileName = "file"
 	var localVarFile *os.File
-	if localVarOptionals != nil && localVarOptionals.File.IsSet() {
+	if localVarOptionals != nil && localVarOptionals..IsSet() {
 		localVarFileOk := false
-		localVarFile, localVarFileOk = localVarOptionals.File.Value().(*os.File)
+		localVarFile, localVarFileOk = localVarOptionals..Value().(*os.File)
 		if !localVarFileOk {
 				return localVarReturnValue, nil, reportError("file should be *os.File")
 		}
@@ -706,7 +706,7 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 
 // UploadFileWithRequiredFileOpts Optional parameters for the method 'UploadFileWithRequiredFile'
 type UploadFileWithRequiredFileOpts struct {
-    AdditionalMetadata optional.String
+     optional.
 }
 
 /*
@@ -715,7 +715,7 @@ UploadFileWithRequiredFile uploads an image (required)
  * @param petId ID of pet to update
  * @param requiredFile file to upload
  * @param optional nil or *UploadFileWithRequiredFileOpts - Optional Parameters:
- * @param "AdditionalMetadata" (optional.String) -  Additional data to pass to server
+ * @param "" (optional.) -  Additional data to pass to server
 @return ApiResponse
 */
 func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId int64, requiredFile *os.File, localVarOptionals *UploadFileWithRequiredFileOpts) (ApiResponse, *_nethttp.Response, error) {
@@ -753,8 +753,8 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals.AdditionalMetadata.IsSet() {
-		localVarFormParams.Add("additionalMetadata", parameterToString(localVarOptionals.AdditionalMetadata.Value(), ""))
+	if localVarOptionals != nil && localVarOptionals..IsSet() {
+		localVarFormParams.Add("additionalMetadata", parameterToString(localVarOptionals..Value(), ""))
 	}
 	localVarFormFileName = "requiredFile"
 	localVarFile := requiredFile

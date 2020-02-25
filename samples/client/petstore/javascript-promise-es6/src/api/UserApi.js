@@ -41,7 +41,7 @@ export default class UserApi {
      * @param {module:model/User} body Created user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    createUserWithHttpInfo(body) {
+    createUserWithHttpInfo() {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -74,8 +74,8 @@ export default class UserApi {
      * @param {module:model/User} body Created user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    createUser(body) {
-      return this.createUserWithHttpInfo(body)
+    createUser() {
+      return this.createUserWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -87,7 +87,7 @@ export default class UserApi {
      * @param {Array.<module:model/User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    createUsersWithArrayInputWithHttpInfo(body) {
+    createUsersWithArrayInputWithHttpInfo() {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -119,8 +119,8 @@ export default class UserApi {
      * @param {Array.<module:model/User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    createUsersWithArrayInput(body) {
-      return this.createUsersWithArrayInputWithHttpInfo(body)
+    createUsersWithArrayInput() {
+      return this.createUsersWithArrayInputWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -132,7 +132,7 @@ export default class UserApi {
      * @param {Array.<module:model/User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    createUsersWithListInputWithHttpInfo(body) {
+    createUsersWithListInputWithHttpInfo() {
       let postBody = body;
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
@@ -164,8 +164,8 @@ export default class UserApi {
      * @param {Array.<module:model/User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    createUsersWithListInput(body) {
-      return this.createUsersWithListInputWithHttpInfo(body)
+    createUsersWithListInput() {
+      return this.createUsersWithListInputWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -178,7 +178,7 @@ export default class UserApi {
      * @param {String} username The name that needs to be deleted
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    deleteUserWithHttpInfo(username) {
+    deleteUserWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
@@ -212,8 +212,8 @@ export default class UserApi {
      * @param {String} username The name that needs to be deleted
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    deleteUser(username) {
-      return this.deleteUserWithHttpInfo(username)
+    deleteUser() {
+      return this.deleteUserWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -225,7 +225,7 @@ export default class UserApi {
      * @param {String} username The name that needs to be fetched. Use user1 for testing.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/User} and HTTP response
      */
-    getUserByNameWithHttpInfo(username) {
+    getUserByNameWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
@@ -258,8 +258,8 @@ export default class UserApi {
      * @param {String} username The name that needs to be fetched. Use user1 for testing.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/User}
      */
-    getUserByName(username) {
-      return this.getUserByNameWithHttpInfo(username)
+    getUserByName() {
+      return this.getUserByNameWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -272,7 +272,7 @@ export default class UserApi {
      * @param {String} password The password for login in clear text
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link String} and HTTP response
      */
-    loginUserWithHttpInfo(username, password) {
+    loginUserWithHttpInfo() {
       let postBody = null;
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
@@ -311,8 +311,8 @@ export default class UserApi {
      * @param {String} password The password for login in clear text
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link String}
      */
-    loginUser(username, password) {
-      return this.loginUserWithHttpInfo(username, password)
+    loginUser() {
+      return this.loginUserWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -365,7 +365,7 @@ export default class UserApi {
      * @param {module:model/User} body Updated user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    updateUserWithHttpInfo(username, body) {
+    updateUserWithHttpInfo() {
       let postBody = body;
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
@@ -404,8 +404,8 @@ export default class UserApi {
      * @param {module:model/User} body Updated user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    updateUser(username, body) {
-      return this.updateUserWithHttpInfo(username, body)
+    updateUser() {
+      return this.updateUserWithHttpInfo()
         .then(function(response_and_data) {
           return response_and_data.data;
         });
