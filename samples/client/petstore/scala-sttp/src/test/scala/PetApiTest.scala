@@ -1,6 +1,4 @@
-import org.json4s.DefaultFormats
 import org.junit.runner.RunWith
-import org.openapitools.client._
 import org.openapitools.client.api._
 import org.openapitools.client.core.{ApiInvoker, ApiKeyValue, SttpSerializer}
 import org.openapitools.client.model._
@@ -8,26 +6,6 @@ import org.scalatest.Inspectors._
 import org.scalatest._
 import org.scalatest.junit.JUnitRunner
 import sttp.client.HttpURLConnectionBackend
-
-//
-//implicit class ApiRequestImprovements[R[_], T](request: RequestT[Identity, Either[ResponseError[Exception], T], Nothing]) {
-//
-//  //    def response(invoker: ApiInvoker)(implicit ec: ExecutionContext): Future[ApiResponse[T]] =
-//  //      response(ec, invoker)
-//
-//  def result[U <: T]()(implicit backend: SttpBackend[R, ResponseError[Exception], Nothing]): R[U] = {
-//    val res = request.send()
-//    val ME: MonadError[R] = backend.responseMonad
-//    ME.flatMap(res) {
-//      resp =>
-//        resp.body match {
-//          case Left(exc) => ME.error[U](exc)
-//          case Right(value) => ME.unit(value)
-//        }
-//    }
-//  }
-//
-//}
 
 @RunWith(classOf[JUnitRunner])
 class PetApiTest extends AsyncFlatSpec with Matchers {
