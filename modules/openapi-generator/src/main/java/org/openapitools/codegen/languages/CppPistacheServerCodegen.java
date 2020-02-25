@@ -111,8 +111,6 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
                 VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
                 Boolean.toString(this.variableNameFirstCharacterUppercase));
 
-        reservedWords = new HashSet<>();
-
         supportingFiles.add(new SupportingFile("helpers-header.mustache", "model", modelNamePrefix + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-source.mustache", "model", modelNamePrefix + "Helpers.cpp"));
         supportingFiles.add(new SupportingFile("main-api-server.mustache", "", modelNamePrefix + "main-api-server.cpp"));
