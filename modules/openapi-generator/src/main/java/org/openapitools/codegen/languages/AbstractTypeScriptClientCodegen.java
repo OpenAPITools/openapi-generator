@@ -283,14 +283,13 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toParamName(String name) {
-        // sanitize name
         name = sanitizeName(name, "[^\\w$]");
 
         if ("_".equals(name)) {
             name = "_u";
         }
 
-        name = getNameUsingModelPropertyNaming(name);
+        name = camelize(name, true);
         name = toSafeIdentifier(name);
 
         return name;
@@ -304,7 +303,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             name = "_u";
         }
 
-        name = camelize(name, true);
+        name = getNameUsingModelPropertyNaming(name);
         name = toSafeIdentifier(name);
 
         return name;

@@ -19,15 +19,15 @@ import org.testng.annotations.Test;
 
 public class TypeScriptAngularClientCodegenTest {
     @Test
-    public void toParamName() {
+    public void toVarName() {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         codegen.processOpts();
-        Assert.assertEquals(codegen.toParamName("valid_param"), "valid_param");
+        Assert.assertEquals(codegen.toVarName("valid_var"), "valid_var");
 
         codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "camelCase");
         codegen.processOpts();
-        Assert.assertEquals(codegen.toParamName("valid_param"), "validParam");
+        Assert.assertEquals(codegen.toVarName("valid_var"), "validVar");
     }
 
     @Test

@@ -58,15 +58,15 @@ public class TypeScriptFetchClientCodegenTest {
     }
 
     @Test
-    public void toParamName() {
+    public void toVarName() {
         TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
         codegen.processOpts();
-        Assert.assertEquals(codegen.toParamName("valid_param"), "validParam");
+        Assert.assertEquals(codegen.toVarName("valid_var"), "validVar");
 
         codegen = new TypeScriptFetchClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "original");
         codegen.processOpts();
-        Assert.assertEquals(codegen.toParamName("valid_param"), "valid_param");
+        Assert.assertEquals(codegen.toVarName("valid_var"), "valid_var");
     }
 
 }
