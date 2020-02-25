@@ -15,8 +15,10 @@ import org.openapitools.client.model.ApiResponse
 import java.io.File
 import org.openapitools.client.model.Pet
 import org.openapitools.client.core._
+import org.openapitools.client.core.CollectionFormats._
 import sttp.client._
 import sttp.model.Method
+import sttp.client.json4s.SttpJson4sApi
 
 object PetApi {
 

@@ -16,54 +16,6 @@ import java.net.URLEncoder
 
 import scala.util.Try
 
-sealed trait ApiReturnWithHeaders {
-  def headers: Map[String, String]
-
-  def header(name: String): Option[String] = headers.get(name)
-
-  def getStringHeader(name: String): Option[String] = header(name)
-
-  // workaround: return date time header in string instead of datetime object
-  def getDateTimeHeader(name: String): Option[String] = header(name)
-
-  def getIntHeader(name: String): Option[Int] = castedHeader(name, java.lang.Integer.parseInt)
-
-  def getLongHeader(name: String): Option[Long] = castedHeader(name, java.lang.Long.parseLong)
-
-  def getFloatHeader(name: String): Option[Float] = castedHeader(name, java.lang.Float.parseFloat)
-
-  def getDoubleHeader(name: String): Option[Double] = castedHeader(name, java.lang.Double.parseDouble)
-
-  def getBooleanHeader(name: String): Option[Boolean] = castedHeader(name, java.lang.Boolean.parseBoolean)
-
-  private def castedHeader[U](name: String, conversion: String => U): Option[U] = {
-    Try {
-      header(name).map(conversion)
-    }.get
-  }
-}
-
-sealed case class ApiResponse[T](code: Int, content: T, headers: Map[String, String] = Map.empty)
-  extends ApiReturnWithHeaders
-
-sealed case class ApiError[T](code: Int, message: String, responseContent: Option[T], cause: Throwable = null, headers: Map[String, String] = Map.empty)
-  extends Throwable(s"($code) $message.${responseContent.map(s => s" Content : $s").getOrElse("")}", cause)
-    with ApiReturnWithHeaders
-
-sealed case class ApiMethod(value: String)
-
-object ApiMethods {
-  val CONNECT = ApiMethod("CONNECT")
-  val DELETE = ApiMethod("DELETE")
-  val GET = ApiMethod("GET")
-  val HEAD = ApiMethod("HEAD")
-  val OPTIONS = ApiMethod("OPTIONS")
-  val PATCH = ApiMethod("PATCH")
-  val POST = ApiMethod("POST")
-  val PUT = ApiMethod("PUT")
-  val TRACE = ApiMethod("TRACE")
-}
-
 /**
  * This trait needs to be added to any model defined by the api.
  */

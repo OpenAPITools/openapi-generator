@@ -3,7 +3,7 @@ name := "scala-akka-petstore-client"
 organization := "org.openapitools"
 scalaVersion := "2.12.8"
 
-val sttp = "2.0.0-RC11"
+val sttp = "2.0.0"
 
 libraryDependencies ++= Seq(
   "com.softwaremill.sttp.client" %% "core" % sttp,

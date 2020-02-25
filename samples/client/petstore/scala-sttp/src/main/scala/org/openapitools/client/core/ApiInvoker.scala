@@ -17,46 +17,40 @@ import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import org.json4s.JsonAST.JString
 import org.json4s._
-import org.json4s.jackson.JsonMethods._
-import org.json4s.jackson.Serialization
-
-import scala.collection.immutable
-import scala.concurrent.{ ExecutionContext, ExecutionContextExecutor, Future }
-import scala.reflect.ClassTag
+import org.openapitools.client.api.EnumsSerializers
+import org.openapitools.client.core.ApiInvoker.DateTimeSerializer
+import sttp.client._
 import sttp.client.json4s.SttpJson4sApi
+import sttp.client.monad.MonadError
 
-class SttpSerializer(implicit val serialization: org.json4s.Serialization) extends SttpJson4sApi
+class SttpSerializer(implicit val format: Formats = DefaultFormats ++ EnumsSerializers.all + DateTimeSerializer,
+                     implicit val serialization: org.json4s.Serialization = org.json4s.jackson.Serialization) extends SttpJson4sApi
+
+class HttpException(val statusCode: Int, val statusText: String, val message: String) extends Exception(s"[$statusCode] $statusText: $message")
 
 object ApiInvoker {
-
-  def apply(): ApiInvoker =
-    apply(DefaultFormats + DateTimeSerializer)
-
-  def apply(serializers: Iterable[Serializer[_]]): ApiInvoker =
-    apply(DefaultFormats + DateTimeSerializer ++ serializers)
-
-  def apply(formats: Formats): ApiInvoker = new ApiInvoker(formats)
 
 
   /**
     * Allows request execution without calling apiInvoker.execute(request)
-    * request.response can be used to get a future of the ApiResponse generated.
-    * request.result can be used to get a future of the expected ApiResponse content. If content doesn't match, a
-    * Future will failed with a ClassCastException
+    * request.result can be used to get a monad wrapped content.
     *
     * @param request the apiRequest to be executed
     */
-  implicit class ApiRequestImprovements[T: Manifest](request: ApiRequest[T]) {
+  implicit class ApiRequestImprovements[R[_], RE, T](request: RequestT[Identity, Either[ResponseError[Exception], T], Nothing])
+                                                    (implicit backend: SttpBackend[R, Nothing, Nothing]) {
 
-    def response(invoker: ApiInvoker)(implicit ec: ExecutionContext): Future[ApiResponse[T]] =
-      response(ec, invoker)
-
-    def response(implicit ec: ExecutionContext, invoker: ApiInvoker): Future[ApiResponse[T]] =
-      invoker.execute(request)
-
-    def result[U <: T](implicit c: ClassTag[U], ec: ExecutionContext, invoker: ApiInvoker): Future[U] =
-      invoker.execute(request).map(_.content).mapTo[U]
-
+    def result: R[T] = {
+      val responseT = request.send()
+      val ME: MonadError[R] = backend.responseMonad
+      ME.flatMap(responseT) {
+        response =>
+          response.body match {
+            case Left(ex) => ME.error[T](new HttpException(response.code.code, response.statusText, ex.body))
+            case Right(value) => ME.unit(value)
+          }
+      }
+    }
   }
 
   case object DateTimeSerializer extends CustomSerializer[DateTime](_ => ( {
@@ -68,41 +62,4 @@ object ApiInvoker {
   })
   )
 
-}
-
-
-class ApiInvoker(formats: Formats) {
-/*
-  import org.openapitools.client.core.ApiInvoker._
-  import org.openapitools.client.core.ParametersMap._
-
-  implicit val jsonFormats: Formats = formats
-
-  private implicit val serialization: Serialization = jackson.Serialization
-*/
-  def execute[T: Manifest](r: ApiRequest[T]): Future[ApiResponse[T]] = {
-//    implicit val timeout: Timeout = settings.connectionTimeout
-/*
-    val request = createRequest(makeUri(r), r)
-
-    http
-      .singleRequest(request)
-      .map { response =>
-        val decoder: Coder with StreamDecoder = response.encoding match {
-          case HttpEncodings.gzip ⇒
-            Gzip
-          case HttpEncodings.deflate ⇒
-            Deflate
-          case HttpEncodings.identity ⇒
-            NoCoding
-          case HttpEncoding(encoding) =>
-            throw new IllegalArgumentException(s"Unsupported encoding: $encoding")
-        }
-
-        decoder.decodeMessage(response)
-      }
-      .flatMap(unmarshallApiResponse(r))
-      */
-      null
-  }
 }
