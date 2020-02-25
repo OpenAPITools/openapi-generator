@@ -169,7 +169,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         typeMapping.put("map", "std::map");
         typeMapping.put("file", "HttpContent");
         typeMapping.put("object", "Object");
-        typeMapping.put("binary", "utility::string_t");
+        typeMapping.put("binary", "HttpContent");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "utility::string_t");
         typeMapping.put("URI", "utility::string_t");
@@ -348,6 +348,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isFileSchema(p) || ModelUtils.isBinarySchema(p)) {
+            return "std::shared_ptr<" + openAPIType + ">";
         } else if (ModelUtils.isStringSchema(p)
                 || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
                 || ModelUtils.isFileSchema(p) || ModelUtils.isUUIDSchema(p)
@@ -403,9 +405,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
         boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
         boolean isListContainer = parameter.isListContainer == Boolean.TRUE;
+        boolean isMapContainer = parameter.isMapContainer == Boolean.TRUE;
         boolean isString = parameter.isString == Boolean.TRUE;
 
-        if (!isPrimitiveType && !isListContainer && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
+        if (!isPrimitiveType && !isListContainer && !isMapContainer && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
             parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
         }
     }
