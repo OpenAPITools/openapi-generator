@@ -419,7 +419,7 @@ impl<F, C> Api<C> for Client<F> where
 {{/vendorExtensions}}
 
         request.headers_mut().set(XSpanId((context as &dyn Has<XSpanIdString>).get().0.clone()));
-{{#vendorExtensions.hasHeaderAuthMethods}}
+{{#vendorExtensions.x-has-header-auth-methods}}
 
         (context as &dyn Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
             // Currently only authentication with Basic, API Key, and Bearer are supported
@@ -462,14 +462,14 @@ impl<F, C> Api<C> for Client<F> where
                 _ => {}
             }
         });
-{{/vendorExtensions.hasHeaderAuthMethods}}
+{{/vendorExtensions.x-has-header-auth-methods}}
 {{#headerParams}}
 {{#-first}}
 
         // Header parameters
-{{/-first}}{{^isMapContainer}}        header! { (Request{{vendorExtensions.typeName}}, "{{{baseName}}}") => {{#isListContainer}}({{{baseType}}})*{{/isListContainer}}{{^isListContainer}}[{{{dataType}}}]{{/isListContainer}} }
-{{#required}}        request.headers_mut().set(Request{{vendorExtensions.typeName}}(param_{{{paramName}}}{{#isListContainer}}.clone(){{/isListContainer}}));
-{{/required}}{{^required}}        param_{{{paramName}}}.map(|header| request.headers_mut().set(Request{{vendorExtensions.typeName}}(header{{#isListContainer}}.clone(){{/isListContainer}})));
+{{/-first}}{{^isMapContainer}}        header! { (Request{{vendorExtensions.x-type-name}}, "{{{baseName}}}") => {{#isListContainer}}({{{baseType}}})*{{/isListContainer}}{{^isListContainer}}[{{{dataType}}}]{{/isListContainer}} }
+{{#required}}        request.headers_mut().set(Request{{vendorExtensions.x-type-name}}(param_{{{paramName}}}{{#isListContainer}}.clone(){{/isListContainer}}));
+{{/required}}{{^required}}        param_{{{paramName}}}.map(|header| request.headers_mut().set(Request{{vendorExtensions.x-type-name}}(header{{#isListContainer}}.clone(){{/isListContainer}})));
 {{/required}}{{/isMapContainer}}{{#isMapContainer}}                let param_{{{paramName}}}: Option<{{{dataType}}}> = None;
 {{/isMapContainer}}
 {{/headerParams}}

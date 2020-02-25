@@ -26,6 +26,15 @@ paths:
       description: ''
       operationId: addPet
       responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
         '405':
           description: Invalid input
       security:
@@ -41,6 +50,15 @@ paths:
       description: ''
       operationId: updatePet
       responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid ID supplied
         '404':

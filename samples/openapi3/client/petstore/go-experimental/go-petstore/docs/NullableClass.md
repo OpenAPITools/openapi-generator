@@ -19,6 +19,23 @@ Name | Type | Description | Notes
 
 ## Methods
 
+### NewNullableClass
+
+`func NewNullableClass() *NullableClass`
+
+NewNullableClass instantiates a new NullableClass object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewNullableClassWithDefaults
+
+`func NewNullableClassWithDefaults() *NullableClass`
+
+NewNullableClassWithDefaults instantiates a new NullableClass object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
 ### GetIntegerProp
 
 `func (o *NullableClass) GetIntegerProp() NullableInt32`

@@ -15,16 +15,16 @@ using namespace {{modelNamespace}};{{/hasModelImport}}
     { }
 
 {{#operation}}
-{{#vendorExtensions.x-codegen-pistache-isParsingSupported}}
+{{#vendorExtensions.x-codegen-pistache-is-parsing-supported}}
 void {{classname}}Impl::{{operationIdSnakeCase}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-{{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
-{{^vendorExtensions.x-codegen-pistache-isParsingSupported}}
+{{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
+{{^vendorExtensions.x-codegen-pistache-is-parsing-supported}}
 void {{classname}}Impl::{{operationIdSnakeCase}}(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response){
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-{{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
+{{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
 {{/operation}}
 
 {{#apiNamespaceDeclarations}}

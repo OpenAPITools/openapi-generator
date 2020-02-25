@@ -29,6 +29,11 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_get_composed_info,
 )
 try:
+    from petstore_api.models import address
+except ImportError:
+    address = sys.modules[
+        'petstore_api.models.address']
+try:
     from petstore_api.models import animal
 except ImportError:
     animal = sys.modules[
@@ -154,9 +159,16 @@ class Cat(ModelComposed):
         self._composed_instances = composed_info[0]
         self._var_name_to_model_instances = composed_info[1]
         self._additional_properties_model_instances = composed_info[2]
+        unused_args = composed_info[3]
 
         self.class_name = class_name
         for var_name, var_value in six.iteritems(kwargs):
+            if var_name in unused_args and \
+                        self._configuration is not None and \
+                        self._configuration.discard_unknown_keys and \
+                        not self._additional_properties_model_instances:
+                # discard variable.
+                continue
             setattr(self, var_name, var_value)
 
     @staticmethod
@@ -172,6 +184,7 @@ class Cat(ModelComposed):
           'anyOf': [
           ],
           'allOf': [
+              address.Address,
               animal.Animal,
               cat_all_of.CatAllOf,
           ],

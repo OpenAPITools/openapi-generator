@@ -27,21 +27,29 @@ import com.squareup.moshi.Json
 
 internal data class User (
     @Json(name = "id")
-    val id: kotlin.Long? = null,
+    val id: kotlin.Long? = null
+,
     @Json(name = "username")
-    val username: kotlin.String? = null,
+    val username: kotlin.String? = null
+,
     @Json(name = "firstName")
-    val firstName: kotlin.String? = null,
+    val firstName: kotlin.String? = null
+,
     @Json(name = "lastName")
-    val lastName: kotlin.String? = null,
+    val lastName: kotlin.String? = null
+,
     @Json(name = "email")
-    val email: kotlin.String? = null,
+    val email: kotlin.String? = null
+,
     @Json(name = "password")
-    val password: kotlin.String? = null,
+    val password: kotlin.String? = null
+,
     @Json(name = "phone")
-    val phone: kotlin.String? = null,
+    val phone: kotlin.String? = null
+,
     /* User Status */
     @Json(name = "userStatus")
     val userStatus: kotlin.Int? = null
+
 )
 

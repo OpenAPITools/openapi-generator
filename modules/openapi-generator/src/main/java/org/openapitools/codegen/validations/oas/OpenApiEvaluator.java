@@ -49,8 +49,13 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
             ModelUtils.getUnusedSchemas(specification).forEach(schemaName -> validationResult.addResult(Validated.invalid(unusedSchema, "Unused model: " + schemaName)));
         }
 
-        Map<String, Schema> schemas = ModelUtils.getSchemas(specification);
-        schemas.forEach((key, schema) -> validationResult.consume(schemaValidations.validate(schema)));
+        // Get list of all schemas under /components/schemas, including nested schemas defined inline and composed schema.
+        // The validators must be able to validate every schema defined in the OAS document.
+        List<Schema> schemas = ModelUtils.getAllSchemas(specification);
+        schemas.forEach(schema -> {
+            SchemaWrapper wrapper = new SchemaWrapper(specification, schema);
+            validationResult.consume(schemaValidations.validate(wrapper));
+        });
 
         List<Parameter> parameters = new ArrayList<>(50);
 
@@ -68,7 +73,7 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
                             parameters.addAll(op.getParameters());
                         }
 
-                        OperationWrapper wrapper = new OperationWrapper(op, httpMethod);
+                        OperationWrapper wrapper = new OperationWrapper(specification, op, httpMethod);
                         validationResult.consume(operationValidations.validate(wrapper));
                     }
                 });
@@ -79,7 +84,10 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
         if (components != null) {
             Map<String, SecurityScheme> securitySchemes = components.getSecuritySchemes();
             if (securitySchemes != null && !securitySchemes.isEmpty()) {
-                securitySchemes.values().forEach(securityScheme -> validationResult.consume(securitySchemeValidations.validate(securityScheme)));
+                securitySchemes.values().forEach(securityScheme -> {
+                    SecuritySchemeWrapper wrapper = new SecuritySchemeWrapper(specification, securityScheme);
+                    validationResult.consume(securitySchemeValidations.validate(wrapper));
+                });
             }
 
             if (components.getParameters() != null) {
@@ -89,7 +97,8 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
 
         parameters.forEach(parameter -> {
             parameter = ModelUtils.getReferencedParameter(specification, parameter);
-            validationResult.consume(parameterValidations.validate(parameter));
+            ParameterWrapper wrapper = new ParameterWrapper(specification, parameter);
+            validationResult.consume(parameterValidations.validate(wrapper));
         });
 
         return validationResult;
