@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>KotlinGsonPetstoreClientTests</artifactId>
+    <artifactId>KotlinJacksonPetstoreClientTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>Kotlin Gson Petstore Client</name>
+    <name>Kotlin Jackson Petstore Client</name>
     <build>
         <plugins>
             <plugin>

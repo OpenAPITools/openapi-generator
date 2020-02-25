@@ -1446,6 +1446,7 @@
                 <module>samples/client/petstore/erlang-proper</module>
                 <module>samples/client/petstore/kotlin-multiplatform</module>
                 <module>samples/client/petstore/kotlin/</module>
+                <module>samples/client/petstore/kotlin-jackson/</module>
                 <module>samples/client/petstore/kotlin-gson/</module>
                 <module>samples/client/petstore/kotlin-nonpublic/</module>
                 <module>samples/client/petstore/kotlin-nullable/</module>
