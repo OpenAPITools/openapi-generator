@@ -189,7 +189,8 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...baseOptions.headers, ...options.headers};
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : [];
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
     {{#hasFormParams}}
             localVarRequestOptions.data = localVarFormParams{{#vendorExtensions}}{{^multipartFormData}}.toString(){{/multipartFormData}}{{/vendorExtensions}};
     {{/hasFormParams}}
