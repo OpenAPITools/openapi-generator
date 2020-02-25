@@ -55,31 +55,29 @@ public class StoreApi {
      */
     public Mono<Void> deleteOrder(String orderId) throws RestClientException {
         Object postBody = null;
-        
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'orderId' when calling deleteOrder");
         }
-        
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
-        pathParams.put("order_id", orderId);
 
+        pathParams.put("order_id", orderId);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] accepts = { };
-        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-        final String[] contentTypes = { };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+        final String[] _accepts = { };
+        final List<MediaType> _accept = apiClient.selectHeaderAccept(_accepts);
+        final String[] _contentTypes = { };
+        final MediaType _contentType = apiClient.selectHeaderContentType(_contentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] _authNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        ParameterizedTypeReference<Void> _returnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, _accept, _contentType, _authNames, _returnType);
     }
     /**
      * Returns pet inventories by status
@@ -90,27 +88,25 @@ public class StoreApi {
      */
     public Mono<Map<String, Integer>> getInventory() throws RestClientException {
         Object postBody = null;
-        
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
-
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] accepts = { 
+        final String[] _accepts = { 
             "application/json"
         };
-        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-        final String[] contentTypes = { };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+        final List<MediaType> _accept = apiClient.selectHeaderAccept(_accepts);
+        final String[] _contentTypes = { };
+        final MediaType _contentType = apiClient.selectHeaderContentType(_contentTypes);
 
-        String[] authNames = new String[] { "api_key" };
+        String[] _authNames = new String[] { "api_key" };
 
-        ParameterizedTypeReference<Map<String, Integer>> returnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
-        return apiClient.invokeAPI("/store/inventory", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        ParameterizedTypeReference<Map<String, Integer>> _returnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
+        return apiClient.invokeAPI("/store/inventory", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, _accept, _contentType, _authNames, _returnType);
     }
     /**
      * Find purchase order by ID
@@ -124,33 +120,31 @@ public class StoreApi {
      */
     public Mono<Order> getOrderById(Long orderId) throws RestClientException {
         Object postBody = null;
-        
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'orderId' when calling getOrderById");
         }
-        
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
-        pathParams.put("order_id", orderId);
 
+        pathParams.put("order_id", orderId);
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] accepts = { 
+        final String[] _accepts = { 
             "application/xml", "application/json"
         };
-        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-        final String[] contentTypes = { };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+        final List<MediaType> _accept = apiClient.selectHeaderAccept(_accepts);
+        final String[] _contentTypes = { };
+        final MediaType _contentType = apiClient.selectHeaderContentType(_contentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] _authNames = new String[] {  };
 
-        ParameterizedTypeReference<Order> returnType = new ParameterizedTypeReference<Order>() {};
-        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        ParameterizedTypeReference<Order> _returnType = new ParameterizedTypeReference<Order>() {};
+        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, _accept, _contentType, _authNames, _returnType);
     }
     /**
      * Place an order for a pet
@@ -163,31 +157,28 @@ public class StoreApi {
      */
     public Mono<Order> placeOrder(Order body) throws RestClientException {
         Object postBody = body;
-        
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling placeOrder");
         }
-        
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
-
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] accepts = { 
+        final String[] _accepts = { 
             "application/xml", "application/json"
         };
-        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-        final String[] contentTypes = { };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+        final List<MediaType> _accept = apiClient.selectHeaderAccept(_accepts);
+        final String[] _contentTypes = { };
+        final MediaType _contentType = apiClient.selectHeaderContentType(_contentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] _authNames = new String[] {  };
 
-        ParameterizedTypeReference<Order> returnType = new ParameterizedTypeReference<Order>() {};
-        return apiClient.invokeAPI("/store/order", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+        ParameterizedTypeReference<Order> _returnType = new ParameterizedTypeReference<Order>() {};
+        return apiClient.invokeAPI("/store/order", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, _accept, _contentType, _authNames, _returnType);
     }
 }
