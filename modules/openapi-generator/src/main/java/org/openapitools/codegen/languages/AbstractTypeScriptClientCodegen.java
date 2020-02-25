@@ -316,18 +316,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return name;
     }
 
-    /**
-     * Checks whether property names have breaking characters like ':', '-'.
-     * @param str string to check for breaking characters
-     * @return <code>true</code> if breaking characters are present and <code>false</code> if not
-     */
-    private boolean propertyHasBreakingCharacters(String str) {
-        final String regex = "^.*[+*:;,.()-]+.*$";
-        final Pattern pattern = Pattern.compile(regex);
-        final Matcher matcher = pattern.matcher(str);
-        return matcher.matches();
-    }
-
     @Override
     public String toModelName(final String name) {
         String fullModelName = name;
