@@ -2,9 +2,11 @@
 
 -export([handle_request/4]).
 {{#authMethods}}
-	{{#isApiKey}}
+{{#isApiKey}}
+{{#-first}}
 -export([authorize_api_key/3]).
-	{{/isApiKey}}
+{{/-first}}
+{{/isApiKey}}
 {{/authMethods}}
 {{^authMethods}}
 -export([authorize_api_key/3]).
