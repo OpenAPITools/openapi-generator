@@ -252,12 +252,6 @@
         </dependency>
 {{/hateoas}}
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.10</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
             <version>0.2.1</version>
@@ -266,6 +260,12 @@
             <groupId>javax.annotation</groupId>
             <artifactId>jsr250-api</artifactId>
             <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok-version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <properties>
@@ -283,5 +283,6 @@
         <beanvalidation-version>1.1.0.Final</beanvalidation-version>
 {{/useBeanValidation}}
         <spring-version>4.3.20.RELEASE</spring-version>
+        <lombok-version>1.18.12</lombok-version>
     </properties>
 </project>
