@@ -104,6 +104,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         cliOptions.clear();
         addSwitch(OPTIONAL_EXTERNAL_LIB, OPTIONAL_EXTERNAL_LIB_DESC, this.isAddExternalLibs);
         addOption(HELPERS_PACKAGE_NAME, HELPERS_PACKAGE_NAME_DESC, this.helpersPackage);
+        addOption(RESERVED_WORD_PREFIX_OPTION, RESERVED_WORD_PREFIX_DESC, this.reservedWordPrefix);
         addSwitch(OPTION_USE_STRUCT_MODEL, OPTION_USE_STRUCT_MODEL_DESC, this.isUseStructModel);
 
         reservedWords = new HashSet<>();
@@ -156,12 +157,18 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             supportingFiles.add(new SupportingFile("cmake.mustache", "", "CMakeLists.txt"));
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         }
+        if (additionalProperties.containsKey(RESERVED_WORD_PREFIX_OPTION))
+        {
+            reservedWordPrefix = (String) additionalProperties.get(RESERVED_WORD_PREFIX_OPTION);
+        }
+
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
         additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));  
         additionalProperties.put("helpersNamespaceDeclarations", helpersPackage.split("\\."));
-        additionalProperties.put("helpersNamespace", helpersPackage.replaceAll("\\.", "::")); 
+        additionalProperties.put("helpersNamespace", helpersPackage.replaceAll("\\.", "::"));
+        additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);
                 
         if (additionalProperties.containsKey(OPTIONAL_EXTERNAL_LIB)) {
             setAddExternalLibs(convertPropertyToBooleanAndWriteBack(OPTIONAL_EXTERNAL_LIB));
