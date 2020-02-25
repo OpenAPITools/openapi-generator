@@ -11,7 +11,7 @@
         <pluginRepository>
             <id>maven-mongodb-plugin-repo</id>
             <name>maven mongodb plugin repository</name>
-            <!-- TODO: this URL does not exist -->
+            <!-- TODO: this URL does not exist. -->
             <url>https://maven-mongodb-plugin.googlecode.com/svn/maven/repo</url>
             <layout>default</layout>
         </pluginRepository>
