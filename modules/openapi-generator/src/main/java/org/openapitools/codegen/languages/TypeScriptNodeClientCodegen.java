@@ -64,6 +64,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         modelPackage = "model";
         apiPackage = "api";
 
+        supportModelPropertyNaming("camelCase");
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
 
     }
