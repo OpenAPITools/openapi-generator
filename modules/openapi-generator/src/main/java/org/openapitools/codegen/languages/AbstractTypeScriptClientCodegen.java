@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
+import org.openapitools.codegen.CodegenConstants.MODEL_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -65,7 +66,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @SuppressWarnings("squid:S5164")
     protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
 
-    protected String modelPropertyNaming = "original";
+    protected MODEL_PROPERTY_NAMING_TYPE modelPropertyNaming = MODEL_PROPERTY_NAMING_TYPE.original;
     protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
     protected Boolean supportsES6 = false;
     protected Boolean nullSafeAdditionalProps = false;
@@ -173,7 +174,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX_DESC_CUSTOMIZED).defaultValue(this.enumSuffix));
         cliOptions.add(new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC).defaultValue(this.enumPropertyNaming.name()));
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_DESC_WITH_WARNING).defaultValue(this.modelPropertyNaming));
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_DESC_WITH_WARNING).defaultValue(this.modelPropertyNaming.name()));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue(String.valueOf(this.getSupportsES6())));
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
                 " Required to generate a full package"));
@@ -184,10 +185,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         this.cliOptions.add(new CliOption(NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_DESC).defaultValue(String.valueOf(this.getNullSafeAdditionalProps())));
     }
 
-    protected void supportModelPropertyNaming(String defaultModelPropertyNaming) {
+    protected void supportModelPropertyNaming(MODEL_PROPERTY_NAMING_TYPE defaultModelPropertyNaming) {
         removeOption(CodegenConstants.MODEL_PROPERTY_NAMING);
-        setModelPropertyNaming(defaultModelPropertyNaming);
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue(modelPropertyNaming));
+        modelPropertyNaming = defaultModelPropertyNaming;
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue(modelPropertyNaming.name()));
     }
 
     @Override
@@ -551,22 +552,24 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     public void setModelPropertyNaming(String naming) {
-        if ("original".equals(naming) || "camelCase".equals(naming) ||
-                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
-            this.modelPropertyNaming = naming;
-        } else {
-            throw new IllegalArgumentException("Invalid model property naming '" +
-                    naming + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
+        try {
+            modelPropertyNaming = MODEL_PROPERTY_NAMING_TYPE.valueOf(naming);
+        } catch (IllegalArgumentException e) {
+            String values = Stream.of(MODEL_PROPERTY_NAMING_TYPE.values())
+                    .map(value -> "'" + value.name() + "'")
+                    .collect(Collectors.joining(", "));
+
+            String msg = String.format(Locale.ROOT, "Invalid model property naming '%s'. Must be one of %s.", naming, values);
+            throw new IllegalArgumentException(msg);
         }
     }
 
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
+    public MODEL_PROPERTY_NAMING_TYPE getModelPropertyNaming() {
+        return modelPropertyNaming;
     }
 
     private String getNameUsingModelPropertyNaming(String name) {
-        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
+        switch (getModelPropertyNaming()) {
             case original:
                 return name;
             case camelCase:

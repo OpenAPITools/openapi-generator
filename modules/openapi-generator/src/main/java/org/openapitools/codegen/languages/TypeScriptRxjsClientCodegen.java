@@ -89,8 +89,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     @Override
     public void processOpts() {
         super.processOpts();
-        additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming().equals("original"));
-        additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", "", "runtime.ts"));
         supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
