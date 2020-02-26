@@ -13,6 +13,11 @@ package org.openapitools.client.model
 
 import org.openapitools.client.core.ApiModel
 
+  /**
+   * An uploaded response
+   * 
+   * Describes the result of uploading an image resource
+   */
 case class ApiResponse (
   code: Option[Int] = None,
   `type`: Option[String] = None,

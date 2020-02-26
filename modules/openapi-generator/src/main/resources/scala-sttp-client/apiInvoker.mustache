@@ -26,10 +26,9 @@ object ApiInvoker {
     *
     * @param request the apiRequest to be executed
     */
-  implicit class ApiRequestImprovements[R[_], RE, T](request: RequestT[Identity, Either[ResponseError[Exception], T], Nothing])
-                                                    (implicit backend: SttpBackend[R, Nothing, Nothing]) {
+  implicit class ApiRequestImprovements[R[_], T](request: RequestT[Identity, Either[ResponseError[Exception], T], Nothing]) {
 
-    def result: R[T] = {
+    def result: R[T](implicit backend: SttpBackend[R, Nothing, Nothing]) = {
       val responseT = request.send()
       val ME: MonadError[R] = backend.responseMonad
       ME.flatMap(responseT) {

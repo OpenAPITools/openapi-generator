@@ -13,6 +13,11 @@ package org.openapitools.client.model
 
 import org.openapitools.client.core.ApiModel
 
+  /**
+   * a Pet
+   * 
+   * A pet for sale in the pet store
+   */
 case class Pet (
   id: Option[Long] = None,
   category: Option[Category] = None,

@@ -13,6 +13,11 @@ package org.openapitools.client.model
 
 import org.openapitools.client.core.ApiModel
 
+  /**
+   * a User
+   * 
+   * A User who is purchasing from the pet store
+   */
 case class User (
   id: Option[Long] = None,
   username: Option[String] = None,

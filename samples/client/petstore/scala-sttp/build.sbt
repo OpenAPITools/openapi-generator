@@ -1,5 +1,5 @@
 version := "1.0.0"
-name := "scala-akka-petstore-client"
+name := "scala-sttp-petstore-client"
 organization := "org.openapitools"
 scalaVersion := "2.12.8"
 

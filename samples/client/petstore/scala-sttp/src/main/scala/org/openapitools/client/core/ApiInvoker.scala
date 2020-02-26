@@ -17,9 +17,9 @@ import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import org.json4s.JsonAST.JString
 import org.json4s._
+import sttp.client._
 import org.openapitools.client.api.EnumsSerializers
 import org.openapitools.client.core.ApiInvoker.DateTimeSerializer
-import sttp.client._
 import sttp.client.json4s.SttpJson4sApi
 import sttp.client.monad.MonadError
 
@@ -30,17 +30,15 @@ class HttpException(val statusCode: Int, val statusText: String, val message: St
 
 object ApiInvoker {
 
-
   /**
     * Allows request execution without calling apiInvoker.execute(request)
     * request.result can be used to get a monad wrapped content.
     *
     * @param request the apiRequest to be executed
     */
-  implicit class ApiRequestImprovements[R[_], RE, T](request: RequestT[Identity, Either[ResponseError[Exception], T], Nothing])
-                                                    (implicit backend: SttpBackend[R, Nothing, Nothing]) {
+  implicit class ApiRequestImprovements[R[_], T](request: RequestT[Identity, Either[ResponseError[Exception], T], Nothing]) {
 
-    def result: R[T] = {
+    def result: R[T](implicit backend: SttpBackend[R, Nothing, Nothing]) = {
       val responseT = request.send()
       val ME: MonadError[R] = backend.responseMonad
       ME.flatMap(responseT) {

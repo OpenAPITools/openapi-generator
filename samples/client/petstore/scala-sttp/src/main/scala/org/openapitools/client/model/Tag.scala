@@ -13,6 +13,11 @@ package org.openapitools.client.model
 
 import org.openapitools.client.core.ApiModel
 
+  /**
+   * Pet Tag
+   * 
+   * A tag for a pet
+   */
 case class Tag (
   id: Option[Long] = None,
   name: Option[String] = None

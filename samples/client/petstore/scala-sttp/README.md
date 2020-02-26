@@ -1,4 +1,4 @@
-# scala-akka-petstore-client
+# scala-sttp-petstore-client
 
 OpenAPI Petstore
 - API version: 1.0.0
@@ -37,7 +37,7 @@ Add this dependency to your project's POM:
 ```xml
 <dependency>
   <groupId>org.openapitools</groupId>
-  <artifactId>scala-akka-petstore-client</artifactId>
+  <artifactId>scala-sttp-petstore-client</artifactId>
   <version>1.0.0</version>
   <scope>compile</scope>
 </dependency>
@@ -48,13 +48,13 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:scala-akka-petstore-client:1.0.0"
+compile "org.openapitools:scala-sttp-petstore-client:1.0.0"
 ```
 
 ### SBT users
 
 ```scala
-libraryDependencies += "org.openapitools" % "scala-akka-petstore-client" % "1.0.0"
+libraryDependencies += "org.openapitools" % "scala-sttp-petstore-client" % "1.0.0"
 ```
 
 ## Getting Started

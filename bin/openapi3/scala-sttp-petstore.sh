@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate --artifact-id "scala-akka-petstore-client" -t modules/openapi-generator/src/main/resources/scala-sttp-client -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g scala-sttp -o samples/client/petstore/scala-sttp $@"
+ags="generate --artifact-id "scala-sttp-petstore-client" -t modules/openapi-generator/src/main/resources/scala-sttp-client -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g scala-sttp -o samples/client/petstore/scala-sttp $@"
 
 java $JAVA_OPTS -jar $executable $ags

@@ -8,6 +8,15 @@ import {{mainPackage}}.core.ApiModel
 
 {{#models}}
 {{#model}}
+{{#description}}
+{{#javadocRenderer}}
+{{#title}}
+{{{title}}}
+
+{{/title}}
+{{{description}}}
+{{/javadocRenderer}}
+{{/description}}
 case class {{classname}} (
   {{#vars}}
   {{#description}}
