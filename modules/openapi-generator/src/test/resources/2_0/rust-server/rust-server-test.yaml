@@ -93,6 +93,15 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/get_yaml_response'
+  /allOf:
+    get:
+      description: Test getting an object which uses allOf
+      operationId: AllOf_Get
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/allOfObject'
 
 parameters:
   nested_response:
@@ -115,6 +124,17 @@ definitions:
     additionalProperties:
       type: string
     example: "foo"
+  allOfObject:
+    properties:
+      sampleProperty:
+        type: string
+    allOf:
+    - $ref: '#/definitions/baseAllOf'
+  baseAllOf:
+    type: object
+    properties:
+      sampleBasePropery:
+        type: string
   aNullableContainer:
     type: object
     properties:
