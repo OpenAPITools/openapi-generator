@@ -223,7 +223,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             setRequestDateConverter(additionalProperties.get(REQUEST_DATE_CONVERTER).toString());
         }
 
-        commonSupportingFiles();
+        commonSupportingFiles(infrastructureFolder);
 
         switch (getLibrary()) {
             case JVM_OKHTTP3:
@@ -427,10 +427,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
     }
 
-    private void commonSupportingFiles() {
+    private void commonSupportingFiles(String infrastructureFolder) {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("Configuration.kt.mustache", infrastructureFolder, "Configuration.kt"));
     }
 
     @Override

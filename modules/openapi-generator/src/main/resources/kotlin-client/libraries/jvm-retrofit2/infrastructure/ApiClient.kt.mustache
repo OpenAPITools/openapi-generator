@@ -11,7 +11,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 {{/moshi}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
-    private var baseUrl: String = "{{{basePath}}}",
+    private var baseUrl: String = Configuration.basePath,
     private var okHttpClient: OkHttpClient
 ) {
     init {

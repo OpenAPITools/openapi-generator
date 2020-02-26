@@ -6,7 +6,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 class ApiClient(
-    private var baseUrl: String = "http://petstore.swagger.io/v2",
+    private var baseUrl: String = Configuration.basePath,
     private var okHttpClient: OkHttpClient
 ) {
     init {

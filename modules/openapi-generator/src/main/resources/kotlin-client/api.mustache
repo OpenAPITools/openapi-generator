@@ -7,6 +7,7 @@ package {{apiPackage}}
 import {{packageName}}.infrastructure.ApiClient
 import {{packageName}}.infrastructure.ClientException
 import {{packageName}}.infrastructure.ClientError
+import {{packageName}}.infrastructure.Configuration
 import {{packageName}}.infrastructure.ServerException
 import {{packageName}}.infrastructure.ServerError
 import {{packageName}}.infrastructure.MultiValueMap
@@ -17,7 +18,7 @@ import {{packageName}}.infrastructure.Success
 import {{packageName}}.infrastructure.toMultiValue
 
 {{#operations}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(basePath) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(basePath: kotlin.String = Configuration.basePath) : ApiClient(basePath) {
 
     {{#operation}}
     /**
