@@ -18,6 +18,7 @@ use swagger::{Has, XSpanIdString};
 
 use petstore_with_fake_endpoints_models_for_testing::{Api, ApiError,
                       TestSpecialTagsResponse,
+                      Call123exampleResponse,
                       FakeOuterBooleanSerializeResponse,
                       FakeOuterCompositeSerializeResponse,
                       FakeOuterNumberSerializeResponse,
@@ -70,6 +71,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn test_special_tags(&self, body: models::Client, context: &C) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send> {
         let context = context.clone();
         println!("test_special_tags({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
+
+    fn call123example(&self, context: &C) -> Box<Future<Item=Call123exampleResponse, Error=ApiError> + Send> {
+        let context = context.clone();
+        println!("call123example() - X-Span-ID: {:?}", context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 

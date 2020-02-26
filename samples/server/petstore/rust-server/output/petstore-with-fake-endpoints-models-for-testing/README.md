@@ -62,6 +62,7 @@ To run a client, follow one of the following simple steps:
 
 ```
 cargo run --example client TestSpecialTags
+cargo run --example client Call123example
 cargo run --example client FakeOuterBooleanSerialize
 cargo run --example client FakeOuterCompositeSerialize
 cargo run --example client FakeOuterNumberSerialize
@@ -128,6 +129,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**test_special_tags**](docs/another_fake_api.md#test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+[**123example**](docs/fake_api.md#123example) | **GET** /fake/operation-with-numeric-id | 
 [**fakeOuterBooleanSerialize**](docs/fake_api.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](docs/fake_api.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](docs/fake_api.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
