@@ -129,6 +129,9 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         addOption(GENERATE_GMOCKS_FOR_APIS,
                 "Generate Google Mock classes for APIs.",
                 null);
+        addOption(RESERVED_WORD_PREFIX_OPTION,
+                RESERVED_WORD_PREFIX_DESC,
+                this.reservedWordPrefix);
 
         supportingFiles.add(new SupportingFile("modelbase-header.mustache", "", "ModelBase.h"));
         supportingFiles.add(new SupportingFile("modelbase-source.mustache", "", "ModelBase.cpp"));
@@ -166,7 +169,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         typeMapping.put("map", "std::map");
         typeMapping.put("file", "HttpContent");
         typeMapping.put("object", "Object");
-        typeMapping.put("binary", "utility::string_t");
+        typeMapping.put("binary", "HttpContent");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "utility::string_t");
         typeMapping.put("URI", "utility::string_t");
@@ -194,6 +197,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             defaultInclude = additionalProperties.get(DEFAULT_INCLUDE).toString();
         }
 
+        if (additionalProperties.containsKey(RESERVED_WORD_PREFIX_OPTION)) {
+            reservedWordPrefix = (String) additionalProperties.get(RESERVED_WORD_PREFIX_OPTION);
+        }
+
         if (convertPropertyToBoolean(GENERATE_GMOCKS_FOR_APIS)) {
             apiTemplateFiles.put("api-gmock.mustache", "GMock.h");
             additionalProperties.put("gmockApis", "true");
@@ -207,6 +214,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         additionalProperties.put("apiHeaderGuardPrefix", apiPackage.replaceAll("\\.", "_").toUpperCase(Locale.ROOT));
         additionalProperties.put("declspec", declspec);
         additionalProperties.put("defaultInclude", defaultInclude);
+        additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);
     }
 
     /**
@@ -340,6 +348,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isFileSchema(p) || ModelUtils.isBinarySchema(p)) {
+            return "std::shared_ptr<" + openAPIType + ">";
         } else if (ModelUtils.isStringSchema(p)
                 || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
                 || ModelUtils.isFileSchema(p) || ModelUtils.isUUIDSchema(p)
@@ -395,9 +405,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
         boolean isPrimitiveType = parameter.isPrimitiveType == Boolean.TRUE;
         boolean isListContainer = parameter.isListContainer == Boolean.TRUE;
+        boolean isMapContainer = parameter.isMapContainer == Boolean.TRUE;
         boolean isString = parameter.isString == Boolean.TRUE;
 
-        if (!isPrimitiveType && !isListContainer && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
+        if (!isPrimitiveType && !isListContainer && !isMapContainer && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
             parameter.dataType = "std::shared_ptr<" + parameter.dataType + ">";
         }
     }

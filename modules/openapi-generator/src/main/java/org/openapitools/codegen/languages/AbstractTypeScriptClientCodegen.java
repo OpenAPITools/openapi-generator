@@ -126,6 +126,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "Float",
                 "Object",
                 "Array",
+                "ReadonlyArray",
                 "Date",
                 "number",
                 "any",

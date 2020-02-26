@@ -248,10 +248,10 @@ pplx::task<std::map<utility::string_t, int32_t>> StoreApi::getInventory() const
 
             for( auto& localVarItem : localVarJson.as_object() )
             {
-                localVarResult[localVarItem.first] = ModelBase::int32_tFromJson(localVarItem.second);
-                
+                int32_t localVarItemObj;
+                ModelBase::fromJson(localVarItem.second, localVarItemObj);
+                localVarResult[localVarItem.first] = localVarItemObj;
             }
-            
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {
@@ -371,7 +371,7 @@ pplx::task<std::shared_ptr<Order>> StoreApi::getOrderById(int64_t orderId) const
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
 
-            localVarResult->fromJson(localVarJson);
+            ModelBase::fromJson(localVarJson, localVarResult);
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {
@@ -459,6 +459,7 @@ pplx::task<std::shared_ptr<Order>> StoreApi::placeOrder(std::shared_ptr<Order> b
         {
             body->toMultipart(localVarMultipart, utility::conversions::to_string_t("body"));
         }
+        
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
@@ -511,7 +512,7 @@ pplx::task<std::shared_ptr<Order>> StoreApi::placeOrder(std::shared_ptr<Order> b
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
 
-            localVarResult->fromJson(localVarJson);
+            ModelBase::fromJson(localVarJson, localVarResult);
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {

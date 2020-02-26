@@ -27,7 +27,7 @@ Object::~Object()
 
 void Object::validate()
 {
-    // TODO: implement validation
+
 }
 
 web::json::value Object::toJson() const
@@ -35,12 +35,14 @@ web::json::value Object::toJson() const
     return m_object;
 }
 
-void Object::fromJson(const web::json::value& val)
+bool Object::fromJson(const web::json::value& val)
 {
     if (val.is_object())
     {
         m_object = val;
+        m_IsSet = true;
     }
+    return isSet();
 }
 
 void Object::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
@@ -53,7 +55,7 @@ void Object::toMultipart(std::shared_ptr<MultipartFormData> multipart, const uti
     multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("object"), m_object));
 }
 
-void Object::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
+bool Object::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
@@ -61,7 +63,11 @@ void Object::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const u
         namePrefix += utility::conversions::to_string_t(".");
     }
 
-    m_object = ModelBase::valueFromHttpContent(multipart->getContent(namePrefix + utility::conversions::to_string_t("object")));
+    if( ModelBase::fromHttpContent(multipart->getContent(namePrefix + utility::conversions::to_string_t("object")), m_object ) )
+    {
+        m_IsSet = true;
+    }
+    return isSet();
 }
 
 web::json::value Object::getValue(const utility::string_t& key) const
@@ -72,7 +78,11 @@ web::json::value Object::getValue(const utility::string_t& key) const
 
 void Object::setValue(const utility::string_t& key, const web::json::value& value)
 {
-    m_object[key] = value;
+    if( !value.is_null() )
+    {
+        m_object[key] = value;
+        m_IsSet = true;
+    }
 }
 
 }
