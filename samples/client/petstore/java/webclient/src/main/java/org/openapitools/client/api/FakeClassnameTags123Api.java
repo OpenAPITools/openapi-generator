@@ -67,18 +67,18 @@ public class FakeClassnameTags123Api {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] _accepts = { 
+        final String[] localVarAccepts = { 
             "application/json"
         };
-        final List<MediaType> _accept = apiClient.selectHeaderAccept(_accepts);
-        final String[] _contentTypes = { 
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
             "application/json"
         };
-        final MediaType _contentType = apiClient.selectHeaderContentType(_contentTypes);
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] _authNames = new String[] { "api_key_query" };
+        String[] localVarAuthNames = new String[] { "api_key_query" };
 
-        ParameterizedTypeReference<Client> _returnType = new ParameterizedTypeReference<Client>() {};
-        return apiClient.invokeAPI("/fake_classname_test", HttpMethod.PATCH, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, _accept, _contentType, _authNames, _returnType);
+        ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
+        return apiClient.invokeAPI("/fake_classname_test", HttpMethod.PATCH, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 }

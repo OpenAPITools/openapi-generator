@@ -69,15 +69,15 @@ public class StoreApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] _accepts = { };
-        final List<MediaType> _accept = apiClient.selectHeaderAccept(_accepts);
-        final String[] _contentTypes = { };
-        final MediaType _contentType = apiClient.selectHeaderContentType(_contentTypes);
+        final String[] localVarAccepts = { };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] _authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> _returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, _accept, _contentType, _authNames, _returnType);
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.DELETE, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
     /**
      * Returns pet inventories by status
@@ -96,17 +96,17 @@ public class StoreApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] _accepts = { 
+        final String[] localVarAccepts = { 
             "application/json"
         };
-        final List<MediaType> _accept = apiClient.selectHeaderAccept(_accepts);
-        final String[] _contentTypes = { };
-        final MediaType _contentType = apiClient.selectHeaderContentType(_contentTypes);
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] _authNames = new String[] { "api_key" };
+        String[] localVarAuthNames = new String[] { "api_key" };
 
-        ParameterizedTypeReference<Map<String, Integer>> _returnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
-        return apiClient.invokeAPI("/store/inventory", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, _accept, _contentType, _authNames, _returnType);
+        ParameterizedTypeReference<Map<String, Integer>> localVarReturnType = new ParameterizedTypeReference<Map<String, Integer>>() {};
+        return apiClient.invokeAPI("/store/inventory", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
     /**
      * Find purchase order by ID
@@ -134,17 +134,17 @@ public class StoreApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] _accepts = { 
+        final String[] localVarAccepts = { 
             "application/xml", "application/json"
         };
-        final List<MediaType> _accept = apiClient.selectHeaderAccept(_accepts);
-        final String[] _contentTypes = { };
-        final MediaType _contentType = apiClient.selectHeaderContentType(_contentTypes);
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] _authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Order> _returnType = new ParameterizedTypeReference<Order>() {};
-        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, _accept, _contentType, _authNames, _returnType);
+        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
+        return apiClient.invokeAPI("/store/order/{order_id}", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
     /**
      * Place an order for a pet
@@ -169,16 +169,16 @@ public class StoreApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
-        final String[] _accepts = { 
+        final String[] localVarAccepts = { 
             "application/xml", "application/json"
         };
-        final List<MediaType> _accept = apiClient.selectHeaderAccept(_accepts);
-        final String[] _contentTypes = { };
-        final MediaType _contentType = apiClient.selectHeaderContentType(_contentTypes);
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] _authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Order> _returnType = new ParameterizedTypeReference<Order>() {};
-        return apiClient.invokeAPI("/store/order", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, _accept, _contentType, _authNames, _returnType);
+        ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
+        return apiClient.invokeAPI("/store/order", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 }
