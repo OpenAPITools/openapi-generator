@@ -479,7 +479,7 @@ fileprivate class FileUploadEncoding: ParameterEncoding {
         
         // https://stackoverflow.com/a/26163136/976628
         let boundary = "Boundary-\(UUID().uuidString)"
-        urlRequest.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         body.append("--\(boundary)\r\n")
         body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(name)\"\r\n")
