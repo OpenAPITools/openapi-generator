@@ -4762,17 +4762,18 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
         List<Map<String, Object>> enumVars = new ArrayList<>();
         int truncateIdx = 0;
+
         if (isRemoveEnumValuePrefix()) {
             String commonPrefix = findCommonPrefixOfVars(values);
             truncateIdx = commonPrefix.length();
         }
+
         for (Object value : values) {
             Map<String, Object> enumVar = new HashMap<>();
             String enumName;
             if (truncateIdx == 0) {
-                enumName = value.toString();
-            }
-            else {
+                enumName = String.valueOf(value);
+            } else {
                 enumName = value.toString().substring(truncateIdx);
                 if ("".equals(enumName)) {
                     enumName = value.toString();
@@ -4780,7 +4781,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             enumVar.put("name", toEnumVarName(enumName, dataType));
-            enumVar.put("value", toEnumValue(value.toString(), dataType));
+            enumVar.put("value", toEnumValue(String.valueOf(value), dataType));
             enumVar.put("isString", isDataTypeString(dataType));
             enumVars.add(enumVar);
         }
