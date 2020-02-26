@@ -262,6 +262,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ObjectWithArrayOfObjects'
           description: NotAcceptable
+  /merge-patch-json:
+    get:
+      responses:
+        "200":
+          content:
+            application/merge-patch+json:
+              schema:
+                $ref: '#/components/schemas/anotherXmlObject'
+          description: merge-patch+json-encoded response
 components:
   schemas:
     EnumWithStarObject:
