@@ -66,6 +66,7 @@ cargo run --example client FakeOuterBooleanSerialize
 cargo run --example client FakeOuterCompositeSerialize
 cargo run --example client FakeOuterNumberSerialize
 cargo run --example client FakeOuterStringSerialize
+cargo run --example client FakeResponseWithNumericalDescription
 cargo run --example client HyphenParam
 cargo run --example client TestBodyWithQueryParams
 cargo run --example client TestClientModel
@@ -132,6 +133,7 @@ Method | HTTP request | Description
 [**fakeOuterCompositeSerialize**](docs/fake_api.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](docs/fake_api.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](docs/fake_api.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**fake_response_with_numerical_description**](docs/fake_api.md#fake_response_with_numerical_description) | **GET** /fake/response-with-numerical-description | 
 [**hyphenParam**](docs/fake_api.md#hyphenParam) | **GET** /fake/hyphenParam/{hyphen-param} | 
 [**testBodyWithQueryParams**](docs/fake_api.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](docs/fake_api.md#testClientModel) | **PATCH** /fake | To test \"client\" model

@@ -19,6 +19,7 @@ use petstore_with_fake_endpoints_models_for_testing::{Api, ApiNoContext, Client,
                       FakeOuterCompositeSerializeResponse,
                       FakeOuterNumberSerializeResponse,
                       FakeOuterStringSerializeResponse,
+                      FakeResponseWithNumericalDescriptionResponse,
                       HyphenParamResponse,
                       TestBodyWithQueryParamsResponse,
                       TestClientModelResponse,
@@ -63,6 +64,8 @@ fn main() {
                 "FakeOuterNumberSerialize",
 
                 "FakeOuterStringSerialize",
+
+                "FakeResponseWithNumericalDescription",
 
                 "HyphenParam",
 
@@ -184,6 +187,13 @@ fn main() {
             let mut rt = tokio::runtime::Runtime::new().unwrap();
             let result = rt.block_on(client.fake_outer_string_serialize(
                   None
+            ));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+
+        Some("FakeResponseWithNumericalDescription") => {
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.fake_response_with_numerical_description(
             ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
