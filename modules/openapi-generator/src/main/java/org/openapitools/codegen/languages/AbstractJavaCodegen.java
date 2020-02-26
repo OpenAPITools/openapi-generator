@@ -59,6 +59,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String DISABLE_HTML_ESCAPING = "disableHtmlEscaping";
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
+    public static final String IS_LOMBOK_MODEL = "isLombokModel";
 
     protected String dateLibrary = "threetenbp";
     protected boolean supportAsync = false;
@@ -97,6 +98,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String parentVersion = "";
     protected boolean parentOverridden = false;
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
+    protected boolean isLombokModel = false;
 
     public AbstractJavaCodegen() {
         super();
@@ -191,6 +193,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util. This option only works for Java API client", fullJavaUtil));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC, this.isHideGenerationTimestamp()));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
+        cliOptions.add(CliOption.newBoolean(IS_LOMBOK_MODEL, "Use lombok for the pojo generation. It comes with @AllArgsConstructor, @EqualsAndHashCode, @ToString, @Getter, @SuperBuilder, @Builder and @NonNull on required fields", isLombokModel));
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
@@ -246,6 +249,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (additionalProperties.containsKey(BOOLEAN_GETTER_PREFIX)) {
             this.setBooleanGetterPrefix(additionalProperties.get(BOOLEAN_GETTER_PREFIX).toString());
+        }
+        if (additionalProperties.containsKey(IS_LOMBOK_MODEL)) {
+            this.setLombokModel(Boolean.valueOf(additionalProperties.get(IS_LOMBOK_MODEL).toString()));
+        }
+        if (isLombokModel) {
+            additionalProperties.put(IS_LOMBOK_MODEL, true);
         }
         additionalProperties.put(BOOLEAN_GETTER_PREFIX, booleanGetterPrefix);
 
@@ -519,6 +528,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         } else if (dateLibrary.equals("legacy")) {
             additionalProperties.put("legacyDates", "true");
+        }
+
+        if (isLombokModel) {
+            importMapping.put("lombokGetter", "lombok.Getter");
+            importMapping.put("lombokAllArgsConstructor", "lombok.AllArgsConstructor");
+            importMapping.put("lombokBuilder", "lombok.Builder");
+            importMapping.put("lombokSuperBuilder", "lombok.experimental.SuperBuilder");
+            importMapping.put("lombokNonNull", "lombok.NonNull");
+            importMapping.put("lombokEqualsAndHashCode", "lombok.EqualsAndHashCode");
+            importMapping.put("lombokToString", "lombok.ToString");
         }
     }
 
@@ -1036,6 +1055,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             // needed by all pojos, but not enums
             model.imports.add("ApiModelProperty");
             model.imports.add("ApiModel");
+        }
+
+        if (isLombokModel) {
+            model.imports.add("lombokGetter");
+            model.imports.add("lombokAllArgsConstructor");
+            model.imports.add("lombokEqualsAndHashCode");
+            model.imports.add("lombokToString");
+            if (model.parent != null) {
+                model.imports.add("lombokSuperBuilder");
+            } else {
+                model.imports.add("lombokBuilder");
+            }
+            if (property.required) {
+                model.imports.add("lombokNonNull");
+            }
         }
     }
 
@@ -1612,6 +1646,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setAdditionalModelTypeAnnotations(final List<String> additionalModelTypeAnnotations) {
         this.additionalModelTypeAnnotations = additionalModelTypeAnnotations;
+    }
+
+    public void setLombokModel(boolean lombokModel) {
+        this.isLombokModel = lombokModel;
+    }
+
+    public boolean isLombokModel() {
+        return isLombokModel;
     }
 
     @Override

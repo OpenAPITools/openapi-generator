@@ -19,18 +19,26 @@ package org.openapitools.codegen.java;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.Date;
+
+import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -142,6 +150,16 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "get");
         Assert.assertEquals(codegen.getArtifactVersion(), openAPI.getInfo().getVersion());
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), openAPI.getInfo().getVersion());
+        Assert.assertFalse(codegen.isLombokModel());
+        Assert.assertFalse(codegen.additionalProperties().containsKey(AbstractJavaCodegen.IS_LOMBOK_MODEL));
+
+        Assert.assertFalse(codegen.importMapping().containsKey("lombokGetter"));
+        Assert.assertFalse(codegen.importMapping().containsKey("lombokAllArgsConstructor"));
+        Assert.assertFalse(codegen.importMapping().containsKey("lombokBuilder"));
+        Assert.assertFalse(codegen.importMapping().containsKey("lombokSuperBuilder"));
+        Assert.assertFalse(codegen.importMapping().containsKey("lombokNonNull"));
+        Assert.assertFalse(codegen.importMapping().containsKey("lombokEqualsAndHashCode"));
+        Assert.assertFalse(codegen.importMapping().containsKey("lombokToString"));
     }
 
     @Test
@@ -156,6 +174,7 @@ public class AbstractJavaCodegenTest {
         codegen.setInvokerPackage("xyz.yyyyy.zzzzzzz.invoker");
         codegen.setBooleanGetterPrefix("is");
         codegen.setArtifactVersion("0.9.0-SNAPSHOT");
+        codegen.setLombokModel(true);
 
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
@@ -171,6 +190,16 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "is");
         Assert.assertEquals(codegen.getArtifactVersion(), "0.9.0-SNAPSHOT");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), "0.9.0-SNAPSHOT");
+        Assert.assertTrue(codegen.isLombokModel());
+        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.IS_LOMBOK_MODEL), true);
+
+        Assert.assertEquals(codegen.importMapping().get("lombokGetter"), "lombok.Getter");
+        Assert.assertEquals(codegen.importMapping().get("lombokAllArgsConstructor"), "lombok.AllArgsConstructor");
+        Assert.assertEquals(codegen.importMapping().get("lombokBuilder"), "lombok.Builder");
+        Assert.assertEquals(codegen.importMapping().get("lombokSuperBuilder"), "lombok.experimental.SuperBuilder");
+        Assert.assertEquals(codegen.importMapping().get("lombokNonNull"), "lombok.NonNull");
+        Assert.assertEquals(codegen.importMapping().get("lombokEqualsAndHashCode"), "lombok.EqualsAndHashCode");
+        Assert.assertEquals(codegen.importMapping().get("lombokToString"), "lombok.ToString");
     }
 
     @Test
@@ -199,6 +228,93 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "getBoolean");
         Assert.assertEquals(codegen.getArtifactVersion(), "0.8.0-SNAPSHOT");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), "0.8.0-SNAPSHOT");
+    }
+
+    @Test(dataProvider = "modelWithProps")
+    public void lombokImports(CodegenModel codegenModel, boolean hasBuilder, boolean hasSuperBuilder, boolean hasNonNull) {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
+        codegen.additionalProperties().put(SpringCodegen.BASE_PACKAGE, "xyz.yyyyy.bbbb.base");
+        codegen.additionalProperties().put(SpringCodegen.CONFIG_PACKAGE, "xyz.yyyyy.cccc.config");
+        codegen.additionalProperties().put(SpringCodegen.SERVER_PORT, "8088");
+        codegen.additionalProperties().put(SpringCodegen.IS_LOMBOK_MODEL, true);
+        codegen.processOpts();
+
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
+        openAPI.setInfo(new Info());
+        openAPI.getInfo().setTitle("Some test API");
+        codegen.preprocessOpenAPI(openAPI);
+
+        codegenModel.getVars().forEach(codegenProperty -> {
+            codegen.postProcessModelProperty(codegenModel, codegenProperty);
+        });
+        Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokGetter")));
+        Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokAllArgsConstructor")));
+        Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokEqualsAndHashCode")));
+        Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokToString")));
+        boolean islombokSuperBuilderPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokSuperBuilder"));
+        boolean islombokBuilderPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokBuilder"));
+        boolean islombokNonNullPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokNonNull"));
+
+        Assert.assertEquals(hasBuilder, islombokBuilderPresent);
+        Assert.assertEquals(hasSuperBuilder, islombokSuperBuilderPresent);
+        Assert.assertEquals(hasNonNull, islombokNonNullPresent);
+    }
+
+    @DataProvider(name = "modelWithProps")
+    private Object[][] modelWithProps() {
+        CodegenModel modelWithParent = new CodegenModel();
+        modelWithParent.setVars(Collections.singletonList(new CodegenProperty()));
+        modelWithParent.setParent("someParent");
+
+        CodegenModel modelWithRequiredProperty = new CodegenModel();
+        CodegenProperty requiredProperty = new CodegenProperty();
+        requiredProperty.setRequired(true);
+        modelWithRequiredProperty.setVars(Collections.singletonList(requiredProperty));
+
+        CodegenModel modelWithNullableProperty = new CodegenModel();
+        CodegenProperty nullableProperty = new CodegenProperty();
+        nullableProperty.setRequired(false);
+        modelWithNullableProperty.setVars(Collections.singletonList(nullableProperty));
+
+        return new Object[][] {
+                new Object[]{modelWithParent, false, true, false},
+                new Object[]{modelWithRequiredProperty, true, false, true},
+                new Object[]{modelWithNullableProperty, true, false, false},
+        };
+    }
+
+    @Test
+    public void lombokImportsWithoutModelProperties() {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
+        codegen.additionalProperties().put(SpringCodegen.BASE_PACKAGE, "xyz.yyyyy.bbbb.base");
+        codegen.additionalProperties().put(SpringCodegen.CONFIG_PACKAGE, "xyz.yyyyy.cccc.config");
+        codegen.additionalProperties().put(SpringCodegen.SERVER_PORT, "8088");
+        codegen.additionalProperties().put(SpringCodegen.IS_LOMBOK_MODEL, true);
+        codegen.processOpts();
+
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
+        openAPI.setInfo(new Info());
+        openAPI.getInfo().setTitle("Some test API");
+        codegen.preprocessOpenAPI(openAPI);
+
+        CodegenModel codegenModel = new CodegenModel();
+        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokGetter")));
+        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokAllArgsConstructor")));
+        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokEqualsAndHashCode")));
+        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokToString")));
+        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokSuperBuilder")));
+        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokBuilder")));
+        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokNonNull")));
     }
 
     @Test

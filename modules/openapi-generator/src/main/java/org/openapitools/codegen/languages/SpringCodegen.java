@@ -71,7 +71,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
-    public static final String IS_LOMBOK_MODEL = "isLombokModel";
 
     public static final String OPEN_BRACE = "{";
     public static final String CLOSE_BRACE = "}";
@@ -99,7 +98,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
-    protected boolean isLombokModel = false;
 
     public SpringCodegen() {
         super();
@@ -173,7 +171,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
         cliOptions.add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING, "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).", unhandledException));
-        cliOptions.add(CliOption.newBoolean(IS_LOMBOK_MODEL, "Use lombok for the pojo generation. It comes with @AllArgsConstructor, @EqualsAndHashCode, @ToString, @Getter, @SuperBuilder, @Builder and @NonNull on required fields", isLombokModel));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -285,10 +282,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             convertPropertyToBooleanAndWriteBack(ASYNC);
         }
 
-        if (additionalProperties.containsKey(IS_LOMBOK_MODEL)) {
-            this.setLombokModel(true);
-        }
-
         if (additionalProperties.containsKey(REACTIVE)) {
             if (!SPRING_BOOT.equals(library)) {
                 throw new IllegalArgumentException("Currently, reactive option is only supported with Spring-boot");
@@ -345,15 +338,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         typeMapping.put("file", "Resource");
         importMapping.put("Resource", "org.springframework.core.io.Resource");
-        if (isLombokModel) {
-            importMapping.put("lombokGetter", "lombok.Getter");
-            importMapping.put("lombokAllArgsConstructor", "lombok.AllArgsConstructor");
-            importMapping.put("lombokBuilder", "lombok.Builder");
-            importMapping.put("lombokSuperBuilder", "lombok.experimental.SuperBuilder");
-            importMapping.put("lombokNonNull", "lombok.NonNull");
-            importMapping.put("lombokEqualsAndHashCode", "lombok.EqualsAndHashCode");
-            importMapping.put("lombokToString", "lombok.ToString");
-        }
 
         if (useOptional) {
             writePropertyBack(USE_OPTIONAL, useOptional);
@@ -467,9 +451,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
 
-        if (isLombokModel) {
-            additionalProperties.put(IS_LOMBOK_MODEL, true);
-        }
 
         if (!this.apiFirst && !this.reactive) {
             additionalProperties.put("useSpringfox", true);
@@ -771,10 +752,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         return unhandledException;
     }
 
-    public boolean isLombokModel() {
-        return isLombokModel;
-    }
-
     public void setBasePackage(String basePackage) {
         this.basePackage = basePackage;
     }
@@ -805,10 +782,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setAsync(boolean async) {
         this.async = async;
-    }
-
-    public void setLombokModel(boolean lombokModel) {
-        this.isLombokModel = lombokModel;
     }
 
     public void setReactive(boolean reactive) {
@@ -866,20 +839,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             //Needed imports for Jackson's JsonCreator
             if (additionalProperties.containsKey("jackson")) {
                 model.imports.add("JsonCreator");
-            }
-        }
-        if (isLombokModel) {
-            model.imports.add("lombokGetter");
-            model.imports.add("lombokAllArgsConstructor");
-            model.imports.add("lombokEqualsAndHashCode");
-            model.imports.add("lombokToString");
-            if (model.parent != null) {
-                model.imports.add("lombokSuperBuilder");
-            } else {
-                model.imports.add("lombokBuilder");
-            }
-            if (property.required) {
-                model.imports.add("lombokNonNull");
             }
         }
     }

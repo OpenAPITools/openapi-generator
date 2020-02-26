@@ -24,25 +24,15 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.MockDefaultGenerator;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -78,16 +68,6 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "org.openapitools.configuration");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8082");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), false);
-        Assert.assertFalse(codegen.isLombokModel());
-        Assert.assertFalse(codegen.additionalProperties().containsKey(SpringCodegen.IS_LOMBOK_MODEL));
-
-        Assert.assertFalse(codegen.importMapping().containsKey("lombokGetter"));
-        Assert.assertFalse(codegen.importMapping().containsKey("lombokAllArgsConstructor"));
-        Assert.assertFalse(codegen.importMapping().containsKey("lombokBuilder"));
-        Assert.assertFalse(codegen.importMapping().containsKey("lombokSuperBuilder"));
-        Assert.assertFalse(codegen.importMapping().containsKey("lombokNonNull"));
-        Assert.assertFalse(codegen.importMapping().containsKey("lombokEqualsAndHashCode"));
-        Assert.assertFalse(codegen.importMapping().containsKey("lombokToString"));
     }
 
     @Test
@@ -100,11 +80,10 @@ public class SpringCodegenTest {
         codegen.setBasePackage("xx.yyyyyyyy.base");
         codegen.setConfigPackage("xx.yyyyyyyy.config");
         codegen.setUnhandledException(true);
-        codegen.setLombokModel(true);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertTrue(codegen.isHideGenerationTimestamp());
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
         Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
         Assert.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
@@ -115,18 +94,8 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "xx.yyyyyyyy.base");
         Assert.assertEquals(codegen.getConfigPackage(), "xx.yyyyyyyy.config");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xx.yyyyyyyy.config");
-        Assert.assertTrue(codegen.isUnhandledException());
+        Assert.assertEquals(codegen.isUnhandledException(), true);
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), true);
-        Assert.assertTrue(codegen.isLombokModel());
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.IS_LOMBOK_MODEL), true);
-
-        Assert.assertEquals(codegen.importMapping().get("lombokGetter"), "lombok.Getter");
-        Assert.assertEquals(codegen.importMapping().get("lombokAllArgsConstructor"), "lombok.AllArgsConstructor");
-        Assert.assertEquals(codegen.importMapping().get("lombokBuilder"), "lombok.Builder");
-        Assert.assertEquals(codegen.importMapping().get("lombokSuperBuilder"), "lombok.experimental.SuperBuilder");
-        Assert.assertEquals(codegen.importMapping().get("lombokNonNull"), "lombok.NonNull");
-        Assert.assertEquals(codegen.importMapping().get("lombokEqualsAndHashCode"), "lombok.EqualsAndHashCode");
-        Assert.assertEquals(codegen.importMapping().get("lombokToString"), "lombok.ToString");
     }
 
     @Test
@@ -163,94 +132,6 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8088");
     }
 
-    @Test(dataProvider = "modelWithProps")
-    public void lombokImports(CodegenModel codegenModel, boolean hasBuilder, boolean hasSuperBuilder, boolean hasNonNull) {
-        final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
-        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
-        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
-        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
-        codegen.additionalProperties().put(SpringCodegen.BASE_PACKAGE, "xyz.yyyyy.bbbb.base");
-        codegen.additionalProperties().put(SpringCodegen.CONFIG_PACKAGE, "xyz.yyyyy.cccc.config");
-        codegen.additionalProperties().put(SpringCodegen.SERVER_PORT, "8088");
-        codegen.additionalProperties().put(SpringCodegen.IS_LOMBOK_MODEL, true);
-        codegen.processOpts();
-
-        OpenAPI openAPI = new OpenAPI();
-        openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
-        openAPI.setInfo(new Info());
-        openAPI.getInfo().setTitle("Some test API");
-        codegen.preprocessOpenAPI(openAPI);
-
-        codegenModel.getVars().forEach(codegenProperty -> {
-            codegen.postProcessModelProperty(codegenModel, codegenProperty);
-        });
-        Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokGetter")));
-        Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokAllArgsConstructor")));
-        Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokEqualsAndHashCode")));
-        Assert.assertTrue(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokToString")));
-        boolean islombokSuperBuilderPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokSuperBuilder"));
-        boolean islombokBuilderPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokBuilder"));
-        boolean islombokNonNullPresent = codegenModel.imports.stream().anyMatch(s -> s.equals("lombokNonNull"));
-
-        Assert.assertEquals(hasBuilder, islombokBuilderPresent);
-        Assert.assertEquals(hasSuperBuilder, islombokSuperBuilderPresent);
-        Assert.assertEquals(hasNonNull, islombokNonNullPresent);
-    }
-
-    @DataProvider(name = "modelWithProps")
-    private Object[][] modelWithProps() {
-        CodegenModel modelWithParent = new CodegenModel();
-        modelWithParent.setVars(Collections.singletonList(new CodegenProperty()));
-        modelWithParent.setParent("someParent");
-
-        CodegenModel modelWithRequiredProperty = new CodegenModel();
-        CodegenProperty requiredProperty = new CodegenProperty();
-        requiredProperty.setRequired(true);
-        modelWithRequiredProperty.setVars(Collections.singletonList(requiredProperty));
-
-        CodegenModel modelWithNullableProperty = new CodegenModel();
-        CodegenProperty nullableProperty = new CodegenProperty();
-        nullableProperty.setRequired(false);
-        modelWithNullableProperty.setVars(Collections.singletonList(nullableProperty));
-
-        return new Object[][] {
-                new Object[]{modelWithParent, false, true, false},
-                new Object[]{modelWithRequiredProperty, true, false, true},
-                new Object[]{modelWithNullableProperty, true, false, false},
-        };
-    }
-
-    @Test
-    public void lombokImportsWithoutModelProperties() {
-        final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
-        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
-        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
-        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
-        codegen.additionalProperties().put(SpringCodegen.BASE_PACKAGE, "xyz.yyyyy.bbbb.base");
-        codegen.additionalProperties().put(SpringCodegen.CONFIG_PACKAGE, "xyz.yyyyy.cccc.config");
-        codegen.additionalProperties().put(SpringCodegen.SERVER_PORT, "8088");
-        codegen.additionalProperties().put(SpringCodegen.IS_LOMBOK_MODEL, true);
-        codegen.processOpts();
-
-        OpenAPI openAPI = new OpenAPI();
-        openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
-        openAPI.setInfo(new Info());
-        openAPI.getInfo().setTitle("Some test API");
-        codegen.preprocessOpenAPI(openAPI);
-
-        CodegenModel codegenModel = new CodegenModel();
-        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokGetter")));
-        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokAllArgsConstructor")));
-        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokEqualsAndHashCode")));
-        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokToString")));
-        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokSuperBuilder")));
-        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokBuilder")));
-        Assert.assertFalse(codegenModel.imports.stream().anyMatch(s -> s.equals("lombokNonNull")));
-    }
-
-
     @Test
     public void interfaceDefaultImplDisableWithReponseWrapper() {
         final SpringCodegen codegen = new SpringCodegen();
@@ -281,7 +162,7 @@ public class SpringCodegenTest {
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
 
-        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/PonyApi.java", "@RequestParam");
+        checkFileNotContains(generator, outputPath + "/src/main/java/org/openapitools/api/PonyApi.java",  "@RequestParam");
     }
 
     @Test
@@ -453,14 +334,14 @@ public class SpringCodegenTest {
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
 
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/MonkeysApi.java", "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java", "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java", "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/BearsApi.java", "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java", "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/PandasApi.java", "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/CrocodilesApi.java", "@RequestParam");
-        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/PolarBearsApi.java", "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/MonkeysApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/BearsApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/PandasApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/CrocodilesApi.java",  "@RequestParam");
+        checkFileContains(generator, outputPath + "/src/main/java/org/openapitools/api/PolarBearsApi.java",  "@RequestParam");
 
     }
 
@@ -490,7 +371,7 @@ public class SpringCodegenTest {
         codegen.cliOptions()
                 .stream()
                 .collect(groupingBy(CliOption::getOpt))
-                .forEach((k, v) -> assertEquals(v.size(), 1, k + " is described multiple times"));
+                .forEach((k,v) -> assertEquals(v.size(), 1, k + " is described multiple times"));
     }
 
     @Test

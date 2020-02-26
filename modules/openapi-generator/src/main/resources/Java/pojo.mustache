@@ -9,6 +9,18 @@
 {{/vars}}
 })
 {{/jackson}}
+{{#isLombokModel}}
+    @AllArgsConstructor
+    @EqualsAndHashCode
+    @ToString
+    @Getter
+    {{#parent}}
+        @SuperBuilder
+    {{/parent}}
+    {{^parent}}
+        @Builder
+    {{/parent}}
+{{/isLombokModel}}
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
 public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
 {{#serializableModel}}
@@ -57,6 +69,11 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
+  {{#isLombokModel}}
+      {{#required}}
+          @NonNull
+      {{/required}}
+  {{/isLombokModel}}
   {{#isContainer}}
   private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();
   {{/isContainer}}
@@ -95,7 +112,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   {{/discriminator}}
   {{/gson}}
   {{/parcelableModel}}
-  {{#vars}}
+{{^isLombokModel}}
+{{#vars}}
 
   {{^isReadOnly}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
@@ -224,7 +242,6 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
   {{/isReadOnly}}
-
   {{/vars}}
 
 {{^supportJava6}}
@@ -306,6 +323,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
     }
     return o.toString().replace("\n", "\n    ");
   }
+  {{/isLombokModel}}
 
 {{#parcelableModel}}
 
