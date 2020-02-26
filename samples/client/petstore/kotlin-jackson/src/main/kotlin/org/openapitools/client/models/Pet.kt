@@ -28,24 +28,18 @@ import com.fasterxml.jackson.annotation.JsonFormat
 
 data class Pet (
     @JsonProperty("name")
-    val name: kotlin.String
-,
+    val name: kotlin.String,
     @JsonProperty("photoUrls")
-    val photoUrls: kotlin.Array<kotlin.String>
-,
+    val photoUrls: kotlin.Array<kotlin.String>,
     @JsonProperty("id")
-    val id: kotlin.Long? = null
-,
+    val id: kotlin.Long? = null,
     @JsonProperty("category")
-    val category: Category? = null
-,
+    val category: Category? = null,
     @JsonProperty("tags")
-    val tags: kotlin.Array<Tag>? = null
-,
+    val tags: kotlin.Array<Tag>? = null,
     /* pet status in the store */
     @JsonProperty("status")
     val status: Pet.Status? = null
-
 ) {
 
     /**

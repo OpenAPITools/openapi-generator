@@ -26,26 +26,19 @@ import com.fasterxml.jackson.annotation.JsonFormat
 
 data class Order (
     @JsonProperty("id")
-    val id: kotlin.Long? = null
-,
+    val id: kotlin.Long? = null,
     @JsonProperty("petId")
-    val petId: kotlin.Long? = null
-,
+    val petId: kotlin.Long? = null,
     @JsonProperty("quantity")
-    val quantity: kotlin.Int? = null
-,
-    @JsonFormat
-    (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    val quantity: kotlin.Int? = null,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     @JsonProperty("shipDate")
-    val shipDate: java.time.OffsetDateTime? = null
-,
+    val shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
     @JsonProperty("status")
-    val status: Order.Status? = null
-,
+    val status: Order.Status? = null,
     @JsonProperty("complete")
     val complete: kotlin.Boolean? = null
-
 ) {
 
     /**

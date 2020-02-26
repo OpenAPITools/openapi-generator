@@ -25,24 +25,18 @@ import com.google.gson.annotations.SerializedName
 
 data class Order (
     @SerializedName("id")
-    val id: kotlin.Long? = null
-,
+    val id: kotlin.Long? = null,
     @SerializedName("petId")
-    val petId: kotlin.Long? = null
-,
+    val petId: kotlin.Long? = null,
     @SerializedName("quantity")
-    val quantity: kotlin.Int? = null
-,
+    val quantity: kotlin.Int? = null,
     @SerializedName("shipDate")
-    val shipDate: java.time.OffsetDateTime? = null
-,
+    val shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
     @SerializedName("status")
-    val status: Order.Status? = null
-,
+    val status: Order.Status? = null,
     @SerializedName("complete")
     val complete: kotlin.Boolean? = null
-
 ) {
 
     /**

@@ -25,19 +25,13 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  */
 @Serializable
 data class Order (
-    @SerialName(value = "id") val id: kotlin.Long? = null
-,
-    @SerialName(value = "petId") val petId: kotlin.Long? = null
-,
-    @SerialName(value = "quantity") val quantity: kotlin.Int? = null
-,
-    @SerialName(value = "shipDate") val shipDate: kotlin.String? = null
-,
+    @SerialName(value = "id") val id: kotlin.Long? = null,
+    @SerialName(value = "petId") val petId: kotlin.Long? = null,
+    @SerialName(value = "quantity") val quantity: kotlin.Int? = null,
+    @SerialName(value = "shipDate") val shipDate: kotlin.String? = null,
     /* Order Status */
-    @SerialName(value = "status") val status: Order.Status? = null
-,
+    @SerialName(value = "status") val status: Order.Status? = null,
     @SerialName(value = "complete") val complete: kotlin.Boolean? = null
-
 ) {
 
     /**
