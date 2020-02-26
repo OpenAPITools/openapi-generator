@@ -13,10 +13,9 @@ package org.openapitools.client.api
 
 import org.openapitools.client.model.User
 import org.openapitools.client.core._
-import org.openapitools.client.core.CollectionFormats._
+import alias._
 import sttp.client._
 import sttp.model.Method
-import sttp.client.json4s.SttpJson4sApi
 
 object UserApi {
 
@@ -25,16 +24,8 @@ object UserApi {
 
 class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
 
+  import Helpers._
   import serializer._
-
-  /*
-   * Helper to handle Optional header parameters
-   **/
-  implicit class optionalParams(request: RequestT[Identity, Either[String, String], Nothing]) {
-   def header( header: String, optValue: Option[Any]): RequestT[Identity, Either[String, String], Nothing] = {
-      optValue.map( value => request.header(header, value.toString)).getOrElse(request)
-    }
-  }
 
   /**
    * This can only be done by the logged in user.
@@ -47,10 +38,11 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param user Created user object
    */
-  def createUser(user: User)(implicit apiKey: ApiKeyValue): RequestT[Identity, Either[ResponseError[Exception], Unit], Nothing] =
+  def createUser(user: User)(implicit apiKey: ApiKeyValue): ApiRequestT[Unit] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user")
       .contentType("application/json")
+      .cookie("AUTH_KEY", apiKey.value)
       .body(user)
       .response(asJson[Unit])
 
@@ -65,10 +57,11 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param user List of user object
    */
-  def createUsersWithArrayInput(user: Seq[User])(implicit apiKey: ApiKeyValue): RequestT[Identity, Either[ResponseError[Exception], Unit], Nothing] =
+  def createUsersWithArrayInput(user: Seq[User])(implicit apiKey: ApiKeyValue): ApiRequestT[Unit] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithArray")
       .contentType("application/json")
+      .cookie("AUTH_KEY", apiKey.value)
       .body(user)
       .response(asJson[Unit])
 
@@ -83,10 +76,11 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param user List of user object
    */
-  def createUsersWithListInput(user: Seq[User])(implicit apiKey: ApiKeyValue): RequestT[Identity, Either[ResponseError[Exception], Unit], Nothing] =
+  def createUsersWithListInput(user: Seq[User])(implicit apiKey: ApiKeyValue): ApiRequestT[Unit] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithList")
       .contentType("application/json")
+      .cookie("AUTH_KEY", apiKey.value)
       .body(user)
       .response(asJson[Unit])
 
@@ -104,10 +98,11 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param username The name that needs to be deleted
    */
-  def deleteUser(username: String)(implicit apiKey: ApiKeyValue): RequestT[Identity, Either[ResponseError[Exception], Unit], Nothing] =
+  def deleteUser(username: String)(implicit apiKey: ApiKeyValue): ApiRequestT[Unit] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/user/${username}")
       .contentType("application/json")
+      .cookie("AUTH_KEY", apiKey.value)
       .response(asJson[Unit])
 
 
@@ -120,7 +115,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param username The name that needs to be fetched. Use user1 for testing.
    */
-  def getUserByName(username: String): RequestT[Identity, Either[ResponseError[Exception], User], Nothing] =
+  def getUserByName(username: String): ApiRequestT[User] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/${username}")
       .contentType("application/json")
@@ -140,7 +135,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * @param username The user name for login
    * @param password The password for login in clear text
    */
-  def loginUser(username: String, password: String): RequestT[Identity, Either[ResponseError[Exception], String], Nothing] =
+  def loginUser(username: String, password: String): ApiRequestT[String] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/login?username=$username&password=$password")
       .contentType("application/json")
@@ -155,10 +150,11 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * Available security schemes:
    *   auth_cookie (apiKey)
    */
-  def logoutUser()(implicit apiKey: ApiKeyValue): RequestT[Identity, Either[ResponseError[Exception], Unit], Nothing] =
+  def logoutUser()(implicit apiKey: ApiKeyValue): ApiRequestT[Unit] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/logout")
       .contentType("application/json")
+      .cookie("AUTH_KEY", apiKey.value)
       .response(asJson[Unit])
 
 
@@ -176,10 +172,11 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * @param username name that need to be deleted
    * @param user Updated user object
    */
-  def updateUser(username: String, user: User)(implicit apiKey: ApiKeyValue): RequestT[Identity, Either[ResponseError[Exception], Unit], Nothing] =
+  def updateUser(username: String, user: User)(implicit apiKey: ApiKeyValue): ApiRequestT[Unit] =
     basicRequest
       .method(Method.PUT, uri"$baseUrl/user/${username}")
       .contentType("application/json")
+      .cookie("AUTH_KEY", apiKey.value)
       .body(user)
       .response(asJson[Unit])
 

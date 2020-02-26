@@ -13,10 +13,9 @@ package org.openapitools.client.api
 
 import org.openapitools.client.model.Order
 import org.openapitools.client.core._
-import org.openapitools.client.core.CollectionFormats._
+import alias._
 import sttp.client._
 import sttp.model.Method
-import sttp.client.json4s.SttpJson4sApi
 
 object StoreApi {
 
@@ -25,16 +24,8 @@ object StoreApi {
 
 class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
 
+  import Helpers._
   import serializer._
-
-  /*
-   * Helper to handle Optional header parameters
-   **/
-  implicit class optionalParams(request: RequestT[Identity, Either[String, String], Nothing]) {
-   def header( header: String, optValue: Option[Any]): RequestT[Identity, Either[String, String], Nothing] = {
-      optValue.map( value => request.header(header, value.toString)).getOrElse(request)
-    }
-  }
 
   /**
    * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -45,7 +36,7 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param orderId ID of the order that needs to be deleted
    */
-  def deleteOrder(orderId: String): RequestT[Identity, Either[ResponseError[Exception], Unit], Nothing] =
+  def deleteOrder(orderId: String): ApiRequestT[Unit] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
@@ -62,10 +53,11 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * Available security schemes:
    *   api_key (apiKey)
    */
-  def getInventory()(implicit apiKey: ApiKeyValue): RequestT[Identity, Either[ResponseError[Exception], Map[String, Int]], Nothing] =
+  def getInventory()(implicit apiKey: ApiKeyValue): ApiRequestT[Map[String, Int]] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/inventory")
       .contentType("application/json")
+      .header("api_key", apiKey.value)
       .response(asJson[Map[String, Int]])
 
 
@@ -80,7 +72,7 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param orderId ID of pet that needs to be fetched
    */
-  def getOrderById(orderId: Long): RequestT[Identity, Either[ResponseError[Exception], Order], Nothing] =
+  def getOrderById(orderId: Long): ApiRequestT[Order] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
@@ -95,7 +87,7 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param order order placed for purchasing the pet
    */
-  def placeOrder(order: Order): RequestT[Identity, Either[ResponseError[Exception], Order], Nothing] =
+  def placeOrder(order: Order): ApiRequestT[Order] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/store/order")
       .contentType("application/json")

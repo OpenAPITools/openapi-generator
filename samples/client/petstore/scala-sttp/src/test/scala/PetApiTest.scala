@@ -5,17 +5,16 @@ import org.openapitools.client.model._
 import org.scalatest.Inspectors._
 import org.scalatest._
 import org.scalatest.junit.JUnitRunner
-import sttp.client.HttpURLConnectionBackend
+import sttp.client.{HttpURLConnectionBackend, Identity, NothingT, SttpBackend}
 
 @RunWith(classOf[JUnitRunner])
 class PetApiTest extends AsyncFlatSpec with Matchers {
 
-  implicit val sttpSerializer = new SttpSerializer
-  implicit val backend = HttpURLConnectionBackend()
-
+  implicit val sttpSerializer: SttpSerializer = new SttpSerializer
+  implicit val backend: SttpBackend[Identity, Nothing, NothingT] = HttpURLConnectionBackend()
   val api = new PetApi("https://petstore3.swagger.io/api/v3")
 
-  implicit val apiKey = ApiKeyValue("api-key")
+  implicit val apiKey: ApiKeyValue = ApiKeyValue("api-key")
 
   import ApiInvoker._
 
@@ -35,7 +34,6 @@ class PetApiTest extends AsyncFlatSpec with Matchers {
     val addPetRequest = api.addPet(createdPet)
     val getPetRequest = api.getPetById(petId)
 
-    backend
     addPetRequest.result
     val pet = getPetRequest.result
 

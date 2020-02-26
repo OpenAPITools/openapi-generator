@@ -11,8 +11,6 @@
  */
 package org.openapitools.client.core
 
-import java.io.File
-
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import org.json4s.JsonAST.JString
@@ -28,6 +26,17 @@ class SttpSerializer(implicit val format: Formats = DefaultFormats ++ EnumsSeria
 
 class HttpException(val statusCode: Int, val statusText: String, val message: String) extends Exception(s"[$statusCode] $statusText: $message")
 
+object Helpers {
+
+  // Helper to handle Optional header parameters
+  implicit class optionalParams(val request: RequestT[Identity, Either[String, String], Nothing]) extends AnyVal {
+    def header( header: String, optValue: Option[Any]): RequestT[Identity, Either[String, String], Nothing] = {
+      optValue.map( value => request.header(header, value.toString)).getOrElse(request)
+    }
+  }
+
+}
+
 object ApiInvoker {
 
   /**
@@ -38,7 +47,7 @@ object ApiInvoker {
     */
   implicit class ApiRequestImprovements[R[_], T](request: RequestT[Identity, Either[ResponseError[Exception], T], Nothing]) {
 
-    def result: R[T](implicit backend: SttpBackend[R, Nothing, Nothing]) = {
+    def result(implicit backend: SttpBackend[R, Nothing, Nothing]): R[T] = {
       val responseT = request.send()
       val ME: MonadError[R] = backend.responseMonad
       ME.flatMap(responseT) {
