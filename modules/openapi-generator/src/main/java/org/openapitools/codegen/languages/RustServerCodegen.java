@@ -72,6 +72,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String plainTextMimeType = "text/plain";
     private static final String jsonMimeType = "application/json";
 
+    // RFC 7386 support
+    private static final String mergePatchJsonMimeType = "application/merge-patch+json";
+
     // RFC 7807 Support
     private static final String problemJsonMimeType = "application/problem+json";
     private static final String problemXmlMimeType = "application/problem+xml";
@@ -534,6 +537,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private boolean isMimetypeJson(String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith(jsonMimeType) ||
+               mimetype.toLowerCase(Locale.ROOT).startsWith(mergePatchJsonMimeType) ||
                mimetype.toLowerCase(Locale.ROOT).startsWith(problemJsonMimeType);
     }
 
