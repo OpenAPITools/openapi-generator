@@ -965,6 +965,14 @@ paths:
       responses:
         200:
           description: Success
+  /fake/operation-with-numeric-id:
+    get:
+      tags:
+        - fake
+      operationId: 123example
+      responses:
+        200:
+          description: success
 securityDefinitions:
   petstore_auth:
     type: oauth2
