@@ -482,7 +482,7 @@ private class FileUploadEncoding: ParameterEncoding {
         urlRequest.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         body.append("--\(boundary)\r\n")
-        body.append("Content-Disposition: form-data; name=\"\(name)\"; filename=\"\(name)\"\r\n")
+        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(name)\"\r\n")
 
         if let mimeType = mimeType {
             body.append("Content-Type: \(mimeType)\r\n\r\n")
