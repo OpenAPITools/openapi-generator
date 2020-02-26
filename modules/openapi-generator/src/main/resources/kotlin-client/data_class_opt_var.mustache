@@ -10,8 +10,7 @@
     {{/gson}}
     {{#jackson}}
     {{#isDateTime}}
-    @JsonFormat
-    (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     {{/isDateTime}}
     @JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
     {{/jackson}}
