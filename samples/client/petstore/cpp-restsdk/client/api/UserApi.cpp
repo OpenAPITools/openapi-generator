@@ -106,6 +106,7 @@ pplx::task<void> UserApi::createUser(std::shared_ptr<User> body) const
         {
             body->toMultipart(localVarMultipart, utility::conversions::to_string_t("body"));
         }
+        
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
@@ -222,16 +223,17 @@ pplx::task<void> UserApi::createUsersWithArrayInput(std::vector<std::shared_ptr<
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
+
         {
             std::vector<web::json::value> localVarJsonArray;
             for( auto& localVarItem : body )
             {
-                localVarJsonArray.push_back( localVarItem.get() ? localVarItem->toJson() : web::json::value::null() );
-                
+                localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
             }
-            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("body"), web::json::value::array(localVarJsonArray), utility::conversions::to_string_t("application/json")));
+            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("body"), localVarJsonArray, utility::conversions::to_string_t("application/json")));
         }
         
+
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
@@ -347,16 +349,17 @@ pplx::task<void> UserApi::createUsersWithListInput(std::vector<std::shared_ptr<U
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
+
         {
             std::vector<web::json::value> localVarJsonArray;
             for( auto& localVarItem : body )
             {
-                localVarJsonArray.push_back( localVarItem.get() ? localVarItem->toJson() : web::json::value::null() );
-                
+                localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
             }
-            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("body"), web::json::value::array(localVarJsonArray), utility::conversions::to_string_t("application/json")));
+            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("body"), localVarJsonArray, utility::conversions::to_string_t("application/json")));
         }
         
+
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
@@ -610,7 +613,7 @@ pplx::task<std::shared_ptr<User>> UserApi::getUserByName(utility::string_t usern
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
 
-            localVarResult->fromJson(localVarJson);
+            ModelBase::fromJson(localVarJson, localVarResult);
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {
@@ -740,8 +743,7 @@ pplx::task<utility::string_t> UserApi::loginUser(utility::string_t username, uti
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
 
-            localVarResult = ModelBase::stringFromJson(localVarJson);
-            
+            ModelBase::fromJson(localVarJson, localVarResult);
         }
         else if(localVarResponseHttpContentType == utility::conversions::to_string_t("text/plain"))
         {
@@ -931,6 +933,7 @@ pplx::task<void> UserApi::updateUser(utility::string_t username, std::shared_ptr
         {
             body->toMultipart(localVarMultipart, utility::conversions::to_string_t("body"));
         }
+        
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
