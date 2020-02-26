@@ -3,6 +3,9 @@
 pub mod responses {
 
 
+    /// Create &str objects for the response content types for AllOfGet
+    pub static ALL_OF_GET_OK: &str = "*/*";
+
     /// Create &str objects for the response content types for FileResponseGet
     pub static FILE_RESPONSE_GET_SUCCESS: &str = "application/json";
 

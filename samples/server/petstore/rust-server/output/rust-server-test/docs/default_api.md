@@ -4,18 +4,43 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-****](default_api.md#) | **GET** /dummy | A dummy endpoint to make the spec valid.
-****](default_api.md#) | **PUT** /dummy | 
-****](default_api.md#) | **GET** /file_response | Get a file
+**AllOf_Get**](default_api.md#AllOf_Get) | **GET** /allOf | 
+**dummyGet**](default_api.md#dummyGet) | **GET** /dummy | A dummy endpoint to make the spec valid.
+**dummyPut**](default_api.md#dummyPut) | **PUT** /dummy | 
+**file_responseGet**](default_api.md#file_responseGet) | **GET** /file_response | Get a file
 **getStructuredYaml**](default_api.md#getStructuredYaml) | **GET** /get-structured-yaml | 
-****](default_api.md#) | **POST** /html | Test HTML handling
+**htmlPost**](default_api.md#htmlPost) | **POST** /html | Test HTML handling
 **post_yaml**](default_api.md#post_yaml) | **POST** /post-yaml | 
-****](default_api.md#) | **GET** /raw_json | Get an arbitrary JSON blob.
-****](default_api.md#) | **POST** /solo-object | Send an arbitrary JSON blob
+**raw_jsonGet**](default_api.md#raw_jsonGet) | **GET** /raw_json | Get an arbitrary JSON blob.
+**solo_objectPost**](default_api.md#solo_objectPost) | **POST** /solo-object | Send an arbitrary JSON blob
 
 
-# ****
-> ()
+# **AllOf_Get**
+> models::AllOfObject AllOf_Get()
+
+
+Test getting an object which uses allOf
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**models::AllOfObject**](allOfObject.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*, 
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **dummyGet**
+> dummyGet()
 A dummy endpoint to make the spec valid.
 
 ### Required Parameters
@@ -36,8 +61,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (nested_response)
+# **dummyPut**
+> dummyPut(nested_response)
 
 
 ### Required Parameters
@@ -61,8 +86,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> swagger::ByteArray ()
+# **file_responseGet**
+> swagger::ByteArray file_responseGet()
 Get a file
 
 ### Required Parameters
@@ -107,8 +132,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> String (body)
+# **htmlPost**
+> String htmlPost(body)
 Test HTML handling
 
 ### Required Parameters
@@ -159,8 +184,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> serde_json::Value ()
+# **raw_jsonGet**
+> serde_json::Value raw_jsonGet()
 Get an arbitrary JSON blob.
 
 ### Required Parameters
@@ -181,8 +206,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# ****
-> (value)
+# **solo_objectPost**
+> solo_objectPost(value)
 Send an arbitrary JSON blob
 
 ### Required Parameters
