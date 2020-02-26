@@ -28,6 +28,7 @@ use {Api,
      ReadonlyAuthSchemeGetResponse,
      RequiredOctetStreamPutResponse,
      ResponsesWithHeadersGetResponse,
+     Rfc7807GetResponse,
      UntypedPropertyGetResponse,
      UuidGetResponse,
      XmlExtraPostResponse,
@@ -55,6 +56,7 @@ mod paths {
             r"^/readonly_auth_scheme$",
             r"^/required_octet_stream$",
             r"^/responses_with_headers$",
+            r"^/rfc7807$",
             r"^/untyped_property$",
             r"^/uuid$",
             r"^/xml$",
@@ -70,11 +72,12 @@ mod paths {
     pub static ID_READONLY_AUTH_SCHEME: usize = 4;
     pub static ID_REQUIRED_OCTET_STREAM: usize = 5;
     pub static ID_RESPONSES_WITH_HEADERS: usize = 6;
-    pub static ID_UNTYPED_PROPERTY: usize = 7;
-    pub static ID_UUID: usize = 8;
-    pub static ID_XML: usize = 9;
-    pub static ID_XML_EXTRA: usize = 10;
-    pub static ID_XML_OTHER: usize = 11;
+    pub static ID_RFC7807: usize = 7;
+    pub static ID_UNTYPED_PROPERTY: usize = 8;
+    pub static ID_UUID: usize = 9;
+    pub static ID_XML: usize = 10;
+    pub static ID_XML_EXTRA: usize = 11;
+    pub static ID_XML_OTHER: usize = 12;
 }
 
 pub struct MakeService<T, RC> {
@@ -700,6 +703,87 @@ where
                 }) as Self::Future
             },
 
+            // Rfc7807Get - GET /rfc7807
+            &hyper::Method::GET if path.matched(paths::ID_RFC7807) => {
+                Box::new({
+                        {{
+                                Box::new(
+                                    api_impl.rfc7807_get(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                Rfc7807GetResponse::OK
+
+                                                    (body)
+
+
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(204).expect("Unable to turn 204 into a StatusCode");
+
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::RFC7807_GET_OK)
+                                                            .expect("Unable to create Content-Type header for RFC7807_GET_OK"));
+
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                                Rfc7807GetResponse::NotFound
+
+                                                    (body)
+
+
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::RFC7807_GET_NOT_FOUND)
+                                                            .expect("Unable to create Content-Type header for RFC7807_GET_NOT_FOUND"));
+
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                                Rfc7807GetResponse::NotAcceptable
+
+                                                    (body)
+
+
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(406).expect("Unable to turn 406 into a StatusCode");
+
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str(mimetypes::responses::RFC7807_GET_NOT_ACCEPTABLE)
+                                                            .expect("Unable to create Content-Type header for RFC7807_GET_NOT_ACCEPTABLE"));
+
+                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Self::Future
+            },
+
             // UntypedPropertyGet - GET /untyped_property
             &hyper::Method::GET if path.matched(paths::ID_UNTYPED_PROPERTY) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
@@ -1262,6 +1346,9 @@ impl<T> RequestParser<T> for ApiRequestParser {
 
             // ResponsesWithHeadersGet - GET /responses_with_headers
             &hyper::Method::GET if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => Ok("ResponsesWithHeadersGet"),
+
+            // Rfc7807Get - GET /rfc7807
+            &hyper::Method::GET if path.matched(paths::ID_RFC7807) => Ok("Rfc7807Get"),
 
             // UntypedPropertyGet - GET /untyped_property
             &hyper::Method::GET if path.matched(paths::ID_UNTYPED_PROPERTY) => Ok("UntypedPropertyGet"),

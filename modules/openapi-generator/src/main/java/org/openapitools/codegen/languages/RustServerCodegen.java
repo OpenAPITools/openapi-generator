@@ -72,6 +72,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String plainTextMimeType = "text/plain";
     private static final String jsonMimeType = "application/json";
 
+    // RFC 7807 Support
+    private static final String problemJsonMimeType = "application/problem+json";
+    private static final String problemXmlMimeType = "application/problem+xml";
+
     public RustServerCodegen() {
         super();
 
@@ -524,11 +528,13 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     private boolean isMimetypeXml(String mimetype) {
-        return mimetype.toLowerCase(Locale.ROOT).startsWith(xmlMimeType);
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(xmlMimeType) ||
+               mimetype.toLowerCase(Locale.ROOT).startsWith(problemXmlMimeType);
     }
 
     private boolean isMimetypeJson(String mimetype) {
-        return mimetype.toLowerCase(Locale.ROOT).startsWith(jsonMimeType);
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(jsonMimeType) ||
+               mimetype.toLowerCase(Locale.ROOT).startsWith(problemJsonMimeType);
     }
 
     private boolean isMimetypeWwwFormUrlEncoded(String mimetype) {

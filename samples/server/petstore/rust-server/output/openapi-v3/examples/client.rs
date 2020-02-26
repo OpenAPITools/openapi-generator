@@ -21,6 +21,7 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       ReadonlyAuthSchemeGetResponse,
                       RequiredOctetStreamPutResponse,
                       ResponsesWithHeadersGetResponse,
+                      Rfc7807GetResponse,
                       UntypedPropertyGetResponse,
                       UuidGetResponse,
                       XmlExtraPostResponse,
@@ -50,6 +51,8 @@ fn main() {
                 "RequiredOctetStreamPut",
 
                 "ResponsesWithHeadersGet",
+
+                "Rfc7807Get",
 
                 "UntypedPropertyGet",
 
@@ -159,6 +162,13 @@ fn main() {
         Some("ResponsesWithHeadersGet") => {
             let mut rt = tokio::runtime::Runtime::new().unwrap();
             let result = rt.block_on(client.responses_with_headers_get(
+            ));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+
+        Some("Rfc7807Get") => {
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.rfc7807_get(
             ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

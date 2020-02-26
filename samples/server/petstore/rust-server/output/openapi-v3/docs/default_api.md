@@ -11,6 +11,7 @@ Method | HTTP request | Description
 ****](default_api.md#) | **GET** /readonly_auth_scheme | 
 ****](default_api.md#) | **PUT** /required_octet_stream | 
 ****](default_api.md#) | **GET** /responses_with_headers | 
+****](default_api.md#) | **GET** /rfc7807 | 
 ****](default_api.md#) | **GET** /untyped_property | 
 ****](default_api.md#) | **GET** /uuid | 
 ****](default_api.md#) | **POST** /xml_extra | 
@@ -189,6 +190,28 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/json, 
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# ****
+> models::ObjectWithArrayOfObjects ()
+
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**models::ObjectWithArrayOfObjects**](ObjectWithArrayOfObjects.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, application/problem+json, application/problem+xml, 
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

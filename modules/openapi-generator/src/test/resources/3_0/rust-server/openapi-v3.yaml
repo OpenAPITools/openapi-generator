@@ -246,6 +246,27 @@ paths:
       responses:
         '200':
           description: Success
+  /rfc7807:
+    get:
+      responses:
+        '204':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+        '404':
+          description: NotFound
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
+        '406':
+          description: NotAcceptable
+          content:
+            application/problem+xml:
+              schema:
+                $ref: '#/components/schemas/ObjectWithArrayOfObjects'
 
 components:
   securitySchemes:

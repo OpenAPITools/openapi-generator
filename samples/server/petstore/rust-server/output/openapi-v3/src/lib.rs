@@ -155,6 +155,21 @@ pub enum ResponsesWithHeadersGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum Rfc7807GetResponse {
+    /// OK
+    OK
+            ( models::ObjectWithArrayOfObjects )
+    ,
+    /// NotFound
+    NotFound
+            ( models::ObjectWithArrayOfObjects )
+    ,
+    /// NotAcceptable
+    NotAcceptable
+            ( models::ObjectWithArrayOfObjects )
+}
+
+#[derive(Debug, PartialEq)]
 pub enum UntypedPropertyGetResponse {
     /// Check that untyped properties works
     CheckThatUntypedPropertiesWorks
@@ -238,6 +253,9 @@ pub trait Api<C> {
     fn responses_with_headers_get(&self, context: &C) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError> + Send>;
 
 
+    fn rfc7807_get(&self, context: &C) -> Box<dyn Future<Item=Rfc7807GetResponse, Error=ApiError> + Send>;
+
+
     fn untyped_property_get(&self, object_untyped_props: Option<models::ObjectUntypedProps>, context: &C) -> Box<dyn Future<Item=UntypedPropertyGetResponse, Error=ApiError> + Send>;
 
 
@@ -283,6 +301,9 @@ pub trait ApiNoContext {
 
 
     fn responses_with_headers_get(&self) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError> + Send>;
+
+
+    fn rfc7807_get(&self) -> Box<dyn Future<Item=Rfc7807GetResponse, Error=ApiError> + Send>;
 
 
     fn untyped_property_get(&self, object_untyped_props: Option<models::ObjectUntypedProps>) -> Box<dyn Future<Item=UntypedPropertyGetResponse, Error=ApiError> + Send>;
@@ -354,6 +375,11 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
     fn responses_with_headers_get(&self) -> Box<dyn Future<Item=ResponsesWithHeadersGetResponse, Error=ApiError> + Send> {
         self.api().responses_with_headers_get(&self.context())
+    }
+
+
+    fn rfc7807_get(&self) -> Box<dyn Future<Item=Rfc7807GetResponse, Error=ApiError> + Send> {
+        self.api().rfc7807_get(&self.context())
     }
 
 
