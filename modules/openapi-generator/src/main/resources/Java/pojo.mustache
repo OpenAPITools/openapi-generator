@@ -10,6 +10,7 @@
 })
 {{/jackson}}
 {{#isLombokModel}}
+    {{>method_doc}}
     @AllArgsConstructor
     @EqualsAndHashCode
     @ToString
@@ -173,21 +174,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   {{/isMapContainer}}
 
   {{/isReadOnly}}
-   /**
-  {{#description}}
-   * {{description}}
-  {{/description}}
-  {{^description}}
-   * Get {{name}}
-  {{/description}}
-  {{#minimum}}
-   * minimum: {{minimum}}
-  {{/minimum}}
-  {{#maximum}}
-   * maximum: {{maximum}}
-  {{/maximum}}
-   * @return {{name}}
-  **/
+  {{>method_doc}}
 {{#required}}
 {{#isNullable}}
   @javax.annotation.Nullable
