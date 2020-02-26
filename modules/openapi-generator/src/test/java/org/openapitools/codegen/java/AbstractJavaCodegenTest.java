@@ -436,6 +436,18 @@ public class AbstractJavaCodegenTest {
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<NestedArray>");
 
+        // Create an array schema with item type set to the array alias
+        schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
+        schema.setUniqueItems(true);
+
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "Set<List<Integer>>");
+
+        ModelUtils.setGenerateAliasAsModel(true);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "Set<NestedArray>");
+
         // Create a map schema with additionalProperties type set to array alias
         schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
 

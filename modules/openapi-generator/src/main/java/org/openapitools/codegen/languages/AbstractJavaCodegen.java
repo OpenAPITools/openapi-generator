@@ -161,6 +161,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         "byte[]")
         );
         instantiationTypes.put("array", "ArrayList");
+        instantiationTypes.put("set", "HashSet");
         instantiationTypes.put("map", "HashMap");
         typeMapping.put("date", "Date");
         typeMapping.put("file", "File");
@@ -415,9 +416,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put("modelDocPath", modelDocPath);
 
         importMapping.put("List", "java.util.List");
+        importMapping.put("Set", "java.util.Set");
 
         if (fullJavaUtil) {
             typeMapping.put("array", "java.util.List");
+            typeMapping.put("set", "java.util.Set");
             typeMapping.put("map", "java.util.Map");
             typeMapping.put("DateTime", "java.util.Date");
             typeMapping.put("UUID", "java.util.UUID");
@@ -429,9 +432,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             importMapping.remove("ArrayList");
             importMapping.remove("List");
             importMapping.remove("Set");
+            importMapping.remove("HashSet");
             importMapping.remove("DateTime");
             importMapping.remove("UUID");
             instantiationTypes.put("array", "java.util.ArrayList");
+            instantiationTypes.put("set", "java.util.HashSet");
             instantiationTypes.put("map", "java.util.HashMap");
         }
 
@@ -760,10 +765,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         p = ModelUtils.getReferencedSchema(this.openAPI, p);
         if (ModelUtils.isArraySchema(p)) {
             final String pattern;
-            if (fullJavaUtil) {
-                pattern = "new java.util.ArrayList<%s>()";
+            if (ModelUtils.isSet(p)) {
+                if (fullJavaUtil) {
+                    pattern = "new java.util.HashSet<%s>()";
+                } else {
+                    pattern = "new HashSet<%s>()";
+                }
             } else {
-                pattern = "new ArrayList<%s>()";
+                if (fullJavaUtil) {
+                    pattern = "new java.util.ArrayList<%s>()";
+                } else {
+                    pattern = "new ArrayList<%s>()";
+                }
             }
 
             Schema<?> items = getSchemaItems((ArraySchema) p);
@@ -1010,6 +1023,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (!fullJavaUtil) {
             if ("array".equals(property.containerType)) {
                 model.imports.add("ArrayList");
+            } else if ("set".equals(property.containerType)) {
+                model.imports.add("HashSet");
             } else if ("map".equals(property.containerType)) {
                 model.imports.add("HashMap");
             }
@@ -1049,7 +1064,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // Remove imports of List, ArrayList, Map and HashMap as they are
         // imported in the template already.
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        Pattern pattern = Pattern.compile("java\\.util\\.(List|ArrayList|Map|HashMap)");
+        Pattern pattern = Pattern.compile("java\\.util\\.(List|ArrayList|Set|HashSet|Map|HashMap)");
         for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
             String itrImport = itr.next().get("import");
             if (pattern.matcher(itrImport).matches()) {

@@ -1198,8 +1198,10 @@ public class DefaultCodegen implements CodegenConfig {
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("array", "List");
+        typeMapping.put("set", "Set");
         typeMapping.put("map", "Map");
         typeMapping.put("List", "List");
+        typeMapping.put("Set", "Set");
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("string", "String");
         typeMapping.put("int", "Integer");
@@ -1235,6 +1237,7 @@ public class DefaultCodegen implements CodegenConfig {
         importMapping.put("HashMap", "java.util.HashMap");
         importMapping.put("Array", "java.util.List");
         importMapping.put("ArrayList", "java.util.ArrayList");
+        importMapping.put("HashSet", "java.util.HashSet");
         importMapping.put("List", "java.util.*");
         importMapping.put("Set", "java.util.*");
         importMapping.put("DateTime", "org.joda.time.*");
@@ -1399,7 +1402,13 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isArraySchema(schema)) {
             ArraySchema arraySchema = (ArraySchema) schema;
             String inner = getSchemaType(getSchemaItems(arraySchema));
-            return instantiationTypes.get("array") + "<" + inner + ">";
+            String parentType;
+            if (ModelUtils.isSet(schema)) {
+                parentType = "set";
+            } else {
+                parentType = "array";
+            }
+            return instantiationTypes.get(parentType) + "<" + inner + ">";
         } else {
             return null;
         }
@@ -1760,7 +1769,11 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isMapSchema(schema)) {
             return "map";
         } else if (ModelUtils.isArraySchema(schema)) {
-            return "array";
+            if (ModelUtils.isSet(schema)) {
+                return "set";
+            } else {
+                return "array";
+            }
         } else if (ModelUtils.isUUIDSchema(schema)) {
             return "UUID";
         } else if (ModelUtils.isURISchema(schema)) {
@@ -2481,7 +2494,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isArraySchema(p)) {
             property.isContainer = true;
             property.isListContainer = true;
-            property.containerType = "array";
+            if (ModelUtils.isSet(p)) {
+                property.containerType = "set";
+            } else {
+                property.containerType = "array";
+            }
             property.baseType = getSchemaType(p);
             if (p.getXml() != null) {
                 property.isXmlWrapped = p.getXml().getWrapped() == null ? false : p.getXml().getWrapped();

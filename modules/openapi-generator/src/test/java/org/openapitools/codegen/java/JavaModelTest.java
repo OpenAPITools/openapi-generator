@@ -138,6 +138,38 @@ public class JavaModelTest {
         Assert.assertTrue(property.isContainer);
     }
 
+    @Test(description = "convert a model with set property")
+    public void setPropertyTest() {
+        final Schema schema = new Schema()
+                .description("a sample model")
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("urls", new ArraySchema()
+                        .items(new StringSchema())
+                        .uniqueItems(true))
+                .addRequiredItem("id");
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 2);
+
+        final CodegenProperty property = cm.vars.get(1);
+        Assert.assertEquals(property.baseName, "urls");
+        Assert.assertEquals(property.getter, "getUrls");
+        Assert.assertEquals(property.setter, "setUrls");
+        Assert.assertEquals(property.dataType, "Set<String>");
+        Assert.assertEquals(property.name, "urls");
+        Assert.assertEquals(property.defaultValue, "new HashSet<String>()");
+        Assert.assertEquals(property.baseType, "Set");
+        Assert.assertEquals(property.containerType, "set");
+        Assert.assertFalse(property.required);
+        Assert.assertTrue(property.isContainer);
+    }
+
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
         final Schema schema = new Schema()
@@ -399,6 +431,27 @@ public class JavaModelTest {
         Assert.assertEquals(cm.parent, "ArrayList<Children>");
         Assert.assertEquals(cm.imports.size(), 4);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ApiModel", "List", "ArrayList", "Children")).size(), 4);
+    }
+
+    @Test(description = "convert a set model")
+    public void setModelTest() {
+        final Schema schema = new ArraySchema()
+                .items(new Schema().name("elobjeto").$ref("#/components/schemas/Children"))
+                .uniqueItems(true)
+                .name("arraySchema")
+                .description("an array model");
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "an array model");
+        Assert.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.parent, "HashSet<Children>");
+        Assert.assertEquals(cm.imports.size(), 4);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ApiModel", "Set", "HashSet", "Children")).size(), 4);
     }
 
     @Test(description = "convert a map model")
