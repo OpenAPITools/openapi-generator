@@ -44,6 +44,9 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     protected static final String RESERVED_WORD_PREFIX_OPTION = "reservedWordPrefix";
     protected static final String RESERVED_WORD_PREFIX_DESC = "Prefix to prepend to reserved words in order to avoid conflicts";
     protected String reservedWordPrefix = "r_";
+    protected static final String VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION = "variableNameFirstCharacterUppercase";
+    protected static final String VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC = "Make first character of variable name uppercase (eg. value -> Value)";
+    protected boolean variableNameFirstCharacterUppercase = true;
 
     public AbstractCppCodegen() {
         super();
@@ -145,6 +148,9 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         addOption(RESERVED_WORD_PREFIX_OPTION,
                 RESERVED_WORD_PREFIX_DESC,
                 this.reservedWordPrefix);
+        addOption(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION,
+                  VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
+                  Boolean.toString(this.variableNameFirstCharacterUppercase));
     }
 
     @Override
@@ -191,7 +197,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             return escapeReservedWord(name);
         }
 
-        if (name.length() > 1) {
+        if (variableNameFirstCharacterUppercase && name.length() > 1) {
             return sanitizeName(Character.toUpperCase(name.charAt(0)) + name.substring(1));
         }
 
@@ -275,6 +281,11 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         }
 
         additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);
+
+        if (additionalProperties.containsKey(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION))
+            variableNameFirstCharacterUppercase =
+                    convertPropertyToBooleanAndWriteBack(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION);
+        additionalProperties.put(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION, variableNameFirstCharacterUppercase);
     }
 
     @Override
