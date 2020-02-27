@@ -7,9 +7,9 @@ set(CMAKE_AUTOMOC ON)
 
 if (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
-else (MSVC)
+else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wno-unused-variable")
-endif (MSVC)
+endif ()
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Network REQUIRED){{#contentCompression}}
