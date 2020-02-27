@@ -3,8 +3,7 @@ package org.openapitools.virtualan.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -26,7 +25,7 @@ public class CatAllOf   {
    * Get declawed
    * @return declawed
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Boolean getDeclawed() {

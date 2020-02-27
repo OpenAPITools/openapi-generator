@@ -398,7 +398,7 @@ public class JavaModelTest {
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "ArrayList<Children>");
         Assert.assertEquals(cm.imports.size(), 3);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("List", "ArrayList", "Children")).size(), 3);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet( "List", "ArrayList", "Children")).size(), 3);
     }
 
     @Test(description = "convert a map model")

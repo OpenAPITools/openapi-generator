@@ -4,9 +4,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnum;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -184,7 +183,7 @@ public class EnumTest   {
    * Get enumString
    * @return enumString
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public EnumStringEnum getEnumString() {
@@ -204,7 +203,7 @@ public class EnumTest   {
    * Get enumStringRequired
    * @return enumStringRequired
   */
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @NotNull
 
 
@@ -225,7 +224,7 @@ public class EnumTest   {
    * Get enumInteger
    * @return enumInteger
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public EnumIntegerEnum getEnumInteger() {
@@ -245,7 +244,7 @@ public class EnumTest   {
    * Get enumNumber
    * @return enumNumber
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public EnumNumberEnum getEnumNumber() {
@@ -265,7 +264,7 @@ public class EnumTest   {
    * Get outerEnum
    * @return outerEnum
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 

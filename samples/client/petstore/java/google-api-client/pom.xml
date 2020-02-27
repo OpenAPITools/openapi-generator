@@ -196,7 +196,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.swagger</groupId>
+            <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
@@ -255,7 +255,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        <swagger-annotations-version>2.1.1</swagger-annotations-version>
         <google-api-client-version>1.30.2</google-api-client-version>
         <jersey-common-version>2.25.1</jersey-common-version>
         <jackson-version>2.10.1</jackson-version>

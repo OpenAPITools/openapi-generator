@@ -196,7 +196,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.swagger</groupId>
+            <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
@@ -265,7 +265,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        <swagger-annotations-version>2.1.1</swagger-annotations-version>
         <spring-web-version>4.3.9.RELEASE</spring-web-version>
         <jackson-version>2.10.1</jackson-version>
         <jackson-databind-version>2.10.1</jackson-databind-version>

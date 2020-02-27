@@ -2,7 +2,8 @@ package org.openapitools.api;
 
 import java.util.List;
 import org.openapitools.model.User;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

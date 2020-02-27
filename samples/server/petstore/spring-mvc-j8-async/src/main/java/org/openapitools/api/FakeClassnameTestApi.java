@@ -6,7 +6,12 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Client;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +34,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Validated
-@Api(value = "fake_classname_test", description = "the fake_classname_test API")
+@Tag(name = "fake_classname_test", description = "the fake_classname_test API")
 public interface FakeClassnameTestApi {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -43,16 +48,15 @@ public interface FakeClassnameTestApi {
      * @param body client model (required)
      * @return successful operation (status code 200)
      */
-    @ApiOperation(value = "To test class name in snake case", nickname = "testClassname", notes = "To test class name in snake case", response = Client.class, authorizations = {
-        @Authorization(value = "api_key_query")
-    }, tags={ "fake_classname_tags 123#$%^", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    @RequestMapping(value = "/fake_classname_test",
+    @Operation(summary = "To test class name in snake case", description = "To test class name in snake case",
+     tags={ "fake_classname_tags 123#$%^", },
+    responses  = { 
+            @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = Client.class))  )}  )  })
+        @RequestMapping(value = "/fake_classname_test",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default CompletableFuture<ResponseEntity<Client>> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
+    default CompletableFuture<ResponseEntity<Client>> testClassname(@Parameter(description = "client model" ,required=true )  @Valid @RequestBody Client body) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

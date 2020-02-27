@@ -6,7 +6,12 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Client;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 @Validated
-@Api(value = "another-fake", description = "the another-fake API")
+@Tag(name = "another-fake", description = "the another-fake API")
 public interface AnotherFakeApi {
 
     default AnotherFakeApiDelegate getDelegate() {
@@ -41,14 +46,15 @@ public interface AnotherFakeApi {
      * @param body client model (required)
      * @return successful operation (status code 200)
      */
-    @ApiOperation(value = "To test special tags", nickname = "call123testSpecialTags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    @RequestMapping(value = "/another-fake/dummy",
+    @Operation(summary = "To test special tags", description = "To test special tags and operation ID starting with number",
+     tags={ "$another-fake?", },
+    responses  = { 
+            @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = Client.class))  )}  )  })
+        @RequestMapping(value = "/another-fake/dummy",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default Mono<ResponseEntity<Client>> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Client>> call123testSpecialTags(@Parameter(description = "client model" ,required=true )  @Valid @RequestBody Mono<Client> body, ServerWebExchange exchange) {
         return getDelegate().call123testSpecialTags(body, exchange);
     }
 
