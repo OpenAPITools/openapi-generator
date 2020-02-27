@@ -37,9 +37,9 @@ export class {{classname}} extends BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
-    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> 
+    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>
     {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>
-    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}ResponseWithExtras<{{{returnType}}}>{{/returnType}}{{^returnType}}void | ResponseWithExtras<void>{{/returnType}}> 
+    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}ResponseWithExtras<{{{returnType}}}>{{/returnType}}{{^returnType}}void | ResponseWithExtras<void>{{/returnType}}>
     {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}{{{returnType}}} | ResponseWithExtras<{{{returnType}}}>{{/returnType}}{{^returnType}}void | ResponseWithExtras<void>{{/returnType}}> {
         {{#hasParams}}
         {{#allParams}}
@@ -207,9 +207,9 @@ export class {{classname}} extends BaseAPI {
             body: formData,
             {{/hasFormParams}}
 {{#isResponseFile}}
-            responseType: 'blob'
+            responseType: 'blob',
 {{/isResponseFile}}
-            progressSubscriber: opts?.progressSubscriber
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 

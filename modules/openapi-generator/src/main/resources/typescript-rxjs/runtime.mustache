@@ -67,7 +67,7 @@ export class BaseAPI {
     withPostMiddleware = (postMiddlewares: Array<Middleware['post']>) =>
         this.withMiddleware(postMiddlewares.map((post) => ({ post })));
 
-    protected request<T>(requestOpts: RequestOpts): Observable<T> 
+    protected request<T>(requestOpts: RequestOpts): Observable<T>
     protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<ResponseWithExtras<T>>
     protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<T | ResponseWithExtras<T>> {
         return this.rxjsRequest(this.createRequestArgs(requestOpts)).pipe(
