@@ -36,12 +36,12 @@ export class Configuration {
 
     get apiKey(): ((name: string) => string) | undefined {
         const { apiKey } = this.configuration;
-        return apiKey && (typeof apiKey === 'function' ? apiKey : () => apiKey);
+        return apiKey ? (typeof apiKey === 'string' ? () => apiKey : apiKey) : undefined;
     }
 
     get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
         const { accessToken } = this.configuration;
-        return accessToken && (typeof accessToken === 'function' ? accessToken : () => accessToken);
+        return accessToken ? (typeof accessToken === 'string' ? () => accessToken : accessToken) : undefined;
     }
 }
 
