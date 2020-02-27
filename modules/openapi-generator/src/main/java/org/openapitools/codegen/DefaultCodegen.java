@@ -67,6 +67,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -124,7 +125,6 @@ public class DefaultCodegen implements CodegenConfig {
                 .build();
     }
 
-    protected FeatureSet featureSet;
     protected GeneratorMetadata generatorMetadata;
     protected String inputSpec;
     protected String outputFolder = "";
@@ -1289,10 +1289,9 @@ public class DefaultCodegen implements CodegenConfig {
             codegenType = CodegenType.OTHER;
         }
 
-        featureSet = DefaultFeatureSet;
-
         generatorMetadata = GeneratorMetadata.newBuilder()
                 .stability(Stability.STABLE)
+                .featureSet(DefaultFeatureSet)
                 .generationMessage(String.format(Locale.ROOT, "OpenAPI Generator: %s (%s)", getName(), codegenType.toValue()))
                 .build();
 
@@ -5675,12 +5674,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public FeatureSet getFeatureSet() {
-        return this.featureSet;
-    }
-
-    @Override
-    public void setFeatureSet(final FeatureSet featureSet) {
-        this.featureSet = featureSet == null ? DefaultFeatureSet : featureSet;
+        return this.generatorMetadata.getFeatureSet();
     }
 
     /**
@@ -5745,4 +5739,11 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {}
     //// End of methods related to the "useOneOfInterfaces" feature
+
+    protected void modifyFeatureSet(Consumer<FeatureSet.Builder> processor) {
+        FeatureSet.Builder builder = getFeatureSet().modify();
+        processor.accept(builder);
+        this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .featureSet(builder.build()).build();
+    }
 }

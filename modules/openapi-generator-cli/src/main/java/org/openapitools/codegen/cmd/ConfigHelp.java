@@ -268,7 +268,7 @@ public class ConfigHelp implements Runnable {
         if (Boolean.TRUE.equals(featureSets)) {
             sb.append(newline).append("## FEATURE SET").append(newline).append(newline);
 
-            List<FeatureSet.FeatureSetFlattened> flattened = config.getFeatureSet().flatten();
+            List<FeatureSet.FeatureSetFlattened> flattened = config.getGeneratorMetadata().getFeatureSet().flatten();
             flattened.sort(Comparator.comparing(FeatureSet.FeatureSetFlattened::getFeatureCategory));
 
             AtomicReference<String> lastCategory = new AtomicReference<>();
@@ -385,7 +385,7 @@ public class ConfigHelp implements Runnable {
         if (Boolean.TRUE.equals(featureSets)) {
             sb.append(newline).append("FEATURE SET").append(newline);
 
-            List<FeatureSet.FeatureSetFlattened> flattened = config.getFeatureSet().flatten();
+            List<FeatureSet.FeatureSetFlattened> flattened = config.getGeneratorMetadata().getFeatureSet().flatten();
             flattened.sort(Comparator.comparing(FeatureSet.FeatureSetFlattened::getFeatureCategory));
 
             AtomicReference<String> lastCategory = new AtomicReference<>();

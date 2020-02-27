@@ -63,7 +63,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     public MysqlSchemaCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.noneOf(WireFormatFeature.class))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -77,7 +77,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                         SchemaSupportFeature.Polymorphism
                 )
                 .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
-                .build();
+        );
         // clear import mapping (from default generator) as mysql does not use import directives
         importMapping.clear();
 

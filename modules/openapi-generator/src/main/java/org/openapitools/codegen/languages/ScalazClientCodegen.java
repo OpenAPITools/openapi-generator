@@ -45,7 +45,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
     public ScalazClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .excludeGlobalFeatures(
@@ -60,7 +60,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         outputFolder = "generated-code/scalaz";
         embeddedTemplateDir = templateDir = "scalaz";

@@ -29,7 +29,7 @@ public class ProtobufSchemaCodegenTest {
     @Test
     public void testFeatureSet() {
         final ProtobufSchemaCodegen codegen = new ProtobufSchemaCodegen();
-        FeatureSet featureSet = codegen.getFeatureSet();
+        FeatureSet featureSet = codegen.getGeneratorMetadata().getFeatureSet();
 
         Assert.assertTrue(featureSet.getWireFormatFeatures().contains(WireFormatFeature.PROTOBUF));
         Assert.assertEquals(featureSet.getWireFormatFeatures().size(), 1);

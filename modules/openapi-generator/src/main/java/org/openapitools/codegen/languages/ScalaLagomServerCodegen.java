@@ -39,7 +39,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
     public ScalaLagomServerCodegen() {
         super();
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -55,7 +55,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         outputFolder = "generated-code/scala-lagom-server";
         modelTemplateFiles.put("model.mustache", ".scala");

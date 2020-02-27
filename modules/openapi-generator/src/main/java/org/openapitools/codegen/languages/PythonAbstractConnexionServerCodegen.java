@@ -65,9 +65,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
     public PythonAbstractConnexionServerCodegen(String templateDirectory, boolean fixBodyNameValue) {
         super();
 
-        featureSet = getFeatureSet().modify()
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .build();
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         fixBodyName = fixBodyNameValue;
         modelPackage = "models";

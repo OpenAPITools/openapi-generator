@@ -69,7 +69,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         super();
 
         // TODO: cpp-pistache-server maintainer review
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .excludeGlobalFeatures(
@@ -85,7 +85,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         if (StringUtils.isEmpty(modelNamePrefix)) {
             modelNamePrefix = PREFIX;

@@ -64,7 +64,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         super();
 
         // TODO: Clojure maintainer review
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .excludeDocumentationFeatures(
                         DocumentationFeature.Readme
                 )
@@ -80,7 +80,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
                         SchemaSupportFeature.Polymorphism,
                         SchemaSupportFeature.Union
                 )
-                .build();
+        );
 
         outputFolder = "generated-code" + File.separator + "clojure";
         modelTemplateFiles.put("spec.mustache", ".clj");

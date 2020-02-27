@@ -53,7 +53,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public PythonClientExperimentalCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -74,7 +74,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+         );
 
         // this may set datatype right for additional properties
         instantiationTypes.put("map", "dict");

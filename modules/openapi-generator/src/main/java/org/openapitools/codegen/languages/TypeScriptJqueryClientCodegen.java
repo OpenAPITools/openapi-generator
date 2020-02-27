@@ -40,9 +40,7 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
     public TypeScriptJqueryClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .build();
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         modelTemplateFiles.put("model.mustache", ".ts");
         apiTemplateFiles.put("api.mustache", ".ts");

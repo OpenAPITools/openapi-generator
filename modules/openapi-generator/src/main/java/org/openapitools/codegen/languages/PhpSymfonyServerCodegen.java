@@ -82,7 +82,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     public PhpSymfonyServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -95,7 +95,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
-                .build();
+        );
         
         // clear import mapping (from default generator) as php does not use it
         // at the moment

@@ -31,7 +31,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
     public ScalatraServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -47,7 +47,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+         );
 
         outputFolder = "generated-code/scalatra";
         modelTemplateFiles.put("model.mustache", ".scala");

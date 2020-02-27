@@ -62,7 +62,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     public DartJaguarClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
@@ -84,7 +84,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         browserClient = false;
         outputFolder = "generated-code/dart-jaguar";

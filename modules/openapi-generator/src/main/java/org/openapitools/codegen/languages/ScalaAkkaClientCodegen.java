@@ -57,7 +57,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     public ScalaAkkaClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -81,7 +81,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
                 )
-                .build();
+        );
 
         outputFolder = "generated-code/scala-akka";
         modelTemplateFiles.put("model.mustache", ".scala");
