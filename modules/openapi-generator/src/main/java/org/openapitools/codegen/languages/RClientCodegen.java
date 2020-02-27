@@ -406,7 +406,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return camelize(sanitizedOperationId);
+        return underscore(sanitizedOperationId);
     }
 
     @Override
