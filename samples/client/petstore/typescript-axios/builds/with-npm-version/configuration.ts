@@ -12,7 +12,7 @@
  */
 
 
-import AxiosRequestConfig from 'axios';
+import { AxiosRequestConfig } from 'axios';
 
 export interface ConfigurationParameters {
     apiKey?: string | ((name: string) => string);
