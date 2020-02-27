@@ -12,7 +12,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { BaseAPI, HttpHeaders, throwIfNullOrUndefined, encodeURI } from '../runtime';
+import { BaseAPI, HttpHeaders, throwIfNullOrUndefined, encodeURI, OperationOpts, ResponseWithExtras } from '../runtime';
 import {
     Order,
 } from '../models';
@@ -38,20 +38,27 @@ export class StoreApi extends BaseAPI {
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
      */
-    deleteOrder = ({ orderId }: DeleteOrderRequest): Observable<void> => {
+    deleteOrder({ orderId }: DeleteOrderRequest): Observable<void> 
+    deleteOrder({ orderId }: DeleteOrderRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
+    deleteOrder({ orderId }: DeleteOrderRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> 
+    deleteOrder({ orderId }: DeleteOrderRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> {
         throwIfNullOrUndefined(orderId, 'deleteOrder');
 
         return this.request<void>({
             path: '/store/order/{orderId}'.replace('{orderId}', encodeURI(orderId)),
             method: 'DELETE',
-        });
+            progressSubscriber: opts?.progressSubscriber
+        }, opts?.responseOpts);
     };
 
     /**
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    getInventory = (): Observable<{ [key: string]: number; }> => {
+    getInventory(): Observable<{ [key: string]: number; }> 
+    getInventory(opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<{ [key: string]: number; }>
+    getInventory(opts?: OperationOpts): Observable<ResponseWithExtras<{ [key: string]: number; }>> 
+    getInventory(opts?: OperationOpts): Observable<{ [key: string]: number; } | ResponseWithExtras<{ [key: string]: number; }>> {
         const headers: HttpHeaders = {
             ...(this.configuration.apiKey && { 'api_key': this.configuration.apiKey('api_key') }), // api_key authentication
         };
@@ -60,26 +67,34 @@ export class StoreApi extends BaseAPI {
             path: '/store/inventory',
             method: 'GET',
             headers,
-        });
+            progressSubscriber: opts?.progressSubscriber
+        }, opts?.responseOpts);
     };
 
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      */
-    getOrderById = ({ orderId }: GetOrderByIdRequest): Observable<Order> => {
+    getOrderById({ orderId }: GetOrderByIdRequest): Observable<Order> 
+    getOrderById({ orderId }: GetOrderByIdRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<Order>
+    getOrderById({ orderId }: GetOrderByIdRequest, opts?: OperationOpts): Observable<ResponseWithExtras<Order>> 
+    getOrderById({ orderId }: GetOrderByIdRequest, opts?: OperationOpts): Observable<Order | ResponseWithExtras<Order>> {
         throwIfNullOrUndefined(orderId, 'getOrderById');
 
         return this.request<Order>({
             path: '/store/order/{orderId}'.replace('{orderId}', encodeURI(orderId)),
             method: 'GET',
-        });
+            progressSubscriber: opts?.progressSubscriber
+        }, opts?.responseOpts);
     };
 
     /**
      * Place an order for a pet
      */
-    placeOrder = ({ body }: PlaceOrderRequest): Observable<Order> => {
+    placeOrder({ body }: PlaceOrderRequest): Observable<Order> 
+    placeOrder({ body }: PlaceOrderRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<Order>
+    placeOrder({ body }: PlaceOrderRequest, opts?: OperationOpts): Observable<ResponseWithExtras<Order>> 
+    placeOrder({ body }: PlaceOrderRequest, opts?: OperationOpts): Observable<Order | ResponseWithExtras<Order>> {
         throwIfNullOrUndefined(body, 'placeOrder');
 
         const headers: HttpHeaders = {
@@ -91,7 +106,8 @@ export class StoreApi extends BaseAPI {
             method: 'POST',
             headers,
             body: body,
-        });
+            progressSubscriber: opts?.progressSubscriber
+        }, opts?.responseOpts);
     };
 
 }

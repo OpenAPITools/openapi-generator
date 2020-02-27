@@ -12,7 +12,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { BaseAPI, HttpHeaders, HttpQuery, throwIfNullOrUndefined, encodeURI, COLLECTION_FORMATS } from '../runtime';
+import { BaseAPI, HttpHeaders, HttpQuery, throwIfNullOrUndefined, encodeURI, COLLECTION_FORMATS, OperationOpts, ResponseWithExtras } from '../runtime';
 import {
     ApiResponse,
     Pet,
@@ -63,7 +63,10 @@ export class PetApi extends BaseAPI {
     /**
      * Add a new pet to the store
      */
-    addPet = ({ body }: AddPetRequest): Observable<void> => {
+    addPet({ body }: AddPetRequest): Observable<void> 
+    addPet({ body }: AddPetRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
+    addPet({ body }: AddPetRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> 
+    addPet({ body }: AddPetRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> {
         throwIfNullOrUndefined(body, 'addPet');
 
         const headers: HttpHeaders = {
@@ -82,13 +85,17 @@ export class PetApi extends BaseAPI {
             method: 'POST',
             headers,
             body: body,
-        });
+            progressSubscriber: opts?.progressSubscriber
+        }, opts?.responseOpts);
     };
 
     /**
      * Deletes a pet
      */
-    deletePet = ({ petId, apiKey }: DeletePetRequest): Observable<void> => {
+    deletePet({ petId, apiKey }: DeletePetRequest): Observable<void> 
+    deletePet({ petId, apiKey }: DeletePetRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
+    deletePet({ petId, apiKey }: DeletePetRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> 
+    deletePet({ petId, apiKey }: DeletePetRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> {
         throwIfNullOrUndefined(petId, 'deletePet');
 
         const headers: HttpHeaders = {
@@ -106,14 +113,18 @@ export class PetApi extends BaseAPI {
             path: '/pet/{petId}'.replace('{petId}', encodeURI(petId)),
             method: 'DELETE',
             headers,
-        });
+            progressSubscriber: opts?.progressSubscriber
+        }, opts?.responseOpts);
     };
 
     /**
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
      */
-    findPetsByStatus = ({ status }: FindPetsByStatusRequest): Observable<Array<Pet>> => {
+    findPetsByStatus({ status }: FindPetsByStatusRequest): Observable<Array<Pet>> 
+    findPetsByStatus({ status }: FindPetsByStatusRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<Array<Pet>>
+    findPetsByStatus({ status }: FindPetsByStatusRequest, opts?: OperationOpts): Observable<ResponseWithExtras<Array<Pet>>> 
+    findPetsByStatus({ status }: FindPetsByStatusRequest, opts?: OperationOpts): Observable<Array<Pet> | ResponseWithExtras<Array<Pet>>> {
         throwIfNullOrUndefined(status, 'findPetsByStatus');
 
         const headers: HttpHeaders = {
@@ -135,14 +146,18 @@ export class PetApi extends BaseAPI {
             method: 'GET',
             headers,
             query,
-        });
+            progressSubscriber: opts?.progressSubscriber
+        }, opts?.responseOpts);
     };
 
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      */
-    findPetsByTags = ({ tags }: FindPetsByTagsRequest): Observable<Array<Pet>> => {
+    findPetsByTags({ tags }: FindPetsByTagsRequest): Observable<Array<Pet>> 
+    findPetsByTags({ tags }: FindPetsByTagsRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<Array<Pet>>
+    findPetsByTags({ tags }: FindPetsByTagsRequest, opts?: OperationOpts): Observable<ResponseWithExtras<Array<Pet>>> 
+    findPetsByTags({ tags }: FindPetsByTagsRequest, opts?: OperationOpts): Observable<Array<Pet> | ResponseWithExtras<Array<Pet>>> {
         throwIfNullOrUndefined(tags, 'findPetsByTags');
 
         const headers: HttpHeaders = {
@@ -164,14 +179,18 @@ export class PetApi extends BaseAPI {
             method: 'GET',
             headers,
             query,
-        });
+            progressSubscriber: opts?.progressSubscriber
+        }, opts?.responseOpts);
     };
 
     /**
      * Returns a single pet
      * Find pet by ID
      */
-    getPetById = ({ petId }: GetPetByIdRequest): Observable<Pet> => {
+    getPetById({ petId }: GetPetByIdRequest): Observable<Pet> 
+    getPetById({ petId }: GetPetByIdRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<Pet>
+    getPetById({ petId }: GetPetByIdRequest, opts?: OperationOpts): Observable<ResponseWithExtras<Pet>> 
+    getPetById({ petId }: GetPetByIdRequest, opts?: OperationOpts): Observable<Pet | ResponseWithExtras<Pet>> {
         throwIfNullOrUndefined(petId, 'getPetById');
 
         const headers: HttpHeaders = {
@@ -182,13 +201,17 @@ export class PetApi extends BaseAPI {
             path: '/pet/{petId}'.replace('{petId}', encodeURI(petId)),
             method: 'GET',
             headers,
-        });
+            progressSubscriber: opts?.progressSubscriber
+        }, opts?.responseOpts);
     };
 
     /**
      * Update an existing pet
      */
-    updatePet = ({ body }: UpdatePetRequest): Observable<void> => {
+    updatePet({ body }: UpdatePetRequest): Observable<void> 
+    updatePet({ body }: UpdatePetRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
+    updatePet({ body }: UpdatePetRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> 
+    updatePet({ body }: UpdatePetRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> {
         throwIfNullOrUndefined(body, 'updatePet');
 
         const headers: HttpHeaders = {
@@ -207,13 +230,17 @@ export class PetApi extends BaseAPI {
             method: 'PUT',
             headers,
             body: body,
-        });
+            progressSubscriber: opts?.progressSubscriber
+        }, opts?.responseOpts);
     };
 
     /**
      * Updates a pet in the store with form data
      */
-    updatePetWithForm = ({ petId, name, status }: UpdatePetWithFormRequest): Observable<void> => {
+    updatePetWithForm({ petId, name, status }: UpdatePetWithFormRequest): Observable<void> 
+    updatePetWithForm({ petId, name, status }: UpdatePetWithFormRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
+    updatePetWithForm({ petId, name, status }: UpdatePetWithFormRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> 
+    updatePetWithForm({ petId, name, status }: UpdatePetWithFormRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> {
         throwIfNullOrUndefined(petId, 'updatePetWithForm');
 
         const headers: HttpHeaders = {
@@ -235,13 +262,17 @@ export class PetApi extends BaseAPI {
             method: 'POST',
             headers,
             body: formData,
-        });
+            progressSubscriber: opts?.progressSubscriber
+        }, opts?.responseOpts);
     };
 
     /**
      * uploads an image
      */
-    uploadFile = ({ petId, additionalMetadata, file }: UploadFileRequest): Observable<ApiResponse> => {
+    uploadFile({ petId, additionalMetadata, file }: UploadFileRequest): Observable<ApiResponse> 
+    uploadFile({ petId, additionalMetadata, file }: UploadFileRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<ApiResponse>
+    uploadFile({ petId, additionalMetadata, file }: UploadFileRequest, opts?: OperationOpts): Observable<ResponseWithExtras<ApiResponse>> 
+    uploadFile({ petId, additionalMetadata, file }: UploadFileRequest, opts?: OperationOpts): Observable<ApiResponse | ResponseWithExtras<ApiResponse>> {
         throwIfNullOrUndefined(petId, 'uploadFile');
 
         const headers: HttpHeaders = {
@@ -263,7 +294,8 @@ export class PetApi extends BaseAPI {
             method: 'POST',
             headers,
             body: formData,
-        });
+            progressSubscriber: opts?.progressSubscriber
+        }, opts?.responseOpts);
     };
 
 }

@@ -11,7 +11,7 @@
  * Do not edit the class manually.
  */
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscriber } from 'rxjs';
 import { ajax, AjaxRequest, AjaxResponse } from 'rxjs/ajax';
 import { map, concatMap } from 'rxjs/operators';
 
@@ -30,11 +30,11 @@ export class Configuration {
     constructor(private configuration: ConfigurationParameters = {}) {}
 
     get basePath(): string {
-        return this.configuration.basePath || BASE_PATH;
+        return this.configuration.basePath ?? BASE_PATH;
     }
 
     get middleware(): Middleware[] {
-        return this.configuration.middleware || [];
+        return this.configuration.middleware ?? [];
     }
 
     get username(): string | undefined {
@@ -84,15 +84,19 @@ export class BaseAPI {
     withPostMiddleware = (postMiddlewares: Array<Middleware['post']>) =>
         this.withMiddleware(postMiddlewares.map((post) => ({ post })));
 
-    protected request = <T>(requestOpts: RequestOpts): Observable<T> =>
-        this.rxjsRequest(this.createRequestArgs(requestOpts)).pipe(
+    protected request<T>(requestOpts: RequestOpts): Observable<T> 
+    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<ResponseWithExtras<T>>
+    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<T | ResponseWithExtras<T>> {
+        return this.rxjsRequest(this.createRequestArgs(requestOpts)).pipe(
             map((res) => {
-                if (res.status >= 200 && res.status < 300) {
-                    return res.response as T;
+                const { status, response } = res;
+                if (status >= 200 && status < 300) {
+                    return responseOpts?.withStatusCode ? { data: response, statusCode: status } : response;
                 }
                 throw res;
             })
         );
+    }
 
     private createRequestArgs = (requestOpts: RequestOpts): RequestArgs => {
         let url = this.configuration.basePath + requestOpts.path;
@@ -108,7 +112,7 @@ export class BaseAPI {
             method: requestOpts.method,
             headers: requestOpts.headers,
             body: requestOpts.body instanceof FormData ? requestOpts.body : JSON.stringify(requestOpts.body),
-            responseType: requestOpts.responseType || 'json',
+            responseType: requestOpts.responseType ?? 'json',
         };
     }
 
@@ -164,6 +168,21 @@ export interface RequestOpts {
     query?: HttpQuery;
     body?: HttpBody;
     responseType?: 'json' | 'blob' | 'arraybuffer' | 'text';
+    progressSubscriber?: Subscriber<ProgressEvent>;
+}
+
+export interface ResponseOpts {
+    withStatusCode?: boolean;
+}
+
+export interface OperationOpts {
+    progressSubscriber?: Subscriber<ProgressEvent>;
+    responseOpts?: ResponseOpts;
+}
+
+export interface ResponseWithExtras<T> {
+    data: T;
+    statusCode: number;
 }
 
 export const encodeURI = (value: any) => encodeURIComponent(String(value));
