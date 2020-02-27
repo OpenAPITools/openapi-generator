@@ -12,13 +12,15 @@
  */
 
 
+import AxiosRequestConfig from 'axios';
+
 export interface ConfigurationParameters {
     apiKey?: string | ((name: string) => string);
     username?: string;
     password?: string;
     accessToken?: string | ((name?: string, scopes?: string[]) => string);
     basePath?: string;
-    baseOptions?: any;
+    baseOptions?: AxiosRequestConfig;
 }
 
 export class Configuration {
@@ -62,7 +64,7 @@ export class Configuration {
      * @type {any}
      * @memberof Configuration
      */
-    baseOptions?: any;
+    baseOptions?: AxiosRequestConfig;
 
     constructor(param: ConfigurationParameters = {}) {
         this.apiKey = param.apiKey;
