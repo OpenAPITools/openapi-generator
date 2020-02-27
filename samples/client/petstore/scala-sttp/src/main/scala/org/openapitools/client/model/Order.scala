@@ -16,10 +16,9 @@ import org.openapitools.client.core.ApiModel
 
   /**
    * Pet Order
-   * 
    * An order for a pets from the pet store
    */
-case class Order (
+case class Order(
   id: Option[Long] = None,
   petId: Option[Long] = None,
   quantity: Option[Int] = None,

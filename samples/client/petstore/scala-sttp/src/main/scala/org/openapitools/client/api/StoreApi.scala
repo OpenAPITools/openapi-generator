@@ -42,8 +42,6 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .contentType("application/json")
       .response(asJson[Unit])
 
-
-
   /**
    * Returns a map of status codes to quantities
    * 
@@ -59,8 +57,6 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .contentType("application/json")
       .header("api_key", apiKey.value)
       .response(asJson[Map[String, Int]])
-
-
 
   /**
    * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -78,8 +74,6 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .contentType("application/json")
       .response(asJson[Order])
 
-
-
   /**
    * Expected answers:
    *   code 200 : Order (successful operation)
@@ -93,9 +87,6 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .contentType("application/json")
       .body(order)
       .response(asJson[Order])
-
-
-
 
 }
 

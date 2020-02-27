@@ -43,8 +43,6 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .body(pet)
       .response(asJson[Pet])
 
-
-
   /**
    * Expected answers:
    *   code 400 :  (Invalid pet value)
@@ -58,8 +56,6 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .contentType("application/json")
       .header("api_key", apiKey)
       .response(asJson[Unit])
-
-
 
   /**
    * Multiple status values can be provided with comma separated strings
@@ -76,8 +72,6 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .contentType("application/json")
       .response(asJson[Seq[Pet]])
 
-
-
   /**
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * 
@@ -92,8 +86,6 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .method(Method.GET, uri"$baseUrl/pet/findByTags?tags=$tags")
       .contentType("application/json")
       .response(asJson[Seq[Pet]])
-
-
 
   /**
    * Returns a single pet
@@ -115,8 +107,6 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .header("api_key", apiKey.value)
       .response(asJson[Pet])
 
-
-
   /**
    * Expected answers:
    *   code 200 : Pet (successful operation)
@@ -132,8 +122,6 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .contentType("application/json")
       .body(pet)
       .response(asJson[Pet])
-
-
 
   /**
    * Expected answers:
@@ -153,8 +141,6 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       ))
       .response(asJson[Unit])
 
-
-
   /**
    * Expected answers:
    *   code 200 : ApiResponse (successful operation)
@@ -172,9 +158,6 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
         "file" -> file,
       ))
       .response(asJson[ApiResponse])
-
-
-
 
 }
 

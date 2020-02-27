@@ -30,6 +30,10 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
             additionalProperties.put("modelPackage", modelPackage);
         }
 
+        if (!additionalProperties.containsKey("java8")) {
+            additionalProperties.put("joda", "true");
+        }
+
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
@@ -38,6 +42,7 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         supportingFiles.add(new SupportingFile("apiInvoker.mustache", invokerFolder, "ApiInvoker.scala"));
         final String apiFolder = (sourceFolder + File.separator + apiPackage).replace(".", File.separator);
         supportingFiles.add(new SupportingFile("enumsSerializers.mustache", apiFolder, "EnumsSerializers.scala"));
+        supportingFiles.add(new SupportingFile("serializers.mustache", invokerFolder, "Serializers.scala"));
     }
 
     @Override

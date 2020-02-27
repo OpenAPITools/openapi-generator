@@ -15,10 +15,9 @@ import org.openapitools.client.core.ApiModel
 
   /**
    * a User
-   * 
    * A User who is purchasing from the pet store
    */
-case class User (
+case class User(
   id: Option[Long] = None,
   username: Option[String] = None,
   firstName: Option[String] = None,

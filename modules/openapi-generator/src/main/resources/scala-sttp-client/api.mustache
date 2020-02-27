@@ -36,22 +36,7 @@ class {{classname}}(baseUrl: String)(implicit serializer: SttpSerializer) {
       .body({{paramName}}){{/bodyParam}}
       .response(asJson[{{>operationReturnType}}])
 
-
-{{#x-skip-this}}
-
-
-      {{#authMethods}}{{#isApiKey}}.withApiKey(apiKey, "{{keyParamName}}", {{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInCookie}}COOKIE{{/isKeyInCookie}})
-      {{/isApiKey}}{{#isBasic}}{{#isBasicBasic}}.withCredentials(basicAuth){{/isBasicBasic}}{{#isBasicBearer}}.withCredentials(bearerToken){{/isBasicBearer}}{{/isBasic}}{{/authMethods}}
-
-{{#responses}}{{^isWildcard}}{{#dataType}}.with{{>responseState}}Response[{{dataType}}]({{code}})
-      {{/dataType}}{{^dataType}}.with{{>responseState}}Response[Unit]({{code}})
-      {{/dataType}}{{/isWildcard}}{{/responses}}{{#responses}}{{#isWildcard}}{{#dataType}}.withDefault{{>responseState}}Response[{{dataType}}]
-      {{/dataType}}{{^dataType}}.withDefault{{>responseState}}Response[Unit]
-      {{/dataType}}{{/isWildcard}}{{/responses}}
-{{/x-skip-this}}
-
 {{/operation}}
-
 }
 
 {{/operations}}

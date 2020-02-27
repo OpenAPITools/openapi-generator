@@ -46,8 +46,6 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .body(user)
       .response(asJson[Unit])
 
-
-
   /**
    * Expected answers:
    *   code 0 :  (successful operation)
@@ -65,8 +63,6 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .body(user)
       .response(asJson[Unit])
 
-
-
   /**
    * Expected answers:
    *   code 0 :  (successful operation)
@@ -83,8 +79,6 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .cookie("AUTH_KEY", apiKey.value)
       .body(user)
       .response(asJson[Unit])
-
-
 
   /**
    * This can only be done by the logged in user.
@@ -105,8 +99,6 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .cookie("AUTH_KEY", apiKey.value)
       .response(asJson[Unit])
 
-
-
   /**
    * Expected answers:
    *   code 200 : User (successful operation)
@@ -120,8 +112,6 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .method(Method.GET, uri"$baseUrl/user/${username}")
       .contentType("application/json")
       .response(asJson[User])
-
-
 
   /**
    * Expected answers:
@@ -141,8 +131,6 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .contentType("application/json")
       .response(asJson[String])
 
-
-
   /**
    * Expected answers:
    *   code 0 :  (successful operation)
@@ -156,8 +144,6 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .contentType("application/json")
       .cookie("AUTH_KEY", apiKey.value)
       .response(asJson[Unit])
-
-
 
   /**
    * This can only be done by the logged in user.
@@ -179,9 +165,6 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .cookie("AUTH_KEY", apiKey.value)
       .body(user)
       .response(asJson[Unit])
-
-
-
 
 }
 

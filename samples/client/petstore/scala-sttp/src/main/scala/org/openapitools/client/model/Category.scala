@@ -15,10 +15,9 @@ import org.openapitools.client.core.ApiModel
 
   /**
    * Pet category
-   * 
    * A category for a pet
    */
-case class Category (
+case class Category(
   id: Option[Long] = None,
   name: Option[String] = None
 ) extends ApiModel

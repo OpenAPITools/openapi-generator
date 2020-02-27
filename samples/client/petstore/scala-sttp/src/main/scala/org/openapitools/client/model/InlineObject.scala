@@ -13,7 +13,7 @@ package org.openapitools.client.model
 
 import org.openapitools.client.core.ApiModel
 
-case class InlineObject (
+case class InlineObject(
   /* Updated name of the pet */
   name: Option[String] = None,
   /* Updated status of the pet */

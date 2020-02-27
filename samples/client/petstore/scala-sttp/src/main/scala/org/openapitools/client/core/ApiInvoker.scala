@@ -11,20 +11,17 @@
  */
 package org.openapitools.client.core
 
-import org.joda.time.DateTime
-import org.joda.time.format.ISODateTimeFormat
-import org.json4s.JsonAST.JString
 import org.json4s._
 import sttp.client._
+import sttp.model.StatusCode
 import org.openapitools.client.api.EnumsSerializers
-import org.openapitools.client.core.ApiInvoker.DateTimeSerializer
 import sttp.client.json4s.SttpJson4sApi
 import sttp.client.monad.MonadError
 
-class SttpSerializer(implicit val format: Formats = DefaultFormats ++ EnumsSerializers.all + DateTimeSerializer,
+class SttpSerializer(implicit val format: Formats = DefaultFormats ++ EnumsSerializers.all ++ Serializers.all,
                      implicit val serialization: org.json4s.Serialization = org.json4s.jackson.Serialization) extends SttpJson4sApi
 
-class HttpException(val statusCode: Int, val statusText: String, val message: String) extends Exception(s"[$statusCode] $statusText: $message")
+class HttpException(val statusCode: StatusCode, val statusText: String, val message: String) extends Exception(s"[$statusCode] $statusText: $message")
 
 object Helpers {
 
@@ -53,20 +50,11 @@ object ApiInvoker {
       ME.flatMap(responseT) {
         response =>
           response.body match {
-            case Left(ex) => ME.error[T](new HttpException(response.code.code, response.statusText, ex.body))
+            case Left(ex) => ME.error[T](new HttpException(response.code, response.statusText, ex.body))
             case Right(value) => ME.unit(value)
           }
       }
     }
   }
-
-  case object DateTimeSerializer extends CustomSerializer[DateTime](_ => ( {
-    case JString(s) =>
-      ISODateTimeFormat.dateOptionalTimeParser().parseDateTime(s)
-  }, {
-    case d: DateTime =>
-      JString(ISODateTimeFormat.dateTime().print(d))
-  })
-  )
 
 }
