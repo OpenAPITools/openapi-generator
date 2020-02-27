@@ -47,18 +47,12 @@ export class Configuration {
 
     get apiKey(): ((name: string) => string) | undefined {
         const apiKey = this.configuration.apiKey;
-        if (!apiKey) {
-            return undefined;
-        }
-        return typeof apiKey === 'string' ? () => apiKey : apiKey;
+        return apiKey && (typeof apiKey === 'function' ? apiKey : () => apiKey);
     }
 
     get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
         const accessToken = this.configuration.accessToken;
-        if (!accessToken) {
-            return undefined;
-        }
-        return typeof accessToken === 'string' ? () => accessToken : accessToken;
+        return accessToken && (typeof accessToken === 'function' ? accessToken : () => accessToken);
     }
 }
 
@@ -113,6 +107,7 @@ export class BaseAPI {
             headers: requestOpts.headers,
             body: requestOpts.body instanceof FormData ? requestOpts.body : JSON.stringify(requestOpts.body),
             responseType: requestOpts.responseType ?? 'json',
+            progressSubscriber: requestOpts.progressSubscriber,
         };
     }
 
