@@ -56,9 +56,9 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Create user
      */
-    createUser({ body }: CreateUserRequest): Observable<void> 
+    createUser({ body }: CreateUserRequest): Observable<void>
     createUser({ body }: CreateUserRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
-    createUser({ body }: CreateUserRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> 
+    createUser({ body }: CreateUserRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>>
     createUser({ body }: CreateUserRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> {
         throwIfNullOrUndefined(body, 'createUser');
 
@@ -71,16 +71,16 @@ export class UserApi extends BaseAPI {
             method: 'POST',
             headers,
             body: body,
-            progressSubscriber: opts?.progressSubscriber
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
     /**
      * Creates list of users with given input array
      */
-    createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest): Observable<void> 
+    createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest): Observable<void>
     createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
-    createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> 
+    createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>>
     createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> {
         throwIfNullOrUndefined(body, 'createUsersWithArrayInput');
 
@@ -93,16 +93,16 @@ export class UserApi extends BaseAPI {
             method: 'POST',
             headers,
             body: body,
-            progressSubscriber: opts?.progressSubscriber
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
     /**
      * Creates list of users with given input array
      */
-    createUsersWithListInput({ body }: CreateUsersWithListInputRequest): Observable<void> 
+    createUsersWithListInput({ body }: CreateUsersWithListInputRequest): Observable<void>
     createUsersWithListInput({ body }: CreateUsersWithListInputRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
-    createUsersWithListInput({ body }: CreateUsersWithListInputRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> 
+    createUsersWithListInput({ body }: CreateUsersWithListInputRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>>
     createUsersWithListInput({ body }: CreateUsersWithListInputRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> {
         throwIfNullOrUndefined(body, 'createUsersWithListInput');
 
@@ -115,7 +115,7 @@ export class UserApi extends BaseAPI {
             method: 'POST',
             headers,
             body: body,
-            progressSubscriber: opts?.progressSubscriber
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -123,41 +123,41 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Delete user
      */
-    deleteUser({ username }: DeleteUserRequest): Observable<void> 
+    deleteUser({ username }: DeleteUserRequest): Observable<void>
     deleteUser({ username }: DeleteUserRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
-    deleteUser({ username }: DeleteUserRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> 
+    deleteUser({ username }: DeleteUserRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>>
     deleteUser({ username }: DeleteUserRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> {
         throwIfNullOrUndefined(username, 'deleteUser');
 
         return this.request<void>({
             path: '/user/{username}'.replace('{username}', encodeURI(username)),
             method: 'DELETE',
-            progressSubscriber: opts?.progressSubscriber
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
     /**
      * Get user by user name
      */
-    getUserByName({ username }: GetUserByNameRequest): Observable<User> 
+    getUserByName({ username }: GetUserByNameRequest): Observable<User>
     getUserByName({ username }: GetUserByNameRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<User>
-    getUserByName({ username }: GetUserByNameRequest, opts?: OperationOpts): Observable<ResponseWithExtras<User>> 
+    getUserByName({ username }: GetUserByNameRequest, opts?: OperationOpts): Observable<ResponseWithExtras<User>>
     getUserByName({ username }: GetUserByNameRequest, opts?: OperationOpts): Observable<User | ResponseWithExtras<User>> {
         throwIfNullOrUndefined(username, 'getUserByName');
 
         return this.request<User>({
             path: '/user/{username}'.replace('{username}', encodeURI(username)),
             method: 'GET',
-            progressSubscriber: opts?.progressSubscriber
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
     /**
      * Logs user into the system
      */
-    loginUser({ username, password }: LoginUserRequest): Observable<string> 
+    loginUser({ username, password }: LoginUserRequest): Observable<string>
     loginUser({ username, password }: LoginUserRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<string>
-    loginUser({ username, password }: LoginUserRequest, opts?: OperationOpts): Observable<ResponseWithExtras<string>> 
+    loginUser({ username, password }: LoginUserRequest, opts?: OperationOpts): Observable<ResponseWithExtras<string>>
     loginUser({ username, password }: LoginUserRequest, opts?: OperationOpts): Observable<string | ResponseWithExtras<string>> {
         throwIfNullOrUndefined(username, 'loginUser');
         throwIfNullOrUndefined(password, 'loginUser');
@@ -171,21 +171,21 @@ export class UserApi extends BaseAPI {
             path: '/user/login',
             method: 'GET',
             query,
-            progressSubscriber: opts?.progressSubscriber
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
     /**
      * Logs out current logged in user session
      */
-    logoutUser(): Observable<void> 
+    logoutUser(): Observable<void>
     logoutUser(opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
-    logoutUser(opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> 
+    logoutUser(opts?: OperationOpts): Observable<void | ResponseWithExtras<void>>
     logoutUser(opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> {
         return this.request<void>({
             path: '/user/logout',
             method: 'GET',
-            progressSubscriber: opts?.progressSubscriber
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -193,9 +193,9 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Updated user
      */
-    updateUser({ username, body }: UpdateUserRequest): Observable<void> 
+    updateUser({ username, body }: UpdateUserRequest): Observable<void>
     updateUser({ username, body }: UpdateUserRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
-    updateUser({ username, body }: UpdateUserRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> 
+    updateUser({ username, body }: UpdateUserRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>>
     updateUser({ username, body }: UpdateUserRequest, opts?: OperationOpts): Observable<void | ResponseWithExtras<void>> {
         throwIfNullOrUndefined(username, 'updateUser');
         throwIfNullOrUndefined(body, 'updateUser');
@@ -209,7 +209,7 @@ export class UserApi extends BaseAPI {
             method: 'PUT',
             headers,
             body: body,
-            progressSubscriber: opts?.progressSubscriber
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
