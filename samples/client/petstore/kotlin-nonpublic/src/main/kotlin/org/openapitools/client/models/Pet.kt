@@ -46,7 +46,6 @@ internal data class Pet (
     * Values: available,pending,sold
     */
     
-    
     internal enum class Status(val value: kotlin.String){
         @Json(name = "available") available("available"),
         @Json(name = "pending") pending("pending"),

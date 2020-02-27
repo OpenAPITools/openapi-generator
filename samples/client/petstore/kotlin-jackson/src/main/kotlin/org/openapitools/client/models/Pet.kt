@@ -15,7 +15,6 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonFormat
 /**
  * A pet for sale in the pet store
  * @param name 
@@ -47,7 +46,6 @@ data class Pet (
     * Values: AVAILABLE,PENDING,SOLD
     */
     
-    @JsonFormat(shape = JsonFormat.Shape.NATURAL)
     enum class Status(val value: kotlin.String){
         @JsonProperty(value="available") AVAILABLE("available"),
         @JsonProperty(value="pending") PENDING("pending"),

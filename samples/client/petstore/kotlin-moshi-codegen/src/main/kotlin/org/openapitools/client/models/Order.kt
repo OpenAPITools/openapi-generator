@@ -45,7 +45,6 @@ data class Order (
     * Values: placed,approved,delivered
     */
     
-    
     enum class Status(val value: kotlin.String){
         @Json(name = "placed") placed("placed"),
         @Json(name = "approved") approved("approved"),

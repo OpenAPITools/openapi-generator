@@ -39,7 +39,6 @@ data class Order (
     * Values: placed,approved,delivered
     */
     @Serializable(with = Status.Serializer::class)
-    
     enum class Status(val value: kotlin.String){
         placed("placed"),
         approved("approved"),

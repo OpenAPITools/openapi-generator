@@ -13,7 +13,6 @@ package org.openapitools.client.models
 
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonFormat
 /**
  * A User who is purchasing from the pet store
  * @param id 
