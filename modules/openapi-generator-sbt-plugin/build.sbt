@@ -38,7 +38,8 @@ bintrayOrganization := Some("sbt")
 bintrayRepository := "sbt-plugins"
 bintrayReleaseOnPublish in ThisBuild := false
 
-crossSbtVersions := List("0.13.17", "1.1.5")
+crossScalaVersions := Seq(scalaVersion.value, "2.11.12")
+crossSbtVersions := List("0.13.17", "1.3.8")
 
 libraryDependencies += "org.openapitools" % "openapi-generator" % version.value
 
