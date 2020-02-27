@@ -96,6 +96,7 @@ export class BaseAPI {
             headers: requestOpts.headers,
             body: requestOpts.body instanceof FormData ? requestOpts.body : JSON.stringify(requestOpts.body),
             responseType: requestOpts.responseType ?? 'json',
+            progressSubscriber: requestOpts.progressSubscriber,
         };
     }
 
