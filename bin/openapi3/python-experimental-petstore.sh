@@ -28,7 +28,7 @@ fi
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 #yaml="modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml"
-yaml="modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-httpsig-cmpsdschemas.yaml"
+yaml="modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml"
 ags="generate -t modules/openapi-generator/src/main/resources/python -i $yaml -g python-experimental -o samples/openapi3/client/petstore/python-experimental/ --additional-properties packageName=petstore_api $@"
 
 java $JAVA_OPTS -jar $executable $ags
