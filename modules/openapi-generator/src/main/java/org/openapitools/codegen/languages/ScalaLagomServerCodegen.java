@@ -120,83 +120,17 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "HashMap");
-
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING,
-                CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
-            setModelPropertyNaming(
-                    (String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
-        }
-    }
-
-    public void setModelPropertyNaming(String naming) {
-        if ("original".equals(naming) || "camelCase".equals(naming) ||
-                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
-            this.modelPropertyNaming = naming;
-        } else {
-            throw new IllegalArgumentException("Invalid model property naming '" +
-                    naming + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
-        }
-    }
-
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
-    }
-
-    @Override
-    public String toVarName(String name) {
-        // sanitize name
-        name = sanitizeName(
-                name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        if ("_".equals(name)) {
-            name = "_u";
-        }
-
-        // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
-            return name;
-        }
-
-        name = getNameUsingModelPropertyNaming(name);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-
-        return name;
     }
 
     @Override
     public String toParamName(String name) {
         // should be the same as variable name
         return toVarName(name);
-    }
-
-    private String getNameUsingModelPropertyNaming(String name) {
-        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
-            case original:
-                return name;
-            case camelCase:
-                return camelize(name, true);
-            case PascalCase:
-                return camelize(name);
-            case snake_case:
-                return underscore(name);
-            default:
-                throw new IllegalArgumentException("Invalid model property naming '" +
-                        name + "'. Must be 'original', 'camelCase', " +
-                        "'PascalCase' or 'snake_case'");
-        }
-
     }
 
     @Override
