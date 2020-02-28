@@ -7,12 +7,22 @@
 
 import Foundation
 
-public struct TypeHolderDefault: Codable {
+@objc public class TypeHolderDefault: NSObject, Codable {
 
     public var stringItem: String = "what"
     public var numberItem: Double
     public var integerItem: Int
+    public var integerItemNum: NSNumber? {
+        get {
+            return integerItem as NSNumber?
+        }
+    }
     public var boolItem: Bool = true
+    public var boolItemNum: NSNumber? {
+        get {
+            return boolItem as NSNumber?
+        }
+    }
     public var arrayItem: [Int]
 
     public init(stringItem: String, numberItem: Double, integerItem: Int, boolItem: Bool, arrayItem: [Int]) {

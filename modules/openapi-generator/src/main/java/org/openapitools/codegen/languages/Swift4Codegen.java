@@ -148,7 +148,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 Arrays.asList(
                         // Added for Objective-C compatibility
                         "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
-                        "NSError", "NSDictionary"
+                        "NSError", "NSDictionary",
+                        // Cannot override with a stored property 'className'
+                        "className"
                         )
                 );
 
