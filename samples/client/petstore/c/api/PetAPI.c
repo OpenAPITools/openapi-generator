@@ -49,25 +49,11 @@ cJSON *item = cJSON_CreateObject();
 
 status_e STATUS_parseFromJSON(cJSON *STATUSJSON){
 
-status_e *STATUS = NULL;
-
+status_e STATUSVariable = 0;
 return STATUSVariable;
 end:
 return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

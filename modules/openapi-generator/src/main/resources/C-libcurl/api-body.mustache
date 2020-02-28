@@ -57,9 +57,7 @@ cJSON *item = cJSON_CreateObject();
 
 {{baseName}}_e {{enumName}}_parseFromJSON(cJSON *{{enumName}}JSON){
 
-{{baseName}}_e *{{enumName}} = NULL;
-
-{{#isEnum}}
+{{{baseName}}}_e {{enumName}}Variable = 0;
 {{#isNumeric}}
 cJSON *{{{enumName}}}Var = cJSON_GetObjectItemCaseSensitive({{enumName}}JSON, "{{{paramName}}}");
 if(!cJSON_IsNumber({{{enumName}}}Var))
@@ -68,14 +66,12 @@ if(!cJSON_IsNumber({{{enumName}}}Var))
 }
 {{/isNumeric}}
 {{#isString}}
-{{{baseName}}}_e {{enumName}}Variable;
 cJSON *{{{enumName}}}Var = cJSON_GetObjectItemCaseSensitive({{enumName}}JSON, "{{{paramName}}}");
 if(!cJSON_IsString({{{enumName}}}Var) || ({{{enumName}}}Var->valuestring == NULL)){
     goto end;
 }
 {{enumName}}Variable = {{enumName}}_FromString({{{enumName}}}Var->valuestring);
 {{/isString}}
-{{/isEnum}}
 return {{enumName}}Variable;
 end:
 return 0;
@@ -85,19 +81,6 @@ return 0;
 {{/allParams}}
 {{/operation}}
 {{/operations}}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 {{#operations}}
