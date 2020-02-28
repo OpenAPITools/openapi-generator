@@ -82,7 +82,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public AbstractTypeScriptClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.noneOf(
@@ -100,7 +100,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment

@@ -85,7 +85,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public KotlinSpringServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
@@ -105,7 +105,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         reservedWords.addAll(VARIABLE_RESERVED_WORDS);
 

@@ -59,7 +59,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     public ScalaPlayFrameworkServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -75,7 +75,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         outputFolder = "generated-code" + File.separator + "scala-play-server";
         modelTemplateFiles.put("model.mustache", ".scala");

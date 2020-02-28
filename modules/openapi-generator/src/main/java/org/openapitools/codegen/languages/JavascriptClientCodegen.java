@@ -94,9 +94,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public JavascriptClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .build();
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         outputFolder = "generated-code/js";
         modelTemplateFiles.put("model.mustache", ".js");

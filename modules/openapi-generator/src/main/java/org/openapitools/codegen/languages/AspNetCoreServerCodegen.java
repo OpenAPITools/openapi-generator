@@ -89,7 +89,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         super();
 
         // TODO: AspnetCore community review
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .excludeWireFormatFeatures(WireFormatFeature.PROTOBUF)
                 .includeSecurityFeatures(
@@ -117,7 +117,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         outputFolder = "generated-code" + File.separator + getName();
 

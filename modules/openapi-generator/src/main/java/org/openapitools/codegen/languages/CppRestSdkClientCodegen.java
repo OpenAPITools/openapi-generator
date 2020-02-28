@@ -80,7 +80,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         super();
 
         // TODO: cpp-restsdk maintainer review
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
@@ -100,7 +100,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.model";

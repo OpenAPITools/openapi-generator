@@ -55,7 +55,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
                 .stability(Stability.DEPRECATED)
                 .build();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -74,7 +74,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         outputFolder = "generated-code/scala-http-client";
         modelTemplateFiles.put("model.mustache", ".scala");

@@ -47,7 +47,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         super();
 
         // TODO: cpp-restbed-server maintainer review
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .excludeGlobalFeatures(
@@ -63,7 +63,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";

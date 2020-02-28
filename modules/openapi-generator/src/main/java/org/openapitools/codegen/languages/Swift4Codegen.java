@@ -78,7 +78,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public Swift4Codegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
@@ -97,7 +97,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");
