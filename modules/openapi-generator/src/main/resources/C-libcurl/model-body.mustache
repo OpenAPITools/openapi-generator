@@ -423,7 +423,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     if({{{name}}} == NULL) {
         goto fail; //primitive map container
     }
-    cJSON *localMapObject = cJSON_CreateObject(); //Memory free to be implemented in user code
+    cJSON *localMapObject = {{{name}}};
     listEntry_t *{{{name}}}ListEntry;
     if ({{{classname}}}->{{{name}}}) {
     list_ForEach({{{name}}}ListEntry, {{{classname}}}->{{{name}}}) {
@@ -442,7 +442,6 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
         }
         {{/isString}}
         {{/items}}
-        cJSON_AddItemToObject({{{name}}},"", localMapObject);
     }
     }
     {{/isMapContainer}}
@@ -643,22 +642,24 @@ fail:
     keyValuePair_t *localMapKeyPair;
     cJSON_ArrayForEach({{{name}}}_local_map, {{{name}}})
     {
+		cJSON *localMapObject = {{{name}}}_local_map;
+        {{#items}}
         {{#isString}}
-        if(!cJSON_IsString({{{name}}}_local_map))
+        if(!cJSON_IsString(localMapObject))
         {
             goto end;
         }
-        localMapKeyPair = keyValuePair_create(strdup({{{name}}}_local_map->string),strdup({{{name}}}_local_map->valuestring))
-        list_addElement({{{name}}}List , localMapKeyPair);
+        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
         {{/isString}}
         {{^isString}}
-        if(!cJSON_IsNumber({{{name}}}_local_map))
+        if(!cJSON_IsNumber(localMapObject))
         {
             goto end;
         }
-        localMapKeyPair = keyValuePair_create(strdup({{{name}}}_local_map->string),&{{{name}}}_local_map->valuedouble );
-        list_addElement({{{name}}}List , localMapKeyPair);
+        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),&localMapObject->valuedouble );
         {{/isString}}
+		{{/items}}
+        list_addElement({{{name}}}List , localMapKeyPair);
     }
     {{/isMapContainer}}
     {{/isContainer}}

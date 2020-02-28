@@ -26,7 +26,7 @@ pet_t *pet_create(
     long id,
     category_t *category,
     char *name,
-    list_t *photoUrls,
+    list_t *photo_urls,
     list_t *tags,
     status_e status
     ) {
@@ -37,7 +37,7 @@ pet_t *pet_create(
     pet_local_var->id = id;
     pet_local_var->category = category;
     pet_local_var->name = name;
-    pet_local_var->photoUrls = photoUrls;
+    pet_local_var->photo_urls = photo_urls;
     pet_local_var->tags = tags;
     pet_local_var->status = status;
 
@@ -49,10 +49,10 @@ void pet_free(pet_t *pet) {
     listEntry_t *listEntry;
     category_free(pet->category);
     free(pet->name);
-    list_ForEach(listEntry, pet->photoUrls) {
+    list_ForEach(listEntry, pet->photo_urls) {
         free(listEntry->data);
     }
-    list_free(pet->photoUrls);
+    list_free(pet->photo_urls);
     list_ForEach(listEntry, pet->tags) {
         tag_free(listEntry->data);
     }
@@ -94,8 +94,8 @@ cJSON *pet_convertToJSON(pet_t *pet) {
     }
 
 
-    // pet->photoUrls
-    if (!pet->photoUrls) {
+    // pet->photo_urls
+    if (!pet->photo_urls) {
         goto fail;
     }
     
@@ -105,7 +105,7 @@ cJSON *pet_convertToJSON(pet_t *pet) {
     }
 
     listEntry_t *photo_urlsListEntry;
-    list_ForEach(photo_urlsListEntry, pet->photoUrls) {
+    list_ForEach(photo_urlsListEntry, pet->photo_urls) {
     if(cJSON_AddStringToObject(photo_urls, "", (char*)photo_urlsListEntry->data) == NULL)
     {
         goto fail;
@@ -181,21 +181,21 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
     goto end; //String
     }
 
-    // pet->photoUrls
-    cJSON *photoUrls = cJSON_GetObjectItemCaseSensitive(petJSON, "photoUrls");
-    if (!photoUrls) {
+    // pet->photo_urls
+    cJSON *photo_urls = cJSON_GetObjectItemCaseSensitive(petJSON, "photoUrls");
+    if (!photo_urls) {
         goto end;
     }
 
     list_t *photo_urlsList;
     
     cJSON *photo_urls_local;
-    if(!cJSON_IsArray(photoUrls)) {
+    if(!cJSON_IsArray(photo_urls)) {
         goto end;//primitive container
     }
     photo_urlsList = list_create();
 
-    cJSON_ArrayForEach(photo_urls_local, photoUrls)
+    cJSON_ArrayForEach(photo_urls_local, photo_urls)
     {
         if(!cJSON_IsString(photo_urls_local))
         {
