@@ -225,7 +225,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
                         insideCurly--;
 
                         // Add the more complicated component instead of just the brace.
-                        pathBuffer.append(toVarName(parameterName.toString()));
+                        pathBuffer.append(toParamName(parameterName.toString()));
                         pathBuffer.append("))}");
                         parameterName.setLength(0);
                         break;

@@ -456,7 +456,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
                         // Add the more complicated component instead of just the brace.
                         CodegenParameter parameter = findPathParameterByName(op, parameterName.toString());
-                        pathBuffer.append(toVarName(parameterName.toString()));
+                        pathBuffer.append(toParamName(parameterName.toString()));
                         if (parameter != null && parameter.isDateTime) {
                             pathBuffer.append(".toISOString()");
                         }
