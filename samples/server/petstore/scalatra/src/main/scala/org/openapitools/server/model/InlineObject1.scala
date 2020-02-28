@@ -10,12 +10,13 @@
  */
 
 package org.openapitools.server.model
+import java.io.File
 
-case class ApiResponse(
-  code: Option[Int],
+case class InlineObject1(
+  /* Additional data to pass to server */
+  additionalMetadata: Option[String],
 
-  `type`: Option[String],
-
-  message: Option[String]
+  /* file to upload */
+  file: Option[File]
 
  )

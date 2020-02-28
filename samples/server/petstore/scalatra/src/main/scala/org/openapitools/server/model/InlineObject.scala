@@ -11,11 +11,11 @@
 
 package org.openapitools.server.model
 
-case class ApiResponse(
-  code: Option[Int],
+case class InlineObject(
+  /* Updated name of the pet */
+  name: Option[String],
 
-  `type`: Option[String],
-
-  message: Option[String]
+  /* Updated status of the pet */
+  status: Option[String]
 
  )
