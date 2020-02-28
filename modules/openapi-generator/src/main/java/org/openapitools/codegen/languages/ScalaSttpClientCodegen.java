@@ -1,3 +1,20 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ * Copyright 2018 SmartBear Software
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
@@ -5,6 +22,8 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 
 import java.io.File;
 import java.util.List;
@@ -14,6 +33,9 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
 
     public ScalaSttpClientCodegen() {
         super();
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
     }
 
 
@@ -52,13 +74,13 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
 
     @Override
     public String getHelp() {
-        return "Generates a Scala client library base on Sttp.";
+        return "Generates a Scala client library based on Sttp.";
     }
 
     @Override
     public String encodePath(String input) {
         String result = super.encodePath(input);
-        return result.replace("{","${");
+        return result.replace("{", "${");
     }
 
     @Override

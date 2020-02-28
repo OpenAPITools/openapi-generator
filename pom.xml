@@ -1383,6 +1383,7 @@
                 <module>samples/openapi3/client/petstore/ruby</module>
                 <!-- test java-related projects -->
                 <!--<module>samples/client/petstore/scala-akka</module>-->
+                <module>samples/openapi3/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/java/feign</module>
