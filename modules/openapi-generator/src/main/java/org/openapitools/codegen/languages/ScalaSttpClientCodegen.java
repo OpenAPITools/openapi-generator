@@ -35,8 +35,10 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
                 .build();
-    }
 
+        embeddedTemplateDir = templateDir = "scala-sttp";
+        outputFolder = "generated-code/scala-sttp";
+    }
 
     @Override
     public void processOpts() {
@@ -73,7 +75,7 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
 
     @Override
     public String getHelp() {
-        return "Generates a Scala client library based on Sttp.";
+        return "Generates a Scala client library (beta) based on Sttp.";
     }
 
     @Override
