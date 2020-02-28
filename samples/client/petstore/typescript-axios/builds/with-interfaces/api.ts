@@ -259,7 +259,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(body: Pet, options: any = {}): RequestArgs {
+        addPet(body: Pet, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling addPet.');
@@ -307,7 +307,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePet(petId: number, apiKey?: string, options: any = {}): RequestArgs {
+        deletePet(petId: number, apiKey?: string, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'petId' is not null or undefined
             if (petId === null || petId === undefined) {
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling deletePet.');
@@ -355,7 +355,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options: any = {}): RequestArgs {
+        findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'status' is not null or undefined
             if (status === null || status === undefined) {
                 throw new RequiredError('status','Required parameter status was null or undefined when calling findPetsByStatus.');
@@ -402,7 +402,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByTags(tags: Array<string>, options: any = {}): RequestArgs {
+        findPetsByTags(tags: Array<string>, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'tags' is not null or undefined
             if (tags === null || tags === undefined) {
                 throw new RequiredError('tags','Required parameter tags was null or undefined when calling findPetsByTags.');
@@ -449,7 +449,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPetById(petId: number, options: any = {}): RequestArgs {
+        getPetById(petId: number, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'petId' is not null or undefined
             if (petId === null || petId === undefined) {
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling getPetById.');
@@ -492,7 +492,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(body: Pet, options: any = {}): RequestArgs {
+        updatePet(body: Pet, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling updatePet.');
@@ -541,7 +541,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePetWithForm(petId: number, name?: string, status?: string, options: any = {}): RequestArgs {
+        updatePetWithForm(petId: number, name?: string, status?: string, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'petId' is not null or undefined
             if (petId === null || petId === undefined) {
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling updatePetWithForm.');
@@ -599,7 +599,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile(petId: number, additionalMetadata?: string, file?: any, options: any = {}): RequestArgs {
+        uploadFile(petId: number, additionalMetadata?: string, file?: any, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'petId' is not null or undefined
             if (petId === null || petId === undefined) {
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling uploadFile.');
@@ -1088,7 +1088,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteOrder(orderId: string, options: any = {}): RequestArgs {
+        deleteOrder(orderId: string, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'orderId' is not null or undefined
             if (orderId === null || orderId === undefined) {
                 throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling deleteOrder.');
@@ -1122,7 +1122,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInventory(options: any = {}): RequestArgs {
+        getInventory(options: AxiosRequestConfig = {}): RequestArgs {
             const localVarPath = `/store/inventory`;
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
@@ -1160,7 +1160,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderById(orderId: number, options: any = {}): RequestArgs {
+        getOrderById(orderId: number, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'orderId' is not null or undefined
             if (orderId === null || orderId === undefined) {
                 throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling getOrderById.');
@@ -1195,7 +1195,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(body: Order, options: any = {}): RequestArgs {
+        placeOrder(body: Order, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling placeOrder.');
@@ -1458,7 +1458,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser(body: User, options: any = {}): RequestArgs {
+        createUser(body: User, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling createUser.');
@@ -1496,7 +1496,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithArrayInput(body: Array<User>, options: any = {}): RequestArgs {
+        createUsersWithArrayInput(body: Array<User>, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling createUsersWithArrayInput.');
@@ -1534,7 +1534,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithListInput(body: Array<User>, options: any = {}): RequestArgs {
+        createUsersWithListInput(body: Array<User>, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling createUsersWithListInput.');
@@ -1572,7 +1572,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteUser(username: string, options: any = {}): RequestArgs {
+        deleteUser(username: string, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'username' is not null or undefined
             if (username === null || username === undefined) {
                 throw new RequiredError('username','Required parameter username was null or undefined when calling deleteUser.');
@@ -1607,7 +1607,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserByName(username: string, options: any = {}): RequestArgs {
+        getUserByName(username: string, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'username' is not null or undefined
             if (username === null || username === undefined) {
                 throw new RequiredError('username','Required parameter username was null or undefined when calling getUserByName.');
@@ -1643,7 +1643,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        loginUser(username: string, password: string, options: any = {}): RequestArgs {
+        loginUser(username: string, password: string, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'username' is not null or undefined
             if (username === null || username === undefined) {
                 throw new RequiredError('username','Required parameter username was null or undefined when calling loginUser.');
@@ -1688,7 +1688,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        logoutUser(options: any = {}): RequestArgs {
+        logoutUser(options: AxiosRequestConfig = {}): RequestArgs {
             const localVarPath = `/user/logout`;
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
@@ -1719,7 +1719,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(username: string, body: User, options: any = {}): RequestArgs {
+        updateUser(username: string, body: User, options: AxiosRequestConfig = {}): RequestArgs {
             // verify required parameter 'username' is not null or undefined
             if (username === null || username === undefined) {
                 throw new RequiredError('username','Required parameter username was null or undefined when calling updateUser.');

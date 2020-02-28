@@ -3,7 +3,7 @@
 {{>licenseInfo}}
 
 import * as globalImportUrl from 'url';
-import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
+import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { Configuration } from '{{apiRelativeToRoot}}configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -34,7 +34,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: any = {}): RequestArgs {
+        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: AxiosRequestConfig = {}): RequestArgs {
     {{#allParams}}
     {{#required}}
             // verify required parameter '{{paramName}}' is not null or undefined
