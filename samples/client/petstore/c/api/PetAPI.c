@@ -11,6 +11,84 @@
     snprintf(dst, 256, "%ld", (long int)(src));\
 }while(0)
 
+
+
+
+
+
+
+
+// Functions for enum STATUS for PetAPI_findPetsByStatus
+
+
+char* STATUS_ToString(status_e STATUS){
+char *STATUSArray[] =  { "available","pending","sold" };
+    return STATUSArray[STATUS];
+}
+
+status_e STATUS_FromString(char* STATUS){
+    int stringToReturn = 0;
+    char *STATUSArray[] =  { "available","pending","sold" };
+    size_t sizeofArray = sizeof(STATUSArray) / sizeof(STATUSArray[0]);
+    while(stringToReturn < sizeofArray) {
+        if(strcmp(STATUS, STATUSArray[stringToReturn]) == 0) {
+            return stringToReturn;
+        }
+        stringToReturn++;
+    }
+    return 0;
+}
+
+cJSON *STATUS_convertToJSON(status_e STATUS) {
+cJSON *item = cJSON_CreateObject();
+    return item;
+    fail:
+    cJSON_Delete(item);
+    return NULL;
+}
+
+status_e STATUS_parseFromJSON(cJSON *STATUSJSON){
+
+status_e *STATUS = NULL;
+
+return STATUSVariable;
+end:
+return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Add a new pet to the store
 //
 void

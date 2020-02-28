@@ -4,12 +4,12 @@
 #include "order.h"
 
 
-    char* statusorder_ToString(status_e status){
+    char* statusorder_ToString(order_status_e status){
     char *statusArray[] =  { "placed","approved","delivered" };
         return statusArray[status];
     }
 
-    status_e statusorder_FromString(char* status){
+    order_status_e statusorder_FromString(char* status){
     int stringToReturn = 0;
     char *statusArray[] =  { "placed","approved","delivered" };
     size_t sizeofArray = sizeof(statusArray) / sizeof(statusArray[0]);
@@ -27,7 +27,7 @@ order_t *order_create(
     long pet_id,
     int quantity,
     char *ship_date,
-    status_e status,
+    order_status_e status,
     int complete
     ) {
     order_t *order_local_var = malloc(sizeof(order_t));
@@ -152,7 +152,7 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->status
     cJSON *status = cJSON_GetObjectItemCaseSensitive(orderJSON, "status");
-    status_e statusVariable;
+    order_status_e statusVariable;
     if (status) { 
     if(!cJSON_IsString(status))
     {

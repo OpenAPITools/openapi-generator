@@ -8,6 +8,46 @@
 #include "../model/pet.h"
 
 
+
+
+
+
+
+
+
+// Enum STATUS for PetAPI_findPetsByStatus
+
+typedef enum  {  STATUS_available, STATUS_pending, STATUS_sold } status_e;
+
+char* STATUS_ToString(status_e STATUS);
+
+status_e STATUS_FromString(char* STATUS);
+
+cJSON *STATUS_convertToJSON(status_e STATUS);
+
+status_e STATUS_parseFromJSON(cJSON *STATUSJSON);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Add a new pet to the store
 //
 void

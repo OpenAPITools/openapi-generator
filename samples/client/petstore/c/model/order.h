@@ -12,11 +12,11 @@
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
 
-                typedef enum  {  placed, approved, delivered } status_e;
+                typedef enum  {  order_STATUS_placed, order_STATUS_approved, order_STATUS_delivered } order_status_e;
 
-        char* status_ToString(status_e status);
+        char* order_status_ToString(order_status_e status);
 
-        status_e status_FromString(char* status);
+        order_status_e order_status_FromString(char* status);
 
 
 typedef struct order_t {
@@ -24,7 +24,7 @@ typedef struct order_t {
     long pet_id; //numeric
     int quantity; //numeric
     char *ship_date; //date time
-    status_e status; //enum
+    order_status_e status; //enum
     int complete; //boolean
 
 } order_t;
@@ -34,7 +34,7 @@ order_t *order_create(
     long pet_id,
     int quantity,
     char *ship_date,
-    status_e status,
+    order_status_e status,
     int complete
 );
 

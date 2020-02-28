@@ -10,6 +10,32 @@
 
 {{#operations}}
 {{#operation}}
+{{#allParams}}
+
+{{#isEnum}}
+// Enum {{enumName}} for {{{classname}}}_{{{operationId}}}
+
+{{#allowableValues}}
+typedef enum  { {{#enumVars}} {{enumName}}_{{{value}}}{{#first}} = 0{{/first}}{{^-last}},{{/-last}}{{/enumVars}} } {{baseName}}_e;
+{{/allowableValues}}
+
+char* {{enumName}}_ToString({{baseName}}_e {{enumName}});
+
+{{baseName}}_e {{enumName}}_FromString(char* {{enumName}});
+
+cJSON *{{enumName}}_convertToJSON({{baseName}}_e {{enumName}});
+
+{{baseName}}_e {{enumName}}_parseFromJSON(cJSON *{{enumName}}JSON);
+
+{{/isEnum}}
+
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+
+
+{{#operations}}
+{{#operation}}
 {{#summary}}
 // {{{summary}}}
 //

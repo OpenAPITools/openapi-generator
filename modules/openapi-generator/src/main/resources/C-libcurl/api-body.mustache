@@ -13,6 +13,95 @@
 
 {{#operations}}
 {{#operation}}
+{{#allParams}}
+
+{{#isEnum}}
+// Functions for enum {{enumName}} for {{{classname}}}_{{{operationId}}}
+
+
+char* {{enumName}}_ToString({{baseName}}_e {{enumName}}){
+char *{{enumName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+    return {{enumName}}Array[{{enumName}}];
+}
+
+{{baseName}}_e {{enumName}}_FromString(char* {{enumName}}){
+    int stringToReturn = 0;
+    char *{{enumName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+    size_t sizeofArray = sizeof({{enumName}}Array) / sizeof({{enumName}}Array[0]);
+    while(stringToReturn < sizeofArray) {
+        if(strcmp({{enumName}}, {{enumName}}Array[stringToReturn]) == 0) {
+            return stringToReturn;
+        }
+        stringToReturn++;
+    }
+    return 0;
+}
+
+cJSON *{{enumName}}_convertToJSON({{baseName}}_e {{enumName}}) {
+cJSON *item = cJSON_CreateObject();
+{{#isString}}
+    if(cJSON_AddStringToObject(item, "{{{paramName}}}", {{{enumName}}}_ToString({{{enumName}}})) == NULL) {
+        goto fail;
+    }
+{{/isString}}
+{{#isNumeric}}
+    if(cJSON_AddNumberToObject(item, "{{{paramName}}}", {{{enumName}}}) == NULL) {
+        goto fail;
+    }
+{{/isNumeric}}
+    return item;
+    fail:
+    cJSON_Delete(item);
+    return NULL;
+}
+
+{{baseName}}_e {{enumName}}_parseFromJSON(cJSON *{{enumName}}JSON){
+
+{{baseName}}_e *{{enumName}} = NULL;
+
+{{#isEnum}}
+{{#isNumeric}}
+cJSON *{{{enumName}}}Var = cJSON_GetObjectItemCaseSensitive({{enumName}}JSON, "{{{paramName}}}");
+if(!cJSON_IsNumber({{{enumName}}}Var))
+{
+    goto end;
+}
+{{/isNumeric}}
+{{#isString}}
+{{{baseName}}}_e {{enumName}}Variable;
+cJSON *{{{enumName}}}Var = cJSON_GetObjectItemCaseSensitive({{enumName}}JSON, "{{{paramName}}}");
+if(!cJSON_IsString({{{enumName}}}Var) || ({{{enumName}}}Var->valuestring == NULL)){
+    goto end;
+}
+{{enumName}}Variable = {{enumName}}_FromString({{{enumName}}}Var->valuestring);
+{{/isString}}
+{{/isEnum}}
+return {{enumName}}Variable;
+end:
+return 0;
+}
+{{/isEnum}}
+
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{#operations}}
+{{#operation}}
 {{#summary}}
 // {{{summary}}}
 //
@@ -143,7 +232,8 @@
         {{^isListContainer}}
         keyQuery_{{{paramName}}} = strdup("{{{baseName}}}");
         valueQuery_{{{paramName}}} = {{#isString}}{{^isEnum}}strdup({{/isEnum}}{{/isString}}({{{paramName}}}){{#isString}}{{^isEnum}}){{/isEnum}}{{/isString}};
-        keyPairQuery_{{paramName}} = keyValuePair_create(keyQuery_{{{paramName}}}, {{#isEnum}}(void *){{/isEnum}}{{^isString}}&{{/isString}}valueQuery_{{{paramName}}});
+        keyPairQuery_{{paramName}} = keyValuePair_create(keyQuery_{{{paramName}}}, {{#isEnum}}(void *)strdup({{enumName}}_ToString(
+		{{/isEnum}}{{^isString}}&{{/isString}}valueQuery_{{{paramName}}}{{#isEnum}})){{/isEnum}});
         list_addElement(localVarQueryParameters,keyPairQuery_{{paramName}});
         {{/isListContainer}}
     }
@@ -334,10 +424,12 @@
         free(keyQuery_{{{paramName}}});
         keyQuery_{{{paramName}}} = NULL;
     }
+{{^isEnum}}
     if(valueQuery_{{{paramName}}}){
         free(valueQuery_{{{paramName}}});
         valueQuery_{{{paramName}}} = NULL;
     }
+{{/isEnum}}
     if(keyPairQuery_{{{paramName}}}){
         keyValuePair_free(keyPairQuery_{{{paramName}}});
         keyPairQuery_{{{paramName}}} = NULL;
