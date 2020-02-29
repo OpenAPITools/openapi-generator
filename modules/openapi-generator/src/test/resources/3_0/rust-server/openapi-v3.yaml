@@ -267,7 +267,15 @@ paths:
             application/problem+xml:
               schema:
                 $ref: '#/components/schemas/ObjectWithArrayOfObjects'
-
+  /merge-patch-json:
+    get:
+      responses:
+        200:
+          description: merge-patch+json-encoded response
+          content:
+            application/merge-patch+json:
+              schema:
+                $ref: "#/components/schemas/anotherXmlObject"
 components:
   securitySchemes:
     authScheme:
