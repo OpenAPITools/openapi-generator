@@ -39,9 +39,7 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
     public CppQt5QHttpEngineServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .build();
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         // set the output folder here
         outputFolder = "generated-code/cpp-qt5-qhttpengine-server";

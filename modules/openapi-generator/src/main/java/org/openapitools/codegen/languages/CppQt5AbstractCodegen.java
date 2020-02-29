@@ -34,7 +34,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
     public CppQt5AbstractCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .excludeWireFormatFeatures(WireFormatFeature.PROTOBUF)
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .excludeGlobalFeatures(
@@ -50,7 +50,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         // set modelNamePrefix as default for QHttpEngine Server
         if (StringUtils.isEmpty(modelNamePrefix)) {

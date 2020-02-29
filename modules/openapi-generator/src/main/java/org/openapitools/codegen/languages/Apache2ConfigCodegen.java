@@ -52,7 +52,7 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
         super();
 
         // TODO: Apache2 maintainer review.
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .parameterFeatures(EnumSet.of(ParameterFeature.Path))
                 .securityFeatures(EnumSet.of(SecurityFeature.BasicAuth))
                 .dataTypeFeatures(EnumSet.noneOf(DataTypeFeature.class))
@@ -61,7 +61,7 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
                 .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
                 .schemaSupportFeatures(EnumSet.noneOf(SchemaSupportFeature.class))
                 .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
-                .build();
+        );
 
         apiTemplateFiles.put("apache-config.mustache", ".conf");
 
