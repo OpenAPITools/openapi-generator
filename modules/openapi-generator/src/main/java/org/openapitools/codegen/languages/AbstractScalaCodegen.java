@@ -29,11 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
@@ -43,6 +41,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     protected String invokerPackage = "org.openapitools.client";
     protected String sourceFolder = "src/main/scala";
     protected boolean stripPackageName = true;
+    protected String dateLibrary = "joda";
 
     public AbstractScalaCodegen() {
         super();
@@ -116,6 +115,13 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
 
+        CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.dateLibrary);
+        Map<String, String> dateOptions = new HashMap<>();
+        dateOptions.put("java8", "Java 8 native JSR310 (prefered for JDK 1.8+");
+        dateOptions.put("joda", "Joda (for legacy app)");
+        dateLibrary.setEnum(dateOptions);
+        cliOptions.add(dateLibrary);
+
     }
 
     @Override
@@ -137,6 +143,32 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             LOGGER.warn("stripPackageName=false. Compilation errors may occur if API type names clash with types " +
                     "in the default imports");
         }
+        if(additionalProperties.containsKey(DATE_LIBRARY)) {
+            this.setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
+        }
+        if("java8".equals(dateLibrary)) {
+            this.importMapping.put("LocalDate", "java.time.LocalDate");
+            this.importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
+            this.typeMapping.put("date", "LocalDate");
+            this.typeMapping.put("DateTime", "OffsetDateTime");
+            additionalProperties.put("java8", "true");
+        } else if("joda".equals(dateLibrary)) {
+            this.importMapping.put("LocalDate", "org.joda.time.LocalDate");
+            this.importMapping.put("DateTime", "org.joda.time.DateTime");
+            this.importMapping.put("LocalDateTime", "org.joda.time.LocalDateTime");
+            this.importMapping.put("LocalTime", "org.joda.time.LocalTime");
+            this.typeMapping.put("date", "LocalDate");
+            this.typeMapping.put("DateTime", "DateTime");
+            additionalProperties.put("joda", "true");
+        }
+    }
+
+    public void setDateLibrary(String dateLibrary) {
+        this.dateLibrary = dateLibrary;
+    }
+
+    public String getDateLibrary() {
+        return this.dateLibrary;
     }
 
     public String getSourceFolder() {

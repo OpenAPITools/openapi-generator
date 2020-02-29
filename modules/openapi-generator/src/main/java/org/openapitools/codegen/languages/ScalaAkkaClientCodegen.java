@@ -51,8 +51,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     protected boolean registerNonStandardStatusCodes = true;
     protected boolean renderJavadoc = true;
     protected boolean removeOAuthSecurities = true;
-   // protected boolean stripPackageName = false;
-
 
     @SuppressWarnings("hiding")
     protected Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaClientCodegen.class);
@@ -144,13 +142,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
 
-        CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Date library to use").defaultValue(this.dateLibrary);
-        Map<String, String> dateOptions = new HashMap<>();
-        dateOptions.put("java8", "Java 8 native JSR310 (prefered for JDK 1.8+");
-        dateOptions.put("joda", "Joda (for legacy app)");
-        dateLibrary.setEnum(dateOptions);
-
-        cliOptions.add(dateLibrary);
         cliOptions.add(new CliOption("mainPackage", "Top-level package name, which defines 'apiPackage', 'modelPackage', 'invokerPackage'").defaultValue("org.openapitools.client"));
     }
 
@@ -166,25 +157,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
             additionalProperties.put("apiPackage", apiPackage);
             additionalProperties.put("modelPackage", modelPackage);
             additionalProperties.put("invokerPackage", invokerPackage);
-        }
-        if(additionalProperties.containsKey(DATE_LIBRARY)) {
-            this.dateLibrary = additionalProperties.get(DATE_LIBRARY).toString();
-        }
-
-        if("java8".equals(dateLibrary)) {
-            this.importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
-            this.importMapping.put("LocalDate", "java.time.LocalDate");
-            this.typeMapping.put("DateTime", "OffsetDateTime");
-            this.typeMapping.put("date", "LocalDate");
-            additionalProperties.put("java8", "true");
-        } else if("joda".equals(dateLibrary)) {
-            this.importMapping.put("DateTime", "org.joda.time.DateTime");
-            this.importMapping.put("LocalDateTime", "org.joda.time.LocalDateTime");
-            this.importMapping.put("LocalDate", "org.joda.time.LocalDate");
-            this.importMapping.put("LocalTime", "org.joda.time.LocalTime");
-            this.typeMapping.put("date", "LocalDate");
-            this.typeMapping.put("DateTime", "DateTime");
-            additionalProperties.put("joda", "true");
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
