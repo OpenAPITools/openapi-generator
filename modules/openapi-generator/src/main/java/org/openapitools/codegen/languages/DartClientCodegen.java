@@ -66,7 +66,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public DartClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
@@ -88,7 +88,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         // clear import mapping (from default generator) as dart does not use it at the moment
         importMapping.clear();

@@ -91,6 +91,9 @@ public class Generate implements Runnable {
                     + "overwritten during the generation.")
     private Boolean skipOverwrite;
 
+    @Option(name = { "--dry-run" }, title = "Dry run",
+            description = "Try things out and report on potential changes (without actually making changes).")
+    private Boolean isDryRun;
 
     @Option(name = {"--package-name"}, title = "package name",
             description = CodegenConstants.PACKAGE_NAME_DESC)
@@ -416,7 +419,7 @@ public class Generate implements Runnable {
 
             // this null check allows us to inject for unit testing.
             if (generator == null) {
-                generator = new DefaultGenerator();
+                generator = new DefaultGenerator(isDryRun);
             }
 
             generator.opts(clientOptInput);

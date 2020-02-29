@@ -21,9 +21,9 @@
 
 typedef struct order_t {
     long id; //numeric
-    long petId; //numeric
+    long pet_id; //numeric
     int quantity; //numeric
-    char *shipDate; //date time
+    char *ship_date; //date time
     status_e status; //enum
     int complete; //boolean
 
@@ -31,9 +31,9 @@ typedef struct order_t {
 
 order_t *order_create(
     long id,
-    long petId,
+    long pet_id,
     int quantity,
-    char *shipDate,
+    char *ship_date,
     status_e status,
     int complete
 );

@@ -21,6 +21,23 @@ type ApiResponse struct {
 	Message *string `json:"message,omitempty"`
 }
 
+// NewApiResponse instantiates a new ApiResponse object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewApiResponse() *ApiResponse {
+    this := ApiResponse{}
+    return &this
+}
+
+// NewApiResponseWithDefaults instantiates a new ApiResponse object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewApiResponseWithDefaults() *ApiResponse {
+    this := ApiResponse{}
+    return &this
+}
+
 // GetCode returns the Code field value if set, zero value otherwise.
 func (o *ApiResponse) GetCode() int32 {
 	if o == nil || o.Code == nil {

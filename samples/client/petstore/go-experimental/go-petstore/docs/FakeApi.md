@@ -404,13 +404,13 @@ Other parameters are passed through a pointer to a apiTestEnumParametersRequest 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enumHeaderStringArray** | [**[]string**](string.md) | Header parameter enum test (string array) | 
- **enumHeaderString** | **string** | Header parameter enum test (string) | [default to -efg]
+ **enumHeaderString** | **string** | Header parameter enum test (string) | [default to &quot;-efg&quot;]
  **enumQueryStringArray** | [**[]string**](string.md) | Query parameter enum test (string array) | 
- **enumQueryString** | **string** | Query parameter enum test (string) | [default to -efg]
+ **enumQueryString** | **string** | Query parameter enum test (string) | [default to &quot;-efg&quot;]
  **enumQueryInteger** | **int32** | Query parameter enum test (double) | 
  **enumQueryDouble** | **float64** | Query parameter enum test (double) | 
- **enumFormStringArray** | [**[]string**](string.md) | Form parameter enum test (string array) | [default to $]
- **enumFormString** | **string** | Form parameter enum test (string) | [default to -efg]
+ **enumFormStringArray** | [**[]string**](string.md) | Form parameter enum test (string array) | [default to &quot;$&quot;]
+ **enumFormString** | **string** | Form parameter enum test (string) | [default to &quot;-efg&quot;]
 
 ### Return type
 

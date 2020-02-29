@@ -22,6 +22,24 @@ type Name struct {
 	Var123Number *int32 `json:"123Number,omitempty"`
 }
 
+// NewName instantiates a new Name object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewName(name int32, ) *Name {
+    this := Name{}
+    this.Name = name
+    return &this
+}
+
+// NewNameWithDefaults instantiates a new Name object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewNameWithDefaults() *Name {
+    this := Name{}
+    return &this
+}
+
 // GetName returns the Name field value
 func (o *Name) GetName() int32 {
 	if o == nil {

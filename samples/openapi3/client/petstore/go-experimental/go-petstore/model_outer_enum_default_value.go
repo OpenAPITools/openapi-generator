@@ -24,6 +24,12 @@ const (
 	OUTERENUMDEFAULTVALUE_DELIVERED OuterEnumDefaultValue = "delivered"
 )
 
+// Ptr returns reference to OuterEnumDefaultValue value
+func (v OuterEnumDefaultValue) Ptr() *OuterEnumDefaultValue {
+	return &v
+}
+
+
 type NullableOuterEnumDefaultValue struct {
 	Value OuterEnumDefaultValue
 	ExplicitNull bool

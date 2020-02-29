@@ -54,7 +54,7 @@ public class KotlinVertxServerCodegen extends AbstractKotlinCodegen {
     public KotlinVertxServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.noneOf(
@@ -72,7 +72,7 @@ public class KotlinVertxServerCodegen extends AbstractKotlinCodegen {
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)

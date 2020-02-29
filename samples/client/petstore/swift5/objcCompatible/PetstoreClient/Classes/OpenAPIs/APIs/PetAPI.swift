@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class PetAPI {
+@objc open class PetAPI: NSObject {
     /**
      Add a new pet to the store
      

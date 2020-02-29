@@ -67,6 +67,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -124,7 +125,6 @@ public class DefaultCodegen implements CodegenConfig {
                 .build();
     }
 
-    protected FeatureSet featureSet;
     protected GeneratorMetadata generatorMetadata;
     protected String inputSpec;
     protected String outputFolder = "";
@@ -1289,10 +1289,9 @@ public class DefaultCodegen implements CodegenConfig {
             codegenType = CodegenType.OTHER;
         }
 
-        featureSet = DefaultFeatureSet;
-
         generatorMetadata = GeneratorMetadata.newBuilder()
                 .stability(Stability.STABLE)
+                .featureSet(DefaultFeatureSet)
                 .generationMessage(String.format(Locale.ROOT, "OpenAPI Generator: %s (%s)", getName(), codegenType.toValue()))
                 .build();
 
@@ -2051,7 +2050,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema.getExtensions() != null && !schema.getExtensions().isEmpty()) {
             m.getVendorExtensions().putAll(schema.getExtensions());
         }
-        m.isAlias = typeAliases.containsKey(name);
+        m.isAlias = (typeAliases.containsKey(name)
+                        || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
         m.discriminator = createDiscriminator(name, schema);
 
         if (schema.getXml() != null) {
@@ -2252,6 +2252,11 @@ public class DefaultCodegen implements CodegenConfig {
         // post process model properties
         if (m.vars != null) {
             for (CodegenProperty prop : m.vars) {
+                postProcessModelProperty(m, prop);
+            }
+        }
+        if (m.allVars != null) {
+            for (CodegenProperty prop : m.allVars) {
                 postProcessModelProperty(m, prop);
             }
         }
@@ -4208,17 +4213,24 @@ public class DefaultCodegen implements CodegenConfig {
 
         Map<String, String> aliases = new HashMap<>();
         for (Map.Entry<String, Schema> entry : schemas.entrySet()) {
-            String oasName = entry.getKey();
             Schema schema = entry.getValue();
-            String schemaType = getPrimitiveType(schema);
-            if (schemaType != null && !schemaType.equals("object") && !schemaType.equals("array")
-                    && schema.getEnum() == null && !ModelUtils.isMapSchema(schema)) {
+            if (isAliasOfSimpleTypes(schema)) {
+                String oasName = entry.getKey();
+                String schemaType = getPrimitiveType(schema);
                 aliases.put(oasName, schemaType);
             }
 
         }
 
         return aliases;
+    }
+
+    private static Boolean isAliasOfSimpleTypes(Schema schema) {
+        return (!ModelUtils.isObjectSchema(schema)
+                && !ModelUtils.isArraySchema(schema)
+                && !ModelUtils.isMapSchema(schema)
+                && !ModelUtils.isComposedSchema(schema)
+                && schema.getEnum() == null);
     }
 
     /**
@@ -4758,17 +4770,18 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
         List<Map<String, Object>> enumVars = new ArrayList<>();
         int truncateIdx = 0;
+
         if (isRemoveEnumValuePrefix()) {
             String commonPrefix = findCommonPrefixOfVars(values);
             truncateIdx = commonPrefix.length();
         }
+
         for (Object value : values) {
             Map<String, Object> enumVar = new HashMap<>();
             String enumName;
             if (truncateIdx == 0) {
-                enumName = value.toString();
-            }
-            else {
+                enumName = String.valueOf(value);
+            } else {
                 enumName = value.toString().substring(truncateIdx);
                 if ("".equals(enumName)) {
                     enumName = value.toString();
@@ -4776,7 +4789,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             enumVar.put("name", toEnumVarName(enumName, dataType));
-            enumVar.put("value", toEnumValue(value.toString(), dataType));
+            enumVar.put("value", toEnumValue(String.valueOf(value), dataType));
             enumVar.put("isString", isDataTypeString(dataType));
             enumVars.add(enumVar);
         }
@@ -5672,12 +5685,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public FeatureSet getFeatureSet() {
-        return this.featureSet;
-    }
-
-    @Override
-    public void setFeatureSet(final FeatureSet featureSet) {
-        this.featureSet = featureSet == null ? DefaultFeatureSet : featureSet;
+        return this.generatorMetadata.getFeatureSet();
     }
 
     /**
@@ -5742,4 +5750,11 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {}
     //// End of methods related to the "useOneOfInterfaces" feature
+
+    protected void modifyFeatureSet(Consumer<FeatureSet.Builder> processor) {
+        FeatureSet.Builder builder = getFeatureSet().modify();
+        processor.accept(builder);
+        this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .featureSet(builder.build()).build();
+    }
 }

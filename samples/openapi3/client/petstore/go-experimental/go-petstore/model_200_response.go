@@ -20,6 +20,23 @@ type Model200Response struct {
 	Class *string `json:"class,omitempty"`
 }
 
+// NewModel200Response instantiates a new Model200Response object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewModel200Response() *Model200Response {
+    this := Model200Response{}
+    return &this
+}
+
+// NewModel200ResponseWithDefaults instantiates a new Model200Response object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewModel200ResponseWithDefaults() *Model200Response {
+    this := Model200Response{}
+    return &this
+}
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Model200Response) GetName() int32 {
 	if o == nil || o.Name == nil {

@@ -8,6 +8,7 @@ sidebar_label: cpp-tizen
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 

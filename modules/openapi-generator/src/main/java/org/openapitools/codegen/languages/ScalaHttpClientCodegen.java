@@ -55,7 +55,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
                 .stability(Stability.DEPRECATED)
                 .build();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -74,7 +74,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         outputFolder = "generated-code/scala-http-client";
         modelTemplateFiles.put("model.mustache", ".scala");
@@ -105,7 +105,6 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
         additionalProperties.put("authScheme", authScheme);
         additionalProperties.put("authPreemptive", authPreemptive);
         additionalProperties.put("clientName", clientName);
-        additionalProperties.put(CodegenConstants.STRIP_PACKAGE_NAME, stripPackageName);
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("apiInvoker.mustache",
@@ -265,31 +264,6 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
         }
 
         return camelize(operationId, true);
-    }
-
-    @Override
-    public String toModelName(final String name) {
-        final String sanitizedName = sanitizeName(modelNamePrefix + this.stripPackageName(name) + modelNameSuffix);
-
-        // camelize the model name
-        // phone_number => PhoneNumber
-        final String camelizedName = camelize(sanitizedName);
-
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(camelizedName)) {
-            final String modelName = "Model" + camelizedName;
-            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
-            return modelName;
-        }
-
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
-            final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
-            return modelName;
-        }
-
-        return camelizedName;
     }
 
     @Override

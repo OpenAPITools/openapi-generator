@@ -96,7 +96,7 @@ void MultipartFormData::writeTo( std::ostream& target )
 
 		data->seekg( 0, data->end );
 		std::vector<char> dataBytes( data->tellg() );
-		
+
 		data->seekg( 0, data->beg );
 		data->read( &dataBytes[0], dataBytes.size() );
 

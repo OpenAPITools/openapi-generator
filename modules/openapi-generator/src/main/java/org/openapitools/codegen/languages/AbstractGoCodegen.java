@@ -228,11 +228,28 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return camelize(toModel(name));
     }
 
+    protected boolean isReservedFilename(String name) {
+        String[] parts = name.split("_");
+        String suffix = parts[parts.length - 1];
+
+        Set<String> reservedSuffixes = new HashSet<String>(Arrays.asList(
+                // Test
+                "test",
+                // $GOOS
+                "aix", "android", "darwin", "dragonfly", "freebsd", "illumos", "js", "linux", "netbsd", "openbsd",
+                "plan9", "solaris", "windows",
+                // $GOARCH
+                "386", "amd64", "arm", "arm64", "mips", "mips64", "mips64le", "mipsle", "ppc64", "ppc64le", "s390x",
+                "wasm"));
+        return reservedSuffixes.contains(suffix);
+    }
+
     @Override
     public String toModelFilename(String name) {
         name = toModel("model_" + name);
-        if (name.endsWith("_test")) {
-            LOGGER.warn(name + ".go with `_test.go` suffix (reserved word) cannot be used as filename. Renamed to " + name + "_.go");
+
+        if (isReservedFilename(name)) {
+            LOGGER.warn(name + ".go with suffix (reserved word) cannot be used as filename. Renamed to " + name + "_.go");
             name += "_";
         }
         return name;
@@ -279,8 +296,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         // e.g. PetApi.go => pet_api.go
         name = "api_" + underscore(name);
-        if (name.endsWith("_test")) {
-            LOGGER.warn(name + ".go with `_test.go` suffix (reserved word) cannot be used as filename. Renamed to " + name + "_.go");
+        if (isReservedFilename(name)) {
+            LOGGER.warn(name + ".go with suffix (reserved word) cannot be used as filename. Renamed to " + name + "_.go");
             name += "_";
         }
         return name;
@@ -341,10 +358,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             type = openAPIType;
         return type;
     }
-    
+
     /**
      * Determines the golang instantiation type of the specified schema.
-     * 
+     *
      * This function is called when the input schema is a map, and specifically
      * when the 'additionalProperties' attribute is present in the OAS specification.
      * Codegen invokes this function to resolve the "parent" association to
@@ -354,7 +371,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
      * - Indicate a polymorphic association with some other type (e.g. class inheritance).
      * - If the specification has a discriminator, cogegen create a “parent” based on the discriminator.
      * - Use of the 'additionalProperties' attribute in the OAS specification.
-     *   This is the specific scenario when codegen invokes this function. 
+     *   This is the specific scenario when codegen invokes this function.
      *
      * @param property the input schema
      *
