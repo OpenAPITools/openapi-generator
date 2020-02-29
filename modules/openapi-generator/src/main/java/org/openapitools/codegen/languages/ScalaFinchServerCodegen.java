@@ -42,7 +42,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
     public ScalaFinchServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -58,7 +58,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         outputFolder = "generated-code/finch";
         modelTemplateFiles.put("model.mustache", ".scala");

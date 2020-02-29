@@ -61,7 +61,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     public NodeJSServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -77,7 +77,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         // mark the generator as deprecated in the documentation
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)

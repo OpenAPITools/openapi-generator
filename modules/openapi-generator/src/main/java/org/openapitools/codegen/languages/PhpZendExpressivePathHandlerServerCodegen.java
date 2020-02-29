@@ -59,7 +59,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
     public PhpZendExpressivePathHandlerServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -72,7 +72,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
-                .build();
+        );
 
         //no point to use double - http://php.net/manual/en/language.types.float.php , especially because of PHP 7+ float type declaration
         typeMapping.put("double", "float");

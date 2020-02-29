@@ -37,9 +37,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
     public JavascriptFlowtypedClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .build();
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
