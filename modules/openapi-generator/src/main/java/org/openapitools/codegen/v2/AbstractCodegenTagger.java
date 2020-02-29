@@ -7,15 +7,12 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 
 public abstract class AbstractCodegenTagger implements CodegenTagger {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCodegenTagger.class);
-
     @Override
     public final void tag(CodegenObject object) {
         Objects.requireNonNull(object);
         try {
             Class<? extends CodegenObject> objectClass = object.getClass();
             Method tagMethod = getClass().getDeclaredMethod("tag", objectClass);
-            tagMethod.setAccessible(true);
             tagMethod.invoke(this, objectClass.cast(object));
         } catch (ReflectiveOperationException e) {
             // no-op: no tag method for object

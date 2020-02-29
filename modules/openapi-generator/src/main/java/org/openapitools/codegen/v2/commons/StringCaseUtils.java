@@ -23,7 +23,7 @@ public final class StringCaseUtils {
         boolean firstPass = true;
         StringBuilder builder = new StringBuilder();
         for (String word : splitWords(string)) {
-            word = word.toLowerCase();
+            word = word.toLowerCase(Locale.getDefault());
             builder.append(firstPass ? word.charAt(0) : Character.toUpperCase(word.charAt(0)));
             builder.append(word, 1, word.length());
             firstPass = false;
@@ -35,7 +35,7 @@ public final class StringCaseUtils {
         Objects.requireNonNull(string);
         StringBuilder builder = new StringBuilder();
         for (String word : splitWords(string)) {
-            word = word.toLowerCase();
+            word = word.toLowerCase(Locale.getDefault());
             builder.append(Character.toUpperCase(word.charAt(0)));
             builder.append(word, 1, word.length());
         }
@@ -46,7 +46,7 @@ public final class StringCaseUtils {
         Objects.requireNonNull(string);
         StringBuilder builder = new StringBuilder();
         for (String word : splitWords(string)) {
-            word = word.toLowerCase();
+            word = word.toLowerCase(Locale.getDefault());
             builder.append(word);
             builder.append('_');
         }
@@ -60,7 +60,7 @@ public final class StringCaseUtils {
         Objects.requireNonNull(string);
         StringBuilder builder = new StringBuilder();
         for (String word : splitWords(string)) {
-            word = word.toUpperCase();
+            word = word.toUpperCase(Locale.getDefault());
             builder.append(word);
             builder.append('_');
         }

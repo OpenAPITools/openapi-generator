@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,7 +50,7 @@ public class MustacheCodegenTemplateEngine implements CodegenTemplateEngine {
         try {
             Path path = getTemplateFilePath(templateFile);
             byte[] content = Files.readAllBytes(path);
-            return new StringReader(new String(content));
+            return new StringReader(new String(content, StandardCharsets.UTF_8));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

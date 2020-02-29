@@ -6,6 +6,7 @@ import org.openapitools.codegen.v2.reflection.GenericClass;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Locale;
 
 public class ConsoleCodegenOutputProcessor implements CodegenOutputProcessor {
     public void process(CodegenObject object) {
@@ -13,7 +14,8 @@ public class ConsoleCodegenOutputProcessor implements CodegenOutputProcessor {
             Collection<CodegenOutput> outputs = o.getTagOrDefault(
                     CodegenOutputTags.OUTPUTS, new GenericClass<Collection<CodegenOutput>>() {}, ArrayList::new);
             for (CodegenOutput output : outputs) {
-                System.out.printf("%s -> \n\n%s\n\n", output.getLocation(), output.getContent());
+                System.out.printf(Locale.getDefault(),
+                        "%s -> \n\n%s\n\n", output.getLocation(), output.getContent());
             }
         };
 

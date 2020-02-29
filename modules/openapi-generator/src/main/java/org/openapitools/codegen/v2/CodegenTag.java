@@ -3,6 +3,7 @@ package org.openapitools.codegen.v2;
 import org.openapitools.codegen.v2.reflection.GenericClass;
 
 import javax.annotation.Nonnull;
+import java.util.Locale;
 import java.util.Objects;
 
 public final class CodegenTag implements Comparable<CodegenTag> {
@@ -82,7 +83,9 @@ public final class CodegenTag implements Comparable<CodegenTag> {
     public <TValue> void ensureValueClassAccepted(Class<TValue> valueClass) {
         Objects.requireNonNull(valueClass);
         if (!acceptsValueClass(valueClass)) {
-            String message = String.format("Unexpected tag value of class '%s', expected '%s'", valueClass.getName(), getValueClass().getName());
+            String message = String.format(Locale.getDefault(),
+                    "Unexpected tag value of class '%s', expected '%s'",
+                    valueClass.getName(), getValueClass().getName());
             throw new IllegalArgumentException(message);
         }
     }
