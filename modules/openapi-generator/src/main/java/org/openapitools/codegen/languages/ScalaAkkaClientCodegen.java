@@ -198,7 +198,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         supportingFiles.add(new SupportingFile("apiSettings.mustache", invokerFolder, "ApiSettings.scala"));
         final String apiFolder = (sourceFolder + File.separator + apiPackage).replace(".", File.separator);
         supportingFiles.add(new SupportingFile("enumsSerializers.mustache", apiFolder, "EnumsSerializers.scala"));
-        supportingFiles.add(new SupportingFile("datesSerializers.mustache", apiFolder, "DatesSerializers.scala"));
+        supportingFiles.add(new SupportingFile("dateSerializers.mustache", apiFolder, "DateSerializers.scala"));
     }
 
     @Override

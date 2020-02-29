@@ -13,7 +13,7 @@ import org.json4s.JsonAST.JString
 
 import scala.util.Try
 
-object DatesSerializers {
+object DateSerializers {
 
 {{#java8}}
   case object DateTimeSerializer extends CustomSerializer[OffsetDateTime]( _ => ( {

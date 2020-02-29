@@ -7,7 +7,7 @@ import org.json4s.JsonAST.JString
 
 import scala.util.Try
 
-object DatesSerializers {
+object DateSerializers {
 
   case object DateTimeSerializer extends CustomSerializer[DateTime](_ => ( {
     case JString(s) =>
