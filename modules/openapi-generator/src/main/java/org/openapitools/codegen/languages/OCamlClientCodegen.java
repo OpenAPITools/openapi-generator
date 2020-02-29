@@ -75,7 +75,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public OCamlClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.of(
@@ -93,7 +93,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
 
         outputFolder = "generated-code/ocaml";

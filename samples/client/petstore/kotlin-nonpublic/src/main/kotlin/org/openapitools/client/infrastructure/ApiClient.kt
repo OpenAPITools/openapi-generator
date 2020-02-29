@@ -85,7 +85,7 @@ internal open class ApiClient(val baseUrl: String) {
         }
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
             accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer " + accessToken
+                requestConfig.headers[Authorization] = "Bearer $accessToken "
             }
         }
     }
@@ -158,12 +158,13 @@ internal open class ApiClient(val baseUrl: String) {
                     response.headers.toMultimap()
             )
             response.isClientError -> return ClientError(
+                    response.message,
                     response.body?.string(),
                     response.code,
                     response.headers.toMultimap()
             )
             else -> return ServerError(
-                    null,
+                    response.message,
                     response.body?.string(),
                     response.code,
                     response.headers.toMultimap()

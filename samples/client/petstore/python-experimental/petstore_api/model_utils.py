@@ -274,24 +274,26 @@ class ModelComposed(OpenApiModel):
         if self._path_to_item:
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
+        values = set()
         if model_instances:
-            values = set()
             for model_instance in model_instances:
                 if name in model_instance._data_store:
                     values.add(model_instance._data_store[name])
-            if len(values) == 1:
-                return list(values)[0]
+        len_values = len(values)
+        if len_values == 0:
+            raise ApiKeyError(
+                "{0} has no key '{1}'".format(type(self).__name__, name),
+                path_to_item
+            )
+        elif len_values == 1:
+            return list(values)[0]
+        elif len_values > 1:
             raise ApiValueError(
                 "Values stored for property {0} in {1} difffer when looking "
                 "at self and self's composed instances. All values must be "
                 "the same".format(name, type(self).__name__),
                 path_to_item
             )
-
-        raise ApiKeyError(
-            "{0} has no key '{1}'".format(type(self).__name__, name),
-            path_to_item
-        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""
@@ -931,8 +933,9 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
     if not valid_classes_coercible or key_type:
         # we do not handle keytype errors, json will take care
         # of this for us
-        raise get_type_error(input_value, path_to_item, valid_classes,
-                             key_type=key_type)
+        if configuration is None or not configuration.discard_unknown_keys:
+            raise get_type_error(input_value, path_to_item, valid_classes,
+                                 key_type=key_type)
     for valid_class in valid_classes_coercible:
         try:
             if issubclass(valid_class, OpenApiModel):
@@ -1081,7 +1084,7 @@ def model_to_dict(model_instance, serialize=True):
 
     model_instances = [model_instance]
     if model_instance._composed_schemas() is not None:
-        model_instances = model_instance._composed_instances
+        model_instances.extend(model_instance._composed_instances)
     for model_instance in model_instances:
         for attr, value in six.iteritems(model_instance._data_store):
             if serialize:
@@ -1204,12 +1207,12 @@ def get_oneof_instance(self, model_args, constant_args):
             used to make instances
 
     Returns
-        oneof_instance (instance)
+        oneof_instance (instance/None)
     """
-    oneof_instance = None
     if len(self._composed_schemas()['oneOf']) == 0:
-        return oneof_instance
+        return None
 
+    oneof_instances = []
     for oneof_class in self._composed_schemas()['oneOf']:
         # transform js keys to python keys in fixed_model_args
         fixed_model_args = change_keys_js_to_python(
@@ -1222,20 +1225,30 @@ def get_oneof_instance(self, model_args, constant_args):
             if var_name in fixed_model_args:
                 kwargs[var_name] = fixed_model_args[var_name]
 
+        # do not try to make a model with no input args
+        if len(kwargs) == 0:
+            continue
+
         # and use it to make the instance
         kwargs.update(constant_args)
         try:
             oneof_instance = oneof_class(**kwargs)
-            break
+            oneof_instances.append(oneof_instance)
         except Exception:
             pass
-    if oneof_instance is None:
+    if len(oneof_instances) == 0:
         raise ApiValueError(
             "Invalid inputs given to generate an instance of %s. Unable to "
             "make any instances of the classes in oneOf definition." %
             self.__class__.__name__
         )
-    return oneof_instance
+    elif len(oneof_instances) > 1:
+        raise ApiValueError(
+            "Invalid inputs given to generate an instance of %s. Multiple "
+            "oneOf instances were generated when a max of one is allowed." %
+            self.__class__.__name__
+        )
+    return oneof_instances[0]
 
 
 def get_anyof_instances(self, model_args, constant_args):
@@ -1264,6 +1277,10 @@ def get_anyof_instances(self, model_args, constant_args):
         for var_name in var_names:
             if var_name in fixed_model_args:
                 kwargs[var_name] = fixed_model_args[var_name]
+
+        # do not try to make a model with no input args
+        if len(kwargs) == 0:
+            continue
 
         # and use it to make the instance
         kwargs.update(constant_args)
@@ -1371,16 +1388,16 @@ def validate_get_composed_info(constant_args, model_args, self):
 
     # set any remaining values
     unused_args = get_unused_args(self, composed_instances, model_args)
-    if len(unused_args) > 0:
-        if len(additional_properties_model_instances) == 0:
-            raise ApiValueError(
-                "Invalid input arguments input when making an instance of "
-                "class %s. Not all inputs were used. The unused input data "
-                "is %s" % (self.__class__.__name__, unused_args)
-            )
-        for var_name, var_value in six.iteritems(unused_args):
-            for instance in additional_properties_model_instances:
-                setattr(instance, var_name, var_value)
+    if len(unused_args) > 0 and \
+            len(additional_properties_model_instances) == 0 and \
+            (self._configuration is None or
+                not self._configuration.discard_unknown_keys):
+        raise ApiValueError(
+            "Invalid input arguments input when making an instance of "
+            "class %s. Not all inputs were used. The unused input data "
+            "is %s" % (self.__class__.__name__, unused_args)
+        )
+
     # no need to add additional_properties to var_name_to_model_instances here
     # because additional_properties_model_instances will direct us to that
     # instance when we use getattr or setattr
@@ -1389,5 +1406,6 @@ def validate_get_composed_info(constant_args, model_args, self):
     return [
       composed_instances,
       var_name_to_model_instances,
-      additional_properties_model_instances
+      additional_properties_model_instances,
+      unused_args
     ]

@@ -52,10 +52,11 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/docspring.png" width="128" height="128">](https://docspring.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 
-#### Thank you GoDaddy for sponsoring the domain names and Linode for sponsoring the VPS
+#### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS and Checkly for sponsoring the API monitoring
 
 [<img src="https://openapi-generator.tech/img/companies/godaddy.png" width="150">](https://www.godaddy.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [![Linode](https://www.linode.com/media/images/logos/standard/light/linode-logo_standard_light_small.png)](https://www.linode.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRAhEYadUyZYzGUotZiSdXkVMqqLGuohyixLl4eUpUV6pAbUULL" width="150">](https://checklyhq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 
 ## Overview
@@ -63,7 +64,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 |                                | Languages/Frameworks |
 |-|-|
-**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later, .NET Standard 1.3 - 2.0, .NET Core 2.0), **C++** (cpp-restsdk, Qt5, Tizen), **Clojure**, **Dart (1.x, 2.x)**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client, MicroProfile Rest Client), **Kotlin**, **Lua**, **Nim**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types), **Objective-C**, **OCaml**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x, 5.x), **Typescript** (AngularJS, Angular (2.x - 8.x), Aurelia, Axios, Fetch, Inversify, jQuery, Node, Rxjs)
+**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later, .NET Standard 1.3 - 2.0, .NET Core 2.0), **C++** (cpp-restsdk, Qt5, Tizen), **Clojure**, **Dart (1.x, 2.x)**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client, MicroProfile Rest Client), **k6**, **Kotlin**, **Lua**, **Nim**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types), **Objective-C**, **OCaml**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, sttp, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x, 5.x), **Typescript** (AngularJS, Angular (2.x - 8.x), Aurelia, Axios, Fetch, Inversify, jQuery, Node, Rxjs)
 **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, NancyFx), **C++** (Pistache, Restbed, Qt5 QHTTPEngine), **Erlang**, **F#** (Giraffe), **Go** (net/http, Gin), **Haskell** (Servant), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, Jersey, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples), [Vert.x](https://vertx.io/)), **Kotlin** (Spring Boot, Ktor, Vertx), **PHP** (Laravel, Lumen, Slim, Silex, [Symfony](https://symfony.com/), [Zend Expressive](https://github.com/zendframework/zend-expressive)), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** ([Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), [Play](https://www.playframework.com/), Scalatra)
 **API documentation generators** | **HTML**, **Confluence Wiki**, **Asciidoc**
 **Configuration files**          | [**Apache2**](https://httpd.apache.org/)
@@ -601,11 +602,13 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Here](https://developer.here.com/)
 - [IBM](https://www.ibm.com/)
 - [JustStar](https://www.juststarinfo.com)
+- [k6.io](https://k6.io/)
 - [Klarna](https://www.klarna.com/)
 - [Kronsoft Development](https://www.kronsoft.ro/home/)
 - [Kubernetes](https://kubernetes.io)
 - [Linode](https://www.linode.com/)
 - [Logicdrop](https://www.logicdrop.com)
+- [MailSlurp](https://www.mailslurp.com)
 - [Médiavision](https://www.mediavision.fr/)
 - [Metaswitch](https://www.metaswitch.com/)
 - [Myworkout](https://myworkout.com)
@@ -732,6 +735,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-01-30 - [OpenAPI Generatorへのコントリビュート](https://www.yutaka0m.work/entry/2020/01/30/163905) by [yutaka0m](https://github.com/yutaka0m)
 - 2020-02-01 - [Using OpenAPI to Maximise Your Pulp 3 Experience](https://fosdem.org/2020/schedule/event/openapi/) by [Dennis Kliban](https://github.com/dkliban/) at [FOSDEM](https://fosdem.org/)
 - 2020-02-07 - [Why you should use OpenAPI for your API design](https://www.youtube.com/watch?v=zhb7vUApLW8&t=927s) by [Nick Van Hoof](https://apiconference.net/speaker/nick-van-hoof/) at [API Conference](https://apiconference.net/)
+- 2020-02-17 - [Rubynetes: using OpenAPI to validate Kubernetes configs](https://www.brightbox.com/blog/2020/02/17/using-openapi-to-validate-kubernetes-configs/) by Neil Wilson at [Brightbox](https://www.brightbox.com/)
+- 2020-02-20 - [Building SDKs for the future](https://devblog.xero.com/building-sdks-for-the-future-b79ff726dfd6) by [Sid Maestre (Xero)](https://twitter.com/sidneyallen)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -809,6 +814,7 @@ Here is a list of template creators:
    * Rust (rust-server): @metaswitch
    * Scala (scalaz & http4s): @tbrown1979
    * Scala (Akka): @cchafer
+   * Scala (sttp): @chameleon82
    * Swift: @tkqubo
    * Swift 3: @hexelon
    * Swift 4: @ehyche
@@ -869,6 +875,7 @@ Here is a list of template creators:
    * Confluence Wiki: @jhitchcock
  * Configuration
    * Apache2: @stkrwork
+   * k6: @mostafa 
  * Schema
    * Avro: @sgadouar
    * GraphQL: @wing328 [:heart:](https://www.patreon.com/wing328)

@@ -99,7 +99,7 @@
           <version>${swagger-annotations-version}</version>
         </dependency>
 
-        <!-- You can find the dependencies for the library configuation you chose by looking in JavaClientCodegen.
+        <!-- You can find the dependencies for the library configuration you chose by looking in JavaClientCodegen.
              Then find the corresponding dependency on Maven Central, and set the versions in the property section below -->
                 
         <!-- HTTP client: jersey-client -->

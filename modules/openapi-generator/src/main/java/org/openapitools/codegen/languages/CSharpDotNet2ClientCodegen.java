@@ -41,9 +41,7 @@ public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
     public CSharpDotNet2ClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .build();
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.DEPRECATED)

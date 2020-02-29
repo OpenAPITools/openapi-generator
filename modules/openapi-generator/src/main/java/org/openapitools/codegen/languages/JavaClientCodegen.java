@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -24,13 +26,11 @@ import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.templating.mustache.CaseFormatLambda;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.Schema;
 
 import java.io.File;
 import java.util.*;
@@ -93,7 +93,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean doNotUseRx = true;
     protected boolean usePlayWS = false;
     protected String playVersion = PLAY_25;
-    protected String feignVersion = FEIGN_9;
+    protected String feignVersion = FEIGN_10;
     protected boolean parcelableModel = false;
     protected boolean useBeanValidation = false;
     protected boolean performBeanValidation = false;
@@ -107,9 +107,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public JavaClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        // TODO: Move GlobalFeature.ParameterizedServer to library: jersey after moving featureSet to generatorMetadata
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .build();
+                .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
+        );
 
         outputFolder = "generated-code" + File.separator + "java";
         embeddedTemplateDir = templateDir = "Java";
@@ -136,13 +138,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
         cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception"));
-        cliOptions.add(CliOption.newBoolean(FEIGN_VERSION, "Version of OpenFeign: '10.x', '9.x' (default)"));
+        cliOptions.add(CliOption.newBoolean(FEIGN_VERSION, "Version of OpenFeign: '10.x' (default), '9.x' (deprecated)"));
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
-        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 9.x or 10.x. JSON processing: Jackson 2.9.x. To enable OpenFeign 10.x, set the 'feignVersion' option to '10.x'");
+        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 9.x (deprecated) or 10.x (default). JSON processing: Jackson 2.9.x.");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(RETROFIT_1, "HTTP client: OkHttp 2.x. JSON processing: Gson 2.x (Retrofit 1.9.0). IMPORTANT NOTE: retrofit1.x is no longer actively maintained so please upgrade to 'retrofit2' instead.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2]=true'. (RxJava 1.x or 2.x)");
@@ -197,8 +199,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public void processOpts() {
         if ((WEBCLIENT.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) || NATIVE.equals(getLibrary())) {
             dateLibrary = "java8";
-        }
-        else if (MICROPROFILE.equals(getLibrary())) {
+        } else if (MICROPROFILE.equals(getLibrary())) {
             dateLibrary = "legacy";
         }
 
@@ -235,10 +236,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             if ("10.x".equals(feignVersion)) {
                 additionalProperties.put("useFeign10", true);
             } else if ("9.x".equals(feignVersion)) {
-                // do nothing as 9.x is the default
+                additionalProperties.put("useFeign10", false);
+                once(LOGGER).warn("Feign 9.x support has been deprecated. Please use 10.x (default) instead.");
             } else {
-                throw new RuntimeException("Ivalid feignOoption '{}'. Must be '10.x' or '9.x'.");
+                throw new RuntimeException("Ivalid feignOoption '{}'. Must be '10.x' or '9.x' (deprecated).");
             }
+        } else {
+            // default to feign 10.x
+            additionalProperties.put("useFeign10", true);
         }
         additionalProperties.put(FEIGN_VERSION, feignVersion);
 
@@ -286,6 +291,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
+        supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", invokerFolder, "ServerConfiguration.java"));
+        supportingFiles.add(new SupportingFile("ServerVariable.mustache", invokerFolder, "ServerVariable.java"));
+
         if (!(RESTTEMPLATE.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
         }
@@ -390,11 +398,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
 
         } else if (REST_ASSURED.equals(getLibrary())) {
-            if(getSerializationLibrary() == null) {
-                LOGGER.info("No serializationLibrary configured, using '"+SERIALIZATION_LIBRARY_GSON+"' as fallback");
+            if (getSerializationLibrary() == null) {
+                LOGGER.info("No serializationLibrary configured, using '" + SERIALIZATION_LIBRARY_GSON + "' as fallback");
                 setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
             }
-            if(SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
+            if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
                 supportingFiles.add(new SupportingFile("JacksonObjectMapper.mustache", invokerFolder, "JacksonObjectMapper.java"));
             } else if (SERIALIZATION_LIBRARY_GSON.equals(getSerializationLibrary())) {
                 supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
@@ -468,11 +476,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         }
 
-        if(getSerializationLibrary() == null) {
-            LOGGER.info("No serializationLibrary configured, using '"+SERIALIZATION_LIBRARY_GSON+"' as fallback");
+        if (getSerializationLibrary() == null) {
+            LOGGER.info("No serializationLibrary configured, using '" + SERIALIZATION_LIBRARY_GSON + "' as fallback");
             setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
         }
-        if(SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
+        if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
             additionalProperties.put(SERIALIZATION_LIBRARY_JACKSON, "true");
             additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
             if (!NATIVE.equals(getLibrary())) {
@@ -681,6 +689,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             model.imports.remove("ToStringSerializer");
         }
     }
+
     @Override
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel codegenModel = super.fromModel(name, model);
@@ -720,6 +729,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         objs = super.postProcessModels(objs);
         List<Object> models = (List<Object>) objs.get("models");
 
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON) && !JERSEY1.equals(getLibrary())) {
             List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
             for (Object _mo : models) {
@@ -730,7 +742,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
                     // only add JsonNullable and related imports to optional and nullable values
                     addImports |= isOptionalNullable;
-                    var.getVendorExtensions().put("isJacksonOptionalNullable", isOptionalNullable);
+                    var.getVendorExtensions().put("isJacksonOptionalNullable", isOptionalNullable); // TODO: 5.0 Remove
+                    var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
                 }
                 if (addImports) {
                     Map<String, String> imports2Classnames = new HashMap<String, String>() {{
@@ -752,7 +765,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
-            cm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());
+            cm.getVendorExtensions().putIfAbsent("implements", new ArrayList<String>());  // TODO: 5.0 Remove
+            cm.getVendorExtensions().putIfAbsent("x-implements", cm.getVendorExtensions().get("implements"));
             List<String> impl = (List<String>) cm.getVendorExtensions().get("implements");
             if (this.parcelableModel) {
                 impl.add("Parcelable");
@@ -821,6 +835,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     /**
      * Serialization library.
+     *
      * @return 'gson' or 'jackson'
      */
     public String getSerializationLibrary() {
@@ -828,9 +843,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     public void setSerializationLibrary(String serializationLibrary) {
-        if(SERIALIZATION_LIBRARY_JACKSON.equalsIgnoreCase(serializationLibrary)) {
+        if (SERIALIZATION_LIBRARY_JACKSON.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
-        } else if(SERIALIZATION_LIBRARY_GSON.equalsIgnoreCase(serializationLibrary)) {
+        } else if (SERIALIZATION_LIBRARY_GSON.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_GSON;
         } else {
             throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
@@ -838,7 +853,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     public void forceSerializationLibrary(String serializationLibrary) {
-        if((this.serializationLibrary != null) && !this.serializationLibrary.equalsIgnoreCase(serializationLibrary)) {
+        if ((this.serializationLibrary != null) && !this.serializationLibrary.equalsIgnoreCase(serializationLibrary)) {
             LOGGER.warn("The configured serializationLibrary '" + this.serializationLibrary + "', is not supported by the library: '" + getLibrary() + "', switching back to: " + serializationLibrary);
         }
         setSerializationLibrary(serializationLibrary);

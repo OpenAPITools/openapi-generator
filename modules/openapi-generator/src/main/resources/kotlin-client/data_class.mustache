@@ -8,6 +8,10 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 {{/moshiCodeGen}}
 {{/moshi}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonFormat
+{{/jackson}}
 {{#parcelizeModels}}
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
@@ -32,11 +36,9 @@ import java.io.Serializable
 {{/parcelizeModels}}
 {{#multiplatform}}@Serializable{{/multiplatform}}{{#moshi}}{{#moshiCodeGen}}@JsonClass(generateAdapter = true){{/moshiCodeGen}}{{/moshi}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface{{/discriminator}}{{^discriminator}}data class{{/discriminator}} {{classname}}{{^discriminator}} (
-{{#requiredVars}}
-{{>data_class_req_var}}{{^-last}},
-{{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
-{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_opt_var}}{{^-last}},
-{{/-last}}{{/optionalVars}}
+{{#vars}}
+{{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
+{{/vars}}
 ){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}} : {{parent}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{parent}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{parent}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{parent}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#vendorExtensions.x-has-data-class-body}} {
 {{/vendorExtensions.x-has-data-class-body}}
 {{#serializableModel}}
@@ -44,9 +46,9 @@ import java.io.Serializable
 		private const val serialVersionUID: Long = 123
 	}
 {{/serializableModel}}
-{{#discriminator}}{{#requiredVars}}
-{{>interface_req_var}}{{/requiredVars}}{{#optionalVars}}
-{{>interface_opt_var}}{{/optionalVars}}{{/discriminator}}
+{{#discriminator}}{{#vars}}{{#required}}
+{{>interface_req_var}}{{/required}}{{^required}}
+{{>interface_opt_var}}{{/required}}{{/vars}}{{/discriminator}}
 {{#hasEnums}}
 {{#vars}}
 {{#isEnum}}
@@ -55,6 +57,7 @@ import java.io.Serializable
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     */
     {{#multiplatform}}@Serializable(with = {{nameInCamelCase}}.Serializer::class){{/multiplatform}}
+    {{#jackson}}{{#isPrimitiveType}}@JsonFormat(shape = JsonFormat.Shape.NATURAL){{/isPrimitiveType}}{{^isPrimitiveType}}@JsonFormat(shape = JsonFormat.Shape.OBJECT){{/isPrimitiveType}}{{/jackson}}
     {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val value: {{#isListContainer}}{{{ nestedType }}}{{/isListContainer}}{{^isListContainer}}{{{dataType}}}{{/isListContainer}}){
     {{#allowableValues}}
     {{#enumVars}}
@@ -65,6 +68,9 @@ import java.io.Serializable
         {{#gson}}
         @SerializedName(value={{{value}}})  {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/gson}}
+        {{#jackson}}
+        @JsonProperty(value={{{value}}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        {{/jackson}}
         {{/multiplatform}}
         {{#multiplatform}}
         {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}

@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class FakeAPI {
+@objc open class FakeAPI: NSObject {
     /**
 
      - parameter body: (body) Input boolean as post body (optional)

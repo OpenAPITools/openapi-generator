@@ -185,7 +185,7 @@ class Order
      *
      * @return \DateTime|null
      */
-    public function getShipDate()
+    public function getShipDate(): ?\DateTime
     {
         return $this->shipDate;
     }
@@ -197,7 +197,7 @@ class Order
      *
      * @return $this
      */
-    public function setShipDate(\DateTime $shipDate = null)
+    public function setShipDate(\DateTime $shipDate = null): ?\DateTime
     {
         $this->shipDate = $shipDate;
 

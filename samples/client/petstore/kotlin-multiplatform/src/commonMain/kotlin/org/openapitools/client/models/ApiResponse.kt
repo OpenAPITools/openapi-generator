@@ -22,8 +22,11 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  */
 @Serializable
 data class ApiResponse (
-    @SerialName(value = "code") val code: kotlin.Int? = null,
-    @SerialName(value = "type") val type: kotlin.String? = null,
+    @SerialName(value = "code") val code: kotlin.Int? = null
+,
+    @SerialName(value = "type") val type: kotlin.String? = null
+,
     @SerialName(value = "message") val message: kotlin.String? = null
+
 )
 

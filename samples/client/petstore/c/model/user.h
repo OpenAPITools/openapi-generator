@@ -17,24 +17,24 @@
 typedef struct user_t {
     long id; //numeric
     char *username; // string
-    char *firstName; // string
-    char *lastName; // string
+    char *first_name; // string
+    char *last_name; // string
     char *email; // string
     char *password; // string
     char *phone; // string
-    int userStatus; //numeric
+    int user_status; //numeric
 
 } user_t;
 
 user_t *user_create(
     long id,
     char *username,
-    char *firstName,
-    char *lastName,
+    char *first_name,
+    char *last_name,
     char *email,
     char *password,
     char *phone,
-    int userStatus
+    int user_status
 );
 
 void user_free(user_t *user);

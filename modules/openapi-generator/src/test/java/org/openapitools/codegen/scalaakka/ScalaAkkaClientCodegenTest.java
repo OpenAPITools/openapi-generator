@@ -394,4 +394,28 @@ public class ScalaAkkaClientCodegenTest {
                 Resources.toString(Resources.getResource("codegen/scala/JavaTimeObj.scala.txt"), StandardCharsets.UTF_8));
     }
 
+
+    @Test(description = "strip model name")
+    public void stripModelNameTest() throws Exception {
+        final Schema model = new Schema()
+                .description("a map model");
+        final DefaultCodegen codegen = new ScalaAkkaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+
+        final CodegenModel cms = codegen.fromModel("Stripped.ByDefault.ModelName", model);
+        Assert.assertEquals(cms.name, "Stripped.ByDefault.ModelName");
+        Assert.assertEquals(cms.classname, "ModelName");
+        Assert.assertEquals(cms.classFilename, "ModelName");
+
+        codegen.additionalProperties().put(CodegenConstants.STRIP_PACKAGE_NAME, "false");
+        codegen.processOpts();
+
+        final CodegenModel cm = codegen.fromModel("Non.Stripped.ModelName", model);
+
+        Assert.assertEquals(cm.name, "Non.Stripped.ModelName");
+        Assert.assertEquals(cm.classname, "NonStrippedModelName");
+        Assert.assertEquals(cm.classFilename, "NonStrippedModelName");
+
+    }
 }

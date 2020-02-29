@@ -27,6 +27,23 @@ type User struct {
 	UserStatus *int32 `json:"userStatus,omitempty"`
 }
 
+// NewUser instantiates a new User object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewUser() *User {
+    this := User{}
+    return &this
+}
+
+// NewUserWithDefaults instantiates a new User object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewUserWithDefaults() *User {
+    this := User{}
+    return &this
+}
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *User) GetId() int64 {
 	if o == nil || o.Id == nil {

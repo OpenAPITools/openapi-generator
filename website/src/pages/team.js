@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import styles from './styles.module.css';
 
 // This is based mostly off of Babel's website configuration for Members/orgs/etc.
 function MediaLink(props) {
@@ -14,6 +15,7 @@ function MediaLink(props) {
                     width={props.size}
                     src={props.iconSource}
                     alt={props.iconAlt}
+                    className={styles.mediaLink}
                 />
                 <a href={props.url} target="_blank" rel="noreferrer noopener">
                     <span className="anchor_text">{props.text}</span>

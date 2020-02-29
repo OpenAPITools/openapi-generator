@@ -13,7 +13,7 @@ sidebar_label: go-experimental
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |structPrefix|whether to prefix struct with the class name. e.g. DeletePetOpts =&gt; PetApiDeletePetOpts| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support| |false|
-|withGoCodegenComment|whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs| |false|
+|withGoCodegenComment|whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 
 ## IMPORT MAPPING
@@ -162,7 +162,7 @@ sidebar_label: go-experimental
 |Examples|✓|OAS2,OAS3
 |XMLStructureDefinitions|✗|OAS2,OAS3
 |MultiServer|✗|OAS3
-|ParameterizedServer|✗|OAS3
+|ParameterizedServer|✓|OAS3
 |ParameterStyling|✗|OAS3
 |Callbacks|✗|OAS3
 |LinkObjects|✗|OAS3

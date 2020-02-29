@@ -65,7 +65,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     public RustClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -89,7 +89,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
                 )
-                .build();
+        );
 
         outputFolder = "generated-code/rust";
         modelTemplateFiles.put("model.mustache", ".rs");
@@ -114,7 +114,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "Self", "self", "sizeof", "static", "struct",
                         "super", "trait", "true", "type", "typeof",
                         "unsafe", "unsized", "use", "virtual", "where",
-                        "while", "yield"
+                        "while", "yield", "async", "await", "dyn", "try"
                 )
         );
 

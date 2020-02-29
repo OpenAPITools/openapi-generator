@@ -28,7 +28,7 @@ public class PythonAiohttpConnexionServerCodegen extends PythonAbstractConnexion
     public PythonAiohttpConnexionServerCodegen() {
         super("python-aiohttp", true);
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -49,7 +49,7 @@ public class PythonAiohttpConnexionServerCodegen extends PythonAbstractConnexion
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         testPackage = "tests";
         embeddedTemplateDir = templateDir = "python-aiohttp";

@@ -19,6 +19,23 @@ type BigCatAllOf struct {
 	Kind *string `json:"kind,omitempty"`
 }
 
+// NewBigCatAllOf instantiates a new BigCatAllOf object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewBigCatAllOf() *BigCatAllOf {
+    this := BigCatAllOf{}
+    return &this
+}
+
+// NewBigCatAllOfWithDefaults instantiates a new BigCatAllOf object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewBigCatAllOfWithDefaults() *BigCatAllOf {
+    this := BigCatAllOf{}
+    return &this
+}
+
 // GetKind returns the Kind field value if set, zero value otherwise.
 func (o *BigCatAllOf) GetKind() string {
 	if o == nil || o.Kind == nil {

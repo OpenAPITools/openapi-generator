@@ -52,7 +52,7 @@ const docusaurusConfig = {
         {to: "docs/faq", label: "FAQ" },
         {to: "team", label: "Team" },
         {to: "blog", label: 'Blog'},
-        {to: 'http://api.openapi-generator.tech', label: 'API'},
+        {to: 'https://api.openapi-generator.tech', label: 'API'},
       ],
     },
 
@@ -60,11 +60,11 @@ const docusaurusConfig = {
       trackingID: 'UA-132927057-1',
     },
 
-    // algolia: {
-    //   apiKey: '47ecd3b21be71c5822571b9f59e52544',
-    //   indexName: 'docusaurus-2',
-    //   algoliaOptions: { ... },
-    // },
+    algolia: {
+      apiKey: '28e55aff9bab37236baa1c5f0f84f4bb',
+      indexName: 'openapi-generator',
+      algoliaOptions: { advancedSyntax: true, hitsPerPage: 5},
+    },
 
 
     footer: {
