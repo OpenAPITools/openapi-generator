@@ -1001,6 +1001,15 @@ paths:
           description: Success
       tags:
       - fake
+  /fake/operation-with-numeric-id:
+    get:
+      operationId: 123example
+      responses:
+        "200":
+          content: {}
+          description: success
+      tags:
+      - fake
   /fake/response-with-numerical-description:
     get:
       operationId: fake_response_with_numerical_description

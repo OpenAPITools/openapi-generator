@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+**123example**](fake_api.md#123example) | **GET** /fake/operation-with-numeric-id | 
 **fakeOuterBooleanSerialize**](fake_api.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 **fakeOuterCompositeSerialize**](fake_api.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 **fakeOuterNumberSerialize**](fake_api.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -17,6 +18,28 @@ Method | HTTP request | Description
 **testInlineAdditionalProperties**](fake_api.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 **testJsonFormData**](fake_api.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 
+
+# **123example**
+> 123example()
+
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fakeOuterBooleanSerialize**
 > bool fakeOuterBooleanSerialize(optional)

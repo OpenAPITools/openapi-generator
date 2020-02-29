@@ -15,6 +15,7 @@ use futures::{Future, future, Stream, stream};
 use petstore_with_fake_endpoints_models_for_testing::{Api, ApiNoContext, Client, ContextWrapperExt,
                       ApiError,
                       TestSpecialTagsResponse,
+                      Call123exampleResponse,
                       FakeOuterBooleanSerializeResponse,
                       FakeOuterCompositeSerializeResponse,
                       FakeOuterNumberSerializeResponse,
@@ -56,6 +57,8 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
+
+                "Call123example",
 
                 "FakeOuterBooleanSerialize",
 
@@ -158,6 +161,13 @@ fn main() {
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
+
+        Some("Call123example") => {
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.call123example(
+            ));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
 
         Some("FakeOuterBooleanSerialize") => {
             let mut rt = tokio::runtime::Runtime::new().unwrap();

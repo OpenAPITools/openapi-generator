@@ -86,6 +86,12 @@ pub enum TestSpecialTagsResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum Call123exampleResponse {
+    /// success
+    Success
+}
+
+#[derive(Debug, PartialEq)]
 pub enum FakeOuterBooleanSerializeResponse {
     /// Output boolean
     OutputBoolean
@@ -361,6 +367,9 @@ pub trait Api<C> {
     fn test_special_tags(&self, body: models::Client, context: &C) -> Box<dyn Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send>;
 
 
+    fn call123example(&self, context: &C) -> Box<dyn Future<Item=Call123exampleResponse, Error=ApiError> + Send>;
+
+
     fn fake_outer_boolean_serialize(&self, body: Option<models::OuterBoolean>, context: &C) -> Box<dyn Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError> + Send>;
 
 
@@ -466,6 +475,9 @@ pub trait ApiNoContext {
 
     /// To test special tags
     fn test_special_tags(&self, body: models::Client) -> Box<dyn Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send>;
+
+
+    fn call123example(&self) -> Box<dyn Future<Item=Call123exampleResponse, Error=ApiError> + Send>;
 
 
     fn fake_outer_boolean_serialize(&self, body: Option<models::OuterBoolean>) -> Box<dyn Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError> + Send>;
@@ -585,6 +597,11 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     /// To test special tags
     fn test_special_tags(&self, body: models::Client) -> Box<dyn Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send> {
         self.api().test_special_tags(body, &self.context())
+    }
+
+
+    fn call123example(&self) -> Box<dyn Future<Item=Call123exampleResponse, Error=ApiError> + Send> {
+        self.api().call123example(&self.context())
     }
 
 
