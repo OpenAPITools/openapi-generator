@@ -72,6 +72,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String plainTextMimeType = "text/plain";
     private static final String jsonMimeType = "application/json";
 
+    // RFC 7386 support
+    private static final String mergePatchJsonMimeType = "application/merge-patch+json";
+
     // RFC 7807 Support
     private static final String problemJsonMimeType = "application/problem+json";
     private static final String problemXmlMimeType = "application/problem+xml";
@@ -414,7 +417,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize("call_" + operationId));
+            operationId = "call_" + operationId;
+        } else if (operationId.matches("\\d.*")) {
+            LOGGER.warn(operationId + " cannot be used as method name because it starts with a digit. Renamed to " + camelize("call_" + operationId));
             operationId = "call_" + operationId;
         }
 
@@ -538,6 +544,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private boolean isMimetypeJson(String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith(jsonMimeType) ||
+               mimetype.toLowerCase(Locale.ROOT).startsWith(mergePatchJsonMimeType) ||
                mimetype.toLowerCase(Locale.ROOT).startsWith(problemJsonMimeType);
     }
 
@@ -704,7 +711,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             if (rsp.vendorExtensions.containsKey("x-responseId")) {
                 // If it's been specified directly, use that.
                 responseId = (String) rsp.vendorExtensions.get("x-responseId");
-            } else if (words.length != 0) {
+            } else if ((words.length != 0) && (words[0].trim().length() != 0)) {
                 // If there's a description, build it from the description.
                 responseId = camelize(words[0].replace(" ", "_"));
             } else {
@@ -1167,28 +1174,32 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        String defaultValue = null;
+        if ((ModelUtils.isNullable(p)) && (p.getDefault() != null) && (p.getDefault().toString().equalsIgnoreCase("null")))
+            return "swagger::Nullable::Null";
+        else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 if (p.getDefault().toString().equalsIgnoreCase("false"))
-                    return "false";
+                    defaultValue = "false";
                 else
-                    return "true";
+                    defaultValue = "true";
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
-                return p.getDefault().toString();
+                defaultValue = p.getDefault().toString();
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
-                return p.getDefault().toString();
+                defaultValue = p.getDefault().toString();
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "\"" + (String) p.getDefault() + "\".to_string()";
+                defaultValue = "\"" + (String) p.getDefault() + "\".to_string()";
             }
         }
-
-        return null;
+        if ((defaultValue != null) && (ModelUtils.isNullable(p)))
+            defaultValue = "swagger::Nullable::Present(" + defaultValue + ")";
+        return defaultValue;
     }
 
     @Override

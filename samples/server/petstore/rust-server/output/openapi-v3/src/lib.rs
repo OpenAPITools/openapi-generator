@@ -81,6 +81,13 @@ pub enum MandatoryRequestHeaderGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum MergePatchJsonGetResponse {
+    /// merge-patch+json-encoded response
+    Merge
+            ( models::AnotherXmlObject )
+}
+
+#[derive(Debug, PartialEq)]
 pub enum MultigetGetResponse {
     /// JSON rsp
     JSONRsp
@@ -234,6 +241,9 @@ pub trait Api<C> {
 
     fn mandatory_request_header_get(&self, x_header: String, context: &C) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send>;
 
+
+    fn merge_patch_json_get(&self, context: &C) -> Box<dyn Future<Item=MergePatchJsonGetResponse, Error=ApiError> + Send>;
+
     /// Get some stuff.
     fn multiget_get(&self, context: &C) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError> + Send>;
 
@@ -283,6 +293,9 @@ pub trait ApiNoContext {
 
 
     fn mandatory_request_header_get(&self, x_header: String) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send>;
+
+
+    fn merge_patch_json_get(&self) -> Box<dyn Future<Item=MergePatchJsonGetResponse, Error=ApiError> + Send>;
 
     /// Get some stuff.
     fn multiget_get(&self) -> Box<dyn Future<Item=MultigetGetResponse, Error=ApiError> + Send>;
@@ -345,6 +358,11 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
     fn mandatory_request_header_get(&self, x_header: String) -> Box<dyn Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send> {
         self.api().mandatory_request_header_get(x_header, &self.context())
+    }
+
+
+    fn merge_patch_json_get(&self) -> Box<dyn Future<Item=MergePatchJsonGetResponse, Error=ApiError> + Send> {
+        self.api().merge_patch_json_get(&self.context())
     }
 
     /// Get some stuff.

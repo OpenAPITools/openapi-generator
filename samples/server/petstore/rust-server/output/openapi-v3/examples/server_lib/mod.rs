@@ -18,6 +18,7 @@ use swagger::{Has, XSpanIdString};
 
 use openapi_v3::{Api, ApiError,
                       MandatoryRequestHeaderGetResponse,
+                      MergePatchJsonGetResponse,
                       MultigetGetResponse,
                       MultipleAuthSchemeGetResponse,
                       ParamgetGetResponse,
@@ -52,6 +53,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn mandatory_request_header_get(&self, x_header: String, context: &C) -> Box<Future<Item=MandatoryRequestHeaderGetResponse, Error=ApiError> + Send> {
         let context = context.clone();
         println!("mandatory_request_header_get(\"{}\") - X-Span-ID: {:?}", x_header, context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
+
+    fn merge_patch_json_get(&self, context: &C) -> Box<Future<Item=MergePatchJsonGetResponse, Error=ApiError> + Send> {
+        let context = context.clone();
+        println!("merge_patch_json_get() - X-Span-ID: {:?}", context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 

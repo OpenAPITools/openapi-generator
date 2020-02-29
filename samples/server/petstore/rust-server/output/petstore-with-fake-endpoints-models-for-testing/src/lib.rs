@@ -86,6 +86,12 @@ pub enum TestSpecialTagsResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum Call123exampleResponse {
+    /// success
+    Success
+}
+
+#[derive(Debug, PartialEq)]
 pub enum FakeOuterBooleanSerializeResponse {
     /// Output boolean
     OutputBoolean
@@ -111,6 +117,12 @@ pub enum FakeOuterStringSerializeResponse {
     /// Output string
     OutputString
             ( String )
+}
+
+#[derive(Debug, PartialEq)]
+pub enum FakeResponseWithNumericalDescriptionResponse {
+    /// 1234
+    Status200
 }
 
 #[derive(Debug, PartialEq)]
@@ -355,6 +367,9 @@ pub trait Api<C> {
     fn test_special_tags(&self, body: models::Client, context: &C) -> Box<dyn Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send>;
 
 
+    fn call123example(&self, context: &C) -> Box<dyn Future<Item=Call123exampleResponse, Error=ApiError> + Send>;
+
+
     fn fake_outer_boolean_serialize(&self, body: Option<models::OuterBoolean>, context: &C) -> Box<dyn Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError> + Send>;
 
 
@@ -365,6 +380,9 @@ pub trait Api<C> {
 
 
     fn fake_outer_string_serialize(&self, body: Option<models::OuterString>, context: &C) -> Box<dyn Future<Item=FakeOuterStringSerializeResponse, Error=ApiError> + Send>;
+
+
+    fn fake_response_with_numerical_description(&self, context: &C) -> Box<dyn Future<Item=FakeResponseWithNumericalDescriptionResponse, Error=ApiError> + Send>;
 
 
     fn hyphen_param(&self, hyphen_param: String, context: &C) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError> + Send>;
@@ -459,6 +477,9 @@ pub trait ApiNoContext {
     fn test_special_tags(&self, body: models::Client) -> Box<dyn Future<Item=TestSpecialTagsResponse, Error=ApiError> + Send>;
 
 
+    fn call123example(&self) -> Box<dyn Future<Item=Call123exampleResponse, Error=ApiError> + Send>;
+
+
     fn fake_outer_boolean_serialize(&self, body: Option<models::OuterBoolean>) -> Box<dyn Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError> + Send>;
 
 
@@ -469,6 +490,9 @@ pub trait ApiNoContext {
 
 
     fn fake_outer_string_serialize(&self, body: Option<models::OuterString>) -> Box<dyn Future<Item=FakeOuterStringSerializeResponse, Error=ApiError> + Send>;
+
+
+    fn fake_response_with_numerical_description(&self) -> Box<dyn Future<Item=FakeResponseWithNumericalDescriptionResponse, Error=ApiError> + Send>;
 
 
     fn hyphen_param(&self, hyphen_param: String) -> Box<dyn Future<Item=HyphenParamResponse, Error=ApiError> + Send>;
@@ -576,6 +600,11 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     }
 
 
+    fn call123example(&self) -> Box<dyn Future<Item=Call123exampleResponse, Error=ApiError> + Send> {
+        self.api().call123example(&self.context())
+    }
+
+
     fn fake_outer_boolean_serialize(&self, body: Option<models::OuterBoolean>) -> Box<dyn Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError> + Send> {
         self.api().fake_outer_boolean_serialize(body, &self.context())
     }
@@ -593,6 +622,11 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
     fn fake_outer_string_serialize(&self, body: Option<models::OuterString>) -> Box<dyn Future<Item=FakeOuterStringSerializeResponse, Error=ApiError> + Send> {
         self.api().fake_outer_string_serialize(body, &self.context())
+    }
+
+
+    fn fake_response_with_numerical_description(&self) -> Box<dyn Future<Item=FakeResponseWithNumericalDescriptionResponse, Error=ApiError> + Send> {
+        self.api().fake_response_with_numerical_description(&self.context())
     }
 
 

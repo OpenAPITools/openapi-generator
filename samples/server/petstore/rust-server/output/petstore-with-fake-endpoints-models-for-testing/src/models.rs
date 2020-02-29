@@ -94,9 +94,7 @@ impl ::std::str::FromStr for AdditionalPropertiesClass {
             if let Some(key) = key_result {
                 match key {
                     "map_property" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     "map_of_map_property" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -207,12 +205,8 @@ impl ::std::str::FromStr for Animal {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "className" => intermediate_rep.class_name.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "color" => intermediate_rep.color.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -449,15 +443,9 @@ impl ::std::str::FromStr for ApiResponse {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "code" => intermediate_rep.code.push(i32::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "type" => intermediate_rep.type_.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "message" => intermediate_rep.message.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -557,7 +545,6 @@ impl ::std::str::FromStr for ArrayOfArrayOfNumberOnly {
             if let Some(key) = key_result {
                 match key {
                     "ArrayArrayNumber" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -659,7 +646,6 @@ impl ::std::str::FromStr for ArrayOfNumberOnly {
             if let Some(key) = key_result {
                 match key {
                     "ArrayNumber" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -790,13 +776,9 @@ impl ::std::str::FromStr for ArrayTest {
             if let Some(key) = key_result {
                 match key {
                     "array_of_string" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     "array_array_of_integer" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     "array_array_of_model" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     "array_of_enum" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -961,24 +943,12 @@ impl ::std::str::FromStr for Capitalization {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "smallCamel" => intermediate_rep.small_camel.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "CapitalCamel" => intermediate_rep.capital_camel.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "small_Snake" => intermediate_rep.small_snake.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "Capital_Snake" => intermediate_rep.capital_snake.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "SCA_ETH_Flow_Points" => intermediate_rep.sca_eth_flow_points.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "ATT_NAME" => intermediate_rep.att_name.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -1105,15 +1075,9 @@ impl ::std::str::FromStr for Cat {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "className" => intermediate_rep.class_name.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "color" => intermediate_rep.color.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "declawed" => intermediate_rep.declawed.push(bool::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -1216,9 +1180,7 @@ impl ::std::str::FromStr for CatAllOf {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "declawed" => intermediate_rep.declawed.push(bool::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -1332,12 +1294,8 @@ impl ::std::str::FromStr for Category {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "id" => intermediate_rep.id.push(i64::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "name" => intermediate_rep.name.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -1440,9 +1398,7 @@ impl ::std::str::FromStr for ClassModel {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "_class" => intermediate_rep._class.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -1543,9 +1499,7 @@ impl ::std::str::FromStr for Client {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "client" => intermediate_rep.client.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -1667,15 +1621,9 @@ impl ::std::str::FromStr for Dog {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "className" => intermediate_rep.class_name.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "color" => intermediate_rep.color.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "breed" => intermediate_rep.breed.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -1778,9 +1726,7 @@ impl ::std::str::FromStr for DogAllOf {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "breed" => intermediate_rep.breed.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -1904,13 +1850,9 @@ impl ::std::str::FromStr for EnumArrays {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "just_symbol" => intermediate_rep.just_symbol.push(String::from_str(val).map_err(|x| ())?),
-                    
                     "array_enum" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     "array_array_enum" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -2105,21 +2047,11 @@ impl ::std::str::FromStr for EnumTest {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "enum_string" => intermediate_rep.enum_string.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "enum_string_required" => intermediate_rep.enum_string_required.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "enum_integer" => intermediate_rep.enum_integer.push(i32::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "enum_number" => intermediate_rep.enum_number.push(f64::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "outerEnum" => intermediate_rep.outer_enum.push(models::OuterEnum::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -2342,43 +2274,19 @@ impl ::std::str::FromStr for FormatTest {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "integer" => intermediate_rep.integer.push(u8::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "int32" => intermediate_rep.int32.push(u32::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "int64" => intermediate_rep.int64.push(i64::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "number" => intermediate_rep.number.push(f64::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "float" => intermediate_rep.float.push(f32::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "double" => intermediate_rep.double.push(f64::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "string" => intermediate_rep.string.push(String::from_str(val).map_err(|x| ())?),
-                    
                     "byte" => return Err(()), // Parsing binary data in this style is not supported yet
-                    
                     "binary" => return Err(()), // Parsing binary data in this style is not supported yet
-                    
-                    
                     "date" => intermediate_rep.date.push(chrono::DateTime::<chrono::Utc>::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "dateTime" => intermediate_rep.date_time.push(chrono::DateTime::<chrono::Utc>::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "uuid" => intermediate_rep.uuid.push(uuid::Uuid::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "password" => intermediate_rep.password.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -2503,12 +2411,8 @@ impl ::std::str::FromStr for HasOnlyReadOnly {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "bar" => intermediate_rep.bar.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "foo" => intermediate_rep.foo.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -2610,9 +2514,7 @@ impl ::std::str::FromStr for List {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "123-list" => intermediate_rep.param_123_list.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -2730,11 +2632,8 @@ impl ::std::str::FromStr for MapTest {
             if let Some(key) = key_result {
                 match key {
                     "map_map_of_string" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     "map_map_of_enum" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     "map_of_enum_string" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -2850,14 +2749,9 @@ impl ::std::str::FromStr for MixedPropertiesAndAdditionalPropertiesClass {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "uuid" => intermediate_rep.uuid.push(uuid::Uuid::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "dateTime" => intermediate_rep.date_time.push(chrono::DateTime::<chrono::Utc>::from_str(val).map_err(|x| ())?),
-                    
                     "map" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -2974,12 +2868,8 @@ impl ::std::str::FromStr for Model200Response {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "name" => intermediate_rep.name.push(i32::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "class" => intermediate_rep.class.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -3083,9 +2973,7 @@ impl ::std::str::FromStr for ModelReturn {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "return" => intermediate_rep.return_.push(i32::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -3221,18 +3109,10 @@ impl ::std::str::FromStr for Name {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "name" => intermediate_rep.name.push(i32::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "snake_case" => intermediate_rep.snake_case.push(i32::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "property" => intermediate_rep.property.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "123Number" => intermediate_rep.param_123_number.push(isize::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -3336,9 +3216,7 @@ impl ::std::str::FromStr for NumberOnly {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "JustNumber" => intermediate_rep.just_number.push(f64::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -3435,9 +3313,7 @@ impl ::std::str::FromStr for ObjectContainingObjectWithOnlyAdditionalProperties 
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "inner" => intermediate_rep.inner.push(models::ObjectWithOnlyAdditionalProperties::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -3658,24 +3534,12 @@ impl ::std::str::FromStr for Order {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "id" => intermediate_rep.id.push(i64::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "petId" => intermediate_rep.pet_id.push(i64::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "quantity" => intermediate_rep.quantity.push(i32::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "shipDate" => intermediate_rep.ship_date.push(chrono::DateTime::<chrono::Utc>::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "status" => intermediate_rep.status.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "complete" => intermediate_rep.complete.push(bool::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -3845,15 +3709,9 @@ impl ::std::str::FromStr for OuterComposite {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "my_number" => intermediate_rep.my_number.push(f64::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "my_string" => intermediate_rep.my_string.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "my_boolean" => intermediate_rep.my_boolean.push(bool::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -4138,22 +3996,12 @@ impl ::std::str::FromStr for Pet {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "id" => intermediate_rep.id.push(i64::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "category" => intermediate_rep.category.push(models::Category::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "name" => intermediate_rep.name.push(String::from_str(val).map_err(|x| ())?),
-                    
                     "photoUrls" => return Err(()), // Parsing a container in this style is not supported yet
-                    
                     "tags" => return Err(()), // Parsing a container in this style is not supported yet
-                    
-                    
                     "status" => intermediate_rep.status.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -4271,12 +4119,8 @@ impl ::std::str::FromStr for ReadOnlyFirst {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "bar" => intermediate_rep.bar.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "baz" => intermediate_rep.baz.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -4379,9 +4223,7 @@ impl ::std::str::FromStr for SpecialModelName {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "$special[property.name]" => intermediate_rep.special_property_name.push(i64::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -4495,12 +4337,8 @@ impl ::std::str::FromStr for Tag {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "id" => intermediate_rep.id.push(i64::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "name" => intermediate_rep.name.push(String::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
@@ -4688,30 +4526,14 @@ impl ::std::str::FromStr for User {
 
             if let Some(key) = key_result {
                 match key {
-                    
                     "id" => intermediate_rep.id.push(i64::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "username" => intermediate_rep.username.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "firstName" => intermediate_rep.first_name.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "lastName" => intermediate_rep.last_name.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "email" => intermediate_rep.email.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "password" => intermediate_rep.password.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "phone" => intermediate_rep.phone.push(String::from_str(val).map_err(|x| ())?),
-                    
-                    
                     "userStatus" => intermediate_rep.user_status.push(i32::from_str(val).map_err(|x| ())?),
-                    
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }
