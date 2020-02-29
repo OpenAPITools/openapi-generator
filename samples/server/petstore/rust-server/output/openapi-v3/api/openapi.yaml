@@ -402,6 +402,30 @@ components:
       type: boolean
     OptionalObjectHeader:
       type: integer
+    NullableTest:
+      properties:
+        nullable:
+          nullable: true
+          type: string
+        nullableWithNullDefault:
+          default: "null"
+          nullable: true
+          type: string
+        nullableWithPresentDefault:
+          default: default
+          nullable: true
+          type: string
+        nullableWithNoDefault:
+          nullable: true
+          type: string
+        nullableArray:
+          items:
+            type: string
+          nullable: true
+          type: array
+      required:
+      - nullable
+      type: object
     inline_response_201:
       properties:
         foo:

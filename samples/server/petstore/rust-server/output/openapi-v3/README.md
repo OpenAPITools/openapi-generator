@@ -138,6 +138,7 @@ Method | HTTP request | Description
  - [InlineResponse201](docs/InlineResponse201.md)
  - [MyId](docs/MyId.md)
  - [MyIdList](docs/MyIdList.md)
+ - [NullableTest](docs/NullableTest.md)
  - [ObjectHeader](docs/ObjectHeader.md)
  - [ObjectParam](docs/ObjectParam.md)
  - [ObjectUntypedProps](docs/ObjectUntypedProps.md)
