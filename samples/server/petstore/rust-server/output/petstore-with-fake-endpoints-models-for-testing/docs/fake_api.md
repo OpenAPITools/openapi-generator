@@ -9,6 +9,7 @@ Method | HTTP request | Description
 **fakeOuterCompositeSerialize**](fake_api.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 **fakeOuterNumberSerialize**](fake_api.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 **fakeOuterStringSerialize**](fake_api.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+**fake_response_with_numerical_description**](fake_api.md#fake_response_with_numerical_description) | **GET** /fake/response-with-numerical-description | 
 **hyphenParam**](fake_api.md#hyphenParam) | **GET** /fake/hyphenParam/{hyphen-param} | 
 **testBodyWithQueryParams**](fake_api.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 **testClientModel**](fake_api.md#testClientModel) | **PATCH** /fake | To test \"client\" model
@@ -173,6 +174,28 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: */*, 
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **fake_response_with_numerical_description**
+> fake_response_with_numerical_description()
+
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

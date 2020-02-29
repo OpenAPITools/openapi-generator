@@ -299,7 +299,12 @@ impl ::std::string::ToString for {{{classname}}} {
 {{/isNullable}}
 {{/isListContainer}}
 {{#isListContainer}}
+{{#isNullable}}
+        params.push(self.{{{name}}}.as_ref().map_or(vec!["null".to_string()], |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()));
+{{/isNullable}}
+{{^isNullable}}
         params.push(self.{{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
+{{/isNullable}}
 {{/isListContainer}}
 {{/required}}
 {{^required}}
@@ -314,7 +319,12 @@ impl ::std::string::ToString for {{{classname}}} {
 {{/isNullable}}
 {{/isListContainer}}
 {{#isListContainer}}
+{{#isNullable}}
+            params.push({{{name}}}.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()));
+{{/isNullable}}
+{{^isNullable}}
             params.push({{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
+{{/isNullable}}
 {{/isListContainer}}
         }
 {{/required}}
@@ -353,23 +363,29 @@ impl ::std::str::FromStr for {{{classname}}} {
 
             if let Some(key) = key_result {
                 match key {
-                    {{#vars}}
-                    {{#isBinary}}
+          {{#vars}}
+            {{#isBinary}}
                     "{{{baseName}}}" => return Err(()), // Parsing binary data in this style is not supported yet
-                    {{/isBinary}}
-                    {{#isByteArray}}
+            {{/isBinary}}
+            {{^isBinary}}
+              {{#isByteArray}}
                     "{{{baseName}}}" => return Err(()), // Parsing binary data in this style is not supported yet
-                    {{/isByteArray}}
-                    {{#isContainer}}
+              {{/isByteArray}}
+              {{^isByteArray}}
+                {{#isContainer}}
                     "{{{baseName}}}" => return Err(()), // Parsing a container in this style is not supported yet
-                    {{/isContainer}}
-                    {{#isNullable}}
+                {{/isContainer}}
+                {{^isContainer}}
+                  {{#isNullable}}
                     "{{{baseName}}}" => return Err(()), // Parsing a nullable type in this style is not supported yet
-                    {{/isNullable}}
-                    {{^isByteArray}}{{^isBinary}}{{^isContainer}}{{^isNullable}}
+                  {{/isNullable}}
+                  {{^isNullable}}
                     "{{{baseName}}}" => intermediate_rep.{{{name}}}.push({{{dataType}}}::from_str(val).map_err(|x| ())?),
-                    {{/isNullable}}{{/isContainer}}{{/isBinary}}{{/isByteArray}}
-                    {{/vars}}
+                  {{/isNullable}}
+                {{/isContainer}}
+              {{/isByteArray}}
+            {{/isBinary}}
+          {{/vars}}
                     _ => return Err(()) // Parse error - unexpected key
                 }
             }

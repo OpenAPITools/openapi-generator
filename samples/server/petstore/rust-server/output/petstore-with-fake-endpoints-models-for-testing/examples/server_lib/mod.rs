@@ -23,6 +23,7 @@ use petstore_with_fake_endpoints_models_for_testing::{Api, ApiError,
                       FakeOuterCompositeSerializeResponse,
                       FakeOuterNumberSerializeResponse,
                       FakeOuterStringSerializeResponse,
+                      FakeResponseWithNumericalDescriptionResponse,
                       HyphenParamResponse,
                       TestBodyWithQueryParamsResponse,
                       TestClientModelResponse,
@@ -106,6 +107,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn fake_outer_string_serialize(&self, body: Option<models::OuterString>, context: &C) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError> + Send> {
         let context = context.clone();
         println!("fake_outer_string_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
+
+    fn fake_response_with_numerical_description(&self, context: &C) -> Box<Future<Item=FakeResponseWithNumericalDescriptionResponse, Error=ApiError> + Send> {
+        let context = context.clone();
+        println!("fake_response_with_numerical_description() - X-Span-ID: {:?}", context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
