@@ -290,7 +290,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            return (ModelUtils.isSet(ap) ? instantiationTypes.get("set") : instantiationTypes.get("array")) + "[" + inner + "]";
+            return ( ModelUtils.isSet(ap) ? instantiationTypes.get("set") : instantiationTypes.get("array") ) + "[" + inner + "]";
         } else {
             return null;
         }
@@ -328,13 +328,13 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
             // test for immutable Monoids with .empty method for idiomatic defaults
             if ("List".equals(genericType) ||
-                    "Set".equals(genericType) ||
-                    "Seq".equals(genericType) ||
-                    "Array".equals(genericType) ||
-                    "Vector".equals(genericType) ||
-                    "IndexedSeq".equals(genericType) ||
-                    "Iterable".equals(genericType) ||
-                    "ListSet".equals(genericType)
+                "Set".equals(genericType) ||
+                "Seq".equals(genericType) ||
+                "Array".equals(genericType) ||
+                "Vector".equals(genericType) ||
+                "IndexedSeq".equals(genericType) ||
+                "Iterable".equals(genericType) ||
+                "ListSet".equals(genericType)
             ) {
                 return genericType + "[" + inner + "].empty ";
             }
@@ -378,6 +378,31 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             if (_import.startsWith(prefix)) iterator.remove();
         }
         return objs;
+    }
+
+    @Override
+    public String toModelName(final String name) {
+        final String sanitizedName = sanitizeName(modelNamePrefix + this.stripPackageName(name) + modelNameSuffix);
+
+        // camelize the model name
+        // phone_number => PhoneNumber
+        final String camelizedName = camelize(sanitizedName);
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(camelizedName)) {
+            final String modelName = "Model" + camelizedName;
+            LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        return camelizedName;
     }
 
     @Override

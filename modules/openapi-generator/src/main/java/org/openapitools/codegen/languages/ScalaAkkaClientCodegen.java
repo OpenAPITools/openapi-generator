@@ -49,6 +49,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     protected boolean registerNonStandardStatusCodes = true;
     protected boolean renderJavadoc = true;
     protected boolean removeOAuthSecurities = true;
+   // protected boolean stripPackageName = false;
 
 
     @SuppressWarnings("hiding")
@@ -297,11 +298,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         } else {
             return null;
         }
-    }
-
-    @Override
-    public String toModelName(final String name) {
-        return formatIdentifier(name, true);
     }
 
     private static abstract class CustomLambda implements Mustache.Lambda {
