@@ -1163,28 +1163,32 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        String defaultValue = null;
+        if ((ModelUtils.isNullable(p)) && (p.getDefault() != null) && (p.getDefault().toString().equalsIgnoreCase("null")))
+            return "swagger::Nullable::Null";
+        else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 if (p.getDefault().toString().equalsIgnoreCase("false"))
-                    return "false";
+                    defaultValue = "false";
                 else
-                    return "true";
+                    defaultValue = "true";
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
-                return p.getDefault().toString();
+                defaultValue = p.getDefault().toString();
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
-                return p.getDefault().toString();
+                defaultValue = p.getDefault().toString();
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "\"" + (String) p.getDefault() + "\".to_string()";
+                defaultValue = "\"" + (String) p.getDefault() + "\".to_string()";
             }
         }
-
-        return null;
+        if ((defaultValue != null) && (ModelUtils.isNullable(p)))
+            defaultValue = "swagger::Nullable::Present(" + defaultValue + ")";
+        return defaultValue;
     }
 
     @Override
