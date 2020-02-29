@@ -28,6 +28,7 @@ use {Api,
      FakeOuterCompositeSerializeResponse,
      FakeOuterNumberSerializeResponse,
      FakeOuterStringSerializeResponse,
+     FakeResponseWithNumericalDescriptionResponse,
      HyphenParamResponse,
      TestBodyWithQueryParamsResponse,
      TestClientModelResponse,
@@ -79,6 +80,7 @@ mod paths {
             r"^/v2/fake/outer/composite$",
             r"^/v2/fake/outer/number$",
             r"^/v2/fake/outer/string$",
+            r"^/v2/fake/response-with-numerical-description$",
             r"^/v2/fake_classname_test$",
             r"^/v2/pet$",
             r"^/v2/pet/findByStatus$",
@@ -112,36 +114,37 @@ mod paths {
     pub static ID_FAKE_OUTER_COMPOSITE: usize = 7;
     pub static ID_FAKE_OUTER_NUMBER: usize = 8;
     pub static ID_FAKE_OUTER_STRING: usize = 9;
-    pub static ID_FAKE_CLASSNAME_TEST: usize = 10;
-    pub static ID_PET: usize = 11;
-    pub static ID_PET_FINDBYSTATUS: usize = 12;
-    pub static ID_PET_FINDBYTAGS: usize = 13;
-    pub static ID_PET_PETID: usize = 14;
+    pub static ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION: usize = 10;
+    pub static ID_FAKE_CLASSNAME_TEST: usize = 11;
+    pub static ID_PET: usize = 12;
+    pub static ID_PET_FINDBYSTATUS: usize = 13;
+    pub static ID_PET_FINDBYTAGS: usize = 14;
+    pub static ID_PET_PETID: usize = 15;
     lazy_static! {
         pub static ref REGEX_PET_PETID: regex::Regex =
             regex::Regex::new(r"^/v2/pet/(?P<pet_id>[^/?#]*)$")
                 .expect("Unable to create regex for PET_PETID");
     }
-    pub static ID_PET_PETID_UPLOADIMAGE: usize = 15;
+    pub static ID_PET_PETID_UPLOADIMAGE: usize = 16;
     lazy_static! {
         pub static ref REGEX_PET_PETID_UPLOADIMAGE: regex::Regex =
             regex::Regex::new(r"^/v2/pet/(?P<pet_id>[^/?#]*)/uploadImage$")
                 .expect("Unable to create regex for PET_PETID_UPLOADIMAGE");
     }
-    pub static ID_STORE_INVENTORY: usize = 16;
-    pub static ID_STORE_ORDER: usize = 17;
-    pub static ID_STORE_ORDER_ORDER_ID: usize = 18;
+    pub static ID_STORE_INVENTORY: usize = 17;
+    pub static ID_STORE_ORDER: usize = 18;
+    pub static ID_STORE_ORDER_ORDER_ID: usize = 19;
     lazy_static! {
         pub static ref REGEX_STORE_ORDER_ORDER_ID: regex::Regex =
             regex::Regex::new(r"^/v2/store/order/(?P<order_id>[^/?#]*)$")
                 .expect("Unable to create regex for STORE_ORDER_ORDER_ID");
     }
-    pub static ID_USER: usize = 19;
-    pub static ID_USER_CREATEWITHARRAY: usize = 20;
-    pub static ID_USER_CREATEWITHLIST: usize = 21;
-    pub static ID_USER_LOGIN: usize = 22;
-    pub static ID_USER_LOGOUT: usize = 23;
-    pub static ID_USER_USERNAME: usize = 24;
+    pub static ID_USER: usize = 20;
+    pub static ID_USER_CREATEWITHARRAY: usize = 21;
+    pub static ID_USER_CREATEWITHLIST: usize = 22;
+    pub static ID_USER_LOGIN: usize = 23;
+    pub static ID_USER_LOGOUT: usize = 24;
+    pub static ID_USER_USERNAME: usize = 25;
     lazy_static! {
         pub static ref REGEX_USER_USERNAME: regex::Regex =
             regex::Regex::new(r"^/v2/user/(?P<username>[^/?#]*)$")
@@ -638,6 +641,46 @@ where
                         }
                     })
                 ) as Self::Future
+            },
+
+            // FakeResponseWithNumericalDescription - GET /fake/response-with-numerical-description
+            &hyper::Method::GET if path.matched(paths::ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION) => {
+                Box::new({
+                        {{
+                                Box::new(
+                                    api_impl.fake_response_with_numerical_description(
+                                        &context
+                                    ).then(move |result| {
+                                        let mut response = Response::new(Body::empty());
+                                        response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                FakeResponseWithNumericalDescriptionResponse::Status200
+
+
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+                        }}
+                }) as Self::Future
             },
 
             // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
@@ -3255,6 +3298,9 @@ impl<T> RequestParser<T> for ApiRequestParser {
 
             // FakeOuterStringSerialize - POST /fake/outer/string
             &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_STRING) => Ok("FakeOuterStringSerialize"),
+
+            // FakeResponseWithNumericalDescription - GET /fake/response-with-numerical-description
+            &hyper::Method::GET if path.matched(paths::ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION) => Ok("FakeResponseWithNumericalDescription"),
 
             // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
             &hyper::Method::GET if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => Ok("HyphenParam"),

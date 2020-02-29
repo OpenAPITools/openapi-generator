@@ -700,7 +700,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             if (rsp.vendorExtensions.containsKey("x-responseId")) {
                 // If it's been specified directly, use that.
                 responseId = (String) rsp.vendorExtensions.get("x-responseId");
-            } else if (words.length != 0) {
+            } else if ((words.length != 0) && (words[0].trim().length() != 0)) {
                 // If there's a description, build it from the description.
                 responseId = camelize(words[0].replace(" ", "_"));
             } else {
