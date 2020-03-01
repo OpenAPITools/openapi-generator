@@ -62,6 +62,7 @@ To run a client, follow one of the following simple steps:
 
 ```
 cargo run --example client MandatoryRequestHeaderGet
+cargo run --example client MergePatchJsonGet
 cargo run --example client MultigetGet
 cargo run --example client MultipleAuthSchemeGet
 cargo run --example client ParamgetGet
@@ -110,6 +111,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [****](docs/default_api.md#) | **GET** /mandatory-request-header | 
+[****](docs/default_api.md#) | **GET** /merge-patch-json | 
 [****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
 [****](docs/default_api.md#) | **GET** /multiple_auth_scheme | 
 [****](docs/default_api.md#) | **GET** /paramget | Get some stuff with parameters.
@@ -136,6 +138,7 @@ Method | HTTP request | Description
  - [InlineResponse201](docs/InlineResponse201.md)
  - [MyId](docs/MyId.md)
  - [MyIdList](docs/MyIdList.md)
+ - [NullableTest](docs/NullableTest.md)
  - [ObjectHeader](docs/ObjectHeader.md)
  - [ObjectParam](docs/ObjectParam.md)
  - [ObjectUntypedProps](docs/ObjectUntypedProps.md)

@@ -15,10 +15,12 @@ use futures::{Future, future, Stream, stream};
 use petstore_with_fake_endpoints_models_for_testing::{Api, ApiNoContext, Client, ContextWrapperExt,
                       ApiError,
                       TestSpecialTagsResponse,
+                      Call123exampleResponse,
                       FakeOuterBooleanSerializeResponse,
                       FakeOuterCompositeSerializeResponse,
                       FakeOuterNumberSerializeResponse,
                       FakeOuterStringSerializeResponse,
+                      FakeResponseWithNumericalDescriptionResponse,
                       HyphenParamResponse,
                       TestBodyWithQueryParamsResponse,
                       TestClientModelResponse,
@@ -56,6 +58,8 @@ fn main() {
             .help("Sets the operation to run")
             .possible_values(&[
 
+                "Call123example",
+
                 "FakeOuterBooleanSerialize",
 
                 "FakeOuterCompositeSerialize",
@@ -63,6 +67,8 @@ fn main() {
                 "FakeOuterNumberSerialize",
 
                 "FakeOuterStringSerialize",
+
+                "FakeResponseWithNumericalDescription",
 
                 "HyphenParam",
 
@@ -156,6 +162,13 @@ fn main() {
         },
         */
 
+        Some("Call123example") => {
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.call123example(
+            ));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+
         Some("FakeOuterBooleanSerialize") => {
             let mut rt = tokio::runtime::Runtime::new().unwrap();
             let result = rt.block_on(client.fake_outer_boolean_serialize(
@@ -184,6 +197,13 @@ fn main() {
             let mut rt = tokio::runtime::Runtime::new().unwrap();
             let result = rt.block_on(client.fake_outer_string_serialize(
                   None
+            ));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+
+        Some("FakeResponseWithNumericalDescription") => {
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.fake_response_with_numerical_description(
             ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

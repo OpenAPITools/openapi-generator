@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 ****](default_api.md#) | **GET** /mandatory-request-header | 
+****](default_api.md#) | **GET** /merge-patch-json | 
 ****](default_api.md#) | **GET** /multiget | Get some stuff.
 ****](default_api.md#) | **GET** /multiple_auth_scheme | 
 ****](default_api.md#) | **GET** /paramget | Get some stuff with parameters.
@@ -43,6 +44,28 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# ****
+> models::AnotherXmlObject ()
+
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**models::AnotherXmlObject**](anotherXmlObject.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/merge-patch+json, 
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

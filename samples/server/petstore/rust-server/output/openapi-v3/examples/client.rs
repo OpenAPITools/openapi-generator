@@ -15,6 +15,7 @@ use futures::{Future, future, Stream, stream};
 use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt,
                       ApiError,
                       MandatoryRequestHeaderGetResponse,
+                      MergePatchJsonGetResponse,
                       MultigetGetResponse,
                       MultipleAuthSchemeGetResponse,
                       ParamgetGetResponse,
@@ -39,6 +40,8 @@ fn main() {
             .possible_values(&[
 
                 "MandatoryRequestHeaderGet",
+
+                "MergePatchJsonGet",
 
                 "MultigetGet",
 
@@ -116,6 +119,13 @@ fn main() {
             let mut rt = tokio::runtime::Runtime::new().unwrap();
             let result = rt.block_on(client.mandatory_request_header_get(
                   "x_header_example".to_string()
+            ));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+
+        Some("MergePatchJsonGet") => {
+            let mut rt = tokio::runtime::Runtime::new().unwrap();
+            let result = rt.block_on(client.merge_patch_json_get(
             ));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
