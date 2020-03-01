@@ -169,11 +169,9 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         }
 
         // if it's all uppper case, do nothing
-        if (varName.matches("^[A-Z_]*$")) {
-            return varName;
+        if (!varName.matches("^[A-Z_0-9]*$")) {
+            varName = getNameUsingModelPropertyNaming(varName);
         }
-
-        varName = getNameUsingModelPropertyNaming(varName);
 
         if (isReservedWord(varName) || varName.matches("^\\d.*")) {
             varName = escapeReservedWord(varName);
