@@ -20,15 +20,14 @@
 
 // Functions for enum STATUS for PetAPI_findPetsByStatus
 
-
-char* STATUS_ToString(status_e STATUS){
-char *STATUSArray[] =  { "available","pending","sold" };
+static char* findPetsByStatus_STATUS_ToString(openapi_petstore_findPetsByStatus_status_e STATUS){
+    char *STATUSArray[] =  { "NULL", "available", "pending", "sold" };
     return STATUSArray[STATUS];
 }
 
-status_e STATUS_FromString(char* STATUS){
+static openapi_petstore_findPetsByStatus_status_e findPetsByStatus_STATUS_FromString(char* STATUS){
     int stringToReturn = 0;
-    char *STATUSArray[] =  { "available","pending","sold" };
+    char *STATUSArray[] =  { "NULL", "available", "pending", "sold" };
     size_t sizeofArray = sizeof(STATUSArray) / sizeof(STATUSArray[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp(STATUS, STATUSArray[stringToReturn]) == 0) {
@@ -39,22 +38,20 @@ status_e STATUS_FromString(char* STATUS){
     return 0;
 }
 
-cJSON *STATUS_convertToJSON(status_e STATUS) {
-cJSON *item = cJSON_CreateObject();
+static cJSON *findPetsByStatus_STATUS_convertToJSON(openapi_petstore_findPetsByStatus_status_e STATUS) {
+    cJSON *item = cJSON_CreateObject();
     return item;
     fail:
     cJSON_Delete(item);
     return NULL;
 }
 
-status_e STATUS_parseFromJSON(cJSON *STATUSJSON){
-
-status_e STATUSVariable = 0;
-return STATUSVariable;
+static openapi_petstore_findPetsByStatus_status_e findPetsByStatus_STATUS_parseFromJSON(cJSON* STATUSJSON) {
+    openapi_petstore_findPetsByStatus_status_e STATUSVariable = 0;
+    return STATUSVariable;
 end:
-return 0;
+    return 0;
 }
-
 
 
 
@@ -78,7 +75,7 @@ return 0;
 // Add a new pet to the store
 //
 void
-PetAPI_addPet(apiClient_t *apiClient ,pet_t * body)
+PetAPI_addPet(apiClient_t *apiClient, pet_t * body)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -137,7 +134,7 @@ end:
 // Deletes a pet
 //
 void
-PetAPI_deletePet(apiClient_t *apiClient ,long petId ,char * api_key)
+PetAPI_deletePet(apiClient_t *apiClient, long petId, char * api_key)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_create();
@@ -215,7 +212,7 @@ end:
 // Multiple status values can be provided with comma separated strings
 //
 list_t*
-PetAPI_findPetsByStatus(apiClient_t *apiClient ,list_t * status)
+PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t * status)
 {
     list_t    *localVarQueryParameters = list_create();
     list_t    *localVarHeaderParameters = NULL;
@@ -294,7 +291,7 @@ end:
 // Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 //
 list_t*
-PetAPI_findPetsByTags(apiClient_t *apiClient ,list_t * tags)
+PetAPI_findPetsByTags(apiClient_t *apiClient, list_t * tags)
 {
     list_t    *localVarQueryParameters = list_create();
     list_t    *localVarHeaderParameters = NULL;
@@ -373,7 +370,7 @@ end:
 // Returns a single pet
 //
 pet_t*
-PetAPI_getPetById(apiClient_t *apiClient ,long petId)
+PetAPI_getPetById(apiClient_t *apiClient, long petId)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -452,7 +449,7 @@ end:
 // Update an existing pet
 //
 void
-PetAPI_updatePet(apiClient_t *apiClient ,pet_t * body)
+PetAPI_updatePet(apiClient_t *apiClient, pet_t * body)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -517,7 +514,7 @@ end:
 // Updates a pet in the store with form data
 //
 void
-PetAPI_updatePetWithForm(apiClient_t *apiClient ,long petId ,char * name ,char * status)
+PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char * name, char * status)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -609,7 +606,7 @@ end:
 // uploads an image
 //
 api_response_t*
-PetAPI_uploadFile(apiClient_t *apiClient ,long petId ,char * additionalMetadata ,binary_t* file)
+PetAPI_uploadFile(apiClient_t *apiClient, long petId, char * additionalMetadata, binary_t* file)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;

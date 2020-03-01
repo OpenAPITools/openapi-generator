@@ -7,14 +7,14 @@
 
 
 {{#isEnum}}
-char* {{classFilename}}_{{classname}}_ToString({{classFilename}}_{{classname}}_e {{classname}}) {
-    char *{{classname}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+char* {{classFilename}}_{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}) {
+    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
     return {{classname}}Array[{{classname}}];
 }
 
-{{classFilename}}_{{classname}}_e {{classFilename}}_{{classname}}_FromString(char* {{classname}}) {
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_FromString(char* {{classname}}) {
     int stringToReturn = 0;
-    char *{{classname}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{classname}}Array) / sizeof({{classname}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{classname}}, {{classname}}Array[stringToReturn]) == 0) {
@@ -25,7 +25,7 @@ char* {{classFilename}}_{{classname}}_ToString({{classFilename}}_{{classname}}_e
     return 0;
 }
 
-cJSON *{{classFilename}}_{{classname}}_convertToJSON({{classFilename}}_{{classname}}_e {{classname}}) {
+cJSON *{{classFilename}}_{{classname}}_convertToJSON({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}) {
     cJSON *item = cJSON_CreateObject();
 {{#isString}}
     if(cJSON_AddStringToObject(item, "{{{classname}}}", {{classFilename}}_{{{classname}}}_ToString({{{classname}}})) == NULL) {
@@ -72,14 +72,14 @@ end:
     {{^isContainer}}
     {{^isModel}}
     {{#isEnum}}
-    char* {{name}}{{classname}}_ToString({{classFilename}}_{{name}}_e {{name}}){
-    char *{{name}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+    char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
+    char* {{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
         return {{name}}Array[{{name}}];
     }
 
-    {{classFilename}}_{{name}}_e {{name}}{{classname}}_FromString(char* {{name}}){
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}){
     int stringToReturn = 0;
-    char *{{name}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{name}}, {{name}}Array[stringToReturn]) == 0) {
@@ -96,14 +96,14 @@ end:
     {{#items}}
     {{^isModel}}
     {{#isEnum}}
-    char* {{name}}{{classname}}_ToString({{classFilename}}_{{name}}_e {{name}}){
-        char *{{name}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+    char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
+        char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
         return {{name}}Array[{{name}} - 1];
     }
 
-    {{classFilename}}_{{name}}_e {{name}}{{classname}}_FromString(char* {{name}}){
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}){
     int stringToReturn = 0;
-    char *{{name}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{name}}, {{name}}Array[stringToReturn]) == 0) {
@@ -125,7 +125,7 @@ end:
     {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
-    {{classFilename}}_{{datatype}}_e {{name}}{{#hasMore}},{{/hasMore}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{#hasMore}},{{/hasMore}}
     {{/isEnum}}
     {{^isEnum}}
     {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
@@ -150,7 +150,7 @@ end:
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{classFilename}}_{{name}}_e {{name}}{{#hasMore}},{{/hasMore}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{#hasMore}},{{/hasMore}}
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
@@ -407,7 +407,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     listEntry_t *{{{name}}}ListEntry;
     if ({{{classname}}}->{{{name}}}) {
     list_ForEach({{{name}}}ListEntry, {{classname}}->{{{name}}}) {
-    cJSON *itemLocal = {{complexType}}_convertToJSON({{#isEnum}}{{#items}}({{classFilename}}_{{datatypeWithEnum}}_e){{/items}}{{/isEnum}}{{{name}}}ListEntry->data);
+    cJSON *itemLocal = {{complexType}}_convertToJSON({{#isEnum}}{{#items}}({{projectName}}_{{classVarName}}_{{enumName}}_e){{/items}}{{/isEnum}}{{{name}}}ListEntry->data);
     if(itemLocal == NULL) {
     goto fail;
     }
@@ -488,7 +488,7 @@ fail:
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{classFilename}}_{{{name}}}_e {{name}}Variable;
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}Variable;
     {{^required}}if ({{{name}}}) { {{/required}}
     if(!cJSON_IsString({{{name}}}))
     {

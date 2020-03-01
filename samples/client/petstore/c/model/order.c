@@ -4,14 +4,14 @@
 #include "order.h"
 
 
-    char* statusorder_ToString(order_status_e status){
-    char *statusArray[] =  { "placed","approved","delivered" };
+    char* statusorder_ToString(openapi_petstore_order_STATUS_e status) {
+    char* statusArray[] =  { "NULL", "placed", "approved", "delivered" };
         return statusArray[status];
     }
 
-    order_status_e statusorder_FromString(char* status){
+    openapi_petstore_order_STATUS_e statusorder_FromString(char* status){
     int stringToReturn = 0;
-    char *statusArray[] =  { "placed","approved","delivered" };
+    char *statusArray[] =  { "NULL", "placed", "approved", "delivered" };
     size_t sizeofArray = sizeof(statusArray) / sizeof(statusArray[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp(status, statusArray[stringToReturn]) == 0) {
@@ -27,7 +27,7 @@ order_t *order_create(
     long pet_id,
     int quantity,
     char *ship_date,
-    order_status_e status,
+    openapi_petstore_order_STATUS_e status,
     int complete
     ) {
     order_t *order_local_var = malloc(sizeof(order_t));
@@ -152,7 +152,7 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->status
     cJSON *status = cJSON_GetObjectItemCaseSensitive(orderJSON, "status");
-    order_status_e statusVariable;
+    openapi_petstore_order_STATUS_e statusVariable;
     if (status) { 
     if(!cJSON_IsString(status))
     {

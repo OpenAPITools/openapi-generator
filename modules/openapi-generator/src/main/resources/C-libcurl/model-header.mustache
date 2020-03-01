@@ -18,16 +18,16 @@
 {{#isEnum}}
 
 {{#allowableValues}}
-typedef enum { {{#enumVars}} {{classFilename}}_{{enumName}}_{{{value}}}{{#first}} = 0{{/first}}{{^-last}},{{/-last}}{{/enumVars}} } {{classFilename}}_{{classname}}_e;
+typedef enum { {{projectName}}_{{classVarName}}_{{enumName}}_NULL = 0{{#enumVars}}, {{projectName}}_{{classVarName}}_{{enumName}}_{{{value}}}{{/enumVars}} } {{projectName}}_{{classVarName}}_{{enumName}}_e;
 {{/allowableValues}}
 
-char* {{classFilename}}_{{classname}}_ToString({{classFilename}}_{{classname}}_e {{classname}});
+char* {{classFilename}}_{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}});
 
-{{classFilename}}_{{classname}}_e {{classFilename}}_{{classname}}_FromString(char* {{classname}});
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_FromString(char* {{classname}});
 
-cJSON *{{classFilename}}_{{classname}}_convertToJSON({{classFilename}}_{{classname}}_e {{classname}});
+cJSON *{{classFilename}}_{{classname}}_convertToJSON({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}});
 
-{{classFilename}}_{{classname}}_e {{classFilename}}_{{classname}}_parseFromJSON(cJSON *{{classname}}JSON);
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_parseFromJSON(cJSON *{{classname}}JSON);
 
 {{/isEnum}}
 {{^isEnum}}
@@ -36,12 +36,12 @@ cJSON *{{classFilename}}_{{classname}}_convertToJSON({{classFilename}}_{{classna
     {{^isModel}}
     {{#isEnum}}
         {{#allowableValues}}
-                typedef enum  { {{#enumVars}} {{classFilename}}_{{enumName}}_{{{value}}}{{#first}} = 0{{/first}}{{^-last}},{{/-last}}{{/enumVars}} } {{classFilename}}_{{name}}_e;
+                typedef enum  { {{projectName}}_{{classVarName}}_{{enumName}}_NULL = 0{{#enumVars}}, {{projectName}}_{{classVarName}}_{{enumName}}_{{{value}}}{{/enumVars}} } {{projectName}}_{{classVarName}}_{{enumName}}_e;
         {{/allowableValues}}
 
-        char* {{classFilename}}_{{name}}_ToString({{classFilename}}_{{name}}_e {{name}});
+        char* {{classFilename}}_{{name}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}});
 
-        {{classFilename}}_{{name}}_e {{classFilename}}_{{name}}_FromString(char* {{name}});
+        {{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{name}}_FromString(char* {{name}});
     {{/isEnum}}
     {{/isModel}}
     {{/isContainer}}
@@ -50,12 +50,12 @@ cJSON *{{classFilename}}_{{classname}}_convertToJSON({{classFilename}}_{{classna
         {{^isModel}}
         {{#isEnum}}
             {{#allowableValues}}
-                    typedef enum  { {{#enumVars}} {{classFilename}}_{{enumName}}_{{{value}}}{{^-last}},{{/-last}}{{/enumVars}} } {{classFilename}}_{{name}}_e;
+                    typedef enum  { {{projectName}}_{{classVarName}}_{{enumName}}_NULL = 0{{#enumVars}}, {{projectName}}_{{classVarName}}_{{enumName}}_{{{value}}}{{/enumVars}} } {{projectName}}_{{classVarName}}_{{enumName}}_e;
             {{/allowableValues}}
 
-            char* {{classFilename}}_{{name}}_ToString({{classFilename}}_{{name}}_e {{name}});
+            char* {{classFilename}}_{{name}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}});
 
-            {{classFilename}}_{{name}}_e {{classFilename}}_{{name}}_FromString(char* {{name}});
+            {{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{name}}_FromString(char* {{name}});
         {{/isEnum}}
         {{/isModel}}
         {{/items}}
@@ -69,7 +69,7 @@ typedef struct {{classname}}_t {
     {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
-    {{classFilename}}_{{datatype}}_e {{name}}; //enum model
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}; //enum model
     {{/isEnum}}
     {{^isEnum}}
     struct {{datatype}}_t *{{name}}; //model
@@ -94,7 +94,7 @@ typedef struct {{classname}}_t {
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{classFilename}}_{{name}}_e {{name}}; //enum
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}; //enum
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
@@ -139,7 +139,7 @@ typedef struct {{classname}}_t {
     {{^isPrimitiveType}}
     {{#isModel}}
     {{#isEnum}}
-    {{classFilename}}_{{datatype}}_e {{name}}{{#hasMore}},{{/hasMore}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{#hasMore}},{{/hasMore}}
     {{/isEnum}}
     {{^isEnum}}
     {{datatype}}_t *{{name}}{{#hasMore}},{{/hasMore}}
@@ -164,7 +164,7 @@ typedef struct {{classname}}_t {
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{classFilename}}_{{name}}_e {{name}}{{#hasMore}},{{/hasMore}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{#hasMore}},{{/hasMore}}
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}

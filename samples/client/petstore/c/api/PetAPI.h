@@ -17,15 +17,7 @@
 
 // Enum STATUS for PetAPI_findPetsByStatus
 
-typedef enum  {  STATUS_available, STATUS_pending, STATUS_sold } status_e;
-
-char* STATUS_ToString(status_e STATUS);
-
-status_e STATUS_FromString(char* STATUS);
-
-cJSON *STATUS_convertToJSON(status_e STATUS);
-
-status_e STATUS_parseFromJSON(cJSON *STATUSJSON);
+typedef enum  { openapi_petstore_findPetsByStatus_STATUS_NULL = 0, openapi_petstore_findPetsByStatus_STATUS_available, openapi_petstore_findPetsByStatus_STATUS_pending, openapi_petstore_findPetsByStatus_STATUS_sold } openapi_petstore_findPetsByStatus_status_e;
 
 
 
