@@ -268,7 +268,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("modelDocPath", modelDocPath);
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
-        additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         additionalProperties.put("externCrateName", externCrateName);
     }
 
@@ -323,19 +322,26 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
+
         Info info = openAPI.getInfo();
-        List<String> versionComponents = new ArrayList<>(Arrays.asList(info.getVersion().split("[.]")));
-        if (versionComponents.size() < 1) {
-            versionComponents.add("1");
-        }
-        while (versionComponents.size() < 3) {
-            versionComponents.add("0");
-        }
-        info.setVersion(StringUtils.join(versionComponents, "."));
 
         URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         additionalProperties.put("serverHost", url.getHost());
         additionalProperties.put("serverPort", URLPathUtils.getPort(url, 80));
+
+        if (packageVersion == null || "".equals(packageVersion)) {
+            List<String> versionComponents = new ArrayList<>(Arrays.asList(info.getVersion().split("[.]")));
+            if (versionComponents.size() < 1) {
+                versionComponents.add("1");
+            }
+            while (versionComponents.size() < 3) {
+                versionComponents.add("0");
+            }
+
+            setPackageVersion(StringUtils.join(versionComponents, "."));
+        }
+
+        additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
     }
 
     @Override
